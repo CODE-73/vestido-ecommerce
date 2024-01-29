@@ -1,0 +1,59 @@
+{
+  "name": "vestido-storefront",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "vestido/vestido-storefront",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/next:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/vestido/vestido-storefront"
+      },
+      "configurations": {
+        "development": {
+          "outputPath": "vestido/vestido-storefront"
+        },
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/next:server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "vestido-storefront:build",
+        "dev": true
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "vestido-storefront:build:development",
+          "dev": true,
+          "port": 4200
+        },
+        "production": {
+          "buildTarget": "vestido-storefront:build:production",
+          "dev": false
+        }
+      }
+    },
+    "export": {
+      "executor": "@nx/next:export",
+      "options": {
+        "buildTarget": "vestido-storefront:build:production"
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "vestido/vestido-storefront/jest.config.ts"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": []
+}
