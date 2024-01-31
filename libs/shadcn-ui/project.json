@@ -1,0 +1,23 @@
+{
+  "name": "shadcn-ui",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/shadcn-ui/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/shadcn-ui",
+        "tsConfig": "libs/shadcn-ui/tsconfig.lib.json",
+        "main": "libs/shadcn-ui/src/index.ts",
+        "assets": ["libs/shadcn-ui/*.md"]
+      }
+    }
+  }
+}

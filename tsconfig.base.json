@@ -14,7 +14,14 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@vestido-ecommerce/shadcn-ui": [
+        "libs/shadcn-ui/src/index.ts",
+      ],
+      "@vestido-ecommerce/shadcn-ui/*": [
+        "libs/shadcn-ui/src/ui/*",
+      ]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
