@@ -1,18 +1,29 @@
+
+import './styles.css';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-import './styles.css';
+import { NextPageWithLayout } from './../types';
+import UnauthorizedLayout from '../layouts/unauthorized/unauthorized-layout';
 
-function CustomApp({ Component, pageProps }: AppProps) {
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+function App({ Component, pageProps }: AppPropsWithLayout) {
+  const getLayout =
+    Component.getLayout ??
+    ((page) => <UnauthorizedLayout>{page}</UnauthorizedLayout>);
+
   return (
-    <>
+    <div>
       <Head>
-        <title>Welcome to vestido-storefront!</title>
+        <title>Vestido Storefront</title>
       </Head>
-      <main className="app">
-        <Component {...pageProps} />
-      </main>
-    </>
+      {getLayout(<Component {...pageProps} />)}
+     
+    </div>
   );
 }
 
-export default CustomApp;
+export default App;
+

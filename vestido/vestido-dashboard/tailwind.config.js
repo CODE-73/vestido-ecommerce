@@ -10,7 +10,7 @@ module.exports = {
   content: [
     join(
       __dirname,
-      '{src,pages,modules,components,app}/**/*!(*.stories|*.spec).{ts,tsx,html}'
+      '{src,app,pages,modules,components,layouts}/**/*!(*.stories|*.spec).{ts,tsx,html}'
     ),
     ...createGlobPatternsForDependencies(__dirname),
   ],
