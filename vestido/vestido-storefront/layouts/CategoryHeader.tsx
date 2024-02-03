@@ -99,7 +99,7 @@ const categoriesData = [
 
 const CategoryHeader = () => {
   return (
-    <div className="flex justify-between border-b border-gray-500 px-16 p-3">
+    <div className="flex justify-between border-b border-gray-500 px-32 p-3">
       <NavigationMenu>
         <NavigationMenuList>
           {categoriesData.map((category, index) => (

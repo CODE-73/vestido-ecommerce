@@ -1,24 +1,35 @@
 import * as React from 'react';
-import { Search, UserRound, Heart, ShoppingCart } from 'lucide-react';
+import { UserRound, Heart, ShoppingCart } from 'lucide-react';
 import CategoryHeader from './CategoryHeader';
 import Image from 'next/image';
 
 const Header = () => (
   <>
-    <div className="flex justify-between items-center py-4   px-8">
+    <div className="flex justify-between items-center py-4 px-10">
       <div className="flex justify-between items-center">
-        <Image
-          src="/assets/VN-HEADER.png"
-          alt="Logo"
-          width="200"
-          height="200"
-        />
+        {/* Logo */}
+        <a href="#">
+          <Image
+            src="/assets/VN-HEADER-2.png"
+            alt="Logo"
+            width="250"
+            height="250"
+          />
+        </a>
       </div>
       <div className="flex space-x-4">
-        <Search />
-        <UserRound />
-        <Heart />
-        <ShoppingCart />
+        {/* User Icon */}
+        <a href="/user">
+          <UserRound />
+        </a>
+        {/* Heart Icon */}
+        <a href="/wishlist">
+          <Heart />
+        </a>
+        {/* Shopping Cart Icon */}
+        <a href="/cart">
+          <ShoppingCart />
+        </a>
       </div>
     </div>
     <CategoryHeader />
