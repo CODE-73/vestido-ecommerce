@@ -1,11 +1,11 @@
-import { Button } from '@vestido-ecommerce/shadcn-ui/button'
-
+import Landing from '../components/landing-view/Landing';
 
 export function Index() {
-  return <div className='flex items-center justify-center items-center gap-2'>
-    <Button>Test Button</Button>
-    <Button className='bg-red-300'>TB2</Button>
-  </div>
+  return (
+    <div>
+      <Landing></Landing>
+    </div>
+  );
 }
 
 export default Index;
