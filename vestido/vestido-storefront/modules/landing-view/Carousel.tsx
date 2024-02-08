@@ -8,10 +8,22 @@ import {
   CarouselContent,
   CarouselItem,
 } from "libs/shadcn-ui/src/ui/carousel"
-import Image from "next/image"
+import Image, { StaticImageData } from "next/image"
 import { Button } from "@vestido-ecommerce/shadcn-ui/button"
 
-const slides = [
+type LandingCarouselItemData = {
+  backgroundImage: StaticImageData;
+  mainTitle: string;
+  subtitle1: string;
+  subtitle2: string;
+  buttonText: string;
+  buttonLink: string;
+  textAlign: string;
+  textColor: string;
+  textPosition: string;
+}
+
+const slides: LandingCarouselItemData[] = [
   {
     backgroundImage: image1,
     mainTitle: 'find your new favourite clothing',
