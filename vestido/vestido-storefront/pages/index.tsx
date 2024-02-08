@@ -1,4 +1,4 @@
-import Landing from '../components/landing-view/Landing';
+import Landing from '../modules/landing-view/Landing';
 
 export function Index() {
   return (
