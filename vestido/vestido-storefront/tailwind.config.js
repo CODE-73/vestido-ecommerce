@@ -12,12 +12,5 @@ module.exports = {
       '{src,pages,app,modules,components,layouts}/**/*!(*.stories|*.spec).{ts,tsx,html}'
     ),
     ...createGlobPatternsForDependencies(__dirname),
-  ],
-  theme: {
-    extend: {
-      fontFamily: {  
-        sans: ['Poppins', 'sans-serif'],
-      },
-    },
-  },
+  ]
 };
