@@ -1,7 +1,8 @@
-import { Button } from "@vestido-ecommerce/shadcn-ui/button";
+
 import { CarouselItem } from "@vestido-ecommerce/shadcn-ui/carousel";
 import Image from "next/image"
 import {LandingCarouselItemData} from './Carousel'
+import { DiscoverButton } from "./DiscoverButton";
 
 interface LandingCarouselItemProps {
     data: LandingCarouselItemData;
@@ -15,7 +16,7 @@ const LandingCarouselItem: React.FC<LandingCarouselItemProps> = ({data}) => {
           <div className={`uppercase text-md font-extrabold text-${data.textColor}`}>{data.subtitle1}</div>
           <div className={`capitalize font-bold text-5xl max-w-[500px] leading-normal text-${data.textColor}`}>{data.mainTitle}</div>
           <div className={`font-extralight text-${data.textColor}`}>{data.subtitle2}</div>
-          <div><Button className="mt-6 h-12 rounded-none text-white bg-[#48CAB2] uppercase font-bold px-10">{data.buttonText}</Button></div>
+          <div><DiscoverButton/></div>
         </div>
        
         <Image
