@@ -1,9 +1,9 @@
-import Landing from '../modules/landing-view/Landing';
+import HomePage from '../modules/HomePage/HomePage';
 
 export function Index() {
   return (
     <div>
-      <Landing></Landing>
+      <HomePage></HomePage>
     </div>
   );
 }
