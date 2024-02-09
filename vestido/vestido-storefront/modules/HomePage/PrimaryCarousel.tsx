@@ -4,22 +4,11 @@ import image1 from '../../assets/carousel/slide-1.jpg';
 import image2 from '../../assets/carousel/slide-2.jpg';
 import image3 from '../../assets/carousel/slide-3.jpg';
 import { Carousel, CarouselContent } from 'libs/shadcn-ui/src/ui/carousel';
-import { StaticImageData } from 'next/image';
-import LandingCarouselItem from './LandingCarouselItem';
+import PrimaryCarouselItem, {
+  PrimaryCarouselItemData,
+} from './PrimaryCarouselItem';
 
-export type LandingCarouselItemData = {
-  backgroundImage: StaticImageData;
-  mainTitle: string;
-  subtitle1: string;
-  subtitle2: string;
-  buttonText: string;
-  buttonLink: string;
-  textAlign: string;
-  textColor: string;
-  textPosition: string;
-};
-
-const slides: LandingCarouselItemData[] = [
+const slides: PrimaryCarouselItemData[] = [
   {
     backgroundImage: image1,
     mainTitle: 'find your new favourite clothing',
@@ -55,7 +44,7 @@ const slides: LandingCarouselItemData[] = [
     textPosition: 'right-1/4',
   },
 ];
-export function LandingCarousel() {
+export function PrimaryCarousel() {
   const plugin = React.useRef(
     Autoplay({ delay: 2000, stopOnInteraction: false, stopOnMouseEnter: true })
   );
@@ -69,7 +58,7 @@ export function LandingCarousel() {
     >
       <CarouselContent>
         {slides.map((slide, index) => (
-          <LandingCarouselItem data={slide} key={index} />
+          <PrimaryCarouselItem data={slide} key={index} />
         ))}
       </CarouselContent>
     </Carousel>
