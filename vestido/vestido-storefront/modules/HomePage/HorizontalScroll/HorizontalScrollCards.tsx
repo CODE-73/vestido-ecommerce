@@ -1,11 +1,11 @@
 import { ScrollCardData } from './HorizontalScrollCard';
 import HorizontalScrollCard from './HorizontalScrollCard';
-import cardImage1 from '../../assets/cards/card-1.jpg';
-import cardImage2 from '../../assets/cards/card-2.jpg';
-import cardImage3 from '../../assets/cards/card-3.jpg';
-import cardImage4 from '../../assets/cards/card-4.jpg';
-import cardImage5 from '../../assets/cards/card-5.jpg';
-import cardImage6 from '../../assets/cards/card-6.jpg';
+import cardImage1 from '../../../assets/cards/card-1.jpg';
+import cardImage2 from '../../../assets/cards/card-2.jpg';
+import cardImage3 from '../../../assets/cards/card-3.jpg';
+import cardImage4 from '../../../assets/cards/card-4.jpg';
+import cardImage5 from '../../../assets/cards/card-5.jpg';
+import cardImage6 from '../../../assets/cards/card-6.jpg';
 import {
   Carousel,
   CarouselContent,

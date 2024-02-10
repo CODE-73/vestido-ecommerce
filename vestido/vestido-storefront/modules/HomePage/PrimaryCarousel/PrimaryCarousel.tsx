@@ -1,8 +1,8 @@
 import * as React from 'react';
 import Autoplay from 'embla-carousel-autoplay';
-import image1 from '../../assets/carousel/slide-1.jpg';
-import image2 from '../../assets/carousel/slide-2.jpg';
-import image3 from '../../assets/carousel/slide-3.jpg';
+import image1 from '../../../assets/carousel/slide-1.jpg';
+import image2 from '../../../assets/carousel/slide-2.jpg';
+import image3 from '../../../assets/carousel/slide-3.jpg';
 import { Carousel, CarouselContent } from 'libs/shadcn-ui/src/ui/carousel';
 import PrimaryCarouselItem, {
   PrimaryCarouselItemData,
