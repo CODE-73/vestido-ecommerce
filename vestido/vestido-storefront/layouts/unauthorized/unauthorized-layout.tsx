@@ -7,7 +7,7 @@ type LayoutProps = ComponentWithChildrenProps;
 
 const UnauthorizedLayout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <div className="h-screen bg-background justify-center items-center flex flex-col">
+    <div className="bg-background justify-center items-center flex flex-col">
       <div className="w-full">
         <Header />
       </div>
