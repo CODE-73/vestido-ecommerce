@@ -1,11 +1,11 @@
-import { Button } from '@vestido-ecommerce/shadcn-ui/button'
-
+import HomePage from '../modules/HomePage/HomePage';
 
 export function Index() {
-  return <div className='flex items-center justify-center items-center gap-2'>
-    <Button>Test Button</Button>
-    <Button className='bg-red-300'>TB2</Button>
-  </div>
+  return (
+    <div>
+      <HomePage></HomePage>
+    </div>
+  );
 }
 
 export default Index;
