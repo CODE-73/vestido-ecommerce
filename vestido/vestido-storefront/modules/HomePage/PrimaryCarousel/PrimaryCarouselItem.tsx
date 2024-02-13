@@ -20,17 +20,17 @@ interface PrimaryCarouselItemProps {
 const PrimaryCarouselItem: React.FC<PrimaryCarouselItemProps> = ({ data }) => {
   return (
     <CarouselItem>
-      <div className="embla__slide relative">
+      <div className="relative">
         <div
           className={`flex flex-col gap-1 absolute top-1/3 ${data.textPosition} text-${data.textAlign} `}
         >
           <div
-            className={`uppercase text-md font-extrabold text-${data.textColor}`}
+            className={`uppercase text-sm md:text-md font-extrabold text-${data.textColor}`}
           >
             {data.subtitle1}
           </div>
           <div
-            className={`capitalize font-bold text-5xl max-w-[500px] leading-normal text-${data.textColor}`}
+            className={`capitalize font-bold text-xl md:text-5xl max-w-[500px] leading-normal text-${data.textColor}`}
           >
             {data.mainTitle}
           </div>
@@ -43,7 +43,7 @@ const PrimaryCarouselItem: React.FC<PrimaryCarouselItemProps> = ({ data }) => {
         </div>
 
         <Image
-          className="embla__slide__img"
+          className="min-h-[500px] md:min-auto overflow-hidden object-cover"
           src={data.backgroundImage}
           alt="Your alt text"
         />

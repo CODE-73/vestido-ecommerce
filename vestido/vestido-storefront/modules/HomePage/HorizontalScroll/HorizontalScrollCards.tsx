@@ -12,6 +12,12 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@vestido-ecommerce/shadcn-ui/carousel';
+import { FC } from 'react';
+import clsx from 'clsx';
+
+type HorizontalScrollCardsProps = {
+  className?: string;
+};
 
 const cards: ScrollCardData[] = [
   {
@@ -51,21 +57,23 @@ const cards: ScrollCardData[] = [
     subtitle2: 'Here to bring your lifestyles to next level',
   },
 ];
-export function HorizontalScrollCards() {
+export const HorizontalScrollCards: FC<HorizontalScrollCardsProps> = (
+  props
+) => {
   return (
     <Carousel
       opts={{
         align: 'start',
       }}
-      className="w-full relative"
+      className={clsx(props.className)}
     >
       <CarouselContent>
         {cards.map((card, index) => (
           <HorizontalScrollCard key={index} data={card} />
         ))}
       </CarouselContent>
-      <CarouselPrevious className="absolute left-10" />
-      <CarouselNext className="absolute right-10" />
+      <CarouselPrevious className="absolute right-2 sm:left-10" />
+      <CarouselNext className="absolute right-2 sm:right-10" />
     </Carousel>
   );
-}
+};

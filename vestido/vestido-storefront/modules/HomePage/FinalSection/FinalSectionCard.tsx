@@ -12,9 +12,7 @@ export type FinalSectionCardData = {
 interface FinalSectionCardProps {
   data: FinalSectionCardData;
 }
-const FinalSectionCard: React.FC<FinalSectionCardProps> = ({
-  data,
-}) => {
+const FinalSectionCard: React.FC<FinalSectionCardProps> = ({ data }) => {
   return (
     <div className={`group relative overflow-hidden`}>
       {' '}
@@ -22,14 +20,13 @@ const FinalSectionCard: React.FC<FinalSectionCardProps> = ({
         <Image src={data.cardImage} alt="alt text" />
       </div>
       <div className="absolute left-10 top-10 ">
-      <div
+        <div
           className={`uppercase font-bold text-md max-w-sm ${
             data.textColor ? `text-${data.textColor}` : 'text-[#333333]'
           }`}
         >
           {data.subtitle2}
-        </div>
-        {' '}
+        </div>{' '}
         <div
           className={`group-hover:underline capitalize font-bold text-5xl my-3 group-hover:underline group-hover:underline-offset-4 leading-normal main-title ${
             data.textColor ? `text-${data.textColor}` : 'text-[#333333]'
@@ -44,7 +41,7 @@ const FinalSectionCard: React.FC<FinalSectionCardProps> = ({
         >
           {data.subtitle1}
         </div>
-        <DiscoverButton/>
+        <DiscoverButton />
       </div>
     </div>
   );

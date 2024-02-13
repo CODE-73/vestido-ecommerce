@@ -1,6 +1,6 @@
 import SpecialOfferCard, { SpecialOfferCardData } from './SpecialOfferCard';
 
-import product11 from '../../../assets/offer-products/product1-1.jpg'
+import product11 from '../../../assets/offer-products/product1-1.jpg';
 import product12 from '../../../assets/offer-products/product1-2.jpg';
 import product21 from '../../../assets/offer-products/product2-1.jpg';
 import product22 from '../../../assets/offer-products/product2-2.jpg';
@@ -12,9 +12,16 @@ import product51 from '../../../assets/offer-products/product5-1.jpg';
 import product52 from '../../../assets/offer-products/product5-2.jpg';
 import product61 from '../../../assets/offer-products/product6-1.jpg';
 import product62 from '../../../assets/offer-products/product6-2.jpg';
-import { Carousel, CarouselContent, CarouselNext, CarouselPrevious } from '@vestido-ecommerce/shadcn-ui/carousel';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselNext,
+  CarouselPrevious,
+} from '@vestido-ecommerce/shadcn-ui/carousel';
+import { FC } from 'react';
+import clsx from 'clsx';
 
-const cards: SpecialOfferCardData[]= [
+const cards: SpecialOfferCardData[] = [
   {
     cardImage1: product11,
     cardImage2: product12,
@@ -22,7 +29,7 @@ const cards: SpecialOfferCardData[]= [
     salePercent: '13',
     brand: "levi's",
     price: '$450.00',
-    offerPrice:"$390.00"
+    offerPrice: '$390.00',
   },
   {
     cardImage1: product21,
@@ -30,7 +37,7 @@ const cards: SpecialOfferCardData[]= [
     name: 'Metallic Effect Bag',
     brand: 'guess',
     price: '$450.00',
-    offerPrice:"$390.00"
+    offerPrice: '$390.00',
   },
   {
     cardImage1: product31,
@@ -39,7 +46,7 @@ const cards: SpecialOfferCardData[]= [
     textColor: 'white',
     brand: "levi's",
     price: '$450.00',
-    offerPrice:"$390.00"
+    offerPrice: '$390.00',
   },
   {
     cardImage1: product41,
@@ -48,7 +55,7 @@ const cards: SpecialOfferCardData[]= [
     salePercent: '13',
     brand: "levi's",
     price: '$450.00',
-    offerPrice:"$390.00"
+    offerPrice: '$390.00',
   },
   {
     cardImage1: product51,
@@ -56,7 +63,7 @@ const cards: SpecialOfferCardData[]= [
     name: 'Metallic Effect Bag',
     brand: 'guess',
     price: '$450.00',
-    offerPrice:"$390.00"
+    offerPrice: '$390.00',
   },
   {
     cardImage1: product61,
@@ -65,34 +72,40 @@ const cards: SpecialOfferCardData[]= [
     textColor: 'white',
     brand: "levi's",
     price: '$450.00',
-    offerPrice:"$390.00"
+    offerPrice: '$390.00',
   },
-
 ];
 
-export function SpecialOffer() {
+type SpecialOfferProps = {
+  className?: string;
+};
+
+export const SpecialOffer: FC<SpecialOfferProps> = (props) => {
   return (
-    <div className='flex flex-col items-center '>
-<div className='text-4xl tracking-wide text-[#333333] font-extrabold'>Special Offer</div>
-<div className='text-[#777777] pt-2 pb-10 text-lg'>Don&apos;t miss today&apos;s featured deals</div>
-<Carousel
-      opts={{
-        align: 'start',
-      }}
-      className="relative"
-    >
-      <div  className='px-96'>
-      <CarouselContent>
-      {/* <div className="grid grid-cols-3 gap-8 justify-center px-96"> */}
-      {cards.map((card, index) => (
-        <SpecialOfferCard key={index} data={card} />
-      ))}
-    {/* </div> */}
-      </CarouselContent></div>
-      <CarouselPrevious className="absolute left-64" />
-      <CarouselNext className="absolute right-64" />
-    </Carousel>
-  
-   </div>
+    <div className={`flex flex-col items-center ${clsx(props.className)}`}>
+      <div className="text-4xl tracking-wide text-[#333333] font-extrabold">
+        Special Offer
+      </div>
+      <div className="text-[#777777] pt-2 pb-10 text-lg">
+        Don&apos;t miss today&apos;s featured deals
+      </div>
+      <Carousel
+        opts={{
+          align: 'start',
+          loop: true,
+        }}
+        className="relative"
+      >
+        <div className="md:px-64 lg:px-96">
+          <CarouselContent>
+            {cards.map((card, index) => (
+              <SpecialOfferCard key={index} data={card} />
+            ))}
+          </CarouselContent>
+        </div>
+        <CarouselPrevious className="absolute left-2 md:left-64" />
+        <CarouselNext className="absolute right-2 md:right-64" />
+      </Carousel>
+    </div>
   );
-}
+};

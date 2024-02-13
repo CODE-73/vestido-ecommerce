@@ -12,7 +12,7 @@ const UnauthorizedLayout: React.FC<LayoutProps> = ({ children }) => {
         <Header />
       </div>
       <div className="flex-1">
-        <main>{children}</main>
+        <main className="w-[100vw]">{children}</main>
       </div>
       <div>
         <Footer />
