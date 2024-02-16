@@ -125,7 +125,7 @@ const CategoryHeader = () => {
           ))}
         </NavigationMenuList>
       </NavigationMenu>
-      <div className="flex space-x-4 items-center justify-items-center content-center">
+      <div className="hidden md:flex space-x-4 items-center justify-items-center content-center">
         <Search />
         <Input type="search" placeholder="Search" />
       </div>
