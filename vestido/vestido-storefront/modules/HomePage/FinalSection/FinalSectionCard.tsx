@@ -28,7 +28,7 @@ const FinalSectionCard: React.FC<FinalSectionCardProps> = ({ data }) => {
           {data.subtitle2}
         </div>{' '}
         <div
-          className={`group-hover:underline capitalize font-bold text-5xl my-3 group-hover:underline group-hover:underline-offset-4 leading-normal main-title ${
+          className={`group-hover:underline capitalize font-bold text-2xl sm:text-4xl md:text-5xl my-1 sm:my-3 group-hover:underline group-hover:underline-offset-4 leading-normal main-title ${
             data.textColor ? `text-${data.textColor}` : 'text-[#333333]'
           }`}
         >
