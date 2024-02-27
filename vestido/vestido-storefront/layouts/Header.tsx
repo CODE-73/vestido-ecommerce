@@ -23,7 +23,7 @@ const Header = () => (
           <UserRound />
         </a>
         {/* Heart Icon */}
-        <a href="/wishlist">
+        <a href="/wishlist/Wishlist">
           <Heart />
         </a>
         {/* Shopping Cart Icon */}

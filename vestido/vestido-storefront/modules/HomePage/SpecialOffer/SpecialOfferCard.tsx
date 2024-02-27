@@ -31,7 +31,6 @@ const SpecialOfferCard: React.FC<SpecialOfferCardProps> = ({ data }) => {
   return (
     <CarouselItem className={`basis-1/2 lg:basis-1/3 max-w-[50vw]`}>
       <div className={`flex flex-col items-center group relative mb-10 `}>
-        {' '}
         <Image
           className="block group-hover:hidden"
           src={data.cardImage1}
@@ -107,7 +106,6 @@ const SpecialOfferCard: React.FC<SpecialOfferCardProps> = ({ data }) => {
           </div>
         )}
         <div className="sm:hidden flex flex-row justify-start sm:group-hover:flex sm:flex-col gap-3 sm:absolute top-3 right-3 pt-2 sm:pt-0">
-          {' '}
           <AddToWishListButton />
           <AddToCompareButton />
           <QuickViewButton />
