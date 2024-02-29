@@ -17,7 +17,7 @@ type ListItemProps = {
 const ListItem: React.FC<ListItemProps> = ({ href, title }) => (
   <li className="row-span-3">
     <a
-      className="flex select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-3 no-underline outline-none focus:shadow-md"
+      className="flex select-none flex-col justify-start md:justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-3 no-underline outline-none focus:shadow-md"
       href={href}
     >
       <div className="text-sm font-medium p-1">{title}</div>
