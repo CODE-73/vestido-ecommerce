@@ -31,16 +31,18 @@ const SpecialOfferCard: React.FC<SpecialOfferCardProps> = ({ data }) => {
   return (
     <CarouselItem className={`basis-1/2 lg:basis-1/3 max-w-[50vw]`}>
       <div className={`flex flex-col items-center group relative mb-10 `}>
-        <Image
-          className="block group-hover:hidden"
-          src={data.cardImage1}
-          alt="alt text"
-        />
-        <Image
-          className="hidden group-hover:block"
-          src={data.cardImage2}
-          alt="alt text"
-        />
+        <a href="/product/Product">
+          <Image
+            className="block group-hover:hidden"
+            src={data.cardImage1}
+            alt="alt text"
+          />
+          <Image
+            className="hidden group-hover:block"
+            src={data.cardImage2}
+            alt="alt text"
+          />
+        </a>
         <Badge className="absolute left-3 top-3 rounded-none bg-red-600">
           SALE {data.salePercent}%
         </Badge>
