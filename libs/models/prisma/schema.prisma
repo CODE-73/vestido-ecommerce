@@ -1,0 +1,167 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider          = "postgresql"
+    url               = env("DATABASE_URL")
+    shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+enum Role {
+    CUSTOMER
+    ADMIN
+}
+
+model Image {
+    id           String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    title        String
+    blurHash     String
+    alt          String
+    url          String
+    displayIndex Int
+    item         Item?   @relation(fields: [itemId], references: [id])
+    itemId       String? @db.Uuid
+    mainImage    Boolean
+}
+
+model CustomerAddress {
+    id         String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    customer   Profile @relation(fields: [customerId], references: [id])
+    customerId String  @db.Uuid
+    line1      String
+    line2      String
+    district   String
+    State      String
+    postalCode String
+}
+
+model Profile {
+    id   String @id @db.Uuid
+    role Role   @default(CUSTOMER)
+
+    firstName       String?
+    lastName        String?
+    mobile          String?
+    email           String?
+    WishlistItem    WishlistItem[]
+    CartItem        CartItem[]
+    ContactUs       ContactUs[]
+    CustomerAddress CustomerAddress[]
+}
+
+model Item {
+    id          String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    title       String
+    description String
+    price       String
+    unit        String
+    stock       String
+    brand       String
+
+    images        Image[]
+    wishlistItems WishlistItem[]
+    cartItems     CartItem[]
+    variants      ItemVariant[]
+    categories    ItemCategory[]
+}
+
+model ItemVariant {
+    id     String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    item   Item   @relation(fields: [itemId], references: [id])
+    itemId String @db.Uuid
+
+    attributeValues VariantAttributeValue[]
+}
+
+model VariantAttributeValue {
+    id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+
+    variant   ItemVariant @relation(fields: [variantId], references: [id])
+    variantId String      @db.Uuid
+
+    attribute   ItemAttribute @relation(fields: [attributeId], references: [id])
+    attributeId String        @db.Uuid
+
+    attributeValue   ItemAttributeValue @relation(fields: [attributeValueId], references: [id])
+    attributeValueId String             @db.Uuid
+}
+
+model ItemAttribute {
+    id                    String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    name                  String
+    description           String?
+    ItemAttributeValues   ItemAttributeValue[]
+    VariantAttributeValue VariantAttributeValue[]
+}
+
+model ItemAttributeValue {
+    id                    String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    attribute             ItemAttribute           @relation(fields: [attributeId], references: [id])
+    attributeId           String                  @db.Uuid
+    value                 String
+    VariantAttributeValue VariantAttributeValue[]
+}
+
+model Category {
+    id          String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    name        String
+    description String?
+
+    parentCategoryId String?    @db.Uuid()
+    parentCategory   Category?  @relation("ParentCategory", fields: [parentCategoryId], references: [id])
+    subcategories    Category[] @relation("ParentCategory")
+
+    items ItemCategory[]
+}
+
+model ItemCategory {
+    id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    item       Item     @relation(fields: [itemId], references: [id])
+    itemId     String   @db.Uuid
+    category   Category @relation(fields: [categoryId], references: [id])
+    categoryId String   @db.Uuid
+}
+
+model WishlistItem {
+    id         String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    item       Item    @relation(fields: [itemId], references: [id])
+    itemId     String  @db.Uuid
+    customer   Profile @relation(fields: [customerId], references: [id])
+    customerId String  @db.Uuid
+}
+
+model CartItem {
+    id         String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    item       Item    @relation(fields: [itemId], references: [id])
+    itemId     String  @db.Uuid
+    customer   Profile @relation(fields: [customerId], references: [id])
+    customerId String  @db.Uuid
+}
+
+model Order {
+    id         String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    dateTime   DateTime
+    totalPrice String
+    itemsCount Int
+    orderItem  OrderItem[]
+}
+
+model OrderItem {
+    id      String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    price   String
+    qty     String
+    order   Order  @relation(fields: [orderId], references: [id])
+    orderId String @db.Uuid
+}
+
+model ContactUs {
+    id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    type       String?
+    name       String?
+    email      String?
+    mobile     String?
+    message    String?
+    customer   Profile? @relation(fields: [customerId], references: [id])
+    customerId String?  @db.Uuid
+}
