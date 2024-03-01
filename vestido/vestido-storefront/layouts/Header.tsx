@@ -27,7 +27,7 @@ const Header = () => (
           <Heart />
         </a>
         {/* Shopping Cart Icon */}
-        <a href="/cart">
+        <a href="/cart/Cart">
           <ShoppingCart />
         </a>
       </div>
