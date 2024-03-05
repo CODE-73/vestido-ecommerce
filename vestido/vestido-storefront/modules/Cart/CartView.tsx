@@ -84,8 +84,8 @@ const CartView: React.FC = () => {
   const isMobile = useIsMobile();
   const labels = ['Days', 'Hrs', 'Min', 'Sec'];
   return (
-    <div className="px-5">
-      <div className="text-4xl tracking-wide text-[#333333] text-center font-extrabold my-5">
+    <div className="px-44">
+      <div className="text-4xl tracking-wide text-[#333333] text-center font-extrabold my-5 pt-20">
         Shopping Cart
       </div>
       <div className="flex flex-col">
