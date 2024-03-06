@@ -49,7 +49,7 @@ const SpecialOfferCard: React.FC<SpecialOfferCardProps> = ({ data }) => {
         <Badge className="absolute left-3 top-3 rounded-none bg-red-600">
           SALE {data.salePercent}%
         </Badge>
-        <div className=" absolute bottom-64 sm:bottom-36 bg-white opacity-80 font-extralight text-[#333333] text-lg text-center px-16">
+        <div className=" absolute bottom-64 sm:bottom-36 bg-white opacity-80 font-extralight text-[#333333] text-lg text-center sm:px-16">
           <div>Offer Will End Through</div>
           <div className="flex gap-2 justify-center">
             {labels.map((label, index) => (

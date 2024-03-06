@@ -1,8 +1,20 @@
 import * as React from 'react';
 import Image from 'next/image';
 
-import { Trash2, Minus, Plus, ChevronLeft, RefreshCcw } from 'lucide-react';
+import {
+  Trash2,
+  Minus,
+  Plus,
+  ChevronLeft,
+  RefreshCcw,
+  Star,
+  ShoppingBag,
+} from 'lucide-react';
 import { Checkbox } from '@vestido-ecommerce/shadcn-ui/checkbox';
+import { Badge } from 'libs/shadcn-ui/src/ui/badge';
+import { AddToWishListButton } from '../HomePage/SpecialOffer/AddToWishlistButton';
+import { AddToCompareButton } from '../HomePage/SpecialOffer/AddToCompareButton';
+import { QuickViewButton } from '../HomePage/SpecialOffer/QuickViewButton';
 import { useState } from 'react';
 import useIsMobile from 'vestido/vestido-storefront/hooks/useIsMobile';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
