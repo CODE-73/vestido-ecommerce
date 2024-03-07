@@ -20,7 +20,10 @@
       ],
       "@vestido-ecommerce/shadcn-ui/*": [
         "libs/shadcn-ui/src/ui/*",
-      ]
+      ],
+      "@vestido-ecommerce/items": [
+        "libs/items/src/index.ts",
+      ],
     }
   },
   "exclude": ["node_modules", "tmp"]
