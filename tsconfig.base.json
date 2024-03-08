@@ -23,7 +23,7 @@
       ],
       "@vestido-ecommerce/items": [
         "libs/items/src/index.ts",
-      ],
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]
