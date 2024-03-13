@@ -6,7 +6,7 @@ function CustomApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Welcome to vestido-dashboard!</title>
+        <title>VestidoNation</title>
       </Head>
       <main className="app">
         <Component {...pageProps} />
