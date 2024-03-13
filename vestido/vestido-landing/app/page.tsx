@@ -1,12 +1,12 @@
 import React from 'react';
 import { Instagram, Facebook, Youtube, Twitter } from 'lucide-react';
 import Image from 'next/image';
-import BackgoundVideo from './background-video';
+import BackgroundVideo from './background-video';
 const ComingSoon = () => {
   return (
     <div className="h-screen w-screen grid lg:grid-cols-2 grid-cols-1">
       <div className="relative lg:col-span-1 md:col-span-1 sm:col-span-1 flex flex-col justify-center  sm:justify-center z-10 text-white ">
-        <BackgoundVideo />
+        <BackgroundVideo />
         <div className="flex flex-col w-full h-[30vh]  justify-center items-center space-y-6">
           <Image
             className="h-auto w-10 "
