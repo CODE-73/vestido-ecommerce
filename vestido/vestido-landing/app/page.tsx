@@ -59,7 +59,7 @@ const ComingSoon = () => {
             <div className="flex flex-row  self-end outline outline-2  outline-slate-300 h-10 ">
               <input
                 type="email"
-                className=" bg-white pl-3 "
+                className="text-black pl-3 "
                 placeholder="Your Email Address"
               />
               <div className="">
@@ -74,15 +74,13 @@ const ComingSoon = () => {
           </form>
         </div>
       </div>
-      <div className="  top-0 left-0 h-screen relative hidden bg-gradient-to-r from-teal-700 to-neutral-800  lg:block  md:block">
-        <Image
-          className="h-2/3 w-96  absolute top-44 -left-12 hidden lg:block z-10"
-          src="/images/landing.jpg"
-          alt="Image"
-          width={200}
-          height={200}
-        />
-      </div>
+      <Image
+        className=" w-full h-screen hidden lg:block"
+        src="/images/landing.jpg"
+        alt="Image"
+        width={200}
+        height={200}
+      />
     </div>
   );
 };
