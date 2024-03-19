@@ -74,7 +74,6 @@ const ComingSoon = () => {
           </form>
         </div>
       </div>
-
       <Image
         className=" w-full h-screen hidden lg:block"
         src="/images/landing.jpg"
