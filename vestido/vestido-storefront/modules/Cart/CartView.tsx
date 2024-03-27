@@ -218,9 +218,9 @@ const CartView: React.FC = () => {
               I agree with the terms and conditions
             </div>
           </div>
-          <div className="flex item-center justify-center">
-            <Button className="flex item-center tracking-wide bg-[#48CAB2] w-2/3 h-14 hover:bg-white font-extrabold hover:text-black text-white justify-center">
-              PROCEED TO CHECKOUT
+          <div className="flex items-center justify-center">
+            <Button className="flex items-center tracking-wide bg-[#48CAB2] w-2/3 h-14 hover:bg-white font-extrabold hover:text-black text-white justify-center">
+              <a href="/checkout/Checkout">PROCEED TO CHECKOUT</a>
             </Button>
           </div>
         </div>
