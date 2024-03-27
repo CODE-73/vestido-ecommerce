@@ -8,6 +8,7 @@ import { QuickViewButton } from './QuickViewButton';
 import { CarouselItem } from '@vestido-ecommerce/shadcn-ui/carousel';
 import useIsMobile from 'vestido/vestido-storefront/hooks/useIsMobile';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
+import CardDailog from './CardDialog';
 
 export type SpecialOfferCardData = {
   cardImage1: StaticImageData;
@@ -25,11 +26,13 @@ interface SpecialOfferCardProps {
 }
 const SpecialOfferCard: React.FC<SpecialOfferCardProps> = ({ data }) => {
   const [isHovering, setIsHovering] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const isMobile = useIsMobile();
 
   const labels = ['Days', 'Hrs', 'Min', 'Sec'];
   return (
     <CarouselItem className={`basis-1/2 lg:basis-1/3 max-w-[50vw]`}>
+      <CardDailog isOpen={showModal} onClose={() => setShowModal(false)} />
       <div className={`flex flex-col items-center group relative mb-10 `}>
         <a href="/product/Product">
           <Image
@@ -95,7 +98,10 @@ const SpecialOfferCard: React.FC<SpecialOfferCardProps> = ({ data }) => {
               >
                 <ShoppingBag color="#fff" />
                 {isHovering && (
-                  <button className=" absolute top-1 right-0 bg-[#48CAB2] text-white p-2 font-bold">
+                  <button
+                    className=" absolute top-1 right-0 bg-[#48CAB2] text-white p-2 font-bold"
+                    onClick={() => setShowModal(true)}
+                  >
                     Add to Cart
                   </button>
                 )}
