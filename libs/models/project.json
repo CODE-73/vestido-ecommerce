@@ -17,6 +17,12 @@
     "lint": {
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
+    },
+    "generate-types": {
+      "command": "prisma generate",
+      "options": {
+        "cwd": "libs/models"
+      }
     }
   },
   "tags": []
