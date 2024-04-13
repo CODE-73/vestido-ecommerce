@@ -1,8 +1,9 @@
 import './global.css';
 
 export const metadata = {
-  title: 'VestidoNation',
-  description: '',
+  title: 'Vestido Nation',
+  description:
+    'Coming soon: Discover your style sanctuary! Stay tuned for our upcoming fashion destination, curated just for you.',
 };
 
 export default function RootLayout({
