@@ -7,7 +7,18 @@ export async function addToCart(body: AddToCartSchemaType) {
   const validatedData = AddToCartSchema.parse(body);
 
   const cartItem = await prisma.cartItem.create({
-    data: validatedData,
+    data: {
+      customer: {
+        connect: {
+          id: validatedData.customerId,
+        },
+      },
+      item: {
+        connect: {
+          id: validatedData.itemId,
+        },
+      },
+    },
   });
 
   return cartItem;
