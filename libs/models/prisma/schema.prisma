@@ -37,7 +37,7 @@ model CustomerAddress {
 }
 
 model Profile {
-    id   String @id @db.Uuid
+    id   String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     role Role   @default(CUSTOMER)
 
     firstName       String?
