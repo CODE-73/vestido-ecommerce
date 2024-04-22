@@ -42,8 +42,8 @@ model Profile {
 
     firstName       String?
     lastName        String?
-    mobile          String?
-    email           String?
+    mobile          String?           @unique
+    email           String?           @unique
     WishlistItem    WishlistItem[]
     CartItem        CartItem[]
     ContactUs       ContactUs[]

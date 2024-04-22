@@ -1,10 +1,28 @@
 import { createItem, listItem } from '@vestido-ecommerce/items';
+import { verifyJWTToken } from '@vestido-ecommerce/auth';
 import { ZodError } from 'zod';
 
 export const dynamic = 'force-dynamic'; // static by default, unless reading the request
 
 export async function GET(request: Request) {
   try {
+    const authorizationHeader = request.headers.get('Authorization');
+    const token = authorizationHeader?.split(' ')[1];
+    console.log('token: ', token);
+
+    if (!token) {
+      return new Response(JSON.stringify({ error: 'Token is missing' }), {
+        status: 401,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    }
+
+    const decodedToken = await verifyJWTToken(token as string);
+
+    console.log('Decoded token:', decodedToken);
+
     const items = await listItem();
 
     return new Response(JSON.stringify(items), {
