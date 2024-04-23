@@ -15,15 +15,10 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@vestido-ecommerce/shadcn-ui": [
-        "libs/shadcn-ui/src/index.ts",
-      ],
-      "@vestido-ecommerce/shadcn-ui/*": [
-        "libs/shadcn-ui/src/ui/*",
-      ],
-      "@vestido-ecommerce/items": [
-        "libs/items/src/index.ts",
-      ]
+      "@vestido-ecommerce/auth": ["libs/auth/src/index.ts", "../../libs/auth/src/index.ts"],
+      "@vestido-ecommerce/items": ["libs/items/src/index.ts", "../../libs/items/src/index.ts"],
+      "@vestido-ecommerce/shadcn-ui": ["libs/shadcn-ui/src/index.ts"],
+      "@vestido-ecommerce/shadcn-ui/*": ["libs/shadcn-ui/src/ui/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]
