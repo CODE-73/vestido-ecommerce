@@ -4,13 +4,22 @@ import {
   removeFromCart,
 } from '@vestido-ecommerce/items';
 import { ZodError } from 'zod';
+import { verifyAuth } from '../verify-auth';
 
 export const dynamic = 'force-dynamic'; // static by default, unless reading the request
 
-let customerId = 'f47ac10b-58cc-4372-a567-0e02b2c3d479';
-
 export async function GET(request: Request) {
   try {
+    const auth = await verifyAuth(request);
+    if (!auth.authenticated) {
+      return new Response(JSON.stringify({ error: auth.reason }), {
+        status: 401,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    }
+    const customerId = auth.profileId;
     const cartItems = await listCartItems(customerId);
 
     return new Response(JSON.stringify({ success: true, cartItems }), {
@@ -37,13 +46,23 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    const auth = await verifyAuth(request);
+    if (!auth.authenticated) {
+      return new Response(JSON.stringify({ error: auth.reason }), {
+        status: 401,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    }
+
     const body = await request.json();
+    await addToCart({
+      customerId: auth.profileId,
+      itemId: body.itemId,
+    });
 
-    body.customerId = customerId;
-
-    await addToCart(body);
-
-    const cartItems = await listCartItems(customerId);
+    const cartItems = await listCartItems(auth.profileId);
 
     return new Response(JSON.stringify({ success: true, cartItems }), {
       headers: {
@@ -80,6 +99,17 @@ export async function DELETE(request: Request) {
   try {
     const params = new URL(request.url).searchParams;
     const itemId = params.get('itemId') ?? '';
+
+    const auth = await verifyAuth(request);
+    if (!auth.authenticated) {
+      return new Response(JSON.stringify({ error: auth.reason }), {
+        status: 401,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    }
+    const customerId = auth.profileId;
     const body = {
       itemId,
       customerId,
