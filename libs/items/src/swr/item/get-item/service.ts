@@ -1,4 +1,4 @@
-import { ItemDetailsResponse } from '../../../services/get-item/types';
+import { ItemDetailsResponse } from '../../../../../items/src/services/get-item/types';
 
 export async function getItemDetails(
   itemId: string
