@@ -2,7 +2,7 @@ import './styles.css';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { NextPageWithLayout } from './../types';
-import UnauthorizedLayout from '../layouts/unauthorized/unauthorized-layout';
+import MainLayout from '../layouts/MainLayout';
 // import { Poppins } from 'next/font/google';
 import localFont from 'next/font/local';
 
@@ -68,8 +68,7 @@ const myFont = localFont({
 
 function App({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout =
-    Component.getLayout ??
-    ((page) => <UnauthorizedLayout>{page}</UnauthorizedLayout>);
+    Component.getLayout ?? ((page) => <MainLayout>{page}</MainLayout>);
 
   return (
     <div

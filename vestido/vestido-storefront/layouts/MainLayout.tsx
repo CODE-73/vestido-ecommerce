@@ -1,12 +1,12 @@
 import React from 'react';
-import { ComponentWithChildrenProps } from '../../types';
-import Header from '../Header';
-import Footer from '../Footer';
+import { ComponentWithChildrenProps } from '../types';
+import Header from './Header';
+import Footer from './Footer';
 import { useRouter } from 'next/router';
 
 type LayoutProps = ComponentWithChildrenProps;
 
-const UnauthorizedLayout: React.FC<LayoutProps> = ({ children }) => {
+const MainLayout: React.FC<LayoutProps> = ({ children }) => {
   const router = useRouter();
   const hideFooter = ['/checkout/Checkout'].includes(router.pathname);
 
@@ -27,4 +27,4 @@ const UnauthorizedLayout: React.FC<LayoutProps> = ({ children }) => {
   );
 };
 
-export default UnauthorizedLayout;
+export default MainLayout;
