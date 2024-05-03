@@ -5,6 +5,7 @@ import { NextPageWithLayout } from './../types';
 import MainLayout from '../layouts/MainLayout';
 // import { Poppins } from 'next/font/google';
 import localFont from 'next/font/local';
+import { AuthProvider } from '@vestido-ecommerce/auth';
 
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
@@ -78,7 +79,7 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
       <Head>
         <title>Vestido Storefront</title>
       </Head>
-      {getLayout(<Component {...pageProps} />)}
+      <AuthProvider>{getLayout(<Component {...pageProps} />)}</AuthProvider>
     </div>
   );
 }
