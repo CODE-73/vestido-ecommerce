@@ -16,6 +16,7 @@ import {
   X,
 } from 'lucide-react';
 import { useState } from 'react';
+import CategoriesDropDown from '../modules/HomePage/CategoriesDropDown';
 
 type ListItemProps = {
   href: string;
@@ -120,7 +121,7 @@ const FixedHeader = () => {
   return (
     <div className=" w-full bg-white shadow flex  justify-center">
       <div className="flex flex-1 justify-around items-center max-w-7xl ">
-        <div className="bg-[#48CAB2]  uppercase font-semibold text-white relative">
+        {/* <div className="bg-[#48CAB2]  uppercase font-semibold text-white relative">
           <div
             className="flex gap-4 sm:pl-4 sm:pr-28  sm:py-4 border-solid border-2 border-white cursor-pointer"
             onClick={toggleDropdown}
@@ -140,7 +141,8 @@ const FixedHeader = () => {
               <div className="hover:text-[#48CAB2]">Documentation</div>
             </div>
           )}
-        </div>
+        </div> */}
+        <CategoriesDropDown />
         <div className=" sm:py-4 flex-1">
           <NavigationMenu>
             <NavigationMenuList>

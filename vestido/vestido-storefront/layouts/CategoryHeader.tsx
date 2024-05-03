@@ -10,6 +10,9 @@ import {
 
 import { AlignLeft } from 'lucide-react';
 import { cn } from 'libs/shadcn-ui/src/utils';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import CategoriesDropDown from '../modules/HomePage/CategoriesDropDown';
 
 type ListItemProps = {
   href: string;
@@ -100,23 +103,40 @@ const categoriesData = [
 ];
 
 const CategoryHeader = () => {
+  const router = useRouter();
+  const [isHomePage, setIsHomePage] = useState(false);
+
+  useEffect(() => {
+    // Check if the current route is the home page ('/')
+    if (router.route === '/') {
+      setIsHomePage(true);
+    } else {
+      setIsHomePage(false);
+    }
+  }, [router.route]);
   return (
     <div className="flex items-center">
-      <div className="bg-[#48CAB2] hidden sm:block uppercase font-semibold text-white  relative">
-        <div className="flex gap-4 sm:pl-4 sm:pr-28  sm:py-4">
-          <AlignLeft />
-          <div>Categories</div>
-        </div>
-        <div className="dropdown flex text-black flex-col gap-11 absolute z-10 pt-3 bg-white w-full cursor-pointer border-solid border-2 border-slate-200 pl-2">
-          <div className="hover:text-[#48CAB2] ">About Us</div>
-          <div className="hover:text-[#48CAB2]">Shipping</div>
-          <div className="hover:text-[#48CAB2]">Return</div>
-          <div className="hover:text-[#48CAB2]">FAQs</div>
-          <div className="hover:text-[#48CAB2]">Contact Us</div>
-          <div className="hover:text-[#48CAB2]">Maintenance</div>
-          <div className="hover:text-[#48CAB2]">Settings</div>
-          <div className="hover:text-[#48CAB2]">Documentation</div>
-        </div>
+      <div className="hidden sm:block">
+        {isHomePage ? (
+          <div className="bg-[#48CAB2] hidden sm:block uppercase font-semibold text-white  relative">
+            <div className="flex gap-4 sm:pl-4 sm:pr-28  sm:py-4">
+              <AlignLeft />
+              <div>Categories</div>
+            </div>
+            <div className="dropdown flex text-black flex-col gap-11 absolute z-10 pt-3 bg-white w-full cursor-pointer border-solid border-2 border-slate-200 pl-2">
+              <div className="hover:text-[#48CAB2] ">About Us</div>
+              <div className="hover:text-[#48CAB2]">Shipping</div>
+              <div className="hover:text-[#48CAB2]">Return</div>
+              <div className="hover:text-[#48CAB2]">FAQs</div>
+              <div className="hover:text-[#48CAB2]">Contact Us</div>
+              <div className="hover:text-[#48CAB2]">Maintenance</div>
+              <div className="hover:text-[#48CAB2]">Settings</div>
+              <div className="hover:text-[#48CAB2]">Documentation</div>
+            </div>
+          </div>
+        ) : (
+          <CategoriesDropDown />
+        )}
       </div>
       <div className="bg-[#333333] flex-1  sm:py-4">
         <NavigationMenu>
