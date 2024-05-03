@@ -14,6 +14,7 @@ import {
 } from 'libs/shadcn-ui/src/ui/form';
 import { Input } from 'libs/shadcn-ui/src/ui/input';
 import { useLogin } from '@vestido-ecommerce/auth';
+import { useAuth } from 'libs/auth/src/providers/AuthProvider';
 import { useRouter } from 'next/router';
 
 interface Props {
@@ -43,13 +44,22 @@ const LoginForm: React.FC<Props> = ({ mobile }) => {
   });
 
   const { trigger } = useLogin();
+  const { setToken } = useAuth();
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    await trigger({
-      mobileNumber: data.mobile,
-      otp: data.otp,
-    });
-    router.push('/');
+    try {
+      const r = await trigger({
+        mobileNumber: data.mobile,
+        otp: data.otp,
+      });
+
+      setToken(r.token);
+      console.log('token is', r.token);
+
+      router.push('/');
+    } catch (error) {
+      console.error('Login failed:', error);
+    }
   }
 
   return (
