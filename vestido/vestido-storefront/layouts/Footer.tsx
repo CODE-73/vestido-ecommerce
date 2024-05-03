@@ -4,7 +4,7 @@ import { Input } from '@vestido-ecommerce/shadcn-ui/input';
 const Footer = () => {
   return (
     <>
-      <div className="flex justify-around bg-zinc-100 py-6 ">
+      <div className="flex justify-around bg-zinc-100 py-20 ">
         <div className="space-y-4 flex flex-col text-gray-500">
           <h1 className="font-black text-xl text-black">Info</h1>
           <a href="/about-us">About Us</a>
