@@ -2,38 +2,40 @@ import PopularCollectionCard, {
   PopularCollectionCardData,
 } from './PopularCollectionCard';
 
-import cardImage1 from '../../../assets/popular/chair.jpg';
-import cardImage2 from '../../../assets/popular/floor.jpg';
+import cardImage2 from '../../../assets/popular/chair.jpg';
+import cardImage5 from '../../../assets/popular/floor.jpg';
 
 import cardImage3 from '../../../assets/popular/purple.jpg';
 
 import cardImage4 from '../../../assets/popular/shoe.jpg';
+import cardImage1 from '../../../assets/popular/brown.jpg';
+
 import { FC } from 'react';
 import clsx from 'clsx';
 
 const cards: PopularCollectionCardData[] = [
   {
     cardImage: cardImage1,
-    mainTitle: 'complete your look',
-    subtitle1: "The world's most stylish women are buying right now",
-    span: 'col-span-2 row-span-2',
+    mainTitle: 'the all-in-one',
   },
   {
     cardImage: cardImage2,
-    mainTitle: 'new in',
-    subtitle1: 'Shoes & Accessories',
+    mainTitle: 'complete your look',
+    span: 'col-span-2 row-span-2',
   },
+
   {
     cardImage: cardImage3,
     mainTitle: 'top trending',
-    subtitle1: 'Collectins 2023/24',
-    textColor: 'white',
   },
   {
     cardImage: cardImage4,
     mainTitle: 'the all-in-one',
-    subtitle1: 'Get upto 50% off',
-    span: 'col-span-2',
+    textColor: '[#333333]',
+  },
+  {
+    cardImage: cardImage5,
+    mainTitle: 'new in',
   },
 ];
 
