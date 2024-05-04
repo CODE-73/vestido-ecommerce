@@ -16,5 +16,5 @@ export async function login(args: LoginRequest): Promise<LoginResponse> {
 
   const data = await r.json();
   console.log('Logged in successfully', data);
-  return {} as LoginResponse;
+  return data as LoginResponse;
 }
