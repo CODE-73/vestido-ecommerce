@@ -3,15 +3,23 @@ import {
   addToWishlist,
   removeFromWishlist,
 } from '@vestido-ecommerce/items';
-import { json } from 'stream/consumers';
 import { ZodError } from 'zod';
+import { verifyAuth } from '../verify-auth';
 
 export const dynamic = 'force-dynamic'; // static by default, unless reading the request
 
-let customerId = 'f47ac10b-58cc-4372-a567-0e02b2c3d479';
-
 export async function GET(request: Request) {
   try {
+    const auth = await verifyAuth(request);
+    if (!auth.authenticated) {
+      return new Response(JSON.stringify({ error: auth.reason }), {
+        status: 401,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    }
+    const customerId = auth.profileId;
     const wishlistItems = await listWishlistItems(customerId);
 
     return new Response(JSON.stringify({ success: true, wishlistItems }), {
@@ -32,6 +40,16 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    const auth = await verifyAuth(request);
+    if (!auth.authenticated) {
+      return new Response(JSON.stringify({ error: auth.reason }), {
+        status: 401,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    }
+    const customerId = auth.profileId;
     const body = await request.json();
 
     body.customerId = customerId;
@@ -72,6 +90,17 @@ export async function POST(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
+    const auth = await verifyAuth(request);
+    if (!auth.authenticated) {
+      return new Response(JSON.stringify({ error: auth.reason }), {
+        status: 401,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    }
+    const customerId = auth.profileId;
+
     const params = new URL(request.url).searchParams;
     const itemId = params.get('itemId') ?? '';
 
