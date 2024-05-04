@@ -19,7 +19,7 @@ const slides: PrimaryCarouselItemData[] = [
     buttonLink: '1',
     textAlign: 'left',
     textColor: '[#333333]',
-    textPosition: 'left-1/3',
+    textPosition: 'left-6',
   },
   {
     backgroundImage: image2,
@@ -30,7 +30,7 @@ const slides: PrimaryCarouselItemData[] = [
     buttonLink: '2',
     textAlign: 'center',
     textColor: 'white',
-    textPosition: 'left-1/3',
+    textPosition: 'left-6',
   },
   {
     backgroundImage: image3,
@@ -41,7 +41,7 @@ const slides: PrimaryCarouselItemData[] = [
     buttonLink: '3',
     textAlign: 'left',
     textColor: 'white',
-    textPosition: 'right-1/4',
+    textPosition: 'right-6',
   },
 ];
 export function PrimaryCarousel() {
@@ -50,17 +50,19 @@ export function PrimaryCarousel() {
   );
 
   return (
-    <Carousel
-      plugins={[plugin.current]}
-      className="w-full"
-      onMouseEnter={plugin.current.stop}
-      onMouseLeave={plugin.current.reset}
-    >
-      <CarouselContent>
-        {slides.map((slide, index) => (
-          <PrimaryCarouselItem data={slide} key={index} />
-        ))}
-      </CarouselContent>
-    </Carousel>
+    <div className="grid grid-cols-8 gap-12">
+      <Carousel
+        plugins={[plugin.current]}
+        className="col-span-8 sm:col-start-3 sm:col-span-6 sm:p-4 pr-0"
+        onMouseEnter={plugin.current.stop}
+        onMouseLeave={plugin.current.reset}
+      >
+        <CarouselContent>
+          {slides.map((slide, index) => (
+            <PrimaryCarouselItem data={slide} key={index} />
+          ))}
+        </CarouselContent>
+      </Carousel>
+    </div>
   );
 }

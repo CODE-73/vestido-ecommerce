@@ -3,7 +3,6 @@ import Image, { StaticImageData } from 'next/image';
 export type PopularCollectionCardData = {
   cardImage: StaticImageData;
   mainTitle: string;
-  subtitle1: string;
   span?: string;
   textColor?: string;
 };
@@ -24,17 +23,10 @@ const PopularCollectionCard: React.FC<PopularCollectionCardProps> = ({
         {' '}
         <div
           className={`group-hover:underline capitalize font-bold text-2xl group-hover:underline group-hover:underline-offset-4 leading-normal main-title ${
-            data.textColor ? `text-${data.textColor}` : 'text-[#333333]'
+            data.textColor ? `text-${data.textColor}` : 'text-white'
           }`}
         >
           {data.mainTitle}
-        </div>
-        <div
-          className={`font-extralight text-lg max-w-sm ${
-            data.textColor ? `text-${data.textColor}` : 'text-[#777777]'
-          }`}
-        >
-          {data.subtitle1}
         </div>
       </div>
     </div>
