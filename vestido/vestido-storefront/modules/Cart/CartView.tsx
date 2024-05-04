@@ -1,20 +1,9 @@
 import * as React from 'react';
 import Image from 'next/image';
 
-import {
-  Trash2,
-  Minus,
-  Plus,
-  ChevronLeft,
-  RefreshCcw,
-  Star,
-  ShoppingBag,
-} from 'lucide-react';
+import { Trash2, Minus, Plus, ChevronLeft, RefreshCcw } from 'lucide-react';
 import { Checkbox } from '@vestido-ecommerce/shadcn-ui/checkbox';
 import { Badge } from 'libs/shadcn-ui/src/ui/badge';
-import { AddToWishListButton } from '../HomePage/SpecialOffer/AddToWishlistButton';
-import { AddToCompareButton } from '../HomePage/SpecialOffer/AddToCompareButton';
-import { QuickViewButton } from '../HomePage/SpecialOffer/QuickViewButton';
 import { useState } from 'react';
 import useIsMobile from 'vestido/vestido-storefront/hooks/useIsMobile';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
@@ -37,10 +26,6 @@ import product31 from '../../assets/offer-products/product3-1.jpg';
 import product32 from '../../assets/offer-products/product3-2.jpg';
 import product41 from '../../assets/offer-products/product4-1.jpg';
 import product42 from '../../assets/offer-products/product4-2.jpg';
-import product51 from '../../assets/offer-products/product5-1.jpg';
-import product52 from '../../assets/offer-products/product5-2.jpg';
-import product61 from '../../assets/offer-products/product6-1.jpg';
-import product62 from '../../assets/offer-products/product6-2.jpg';
 
 const data = [
   {

@@ -20,7 +20,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
-
 import product11 from '../../assets/offer-products/product1-1.jpg';
 import product12 from '../../assets/offer-products/product1-2.jpg';
 import product21 from '../../assets/offer-products/product2-1.jpg';
@@ -91,14 +90,11 @@ const data = [
 const formSchema = z.object({
   email: z.string().email(),
 });
-
 const CheckoutView: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState('default');
-
   const handleOptionChange = (value: string) => {
     setSelectedOption(value);
   };
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -106,8 +102,8 @@ const CheckoutView: React.FC = () => {
     },
   });
   return (
-    <div className="h-screen w-screen grid lg:grid-cols-2 grid-cols-1">
-      <div className="p-10 border-2 border-r-slate-600">
+    <div className=" w-screen grid lg:grid-cols-2 grid-cols-1 items-start">
+      <div className="p-10 border-2 border-r-gray-300 pl-44">
         <div className="flex flex-row">
           <div className="text-2xl">Contact</div>
           <button className="ml-auto underline text-sky-700">Log in</button>
@@ -278,36 +274,36 @@ const CheckoutView: React.FC = () => {
           <div className="border-t border-gray-300 my-4"></div>
         </Form>
       </div>
-
-      <div className="bg-stone-100 overflow-auto hidden lg:block sticky top-0">
-        <div className="flex flex-col">
+      <div className="bg-stone-100 overflow-auto hidden lg:block pl-5 pr-60 sticky top-0">
+        <div className="flex flex-col ">
           {data.map((item, index) => (
             <div key={index}>
               <div className="grid gap-2 grid-cols-5 auto-rows-auto items-center py-3">
                 <Image
-                  className="w-10 h-12 col-span-1 ml-10 outline outline-offset-2 outline-1 rounded-lg outline-gray-400"
+                  className="w-10 h-12 col-span-1 ml-10 outline outline-offset-2 outline-1 rounded-lg outline-gray-400 "
                   src={item.cardImage1}
                   alt="alt text"
                 />
-                <div className="text-lg col-span-3">{item.name}</div>
-
-                <div className="text-xl col-span-1 flex justify-center">
+                <div className="text-base col-span-3 lg:pl-10 ">
+                  {item.name}
+                </div>
+                <div className="text-lg col-span-1 flex justify-center lg:pl-10  ">
                   {item.offerPrice}
                 </div>
               </div>
             </div>
           ))}
         </div>
-        <div className="flex flex-row px-9 mt-7">
-          <div className="text-lg">Subtotal</div>
+        <div className="flex flex-row mt-7">
+          <div className="text-lg px-9 ">Subtotal</div>
           <div className="ml-auto text-xl">$2,220.00</div>
         </div>
-        <div className="flex flex-row px-9 mt-3">
-          <div className="text-lg">Shipping</div>
+        <div className="flex flex-row  mt-3">
+          <div className="text-lg px-9">Shipping</div>
           <div className="ml-auto text-gray-500">Enter shipping address</div>
         </div>
-        <div className="flex flex-row px-9 mt-3">
-          <div className="text-xl">Total</div>
+        <div className="flex flex-row mt-3">
+          <div className="text-xl px-9 ">Total</div>
           <div className="flex flex-row ml-auto space-x-2">
             <div className="text-gray-500 flex items-end ">USD</div>
             <div className="text-2xl">$2,220.00</div>
@@ -317,5 +313,4 @@ const CheckoutView: React.FC = () => {
     </div>
   );
 };
-
 export default CheckoutView;
