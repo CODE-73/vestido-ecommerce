@@ -10,7 +10,7 @@ const Footer = () => {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row text-gray-500 p-7 lg:px-72 py-14 bg-zinc-100">
+      <div className="flex flex-col md:flex-row text-gray-500 p-7 2xl:px-72 py-14 bg-zinc-100">
         <CollapsableFooterSection
           title="Info"
           collapsible={isMobile}
@@ -55,14 +55,14 @@ const Footer = () => {
             <p>2548 Broaddus Maple Court Avenue, Madisonville KY 4783,</p>
             <p>United States of America</p>
           </div>
-          <div className="text-black">
+          <div className="text-[#333]">
             Call Us:<b>1–234–5678901</b>
           </div>
           <div>Mon-Sun: 9:00am - 9:00pm</div>
         </CollapsableFooterSection>
 
         <div className="space-y-4 text-gray-500  ">
-          <h1 className="font-bold text-xl text-black ">
+          <h1 className="font-bold text-xl text-[#333]">
             Subscribe to Our Newsletter!
           </h1>
           <div className="relative">
@@ -78,7 +78,7 @@ const Footer = () => {
             and Privacy Policy.
           </div>
           <div className="flex flex-row space-x-4 opacity-50">
-            <div className="text-black font-bold text-xl "> Follow Us:</div>
+            <div className="text-[#333] font-bold text-xl "> Follow Us:</div>
             <Facebook />
             <Twitter />
             <Instagram />
