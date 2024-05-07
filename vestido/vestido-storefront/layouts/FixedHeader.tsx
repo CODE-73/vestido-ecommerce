@@ -144,20 +144,18 @@ const FixedHeader = () => {
             </NavigationMenuList>
           </NavigationMenu>
         </div>
-        <div className="flex space-x-4 py-4">
-          {/* User Icon */}
-          <a>
+        <div className="flex space-x-4 py-4 ">
+          <a className="hover:text-[#48cab2]">
             <Search />
           </a>
-          <a href="/user">
+          <a href="/user" className="hover:text-[#48cab2]">
             <UserRound />
           </a>
-          {/* Heart Icon */}
-          <a href="/wishlist/">
+
+          <a href="/wishlist/" className="hover:text-[#48cab2]">
             <Heart />
           </a>
-          {/* Shopping Cart Icon */}
-          <a href="/cart">
+          <a href="/cart" className="hover:text-[#48cab2]">
             <ShoppingBag />
           </a>
         </div>

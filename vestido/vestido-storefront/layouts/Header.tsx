@@ -37,7 +37,7 @@ const Header = () => {
                 />
               </a>
             </div>
-            <div className="hidden md:flex space-x-4 items-center justify-items-center content-center">
+            <div className="hidden md:flex space-x-4 items-center justify-items-center content-center hover:text-[#48cab2]">
               <Search />
               <Input
                 type="search"
@@ -47,16 +47,13 @@ const Header = () => {
             </div>
 
             <div className="flex space-x-4">
-              {/* User Icon */}
-              <a href="/user">
+              <a href="/user" className="hover:text-[#48cab2]">
                 <UserRound />
               </a>
-              {/* Heart Icon */}
-              <a href="/wishlist/Wishlist">
+              <a href="/wishlist" className="hover:text-[#48cab2]">
                 <Heart />
               </a>
-              {/* Shopping Cart Icon */}
-              <a href="/cart/Cart">
+              <a href="/cart" className="hover:text-[#48cab2]">
                 <ShoppingBag />
               </a>
             </div>

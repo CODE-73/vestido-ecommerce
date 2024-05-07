@@ -84,7 +84,7 @@ const WishlistView: React.FC = () => {
   const labels = ['Days', 'Hrs', 'Min', 'Sec'];
   return (
     <div className="md:px-16">
-      <div className="text-4xl tracking-wide text-[#333333] text-center font-extrabold my-5">
+      <div className="text-4xl tracking-wide text-[#333333] text-center font-extrabold my-5 lg:py-10">
         Wishlist
       </div>
       <div className="grid grid-cols-4 gap-10">

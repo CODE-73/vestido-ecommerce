@@ -70,7 +70,7 @@ const CartView: React.FC = () => {
   const isMobile = useIsMobile();
   const labels = ['Days', 'Hrs', 'Min', 'Sec'];
   return (
-    <div className="px-44">
+    <div>
       <div className="text-4xl tracking-wide text-[#333333] text-center font-extrabold my-5 pt-20">
         Shopping Cart
       </div>
@@ -91,22 +91,22 @@ const CartView: React.FC = () => {
                 src={item.cardImage1}
                 alt="alt text"
               />
-              <div className="text-3xl font-extrabold col-span-2">
+              <div className="text-3xl font-semibold col-span-2">
                 {item.name}
               </div>
-              <div className="text-3xl font-extrabold text-[#48CAB2] col-span-1 flex justify-center">
+              <div className="text-3xl font-semibold text-[#48CAB2] col-span-1 flex justify-center">
                 {item.offerPrice}
               </div>
               <div className="flex flex-row bg-zinc-100 px-4 h-14 items-center justify-around col-span-1">
                 <div className="text-zinc-300">
                   <Minus />
                 </div>
-                <div className="font-extrabold text-2xl">1</div>
+                <div className="font-semibold text-2xl">1</div>
                 <div className="text-zinc-300">
                   <Plus />
                 </div>
               </div>
-              <div className="text-3xl font-extrabold text-[#48CAB2] col-span-1 flex justify-center">
+              <div className="text-3xl font-semibold text-[#48CAB2] col-span-1 flex justify-center">
                 {item.offerPrice}
               </div>
             </div>
