@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { AddToWishListButton } from '../HomePage/SpecialOffer/AddToWishlistButton';
 import { AddToCompareButton } from '../HomePage/SpecialOffer/AddToCompareButton';
 import { QuickViewButton } from '../HomePage/SpecialOffer/QuickViewButton';
-import useIsMobile from 'vestido/vestido-storefront/hooks/useIsMobile';
+import useIsMobile from '../../hooks/useIsMobile';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import ProductFilter from './ProductFilter';
 

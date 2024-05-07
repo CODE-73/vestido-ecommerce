@@ -3,18 +3,11 @@ import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
-  NavigationMenuTrigger,
   NavigationMenuList,
 } from '@vestido-ecommerce/shadcn-ui/navigation-menu';
+import { NavigationMenuTrigger } from './CategoryHeader';
 
-import {
-  AlignLeft,
-  Heart,
-  Search,
-  ShoppingBag,
-  UserRound,
-  X,
-} from 'lucide-react';
+import { Heart, Search, ShoppingBag, UserRound } from 'lucide-react';
 import { useState } from 'react';
 import CategoriesDropDown from '../modules/HomePage/CategoriesDropDown';
 
@@ -121,34 +114,13 @@ const FixedHeader = () => {
   return (
     <div className=" w-full bg-white shadow flex  justify-center">
       <div className="flex flex-1 justify-around items-center max-w-7xl ">
-        {/* <div className="bg-[#48CAB2]  uppercase font-semibold text-white relative">
-          <div
-            className="flex gap-4 sm:pl-4 sm:pr-28  sm:py-4 border-solid border-2 border-white cursor-pointer"
-            onClick={toggleDropdown}
-          >
-            {isOpen ? <X /> : <AlignLeft />}
-            <div>Categories</div>
-          </div>
-          {isOpen && (
-            <div className="dropdown flex text-black flex-col gap-11 absolute z-10 pt-3 bg-white w-full cursor-pointer border-solid border-2 border-slate-200 pl-2">
-              <div className="hover:text-[#48CAB2] ">About Us</div>
-              <div className="hover:text-[#48CAB2]">Shipping</div>
-              <div className="hover:text-[#48CAB2]">Return</div>
-              <div className="hover:text-[#48CAB2]">FAQs</div>
-              <div className="hover:text-[#48CAB2]">Contact Us</div>
-              <div className="hover:text-[#48CAB2]">Maintenance</div>
-              <div className="hover:text-[#48CAB2]">Settings</div>
-              <div className="hover:text-[#48CAB2]">Documentation</div>
-            </div>
-          )}
-        </div> */}
         <CategoriesDropDown />
         <div className=" sm:py-4 flex-1">
           <NavigationMenu>
             <NavigationMenuList>
               {categoriesData.map((category, index) => (
                 <NavigationMenuItem key={index}>
-                  <NavigationMenuTrigger className="font-semibold h-6 px-4 bg-transparent hover:bg-transparent focus:bg-transparent hover:text-white">
+                  <NavigationMenuTrigger className="font-semibold h-6 px-4 bg-transparent hover:bg-transparent data-active:bg-transparent data-[state=open]:bg-transparent hover:text-[#48CAB2] hover:border-b-2 border-[#48CAB2] rounded-none mx-3">
                     {category.category}
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
@@ -174,18 +146,18 @@ const FixedHeader = () => {
         </div>
         <div className="flex space-x-4 py-4">
           {/* User Icon */}
-          <a href="/user">
+          <a>
             <Search />
           </a>
           <a href="/user">
             <UserRound />
           </a>
           {/* Heart Icon */}
-          <a href="/wishlist/Wishlist">
+          <a href="/wishlist/">
             <Heart />
           </a>
           {/* Shopping Cart Icon */}
-          <a href="/cart/Cart">
+          <a href="/cart">
             <ShoppingBag />
           </a>
         </div>
