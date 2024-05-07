@@ -7,29 +7,25 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from '@vestido-ecommerce/shadcn-ui/navigation-menu';
-
 import { AlignLeft } from 'lucide-react';
 import { cn } from 'libs/shadcn-ui/src/utils';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import CategoriesDropDown from '../modules/HomePage/CategoriesDropDown';
-
 type ListItemProps = {
   href: string;
   title: string;
 };
-
 const ListItem: React.FC<ListItemProps> = ({ href, title }) => (
   <li className="row-span-3">
     <a
-      className="flex select-none flex-col justify-start md:justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-3 no-underline outline-none focus:shadow-md"
+      className="flex select-none flex-col justify-start md:justify-end rounded-md  pl-3 no-underline outline-none focus:shadow-md"
       href={href}
     >
-      <div className="text-sm font-medium p-1">{title}</div>
+      <div className="font-normal text-sm font-medium p-1">{title}</div>
     </a>
   </li>
 );
-
 const categoriesData = [
   {
     category: "MEN'S",
@@ -101,11 +97,9 @@ const categoriesData = [
     ],
   },
 ];
-
 const CategoryHeader = () => {
   const router = useRouter();
   const [isHomePage, setIsHomePage] = useState(false);
-
   useEffect(() => {
     // Check if the current route is the home page ('/')
     if (router.route === '/') {
@@ -147,11 +141,13 @@ const CategoryHeader = () => {
                   {category.category}
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <div className="flex gap-2 p-3">
+                  <div className="flex flex-col p-3 ">
                     {category.subcategories.map((subcategory, subIndex) => (
                       <div key={subIndex}>
-                        <h1 className="font-black px-4">{subcategory.title}</h1>
-                        <ul className="grid gap-1 md:w-[200px] lg:w-[200px]">
+                        <h1 className=" font-black  px-4">
+                          {subcategory.title}
+                        </h1>
+                        <ul className="text-stone-500 py-3 md:w-[200px] lg:w-[200px]">
                           {subcategory.items.map((item, itemIndex) => (
                             <ListItem key={itemIndex} href="/" title={item} />
                           ))}
@@ -168,7 +164,6 @@ const CategoryHeader = () => {
     </div>
   );
 };
-
 const NavigationMenuTrigger = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Trigger>
@@ -182,5 +177,4 @@ const NavigationMenuTrigger = React.forwardRef<
   </NavigationMenuPrimitive.Trigger>
 ));
 NavigationMenuTrigger.displayName = NavigationMenuPrimitive.Trigger.displayName;
-
 export default CategoryHeader;
