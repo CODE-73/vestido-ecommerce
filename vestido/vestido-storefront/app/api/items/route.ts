@@ -6,19 +6,6 @@ export const dynamic = 'force-dynamic'; // static by default, unless reading the
 
 export async function GET(request: Request) {
   try {
-    const auth = await verifyAuth(request);
-
-    if (!auth.authenticated) {
-      return new Response(JSON.stringify({ error: auth.reason }), {
-        status: 401,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    }
-
-    console.info(auth);
-
     const items = await listItem();
 
     return new Response(JSON.stringify(items), {

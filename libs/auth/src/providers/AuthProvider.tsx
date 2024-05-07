@@ -23,12 +23,22 @@ AuthContext.displayName = 'TokenContext';
 
 export const AuthProvider = ({ children }: TokenProviderProps) => {
   const [token, setToken] = useState<string | null>(null);
+  const [authLoaded, setAuthLoaded] = useState(false);
   // const router = useRouter();
 
   // Read LS
   useEffect(() => {
-    localStorage.getItem('token');
+    const token = localStorage.getItem('token');
+    if (token) {
+      setToken(token);
+    }
+    setAuthLoaded(true);
   }, []);
+
+  if (!authLoaded) {
+    // TODO: Change this to <LoadingSpinner />
+    return null;
+  }
 
   return (
     <AuthContext.Provider

@@ -1,6 +1,6 @@
-import { ListItemResponse } from './types';
+import { ItemListResponse } from './types';
 
-export async function getItemList(query?: string): Promise<ListItemResponse> {
+export async function getItemList(query?: string): Promise<ItemListResponse> {
   // query?: string
 
   // The query parameter should be optional to handle cases when there is no search term.
@@ -20,5 +20,5 @@ export async function getItemList(query?: string): Promise<ListItemResponse> {
 
   const data = await r.json();
   console.log('the item list is below', data);
-  return data as ListItemResponse;
+  return data as ItemListResponse;
 }
