@@ -147,7 +147,7 @@ const CategoryHeader = () => {
                         <h1 className=" font-black  px-4">
                           {subcategory.title}
                         </h1>
-                        <ul className="text-stone-500 py-3 md:w-[200px] lg:w-[200px]">
+                        <ul className="text-stone-500 hoer:text-[#48CAB2] py-3 md:w-[200px] lg:w-[200px]">
                           {subcategory.items.map((item, itemIndex) => (
                             <ListItem key={itemIndex} href="/" title={item} />
                           ))}
