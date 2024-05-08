@@ -127,12 +127,17 @@ const FixedHeader = () => {
                     <div className="flex flex-col p-3">
                       {category.subcategories.map((subcategory, subIndex) => (
                         <div key={subIndex}>
-                          <h1 className="font-black px-4">
+                          <h1 className="font-black px-4 hover:text-[#48cab2] py-2">
                             {subcategory.title}
                           </h1>
-                          <ul className=" text-stone-500 hover:text-[#48CAB2] grid gap-1 md:w-[200px] lg:w-[200px]">
+                          <ul className=" text-stone-500 grid gap-1 md:w-[200px]">
                             {subcategory.items.map((item, itemIndex) => (
-                              <ListItem key={itemIndex} href="/" title={item} />
+                              <div
+                                key={itemIndex}
+                                className="hover:text-[#48cab2]"
+                              >
+                                <ListItem href="/" title={item} />
+                              </div>
                             ))}
                           </ul>
                         </div>
