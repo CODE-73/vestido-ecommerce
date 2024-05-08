@@ -87,7 +87,7 @@ const WishlistView: React.FC = () => {
       <div className="text-4xl tracking-wide text-[#333333] text-center font-extrabold my-5 lg:py-10">
         Wishlist
       </div>
-      <div className="grid grid-cols-4 gap-10">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-10">
         {data.map((item, index) => (
           <div
             key={index}
@@ -108,7 +108,7 @@ const WishlistView: React.FC = () => {
                 SALE {item.salePercent}%
               </Badge>
             )}
-            <div className=" absolute bottom-64 sm:bottom-36 bg-white opacity-80 font-extralight text-[#333333] text-lg text-center px-16">
+            <div className=" absolute bottom-64 sm:bottom-36 bg-white opacity-80 font-extralight text-[#333333] text-lg text-center lg:px-16">
               <div>Offer Will End Through</div>
               <div className="flex gap-2 justify-center">
                 {labels.map((label, index) => (

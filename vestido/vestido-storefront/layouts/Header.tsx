@@ -6,6 +6,7 @@ import { useInView } from 'react-intersection-observer';
 import { Search } from 'lucide-react';
 import { Input } from '@vestido-ecommerce/shadcn-ui/input';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const Header = () => {
   const { ref, inView } = useInView({
@@ -18,25 +19,27 @@ const Header = () => {
         <>
           <div className="flex justify-between items-center py-4 transition-all">
             {/* Logo */}
-            <div className="flex items-center">
-              <a href="#">
-                {' '}
-                <Image
-                  src="/assets/favico.ico"
-                  alt="Logo"
-                  width="25"
-                  height="35"
-                />
-              </a>
-              <a href="#" className="self-end">
-                <Image
-                  src="/assets/VN-HEADER-2.png"
-                  alt="Logo"
-                  width="250"
-                  height="250"
-                />
-              </a>
-            </div>
+            <Link href="/">
+              <div className="flex items-center">
+                <span>
+                  {' '}
+                  <Image
+                    src="/assets/favico.ico"
+                    alt="Logo"
+                    width="25"
+                    height="35"
+                  />
+                </span>
+                <span className="self-end">
+                  <Image
+                    src="/assets/VN-HEADER-2.png"
+                    alt="Logo"
+                    width="250"
+                    height="250"
+                  />
+                </span>
+              </div>
+            </Link>
             <div className="hidden md:flex space-x-4 items-center justify-items-center content-center hover:text-[#48cab2]">
               <Search />
               <Input
@@ -47,15 +50,15 @@ const Header = () => {
             </div>
 
             <div className="flex space-x-4">
-              <a href="/user" className="hover:text-[#48cab2]">
+              <Link href="/user" className="hover:text-[#48cab2]">
                 <UserRound />
-              </a>
-              <a href="/wishlist" className="hover:text-[#48cab2]">
+              </Link>
+              <Link href="/wishlist" className="hover:text-[#48cab2]">
                 <Heart />
-              </a>
-              <a href="/cart" className="hover:text-[#48cab2]">
+              </Link>
+              <Link href="/cart" className="hover:text-[#48cab2]">
                 <ShoppingBag />
-              </a>
+              </Link>
             </div>
           </div>
           <CategoryHeader />
