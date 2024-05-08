@@ -13,8 +13,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from 'components/ui/form';
-import { Input, InputProps } from 'components/ui/input';
+} from 'libs/shadcn-ui/src/ui/form';
+import { Input, InputProps } from 'libs/shadcn-ui/src/ui/input';
 
 export type InputElementProps<T extends FieldValues = FieldValues> = Omit<
   InputProps,
