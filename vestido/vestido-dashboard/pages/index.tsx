@@ -1,3 +1,4 @@
+import WidgetCards from '../modules/widgets/WidgetCards';
 import styles from './index.module.scss';
 
 export function Index() {
@@ -7,10 +8,11 @@ export function Index() {
    * Note: The corresponding styles are in the ./index.scss file.
    */
   return (
-    <div className={styles.page}>
+    <div className={`${styles.page} lg:pt-32 bg-slate-300 h-screen`}>
       <div className="wrapper">
         <div className="container">
-          <div id="welcome">
+          <WidgetCards />
+          {/* <div id="welcome">
             <h1>
               <span> Hello there, </span>
               Welcome vestido-dashboard 👋
@@ -442,7 +444,7 @@ export function Index() {
                 d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
               />
             </svg>
-          </p>
+          </p> */}
         </div>
       </div>
     </div>
