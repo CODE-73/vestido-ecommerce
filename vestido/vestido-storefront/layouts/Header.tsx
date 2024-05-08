@@ -40,12 +40,16 @@ const Header = () => {
                 </span>
               </div>
             </Link>
-            <div className="hidden md:flex space-x-4 items-center justify-items-center content-center hover:text-[#48cab2]">
-              <Search />
+            <div className="relative hidden md:flex space-x-4 items-center justify-items-center content-center">
               <Input
+                name="search-products"
+                placeholder="Search Products..."
                 type="search"
-                placeholder="Search Products.."
-                className="font-bold text-slate-600 rounded-none"
+                className="rounded-none"
+              />
+              <Search
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#48cab2]"
+                size={24}
               />
             </div>
 
