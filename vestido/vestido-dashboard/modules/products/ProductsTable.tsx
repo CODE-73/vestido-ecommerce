@@ -1,6 +1,7 @@
 import {
   Table,
   TableBody,
+
   TableCell,
   TableFooter,
   TableHead,
@@ -8,6 +9,7 @@ import {
   TableRow,
 } from 'libs/shadcn-ui/src/ui/table';
 import { useItems } from 'libs/items/src/swr/index';
+
 import { useRouter } from 'next/router';
 
 export function ProductsTable() {
@@ -19,6 +21,7 @@ export function ProductsTable() {
     console.log('row click function');
     router.push(`/products/${encodeURIComponent(product)}`);
   };
+
   return (
     <Table>
       <TableHeader>
@@ -32,7 +35,9 @@ export function ProductsTable() {
       <TableBody>
         {data?.data &&
           data.data.map((item) => (
+
             <TableRow key={item.id} onClick={() => handleRowClick(item.id)}>
+
               <TableCell className="font-medium">{item.id}</TableCell>
               <TableCell>{item.title}</TableCell>
               <TableCell>{item.price}</TableCell>

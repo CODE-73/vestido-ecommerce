@@ -1,11 +1,14 @@
-import { Form } from '@vestido-ecommerce/shadcn-ui/form';
-import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
+
 import { InputElement } from '../../forms/input-element';
-import { ProductsTable } from './ProductsTable';
-import { Button } from '@vestido-ecommerce/shadcn-ui/button';
-import Link from 'next/link';
+import { Form } from 'libs/shadcn-ui/src/ui/form';
+import { Button } from 'libs/shadcn-ui/src/ui/button';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 import { AiOutlineSearch } from 'react-icons/ai';
+import { ProductsTable } from './ProductsTable';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+
 
 const Products: React.FC = () => {
   const router = useRouter();
@@ -17,6 +20,7 @@ const Products: React.FC = () => {
     console.log('add new button function');
     router.push('/products/add-new');
   };
+
   return (
     <div className="container mx-auto py-10 bg-slate-200 mt-16">
       <Form {...form}>
@@ -37,12 +41,14 @@ const Products: React.FC = () => {
               </div>
 
               <Link href="/products/add">
+
                 <Button
                   onClick={handleButtonClick}
                   className="p-5 whitespace-nowrap "
                 >
                   + Add New
                 </Button>
+
               </Link>
             </div>
           </div>
