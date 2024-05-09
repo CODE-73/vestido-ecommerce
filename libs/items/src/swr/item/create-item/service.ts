@@ -5,7 +5,7 @@ export async function upsertItem(
 ): Promise<ItemUpsertResponse> {
   let url = '/api/items';
   let method = 'POST';
-  const itemId = args.data.id;
+  const itemId = args.id;
 
   if (itemId) {
     url = `/api/items/${encodeURIComponent(itemId)}`;
@@ -20,7 +20,7 @@ export async function upsertItem(
     body: JSON.stringify(args),
   });
   if (!r.ok) {
-    throw new Error('Error Upserting Patient');
+    throw new Error('Error Upserting Item');
   }
 
   const data = await r.json();
