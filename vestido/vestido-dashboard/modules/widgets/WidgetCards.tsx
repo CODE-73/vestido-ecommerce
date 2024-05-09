@@ -1,25 +1,29 @@
 import WidgetCard from './WidgetCard';
+import newOrdersIcon from '../../assets/icons/new-orders.png';
+import incomeIcon from '../../assets/icons/total-income.png';
+import expenseIcon from '../../assets/icons/total-expense.png';
+import userIcon from '../../assets/icons/new-users.png';
 
 const widgetItems = [
   {
     name: 'NewOrders',
     number: '1200',
-    icon: 'icon',
+    icon: newOrdersIcon,
   },
   {
     name: 'Total Income',
     number: '12000',
-    icon: 'icon',
+    icon: incomeIcon,
   },
   {
     name: 'Total Expense',
     number: '1200',
-    icon: 'icon',
+    icon: expenseIcon,
   },
   {
     name: 'new Users',
     number: '320',
-    icon: 'icon',
+    icon: userIcon,
   },
 ];
 
