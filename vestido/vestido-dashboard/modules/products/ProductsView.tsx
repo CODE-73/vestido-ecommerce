@@ -1,3 +1,4 @@
+
 import { InputElement } from '../../forms/input-element';
 import { Form } from 'libs/shadcn-ui/src/ui/form';
 import { Button } from 'libs/shadcn-ui/src/ui/button';
@@ -8,11 +9,17 @@ import { ProductsTable } from './ProductsTable';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
+
 const Products: React.FC = () => {
   const router = useRouter();
   const form = useForm({
     defaultValues: {},
   });
+
+  const handleButtonClick = () => {
+    console.log('add new button function');
+    router.push('/products/add-new');
+  };
 
   return (
     <div className="container mx-auto py-10 bg-slate-200 mt-16">
@@ -34,7 +41,14 @@ const Products: React.FC = () => {
               </div>
 
               <Link href="/products/add">
-                <Button className="p-5 whitespace-nowrap ">+ Add New</Button>
+
+                <Button
+                  onClick={handleButtonClick}
+                  className="p-5 whitespace-nowrap "
+                >
+                  + Add New
+                </Button>
+
               </Link>
             </div>
           </div>
