@@ -6,10 +6,12 @@ import {
   NavigationMenuList,
 } from '@vestido-ecommerce/shadcn-ui/navigation-menu';
 import { NavigationMenuTrigger } from './CategoryHeader';
-
-import { Heart, Search, ShoppingBag, UserRound } from 'lucide-react';
+import { Heart, Search, ShoppingBag, UserRound, X } from 'lucide-react';
 import { useState } from 'react';
 import CategoriesDropDown from '../modules/HomePage/CategoriesDropDown';
+import Link from 'next/link';
+import { cn } from 'libs/shadcn-ui/src/utils';
+import { InputProps } from '@vestido-ecommerce/shadcn-ui/input';
 
 type ListItemProps = {
   href: string;
@@ -100,19 +102,51 @@ const categoriesData = [
 ];
 
 const FixedHeader = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<string | null>(null);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const handleItemClick = (item: string) => {
-    setSelectedItem(item);
-    setIsOpen(false);
+  const toggleSearch = () => {
+    setIsSearchOpen(!isSearchOpen);
   };
   return (
-    <div className=" w-full bg-white shadow flex  justify-center">
+    <div className=" w-full bg-white shadow flex  justify-center z-10">
+      {isSearchOpen && (
+        <div
+          className="fixed inset-0 bg-gray-800 bg-opacity-50 z-20"
+          onClick={toggleSearch}
+        ></div>
+      )}
+      {isSearchOpen && (
+        <div
+          className={`fixed top-0 left-0 right-0 bg-white z-30 transition-transform ease-in duration-500 ${
+            isSearchOpen ? 'translate-y-0' : '-translate-y-full'
+          }`}
+        >
+          <div className="flex justify-center">
+            <div className="max-w-7xl flex-1 pb-10">
+              <div className="flex w-full justify-between p-4">
+                <div className="text-gray-500 font-light text-lg">
+                  What are you looking for ?
+                </div>
+                <button onClick={toggleSearch} className="hover:text-[#48cab2]">
+                  <X />
+                </button>
+              </div>
+              <div className="relative hidden md:flex space-x-4 items-center justify-items-center content-center pt-5 ">
+                <Input
+                  name="search-products"
+                  placeholder="Search Products..."
+                  type="search"
+                  className="rounded-none max-w-56  border-t-0 border-r-0 border-l-0 border-b-1 border-gray-300 focus:border-none"
+                />
+                <Search
+                  className="absolute right-2 bottom-1 -translate-y-1/2 text-slate-400 hover:text-[#48cab2]"
+                  size={24}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       <div className="flex flex-1 justify-around items-center max-w-7xl ">
         <CategoriesDropDown />
         <div className=" sm:py-4 flex-1">
@@ -150,23 +184,40 @@ const FixedHeader = () => {
           </NavigationMenu>
         </div>
         <div className="flex space-x-4 py-4 ">
-          <a className="hover:text-[#48cab2]">
-            <Search />
-          </a>
-          <a href="/user" className="hover:text-[#48cab2]">
+          <span className="hover:text-[#48cab2]">
+            <Search onClick={toggleSearch} />
+          </span>
+          <Link href="/user" className="hover:text-[#48cab2]">
             <UserRound />
-          </a>
+          </Link>
 
-          <a href="/wishlist/" className="hover:text-[#48cab2]">
+          <Link href="/wishlist/" className="hover:text-[#48cab2]">
             <Heart />
-          </a>
-          <a href="/cart" className="hover:text-[#48cab2]">
+          </Link>
+          <Link href="/cart" className="hover:text-[#48cab2]">
             <ShoppingBag />
-          </a>
+          </Link>
         </div>
       </div>
     </div>
   );
 };
+
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ className, type, ...props }, ref) => {
+    return (
+      <input
+        type={type}
+        className={cn(
+          'flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:font-medium placeholder:text-black placeholder:text-2xl placeholder:font-semibold focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-none focus-visible:ring-offset-none disabled:cursor-not-allowed disabled:opacity-50',
+          className
+        )}
+        ref={ref}
+        {...props}
+      />
+    );
+  }
+);
+Input.displayName = 'Input';
 
 export default FixedHeader;
