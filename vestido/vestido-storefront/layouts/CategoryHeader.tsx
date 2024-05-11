@@ -124,7 +124,7 @@ const CategoryHeader = () => {
               <AlignLeft />
               <div>Categories</div>
             </div>
-            <div className="dropdown flex text-black flex-col gap-11 absolute z-10 pt-3 bg-white w-full cursor-pointer border-solid border-2 border-slate-200 pl-2">
+            <div className="dropdown pb-2 flex text-black flex-col gap-11 absolute z-10 pt-3 bg-white w-full cursor-pointer border-solid border-2 border-slate-200 pl-2">
               <div className="hover:text-[#48CAB2] flex items-center gap-3">
                 <BsInfoCircle size={25} />
                 About Us

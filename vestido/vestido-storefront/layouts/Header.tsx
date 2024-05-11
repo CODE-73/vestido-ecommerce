@@ -42,12 +42,12 @@ const Header = () => {
                 </span>
               )}
             </Link>
-            <div className="relative hidden md:flex space-x-4 items-center justify-items-center content-center">
+            <div className="basis-1/2 relative hidden md:flex space-x-4 items-center justify-items-center content-center">
               <Input
                 name="search-products"
                 placeholder="Search Products..."
                 type="search"
-                className="rounded-none"
+                className="rounded-none max-w-56"
               />
               <Search
                 className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#48cab2]"
