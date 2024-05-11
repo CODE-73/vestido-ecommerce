@@ -1,4 +1,4 @@
-import { AlignLeft, ChevronDown, ChevronUp, Search } from 'lucide-react';
+import { AlignLeft, ChevronDown, ChevronUp, Search, X } from 'lucide-react';
 import { useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import Image from 'next/image';
@@ -10,6 +10,7 @@ import { TbRulerMeasure } from 'react-icons/tb';
 import { IoCallOutline, IoSettingsOutline } from 'react-icons/io5';
 import { TiSpannerOutline } from 'react-icons/ti';
 import { AiOutlineMan, AiOutlineWoman } from 'react-icons/ai';
+import { Input } from '@vestido-ecommerce/shadcn-ui/input';
 
 const Header: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -17,6 +18,7 @@ const Header: React.FC = () => {
     men: false,
     women: false,
   });
+  const [isSearchExpanded, setIsSearchExpanded] = useState(false);
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
@@ -28,6 +30,15 @@ const Header: React.FC = () => {
       [dropdown]: !prevState[dropdown],
       [dropdown === 'men' ? 'women' : 'men']: false,
     }));
+  };
+  const toggleSearch = () => {
+    if (isSearchExpanded) {
+      console.log('search function');
+      setIsSearchExpanded(false);
+    }
+    if (!isSearchExpanded) {
+      setIsSearchExpanded(true);
+    }
   };
 
   return (
@@ -49,7 +60,17 @@ const Header: React.FC = () => {
           <Image src="/assets/favico.ico" alt="Logo" width="25" height="35" />
         </span>
 
-        <Search size={30} />
+        <Search size={30} onClick={toggleSearch} className="z-50" />
+        {isSearchExpanded && (
+          <>
+            {' '}
+            <Input
+              type="text"
+              className="absolute inset-0 w-full h-full px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none"
+              placeholder="Search..."
+            />
+          </>
+        )}
       </div>
 
       {/* Drawer */}
