@@ -68,7 +68,7 @@ export const PrimaryCarousel: React.FC = () => {
             <PrimaryCarouselItem data={slide} key={index} />
           ))}
         </CarouselContent>
-        <div className="z-50 absolute bottom-10 left-[45%]">
+        <div className="absolute bottom-10 left-[45%]">
           <CarouselDots>
             {({ scrollSnap, onClick, selectedIndex, index }) => (
               <button
