@@ -48,7 +48,7 @@ const Header = () => {
                 className="rounded-none"
               />
               <Search
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#48cab2]"
+                className="absolute right-10 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#48cab2]"
                 size={24}
               />
             </div>

@@ -7,11 +7,13 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from '@vestido-ecommerce/shadcn-ui/navigation-menu';
-import { AlignLeft } from 'lucide-react';
+import { AlignLeft, ChevronRight, X } from 'lucide-react';
 import { cn } from 'libs/shadcn-ui/src/utils';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import CategoriesDropDown from '../modules/HomePage/CategoriesDropDown';
+import useIsMobile from '../hooks/useIsMobile';
+
 type ListItemProps = {
   href: string;
   title: string;
@@ -100,6 +102,13 @@ const categoriesData = [
 const CategoryHeader = () => {
   const router = useRouter();
   const [isHomePage, setIsHomePage] = useState(false);
+  const isMobile = useIsMobile();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  console.log(sidebarOpen);
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
   useEffect(() => {
     // Check if the current route is the home page ('/')
     if (router.route === '/') {
@@ -132,6 +141,68 @@ const CategoryHeader = () => {
           <CategoriesDropDown />
         )}
       </div>
+
+      {!isMobile ? (
+        <div className="bg-[#333333] flex-1  sm:py-4">
+          <NavigationMenu>
+            <NavigationMenuList>
+              {categoriesData.map((category, index) => (
+                <NavigationMenuItem key={index}>
+                  <NavigationMenuTrigger className="font-semibold h-6 text-white px-4 bg-transparent hover:bg-transparent data-active:bg-transparent data-[state=open]:bg-transparent hover:text-[#48CAB2] hover:border-b-2 border-[#48CAB2] rounded-none mx-3">
+                    {category.category}
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <div className="flex flex-col p-3 ">
+                      {category.subcategories.map((subcategory, subIndex) => (
+                        <div key={subIndex}>
+                          <h1 className=" font-black  px-4">
+                            {subcategory.title}
+                          </h1>
+                          <ul className="text-stone-500 hoer:text-[#48CAB2] py-3 md:w-[200px] lg:w-[200px]">
+                            {subcategory.items.map((item, itemIndex) => (
+                              <ListItem key={itemIndex} href="/" title={item} />
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              ))}
+            </NavigationMenuList>
+          </NavigationMenu>
+        </div>
+      ) : (
+        <div className="relative w-3/4 h-full">
+          <AlignLeft onClick={toggleSidebar} />
+          {sidebarOpen && (
+            <div className="bg-gray-100 text-white h-full w-64 flex flex-col">
+              <div className="flex flex-row p-3">
+                <X className="text-black" onClick={toggleSidebar} />
+                <div className="text-black">Close</div>
+              </div>
+              <div className="text-black h-full w-64 flex flex-row items-center">
+                <div className="p-4 text-sm font-semibold flex-1">
+                  CATEGORIES
+                </div>
+                <ChevronRight />
+              </div>
+              <div className="text-black h-full w-64 flex flex-row items-center">
+                <div className="p-4 text-sm font-semibold flex-1">ABOUT US</div>
+                <ChevronRight />
+              </div>
+              <div className="text-black h-full w-64 flex flex-row items-center">
+                <div className="p-4 text-sm font-semibold flex-1">SHIPPING</div>
+                <ChevronRight />
+              </div>
+              <div className="text-black h-full w-64 flex flex-row items-center">
+                <div className="p-4 text-sm font-semibold flex-1">RETURN</div>
+                <ChevronRight />
+              </div>
+            </div>
+          )}
+        </div>
+      )}
       <div className="bg-[#333333] flex-1  sm:py-4">
         <NavigationMenu>
           <NavigationMenuList>
