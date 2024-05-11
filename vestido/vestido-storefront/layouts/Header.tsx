@@ -7,8 +7,10 @@ import { Search } from 'lucide-react';
 import { Input } from '@vestido-ecommerce/shadcn-ui/input';
 import Image from 'next/image';
 import Link from 'next/link';
+import useIsMobile from '../hooks/useIsMobile';
 
 const Header = () => {
+  const isMobile = useIsMobile();
   const { ref, inView } = useInView({
     threshold: 0,
   });
@@ -17,10 +19,10 @@ const Header = () => {
     <div ref={ref}>
       {inView ? (
         <>
-          <div className="flex justify-between items-center py-4 transition-all">
+          <div className="flex justify-between items-center py-4 transition-all px-3 lg:px-0">
             {/* Logo */}
             <Link href="/">
-              <div className="flex items-center">
+              {/* <div className="flex items-center">
                 <span>
                   {' '}
                   <Image
@@ -38,7 +40,27 @@ const Header = () => {
                     height="250"
                   />
                 </span>
-              </div>
+              </div> */}
+              {isMobile ? (
+                <span>
+                  {' '}
+                  <Image
+                    src="/assets/favico.ico"
+                    alt="Logo"
+                    width="25"
+                    height="35"
+                  />
+                </span>
+              ) : (
+                <span className="self-end">
+                  <Image
+                    src="/assets/new-logo.png"
+                    alt="Logo"
+                    width="250"
+                    height="250"
+                  />
+                </span>
+              )}
             </Link>
             <div className="relative hidden md:flex space-x-4 items-center justify-items-center content-center">
               <Input
