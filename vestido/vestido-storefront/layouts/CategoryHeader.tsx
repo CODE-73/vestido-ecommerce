@@ -12,6 +12,13 @@ import { cn } from 'libs/shadcn-ui/src/utils';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import CategoriesDropDown from '../modules/HomePage/CategoriesDropDown';
+import { BsInfoCircle } from 'react-icons/bs';
+import { LiaShippingFastSolid } from 'react-icons/lia';
+import { IoIosReturnLeft } from 'react-icons/io';
+import { FaQuestionCircle } from 'react-icons/fa';
+import { TbRulerMeasure } from 'react-icons/tb';
+import { IoCallOutline, IoSettingsOutline } from 'react-icons/io5';
+import { TiSpannerOutline } from 'react-icons/ti';
 type ListItemProps = {
   href: string;
   title: string;
@@ -118,14 +125,35 @@ const CategoryHeader = () => {
               <div>Categories</div>
             </div>
             <div className="dropdown flex text-black flex-col gap-11 absolute z-10 pt-3 bg-white w-full cursor-pointer border-solid border-2 border-slate-200 pl-2">
-              <div className="hover:text-[#48CAB2] ">About Us</div>
-              <div className="hover:text-[#48CAB2]">Shipping</div>
-              <div className="hover:text-[#48CAB2]">Return</div>
-              <div className="hover:text-[#48CAB2]">FAQs</div>
-              <div className="hover:text-[#48CAB2]">Contact Us</div>
-              <div className="hover:text-[#48CAB2]">Maintenance</div>
-              <div className="hover:text-[#48CAB2]">Settings</div>
-              <div className="hover:text-[#48CAB2]">Documentation</div>
+              <div className="hover:text-[#48CAB2] flex items-center gap-3">
+                <BsInfoCircle size={25} />
+                About Us
+              </div>
+              <div className="hover:text-[#48CAB2] flex items-center gap-3">
+                <LiaShippingFastSolid size={25} />
+                Shipping
+              </div>
+              <div className="hover:text-[#48CAB2] flex items-center gap-3">
+                <IoIosReturnLeft size={25} /> Return
+              </div>
+              <div className="hover:text-[#48CAB2] flex items-center gap-3">
+                <FaQuestionCircle size={25} /> FAQs
+              </div>
+              <div className="hover:text-[#48CAB2] flex items-center gap-3">
+                <IoCallOutline size={25} />
+                Contact Us
+              </div>
+              <div className="hover:text-[#48CAB2] flex items-center gap-3">
+                <TiSpannerOutline size={25} /> Maintenance
+              </div>
+              <div className="hover:text-[#48CAB2] flex items-center gap-3">
+                <IoSettingsOutline size={25} />
+                Settings
+              </div>
+              <div className="hover:text-[#48CAB2] flex items-center gap-3">
+                <TbRulerMeasure size={25} />
+                Size Guide
+              </div>
             </div>
           </div>
         ) : (

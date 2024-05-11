@@ -20,27 +20,7 @@ const Header = () => {
       {inView ? (
         <>
           <div className="flex justify-between items-center py-4 transition-all px-3 lg:px-0">
-            {/* Logo */}
             <Link href="/">
-              {/* <div className="flex items-center">
-                <span>
-                  {' '}
-                  <Image
-                    src="/assets/favico.ico"
-                    alt="Logo"
-                    width="25"
-                    height="35"
-                  />
-                </span>
-                <span className="self-end">
-                  <Image
-                    src="/assets/VN-HEADER-2.png"
-                    alt="Logo"
-                    width="250"
-                    height="250"
-                  />
-                </span>
-              </div> */}
               {isMobile ? (
                 <span>
                   {' '}
