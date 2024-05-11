@@ -42,7 +42,7 @@ const Header = () => {
                 </span>
               )}
             </Link>
-            <div className="basis-1/2 relative hidden md:flex space-x-4 items-center justify-items-center content-center">
+            <div className="basis-2/5 relative hidden md:flex space-x-4 items-center justify-items-center content-center">
               <Input
                 name="search-products"
                 placeholder="Search Products..."
