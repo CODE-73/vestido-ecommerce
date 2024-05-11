@@ -1,4 +1,4 @@
-import { AlignLeft, ChevronRight, Search } from 'lucide-react';
+import { AlignLeft, ChevronDown, ChevronUp, Search } from 'lucide-react';
 import { useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import Image from 'next/image';
@@ -13,9 +13,21 @@ import { AiOutlineMan, AiOutlineWoman } from 'react-icons/ai';
 
 const Header: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [dropdownsOpen, setDropdownsOpen] = useState({
+    men: false,
+    women: false,
+  });
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
+  };
+
+  const toggleDropdown = (dropdown: 'men' | 'women') => {
+    setDropdownsOpen((prevState) => ({
+      ...prevState,
+      [dropdown]: !prevState[dropdown],
+      [dropdown === 'men' ? 'women' : 'men']: false,
+    }));
   };
 
   return (
@@ -55,20 +67,55 @@ const Header: React.FC = () => {
             <AiOutlineClose size={24} />
             Close
           </button>
-          <div className="flex justify-between">
+          <div
+            className="flex justify-between"
+            onClick={() => toggleDropdown('men')}
+          >
             <div className=" flex items-center gap-3">
               <AiOutlineMan size={25} />
               Men
             </div>
-            <ChevronRight />
+            {dropdownsOpen.men ? <ChevronUp /> : <ChevronDown />}
           </div>
-          <div className="flex justify-between">
+          {dropdownsOpen.men && (
+            <div className="capitalize font-normal text-md">
+              <div className="underline decoration-4 underline-offset-4">
+                Topwears
+              </div>
+              <div className="flex flex-col pt-4 ">
+                <span>Formal Shirts</span>
+                <span>Casual Shirts</span>
+              </div>
+              <hr className="my-4" />
+              <div className="underline decoration-4 underline-offset-4">
+                Bottomwears
+              </div>
+              <div className="flex flex-col pt-4 ">
+                <span>Formal Pants</span>
+                <span>Casual Pants</span>
+              </div>
+            </div>
+          )}
+          <div
+            className="flex justify-between"
+            onClick={() => toggleDropdown('women')}
+          >
             <div className="flex items-center gap-3">
               <AiOutlineWoman size={25} />
               Women
             </div>
-            <ChevronRight />
+            {dropdownsOpen.women ? <ChevronUp /> : <ChevronDown />}
           </div>{' '}
+          {dropdownsOpen.women && (
+            <div className="capitalize font-normal text-md">
+              <div className="flex flex-col gap-4 pt-4 ">
+                <span>A-line dresses</span>
+                <span>Bodycon Dresses</span>
+                <span>Floral Dresses</span>
+                <span>Cocktail Dresses</span>
+              </div>
+            </div>
+          )}
           <hr />
           <div className="hover:text-[#48CAB2] flex items-center gap-3">
             <BsInfoCircle size={25} />
