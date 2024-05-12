@@ -7,18 +7,22 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from '@vestido-ecommerce/shadcn-ui/navigation-menu';
-import { AlignLeft } from 'lucide-react';
+import {
+  AlignLeft,
+  Headset,
+  MessageCircleQuestion,
+  Ruler,
+  Settings2,
+  Ship,
+  Store,
+  Truck,
+  Undo2,
+  Wrench,
+} from 'lucide-react';
 import { cn } from 'libs/shadcn-ui/src/utils';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import CategoriesDropDown from '../modules/HomePage/CategoriesDropDown';
-import { BsInfoCircle } from 'react-icons/bs';
-import { LiaShippingFastSolid } from 'react-icons/lia';
-import { IoIosReturnLeft } from 'react-icons/io';
-import { FaQuestionCircle } from 'react-icons/fa';
-import { TbRulerMeasure } from 'react-icons/tb';
-import { IoCallOutline, IoSettingsOutline } from 'react-icons/io5';
-import { TiSpannerOutline } from 'react-icons/ti';
 type ListItemProps = {
   href: string;
   title: string;
@@ -124,34 +128,34 @@ const CategoryHeader = () => {
               <AlignLeft />
               <div>Categories</div>
             </div>
-            <div className="dropdown pb-2 flex text-black flex-col gap-11 absolute z-10 pt-3 bg-white w-full cursor-pointer border-solid border-2 border-slate-200 pl-2">
+            <div className="dropdown pb-2 flex text-black flex-col gap-10 absolute z-10 pt-3 bg-white w-full cursor-pointer border-solid border-2 border-slate-200 pl-2">
               <div className="hover:text-[#48CAB2] flex items-center gap-3">
-                <BsInfoCircle size={25} />
+                <Store size={28} strokeWidth={1.3} />
                 About Us
               </div>
               <div className="hover:text-[#48CAB2] flex items-center gap-3">
-                <LiaShippingFastSolid size={25} />
+                <Truck size={28} strokeWidth={1.3} />
                 Shipping
               </div>
               <div className="hover:text-[#48CAB2] flex items-center gap-3">
-                <IoIosReturnLeft size={25} /> Return
+                <Undo2 size={28} strokeWidth={1.3} /> Return
               </div>
               <div className="hover:text-[#48CAB2] flex items-center gap-3">
-                <FaQuestionCircle size={25} /> FAQs
+                <MessageCircleQuestion size={28} strokeWidth={1.3} /> FAQs
               </div>
               <div className="hover:text-[#48CAB2] flex items-center gap-3">
-                <IoCallOutline size={25} />
+                <Headset size={28} strokeWidth={1.3} />
                 Contact Us
               </div>
               <div className="hover:text-[#48CAB2] flex items-center gap-3">
-                <TiSpannerOutline size={25} /> Maintenance
+                <Wrench size={28} strokeWidth={1.3} /> Maintenance
               </div>
               <div className="hover:text-[#48CAB2] flex items-center gap-3">
-                <IoSettingsOutline size={25} />
+                <Settings2 size={28} strokeWidth={1.3} />
                 Settings
               </div>
               <div className="hover:text-[#48CAB2] flex items-center gap-3">
-                <TbRulerMeasure size={25} />
+                <Ruler size={28} strokeWidth={1.3} />
                 Size Guide
               </div>
             </div>

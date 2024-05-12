@@ -11,7 +11,7 @@ const MainLayout: React.FC<LayoutProps> = ({ children }) => {
   const hideFooter = ['/checkout/Checkout'].includes(router.pathname);
 
   return (
-    <div className="bg-background justify-center items-center flex flex-col">
+    <div className="bg-background justify-center items-center flex flex-col scroll-smooth">
       <div className="lg:max-w-7xl">
         <div>
           <Header />

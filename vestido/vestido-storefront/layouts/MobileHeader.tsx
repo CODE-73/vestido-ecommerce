@@ -1,14 +1,22 @@
-import { AlignLeft, ChevronDown, ChevronUp, Search, X } from 'lucide-react';
+import {
+  AlignLeft,
+  ChevronDown,
+  ChevronUp,
+  Search,
+  Headset,
+  MessageCircleQuestion,
+  Ruler,
+  Settings2,
+  Store,
+  Truck,
+  Undo2,
+  Wrench,
+  X,
+} from 'lucide-react';
 import { useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import Image from 'next/image';
-import { BsInfoCircle } from 'react-icons/bs';
-import { LiaShippingFastSolid } from 'react-icons/lia';
-import { IoIosReturnLeft } from 'react-icons/io';
-import { FaQuestionCircle } from 'react-icons/fa';
-import { TbRulerMeasure } from 'react-icons/tb';
-import { IoCallOutline, IoSettingsOutline } from 'react-icons/io5';
-import { TiSpannerOutline } from 'react-icons/ti';
+import {} from 'lucide-react';
 import { AiOutlineMan, AiOutlineWoman } from 'react-icons/ai';
 import { Input } from '@vestido-ecommerce/shadcn-ui/input';
 
@@ -85,7 +93,7 @@ const Header: React.FC = () => {
             className="text-gray-400 flex gap-2 mb-10"
             onClick={toggleDrawer}
           >
-            <AiOutlineClose size={24} />
+            <X size={24} />
             Close
           </button>
           <div
@@ -139,32 +147,32 @@ const Header: React.FC = () => {
           )}
           <hr />
           <div className="hover:text-[#48CAB2] flex items-center gap-3">
-            <BsInfoCircle size={25} />
+            <Store size={28} strokeWidth={1.3} />
             About Us
           </div>
           <div className="hover:text-[#48CAB2] flex items-center gap-3">
-            <LiaShippingFastSolid size={25} />
+            <Truck size={28} strokeWidth={1.3} />
             Shipping
           </div>
           <div className="hover:text-[#48CAB2] flex items-center gap-3">
-            <IoIosReturnLeft size={25} /> Return
+            <Undo2 size={28} strokeWidth={1.3} /> Return
           </div>
           <div className="hover:text-[#48CAB2] flex items-center gap-3">
-            <FaQuestionCircle size={25} /> FAQs
+            <MessageCircleQuestion size={28} strokeWidth={1.3} /> FAQs
           </div>
           <div className="hover:text-[#48CAB2] flex items-center gap-3">
-            <IoCallOutline size={25} />
+            <Headset size={28} strokeWidth={1.3} />
             Contact Us
           </div>
           <div className="hover:text-[#48CAB2] flex items-center gap-3">
-            <TiSpannerOutline size={25} /> Maintenance
+            <Wrench size={28} strokeWidth={1.3} /> Maintenance
           </div>
           <div className="hover:text-[#48CAB2] flex items-center gap-3">
-            <IoSettingsOutline size={25} />
+            <Settings2 size={28} strokeWidth={1.3} />
             Settings
           </div>
           <div className="hover:text-[#48CAB2] flex items-center gap-3">
-            <TbRulerMeasure size={25} />
+            <Ruler size={28} strokeWidth={1.3} />
             Size Guide
           </div>
         </div>
