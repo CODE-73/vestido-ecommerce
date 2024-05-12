@@ -1,9 +1,9 @@
-import category1 from '../../../assets/category/coats.jpg';
-import category2 from '../../../assets/category/jackets.jpg';
-import category3 from '../../../assets/category/shirts.jpg';
-import category4 from '../../../assets/category/jeans.jpg';
+import category1 from '../../../assets/category/bodycon.jpeg';
+import category2 from '../../../assets/category/wrap.jpeg';
+import category3 from '../../../assets/category/floral.jpeg';
+import category4 from '../../../assets/category/shirts.jpeg';
 import category5 from '../../../assets/category/tshirts.jpg';
-import category6 from '../../../assets/category/shoes.jpg';
+import category6 from '../../../assets/category/jeans.jpg';
 import { FC } from 'react';
 import clsx from 'clsx';
 import CategoryCard, { CategoryCardData } from './CategoryCard';
@@ -11,19 +11,19 @@ import CategoryCard, { CategoryCardData } from './CategoryCard';
 const cards: CategoryCardData[] = [
   {
     cardImage: category1,
-    title: 'Coats',
+    title: 'Bodycon Dress',
   },
   {
     cardImage: category2,
-    title: 'Jackets',
+    title: 'Wrap Dress',
   },
   {
     cardImage: category3,
-    title: 'Shirts',
+    title: 'Floral Dress',
   },
   {
     cardImage: category4,
-    title: 'Jeans',
+    title: 'Shirts',
   },
   {
     cardImage: category5,
@@ -31,7 +31,7 @@ const cards: CategoryCardData[] = [
   },
   {
     cardImage: category6,
-    title: 'Shoes',
+    title: 'Pants',
   },
 ];
 type CategoryCardProps = {

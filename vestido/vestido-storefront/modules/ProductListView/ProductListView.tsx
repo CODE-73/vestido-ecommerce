@@ -3,7 +3,6 @@ import Image from 'next/image';
 import { ShoppingBag } from 'lucide-react';
 import { useState } from 'react';
 import { AddToWishListButton } from '../HomePage/SpecialOffer/AddToWishlistButton';
-import { AddToCompareButton } from '../HomePage/SpecialOffer/AddToCompareButton';
 import { QuickViewButton } from '../HomePage/SpecialOffer/QuickViewButton';
 import useIsMobile from '../../hooks/useIsMobile';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
@@ -158,7 +157,6 @@ const ProductlistView: React.FC = () => {
             )}
             <div className="sm:hidden flex flex-row justify-start sm:group-hover:flex sm:flex-col gap-3 sm:absolute top-3 right-3 pt-2 sm:pt-0">
               <AddToWishListButton />
-              <AddToCompareButton />
               <QuickViewButton />
             </div>
           </div>

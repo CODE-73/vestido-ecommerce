@@ -3,7 +3,6 @@ import { Badge } from 'libs/shadcn-ui/src/ui/badge';
 import { ShoppingBag, Star } from 'lucide-react';
 import { useState } from 'react';
 import { AddToWishListButton } from './AddToWishlistButton';
-import { AddToCompareButton } from './AddToCompareButton';
 import { QuickViewButton } from './QuickViewButton';
 import useIsMobile from 'vestido/vestido-storefront/hooks/useIsMobile';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
@@ -93,7 +92,6 @@ const SpecialOfferCard: React.FC<SpecialOfferCardProps> = ({ data }) => {
       )}
       <div className="sm:hidden flex flex-row justify-start sm:group-hover:flex sm:flex-col gap-3 sm:absolute top-3 right-3 pt-2 sm:pt-0">
         <AddToWishListButton />
-        <AddToCompareButton />
         <QuickViewButton />
       </div>
     </div>
