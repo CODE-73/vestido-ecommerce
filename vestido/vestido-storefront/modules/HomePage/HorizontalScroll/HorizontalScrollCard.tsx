@@ -32,7 +32,7 @@ const HorizontalScrollCard: React.FC<ScrollCardProps> = ({ data }) => {
         </div>
 
         <div className="font-extralight w-full">{data.subtitle2}</div>
-        <div className="sm:hidden group-hover:block">
+        <div className="sm:hidden group-hover:block -m-4">
           <DiscoverButton />
         </div>
       </div>

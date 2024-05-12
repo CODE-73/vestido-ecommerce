@@ -47,8 +47,7 @@ const HomePage: React.FC = () => {
       <CategoryCards className="pt-4" />
       <TopProducts className="pt-16 sm:pt-24 max-w-[100vw] overflow-hidden px-4 sm:px-0" />
       <PopularCollection className="pt-16 px-1 sm:px-0" />
-      <HorizontalScrollCards className="w-full relative pt-24 px-1 sm:px-0" />
-
+      <HorizontalScrollCards className="w-full relative my-24 px-1 sm:px-0" />
       {!isMobile && showBackToTop && <BackToTopButton onClick={scrollToTop} />}
     </div>
   );

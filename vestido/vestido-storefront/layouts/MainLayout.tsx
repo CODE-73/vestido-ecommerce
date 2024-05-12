@@ -20,7 +20,7 @@ const MainLayout: React.FC<LayoutProps> = ({ children }) => {
         <main className={`w-[100vw] lg:w-full`}>{children}</main>
       </div>
       {!hideFooter && (
-        <div className="w-full">
+        <div className="w-full lg:mt-10">
           <Footer />
         </div>
       )}
