@@ -1,6 +1,6 @@
 import { CategoryListResponse } from './types';
 
-export async function listCategories(
+export async function getCategoriesList(
   query?: string
 ): Promise<CategoryListResponse> {
   const r = await fetch('/api/categories');
@@ -11,6 +11,6 @@ export async function listCategories(
   }
 
   const data = await r.json();
-  console.log('the item list is below', data);
+  console.log('the categories list is below', data);
   return data as CategoryListResponse;
 }
