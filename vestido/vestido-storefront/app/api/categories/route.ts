@@ -11,27 +11,13 @@ export async function GET(request: Request) {
       },
     });
   } catch (e) {
-    if (e instanceof ZodError) {
-      return new Response(JSON.stringify(e), {
-        status: 400,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    } else {
-      console.error('Unexpected Error', e);
-      return new Response(
-        JSON.stringify({
-          message: 'Unknown Error',
-        }),
-        {
-          status: 500,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-    }
+    console.error(e);
+    return new Response(JSON.stringify(e), {
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
   }
 }
 
@@ -41,7 +27,11 @@ export async function POST(request: Request) {
     console.log(body);
     const newCategory = await createCategory(body);
 
-    return new Response(JSON.stringify(newCategory), {
+    const r = {
+      data: newCategory,
+    };
+
+    return new Response(JSON.stringify(r), {
       headers: {
         'Content-Type': 'application/son',
       },
