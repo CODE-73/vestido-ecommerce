@@ -25,7 +25,7 @@ const CollapsableFooterSection: React.FC<CollapsableFooterSectionProps> = ({
   }, [collapsible, title, activeSection]);
 
   return (
-    <div className="w-full flex flex-col md:w-1/4 pr-4 mb-4 md:mb-0">
+    <div className="w-full flex flex-col md:w-3/4 pr-4 mb-4 md:mb-0">
       <div className="flex items-center justify-between">
         <h1 className="font-black text-base text-[#333] sm:pb-4 xl:pb-4">
           {title}
