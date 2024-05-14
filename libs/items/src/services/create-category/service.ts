@@ -1,13 +1,12 @@
-import { CreateCategoryRequest } from './types';
 import { PrismaClient } from '@prisma/client';
-import { CreateCategorySchema } from './zod';
+import { CreateCategorySchema, CreateCategorySchemaType } from './zod';
 
-export async function createCategory(body: CreateCategoryRequest) {
+export async function createCategory(body: CreateCategorySchemaType) {
   const prisma = new PrismaClient();
 
   const validatedData = CreateCategorySchema.parse(body);
 
-  const newCategory = prisma.category.create({
+  const newCategory = await prisma.category.create({
     data: validatedData,
   });
 

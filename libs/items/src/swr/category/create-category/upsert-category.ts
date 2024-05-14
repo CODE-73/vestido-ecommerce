@@ -1,15 +1,15 @@
 import useSWRMutation from 'swr/mutation';
-import { CategorySWRKeys } from '../keys';
-import { CategoryUpsertRequest, CategoryUpsertResponse } from './types';
+import { CategoryUpsertSWRKeys } from '../keys';
+import { categoryUpsertRequest, categoryUpsertResponse } from './types';
 import { upsertCategory } from './service';
 
-export async function useCategoryUpsert(data: CategoryUpsertRequest) {
-  const key = [CategorySWRKeys.CATEGORY];
+export const useCategoryUpsert = () => {
+  const key = [CategoryUpsertSWRKeys.CATEGORY, CategoryUpsertSWRKeys.UPSERT];
 
   return useSWRMutation<
-    CategoryUpsertResponse,
+    categoryUpsertResponse,
     Error,
-    String[] | null,
-    CategoryUpsertRequest
+    string[] | null,
+    categoryUpsertRequest
   >(key, (_, { arg }) => upsertCategory({ ...arg }));
-}
+};

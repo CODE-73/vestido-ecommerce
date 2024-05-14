@@ -1,11 +1,11 @@
-import { CategoryUpsertRequest, CategoryUpsertResponse } from './types';
+import { categoryUpsertRequest, categoryUpsertResponse } from './types';
 
 export async function upsertCategory(
-  args: CategoryUpsertRequest
-): Promise<CategoryUpsertResponse> {
+  args: categoryUpsertRequest
+): Promise<categoryUpsertResponse> {
   let url = '/api/categories';
   let method = 'POST';
-  const categoryId = args.data.id;
+  const categoryId = args.id;
 
   if (categoryId) {
     url = `/api/categories/${encodeURIComponent(categoryId)}`;
@@ -20,10 +20,12 @@ export async function upsertCategory(
     },
     body: JSON.stringify(args),
   });
+  console.log('r is', r);
   if (!r.ok) {
-    throw new Error('Error Upserting Item');
+    throw new Error('Error Upserting Category');
   }
 
   const data = await r.json();
-  return data as CategoryUpsertResponse;
+  console.log('data from swr service is', data);
+  return data as categoryUpsertResponse;
 }
