@@ -1,4 +1,3 @@
-
 import { InputElement } from '../../forms/input-element';
 import { Form } from 'libs/shadcn-ui/src/ui/form';
 import { Button } from 'libs/shadcn-ui/src/ui/button';
@@ -7,8 +6,6 @@ import { useForm } from 'react-hook-form';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { ProductsTable } from './ProductsTable';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
-
 
 const Products: React.FC = () => {
   const router = useRouter();
@@ -40,16 +37,12 @@ const Products: React.FC = () => {
                 />
               </div>
 
-              <Link href="/products/add">
-
-                <Button
-                  onClick={handleButtonClick}
-                  className="p-5 whitespace-nowrap "
-                >
-                  + Add New
-                </Button>
-
-              </Link>
+              <Button
+                onClick={handleButtonClick}
+                className="p-5 whitespace-nowrap "
+              >
+                + Add New
+              </Button>
             </div>
           </div>
 
