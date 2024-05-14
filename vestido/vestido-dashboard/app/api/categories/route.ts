@@ -5,11 +5,17 @@ export async function GET(request: Request) {
   try {
     const categories = await listCategories();
 
-    return new Response(JSON.stringify(categories), {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    return new Response(
+      JSON.stringify({
+        success: true,
+        data: categories,
+      }),
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
   } catch (e) {
     console.error(e);
     return new Response(JSON.stringify(e), {
@@ -27,9 +33,7 @@ export async function POST(request: Request) {
     console.log(body);
     const newCategory = await createCategory(body);
 
-    const r = {
-      data: newCategory,
-    };
+    const r = newCategory;
 
     return new Response(JSON.stringify(r), {
       headers: {

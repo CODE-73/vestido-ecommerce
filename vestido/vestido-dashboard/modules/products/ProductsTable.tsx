@@ -1,7 +1,6 @@
 import {
   Table,
   TableBody,
-
   TableCell,
   TableFooter,
   TableHead,
@@ -15,6 +14,7 @@ import { useRouter } from 'next/router';
 export function ProductsTable() {
   const router = useRouter();
   const { data } = useItems();
+  console.log('item data is', data);
 
   const handleRowClick = (product: string) => {
     console.log(product);
@@ -35,9 +35,7 @@ export function ProductsTable() {
       <TableBody>
         {data?.data &&
           data.data.map((item) => (
-
             <TableRow key={item.id} onClick={() => handleRowClick(item.id)}>
-
               <TableCell className="font-medium">{item.id}</TableCell>
               <TableCell>{item.title}</TableCell>
               <TableCell>{item.price}</TableCell>
