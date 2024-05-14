@@ -10,7 +10,7 @@ const Footer = () => {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row text-gray-500 p-7 2xl:px-72 py-14 bg-zinc-100">
+      <div className="flex flex-col md:flex-row text-gray-500 p-7 2xl:px-72 py-14 bg-zinc-100 ">
         <CollapsableFooterSection
           title="Info"
           collapsible={isMobile}
@@ -46,23 +46,24 @@ const Footer = () => {
           <a href="/compare">Compare</a>
         </CollapsableFooterSection>
         <CollapsableFooterSection
-          title="Store"
+          title="Warehouse"
           collapsible={isMobile}
           activeSection={activeSection}
           setActiveSection={setActiveSection}
         >
           <div className="line-clamp-3">
-            <p>2548 Broaddus Maple Court Avenue, Madisonville KY 4783,</p>
+            <p>2548 Broaddus Maple Court Avenue, Madisonville</p>
             <p>United States of America</p>
           </div>
-          <div className="text-[#333]">
-            Call Us:<b>1–234–5678901</b>
+          <div className="flex flex-row text-[#333] text-base pt-5">
+            <div className="text-gray-500">Call Us:</div>
+            <b className="font-extrabold">1–234–5678901</b>
           </div>
-          <div>Mon-Sun: 9:00am - 9:00pm</div>
+          <div className="text-sm">Mon-Sun: 9:00am - 9:00pm</div>
         </CollapsableFooterSection>
 
         <div className="space-y-4 text-gray-500  ">
-          <h1 className="font-bold text-xl text-[#333]">
+          <h1 className="font-bold text-base text-[#333]">
             Subscribe to Our Newsletter!
           </h1>
           <div className="relative">
@@ -73,12 +74,12 @@ const Footer = () => {
             />
             <Mail className="absolute top-1/2 transform -translate-y-1/2 right-3" />
           </div>
-          <div>
+          <div className="text-sm">
             <p> By entering your email, you agree to </p>our Terms of Service
             and Privacy Policy.
           </div>
           <div className="flex flex-row space-x-4 opacity-50">
-            <div className="text-[#333] font-bold text-xl "> Follow Us:</div>
+            <div className="text-[#333] font-bold text-base "> Follow Us:</div>
             <Facebook />
             <Twitter />
             <Instagram />
