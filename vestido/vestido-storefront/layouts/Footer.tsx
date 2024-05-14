@@ -10,75 +10,84 @@ const Footer = () => {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row text-gray-500 p-7 2xl:px-72 py-14 bg-zinc-100">
-        <CollapsableFooterSection
-          title="Info"
-          collapsible={isMobile}
-          activeSection={activeSection}
-          setActiveSection={setActiveSection}
-        >
-          <a href="/about-us">About Us</a>
-          <a href="/shipping-and-returns">Shipping and Returns</a>
-          <a href="/contact-us">Contact Us</a>
-          <a href="/404-Page">404 Page</a>
-          <a href="/maintenance">Maintenance</a>
-        </CollapsableFooterSection>
-        <CollapsableFooterSection
-          title="Our Policies"
-          collapsible={isMobile}
-          activeSection={activeSection}
-          setActiveSection={setActiveSection}
-        >
-          <a href="/faqs">FAQs</a>
-          <a href="/privacy-policy">Privacy Policy</a>
-          <a href="/cookie-policy">Cookie Policy</a>
-          <a href="/terms-and-conditions">Terms and Conditions</a>
-        </CollapsableFooterSection>
-        <CollapsableFooterSection
-          title="Order"
-          collapsible={isMobile}
-          activeSection={activeSection}
-          setActiveSection={setActiveSection}
-        >
-          <a href="/my-account">My Account</a>
-          <a href="/view-cart">View Cart</a>
-          <a href="/wishlist">Wishlist</a>
-          <a href="/compare">Compare</a>
-        </CollapsableFooterSection>
-        <CollapsableFooterSection
-          title="Store"
-          collapsible={isMobile}
-          activeSection={activeSection}
-          setActiveSection={setActiveSection}
-        >
-          <div className="line-clamp-3">
-            <p>2548 Broaddus Maple Court Avenue, Madisonville KY 4783,</p>
-            <p>United States of America</p>
-          </div>
-          <div className="text-[#333]">
-            Call Us:<b>1–234–5678901</b>
-          </div>
-          <div>Mon-Sun: 9:00am - 9:00pm</div>
-        </CollapsableFooterSection>
+      <div className="grid grid-cols-1 sm:grid-cols-12 text-[#888888] text-md p-7 2xl:px-72 py-14 bg-zinc-100 ">
+        <div className="sm:col-span-4 xl:col-span-2">
+          <CollapsableFooterSection
+            title="Info"
+            collapsible={isMobile}
+            activeSection={activeSection}
+            setActiveSection={setActiveSection}
+          >
+            <a href="/about-us">About Us</a>
+            <a href="/shipping-and-returns">Shipping and Returns</a>
+            <a href="/contact-us">Contact Us</a>
+            <a href="/404-Page">404 Page</a>
+            <a href="/maintenance">Maintenance</a>
+          </CollapsableFooterSection>
+        </div>
+        <div className="sm:col-span-4 xl:col-span-2">
+          <CollapsableFooterSection
+            title="Our Policies"
+            collapsible={isMobile}
+            activeSection={activeSection}
+            setActiveSection={setActiveSection}
+          >
+            <a href="/faqs">FAQs</a>
+            <a href="/privacy-policy">Privacy Policy</a>
+            <a href="/cookie-policy">Cookie Policy</a>
+            <a href="/terms-and-conditions">Terms and Conditions</a>
+          </CollapsableFooterSection>
+        </div>
+        <div className="sm:col-span-4 xl:col-span-2">
+          <CollapsableFooterSection
+            title="Order"
+            collapsible={isMobile}
+            activeSection={activeSection}
+            setActiveSection={setActiveSection}
+          >
+            <a href="/my-account">My Account</a>
+            <a href="/view-cart">View Cart</a>
+            <a href="/wishlist">Wishlist</a>
+            <a href="/compare">Compare</a>
+          </CollapsableFooterSection>
+        </div>
+        <div className="sm:col-span-6 xl:col-span-3 sm:pt-10 xl:pt-0">
+          <CollapsableFooterSection
+            title="Warehouse"
+            collapsible={isMobile}
+            activeSection={activeSection}
+            setActiveSection={setActiveSection}
+          >
+            <div className="line-clamp-3">
+              <p>2548 Broaddus Maple Court Avenue, Madisonville KY4783,</p>
+              <p>United States of America</p>
+            </div>
+            <div className="flex flex-row text-[#333] text-base pt-5">
+              <div className="text-gray-500">Call Us:</div>
+              <b className="font-extrabold">1–234–5678901</b>
+            </div>
+            <div className="text-sm">Mon-Sun: 9:00am - 9:00pm</div>
+          </CollapsableFooterSection>
+        </div>
 
-        <div className="space-y-4 text-gray-500  ">
-          <h1 className="font-bold text-xl text-[#333]">
+        <div className="space-y-4 text-gray-500 sm:col-span-6 xl:col-span-3 sm:pt-10 xl:pt-0">
+          <h1 className="font-bold text-base text-[#333]">
             Subscribe to Our Newsletter!
           </h1>
           <div className="relative">
             <Input
-              className="px-4 py-2 pr-10 w-full border rounded-md"
+              className="px-4 py-2 pr-10 w-4/5 border rounded-md placeholder:font-bold placeholder:text-gray-500"
               type="email"
               placeholder="Enter your e-mail"
             />
-            <Mail className="absolute top-1/2 transform -translate-y-1/2 right-3" />
+            <Mail className="absolute top-1/2 transform -translate-y-1/2 right-20" />
           </div>
-          <div>
-            <p> By entering your email, you agree to </p>our Terms of Service
-            and Privacy Policy.
+          <div className="text-sm w-3/4 leading-relaxed">
+            By entering your email, you agree to our Terms of Service and
+            Privacy Policy.
           </div>
           <div className="flex flex-row space-x-4 opacity-50">
-            <div className="text-[#333] font-bold text-xl "> Follow Us:</div>
+            <div className="text-black font-bold text-base "> Follow Us:</div>
             <Facebook />
             <Twitter />
             <Instagram />
