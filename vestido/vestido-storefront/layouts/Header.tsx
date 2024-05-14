@@ -9,6 +9,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import useIsMobile from '../hooks/useIsMobile';
 import MobileHeader from './MobileHeader';
+import AddOnHeader from './AddOnHeader';
 
 const Header = () => {
   const isMobile = useIsMobile();
@@ -21,39 +22,9 @@ const Header = () => {
       <div className="hidden sm:block" ref={ref}>
         {inView ? (
           <>
-            <div className="flex flex-row text-[#333] text-sm pt-5">
-              <div className="flex flex-row text-gray-500 justify-start">
-                Call Us:
-              </div>
-              <div className="font-extrabold">1–234–5678901</div>
-              <div className="mr-60 flex flex-row  text-gray-500 ml-auto">
-                <div className="text-[#333] text-sm font-bold">
-                  FREE 2-DAYS &nbsp;
-                </div>
-                <div> standard shipping on orders $255</div>
-              </div>
-              <div className="flex flex-row text-gray-500 justify-end pb-2">
-                <a
-                  href="/wishlist"
-                  className="mr-2 hover:underline hover:text-[#333] transition duration-300"
-                >
-                  Facebook
-                </a>
-                <a
-                  href="/wishlist"
-                  className="mr-2 hover:underline hover:text-[#333] transition duration-300"
-                >
-                  Twitter
-                </a>
-                <a
-                  href="/wishlist"
-                  className="hover:underline hover:text-[#333] transition duration-300"
-                >
-                  Instagram
-                </a>
-              </div>
-            </div>
-            <div className="border-t border-gray-300 "></div>
+            <AddOnHeader />
+            <hr />
+            {/* <div className="border-t border-gray-300 "></div> */}
 
             <div className="w-full flex justify-between items-center py-4 transition-all px-3 lg:px-0">
               <Link href="/">
