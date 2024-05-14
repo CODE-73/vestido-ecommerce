@@ -12,6 +12,7 @@ import {
   Undo2,
   Wrench,
   X,
+  ShoppingBag,
 } from 'lucide-react';
 import { useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
@@ -19,6 +20,7 @@ import Image from 'next/image';
 import {} from 'lucide-react';
 import { AiOutlineMan, AiOutlineWoman } from 'react-icons/ai';
 import { Input } from '@vestido-ecommerce/shadcn-ui/input';
+import Link from 'next/link';
 
 const Header: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -96,6 +98,15 @@ const Header: React.FC = () => {
             <X size={24} />
             Close
           </button>
+          <hr />
+          <Link href="/cart">
+            {' '}
+            <div className="hover:text-[#48CAB2] flex items-center gap-3">
+              <ShoppingBag size={28} strokeWidth={1.3} />
+              View your cart
+            </div>
+          </Link>
+          <hr />
           <div
             className="flex justify-between"
             onClick={() => toggleDropdown('men')}
