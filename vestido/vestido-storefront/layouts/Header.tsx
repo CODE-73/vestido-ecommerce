@@ -9,6 +9,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import useIsMobile from '../hooks/useIsMobile';
 import MobileHeader from './MobileHeader';
+import AddOnHeader from './AddOnHeader';
 
 const Header = () => {
   const isMobile = useIsMobile();
@@ -21,11 +22,14 @@ const Header = () => {
       <div className="hidden sm:block" ref={ref}>
         {inView ? (
           <>
-            <div className="flex justify-between items-center py-4 transition-all px-3 lg:px-0">
+            <AddOnHeader />
+            <hr />
+            {/* <div className="border-t border-gray-300 "></div> */}
+
+            <div className="w-full flex justify-between items-center py-4 transition-all px-3 lg:px-0">
               <Link href="/">
                 {isMobile ? (
                   <span>
-                    {' '}
                     <Image
                       src="/assets/favico.ico"
                       alt="Logo"
