@@ -3,6 +3,7 @@ import { Mail, Facebook, Twitter, Instagram, Youtube } from 'lucide-react';
 import { Input } from '@vestido-ecommerce/shadcn-ui/input';
 import CollapsableFooterSection from '../modules/HomePage/CollapsableFooterSection/CollapsableFooterSection';
 import useIsMobile from '../hooks/useIsMobile';
+import Link from 'next/link';
 
 const Footer = () => {
   const isMobile = useIsMobile();
@@ -18,11 +19,11 @@ const Footer = () => {
             activeSection={activeSection}
             setActiveSection={setActiveSection}
           >
-            <a href="/about-us">About Us</a>
-            <a href="/shipping-and-returns">Shipping and Returns</a>
-            <a href="/contact-us">Contact Us</a>
-            <a href="/404-Page">404 Page</a>
-            <a href="/maintenance">Maintenance</a>
+            <Link href="/about-us">About Us</Link>
+            <Link href="/shipping-and-returns">Shipping and Returns</Link>
+            <Link href="/contact-us">Contact Us</Link>
+            <Link href="/404-Page">404 Page</Link>
+            <Link href="/maintenance">Maintenance</Link>
           </CollapsableFooterSection>
         </div>
         <div className="sm:col-span-4 xl:col-span-2">
@@ -32,10 +33,10 @@ const Footer = () => {
             activeSection={activeSection}
             setActiveSection={setActiveSection}
           >
-            <a href="/faqs">FAQs</a>
-            <a href="/privacy-policy">Privacy Policy</a>
-            <a href="/cookie-policy">Cookie Policy</a>
-            <a href="/terms-and-conditions">Terms and Conditions</a>
+            <Link href="/faqs">FAQs</Link>
+            <Link href="/privacy-policy">Privacy Policy</Link>
+            <Link href="/cookie-policy">Cookie Policy</Link>
+            <Link href="/terms-and-conditions">Terms and Conditions</Link>
           </CollapsableFooterSection>
         </div>
         <div className="sm:col-span-4 xl:col-span-2">
@@ -45,10 +46,10 @@ const Footer = () => {
             activeSection={activeSection}
             setActiveSection={setActiveSection}
           >
-            <a href="/my-account">My Account</a>
-            <a href="/view-cart">View Cart</a>
-            <a href="/wishlist">Wishlist</a>
-            <a href="/compare">Compare</a>
+            <Link href="/my-account">My Account</Link>
+            <Link href="/view-cart">View Cart</Link>
+            <Link href="/wishlist">Wishlist</Link>
+            <Link href="/compare">Compare</Link>
           </CollapsableFooterSection>
         </div>
         <div className="sm:col-span-6 xl:col-span-3 sm:pt-10 xl:pt-0">

@@ -23,18 +23,20 @@ import { cn } from 'libs/shadcn-ui/src/utils';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import CategoriesDropDown from '../modules/HomePage/CategoriesDropDown';
+import Link from 'next/link';
+
 type ListItemProps = {
   href: string;
   title: string;
 };
 const ListItem: React.FC<ListItemProps> = ({ href, title }) => (
   <li className="row-span-3">
-    <a
+    <Link
       className="flex select-none flex-col justify-start md:justify-end rounded-md  pl-3 no-underline outline-none focus:shadow-md"
       href={href}
     >
       <div className="font-normal text-sm font-medium p-1">{title}</div>
-    </a>
+    </Link>
   </li>
 );
 const categoriesData = [
