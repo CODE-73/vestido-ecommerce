@@ -19,7 +19,7 @@ import { NextPageWithLayout } from '../types/layout';
 import AuthorizedLayout from '../layouts/authorized';
 import { Toaster } from 'libs/shadcn-ui/src/ui/toaster';
 import localFont from 'next/font/local';
-
+import { AuthProvider } from '@vestido-ecommerce/auth';
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
@@ -84,7 +84,7 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
       <Head>
         <title>Dashboard - VN</title>
       </Head>
-      {getLayout(<Component {...pageProps} />)}
+      <AuthProvider>{getLayout(<Component {...pageProps} />)}</AuthProvider>
       <Toaster />
     </div>
   );
