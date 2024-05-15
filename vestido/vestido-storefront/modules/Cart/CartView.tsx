@@ -74,7 +74,7 @@ const CartView: React.FC = () => {
       <div className="text-4xl tracking-wide text-[#333333] text-center font-extrabold my-5 pt-20">
         Shopping Cart
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col px-2 sm:px-0">
         {data.map((item, index) => (
           <div key={index}>
             <div>
@@ -87,13 +87,13 @@ const CartView: React.FC = () => {
                 </div>
               </div>
               <Image
-                className="block w-52 col-span-2   "
+                className="block w-52 col-span-2"
                 src={item.cardImage1}
                 alt="alt text"
               />
               {isMobile ? (
-                <div className="flex flex-col space-y-5 pl-8">
-                  <div className="text-xl font-semibold whitespace-nowrap">
+                <div className=" col-span-5 flex flex-col space-y-5 pl-8">
+                  <div className="truncate text-md md:text-xl font-semibold whitespace-nowrap">
                     {item.name}
                   </div>
                   <div className="text-xl font-semibold text-[#48CAB2] flex ">
@@ -186,7 +186,7 @@ const CartView: React.FC = () => {
       )}
       {isMobile ? (
         <div className="flex flex-col space-y-3 w-full">
-          <div className="bg-gray-100 p-10 mr-7">
+          <div className="bg-gray-100 p-10">
             <div className="text-3xl font-extrabold pb-5">
               Estimate Shipping and Tax
             </div>
@@ -231,7 +231,7 @@ const CartView: React.FC = () => {
               </div>
             </form>
           </div>
-          <div className="bg-gray-100 p-10  mr-7 ">
+          <div className="bg-gray-100 p-10">
             <div className="text-3xl font-extrabold pb-5">Note</div>
             <div className="text-xl text-neutral-500 pb-3">
               Add special instructions for your order...
@@ -265,8 +265,8 @@ const CartView: React.FC = () => {
           </div>
         </div>
       ) : (
-        <div className="grid gap-4 grid-cols-3 h-96 p-10 mb-44 ">
-          <div className="bg-gray-100 p-10 mr-7">
+        <div className="grid gap-6 grid-cols-3 h-96 p-10 mb-44 ">
+          <div className="bg-gray-100 p-10">
             <div className="text-3xl font-extrabold pb-5">
               Estimate Shipping and Tax
             </div>
@@ -311,7 +311,7 @@ const CartView: React.FC = () => {
               </div>
             </form>
           </div>
-          <div className="bg-gray-100 p-10  mr-7 ">
+          <div className="bg-gray-100 p-10">
             <div className="text-3xl font-extrabold pb-5">Note</div>
             <div className="text-xl text-neutral-500 pb-3">
               Add special instructions for your order...
