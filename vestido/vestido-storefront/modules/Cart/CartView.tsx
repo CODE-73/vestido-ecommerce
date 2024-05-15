@@ -18,6 +18,7 @@ import { Input } from '@vestido-ecommerce/shadcn-ui/input';
 import { Label } from '@vestido-ecommerce/shadcn-ui/label';
 import { Textarea } from '@vestido-ecommerce/shadcn-ui/textarea';
 import SaleItemCart from './SaleItemCart';
+import Link from 'next/link';
 import product11 from '../../assets/offer-products/product1-1.jpg';
 import product12 from '../../assets/offer-products/product1-2.jpg';
 import product21 from '../../assets/offer-products/product2-1.jpg';
@@ -205,7 +206,7 @@ const CartView: React.FC = () => {
           </div>
           <div className="flex items-center justify-center">
             <Button className="flex items-center tracking-wide bg-[#48CAB2] w-2/3 h-14 hover:bg-white font-extrabold hover:text-black text-white justify-center">
-              <a href="/checkout/Checkout">PROCEED TO CHECKOUT</a>
+              <Link href="/checkout/Checkout">PROCEED TO CHECKOUT</Link>
             </Button>
           </div>
         </div>

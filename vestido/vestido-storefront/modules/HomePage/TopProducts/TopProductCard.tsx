@@ -6,6 +6,7 @@ import { AddToWishListButton } from './AddToWishlistButton';
 import { QuickViewButton } from './QuickViewButton';
 import useIsMobile from 'vestido/vestido-storefront/hooks/useIsMobile';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
+import Link from 'next/link';
 
 export type SpecialOfferCardData = {
   cardImage1: StaticImageData;
@@ -27,7 +28,7 @@ const SpecialOfferCard: React.FC<SpecialOfferCardProps> = ({ data }) => {
 
   return (
     <div className={`flex flex-col items-center group relative mb-10 `}>
-      <a href="/product/Product">
+      <Link href="/product/Product">
         <Image
           className="block group-hover:hidden"
           src={data.cardImage1}
@@ -38,7 +39,7 @@ const SpecialOfferCard: React.FC<SpecialOfferCardProps> = ({ data }) => {
           src={data.cardImage2}
           alt="alt text"
         />
-      </a>
+      </Link>
 
       <div className="flex self-start pt-2 gap-1 ">
         {Array.from({ length: 5 }).map((_, index) => (
