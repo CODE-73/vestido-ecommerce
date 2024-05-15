@@ -71,7 +71,9 @@ const SaleItemCart: React.FC = () => {
         Sale
       </div>
       <div className="md:px-16">
-        <div className="grid grid-cols-4 gap-10">
+        <div
+          className={`grid ${isMobile ? 'grid-cols-2' : 'grid-cols-4'} gap-10`}
+        >
           {data.map((item, index) => (
             <div
               key={index}
@@ -171,7 +173,9 @@ const SaleItemCart: React.FC = () => {
         <div className="text-5xl tracking-wide text-[#333333] text-center font-extrabold my-8">
           Accessories
         </div>
-        <div className="grid grid-cols-4 gap-10">
+        <div
+          className={`grid ${isMobile ? 'grid-cols-2' : 'grid-cols-4'} gap-10`}
+        >
           {data.map((item, index) => (
             <div
               key={index}
