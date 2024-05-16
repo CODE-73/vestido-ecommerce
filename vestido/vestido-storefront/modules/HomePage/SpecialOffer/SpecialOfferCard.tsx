@@ -8,6 +8,7 @@ import { CarouselItem } from '@vestido-ecommerce/shadcn-ui/carousel';
 import useIsMobile from 'vestido/vestido-storefront/hooks/useIsMobile';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import CardDailog from './CardDialog';
+import Link from 'next/link';
 
 export type SpecialOfferCardData = {
   cardImage1: StaticImageData;
@@ -33,7 +34,7 @@ const SpecialOfferCard: React.FC<SpecialOfferCardProps> = ({ data }) => {
     <CarouselItem className={`basis-1/2 lg:basis-1/3 max-w-[50vw]`}>
       <CardDailog isOpen={showModal} onClose={() => setShowModal(false)} />
       <div className={`flex flex-col items-center group relative mb-10 `}>
-        <a href="/product/Product">
+        <Link href="/product/Product">
           <Image
             className="block group-hover:hidden"
             src={data.cardImage1}
@@ -44,7 +45,7 @@ const SpecialOfferCard: React.FC<SpecialOfferCardProps> = ({ data }) => {
             src={data.cardImage2}
             alt="alt text"
           />
-        </a>
+        </Link>
         <Badge className="absolute left-3 top-3 rounded-none bg-red-600">
           SALE {data.salePercent}%
         </Badge>

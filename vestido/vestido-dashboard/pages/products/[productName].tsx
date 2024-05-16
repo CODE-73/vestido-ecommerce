@@ -4,11 +4,12 @@ import ProductDetailsView from '../../modules/products/ProductForm';
 
 const ItemDetails: NextPage = () => {
   const router = useRouter();
+  const itemId = router.query.productName;
 
   return (
     <ProductDetailsView
-      isNew={false}
-      itemId={router.query.productName as string}
+      isNew={itemId === 'add-new'}
+      itemId={itemId as string}
     />
   );
 };

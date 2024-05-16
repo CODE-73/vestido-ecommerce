@@ -14,7 +14,6 @@ const Products: React.FC = () => {
   });
 
   const handleButtonClick = () => {
-    console.log('add new button function');
     router.push('/products/add-new');
   };
 
@@ -39,7 +38,8 @@ const Products: React.FC = () => {
 
               <Button
                 onClick={handleButtonClick}
-                className="p-5 whitespace-nowrap "
+                type="button"
+                className="p-5 whitespace-nowrap"
               >
                 + Add New
               </Button>

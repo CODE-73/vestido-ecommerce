@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Form } from 'libs/shadcn-ui/src/ui/form';
@@ -38,7 +37,9 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
     },
   });
   const { trigger } = useItemUpsert();
-  const { data: { data: item } = { data: null }, error } = useItem(itemId!);
+  const { data: { data: item } = { data: null }, error } = useItem(
+    isNew ? null : itemId
+  );
 
   console.log('item details is', item);
   const { isDirty, isValid, errors } = form.formState;
@@ -110,7 +111,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
       </form>
     </Form>
   );
-
 };
 
 export default ProductForm;

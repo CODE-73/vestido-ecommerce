@@ -4,12 +4,12 @@ import CategoryDetailsView from '../../modules/categories/CategoryForm';
 
 const CategoryDetails: NextPage = () => {
   const router = useRouter();
-  console.log(router.query.categoryName);
+  const categoryId = router.query.categoryName;
 
   return (
     <CategoryDetailsView
-      isNew={false}
-      categoryId={router.query.categoryName as string}
+      isNew={categoryId === 'add-new'}
+      categoryId={categoryId as string}
     />
   );
 };

@@ -17,6 +17,7 @@ import { Input } from '@vestido-ecommerce/shadcn-ui/input';
 import { Label } from '@vestido-ecommerce/shadcn-ui/label';
 import { Textarea } from '@vestido-ecommerce/shadcn-ui/textarea';
 import SaleItemCart from './SaleItemCart';
+import Link from 'next/link';
 import product11 from '../../assets/offer-products/product1-1.jpg';
 import product12 from '../../assets/offer-products/product1-2.jpg';
 import product21 from '../../assets/offer-products/product2-1.jpg';
@@ -318,6 +319,7 @@ const CartView: React.FC = () => {
             </div>
             <Textarea placeholder="Type your message here." />
           </div>
+
           <div className="bg-neutral-800 p-10">
             <div className="flex items-center text-stone-400 justify-center pb-3 text-white font-extrabold text-3xl">
               Subtotal:
@@ -342,6 +344,7 @@ const CartView: React.FC = () => {
                 <a href="/checkout/Checkout">PROCEED TO CHECKOUT</a>
               </Button>
             </div>
+
           </div>
         </div>
       )}

@@ -15,7 +15,6 @@ const Categories: React.FC = () => {
   });
 
   const handleButtonClick = () => {
-    console.log('add new button function');
     router.push('/categories/add-new');
   };
 
@@ -40,6 +39,7 @@ const Categories: React.FC = () => {
 
               <Button
                 onClick={handleButtonClick}
+                type="button"
                 className="p-5 whitespace-nowrap "
               >
                 + Add New

@@ -48,7 +48,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
   });
   const { trigger } = useCategoryUpsert();
   const { data: { data: category } = { data: null }, error } = useCategory(
-    categoryId!
+    isNew ? null : categoryId
   );
 
   console.log('category details is', category);
