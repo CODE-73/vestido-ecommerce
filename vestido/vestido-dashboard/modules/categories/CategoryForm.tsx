@@ -7,6 +7,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useCategoryUpsert } from '@vestido-ecommerce/items';
 import { useCategory } from 'libs/items/src/swr/category';
+import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
+import { useRouter } from 'next/router';
 
 const CreateCategoryFormSchema = z.object({
   name: z.string(),
@@ -38,6 +40,8 @@ interface CategoryFormProps {
 }
 
 const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
+  const { toast } = useToast();
+  const router = useRouter();
   const form = useForm<CreateCategoryForm>({
     resolver: zodResolver(CreateCategoryFormSchema),
     defaultValues: {
@@ -53,6 +57,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
 
   console.log('category details is', category);
   const { isDirty, isValid, errors } = form.formState;
+  const isSubmitting = form.formState.isSubmitting;
   console.info({ form: form.getValues(), isDirty, isValid, errors });
 
   useEffect(() => {
@@ -66,6 +71,11 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
       await trigger({
         ...data,
         id: isNew ? undefined : categoryId,
+      });
+      toast({
+        title: isNew
+          ? 'Category Added Successfully'
+          : 'Category Updated Successfully',
       });
     } catch (e) {
       console.error('Error updating category:', e);
@@ -104,7 +114,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
         </div>
 
         <div className="grid grid-cols-8 mt-3 text-right gap-2">
-          <Button type="submit" disabled={!isValid || !isDirty}>
+          <Button type="submit" disabled={!isValid || !isDirty || isSubmitting}>
             {isNew ? 'Create' : 'Update'}
           </Button>
         </div>

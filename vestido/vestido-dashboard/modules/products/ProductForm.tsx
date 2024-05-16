@@ -7,6 +7,8 @@ import { Button } from 'libs/shadcn-ui/src/ui/button';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useItem } from 'libs/items/src/swr/item';
+import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
+import { useRouter } from 'next/router';
 
 const CreateProductFormSchema = z.object({
   title: z.string(),
@@ -25,6 +27,8 @@ interface ProductFormProps {
 }
 
 const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
+  const { toast } = useToast();
+  const router = useRouter();
   const form = useForm<CreateProductForm>({
     resolver: zodResolver(CreateProductFormSchema),
     defaultValues: {
@@ -43,6 +47,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
 
   console.log('item details is', item);
   const { isDirty, isValid, errors } = form.formState;
+  const isSubmitting = form.formState.isSubmitting;
   console.info({ form: form.getValues(), isDirty, isValid, errors });
 
   useEffect(() => {
@@ -53,10 +58,16 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
 
   const handleSubmit = async (data: CreateProductForm) => {
     try {
-      await trigger({
+      const response = await trigger({
         ...data,
         id: isNew ? undefined : itemId,
       });
+      toast({
+        title: isNew
+          ? 'Product Added Successfully'
+          : 'Product Updated Successfully',
+      });
+      router.replace(`/products/${response.data.id}`);
     } catch (e) {
       console.error('Error updating item:', e);
     }
@@ -104,7 +115,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
         </div>
 
         <div className="grid grid-cols-8 mt-3 text-right gap-2">
-          <Button type="submit" disabled={!isValid || !isDirty}>
+          <Button type="submit" disabled={!isValid || !isDirty || isSubmitting}>
             {isNew ? 'Create' : 'Update'}
           </Button>
         </div>
