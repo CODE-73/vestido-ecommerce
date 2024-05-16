@@ -16,10 +16,6 @@ import product31 from '../../assets/offer-products/product3-1.jpg';
 import product32 from '../../assets/offer-products/product3-2.jpg';
 import product41 from '../../assets/offer-products/product4-1.jpg';
 import product42 from '../../assets/offer-products/product4-2.jpg';
-import product51 from '../../assets/offer-products/product5-1.jpg';
-import product52 from '../../assets/offer-products/product5-2.jpg';
-import product61 from '../../assets/offer-products/product6-1.jpg';
-import product62 from '../../assets/offer-products/product6-2.jpg';
 
 const data = [
   {
@@ -63,15 +59,17 @@ const SaleItemCart: React.FC = () => {
   const isMobile = useIsMobile();
   const labels = ['Days', 'Hrs', 'Min', 'Sec'];
   return (
-    <div>
+    <div className="px-4">
       <div className="text-4xl tracking-wide text-[#333333] text-center font-extrabold my-5">
         You May Be Interested in These Products
       </div>
-      <div className="text-5xl tracking-wide text-[#333333] text-center font-extrabold my-5">
+      <div className="text-2xl md:text-3xl lg:text-5xl tracking-wide text-[#333333] text-center font-extrabold my-5">
         Sale
       </div>
-      <div className="md:px-16">
-        <div className="grid grid-cols-4 gap-10">
+      <div className="px-2 md:px-16">
+        <div
+          className={`grid ${isMobile ? 'grid-cols-2' : 'grid-cols-4'} gap-10`}
+        >
           {data.map((item, index) => (
             <div
               key={index}
@@ -87,22 +85,7 @@ const SaleItemCart: React.FC = () => {
                 src={item.cardImage2}
                 alt="alt text"
               />
-              {item.salePercent && (
-                <Badge className="absolute left-3 top-3 rounded-none bg-red-600">
-                  SALE {item.salePercent}%
-                </Badge>
-              )}
-              <div className=" absolute bottom-64 sm:bottom-36 bg-white opacity-80 font-extralight text-[#333333] text-lg text-center px-16">
-                <div>Offer Will End Through</div>
-                <div className="flex gap-2 justify-center">
-                  {labels.map((label, index) => (
-                    <div key={index} className="flex flex-col">
-                      <div className="font-extrabold text-2xl">0</div>
-                      <div className="text-xs">{label}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+
               <div className="flex self-start pt-2 gap-1 ">
                 {Array.from({ length: 5 }).map((_, index) => (
                   <Star key={index} fill="#ffb503" strokeWidth={0} size={20} />
@@ -117,23 +100,15 @@ const SaleItemCart: React.FC = () => {
               {isMobile ? (
                 <>
                   <div className="flex text-xl justify-between w-full pt-3">
-                    <div className="line-through">{item.price}</div>
-                    <div className="text-red-700 font-bold">
-                      {item.offerPrice}
+                    <div className="text-[#48CAB2] font-semibold">
+                      {item.price}
                     </div>
                   </div>
-                  <div
-                    className="p-2 bg-[#48CAB2] relative"
-                    style={{ minWidth: 'min-content' }}
-                  >
-                    <ShoppingBag color="#fff" />
-
-                    <button
-                      className="absolute top-0 bg-[#48CAB2] text-white  w-44 p-2 font-bold opacity-0 transition-opacity duration-500 hover:opacity-100"
-                      style={{ minWidth: 'min-content' }}
-                    >
-                      Add to Cart
-                    </button>
+                  <div className="p-2 bg-[#48CAB2]">
+                    <Button className="bg-[#48CAB2] flex gap-3 text-lg text-white font-bold">
+                      <ShoppingBag color="#fff" />
+                      <div> Add to Cart</div>
+                    </Button>
                   </div>
                 </>
               ) : (
@@ -154,9 +129,6 @@ const SaleItemCart: React.FC = () => {
                     </div>
                     <div className="flex flex-col">
                       <div className="line-through">{item.price}</div>
-                      <div className="text-red-700 font-bold">
-                        {item.offerPrice}
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -171,7 +143,9 @@ const SaleItemCart: React.FC = () => {
         <div className="text-5xl tracking-wide text-[#333333] text-center font-extrabold my-8">
           Accessories
         </div>
-        <div className="grid grid-cols-4 gap-10">
+        <div
+          className={`grid ${isMobile ? 'grid-cols-2' : 'grid-cols-4'} gap-10`}
+        >
           {data.map((item, index) => (
             <div
               key={index}
@@ -202,13 +176,12 @@ const SaleItemCart: React.FC = () => {
               {isMobile ? (
                 <>
                   <div className="flex text-xl justify-between w-full pt-3">
-                    <div className="line-through">{item.price}</div>
-                    <div className="text-red-700 font-bold">
-                      {item.offerPrice}
+                    <div className="text-[#48CAB2] font-semibold">
+                      {item.price}
                     </div>
                   </div>
-                  <div className={`p-2 bg-[#48CAB2] w-full`}>
-                    <Button className="bg-[#48CAB2] w-full flex gap-3 text-lg mb-1 text-white p-2 font-bold">
+                  <div className="p-2 bg-[#48CAB2]">
+                    <Button className="bg-[#48CAB2] flex gap-3 text-lg text-white font-bold">
                       <ShoppingBag color="#fff" />
                       <div> Add to Cart</div>
                     </Button>
@@ -224,7 +197,7 @@ const SaleItemCart: React.FC = () => {
                       <ShoppingBag color="#fff" />
 
                       <button
-                        className="absolute top-0 bg-[#48CAB2] text-white  w-44 p-2 font-bold opacity-0 transition-opacity duration-500 hover:opacity-100"
+                        className="absolute top-0 bg-[#48CAB2] text-white p-2 font-bold opacity-0 transition-opacity duration-500 hover:opacity-100"
                         style={{ minWidth: 'min-content' }}
                       >
                         Add to Cart
