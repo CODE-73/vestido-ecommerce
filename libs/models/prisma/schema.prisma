@@ -13,6 +13,13 @@ enum Role {
     ADMIN
 }
 
+enum Gender {
+    MEN
+    WOMEN
+    BOYS
+    GIRLS
+}
+
 model Image {
     id           String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     title        String
@@ -51,13 +58,14 @@ model Profile {
 }
 
 model Item {
-    id          String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     title       String
     description String
     price       String
     unit        String
     stock       String
     brand       String
+    gender      Gender[] @default([MEN, WOMEN])
 
     images        Image[]
     wishlistItems WishlistItem[]
@@ -104,9 +112,10 @@ model ItemAttributeValue {
 }
 
 model Category {
-    id          String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     name        String
     description String?
+    gender      Gender[] @default([MEN, WOMEN])
 
     parentCategoryId String?    @db.Uuid()
     parentCategory   Category?  @relation("ParentCategory", fields: [parentCategoryId], references: [id])
