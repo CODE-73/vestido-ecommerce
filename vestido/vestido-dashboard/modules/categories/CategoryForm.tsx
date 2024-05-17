@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Form } from 'libs/shadcn-ui/src/ui/form';
 import { InputElement } from '../../forms/input-element';
 import { Button } from 'libs/shadcn-ui/src/ui/button';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -9,6 +8,17 @@ import { useCategoryUpsert } from '@vestido-ecommerce/items';
 import { useCategory } from 'libs/items/src/swr/category';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { useRouter } from 'next/router';
+import { Checkbox } from '@vestido-ecommerce/shadcn-ui/checkbox';
+import { Genders } from '@vestido-ecommerce/items';
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@vestido-ecommerce/shadcn-ui/form';
 
 const CreateCategoryFormSchema = z.object({
   name: z.string(),
@@ -30,6 +40,12 @@ const CreateCategoryFormSchema = z.object({
       }
       return x;
     }),
+  gender: z
+    .array(z.enum(Genders))
+    .refine((value) => value.some((gender) => gender), {
+      message: 'You have to select at least one item.',
+    })
+    .default(['MEN', 'WOMEN']),
 });
 
 export type CreateCategoryForm = z.infer<typeof CreateCategoryFormSchema>;
@@ -48,6 +64,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
       name: '',
       description: '',
       parentCategoryId: '',
+      gender: ['MEN', 'WOMEN'],
     },
   });
   const { trigger } = useCategoryUpsert();
@@ -68,7 +85,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
 
   const handleSubmit = async (data: CreateCategoryForm) => {
     try {
-      await trigger({
+      const response = await trigger({
         ...data,
         id: isNew ? undefined : categoryId,
       });
@@ -77,6 +94,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
           ? 'Category Added Successfully'
           : 'Category Updated Successfully',
       });
+      router.replace(`/categories/${response.data.id}`);
     } catch (e) {
       console.error('Error updating category:', e);
     }
@@ -112,6 +130,52 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
             />
           </div>
         </div>
+        <FormField
+          control={form.control}
+          name="gender"
+          render={() => (
+            <FormItem>
+              <div className="mb-4">
+                <FormLabel className="text-base">Gender</FormLabel>
+                <FormDescription>
+                  Select the gender(s) this product is apt for.
+                </FormDescription>
+              </div>
+              {Genders.map((gender) => (
+                <FormField
+                  key={gender}
+                  control={form.control}
+                  name="gender"
+                  render={({ field }) => {
+                    return (
+                      <FormItem
+                        key={gender}
+                        className="flex flex-row items-start space-x-3 space-y-0"
+                      >
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value?.includes(gender)}
+                            onCheckedChange={(checked) => {
+                              return checked
+                                ? field.onChange([...field.value, gender])
+                                : field.onChange(
+                                    field.value?.filter(
+                                      (value) => value !== gender
+                                    )
+                                  );
+                            }}
+                          />
+                        </FormControl>
+                        <FormLabel className="font-normal">{gender}</FormLabel>
+                      </FormItem>
+                    );
+                  }}
+                />
+              ))}
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <div className="grid grid-cols-8 mt-3 text-right gap-2">
           <Button type="submit" disabled={!isValid || !isDirty || isSubmitting}>

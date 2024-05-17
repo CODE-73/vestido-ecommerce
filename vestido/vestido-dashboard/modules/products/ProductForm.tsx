@@ -1,6 +1,14 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Form } from 'libs/shadcn-ui/src/ui/form';
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@vestido-ecommerce/shadcn-ui/form';
 import { InputElement } from '../../forms/input-element';
 import { useItemUpsert } from 'libs/items/src/swr/item/create-item';
 import { Button } from 'libs/shadcn-ui/src/ui/button';
@@ -9,6 +17,8 @@ import * as z from 'zod';
 import { useItem } from 'libs/items/src/swr/item';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { useRouter } from 'next/router';
+import { Checkbox } from '@vestido-ecommerce/shadcn-ui/checkbox';
+import { Genders } from '@vestido-ecommerce/items';
 
 const CreateProductFormSchema = z.object({
   title: z.string(),
@@ -17,6 +27,15 @@ const CreateProductFormSchema = z.object({
   stock: z.string(),
   unit: z.string(),
   brand: z.string(),
+  // gender: z
+  //   .array(z.enum(['Men', 'Women', 'Girls', 'Boys']))
+  //   .default(['Men', 'Women']),
+  gender: z
+    .array(z.enum(Genders))
+    .refine((value) => value.some((gender) => gender), {
+      message: 'You have to select at least one item.',
+    })
+    .default(['MEN', 'WOMEN']),
 });
 
 export type CreateProductForm = z.infer<typeof CreateProductFormSchema>;
@@ -38,6 +57,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
       stock: '',
       unit: '',
       brand: '',
+      gender: ['MEN', 'WOMEN'],
     },
   });
   const { trigger } = useItemUpsert();
@@ -107,10 +127,60 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
             <InputElement name="brand" placeholder="Brand" label="Brand" />
           </div>
           <div className="grid grid-cols-2 gap-5 lg:px-10">
-            <InputElement name="unit" placeholder="unit" label="Unit" />
-          </div>
-          <div className="grid grid-cols-2 gap-5 lg:px-10">
-            <InputElement name="stock" placeholder="Stock" label="Stock" />
+            <div>
+              {' '}
+              <InputElement name="unit" placeholder="unit" label="Unit" />{' '}
+              <InputElement name="stock" placeholder="Stock" label="Stock" />
+            </div>
+
+            <FormField
+              control={form.control}
+              name="gender"
+              render={() => (
+                <FormItem>
+                  <div className="mb-4">
+                    <FormLabel className="text-base">Gender</FormLabel>
+                    <FormDescription>
+                      Select the gender(s) this product is apt for.
+                    </FormDescription>
+                  </div>
+                  {Genders.map((gender) => (
+                    <FormField
+                      key={gender}
+                      control={form.control}
+                      name="gender"
+                      render={({ field }) => {
+                        return (
+                          <FormItem
+                            key={gender}
+                            className="flex flex-row items-start space-x-3 space-y-0"
+                          >
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value?.includes(gender)}
+                                onCheckedChange={(checked) => {
+                                  return checked
+                                    ? field.onChange([...field.value, gender])
+                                    : field.onChange(
+                                        field.value?.filter(
+                                          (value) => value !== gender
+                                        )
+                                      );
+                                }}
+                              />
+                            </FormControl>
+                            <FormLabel className="font-normal">
+                              {gender}
+                            </FormLabel>
+                          </FormItem>
+                        );
+                      }}
+                    />
+                  ))}
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
         </div>
 

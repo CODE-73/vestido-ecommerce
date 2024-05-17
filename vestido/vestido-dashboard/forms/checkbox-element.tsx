@@ -1,9 +1,11 @@
+import {
+  FormField,
+  FormLabel,
+  FormDescription,
+} from '@vestido-ecommerce/shadcn-ui/form';
 import { ReactElement } from 'react';
-
 import { Control, FieldPath, FieldValues } from 'react-hook-form';
-
-import { Checkbox } from 'components/ui/checkbox';
-import { FormDescription, FormField, FormLabel } from 'components/ui/form';
+import { Checkbox } from '@vestido-ecommerce/shadcn-ui/checkbox';
 
 export type CheckboxElementProps<T extends FieldValues = FieldValues> = {
   name: FieldPath<T>;

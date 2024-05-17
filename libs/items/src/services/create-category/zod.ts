@@ -12,6 +12,12 @@ export const CreateCategorySchema = z.object({
       }
       return x;
     }),
+  gender: z
+    .array(z.string())
+    .refine((value) => value.some((gender) => gender), {
+      message: 'You have to select at least one item.',
+    })
+    .default(['Men', 'Women']),
 });
 
 export type CreateCategorySchemaType = z.infer<typeof CreateCategorySchema>;

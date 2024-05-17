@@ -7,6 +7,12 @@ export const UpdateItemSchema = z.object({
   unit: z.string().optional(),
   stock: z.string().optional(),
   brand: z.string().optional(),
+  gender: z
+    .array(z.string())
+    .refine((value) => value.some((gender) => gender), {
+      message: 'You have to select at least one item.',
+    })
+    .optional(),
 });
 
 export type UpdateItemSchemaType = z.infer<typeof UpdateItemSchema>;
