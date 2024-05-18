@@ -3,8 +3,15 @@ import { CategoryListResponse } from './types';
 export async function getCategoriesList(
   query?: string
 ): Promise<CategoryListResponse> {
-  const r = await fetch('/api/categories');
+  let url = '/api/categories';
+  const r = await fetch(url);
   console.log(r);
+
+  if (query) {
+    // Make sure the query is URI encoded to handle spaces and special characters
+    const encodedQuery = encodeURIComponent(query);
+    url += `&filters=[["employee_name", "like", "%${encodedQuery}%"]]`;
+  }
 
   if (!r.ok) {
     throw new Error('Error Fetching List');

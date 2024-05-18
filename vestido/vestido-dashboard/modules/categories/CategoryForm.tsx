@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { InputElement } from '../../forms/input-element';
 import { Button } from 'libs/shadcn-ui/src/ui/button';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useCategoryUpsert } from '@vestido-ecommerce/items';
-import { useCategory } from 'libs/items/src/swr/category';
+import { useCategories, useCategory } from 'libs/items/src/swr/category';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { useRouter } from 'next/router';
 import { Checkbox } from '@vestido-ecommerce/shadcn-ui/checkbox';
@@ -19,6 +19,9 @@ import {
   FormLabel,
   FormMessage,
 } from '@vestido-ecommerce/shadcn-ui/form';
+import { Combobox } from '@vestido-ecommerce/shadcn-ui/combobox';
+
+import clsx from 'clsx';
 
 const CreateCategoryFormSchema = z.object({
   name: z.string(),
@@ -56,8 +59,10 @@ interface CategoryFormProps {
 }
 
 const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
+  const { data: categories } = useCategories();
   const { toast } = useToast();
   const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState('');
   const form = useForm<CreateCategoryForm>({
     resolver: zodResolver(CreateCategoryFormSchema),
     defaultValues: {
@@ -67,6 +72,8 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
       gender: ['MEN', 'WOMEN'],
     },
   });
+  const parentCategoryId = form.watch('parentCategoryId');
+
   const { trigger } = useCategoryUpsert();
   const { data: { data: category } = { data: null }, error } = useCategory(
     isNew ? null : categoryId
@@ -127,55 +134,86 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
               name="description"
               placeholder="Description"
               label="Description"
+            />{' '}
+            <FormField
+              control={form.control}
+              name="gender"
+              render={() => (
+                <FormItem>
+                  <div className="mb-4">
+                    <FormLabel className="text-base">Gender</FormLabel>
+                    <FormDescription>
+                      Select the gender(s) this product is apt for.
+                    </FormDescription>
+                  </div>
+                  {Genders.map((gender) => (
+                    <FormField
+                      key={gender}
+                      control={form.control}
+                      name="gender"
+                      render={({ field }) => {
+                        return (
+                          <FormItem
+                            key={gender}
+                            className="flex flex-row items-start space-x-3 space-y-0"
+                          >
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value?.includes(gender)}
+                                onCheckedChange={(checked) => {
+                                  return checked
+                                    ? field.onChange([...field.value, gender])
+                                    : field.onChange(
+                                        field.value?.filter(
+                                          (value) => value !== gender
+                                        )
+                                      );
+                                }}
+                              />
+                            </FormControl>
+                            <FormLabel className="font-normal">
+                              {gender}
+                            </FormLabel>
+                          </FormItem>
+                        );
+                      }}
+                    />
+                  ))}
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Combobox
+              className={clsx(
+                'overflow-x-clip',
+                'order-first w-full',
+                'lg:order-none lg:w-auto'
+              )}
+              placeholder={
+                parentCategoryId
+                  ? categories?.data.find(
+                      (category) => category.id === parentCategoryId
+                    )?.name
+                  : 'Select category'
+              }
+              noOptionsText="No Categories Found"
+              fullWidth
+              onSearch={setSearchQuery}
+              options={
+                categories?.data.map((category) => ({
+                  value: category.id,
+                  label: category.name,
+                })) || []
+              }
+              onChange={(categoryId) => {
+                form.setValue('parentCategoryId', categoryId, {
+                  shouldDirty: true,
+                });
+              }}
+              value={parentCategoryId ?? null}
             />
           </div>
         </div>
-        <FormField
-          control={form.control}
-          name="gender"
-          render={() => (
-            <FormItem>
-              <div className="mb-4">
-                <FormLabel className="text-base">Gender</FormLabel>
-                <FormDescription>
-                  Select the gender(s) this product is apt for.
-                </FormDescription>
-              </div>
-              {Genders.map((gender) => (
-                <FormField
-                  key={gender}
-                  control={form.control}
-                  name="gender"
-                  render={({ field }) => {
-                    return (
-                      <FormItem
-                        key={gender}
-                        className="flex flex-row items-start space-x-3 space-y-0"
-                      >
-                        <FormControl>
-                          <Checkbox
-                            checked={field.value?.includes(gender)}
-                            onCheckedChange={(checked) => {
-                              return checked
-                                ? field.onChange([...field.value, gender])
-                                : field.onChange(
-                                    field.value?.filter(
-                                      (value) => value !== gender
-                                    )
-                                  );
-                            }}
-                          />
-                        </FormControl>
-                        <FormLabel className="font-normal">{gender}</FormLabel>
-                      </FormItem>
-                    );
-                  }}
-                />
-              ))}
-              <FormMessage />
-            </FormItem>
-          )}
-        />
 
         <div className="grid grid-cols-8 mt-3 text-right gap-2">
           <Button type="submit" disabled={!isValid || !isDirty || isSubmitting}>
