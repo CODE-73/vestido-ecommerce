@@ -1,5 +1,5 @@
 import useSWRImmutable from 'swr/immutable';
-import { ItemDetailsResponse } from '../../../../../items/src/services/get-item/types';
+import { ItemDetailsResponse } from '../../../services/items/get-item/types';
 import { getItemDetails } from './service';
 import { ItemDetailsSWRKeys } from '../keys';
 

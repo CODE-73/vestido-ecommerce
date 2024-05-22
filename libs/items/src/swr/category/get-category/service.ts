@@ -1,4 +1,4 @@
-import { CategoryDetailsResponse } from '../../../../../items/src/services/get-category/types';
+import { CategoryDetailsResponse } from '../../../services/categories/get-category/types';
 
 export async function getCategoryDetails(
   categoryId: string

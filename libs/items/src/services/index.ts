@@ -1,19 +1,22 @@
-export * from './create-item';
-export * from './list-item';
-export * from './get-item';
-export * from './update-item';
-export * from './delete-item';
+export * from './items/create-item';
+export * from './items/list-item';
+export * from './items/get-item';
+export * from './items/update-item';
+export * from './items/delete-item';
 
-export * from './get-wishlist';
-export * from './add-to-wishlist';
-export * from './remove-from-wishlist';
+export * from './wishlist/get-wishlist';
+export * from './wishlist/add-to-wishlist';
+export * from './wishlist/remove-from-wishlist';
 
-export * from './get-cart';
-export * from './add-to-cart';
-export * from './remove-from-cart';
+export * from './cart/get-cart';
+export * from './cart/add-to-cart';
+export * from './cart/remove-from-cart';
 
-export * from './list-category';
-export * from './create-category';
-export * from './update-category';
-export * from './delete-category';
-export * from './get-category';
+export * from './categories/list-category';
+export * from './categories/create-category';
+export * from './categories/update-category';
+export * from './categories/delete-category';
+export * from './categories/get-category';
+
+export * from './attributes/add-attribute';
+export * from './attributes/list-attributes';

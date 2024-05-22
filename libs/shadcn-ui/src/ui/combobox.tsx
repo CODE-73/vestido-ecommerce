@@ -75,7 +75,7 @@ function Combobox({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className={cn('w-[200px] justify-between rounded-lg', className)}
+          className={cn('w-full justify-between rounded-lg', className)}
           type="button"
         >
           {
@@ -89,8 +89,8 @@ function Combobox({
           <LuChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
-        <Command shouldFilter={false}>
+      <PopoverContent className="w-[780px] p-0 font-primary">
+        <Command shouldFilter={false} className="w-full">
           <CommandInput
             autoFocus
             onValueChange={(search) => {
@@ -111,6 +111,7 @@ function Combobox({
                   setOpen(false);
                   setTimeout(() => onSearch?.(''));
                 }}
+                className="font-bold"
               >
                 <LuCheck
                   className={cn(

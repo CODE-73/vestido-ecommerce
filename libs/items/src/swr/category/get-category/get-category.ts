@@ -1,5 +1,5 @@
 import useSWRImmutable from 'swr/immutable';
-import { CategoryDetailsResponse } from '../../../services/get-category/types';
+import { CategoryDetailsResponse } from '../../../services/categories/get-category/types';
 import { getCategoryDetails } from './service';
 import { CategoryDetailsSWRKeys } from '../keys';
 
