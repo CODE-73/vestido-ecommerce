@@ -1,6 +1,31 @@
-import { createAttribute } from '@vestido-ecommerce/items';
+import { createAttribute, listAttribute } from '@vestido-ecommerce/items';
 import { ZodError } from 'zod';
 
+export async function GET(request: Request) {
+  try {
+    const attributes = await listAttribute();
+
+    return new Response(
+      JSON.stringify({
+        success: true,
+        data: attributes,
+      }),
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+  } catch (e) {
+    console.error(e);
+    return new Response(JSON.stringify(e), {
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  }
+}
 export async function POST(request: Request) {
   try {
     const body = await request.json();

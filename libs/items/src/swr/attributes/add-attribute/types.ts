@@ -1,7 +1,7 @@
-import { Category } from '@prisma/client';
+import { ItemAttribute } from '@prisma/client';
 
-export type attributeUpsertRequest = Partial<Category>;
+export type attributeUpsertRequest = Partial<ItemAttribute>;
 
 export type attributeUpsertResponse = {
-  data: Category;
+  data: ItemAttribute;
 };

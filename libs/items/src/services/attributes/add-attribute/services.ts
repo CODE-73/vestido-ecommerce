@@ -7,7 +7,15 @@ export async function createAttribute(body: CreateAttributeSchemaType) {
   const validatedData = CreateAttributeSchema.parse(body);
 
   const newAttribute = await prisma.itemAttribute.create({
-    data: validatedData,
+    data: {
+      name: validatedData.name,
+      description: validatedData.description,
+      ItemAttributeValues: {
+        createMany: {
+          data: validatedData.itemAttributeValues,
+        },
+      },
+    },
   });
 
   return newAttribute;
