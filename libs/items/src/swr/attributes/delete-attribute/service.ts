@@ -1,9 +1,9 @@
-import { DeleteAttributeResponse } from './types';
+import { DeleteAttributeRequest, DeleteAttributeResponse } from './types';
 
 export async function deleteAttribute(
-  attributeId: string
+  args: DeleteAttributeRequest
 ): Promise<DeleteAttributeResponse> {
-  const url = `/api/attributes/${encodeURIComponent(attributeId)}`;
+  const url = `/api/attributes/${encodeURIComponent(args.attributeId)}`;
   const r = await fetch(url, {
     method: 'DELETE',
     headers: {
@@ -14,7 +14,5 @@ export async function deleteAttribute(
   if (!r.ok) {
     throw new Error('Error Deleting Atttribute');
   }
-  const data = await r.json();
-
-  return data as DeleteAttributeResponse;
+  return true as DeleteAttributeResponse;
 }

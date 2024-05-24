@@ -1,3 +1,4 @@
-export type DeleteAttributeResponse = {
-  success: boolean;
+export type DeleteAttributeRequest = {
+  attributeId: string;
 };
+export type DeleteAttributeResponse = boolean;

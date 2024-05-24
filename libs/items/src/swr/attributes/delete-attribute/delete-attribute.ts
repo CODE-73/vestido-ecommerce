@@ -1,22 +1,19 @@
-import useSWRImmutable from 'swr/immutable';
-import { AttributeDetailsResponse } from '../../../services/attributes/get-attribute/types';
-import { getAttributeDetails } from './service';
+import useSWRMutation from 'swr/mutation';
+import { DeleteAttributeResponse, DeleteAttributeRequest } from './types';
+import { deleteAttribute } from './service';
 import { AttributeDetailsSWRKeys } from '../keys';
 
-export function useAttribute(attributeId?: string | null) {
-  const key = attributeId
-    ? [
-        AttributeDetailsSWRKeys.ATTRIBUTE,
-        AttributeDetailsSWRKeys.DETAILS,
-        attributeId,
-      ]
-    : null;
+export function useAttributeDelete(attributeId: string) {
+  const key = [
+    AttributeDetailsSWRKeys.ATTRIBUTE,
+    AttributeDetailsSWRKeys.DETAILS,
+    attributeId,
+  ];
 
-  return useSWRImmutable<AttributeDetailsResponse, Error>(
-    key,
-    () => getAttributeDetails(attributeId as string),
-    {
-      keepPreviousData: true,
-    }
-  );
+  return useSWRMutation<
+    DeleteAttributeResponse,
+    Error,
+    string[] | null,
+    Pick<DeleteAttributeRequest, 'attributeId'>
+  >(key, (_, { arg }) => deleteAttribute({ ...arg }));
 }
