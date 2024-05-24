@@ -18,6 +18,5 @@ export async function getAttributesList(
   }
 
   const data = await r.json();
-  console.log('the categories list is below', data);
   return data as AttributeListResponse;
 }
