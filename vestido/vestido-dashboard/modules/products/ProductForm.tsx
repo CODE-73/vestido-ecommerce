@@ -10,7 +10,7 @@ import {
   FormMessage,
 } from '@vestido-ecommerce/shadcn-ui/form';
 import { InputElement } from '../../forms/input-element';
-import { useItemUpsert } from 'libs/items/src/swr/item/create-item';
+import { useItemUpsert } from 'libs/items/src/swr/item/upsert-item';
 import { Button } from 'libs/shadcn-ui/src/ui/button';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
