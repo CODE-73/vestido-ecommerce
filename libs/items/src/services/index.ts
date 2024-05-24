@@ -20,3 +20,6 @@ export * from './categories/get-category';
 
 export * from './attributes/add-attribute';
 export * from './attributes/list-attributes';
+export * from './attributes/delete-attribute';
+export * from './attributes/update-attribute';
+export * from './attributes/get-attribute';
