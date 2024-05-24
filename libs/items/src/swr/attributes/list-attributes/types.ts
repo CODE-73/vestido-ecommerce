@@ -1,11 +1,15 @@
-import { ItemAttribute } from '@prisma/client';
+import { ItemAttribute, ItemAttributeValue } from '@prisma/client';
 
 export type AttributeListRequest = {
   filters?: AttributeListFilterParams;
 };
 
 export type AttributeListResponse = {
-  data: ItemAttribute[];
+  data: Array<
+    ItemAttribute & {
+      ItemAttributeValues: ItemAttributeValue[];
+    }
+  >;
 };
 
 type AttributeListFilterParams = {

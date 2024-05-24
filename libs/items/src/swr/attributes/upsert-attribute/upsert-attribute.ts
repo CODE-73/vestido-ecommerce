@@ -1,4 +1,4 @@
-import useSWRMutation from 'swr/dist/mutation';
+import useSWRMutation from 'swr/mutation';
 import { AttributeUpsertSWRKeys } from '../keys';
 import { attributeUpsertRequest, attributeUpsertResponse } from './types';
 import { upsertAttribute } from './service';

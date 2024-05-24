@@ -1,7 +1,9 @@
-import { ItemAttribute } from '@prisma/client';
+import { ItemAttribute, ItemAttributeValue } from '@prisma/client';
 
 export type attributeUpsertRequest = Partial<ItemAttribute>;
 
 export type attributeUpsertResponse = {
-  data: ItemAttribute;
+  data: ItemAttribute & {
+    ItemAttributeValues: ItemAttributeValue[];
+  };
 };

@@ -26,6 +26,5 @@ export async function upsertCategory(
   }
 
   const data = await r.json();
-  console.log('data from swr service is', data);
   return data as categoryUpsertResponse;
 }

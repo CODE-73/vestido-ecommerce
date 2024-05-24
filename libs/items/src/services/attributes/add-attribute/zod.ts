@@ -6,7 +6,15 @@ export const ItemAttributeValueSchema = z.object({
 
 export const CreateAttributeSchema = z.object({
   name: z.string(),
-  description: z.string().optional(),
+  description: z
+    .string()
+    .nullable()
+    .transform((x) => {
+      if (!x || x.length === 0) {
+        return null;
+      }
+      return x;
+    }),
   itemAttributeValues: z.array(ItemAttributeValueSchema).optional(),
 });
 

@@ -12,7 +12,7 @@ export async function createAttribute(body: CreateAttributeSchemaType) {
       description: validatedData.description,
       ItemAttributeValues: {
         createMany: {
-          data: validatedData.itemAttributeValues,
+          data: validatedData.itemAttributeValues ?? [],
         },
       },
     },

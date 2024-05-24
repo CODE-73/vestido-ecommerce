@@ -7,6 +7,9 @@ export async function attributeDetails(attributeId: string) {
     where: {
       id: attributeId,
     },
+    include: {
+      ItemAttributeValues: true,
+    },
   });
   // no try..catch here
 

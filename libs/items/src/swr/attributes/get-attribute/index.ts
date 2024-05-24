@@ -1,3 +1,3 @@
 export * from './service';
 // export * from './types';
-export * from './get-category';
+export * from './get-attribute';
