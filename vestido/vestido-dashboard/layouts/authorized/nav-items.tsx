@@ -30,7 +30,7 @@ export const navItems: NavigationItem[] = [
   {
     id: 'Item Attribute',
     label: 'Item Attribute',
-    href: '/itemAttribute',
+    href: '/attributes',
     // icon: <LuBook />,
   },
   {

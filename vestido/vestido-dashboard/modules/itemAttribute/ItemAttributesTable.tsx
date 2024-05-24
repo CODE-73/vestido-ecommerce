@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-//import {useItemAttribute} from
+import { useAttributes } from 'libs/items/src/swr/index';
 import {
   Table,
   TableBody,
@@ -12,17 +12,13 @@ import {
 
 export function ItemAttributeTable() {
   const router = useRouter();
-  const { data } = useItemAttributes();
-  // console.log('data is', data);
+  const { data } = useAttributes();
+  console.log('data is', data?.data);
 
   const handleRowClick = (itemAttribute: string) => {
     console.log(itemAttribute);
     console.log('row click function');
-    router.push(`/itemAttribute/${encodeURIComponent(itemAttribute)}`);
-  };
-
-  const getGenderString = (gender: Gender[]): string => {
-    return gender.join(', ');
+    router.push(`/attributes/${encodeURIComponent(itemAttribute)}`);
   };
 
   return (
@@ -32,6 +28,7 @@ export function ItemAttributeTable() {
           <TableHead>ID</TableHead>
           <TableHead>Name</TableHead>
           <TableHead>Description</TableHead>
+          <TableHead>Values</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -44,7 +41,12 @@ export function ItemAttributeTable() {
             >
               <TableCell className="font-medium">{itemAttribute.id}</TableCell>
               <TableCell>{itemAttribute.name}</TableCell>
-              <TableCell>{itemAttribute.Description}</TableCell>
+              <TableCell>{itemAttribute.description}</TableCell>
+              <TableCell>
+                {itemAttribute.ItemAttributeValues.map((x) => x.value).join(
+                  ','
+                )}
+              </TableCell>
             </TableRow>
           ))}
       </TableBody>

@@ -1,15 +1,18 @@
 import { z } from 'zod';
 import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-//import {useItemAttributeUpsert} from
-//import { useItemAttributes, useItemAttribute } from '';'
+import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { useRouter } from 'next/router';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { InputElement } from '../../forms/input-element';
 import { Button } from 'libs/shadcn-ui/src/ui/button';
 import { Form } from '@vestido-ecommerce/shadcn-ui/form';
+import { useAttribute, useAttributeUpsert } from '@vestido-ecommerce/items';
+import { Edit, Trash } from 'lucide-react';
 
+const ItemAttributeValueSchema = z.object({
+  value: z.string(),
+});
 const CreateItemAttributeFormSchema = z.object({
   name: z.string(),
   description: z
@@ -21,6 +24,7 @@ const CreateItemAttributeFormSchema = z.object({
       }
       return x;
     }),
+  itemAttributeValues: z.array(ItemAttributeValueSchema).optional(),
 });
 
 export type CreateItemAttributeForm = z.infer<
@@ -36,7 +40,6 @@ const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
   itemAttributeId,
   isNew,
 }) => {
-  const { data: categories } = useCategories();
   const { toast } = useToast();
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
@@ -45,22 +48,38 @@ const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
     defaultValues: {
       name: '',
       description: '',
+      itemAttributeValues: [{ value: '' }],
     },
   });
-  const { trigger } = useItemAttributeUpsert();
+  const { trigger } = useAttributeUpsert();
   const { data: { data: itemAttribute } = { data: null }, error } =
-    useItemAttribute(isNew ? null : itemAttributeId);
+    useAttribute(isNew ? null : itemAttributeId);
 
   console.log('Item Attribute details is', itemAttribute);
   const { isDirty, isValid, errors } = form.formState;
   const isSubmitting = form.formState.isSubmitting;
   console.info({ form: form.getValues(), isDirty, isValid, errors });
 
+  const itemAttributeValues = form.watch('itemAttributeValues');
+  const lastValue =
+    itemAttributeValues?.[itemAttributeValues.length - 1]?.value;
+
   useEffect(() => {
     if (!isNew && itemAttribute) {
-      form.reset({ ...itemAttribute });
+      form.reset({
+        name: itemAttribute.name,
+        description: itemAttribute.description,
+        itemAttributeValues: itemAttribute.ItemAttributeValues,
+      });
     }
   }, [isNew, itemAttribute, form]);
+
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: 'itemAttributeValues',
+  });
+
+  const [editingRowIdx, setEditingRowIdx] = useState<number>(-1);
 
   const handleSubmit = async (data: CreateItemAttributeForm) => {
     try {
@@ -73,7 +92,8 @@ const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
           ? 'Item Attribute Added Successfully'
           : 'Item Attribute Updated Successfully',
       });
-      router.replace(`/itemAttributes/${response.data.id}`);
+
+      router.replace(`/attributes/${response.data.id}`);
     } catch (e) {
       console.error('Error updating item Attribute:', e);
     }
@@ -108,8 +128,58 @@ const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
               label="Description"
             />{' '}
           </div>
+        </div>{' '}
+        <hr className="border-t-1 border-slate-400 mb-4 w-full" />
+        <div>
+          <div className="my-5 font-semibold text-lg">Attribute Values</div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+            {fields.map((field, index) => (
+              <div
+                key={field.id}
+                className="grid grid-cols-5 items-center bg-white px-4 divide-x"
+              >
+                <div className="col-span-3">
+                  {editingRowIdx === index || !field.value ? (
+                    <Controller
+                      name={`itemAttributeValues.${index}.value`}
+                      control={form.control}
+                      render={({ field }) => <InputElement {...field} />}
+                    />
+                  ) : (
+                    <span>{field.value}</span>
+                  )}
+                </div>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  onClick={() =>
+                    setEditingRowIdx(editingRowIdx === index ? -1 : index)
+                  }
+                >
+                  <Edit size={20} />
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  onClick={() => remove(index)}
+                >
+                  <Trash size={25} />
+                </Button>
+              </div>
+            ))}
+          </div>
+          <Button
+            type="button"
+            onClick={() => {
+              append({ value: '' });
+              setEditingRowIdx(fields.length); // Set the newly added row to be in edit mode
+            }}
+            className="mt-3"
+            disabled={!lastValue}
+          >
+            Add New Value
+          </Button>
         </div>
-
         <div className="grid grid-cols-8 mt-3 text-right gap-2">
           <Button type="submit" disabled={!isValid || !isDirty || isSubmitting}>
             {isNew ? 'Create' : 'Update'}
