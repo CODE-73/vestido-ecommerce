@@ -28,6 +28,12 @@ export const navItems: NavigationItem[] = [
     // icon: <LuShoppingCart />,
   },
   {
+    id: 'Item Attribute',
+    label: 'Item Attribute',
+    href: '/itemAttribute',
+    // icon: <LuBook />,
+  },
+  {
     id: 'storefront',
     label: 'Storefront',
     href: '/storefront',
