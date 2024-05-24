@@ -1,5 +1,9 @@
-import { ItemAttribute } from '@prisma/client';
+import { ItemAttribute, ItemAttributeValue } from '@prisma/client';
 
 export type ListAttributesResponse = {
-  data: ItemAttribute[];
+  data: Array<
+    ItemAttribute & {
+      ItemAttributeValues: ItemAttributeValue[];
+    }
+  >;
 };
