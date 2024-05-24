@@ -31,7 +31,7 @@ export async function POST(request: Request) {
     const body = await request.json();
     const newAttribute = await createAttribute(body);
 
-    return new Response(JSON.stringify({ success: true, newAttribute }), {
+    return new Response(JSON.stringify({ success: true, data: newAttribute }), {
       headers: {
         'Content-Type': 'application/json',
       },

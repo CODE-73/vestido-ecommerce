@@ -1,8 +1,8 @@
-import { AttributeDetailsResponse } from '../../../services/attributes/get-attribute/types';
+import { attributeDetailsResponse } from './types';
 
 export async function getAttributeDetails(
   attributeId: string
-): Promise<AttributeDetailsResponse> {
+): Promise<attributeDetailsResponse> {
   const url = `/api/attributes/${encodeURIComponent(attributeId)}`;
   const r = await fetch(url);
   if (!r.ok) {
@@ -10,5 +10,5 @@ export async function getAttributeDetails(
   }
   const data = await r.json();
 
-  return data as AttributeDetailsResponse;
+  return data as attributeDetailsResponse;
 }
