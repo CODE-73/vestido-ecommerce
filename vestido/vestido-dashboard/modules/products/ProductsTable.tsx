@@ -35,7 +35,11 @@ export function ProductsTable() {
       <TableBody>
         {data?.data &&
           data.data.map((item) => (
-            <TableRow key={item.id} onClick={() => handleRowClick(item.id)}>
+            <TableRow
+              key={item.id}
+              onClick={() => handleRowClick(item.id)}
+              className="cursor-pointer"
+            >
               <TableCell className="font-medium">{item.id}</TableCell>
               <TableCell>{item.title}</TableCell>
               <TableCell>{item.price}</TableCell>

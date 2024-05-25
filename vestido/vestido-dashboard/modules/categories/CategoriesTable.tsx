@@ -54,7 +54,7 @@ export function CategoriesTable() {
             <TableRow
               key={category.id}
               onClick={() => handleRowClick(category.id)}
-              className="max-w-sm truncate"
+              className="max-w-sm truncate cursor-pointer"
             >
               <TableCell className="font-medium">{category.id}</TableCell>
               <TableCell>{category.name}</TableCell>

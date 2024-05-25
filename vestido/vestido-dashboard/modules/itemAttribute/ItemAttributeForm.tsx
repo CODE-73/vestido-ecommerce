@@ -8,7 +8,7 @@ import { InputElement } from '../../forms/input-element';
 import { Button } from 'libs/shadcn-ui/src/ui/button';
 import { Form } from '@vestido-ecommerce/shadcn-ui/form';
 import { useAttribute, useAttributeUpsert } from '@vestido-ecommerce/items';
-import { Edit, Trash } from 'lucide-react';
+import { Edit, Plus, Trash } from 'lucide-react';
 
 const ItemAttributeValueSchema = z.object({
   value: z.string(),
@@ -44,11 +44,12 @@ const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
   const form = useForm<CreateItemAttributeForm>({
+    mode: 'onBlur',
     resolver: zodResolver(CreateItemAttributeFormSchema),
     defaultValues: {
       name: '',
       description: '',
-      itemAttributeValues: [{ value: '' }],
+      itemAttributeValues: [],
     },
   });
   const { trigger } = useAttributeUpsert();
@@ -74,7 +75,8 @@ const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
     }
   }, [isNew, itemAttribute, form]);
 
-  const { fields, append, remove } = useFieldArray({
+  const attrValues = form.watch('itemAttributeValues') ?? [];
+  const { append, remove } = useFieldArray({
     control: form.control,
     name: 'itemAttributeValues',
   });
@@ -104,6 +106,12 @@ const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
     console.log('HandleSubmit');
   };
 
+  console.info(
+    'AttributeItems Len',
+    attrValues.length,
+    attrValues.map((x) => x.value)
+  );
+
   return (
     <Form {...form}>
       <form
@@ -132,11 +140,11 @@ const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
         <hr className="border-t-1 border-slate-400 mb-4 w-full" />
         <div>
           <div className="my-5 font-semibold text-lg">Attribute Values</div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            {fields.map((field, index) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 lg:px-10">
+            {attrValues.map((field, index) => (
               <div
-                key={field.id}
-                className="grid grid-cols-5 items-center bg-white px-4 divide-x"
+                key={index}
+                className="grid grid-cols-5 items-center bg-white divide-x"
               >
                 <div className="col-span-3">
                   {editingRowIdx === index || !field.value ? (
@@ -146,7 +154,7 @@ const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
                       render={({ field }) => <InputElement {...field} />}
                     />
                   ) : (
-                    <span>{field.value}</span>
+                    <span className="px-4">{field.value}</span>
                   )}
                 </div>
                 <Button
@@ -167,18 +175,18 @@ const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
                 </Button>
               </div>
             ))}
+            <Button
+              type="button"
+              onClick={() => {
+                append({ value: '' });
+                setEditingRowIdx(attrValues.length); // Set the newly added row to be in edit mode
+              }}
+              className=" bg-white opacity-75 border border-2 text-gray-300 border-dashed border-gray-300 hover:bg-white hover:opacity-100"
+              disabled={!lastValue}
+            >
+              <Plus />
+            </Button>
           </div>
-          <Button
-            type="button"
-            onClick={() => {
-              append({ value: '' });
-              setEditingRowIdx(fields.length); // Set the newly added row to be in edit mode
-            }}
-            className="mt-3"
-            disabled={!lastValue}
-          >
-            Add New Value
-          </Button>
         </div>
         <div className="grid grid-cols-8 mt-3 text-right gap-2">
           <Button type="submit" disabled={!isValid || !isDirty || isSubmitting}>

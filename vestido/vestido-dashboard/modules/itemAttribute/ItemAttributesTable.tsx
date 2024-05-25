@@ -37,7 +37,7 @@ export function ItemAttributeTable() {
             <TableRow
               key={itemAttribute.id}
               onClick={() => handleRowClick(itemAttribute.id)}
-              className="max-w-sm truncate"
+              className="max-w-sm truncate cursor-pointer"
             >
               <TableCell className="font-medium">{itemAttribute.id}</TableCell>
               <TableCell>{itemAttribute.name}</TableCell>
