@@ -23,3 +23,7 @@ export * from './attributes/list-attributes';
 export * from './attributes/delete-attribute';
 export * from './attributes/update-attribute';
 export * from './attributes/get-attribute';
+
+export * from './variants/create-variant';
+export * from './variants/list-variants';
+export * from './variants/get-variant';
