@@ -66,6 +66,7 @@ model Item {
     stock       String
     brand       String
     gender      Gender[] @default([MEN, WOMEN])
+    hasVariants Boolean  @default(false)
 
     images        Image[]
     wishlistItems WishlistItem[]
@@ -78,6 +79,7 @@ model ItemVariant {
     id     String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     item   Item   @relation(fields: [itemId], references: [id])
     itemId String @db.Uuid
+    price  Float  @default(0)
 
     attributeValues VariantAttributeValue[]
 }
