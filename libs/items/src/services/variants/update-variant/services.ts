@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { UpdateVariantSchema, UpdateVariantSchemaType } from './zod';
+import { variantDetails } from '../get-variant';
 
 export async function updateVariant(
   variantId: string,
@@ -11,7 +12,7 @@ export async function updateVariant(
 
   await prisma.$transaction(async (prisma) => {
     // Update ItemVariants fields( except variantAttributeValues)
-    const updatedVariant = await prisma.itemVariant.update({
+    await prisma.itemVariant.update({
       where: {
         id: variantId,
       },
@@ -64,7 +65,8 @@ export async function updateVariant(
         }
       }
     }
-
-    return updatedVariant;
   });
+  const r = await variantDetails(variantId);
+
+  return r;
 }

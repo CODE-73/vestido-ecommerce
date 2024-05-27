@@ -28,3 +28,4 @@ export * from './variants/create-variant';
 export * from './variants/list-variants';
 export * from './variants/get-variant';
 export * from './variants/update-variant';
+export * from './variants/delete-variant';

@@ -1,4 +1,8 @@
-import { variantDetails, updateVariant } from '@vestido-ecommerce/items';
+import {
+  variantDetails,
+  updateVariant,
+  deleteVariant,
+} from '@vestido-ecommerce/items';
 import { ZodError } from 'zod';
 
 export const dynamic = 'force-dynamic'; // static by default, unless reading the request
@@ -80,5 +84,32 @@ export async function PUT(
         }
       );
     }
+  }
+}
+export async function DELETE(
+  request: Request,
+  { params }: { params: { item_id: string; variant_id: string } }
+) {
+  try {
+    await deleteVariant(params.variant_id);
+
+    return new Response(JSON.stringify({ success: true }), {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  } catch (e) {
+    console.error(e);
+    return new Response(
+      JSON.stringify({
+        success: false,
+      }),
+      {
+        status: 400,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
   }
 }
