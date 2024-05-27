@@ -4,12 +4,12 @@ import { ZodError } from 'zod';
 
 export const dynamic = 'force-dynamic'; // static by default, unless reading the request
 
-export async function GET(request: Request) {
+export async function GET(
+  request: Request,
+  { params }: { params: { item_id: string } }
+) {
   try {
-    const url = new URL(request.url);
-    const slug = url.pathname.split('/')[3];
-    console.log('slug is', slug);
-    const variants = await listVariants(slug);
+    const variants = await listVariants(params.item_id);
 
     return new Response(
       JSON.stringify({

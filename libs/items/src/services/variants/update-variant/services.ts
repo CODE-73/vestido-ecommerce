@@ -1,0 +1,70 @@
+import { PrismaClient } from '@prisma/client';
+import { UpdateVariantSchema, UpdateVariantSchemaType } from './zod';
+
+export async function updateVariant(
+  variantId: string,
+  data: UpdateVariantSchemaType
+) {
+  const prisma = new PrismaClient();
+
+  const validatedData = UpdateVariantSchema.parse(data);
+
+  await prisma.$transaction(async (prisma) => {
+    // Update ItemVariants fields( except variantAttributeValues)
+    const updatedVariant = await prisma.itemVariant.update({
+      where: {
+        id: variantId,
+      },
+      data: {
+        itemId: validatedData.itemId,
+      },
+    });
+
+    // Get Existing DB Ids
+    const currentValues = await prisma.variantAttributeValue.findMany({
+      where: { variantId: variantId },
+    });
+
+    const dbIds = Array.from(new Set(currentValues.map((value) => value.id)));
+    const incomingIds = new Set(
+      validatedData.attributeValues
+        ?.map((value) => value.id)
+        .filter((id) => !!id)
+    );
+
+    // Delete VariantAttributeValues that are not in the request
+    const idsToDelete = dbIds.filter((id) => !incomingIds.has(id));
+    if (idsToDelete.length > 0) {
+      await prisma.variantAttributeValue.deleteMany({
+        where: { id: { in: idsToDelete } },
+      });
+    }
+
+    // Upsert VariantAttributeValues
+    if (validatedData.attributeValues) {
+      for (const value of validatedData.attributeValues) {
+        if (value.id) {
+          // Update existing variantAttributeValue
+          await prisma.variantAttributeValue.update({
+            where: { id: value.id },
+            data: {
+              attributeId: value.attributeId,
+              attributeValueId: value.attributeValueId,
+            },
+          });
+        } else {
+          // Create new variantAttributeValue
+          await prisma.variantAttributeValue.create({
+            data: {
+              attributeId: value.attributeId!,
+              attributeValueId: value.attributeValueId!,
+              variantId: variantId,
+            },
+          });
+        }
+      }
+    }
+
+    return updatedVariant;
+  });
+}

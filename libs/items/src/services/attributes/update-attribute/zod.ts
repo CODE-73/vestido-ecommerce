@@ -6,9 +6,18 @@ export const UpdateAttributeValueSchema = z.object({
 });
 
 export const UpdateAttributeSchema = z.object({
-  name: z.string().optional(),
-  description: z.string().optional(),
-  itemAttributeValues: z.array(UpdateAttributeValueSchema).optional(),
+  id: z.string(),
+  name: z.string(),
+  description: z
+    .string()
+    .nullish()
+    .transform((x) => {
+      if (!x || x.length === 0) {
+        return null;
+      }
+      return x;
+    }),
+  itemAttributeValues: z.array(UpdateAttributeValueSchema),
 });
 
 export type UpdateAttributeSchemaType = z.infer<typeof UpdateAttributeSchema>;

@@ -8,7 +8,7 @@ export const CreateAttributeSchema = z.object({
   name: z.string(),
   description: z
     .string()
-    .nullable()
+    .nullish()
     .transform((x) => {
       if (!x || x.length === 0) {
         return null;

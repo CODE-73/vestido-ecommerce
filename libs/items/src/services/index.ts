@@ -27,3 +27,4 @@ export * from './attributes/get-attribute';
 export * from './variants/create-variant';
 export * from './variants/list-variants';
 export * from './variants/get-variant';
+export * from './variants/update-variant';
