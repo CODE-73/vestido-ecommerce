@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   Form,
@@ -19,6 +19,8 @@ import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { useRouter } from 'next/router';
 import { Checkbox } from '@vestido-ecommerce/shadcn-ui/checkbox';
 import { Genders } from '@vestido-ecommerce/items';
+import VariantsTable from '../variants/VariantsTable';
+import { SwitchElement } from 'vestido/vestido-dashboard/forms/switch-element';
 
 const CreateProductFormSchema = z.object({
   title: z.string(),
@@ -27,9 +29,7 @@ const CreateProductFormSchema = z.object({
   stock: z.string(),
   unit: z.string(),
   brand: z.string(),
-  // gender: z
-  //   .array(z.enum(['Men', 'Women', 'Girls', 'Boys']))
-  //   .default(['Men', 'Women']),
+  hasVariants: z.boolean().default(false),
   gender: z
     .array(z.enum(Genders))
     .refine((value) => value.some((gender) => gender), {
@@ -48,6 +48,7 @@ interface ProductFormProps {
 const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
   const { toast } = useToast();
   const router = useRouter();
+  const [showVariantsTable, setShowVariantsTable] = useState(false);
   const form = useForm<CreateProductForm>({
     resolver: zodResolver(CreateProductFormSchema),
     defaultValues: {
@@ -58,6 +59,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
       unit: '',
       brand: '',
       gender: ['MEN', 'WOMEN'],
+      hasVariants: false,
     },
   });
   const { trigger } = useItemUpsert();
@@ -69,6 +71,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
   const { isDirty, isValid, errors } = form.formState;
   const isSubmitting = form.formState.isSubmitting;
   console.info({ form: form.getValues(), isDirty, isValid, errors });
+  const hasVariants = form.watch('hasVariants');
 
   useEffect(() => {
     if (!isNew && item) {
@@ -91,6 +94,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
     } catch (e) {
       console.error('Error updating item:', e);
     }
+    setShowVariantsTable(data.hasVariants);
     if (error) return <div>Error loading Item details</div>;
     if (!item) {
       return <div>Loading item details...</div>;
@@ -182,6 +186,9 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
               )}
             />
           </div>
+          <div>
+            <SwitchElement name="hasVariants" label="Has Variant(s)" />
+          </div>
         </div>
 
         <div className="grid grid-cols-8 mt-3 text-right gap-2">
@@ -189,6 +196,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
             {isNew ? 'Create' : 'Update'}
           </Button>
         </div>
+        {showVariantsTable && <VariantsTable itemId={itemId as string} />}
       </form>
     </Form>
   );
