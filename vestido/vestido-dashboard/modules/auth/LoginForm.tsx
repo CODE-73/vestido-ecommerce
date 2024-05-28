@@ -52,11 +52,16 @@ const LoginForm: React.FC<Props> = ({ mobile }) => {
         mobileNumber: data.mobile,
         otp: data.otp,
       });
+      if (r.success) {
+        setToken(r.token);
+        console.log('token is', r.token);
 
-      setToken(r.token);
-      console.log('token is', r.token);
-
-      router.push('/');
+        router.push('/');
+      } else {
+        form.setError('otp', {
+          message: 'Invalid OTP',
+        });
+      }
     } catch (error) {
       console.error('Login failed:', error);
     }
