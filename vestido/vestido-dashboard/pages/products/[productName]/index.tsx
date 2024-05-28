@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import ProductDetailsView from '../../modules/products/ProductForm';
+import ProductDetailsView from '../../../modules/products/ProductForm';
 
 const ItemDetails: NextPage = () => {
   const router = useRouter();
