@@ -7,6 +7,7 @@ export const CreateItemSchema = z.object({
   unit: z.string(),
   stock: z.string(),
   brand: z.string(),
+  hasVariants: z.boolean().default(false),
   gender: z
     .array(z.string())
     .refine((value) => value.some((gender) => gender), {

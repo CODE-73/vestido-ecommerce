@@ -5,10 +5,10 @@ export const dynamic = 'force-dynamic'; // static by default, unless reading the
 
 export async function GET(
   request: Request,
-  { params }: { params: { slug: string } }
+  { params }: { params: { item_id: string } }
 ) {
   try {
-    const item = await itemDetails(params.slug);
+    const item = await itemDetails(params.item_id);
 
     return new Response(
       JSON.stringify({
@@ -21,7 +21,6 @@ export async function GET(
         },
       }
     );
-
   } catch (e) {
     console.error(e);
     return new Response(JSON.stringify(e), {
@@ -35,12 +34,12 @@ export async function GET(
 
 export async function PUT(
   request: Request,
-  { params }: { params: { slug: string } }
+  { params }: { params: { item_id: string } }
 ) {
   const body = await request.json();
 
   try {
-    const r = await updateItem(params.slug, body);
+    const r = await updateItem(params.item_id, body);
 
     return new Response(JSON.stringify(r), {
       headers: {
@@ -73,12 +72,12 @@ export async function PUT(
 }
 export async function DELETE(
   request: Request,
-  { params }: { params: { slug: string } }
+  { params }: { params: { item_id: string } }
 ) {
   try {
-    await deleteItem(params.slug);
+    await deleteItem(params.item_id);
 
-    return new Response(JSON.stringify(params.slug), {
+    return new Response(JSON.stringify(params.item_id), {
       headers: {
         'Content-Type': 'application/json',
       },

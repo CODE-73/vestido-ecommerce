@@ -1,7 +1,7 @@
-import { Switch } from 'components/ui/switch';
-import { FormField } from 'components/ui/form';
+import { Switch } from 'libs/shadcn-ui/src/ui/switch';
+import { FormField } from 'libs/shadcn-ui/src/ui/form';
 import { Control, FieldValues, FieldPath } from 'react-hook-form';
-import { Label } from 'components/ui/label';
+import { Label } from 'libs/shadcn-ui/src/ui/label';
 
 export type SwitchElementProps<T extends FieldValues = FieldValues> = {
   name: FieldPath<T>;

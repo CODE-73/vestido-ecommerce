@@ -1,12 +1,13 @@
 import { z } from 'zod';
 
 export const UpdateItemSchema = z.object({
-  title: z.string().optional(),
-  description: z.string().optional(),
-  price: z.string().optional(),
-  unit: z.string().optional(),
-  stock: z.string().optional(),
-  brand: z.string().optional(),
+  title: z.string(),
+  description: z.string(),
+  price: z.string(),
+  unit: z.string(),
+  stock: z.string(),
+  brand: z.string(),
+  hasVariants: z.boolean().default(false),
   gender: z
     .array(z.string())
     .refine((value) => value.some((gender) => gender), {

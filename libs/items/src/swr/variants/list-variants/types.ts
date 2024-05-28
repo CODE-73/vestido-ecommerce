@@ -7,7 +7,7 @@ export type VariantListRequest = {
 export type VariantListResponse = {
   data: Array<
     ItemVariant & {
-      ItemAttributeValues: VariantAttributeValue[];
+      attributeValues: VariantAttributeValue[];
     }
   >;
 };
