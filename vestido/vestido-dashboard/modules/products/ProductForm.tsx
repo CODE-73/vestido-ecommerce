@@ -135,8 +135,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
           </div>
           <div className="grid grid-cols-2 gap-5 lg:px-10">
             <div>
-              {' '}
-              <InputElement name="unit" placeholder="unit" label="Unit" />{' '}
+              <InputElement name="unit" placeholder="unit" label="Unit" />
               <InputElement name="stock" placeholder="Stock" label="Stock" />
             </div>
 

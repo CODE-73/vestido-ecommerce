@@ -71,7 +71,9 @@ const VariantsTable: React.FC<VariantProps> = ({ itemId }) => {
                     {itemVariant.id}
                   </TableCell>
                   <TableCell>{itemVariant.itemId}</TableCell>
-                  <TableCell className="text-right">Price</TableCell>
+                  <TableCell className="text-right">
+                    {itemVariant.price}
+                  </TableCell>
                 </TableRow>
               ))}
           </TableBody>

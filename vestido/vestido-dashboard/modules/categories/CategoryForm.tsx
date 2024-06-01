@@ -133,7 +133,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
               name="description"
               placeholder="Description"
               label="Description"
-            />{' '}
+            />
             <FormField
               control={form.control}
               name="gender"

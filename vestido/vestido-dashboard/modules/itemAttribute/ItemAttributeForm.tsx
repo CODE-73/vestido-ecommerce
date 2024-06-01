@@ -134,9 +134,9 @@ const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
               name="description"
               placeholder="Description"
               label="Description"
-            />{' '}
+            />
           </div>
-        </div>{' '}
+        </div>
         <hr className="border-t-1 border-slate-400 mb-4 w-full" />
         <div>
           <div className="my-5 font-semibold text-lg">Attribute Values</div>
