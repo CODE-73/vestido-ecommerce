@@ -33,13 +33,13 @@ export type CreateVariantForm = z.infer<typeof CreateVariantFormSchema>;
 
 interface VariantFormProps {
   variantId?: string;
-  itemId: string;
+  itemId?: string;
   isNew: boolean;
 }
 
 const VariantForm: React.FC<VariantFormProps> = ({
   variantId,
-  itemId,
+  itemId: propItemId,
   isNew,
 }) => {
   const { toast } = useToast();
@@ -47,11 +47,12 @@ const VariantForm: React.FC<VariantFormProps> = ({
   const form = useForm<CreateVariantForm>({
     resolver: zodResolver(CreateVariantFormSchema),
     defaultValues: {
-      itemId: itemId!,
+      itemId: propItemId ?? '',
       price: 0,
       attributeValues: [],
     },
   });
+  const itemId = form.watch('itemId');
 
   const { fields, append, remove } = useFieldArray({
     control: form.control,
@@ -63,14 +64,13 @@ const VariantForm: React.FC<VariantFormProps> = ({
     isNew ? null : variantId
   );
 
-  console.log('variant details is', variant);
   const { isDirty, isValid, errors } = form.formState;
   const isSubmitting = form.formState.isSubmitting;
-  console.info({ form: form.getValues(), isDirty, isValid, errors });
 
   useEffect(() => {
     if (!isNew && variant) {
       form.reset({
+        itemId: variant.itemId,
         price: variant.price,
         attributeValues: variant.attributeValues,
       });
@@ -92,12 +92,6 @@ const VariantForm: React.FC<VariantFormProps> = ({
     } catch (e) {
       console.error('Error updating variant:', e);
     }
-
-    if (error) return <div>Error loading Variant details</div>;
-    if (!variant) {
-      return <div>Loading Variant details...</div>;
-    }
-    console.log('HandleSubmit');
   };
 
   return (
@@ -117,7 +111,7 @@ const VariantForm: React.FC<VariantFormProps> = ({
               disabled
               placeholder="Item ID"
               label="Item ID"
-            />{' '}
+            />
             <InputElement name="price" placeholder="Price" label="Price" />
           </div>
           {fields.map((field, index) => (
@@ -132,7 +126,6 @@ const VariantForm: React.FC<VariantFormProps> = ({
                 />
               </div>
               <div className="col-span-2">
-                {' '}
                 <InputElement
                   name={`attributeValues.${index}.attributeValueId`}
                   placeholder="Attribute Value ID"

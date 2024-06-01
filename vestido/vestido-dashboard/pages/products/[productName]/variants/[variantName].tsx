@@ -7,6 +7,10 @@ const VariantDetails: NextPage = () => {
   const variantId = router.query.variantName;
   const itemId = router.query.productName;
 
+  if (!variantId || !itemId) {
+    return null;
+  }
+
   return (
     <VariantDetailsView
       isNew={variantId === 'add-new'}

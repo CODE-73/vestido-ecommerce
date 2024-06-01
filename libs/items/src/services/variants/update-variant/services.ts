@@ -20,6 +20,7 @@ export async function updateVariant(
       },
       data: {
         itemId: validatedData.itemId,
+        price: validatedData.price,
       },
     });
 
