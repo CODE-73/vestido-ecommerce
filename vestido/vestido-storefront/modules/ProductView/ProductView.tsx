@@ -120,14 +120,14 @@ const ProductView: React.FC = () => {
         <div className="flex flex-row py-3 gap-3 items-center">
           <div className="flex self-start  gap-1 ">
             {Array.from({ length: 5 }).map((_, index) => (
-              <Star fill="#ffb503" strokeWidth={0} size={20} />
+              <Star key={index} fill="#ffb503" strokeWidth={0} size={20} />
             ))}
           </div>
           <div className="text-xs font-semibold text-[#48CAB2] ">2 reviews</div>
         </div>
         <div className="text-sm ">
           <div className="flex flex-row">
-            <h1 className="font-extralight">SKU:&nbsp; </h1>{' '}
+            <h1 className="font-extralight">SKU:&nbsp; </h1>
             <h1 className="font-semibold">w20</h1>
           </div>
           <div className="flex flex-row">

@@ -187,7 +187,6 @@ const CategoryHeader = () => {
                               key={itemIndex}
                               className="hover:text-[#48cab2]"
                             >
-                              {' '}
                               <ListItem href="/" title={item} />
                             </div>
                           ))}

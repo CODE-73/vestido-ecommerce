@@ -42,7 +42,6 @@ export const CategoryCards: FC<CategoryCardProps> = (props) => {
   return (
     <div className={`flex flex-col items-center ${clsx(props.className)}`}>
       <div className="grid grid-cols-2 gap-2 px-2 md:px-auto md:flex md:gap-8">
-        {' '}
         {cards.map((card, index) => (
           <CategoryCard key={index} data={card} />
         ))}

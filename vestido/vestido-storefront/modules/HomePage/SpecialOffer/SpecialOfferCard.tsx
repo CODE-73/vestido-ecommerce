@@ -59,7 +59,7 @@ const SpecialOfferCard: React.FC<SpecialOfferCardProps> = ({ data }) => {
               </div>
             ))}
           </div>
-        </div>{' '}
+        </div>
         <div className="flex self-start pt-2 gap-1 ">
           {Array.from({ length: 5 }).map((_, index) => (
             <Star fill="#ffb503" strokeWidth={0} size={20} />

@@ -66,14 +66,12 @@ const Header: React.FC = () => {
         </button>
 
         <span>
-          {' '}
           <Image src="/assets/favico.ico" alt="Logo" width="25" height="35" />
         </span>
 
         <Search size={30} onClick={toggleSearch} className="z-50" />
         {isSearchExpanded && (
           <>
-            {' '}
             <Input
               type="text"
               className="absolute inset-0 w-full h-full px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none"
@@ -100,7 +98,6 @@ const Header: React.FC = () => {
           </button>
           <hr />
           <Link href="/cart">
-            {' '}
             <div className="hover:text-[#48CAB2] flex items-center gap-3">
               <ShoppingBag size={28} strokeWidth={1.3} />
               View your cart
@@ -145,7 +142,7 @@ const Header: React.FC = () => {
               Women
             </div>
             {dropdownsOpen.women ? <ChevronUp /> : <ChevronDown />}
-          </div>{' '}
+          </div>
           {dropdownsOpen.women && (
             <div className="capitalize font-normal text-md">
               <div className="flex flex-col gap-4 pt-4 ">
