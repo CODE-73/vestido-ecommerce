@@ -1,5 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { CreateVariantSchema, CreateVariantSchemaType } from './zod';
+import { variantDetails } from '../get-variant';
+import { validateAttributes } from '../validate_attributes';
 
 export async function createVariant(data: CreateVariantSchemaType) {
   const prisma = new PrismaClient();
@@ -8,9 +10,12 @@ export async function createVariant(data: CreateVariantSchemaType) {
   const validatedData = CreateVariantSchema.parse(data);
   // pass to prisma next
 
+  await validateAttributes(prisma, validatedData.attributeValues ?? []);
+
   const newVariant = await prisma.itemVariant.create({
     data: {
       itemId: validatedData.itemId,
+      price: validatedData.price,
       attributeValues: {
         createMany: {
           data: validatedData.attributeValues ?? [],
@@ -18,9 +23,5 @@ export async function createVariant(data: CreateVariantSchemaType) {
       },
     },
   });
-
-  console.log('newVariant is', newVariant);
-  // no try..catch here
-
-  return newVariant;
+  return await variantDetails(newVariant.id);
 }

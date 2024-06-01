@@ -182,7 +182,7 @@ const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
                 setEditingRowIdx(attrValues.length); // Set the newly added row to be in edit mode
               }}
               className=" bg-white opacity-75 border border-2 text-gray-300 border-dashed border-gray-300 hover:bg-white hover:opacity-100"
-              disabled={!lastValue}
+              disabled={attrValues.length != 0 && !lastValue}
             >
               <Plus />
             </Button>

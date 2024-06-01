@@ -72,6 +72,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
   const isSubmitting = form.formState.isSubmitting;
   console.info({ form: form.getValues(), isDirty, isValid, errors });
   const hasVariants = form.watch('hasVariants');
+  console.log('hasVariants is', hasVariants);
 
   useEffect(() => {
     if (!isNew && item) {
@@ -85,6 +86,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
         ...data,
         id: isNew ? undefined : itemId,
       });
+      console.log('response is', response);
       toast({
         title: isNew
           ? 'Product Added Successfully'
@@ -94,7 +96,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
     } catch (e) {
       console.error('Error updating item:', e);
     }
-    setShowVariantsTable(data.hasVariants);
+    setShowVariantsTable(hasVariants);
+    console.log('showVariantsTable is', showVariantsTable);
     if (error) return <div>Error loading Item details</div>;
     if (!item) {
       return <div>Loading item details...</div>;
@@ -196,8 +199,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
             {isNew ? 'Create' : 'Update'}
           </Button>
         </div>
-        {showVariantsTable && <VariantsTable itemId={itemId as string} />}
       </form>
+      {(showVariantsTable || hasVariants) && (
+        <VariantsTable itemId={itemId as string} />
+      )}
     </Form>
   );
 };
