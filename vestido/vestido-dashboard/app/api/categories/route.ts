@@ -35,19 +35,31 @@ export async function POST(request: Request) {
 
     const r = newCategory;
 
-    return new Response(JSON.stringify(r), {
-      headers: {
-        'Content-Type': 'application/son',
-      },
-    });
+    return new Response(
+      JSON.stringify({
+        success: true,
+        data: r,
+      }),
+      {
+        headers: {
+          'Content-Type': 'application/son',
+        },
+      }
+    );
   } catch (e) {
     if (e instanceof ZodError) {
-      return new Response(JSON.stringify(e), {
-        status: 400,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      return new Response(
+        JSON.stringify({
+          success: false,
+          error: e,
+        }),
+        {
+          status: 400,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
     } else {
       console.error('Unexpected Error', e);
       return new Response(
