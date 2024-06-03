@@ -42,9 +42,9 @@ export function CategoriesTable() {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>ID</TableHead>
           <TableHead>Name</TableHead>
           <TableHead>Parent Cateogry</TableHead>
+          <TableHead>Description</TableHead>
           <TableHead className="text-right">Gender</TableHead>
         </TableRow>
       </TableHeader>
@@ -56,11 +56,11 @@ export function CategoriesTable() {
               onClick={() => handleRowClick(category.id)}
               className="max-w-sm truncate cursor-pointer"
             >
-              <TableCell className="font-medium">{category.id}</TableCell>
-              <TableCell>{category.name}</TableCell>
+              <TableCell className="font-semibold">{category.name}</TableCell>
               <TableCell>
                 <ParentCategoryName parentId={category.parentCategoryId} />
               </TableCell>
+              <TableCell>{category.description}</TableCell>
 
               <TableCell className="text-right">
                 {getGenderString(category.gender)}

@@ -97,12 +97,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
       console.error('Error updating item:', e);
     }
     setShowVariantsTable(hasVariants);
-    console.log('showVariantsTable is', showVariantsTable);
-    if (error) return <div>Error loading Item details</div>;
-    if (!item) {
-      return <div>Loading item details...</div>;
-    }
-    console.log('HandleSubmit');
   };
 
   return (

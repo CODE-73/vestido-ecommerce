@@ -55,8 +55,6 @@ const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
   const { trigger } = useAttributeUpsert();
   const { data: { data: itemAttribute } = { data: null }, error } =
     useAttribute(isNew ? null : itemAttributeId);
-
-  console.log('Item Attribute details is', itemAttribute);
   const { isDirty, isValid, errors } = form.formState;
   const isSubmitting = form.formState.isSubmitting;
   console.info({ form: form.getValues(), isDirty, isValid, errors });
@@ -99,11 +97,6 @@ const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
     } catch (e) {
       console.error('Error updating item Attribute:', e);
     }
-    if (error) return <div>Error loading item Attribute details</div>;
-    if (!itemAttribute) {
-      return <div>Loading item Attribute details...</div>;
-    }
-    console.log('HandleSubmit');
   };
 
   console.info(

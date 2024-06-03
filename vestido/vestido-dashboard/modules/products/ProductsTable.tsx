@@ -26,10 +26,9 @@ export function ProductsTable() {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>ID</TableHead>
           <TableHead>Title</TableHead>
           <TableHead>Price</TableHead>
-          <TableHead className="text-right">Category</TableHead>
+          <TableHead className="text-right">Description</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -40,9 +39,9 @@ export function ProductsTable() {
               onClick={() => handleRowClick(item.id)}
               className="cursor-pointer"
             >
-              <TableCell className="font-medium">{item.id}</TableCell>
               <TableCell>{item.title}</TableCell>
               <TableCell>{item.price}</TableCell>
+              {/* <TableCell></TableCell> */}
               <TableCell className="text-right">{item.description}</TableCell>
             </TableRow>
           ))}
