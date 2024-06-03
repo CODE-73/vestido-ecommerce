@@ -12,7 +12,7 @@ export async function addToCart(
         ...authHeaders,
       },
     });
-    console.log('the cart is belowwww', r.data);
+
     return r.data as AddToCartResponse;
   } catch (error) {
     console.error('Error Fetching Cart:', error);

@@ -14,13 +14,11 @@ export async function getItemList(query?: string): Promise<ItemListResponse> {
   // }
 
   const r = await fetch('/api/items');
-  console.log('response is', r);
 
   if (!r.ok) {
     throw new Error('Error Fetching List');
   }
 
   const data = await r.json();
-  console.log('the item list is below', data);
   return data as ItemListResponse;
 }

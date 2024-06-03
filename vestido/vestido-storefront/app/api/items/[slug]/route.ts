@@ -9,18 +9,30 @@ export async function GET(
   try {
     const item = await itemDetails(params.slug);
 
-    return new Response(JSON.stringify(item), {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    return new Response(
+      JSON.stringify({
+        success: true,
+        data: item,
+      }),
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
   } catch (e) {
     console.error(e);
-    return new Response(JSON.stringify(e), {
-      status: 500,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    return new Response(
+      JSON.stringify({
+        success: false,
+        error: e,
+      }),
+      {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
   }
 }

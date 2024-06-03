@@ -11,7 +11,6 @@ export async function getWishlist(
         ...authHeaders,
       },
     });
-    console.log('Wishlist items are below:', r.data);
     return r.data as WishlistResponse;
   } catch (error) {
     console.error('Error Fetching Wishlist:', error);

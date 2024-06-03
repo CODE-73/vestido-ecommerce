@@ -6,7 +6,6 @@ export async function getVariantsList(
 ): Promise<VariantListResponse> {
   let url = `/api/items/${itemId}/variants`;
   const r = await fetch(url);
-  console.log(r);
 
   if (query) {
     const encodedQuery = encodeURIComponent(query);

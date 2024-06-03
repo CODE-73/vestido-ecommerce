@@ -4,9 +4,7 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    const otp = await sendOTP(body);
-
-    console.log('OTP is:', otp);
+    await sendOTP(body);
 
     return new Response(JSON.stringify({ success: true }), {
       status: 200,

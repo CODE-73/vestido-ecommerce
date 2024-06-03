@@ -42,7 +42,6 @@ export async function GET(
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    console.log('body is', body);
 
     // Call the createItem function with the validated request body
     const newVariant = await createVariant(body);

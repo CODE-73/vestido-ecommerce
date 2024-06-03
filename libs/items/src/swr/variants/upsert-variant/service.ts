@@ -21,12 +21,10 @@ export async function upsertVariant(
     },
     body: JSON.stringify(args),
   });
-  console.log('r is', r);
   if (!r.ok) {
     throw new Error('Error Upserting Variant');
   }
 
   const data = await r.json();
-  console.log('data from swr service is', data);
   return data as variantUpsertResponse;
 }

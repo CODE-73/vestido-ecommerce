@@ -1,7 +1,6 @@
 import { SendOtpRequest, SendOtpResponse } from './types';
 
 export async function sendOtp(args: SendOtpRequest): Promise<SendOtpResponse> {
-  console.log('mob is', args.mobile);
   const r = await fetch('/api/auth/send-otp', {
     method: 'POST',
     headers: {

@@ -39,17 +39,14 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    console.log('body is', body);
 
     // Call the createItem function with the validated request body
     const newItem = await createItem(body);
-
 
     // const r = {
     //   data: newItem,
     // };
     const r = newItem;
-
 
     return new Response(JSON.stringify(r), {
       headers: {
