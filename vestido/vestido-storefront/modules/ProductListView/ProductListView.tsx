@@ -27,7 +27,6 @@ const data = [
     cardImage2: product12,
     name: 'T-shirt with pearly sleeves',
     salePercent: '13',
-    brand: "levi's",
     price: '$450.00',
     offerPrice: '$390.00',
   },
@@ -35,7 +34,6 @@ const data = [
     cardImage1: product21,
     cardImage2: product22,
     name: 'Metallic Effect Bag',
-    brand: 'guess',
     price: '$450.00',
     offerPrice: '$390.00',
   },
@@ -44,7 +42,6 @@ const data = [
     cardImage2: product32,
     name: 'Knit Beanie with slogan',
     textColor: 'white',
-    brand: "levi's",
     price: '$450.00',
     offerPrice: '$390.00',
   },
@@ -53,7 +50,6 @@ const data = [
     cardImage2: product42,
     name: 'T-shirt with pearly sleeves',
     salePercent: '13',
-    brand: "levi's",
     price: '$450.00',
     offerPrice: '$390.00',
   },
@@ -61,7 +57,6 @@ const data = [
     cardImage1: product51,
     cardImage2: product52,
     name: 'Metallic Effect Bag',
-    brand: 'guess',
     price: '$450.00',
     offerPrice: '$390.00',
   },
@@ -70,7 +65,6 @@ const data = [
     cardImage2: product62,
     name: 'Knit Beanie with slogan',
     textColor: 'white',
-    brand: "levi's",
     price: '$450.00',
     offerPrice: '$390.00',
   },
@@ -107,9 +101,6 @@ const ProductlistView: React.FC = () => {
               alt="alt text"
             />
 
-            <div className="self-start pt-2 text-[#777777] uppercase text-sm font-light">
-              {item.brand}
-            </div>
             <div className="self-start pt-[#1px] capitalize text-[#333333] text-sm font-thin">
               {item.name}
             </div>

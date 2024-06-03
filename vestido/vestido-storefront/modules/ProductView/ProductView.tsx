@@ -6,15 +6,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@vestido-ecommerce/shadcn-ui/accordion';
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@vestido-ecommerce/shadcn-ui/avatar';
+import { Avatar, AvatarFallback } from '@vestido-ecommerce/shadcn-ui/avatar';
 import {
   Table,
-  TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -43,7 +37,6 @@ const product = [
     cardImage2: product12,
     name: 'T-shirt with pearly sleeves',
     salePercent: '13',
-    brand: "levi's",
     price: '$450.00',
     offerPrice: '$390.00',
   },
@@ -136,9 +129,6 @@ const ProductView: React.FC = () => {
           </div>
           <div className="flex flex-row">
             <h1 className="font-extralight">Vendor:&nbsp; </h1>
-            <h1 className="font-semibold no-underline hover:underline">
-              Levi's
-            </h1>
           </div>
           <div className="flex flex-row">
             <h1 className="font-extralight">Product Type:&nbsp; </h1>
@@ -246,7 +236,7 @@ const ProductView: React.FC = () => {
                 any store niche os covered by Yanka functionality. Yanka Shopify
                 theme is compatible with Oberlo, Weglot and many other 3rd party
                 apps from Shopify community. Buying Yanka Shopify theme will be
-                best investment in your future web store. You don't need to
+                best investment in your future web store. You do not need to
                 review our competitors
               </AccordionContent>
             </AccordionItem>
@@ -285,7 +275,12 @@ const ProductView: React.FC = () => {
                 <div className="flex flex-row py-3 gap-3 pb-7">
                   <div className="flex self-start  gap-1 ">
                     {Array.from({ length: 5 }).map((_, index) => (
-                      <Star fill="#ffb503" strokeWidth={0} size={20} />
+                      <Star
+                        key={index}
+                        fill="#ffb503"
+                        strokeWidth={0}
+                        size={20}
+                      />
                     ))}
                   </div>
                   <div className="text-sm font-bold text-[#48CAB2] ">
@@ -298,7 +293,12 @@ const ProductView: React.FC = () => {
 
                 <div className="flex self-start gap-1 pb-3">
                   {Array.from({ length: 5 }).map((_, index) => (
-                    <Star fill="#ffb503" strokeWidth={0} size={20} />
+                    <Star
+                      key={index}
+                      fill="#ffb503"
+                      strokeWidth={0}
+                      size={20}
+                    />
                   ))}
                 </div>
                 <div>

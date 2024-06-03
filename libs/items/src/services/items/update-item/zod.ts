@@ -6,7 +6,6 @@ export const UpdateItemSchema = z.object({
   price: z.string(),
   unit: z.string(),
   stock: z.string(),
-  brand: z.string(),
   hasVariants: z.boolean().default(false),
   gender: z
     .array(z.string())

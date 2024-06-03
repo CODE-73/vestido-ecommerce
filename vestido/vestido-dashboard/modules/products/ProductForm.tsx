@@ -28,7 +28,6 @@ const CreateProductFormSchema = z.object({
   description: z.string(),
   stock: z.string(),
   unit: z.string(),
-  brand: z.string(),
   hasVariants: z.boolean().default(false),
   gender: z
     .array(z.enum(Genders))
@@ -57,7 +56,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
       description: '',
       stock: '',
       unit: '',
-      brand: '',
       gender: ['MEN', 'WOMEN'],
       hasVariants: false,
     },
@@ -121,7 +119,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
               placeholder="Description"
               label="Description"
             />
-            <InputElement name="brand" placeholder="Brand" label="Brand" />
           </div>
           <div className="grid grid-cols-2 gap-5 lg:px-10">
             <div>

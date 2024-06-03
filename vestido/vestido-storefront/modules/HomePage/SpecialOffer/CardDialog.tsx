@@ -4,18 +4,11 @@ import Image from 'next/image';
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@vestido-ecommerce/shadcn-ui/dialog';
-import { Trash2, Minus, Plus, ChevronLeft, RefreshCcw } from 'lucide-react';
+import { ChevronLeft } from 'lucide-react';
 import { Checkbox } from '@vestido-ecommerce/shadcn-ui/checkbox';
-
-import { Input } from '@vestido-ecommerce/shadcn-ui/input';
-import { Label } from '@vestido-ecommerce/shadcn-ui/label';
-import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import product11 from '../../../assets/offer-products/product1-1.jpg';
 import product12 from '../../../assets/offer-products/product1-2.jpg';
 
@@ -31,7 +24,6 @@ const CardDialog: React.FC<CardDialogProps> = ({ isOpen, onClose }) => {
       cardImage2: product12,
       name: 'T-shirt with pearly sleeves',
       salePercent: '13',
-      brand: "levi's",
       price: '$450.00',
       offerPrice: '$390.00',
     },
