@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import { Checkbox } from '@vestido-ecommerce/shadcn-ui/checkbox';
 import {
   Accordion,
@@ -34,13 +34,12 @@ import {
   Star,
 } from 'lucide-react';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
-import product11 from '../../assets/offer-products/product1-1.jpg';
-import product12 from '../../assets/offer-products/product1-2.jpg';
+import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
+import { useR2Download } from './../../../../libs/r2/src/swr/download';
 
 const product = [
   {
-    cardImage1: product11,
-    cardImage2: product12,
+    cardImages: ['path-to-image1', 'path-to-image2'],
     name: 'T-shirt with pearly sleeves',
     salePercent: '13',
     brand: "levi's",
@@ -67,34 +66,69 @@ const reviews = [
 ];
 
 const ProductView: React.FC = () => {
-  const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
+  const [urls, setUrls] = React.useState<{ [key: string]: string }>({});
+  const { trigger: getUrl } = useR2Download();
+  const toast = useToast();
 
+  const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
   const labels = ['Days', 'Hrs', 'Min', 'Sec'];
+
+  useEffect(() => {
+    const fetchUrls = async () => {
+      try {
+        const imageUrls = await Promise.all(
+          product[0].cardImages.map((imagePath) => getUrl({ key: imagePath }))
+        );
+
+        setUrls({
+          cardImage1: imageUrls[0].url,
+          cardImage2: imageUrls[1].url,
+        });
+      } catch (error) {
+        console.log('Error in dowloading image');
+      }
+    };
+
+    fetchUrls();
+  }, [toast, getUrl]);
+
   return (
     <div className="w-full flex flex-row py-5 ">
       <div className="w-1/6 grid justify-items-end">
         <div className="w-20">
           <div className="sticky top-0">
-            <Image
-              className="outline outline-3 hover:outline-black mb-3"
-              src={product[0].cardImage1}
-              alt="alt text"
-            />
-            <Image
-              className="outline outline-3 hover:outline-black"
-              src={product[0].cardImage2}
-              alt="alt text"
-            />
+            {urls.cardImage1 && (
+              <Image
+                className="outline outline-3 hover:outline-black mb-3"
+                src={urls.cardImage1}
+                alt="alt text"
+                width={100}
+                height={100}
+              />
+            )}
+            {urls.cardImage2 && (
+              <Image
+                className="outline outline-3 hover:outline-black"
+                src={urls.cardImage2}
+                alt="alt text"
+                width={100}
+                height={100}
+              />
+            )}
           </div>
         </div>
       </div>
       <div className="w-1/3">
         <div className="sticky top-0">
-          <Image
-            className="w-5/6 px-5 h-4/6"
-            src={product[0].cardImage1}
-            alt="alt text"
-          />
+          {urls.cardImage1 && (
+            <Image
+              className="w-5/6 px-5 h-4/6"
+              src={urls.cardImage1}
+              alt="alt text"
+              width={400}
+              height={300}
+            />
+          )}
         </div>
       </div>
       <div className="w-1/3">
