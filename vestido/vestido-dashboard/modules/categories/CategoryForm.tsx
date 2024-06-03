@@ -21,6 +21,7 @@ import {
 } from '@vestido-ecommerce/shadcn-ui/form';
 import { Combobox } from '@vestido-ecommerce/shadcn-ui/combobox';
 import clsx from 'clsx';
+import { CategoryElement } from 'vestido/vestido-dashboard/forms/category-combobox-element';
 
 const CreateCategoryFormSchema = z.object({
   name: z.string(),
@@ -58,10 +59,10 @@ interface CategoryFormProps {
 }
 
 const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
-  const { data: categories } = useCategories();
+  // const { data: categories } = useCategories();
   const { toast } = useToast();
   const router = useRouter();
-  const [searchQuery, setSearchQuery] = useState('');
+  // const [searchQuery, setSearchQuery] = useState('');
   const form = useForm<CreateCategoryForm>({
     resolver: zodResolver(CreateCategoryFormSchema),
     defaultValues: {
@@ -104,11 +105,6 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
     } catch (e) {
       console.error('Error updating category:', e);
     }
-    if (error) return <div>Error loading category details</div>;
-    if (!category) {
-      return <div>Loading category details...</div>;
-    }
-    console.log('HandleSubmit');
   };
 
   return (
@@ -182,7 +178,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
                 </FormItem>
               )}
             />
-            <Combobox
+            {/* <Combobox
               className={clsx(
                 'overflow-x-clip',
                 'order-first w-full',
@@ -193,7 +189,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
                   ? categories?.data.find(
                       (category) => category.id === parentCategoryId
                     )?.name
-                  : 'Select category'
+                  : 'Select Parent Category'
               }
               noOptionsText="No Categories Found"
               fullWidth
@@ -210,6 +206,10 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
                 });
               }}
               value={parentCategoryId ?? null}
+            /> */}
+            <CategoryElement
+              name="parentCategoryId"
+              placeholder="Select Parent Category"
             />
           </div>
         </div>
