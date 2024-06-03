@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
-import {
-  Form,
-  //   FormControl,
-  //   FormDescription,
-  //   FormField,
-  //   FormItem,
-  //   FormLabel,
-  //   FormMessage,
-} from '@vestido-ecommerce/shadcn-ui/form';
+import { Form } from '@vestido-ecommerce/shadcn-ui/form';
 import { InputElement } from '../../forms/input-element';
 import { useVariantUpsert } from 'libs/items/src/swr/variants/upsert-variant';
 import { Button } from 'libs/shadcn-ui/src/ui/button';
@@ -18,6 +10,8 @@ import { useVariant } from 'libs/items/src/swr/variants';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { useRouter } from 'next/router';
 import { Plus } from 'lucide-react';
+import { AttributeElement } from 'vestido/vestido-dashboard/forms/attribute-combobox-element';
+import { AttributeValueElement } from 'vestido/vestido-dashboard/forms/attribute-value-combobox';
 
 export const VariantAttributeValueSchema = z.object({
   attributeId: z.string(),
@@ -120,15 +114,18 @@ const VariantForm: React.FC<VariantFormProps> = ({
               className="grid grid-cols-5 gap-3 lg:px-10 mt-2"
             >
               <div className="col-span-2">
-                <InputElement
+                <AttributeElement
                   name={`attributeValues.${index}.attributeId`}
-                  placeholder="Attribute ID"
+                  placeholder="Attribute "
                 />
               </div>
               <div className="col-span-2">
-                <InputElement
+                <AttributeValueElement
                   name={`attributeValues.${index}.attributeValueId`}
-                  placeholder="Attribute Value ID"
+                  placeholder="Attribute Value"
+                  attributeId={form.watch(
+                    `attributeValues.${index}.attributeId`
+                  )}
                 />
               </div>
               <Button
