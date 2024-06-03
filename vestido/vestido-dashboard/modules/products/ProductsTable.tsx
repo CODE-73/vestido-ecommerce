@@ -25,12 +25,13 @@ export function ProductsTable() {
         <TableRow>
           <TableHead>Title</TableHead>
           <TableHead>Price</TableHead>
+          <TableHead>Category</TableHead>
           <TableHead className="text-right">Description</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data?.data &&
-          data.data.map((item) => (
+        {data &&
+          data.map((item) => (
             <TableRow
               key={item.id}
               onClick={() => handleRowClick(item.id)}
@@ -38,7 +39,7 @@ export function ProductsTable() {
             >
               <TableCell>{item.title}</TableCell>
               <TableCell>{item.price}</TableCell>
-              {/* <TableCell></TableCell> */}
+              <TableCell>{item.category?.name}</TableCell>
               <TableCell className="text-right">{item.description}</TableCell>
             </TableRow>
           ))}

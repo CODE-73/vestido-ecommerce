@@ -177,38 +177,10 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
                 </FormItem>
               )}
             />
-            {/* <Combobox
-              className={clsx(
-                'overflow-x-clip',
-                'order-first w-full',
-                'lg:order-none lg:w-auto'
-              )}
-              placeholder={
-                parentCategoryId
-                  ? categories?.data.find(
-                      (category) => category.id === parentCategoryId
-                    )?.name
-                  : 'Select Parent Category'
-              }
-              noOptionsText="No Categories Found"
-              fullWidth
-              onSearch={setSearchQuery}
-              options={
-                categories?.data.map((category) => ({
-                  value: category.id,
-                  label: category.name,
-                })) || []
-              }
-              onChange={(categoryId) => {
-                form.setValue('parentCategoryId', categoryId, {
-                  shouldDirty: true,
-                });
-              }}
-              value={parentCategoryId ?? null}
-            /> */}
             <CategoryElement
               name="parentCategoryId"
               placeholder="Select Parent Category"
+              label="Parent Category"
             />
           </div>
         </div>

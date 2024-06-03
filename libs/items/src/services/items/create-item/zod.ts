@@ -6,6 +6,7 @@ export const CreateItemSchema = z.object({
   price: z.string(),
   unit: z.string(),
   stock: z.string(),
+  categoryId: z.string(),
   hasVariants: z.boolean().default(false),
   gender: z
     .array(z.string())

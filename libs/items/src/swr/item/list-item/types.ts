@@ -1,5 +1,5 @@
 // import { SortParam } from '../../types';
-import { Item } from '@prisma/client';
+export { type ListItemResponse } from '../../../services/items/list-item/types';
 
 // type ItemListSortParams = SortParam<Item>;
 
@@ -8,13 +8,6 @@ export type ListItemRequest = {
   // sort?: ItemListSortParams;
   page?: number;
   pageSize?: number;
-};
-
-export type ItemListResponse = {
-  data: Item[];
-
-  /** The total number of customers that match the request criteria. */
-  // count: number;
 };
 
 /**

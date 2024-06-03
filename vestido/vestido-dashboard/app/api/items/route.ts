@@ -48,11 +48,17 @@ export async function POST(request: Request) {
     // };
     const r = newItem;
 
-    return new Response(JSON.stringify(r), {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    return new Response(
+      JSON.stringify({
+        success: true,
+        data: r,
+      }),
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
   } catch (e) {
     if (e instanceof ZodError) {
       return new Response(JSON.stringify(e), {

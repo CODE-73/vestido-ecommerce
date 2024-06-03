@@ -1,5 +1,3 @@
-import { Item } from '@prisma/client';
+import { type listItem } from './service';
 
-export type ListItemResponse = {
-  data: Item[];
-};
+export type ListItemResponse = Awaited<ReturnType<typeof listItem>>;

@@ -21,6 +21,7 @@ import { Checkbox } from '@vestido-ecommerce/shadcn-ui/checkbox';
 import { Genders } from '@vestido-ecommerce/items';
 import VariantsTable from '../variants/VariantsTable';
 import { SwitchElement } from 'vestido/vestido-dashboard/forms/switch-element';
+import { CategoryElement } from 'vestido/vestido-dashboard/forms/category-combobox-element';
 
 const CreateProductFormSchema = z.object({
   title: z.string(),
@@ -28,6 +29,7 @@ const CreateProductFormSchema = z.object({
   description: z.string(),
   stock: z.string(),
   unit: z.string(),
+  categoryId: z.string(),
   hasVariants: z.boolean().default(false),
   gender: z
     .array(z.enum(Genders))
@@ -56,6 +58,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
       description: '',
       stock: '',
       unit: '',
+      categoryId: '',
       gender: ['MEN', 'WOMEN'],
       hasVariants: false,
     },
@@ -71,7 +74,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
 
   useEffect(() => {
     if (!isNew && item) {
-      form.reset({ ...item });
+      // categoryId is optional in DB. We are going to enforce it as required.
+      form.reset({ ...item, categoryId: item.categoryId ?? '' });
     }
   }, [isNew, item, form]);
 
@@ -86,6 +90,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
           ? 'Product Added Successfully'
           : 'Product Updated Successfully',
       });
+      console.log('reponse.data.id', response);
       router.replace(`/products/${response.data.id}`);
     } catch (e) {
       console.error('Error updating item:', e);
@@ -118,6 +123,11 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
               name="description"
               placeholder="Description"
               label="Description"
+            />
+            <CategoryElement
+              name="categoryId"
+              placeholder="Category"
+              label="Category"
             />
           </div>
           <div className="grid grid-cols-2 gap-5 lg:px-10">

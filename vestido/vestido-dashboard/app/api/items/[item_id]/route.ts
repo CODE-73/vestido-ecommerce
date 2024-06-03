@@ -41,24 +41,38 @@ export async function PUT(
   try {
     const r = await updateItem(params.item_id, body);
 
-    return new Response(JSON.stringify(r), {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  } catch (e) {
-    if (e instanceof ZodError) {
-      return new Response(JSON.stringify(e), {
-        status: 400,
+    return new Response(
+      JSON.stringify({
+        success: true,
+        data: r,
+      }),
+      {
         headers: {
           'Content-Type': 'application/json',
         },
-      });
+      }
+    );
+  } catch (e) {
+    if (e instanceof ZodError) {
+      return new Response(
+        JSON.stringify({
+          success: false,
+          error: e,
+        }),
+        {
+          status: 400,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
     } else {
       console.error('Unexpected Error', e);
       return new Response(
         JSON.stringify({
+          success: false,
           message: 'Unknown Error',
+          error: e,
         }),
         {
           status: 500,
@@ -77,18 +91,30 @@ export async function DELETE(
   try {
     await deleteItem(params.item_id);
 
-    return new Response(JSON.stringify(params.item_id), {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    return new Response(
+      JSON.stringify({
+        success: true,
+        deleted: params.item_id,
+      }),
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
   } catch (e) {
     console.error(e);
-    return new Response(JSON.stringify(e), {
-      status: 400,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    return new Response(
+      JSON.stringify({
+        success: false,
+        error: e,
+      }),
+      {
+        status: 400,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
   }
 }
