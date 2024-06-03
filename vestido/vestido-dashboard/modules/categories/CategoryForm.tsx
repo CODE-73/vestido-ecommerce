@@ -79,7 +79,6 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
     isNew ? null : categoryId
   );
 
-  console.log('category details is', category);
   const { isDirty, isValid, errors } = form.formState;
   const isSubmitting = form.formState.isSubmitting;
   console.info({ form: form.getValues(), isDirty, isValid, errors });

@@ -54,7 +54,6 @@ const LoginForm: React.FC<Props> = ({ mobile }) => {
       });
 
       setToken(r.token);
-      console.log('token is', r.token);
 
       router.push('/');
     } catch (error) {

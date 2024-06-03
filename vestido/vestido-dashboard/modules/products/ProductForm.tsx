@@ -66,13 +66,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
   const { data: { data: item } = { data: null }, error } = useItem(
     isNew ? null : itemId
   );
-
-  console.log('item details is', item);
   const { isDirty, isValid, errors } = form.formState;
   const isSubmitting = form.formState.isSubmitting;
   console.info({ form: form.getValues(), isDirty, isValid, errors });
   const hasVariants = form.watch('hasVariants');
-  console.log('hasVariants is', hasVariants);
 
   useEffect(() => {
     if (!isNew && item) {
@@ -86,7 +83,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
         ...data,
         id: isNew ? undefined : itemId,
       });
-      console.log('response is', response);
       toast({
         title: isNew
           ? 'Product Added Successfully'

@@ -14,11 +14,8 @@ import { useRouter } from 'next/router';
 export function ProductsTable() {
   const router = useRouter();
   const { data } = useItems();
-  console.log('item data is', data);
 
   const handleRowClick = (product: string) => {
-    console.log(product);
-    console.log('row click function');
     router.push(`/products/${encodeURIComponent(product)}`);
   };
 

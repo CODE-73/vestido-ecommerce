@@ -13,11 +13,8 @@ import {
 export function ItemAttributeTable() {
   const router = useRouter();
   const { data } = useAttributes();
-  console.log('data is', data?.data);
 
   const handleRowClick = (itemAttribute: string) => {
-    console.log(itemAttribute);
-    console.log('row click function');
     router.push(`/attributes/${encodeURIComponent(itemAttribute)}`);
   };
 

@@ -26,11 +26,8 @@ const ParentCategoryName: React.FC<{ parentId: string | null | undefined }> = ({
 export function CategoriesTable() {
   const router = useRouter();
   const { data } = useCategories();
-  // console.log('data is', data);
 
   const handleRowClick = (category: string) => {
-    console.log(category);
-    console.log('row click function');
     router.push(`/categories/${encodeURIComponent(category)}`);
   };
 

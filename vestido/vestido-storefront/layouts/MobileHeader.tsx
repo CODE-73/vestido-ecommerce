@@ -43,7 +43,6 @@ const Header: React.FC = () => {
   };
   const toggleSearch = () => {
     if (isSearchExpanded) {
-      console.log('search function');
       setIsSearchExpanded(false);
     }
     if (!isSearchExpanded) {

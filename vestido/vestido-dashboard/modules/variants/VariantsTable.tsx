@@ -26,7 +26,6 @@ const VariantsTable: React.FC<VariantProps> = ({ itemId }) => {
   };
 
   const handleRowClick = (variant: string) => {
-    console.log(variant);
     router.push(
       `/products/${encodeURIComponent(itemId)}/variants/${encodeURIComponent(
         variant
