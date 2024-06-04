@@ -72,14 +72,15 @@ model Item {
     cartItems     CartItem[]
     variants      ItemVariant[]
 
-    category   Category? @relation(fields: [categoryId], references: [id])
-    categoryId String?   @db.Uuid
+    category   Category @relation(fields: [categoryId], references: [id])
+    categoryId String   @db.Uuid
 }
 
 model ItemVariant {
     id     String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     item   Item   @relation(fields: [itemId], references: [id])
     itemId String @db.Uuid
+    title  String
     price  Float  @default(0)
 
     attributeValues VariantAttributeValue[]
