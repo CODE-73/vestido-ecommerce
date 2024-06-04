@@ -22,8 +22,7 @@ export function ItemAttributeTable() {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>ID</TableHead>
-          <TableHead>Name</TableHead>
+          <TableHead>Attribute</TableHead>
           <TableHead>Description</TableHead>
           <TableHead>Values</TableHead>
         </TableRow>
@@ -36,8 +35,9 @@ export function ItemAttributeTable() {
               onClick={() => handleRowClick(itemAttribute.id)}
               className="max-w-sm truncate cursor-pointer"
             >
-              <TableCell className="font-medium">{itemAttribute.id}</TableCell>
-              <TableCell>{itemAttribute.name}</TableCell>
+              <TableCell className="font-semibold capitalize">
+                {itemAttribute.name}
+              </TableCell>
               <TableCell>{itemAttribute.description}</TableCell>
               <TableCell>
                 {itemAttribute.ItemAttributeValues.map((x) => x.value).join(
