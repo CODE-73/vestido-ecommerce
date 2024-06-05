@@ -5,7 +5,6 @@ export async function getAttributesList(
 ): Promise<AttributeListResponse> {
   let url = '/api/attributes';
   const r = await fetch(url);
-  console.log(r);
 
   if (query) {
     // Make sure the query is URI encoded to handle spaces and special characters

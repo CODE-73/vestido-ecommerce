@@ -13,7 +13,7 @@ export async function removeFromCart(
         ...authHeaders,
       },
     });
-    console.log('Cart items are ', r.data);
+
     return r.data as RemoveFromCartResponse;
   } catch (error) {
     console.error('Error in deleting from Cart:', error);

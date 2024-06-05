@@ -1,5 +1,9 @@
-import { ItemVariant } from '@prisma/client';
+import { ItemVariant, VariantAttributeValue } from '@prisma/client';
 
 export type ListVariantsResponse = {
-  data: ItemVariant[];
+  data: Array<
+    ItemVariant & {
+      attributeValues: VariantAttributeValue[];
+    }
+  >;
 };

@@ -21,6 +21,7 @@ import {
 } from '@vestido-ecommerce/shadcn-ui/form';
 import { Combobox } from '@vestido-ecommerce/shadcn-ui/combobox';
 import clsx from 'clsx';
+import { CategoryElement } from 'vestido/vestido-dashboard/forms/category-combobox-element';
 
 const CreateCategoryFormSchema = z.object({
   name: z.string(),
@@ -58,10 +59,10 @@ interface CategoryFormProps {
 }
 
 const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
-  const { data: categories } = useCategories();
+  // const { data: categories } = useCategories();
   const { toast } = useToast();
   const router = useRouter();
-  const [searchQuery, setSearchQuery] = useState('');
+  // const [searchQuery, setSearchQuery] = useState('');
   const form = useForm<CreateCategoryForm>({
     resolver: zodResolver(CreateCategoryFormSchema),
     defaultValues: {
@@ -78,7 +79,6 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
     isNew ? null : categoryId
   );
 
-  console.log('category details is', category);
   const { isDirty, isValid, errors } = form.formState;
   const isSubmitting = form.formState.isSubmitting;
   console.info({ form: form.getValues(), isDirty, isValid, errors });
@@ -104,11 +104,6 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
     } catch (e) {
       console.error('Error updating category:', e);
     }
-    if (error) return <div>Error loading category details</div>;
-    if (!category) {
-      return <div>Loading category details...</div>;
-    }
-    console.log('HandleSubmit');
   };
 
   return (
@@ -133,7 +128,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
               name="description"
               placeholder="Description"
               label="Description"
-            />{' '}
+            />
             <FormField
               control={form.control}
               name="gender"
@@ -182,34 +177,10 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
                 </FormItem>
               )}
             />
-            <Combobox
-              className={clsx(
-                'overflow-x-clip',
-                'order-first w-full',
-                'lg:order-none lg:w-auto'
-              )}
-              placeholder={
-                parentCategoryId
-                  ? categories?.data.find(
-                      (category) => category.id === parentCategoryId
-                    )?.name
-                  : 'Select category'
-              }
-              noOptionsText="No Categories Found"
-              fullWidth
-              onSearch={setSearchQuery}
-              options={
-                categories?.data.map((category) => ({
-                  value: category.id,
-                  label: category.name,
-                })) || []
-              }
-              onChange={(categoryId) => {
-                form.setValue('parentCategoryId', categoryId, {
-                  shouldDirty: true,
-                });
-              }}
-              value={parentCategoryId ?? null}
+            <CategoryElement
+              name="parentCategoryId"
+              placeholder="Select Parent Category"
+              label="Parent Category"
             />
           </div>
         </div>

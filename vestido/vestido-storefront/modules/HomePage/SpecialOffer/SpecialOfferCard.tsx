@@ -16,7 +16,6 @@ export type SpecialOfferCardData = {
   name: string;
   textColor?: string;
   salePercent?: string;
-  brand: string;
   price: string;
   offerPrice: string;
 };
@@ -59,15 +58,13 @@ const SpecialOfferCard: React.FC<SpecialOfferCardProps> = ({ data }) => {
               </div>
             ))}
           </div>
-        </div>{' '}
+        </div>
         <div className="flex self-start pt-2 gap-1 ">
           {Array.from({ length: 5 }).map((_, index) => (
             <Star fill="#ffb503" strokeWidth={0} size={20} />
           ))}
         </div>
-        <div className="self-start pt-2 text-[#777777] uppercase text-sm font-light">
-          {data.brand}
-        </div>
+
         <div className="self-start pt-[#1px] capitalize text-[#333333] text-md font-thin">
           {data.name}
         </div>

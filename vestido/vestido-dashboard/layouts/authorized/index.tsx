@@ -24,7 +24,6 @@ const AuthorizedLayout: React.FC<AuthorizedLayoutProps> = ({ children }) => {
             <Link href="/">
               <div className="flex items-center">
                 <span>
-                  {' '}
                   <Image
                     src="/assets/favico.ico"
                     alt="Logo"

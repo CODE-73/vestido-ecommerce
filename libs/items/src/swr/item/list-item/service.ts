@@ -1,26 +1,22 @@
-import { ItemListResponse } from './types';
+import { ListItemResponse } from './types';
+import { ListItemRequest } from 'libs/items/src/services';
 
-export async function getItemList(query?: string): Promise<ItemListResponse> {
-  // query?: string
+export async function getItemList(
+  args: ListItemRequest
+): Promise<ListItemResponse> {
+  let url = '/api/items';
 
-  // The query parameter should be optional to handle cases when there is no search term.
-  // let url = '/api/items';
+  if (args.q) {
+    const encodedQuery = encodeURIComponent(args.q);
+    url += `?q=${encodedQuery}`;
+  }
 
-  // Now we check if there is a query and append it to the URL if it exists.
-
-  // if (query) {
-  //   const encodedQuery = encodeURIComponent(query);
-  //   url += `&filters=[["name", "like", "%${encodedQuery}%"]]`;
-  // }
-
-  const r = await fetch('/api/items');
-  console.log('response is', r);
+  const r = await fetch(url);
 
   if (!r.ok) {
     throw new Error('Error Fetching List');
   }
 
   const data = await r.json();
-  console.log('the item list is below', data);
-  return data as ItemListResponse;
+  return data.data as ListItemResponse;
 }

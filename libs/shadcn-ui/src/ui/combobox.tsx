@@ -1,5 +1,5 @@
 'use client';
-import { ComponentProps, useEffect, useState } from 'react';
+import { ComponentProps, FocusEventHandler, useEffect, useState } from 'react';
 
 import { LuCheck, LuChevronsUpDown } from 'react-icons/lu';
 
@@ -25,6 +25,7 @@ export interface ComboboxProps {
   multiple?: boolean;
   values?: string[];
   onChange?: (value: string) => void;
+  onBlur?: FocusEventHandler<HTMLInputElement>;
   disabled?: boolean;
   placeholder?: string;
   noOptionsText?: string;
@@ -44,6 +45,7 @@ function Combobox({
   options,
   value,
   onChange,
+  onBlur,
   onSearch,
   isLoading,
   multiple,
@@ -93,6 +95,7 @@ function Combobox({
         <Command shouldFilter={false} className="w-full">
           <CommandInput
             autoFocus
+            onBlur={onBlur}
             onValueChange={(search) => {
               onSearch?.(search);
             }}

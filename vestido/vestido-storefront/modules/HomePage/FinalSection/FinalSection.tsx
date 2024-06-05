@@ -27,7 +27,6 @@ type FinalSectionProps = {
 export const FinalSection: FC<FinalSectionProps> = (props) => {
   return (
     <div className={`flex flex-col md:flex-row gap-3 ${clsx(props.className)}`}>
-      {' '}
       {cards.map((card, index) => (
         <FinalSectionCard key={index} data={card} />
       ))}

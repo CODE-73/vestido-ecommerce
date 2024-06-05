@@ -39,11 +39,9 @@ const AddOnHeader = () => {
         className="justify-self-center"
       >
         <CarouselContent>
-          {' '}
           {messages.map((message, index) => (
             <div key={index} className="flex-shrink-0 w-full">
               <CarouselItem>
-                {' '}
                 <div className="flex">
                   <div className="text-[#333] text-sm font-bold">
                     {message.title}&nbsp;

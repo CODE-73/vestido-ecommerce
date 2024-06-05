@@ -12,7 +12,6 @@ export async function addToWishlist(
         ...authHeaders,
       },
     });
-    console.log('the wishlist is below', r.data);
     return r.data as AddToWishlistResponse;
   } catch (error) {
     console.error('Error Fetching Wishlist:', error);

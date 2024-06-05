@@ -20,7 +20,6 @@ export async function upsertCategory(
     },
     body: JSON.stringify(args),
   });
-  console.log('r is', r);
   if (!r.ok) {
     throw new Error('Error Upserting Category');
   }

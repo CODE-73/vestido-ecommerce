@@ -53,7 +53,6 @@ export const PopularCollection: FC<PopularCollectionProps> = (props) => {
         Visit our shop to see amazing creations from our designers.
       </div>
       <div className="flex flex-col md:grid md:grid-cols-4 gap-3">
-        {' '}
         {cards.map((card, index) => (
           <PopularCollectionCard key={index} data={card} />
         ))}

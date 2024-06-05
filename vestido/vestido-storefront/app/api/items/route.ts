@@ -6,18 +6,30 @@ export async function GET(request: Request) {
   try {
     const items = await listItem();
 
-    return new Response(JSON.stringify(items), {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    return new Response(
+      JSON.stringify({
+        success: true,
+        data: items,
+      }),
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
   } catch (e) {
     console.error(e);
-    return new Response(JSON.stringify(e), {
-      status: 500,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    return new Response(
+      JSON.stringify({
+        success: false,
+        error: e,
+      }),
+      {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
   }
 }

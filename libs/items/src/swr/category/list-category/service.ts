@@ -5,7 +5,6 @@ export async function getCategoriesList(
 ): Promise<CategoryListResponse> {
   let url = '/api/categories';
   const r = await fetch(url);
-  console.log(r);
 
   if (query) {
     // Make sure the query is URI encoded to handle spaces and special characters
@@ -18,6 +17,5 @@ export async function getCategoriesList(
   }
 
   const data = await r.json();
-  console.log('the categories list is below', data);
   return data as CategoryListResponse;
 }

@@ -21,6 +21,9 @@ import { Checkbox } from '@vestido-ecommerce/shadcn-ui/checkbox';
 import { Genders } from '@vestido-ecommerce/items';
 import VariantsTable from '../variants/VariantsTable';
 import { SwitchElement } from 'vestido/vestido-dashboard/forms/switch-element';
+import { CategoryElement } from 'vestido/vestido-dashboard/forms/category-combobox-element';
+
+import { useVariants } from 'libs/items/src/swr/index';
 
 const CreateProductFormSchema = z.object({
   title: z.string(),
@@ -28,7 +31,7 @@ const CreateProductFormSchema = z.object({
   description: z.string(),
   stock: z.string(),
   unit: z.string(),
-  brand: z.string(),
+  categoryId: z.string(),
   hasVariants: z.boolean().default(false),
   gender: z
     .array(z.enum(Genders))
@@ -57,7 +60,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
       description: '',
       stock: '',
       unit: '',
-      brand: '',
+      categoryId: '',
       gender: ['MEN', 'WOMEN'],
       hasVariants: false,
     },
@@ -66,16 +69,16 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
   const { data: { data: item } = { data: null }, error } = useItem(
     isNew ? null : itemId
   );
-
-  console.log('item details is', item);
   const { isDirty, isValid, errors } = form.formState;
   const isSubmitting = form.formState.isSubmitting;
   console.info({ form: form.getValues(), isDirty, isValid, errors });
   const hasVariants = form.watch('hasVariants');
+  const { data: variants } = useVariants(itemId!);
 
   useEffect(() => {
     if (!isNew && item) {
-      form.reset({ ...item });
+      // categoryId is optional in DB. We are going to enforce it as required.
+      form.reset({ ...item, categoryId: item.categoryId ?? '' });
     }
   }, [isNew, item, form]);
 
@@ -90,16 +93,12 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
           ? 'Product Added Successfully'
           : 'Product Updated Successfully',
       });
+      console.log('reponse.data.id', response);
       router.replace(`/products/${response.data.id}`);
     } catch (e) {
       console.error('Error updating item:', e);
     }
-    setShowVariantsTable(data.hasVariants);
-    if (error) return <div>Error loading Item details</div>;
-    if (!item) {
-      return <div>Loading item details...</div>;
-    }
-    console.log('HandleSubmit');
+    setShowVariantsTable(hasVariants);
   };
 
   return (
@@ -128,15 +127,17 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
               placeholder="Description"
               label="Description"
             />
-            <InputElement name="brand" placeholder="Brand" label="Brand" />
+            <CategoryElement
+              name="categoryId"
+              placeholder="Category"
+              label="Category"
+            />
           </div>
           <div className="grid grid-cols-2 gap-5 lg:px-10">
             <div>
-              {' '}
-              <InputElement name="unit" placeholder="unit" label="Unit" />{' '}
+              <InputElement name="unit" placeholder="unit" label="Unit" />
               <InputElement name="stock" placeholder="Stock" label="Stock" />
             </div>
-
             <FormField
               control={form.control}
               name="gender"
@@ -184,10 +185,14 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
                   <FormMessage />
                 </FormItem>
               )}
-            />
-          </div>
-          <div>
-            <SwitchElement name="hasVariants" label="Has Variant(s)" />
+            />{' '}
+            <div>
+              <SwitchElement
+                disabled={!isNew && variants?.data?.length! > 0}
+                name="hasVariants"
+                label="Has Variant(s)"
+              />
+            </div>
           </div>
         </div>
 
@@ -196,8 +201,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
             {isNew ? 'Create' : 'Update'}
           </Button>
         </div>
-        {showVariantsTable && <VariantsTable itemId={itemId as string} />}
       </form>
+      {(showVariantsTable || hasVariants) && (
+        <VariantsTable itemId={itemId as string} />
+      )}
     </Form>
   );
 };

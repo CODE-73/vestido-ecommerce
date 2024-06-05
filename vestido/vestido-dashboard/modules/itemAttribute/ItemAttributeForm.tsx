@@ -55,8 +55,6 @@ const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
   const { trigger } = useAttributeUpsert();
   const { data: { data: itemAttribute } = { data: null }, error } =
     useAttribute(isNew ? null : itemAttributeId);
-
-  console.log('Item Attribute details is', itemAttribute);
   const { isDirty, isValid, errors } = form.formState;
   const isSubmitting = form.formState.isSubmitting;
   console.info({ form: form.getValues(), isDirty, isValid, errors });
@@ -99,11 +97,6 @@ const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
     } catch (e) {
       console.error('Error updating item Attribute:', e);
     }
-    if (error) return <div>Error loading item Attribute details</div>;
-    if (!itemAttribute) {
-      return <div>Loading item Attribute details...</div>;
-    }
-    console.log('HandleSubmit');
   };
 
   console.info(
@@ -134,9 +127,9 @@ const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
               name="description"
               placeholder="Description"
               label="Description"
-            />{' '}
+            />
           </div>
-        </div>{' '}
+        </div>
         <hr className="border-t-1 border-slate-400 mb-4 w-full" />
         <div>
           <div className="my-5 font-semibold text-lg">Attribute Values</div>
@@ -182,7 +175,7 @@ const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
                 setEditingRowIdx(attrValues.length); // Set the newly added row to be in edit mode
               }}
               className=" bg-white opacity-75 border border-2 text-gray-300 border-dashed border-gray-300 hover:bg-white hover:opacity-100"
-              disabled={!lastValue}
+              disabled={attrValues.length != 0 && !lastValue}
             >
               <Plus />
             </Button>

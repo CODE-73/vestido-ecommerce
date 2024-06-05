@@ -14,7 +14,6 @@ export async function removeFromWishlist(
         ...authHeaders,
       },
     });
-    console.log('the wishlist is below', r.data);
     return r.data as RemoveFromWishlistResponse;
   } catch (error) {
     console.error('Error Fetching wishlist:', error);

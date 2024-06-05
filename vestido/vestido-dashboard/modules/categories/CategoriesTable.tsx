@@ -26,11 +26,8 @@ const ParentCategoryName: React.FC<{ parentId: string | null | undefined }> = ({
 export function CategoriesTable() {
   const router = useRouter();
   const { data } = useCategories();
-  // console.log('data is', data);
 
   const handleRowClick = (category: string) => {
-    console.log(category);
-    console.log('row click function');
     router.push(`/categories/${encodeURIComponent(category)}`);
   };
 
@@ -42,9 +39,9 @@ export function CategoriesTable() {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>ID</TableHead>
           <TableHead>Name</TableHead>
           <TableHead>Parent Cateogry</TableHead>
+          <TableHead>Description</TableHead>
           <TableHead className="text-right">Gender</TableHead>
         </TableRow>
       </TableHeader>
@@ -56,11 +53,11 @@ export function CategoriesTable() {
               onClick={() => handleRowClick(category.id)}
               className="max-w-sm truncate cursor-pointer"
             >
-              <TableCell className="font-medium">{category.id}</TableCell>
-              <TableCell>{category.name}</TableCell>
+              <TableCell className="font-semibold">{category.name}</TableCell>
               <TableCell>
                 <ParentCategoryName parentId={category.parentCategoryId} />
               </TableCell>
+              <TableCell>{category.description}</TableCell>
 
               <TableCell className="text-right">
                 {getGenderString(category.gender)}

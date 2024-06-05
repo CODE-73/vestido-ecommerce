@@ -64,7 +64,6 @@ model Item {
     price       String
     unit        String
     stock       String
-    brand       String
     gender      Gender[] @default([MEN, WOMEN])
     hasVariants Boolean  @default(false)
 
@@ -72,13 +71,16 @@ model Item {
     wishlistItems WishlistItem[]
     cartItems     CartItem[]
     variants      ItemVariant[]
-    categories    ItemCategory[]
+
+    category   Category @relation(fields: [categoryId], references: [id])
+    categoryId String   @db.Uuid
 }
 
 model ItemVariant {
     id     String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     item   Item   @relation(fields: [itemId], references: [id])
     itemId String @db.Uuid
+    title  String
     price  Float  @default(0)
 
     attributeValues VariantAttributeValue[]
@@ -123,15 +125,7 @@ model Category {
     parentCategory   Category?  @relation("ParentCategory", fields: [parentCategoryId], references: [id])
     subcategories    Category[] @relation("ParentCategory")
 
-    items ItemCategory[]
-}
-
-model ItemCategory {
-    id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    item       Item     @relation(fields: [itemId], references: [id])
-    itemId     String   @db.Uuid
-    category   Category @relation(fields: [categoryId], references: [id])
-    categoryId String   @db.Uuid
+    items Item[]
 }
 
 model WishlistItem {

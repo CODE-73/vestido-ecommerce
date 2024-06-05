@@ -20,12 +20,10 @@ export async function upsertAttribute(
     },
     body: JSON.stringify(args),
   });
-  console.log('r is', r);
   if (!r.ok) {
     throw new Error('Error Upserting Attribute');
   }
 
   const data = await r.json();
-  console.log('data from swr service is', data);
   return data as attributeUpsertResponse;
 }
