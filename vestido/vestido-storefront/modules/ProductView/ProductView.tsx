@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useState } from 'react';
+import * as React from 'react';
 import { Checkbox } from '@vestido-ecommerce/shadcn-ui/checkbox';
 import {
   Accordion,
@@ -6,15 +6,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@vestido-ecommerce/shadcn-ui/accordion';
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@vestido-ecommerce/shadcn-ui/avatar';
+import { Avatar, AvatarFallback } from '@vestido-ecommerce/shadcn-ui/avatar';
 import {
   Table,
-  TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -34,15 +28,15 @@ import {
   Star,
 } from 'lucide-react';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
-import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
-import { useR2Download } from './../../../../libs/r2/src/swr/download';
+import product11 from '../../assets/offer-products/product1-1.jpg';
+import product12 from '../../assets/offer-products/product1-2.jpg';
 
 const product = [
   {
-    cardImages: ['path-to-image1', 'path-to-image2'],
+    cardImage1: product11,
+    cardImage2: product12,
     name: 'T-shirt with pearly sleeves',
     salePercent: '13',
-    brand: "levi's",
     price: '$450.00',
     offerPrice: '$390.00',
   },
@@ -66,69 +60,34 @@ const reviews = [
 ];
 
 const ProductView: React.FC = () => {
-  const [urls, setUrls] = React.useState<{ [key: string]: string }>({});
-  const { trigger: getUrl } = useR2Download();
-  const toast = useToast();
-
   const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
+
   const labels = ['Days', 'Hrs', 'Min', 'Sec'];
-
-  useEffect(() => {
-    const fetchUrls = async () => {
-      try {
-        const imageUrls = await Promise.all(
-          product[0].cardImages.map((imagePath) => getUrl({ key: imagePath }))
-        );
-
-        setUrls({
-          cardImage1: imageUrls[0].url,
-          cardImage2: imageUrls[1].url,
-        });
-      } catch (error) {
-        console.log('Error in dowloading image');
-      }
-    };
-
-    fetchUrls();
-  }, [toast, getUrl]);
-
   return (
     <div className="w-full flex flex-row py-5 ">
       <div className="w-1/6 grid justify-items-end">
         <div className="w-20">
           <div className="sticky top-0">
-            {urls.cardImage1 && (
-              <Image
-                className="outline outline-3 hover:outline-black mb-3"
-                src={urls.cardImage1}
-                alt="alt text"
-                width={100}
-                height={100}
-              />
-            )}
-            {urls.cardImage2 && (
-              <Image
-                className="outline outline-3 hover:outline-black"
-                src={urls.cardImage2}
-                alt="alt text"
-                width={100}
-                height={100}
-              />
-            )}
+            <Image
+              className="outline outline-3 hover:outline-black mb-3"
+              src={product[0].cardImage1}
+              alt="alt text"
+            />
+            <Image
+              className="outline outline-3 hover:outline-black"
+              src={product[0].cardImage2}
+              alt="alt text"
+            />
           </div>
         </div>
       </div>
       <div className="w-1/3">
         <div className="sticky top-0">
-          {urls.cardImage1 && (
-            <Image
-              className="w-5/6 px-5 h-4/6"
-              src={urls.cardImage1}
-              alt="alt text"
-              width={400}
-              height={300}
-            />
-          )}
+          <Image
+            className="w-5/6 px-5 h-4/6"
+            src={product[0].cardImage1}
+            alt="alt text"
+          />
         </div>
       </div>
       <div className="w-1/3">
@@ -154,14 +113,14 @@ const ProductView: React.FC = () => {
         <div className="flex flex-row py-3 gap-3 items-center">
           <div className="flex self-start  gap-1 ">
             {Array.from({ length: 5 }).map((_, index) => (
-              <Star fill="#ffb503" strokeWidth={0} size={20} />
+              <Star key={index} fill="#ffb503" strokeWidth={0} size={20} />
             ))}
           </div>
           <div className="text-xs font-semibold text-[#48CAB2] ">2 reviews</div>
         </div>
         <div className="text-sm ">
           <div className="flex flex-row">
-            <h1 className="font-extralight">SKU:&nbsp; </h1>{' '}
+            <h1 className="font-extralight">SKU:&nbsp; </h1>
             <h1 className="font-semibold">w20</h1>
           </div>
           <div className="flex flex-row">
@@ -170,9 +129,6 @@ const ProductView: React.FC = () => {
           </div>
           <div className="flex flex-row">
             <h1 className="font-extralight">Vendor:&nbsp; </h1>
-            <h1 className="font-semibold no-underline hover:underline">
-              Levi's
-            </h1>
           </div>
           <div className="flex flex-row">
             <h1 className="font-extralight">Product Type:&nbsp; </h1>
@@ -280,7 +236,7 @@ const ProductView: React.FC = () => {
                 any store niche os covered by Yanka functionality. Yanka Shopify
                 theme is compatible with Oberlo, Weglot and many other 3rd party
                 apps from Shopify community. Buying Yanka Shopify theme will be
-                best investment in your future web store. You don't need to
+                best investment in your future web store. You do not need to
                 review our competitors
               </AccordionContent>
             </AccordionItem>
@@ -319,7 +275,12 @@ const ProductView: React.FC = () => {
                 <div className="flex flex-row py-3 gap-3 pb-7">
                   <div className="flex self-start  gap-1 ">
                     {Array.from({ length: 5 }).map((_, index) => (
-                      <Star fill="#ffb503" strokeWidth={0} size={20} />
+                      <Star
+                        key={index}
+                        fill="#ffb503"
+                        strokeWidth={0}
+                        size={20}
+                      />
                     ))}
                   </div>
                   <div className="text-sm font-bold text-[#48CAB2] ">
@@ -332,7 +293,12 @@ const ProductView: React.FC = () => {
 
                 <div className="flex self-start gap-1 pb-3">
                   {Array.from({ length: 5 }).map((_, index) => (
-                    <Star fill="#ffb503" strokeWidth={0} size={20} />
+                    <Star
+                      key={index}
+                      fill="#ffb503"
+                      strokeWidth={0}
+                      size={20}
+                    />
                   ))}
                 </div>
                 <div>
