@@ -1,3 +1,4 @@
+import { ListItemResponse } from '@vestido-ecommerce/items';
 import {
   Table,
   TableBody,
@@ -9,10 +10,9 @@ import {
 } from 'libs/shadcn-ui/src/ui/table';
 
 import { useRouter } from 'next/router';
-import { Item } from '@prisma/client';
 
 interface ProductTableProps {
-  data: Item[];
+  data: ListItemResponse;
 }
 
 const ProductsTable: React.FC<ProductTableProps> = ({ data }) => {

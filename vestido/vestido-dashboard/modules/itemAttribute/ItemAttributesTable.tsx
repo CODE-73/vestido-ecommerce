@@ -9,10 +9,10 @@ import {
   TableHeader,
   TableRow,
 } from 'libs/shadcn-ui/src/ui/table';
-import { ItemAttribute } from '@prisma/client';
+import { ListAttributesResponse } from '@vestido-ecommerce/items';
 
 interface ItemAttributeTableProps {
-  data: ItemAttribute[];
+  data: ListAttributesResponse;
 }
 
 const ItemAttributeTable: React.FC<ItemAttributeTableProps> = ({ data }) => {
