@@ -7,7 +7,6 @@ import {
   TableHeader,
   TableRow,
 } from 'libs/shadcn-ui/src/ui/table';
-import { ListItemResponse, useItems } from 'libs/items/src/swr/index';
 
 import { useRouter } from 'next/router';
 import { Item } from '@prisma/client';

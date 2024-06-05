@@ -1,14 +1,22 @@
 import useSWRImmutable from 'swr/immutable';
 import { ListCategorySWRKeys } from '../keys';
-import { CategoryListResponse } from './types';
+import { ListCategoriesResponse } from './types';
 import { getCategoriesList } from './service';
+import { ListCategoryRequest } from 'libs/items/src/services';
 
-export function useCategories(query?: string) {
-  const key = [ListCategorySWRKeys.CATEGORY, ListCategorySWRKeys.LIST, query];
+export function useCategories(args?: ListCategoryRequest) {
+  const key = [
+    ListCategorySWRKeys.CATEGORY,
+    ListCategorySWRKeys.LIST,
+    JSON.stringify(args ?? {}),
+  ];
 
-  return useSWRImmutable<CategoryListResponse, Error>(
+  return useSWRImmutable<ListCategoriesResponse, Error>(
     key,
-    () => getCategoriesList(query),
+    () =>
+      getCategoriesList({
+        ...(args ?? {}),
+      }),
     {
       keepPreviousData: true,
     }

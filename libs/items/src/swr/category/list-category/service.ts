@@ -1,21 +1,22 @@
-import { CategoryListResponse } from './types';
+import { ListCategoryRequest } from 'libs/items/src/services';
+
+import { ListCategoriesResponse } from './types';
 
 export async function getCategoriesList(
-  query?: string
-): Promise<CategoryListResponse> {
+  args: ListCategoryRequest
+): Promise<ListCategoriesResponse> {
   let url = '/api/categories';
-  const r = await fetch(url);
 
-  if (query) {
-    // Make sure the query is URI encoded to handle spaces and special characters
-    const encodedQuery = encodeURIComponent(query);
-    url += `&filters=[["employee_name", "like", "%${encodedQuery}%"]]`;
+  if (args.q) {
+    const encodedQuery = encodeURIComponent(args.q);
+    url += `?q=${encodedQuery}`;
   }
+  const r = await fetch(url);
 
   if (!r.ok) {
     throw new Error('Error Fetching List');
   }
 
   const data = await r.json();
-  return data as CategoryListResponse;
+  return data as ListCategoriesResponse;
 }

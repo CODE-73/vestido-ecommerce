@@ -1,5 +1,5 @@
-import { Category } from '@prisma/client';
+import { type listCategories } from './service';
+import { ListCategoryRequestSchemaType } from './zod';
 
-export type ListCategoriesResponse = {
-  data: Category[];
-};
+export type ListCategoryRequest = ListCategoryRequestSchemaType;
+export type ListCategoriesResponse = Awaited<ReturnType<typeof listCategories>>;

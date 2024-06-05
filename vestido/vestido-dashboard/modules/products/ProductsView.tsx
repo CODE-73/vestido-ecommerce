@@ -56,7 +56,7 @@ const Products: React.FC = () => {
       </div>
 
       <div className="bg-white">
-        <ProductsTable data={data} />
+        <ProductsTable data={data ?? []} />
       </div>
     </div>
   );

@@ -7,10 +7,13 @@ import {
   TableHeader,
   TableRow,
 } from 'libs/shadcn-ui/src/ui/table';
-import { useCategories, useCategory } from 'libs/items/src/swr/index';
-
+import { useCategory } from 'libs/items/src/swr/index';
 import { useRouter } from 'next/router';
-import { Gender } from '@prisma/client';
+import { Gender, Category } from '@prisma/client';
+
+interface CategoryTableProps {
+  data: Category[];
+}
 
 const ParentCategoryName: React.FC<{ parentId: string | null | undefined }> = ({
   parentId,
@@ -23,9 +26,8 @@ const ParentCategoryName: React.FC<{ parentId: string | null | undefined }> = ({
   return <span>{parentCategory.data.name}</span>;
 };
 
-export function CategoriesTable() {
+const CategoryTable: React.FC<CategoryTableProps> = ({ data }) => {
   const router = useRouter();
-  const { data } = useCategories();
 
   const handleRowClick = (category: string) => {
     router.push(`/categories/${encodeURIComponent(category)}`);
@@ -46,8 +48,8 @@ export function CategoriesTable() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data?.data &&
-          data.data.map((category) => (
+        {data &&
+          data.map((category) => (
             <TableRow
               key={category.id}
               onClick={() => handleRowClick(category.id)}
@@ -67,4 +69,6 @@ export function CategoriesTable() {
       </TableBody>
     </Table>
   );
-}
+};
+
+export default CategoryTable;
