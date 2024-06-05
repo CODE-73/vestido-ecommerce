@@ -1,14 +1,4 @@
-import { Category } from '@prisma/client';
+import { VestidoResponse } from '@vestido-ecommerce/auth';
+import { type ListCategoriesResponse as _ListCategoriesResponse } from '../../../services/categories/list-category/types';
 
-export type CategoryListRequest = {
-  filters?: CategoryListFilterParams;
-};
-
-export type CategoryListResponse = {
-  data: Category[];
-};
-
-type CategoryListFilterParams = {
-  // name?: string;
-  q?: string;
-};
+export type ListCategoriesResponse = VestidoResponse<_ListCategoriesResponse>;
