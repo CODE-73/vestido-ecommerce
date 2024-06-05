@@ -23,7 +23,7 @@
         "libs/items/src/index.ts",
         "../../libs/items/src/index.ts"
       ],
-      "@vestido-ecommerce/r2": ["libs/r2/src/index.ts"],
+      "@vestido-ecommerce/r2": ["libs/r2/src/index.ts", "../../libs/r2/src/index.ts"],
       "@vestido-ecommerce/shadcn-ui": ["libs/shadcn-ui/src/index.ts"],
       "@vestido-ecommerce/shadcn-ui/*": ["libs/shadcn-ui/src/ui/*"]
     }
