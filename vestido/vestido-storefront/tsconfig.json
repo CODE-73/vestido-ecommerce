@@ -27,8 +27,11 @@
     "**/*.js",
     "**/*.jsx",
     "next-env.d.ts",
-    ".next/types/**/*.ts"
-, "../../libs/shadcn-ui/src/ui/form/InputElement.tsx", "../../libs/shadcn-ui/src/ui/form/Form.tsx"  ],
+    ".next/types/**/*.ts",
+    "../../libs/shadcn-ui/src/ui/form/InputElement.tsx",
+    "../../libs/shadcn-ui/src/ui/form/Form.tsx",
+    "../../dist/vestido/vestido-storefront/.next/types/**/*.ts"
+  ],
   "exclude": [
     "node_modules",
     "jest.config.ts",

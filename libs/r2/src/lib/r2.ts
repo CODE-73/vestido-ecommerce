@@ -1,7 +1,7 @@
 export function makeUploadKey(keyPrefix: string, file: File) {
   const parts = file.name.split('.');
 
-  let fileExtension = parts[parts.length - 1];
+  const fileExtension = parts[parts.length - 1];
 
   const characters =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
