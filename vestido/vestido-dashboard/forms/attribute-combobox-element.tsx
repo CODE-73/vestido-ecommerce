@@ -31,21 +31,22 @@ export const AttributeCombobox: React.FC<AttributeComboboxProps> = ({
   className,
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const { data: attributes } = useAttributes(searchQuery);
+  const { data } = useAttributes({ q: searchQuery });
+  const attributes = data?.success ? data.data : [];
 
   return (
     <Combobox
       className={clsx('overflow-x-clip', 'w-full', className)}
       placeholder={
         value
-          ? attributes?.data.find((attribute) => attribute.id === value)?.name
+          ? attributes.find((attribute) => attribute.id === value)?.name
           : placeholder
       }
       noOptionsText="No Attributes Found"
       fullWidth
       onSearch={setSearchQuery}
       options={
-        attributes?.data.map((attribute) => ({
+        attributes.map((attribute) => ({
           value: attribute.id,
           label: attribute.name,
         })) || []

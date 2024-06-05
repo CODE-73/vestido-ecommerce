@@ -1,15 +1,22 @@
-import { createAttribute, listAttribute } from '@vestido-ecommerce/items';
+import {
+  createAttribute,
+  listAttribute,
+  ListAttributesResponse,
+} from '@vestido-ecommerce/items';
 import { ZodError } from 'zod';
+import { type NextRequest } from 'next/server';
+import { VestidoResponse } from '@vestido-ecommerce/auth';
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   try {
-    const attributes = await listAttribute();
+    const args = Object.fromEntries(request.nextUrl.searchParams.entries());
+    const attributes = await listAttribute(args);
 
     return new Response(
       JSON.stringify({
         success: true,
         data: attributes,
-      }),
+      } as VestidoResponse<ListAttributesResponse>),
       {
         headers: {
           'Content-Type': 'application/json',
@@ -18,12 +25,18 @@ export async function GET(request: Request) {
     );
   } catch (e) {
     console.error(e);
-    return new Response(JSON.stringify(e), {
-      status: 500,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    return new Response(
+      JSON.stringify({
+        success: false,
+        error: e,
+      } as VestidoResponse<ListAttributesResponse>),
+      {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
   }
 }
 export async function POST(request: Request) {

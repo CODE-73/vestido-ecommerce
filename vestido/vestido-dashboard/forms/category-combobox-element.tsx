@@ -32,21 +32,22 @@ export const CategoryCombobox: React.FC<CategoryComboboxProps> = ({
   className,
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const { data: categories } = useCategories(searchQuery);
+  const { data } = useCategories({ q: searchQuery });
+  const categories = data?.success ? data.data : [];
 
   return (
     <Combobox
       className={clsx('overflow-x-clip', 'w-full', className)}
       placeholder={
         value
-          ? categories?.data.find((category) => category.id === value)?.name
+          ? categories.find((category) => category.id === value)?.name
           : placeholder
       }
       noOptionsText="No Categories Found"
       fullWidth
       onSearch={setSearchQuery}
       options={
-        categories?.data.map((category) => ({
+        categories.map((category) => ({
           value: category.id,
           label: category.name,
         })) || []

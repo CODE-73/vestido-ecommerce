@@ -1,9 +1,5 @@
-import { ItemAttribute, ItemAttributeValue } from '@prisma/client';
+import { ListAttributeRequestSchemaType } from './zod';
+import { type listAttribute } from './service';
 
-export type ListAttributesResponse = {
-  data: Array<
-    ItemAttribute & {
-      ItemAttributeValues: ItemAttributeValue[];
-    }
-  >;
-};
+export type ListAttributesRequest = ListAttributeRequestSchemaType;
+export type ListAttributesResponse = Awaited<ReturnType<typeof listAttribute>>;

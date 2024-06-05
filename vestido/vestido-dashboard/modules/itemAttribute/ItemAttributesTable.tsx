@@ -9,10 +9,15 @@ import {
   TableHeader,
   TableRow,
 } from 'libs/shadcn-ui/src/ui/table';
+import { ItemAttribute } from '@prisma/client';
 
-export function ItemAttributeTable() {
+interface ItemAttributeTableProps {
+  data: ItemAttribute[];
+}
+
+const ItemAttributeTable: React.FC<ItemAttributeTableProps> = ({ data }) => {
   const router = useRouter();
-  const { data } = useAttributes();
+  // const { data } = useAttributes();
 
   const handleRowClick = (itemAttribute: string) => {
     router.push(`/attributes/${encodeURIComponent(itemAttribute)}`);
@@ -28,8 +33,8 @@ export function ItemAttributeTable() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data?.data &&
-          data.data.map((itemAttribute) => (
+        {data &&
+          data.map((itemAttribute) => (
             <TableRow
               key={itemAttribute.id}
               onClick={() => handleRowClick(itemAttribute.id)}
@@ -49,4 +54,6 @@ export function ItemAttributeTable() {
       </TableBody>
     </Table>
   );
-}
+};
+
+export default ItemAttributeTable;

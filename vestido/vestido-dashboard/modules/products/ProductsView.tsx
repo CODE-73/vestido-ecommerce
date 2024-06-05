@@ -13,12 +13,8 @@ const Products: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const { data } = useItems({ q: searchQuery });
   const router = useRouter();
-  const form = useForm({
-    defaultValues: {},
-  });
 
   const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // form.watch();
     setSearchQuery(e.target.value);
   };
 

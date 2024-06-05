@@ -1,17 +1,15 @@
 import { AttributeListResponse } from './types';
+import { ListAttributesRequest } from 'libs/items/src/services';
 
 export async function getAttributesList(
-  query?: string
+  args: ListAttributesRequest
 ): Promise<AttributeListResponse> {
   let url = '/api/attributes';
-  const r = await fetch(url);
-
-  if (query) {
-    // Make sure the query is URI encoded to handle spaces and special characters
-    const encodedQuery = encodeURIComponent(query);
-    url += `&filters=[["attribute", "like", "%${encodedQuery}%"]]`;
+  if (args.q) {
+    const encodedQuery = encodeURIComponent(args.q);
+    url += `?q=${encodedQuery}`;
   }
-
+  const r = await fetch(url);
   if (!r.ok) {
     throw new Error('Error Fetching List');
   }

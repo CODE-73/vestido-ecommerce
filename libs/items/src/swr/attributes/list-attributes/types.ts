@@ -1,18 +1,4 @@
-import { ItemAttribute, ItemAttributeValue } from '@prisma/client';
+import { VestidoResponse } from '@vestido-ecommerce/auth';
+import { type ListAttributesResponse as _ListAttributesResponse } from '../../../services/attributes/list-attributes/types';
 
-export type AttributeListRequest = {
-  filters?: AttributeListFilterParams;
-};
-
-export type AttributeListResponse = {
-  data: Array<
-    ItemAttribute & {
-      ItemAttributeValues: ItemAttributeValue[];
-    }
-  >;
-};
-
-type AttributeListFilterParams = {
-  // name?: string;
-  q?: string;
-};
+export type AttributeListResponse = VestidoResponse<_ListAttributesResponse>;

@@ -14,9 +14,6 @@ const Categories: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const { data } = useCategories({ q: searchQuery });
   const router = useRouter();
-  const form = useForm({
-    defaultValues: {},
-  });
 
   const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
@@ -33,8 +30,8 @@ const Categories: React.FC = () => {
         <div className=" flex gap-[5px] ">
           <div className="relative">
             <Input
-              name="search-products"
-              placeholder="Search Products"
+              name="search-categories"
+              placeholder="Search Categories"
               type="search"
               value={searchQuery}
               onChange={handleSearchInputChange}
