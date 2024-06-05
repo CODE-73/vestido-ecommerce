@@ -7,13 +7,18 @@ import {
   TableHeader,
   TableRow,
 } from 'libs/shadcn-ui/src/ui/table';
-import { useItems } from 'libs/items/src/swr/index';
+import { ListItemResponse, useItems } from 'libs/items/src/swr/index';
 
 import { useRouter } from 'next/router';
+import { Item } from '@prisma/client';
 
-export function ProductsTable() {
+interface ProductTableProps {
+  data: Item[];
+}
+
+const ProductsTable: React.FC<ProductTableProps> = ({ data }) => {
   const router = useRouter();
-  const { data } = useItems();
+  // const { data } = useItems();
 
   const handleRowClick = (product: string) => {
     router.push(`/products/${encodeURIComponent(product)}`);
@@ -54,4 +59,6 @@ export function ProductsTable() {
       <TableFooter></TableFooter>
     </Table>
   );
-}
+};
+
+export default ProductsTable;

@@ -1,27 +1,34 @@
+import { ComponentProps } from 'react';
 import { Switch } from 'libs/shadcn-ui/src/ui/switch';
 import { FormField } from 'libs/shadcn-ui/src/ui/form';
 import { Control, FieldValues, FieldPath } from 'react-hook-form';
 import { Label } from 'libs/shadcn-ui/src/ui/label';
 
-export type SwitchElementProps<T extends FieldValues = FieldValues> = {
-  name: FieldPath<T>;
-  control?: Control<T>;
-  label?: string;
-};
+export type SwitchElementProps<T extends FieldValues = FieldValues> =
+  ComponentProps<typeof Switch> & {
+    name: FieldPath<T>;
+    control?: Control<T>;
+    label?: string;
+  };
 
-export function SwitchElement<TFieldValues extends FieldValues = FieldValues>(
-  props: SwitchElementProps<TFieldValues>
-) {
+export function SwitchElement<TFieldValues extends FieldValues = FieldValues>({
+  name,
+  control,
+  label,
+  ...props
+}: SwitchElementProps<TFieldValues>) {
   return (
     <FormField
-      {...props}
+      name={name}
+      control={control}
       render={({ field }) => (
         <div className="flex gap-3 items-center">
           <Switch
             onCheckedChange={(checked) => field.onChange(checked)}
             checked={field.value}
+            {...props}
           />
-          <Label>{props.label}</Label>
+          <Label>{label}</Label>
         </div>
       )}
     />

@@ -23,6 +23,8 @@ import VariantsTable from '../variants/VariantsTable';
 import { SwitchElement } from 'vestido/vestido-dashboard/forms/switch-element';
 import { CategoryElement } from 'vestido/vestido-dashboard/forms/category-combobox-element';
 
+import { useVariants } from 'libs/items/src/swr/index';
+
 const CreateProductFormSchema = z.object({
   title: z.string(),
   price: z.string(),
@@ -71,6 +73,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
   const isSubmitting = form.formState.isSubmitting;
   console.info({ form: form.getValues(), isDirty, isValid, errors });
   const hasVariants = form.watch('hasVariants');
+  const { data: variants } = useVariants(itemId!);
 
   useEffect(() => {
     if (!isNew && item) {
@@ -135,7 +138,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
               <InputElement name="unit" placeholder="unit" label="Unit" />
               <InputElement name="stock" placeholder="Stock" label="Stock" />
             </div>
-
             <FormField
               control={form.control}
               name="gender"
@@ -183,10 +185,14 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
                   <FormMessage />
                 </FormItem>
               )}
-            />
-          </div>
-          <div>
-            <SwitchElement name="hasVariants" label="Has Variant(s)" />
+            />{' '}
+            <div>
+              <SwitchElement
+                disabled={!isNew && variants?.data?.length! > 0}
+                name="hasVariants"
+                label="Has Variant(s)"
+              />
+            </div>
           </div>
         </div>
 
