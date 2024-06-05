@@ -52,8 +52,7 @@ const VariantsTable: React.FC<VariantProps> = ({ itemId }) => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Variant ID</TableHead>
-              <TableHead>Item ID</TableHead>
+              <TableHead>Variant Name</TableHead>
 
               <TableHead className="text-right">Price</TableHead>
             </TableRow>
@@ -67,9 +66,8 @@ const VariantsTable: React.FC<VariantProps> = ({ itemId }) => {
                   className="cursor-pointer"
                 >
                   <TableCell className="font-medium">
-                    {itemVariant.id}
+                    {itemVariant.title}
                   </TableCell>
-                  <TableCell>{itemVariant.itemId}</TableCell>
                   <TableCell className="text-right">
                     {itemVariant.price}
                   </TableCell>

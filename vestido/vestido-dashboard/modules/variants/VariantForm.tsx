@@ -20,6 +20,7 @@ export const VariantAttributeValueSchema = z.object({
 const CreateVariantFormSchema = z.object({
   itemId: z.string(),
   price: z.coerce.number(),
+  title: z.string().optional(),
   attributeValues: z.array(VariantAttributeValueSchema),
 });
 
@@ -67,6 +68,7 @@ const VariantForm: React.FC<VariantFormProps> = ({
         itemId: variant.itemId,
         price: variant.price,
         attributeValues: variant.attributeValues,
+        title: variant.title,
       });
     }
   }, [isNew, variant, form]);
@@ -107,6 +109,12 @@ const VariantForm: React.FC<VariantFormProps> = ({
               label="Item ID"
             />
             <InputElement name="price" placeholder="Price" label="Price" />
+            <InputElement
+              disabled={isNew}
+              name="title"
+              placeholder="Title"
+              label="Title"
+            ></InputElement>
           </div>
           {fields.map((field, index) => (
             <div

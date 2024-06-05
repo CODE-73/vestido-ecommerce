@@ -2,6 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import { UpdateVariantSchema, UpdateVariantSchemaType } from './zod';
 import { variantDetails } from '../get-variant';
 import { validateAttributes } from '../validate_attributes';
+import { generateVariantTitle } from '../generate_variant_title';
 
 export async function updateVariant(
   variantId: string,
@@ -11,6 +12,10 @@ export async function updateVariant(
 
   const validatedData = UpdateVariantSchema.parse(data);
   await validateAttributes(prisma, validatedData.attributeValues ?? []);
+  const varTitle = await generateVariantTitle(
+    prisma,
+    validatedData.attributeValues ?? []
+  );
 
   await prisma.$transaction(async (prisma) => {
     // Update ItemVariants fields( except variantAttributeValues)
@@ -21,6 +26,7 @@ export async function updateVariant(
       data: {
         itemId: validatedData.itemId,
         price: validatedData.price,
+        title: varTitle,
       },
     });
 

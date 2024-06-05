@@ -8,6 +8,7 @@ export const VariantAttributeValueSchema = z.object({
 
 export const CreateVariantSchema = z.object({
   itemId: uuid,
+  title: z.string().nullish(),
   attributeValues: z.array(VariantAttributeValueSchema),
   price: z.coerce.number(),
 });
