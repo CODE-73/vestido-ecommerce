@@ -4,9 +4,29 @@
   "sourceRoot": "libs/r2/src",
   "projectType": "library",
   "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/r2",
+        "main": "libs/r2/src/index.ts",
+        "tsConfig": "libs/r2/tsconfig.lib.json",
+        "assets": ["libs/r2/*.md"]
+      }
+    },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"]
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/r2/**/*.ts", "libs/r2/package.json"]
+      }
+    },
+    "deploy-wrangler": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": ["npx wrangler deploy"],
+        "cwd": "libs/r2"
+      }
     }
   },
   "tags": []

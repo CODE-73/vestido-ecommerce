@@ -3,6 +3,7 @@ import { MakeSignedUrlRequest, MakeSignedUrlResponse } from './types';
 export async function makeSignedUrl(
   args: MakeSignedUrlRequest
 ): Promise<MakeSignedUrlResponse> {
+  console.log('rrr', getBucketManagerURL());
   const r = await fetch(getBucketManagerURL(), {
     method: 'POST',
     headers: {
@@ -17,7 +18,7 @@ export async function makeSignedUrl(
     console.error(r);
     throw new Error('Failed fetching signed URL');
   }
-
+  console.log('responseeee:', r);
   const data = await r.json();
 
   if (!data.success) {

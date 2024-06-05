@@ -8,7 +8,7 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { CORSHeaders } from './cors';
 import { RequestSchema } from './zod';
 
-const BUCKET = 'vestido-bucket';
+const BUCKET = 'vestido';
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
@@ -20,7 +20,10 @@ export default {
       return new Response(
         JSON.stringify({ success: false, message: 'Unknown Method' }),
         {
-          headers: { ...CORSHeaders, 'Content-Type': 'application/json' },
+          headers: {
+            ...CORSHeaders,
+            'Content-Type': 'application/json',
+          },
           status: 400,
         }
       );
@@ -32,7 +35,10 @@ export default {
 
     if (!success || 'error' in body) {
       return new Response(JSON.stringify({ ...body, success }), {
-        headers: { ...CORSHeaders, 'Content-Type': 'application/json' },
+        headers: {
+          ...CORSHeaders,
+          'Content-Type': 'application/json',
+        },
         status: 400,
       });
     }
