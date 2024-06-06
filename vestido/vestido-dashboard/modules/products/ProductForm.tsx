@@ -51,7 +51,7 @@ interface ProductFormProps {
 const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
   const { toast } = useToast();
   const router = useRouter();
-  const [showVariantsTable, setShowVariantsTable] = useState(false);
+
   const form = useForm<CreateProductForm>({
     resolver: zodResolver(CreateProductFormSchema),
     defaultValues: {
@@ -71,8 +71,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
   );
   const { isDirty, isValid, errors } = form.formState;
   const isSubmitting = form.formState.isSubmitting;
-  console.info({ form: form.getValues(), isDirty, isValid, errors });
-  const hasVariants = form.watch('hasVariants');
+
   const { data: variants } = useVariants(itemId!);
 
   useEffect(() => {
@@ -98,7 +97,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
     } catch (e) {
       console.error('Error updating item:', e);
     }
-    setShowVariantsTable(hasVariants);
   };
 
   return (
@@ -202,9 +200,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
           </Button>
         </div>
       </form>
-      {(showVariantsTable || hasVariants) && (
-        <VariantsTable itemId={itemId as string} />
-      )}
+      {item?.hasVariants && <VariantsTable itemId={itemId as string} />}
     </Form>
   );
 };
