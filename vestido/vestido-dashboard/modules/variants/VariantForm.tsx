@@ -9,7 +9,7 @@ import * as z from 'zod';
 import { useVariant } from 'libs/items/src/swr/variants';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { useRouter } from 'next/router';
-import { Plus } from 'lucide-react';
+import { ChevronRight, Plus } from 'lucide-react';
 import { AttributeElement } from 'vestido/vestido-dashboard/forms/attribute-combobox-element';
 import { AttributeValueElement } from 'vestido/vestido-dashboard/forms/attribute-value-combobox';
 
@@ -90,6 +90,9 @@ const VariantForm: React.FC<VariantFormProps> = ({
     }
   };
 
+  const handleButtonClick = () => {
+    router.push(`/products/${encodeURIComponent(itemId)}/variants/add-new`);
+  };
   return (
     <Form {...form}>
       <form
@@ -158,6 +161,9 @@ const VariantForm: React.FC<VariantFormProps> = ({
         <div className="grid grid-cols-8 mt-3 text-right gap-2">
           <Button type="submit" disabled={!isValid || !isDirty || isSubmitting}>
             {isNew ? 'Create' : 'Update'}
+          </Button>
+          <Button type="button" onClick={handleButtonClick} disabled={isNew}>
+            Add Next Variant <ChevronRight />
           </Button>
         </div>
       </form>
