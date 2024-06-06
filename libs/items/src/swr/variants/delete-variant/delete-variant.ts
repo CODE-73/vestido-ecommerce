@@ -2,6 +2,7 @@ import useSWRMutation from 'swr/mutation';
 import { DeleteVariantResponse, DeleteVariantRequest } from './types';
 import { deleteVariant } from './service';
 import { VariantDetailsSWRKeys } from '../keys';
+import { useClearCacheOnSuccess } from '@vestido-ecommerce/utils';
 
 export function useVariantDelete(variantId: string, itemId: string) {
   const key = [
@@ -16,5 +17,7 @@ export function useVariantDelete(variantId: string, itemId: string) {
     Error,
     string[] | null,
     Pick<DeleteVariantRequest, 'variantId'>
-  >(key, (_, { arg }) => deleteVariant({ ...arg }, itemId));
+  >(key, (_, { arg }) => deleteVariant({ ...arg }, itemId), {
+    ...useClearCacheOnSuccess(VariantDetailsSWRKeys.VARIANT),
+  });
 }

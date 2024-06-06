@@ -3,6 +3,7 @@ import { RemoveFromCartRequest, RemoveFromCartResponse } from './types';
 import { useAuth } from '@vestido-ecommerce/auth';
 import { removeFromCart } from './service';
 import { CartSWRKeys } from '../keys';
+import { useClearCacheOnSuccess } from '@vestido-ecommerce/utils';
 
 export const useRemoveFromCart = () => {
   const { authHeaders } = useAuth();
@@ -13,5 +14,7 @@ export const useRemoveFromCart = () => {
     Error,
     string[] | null,
     RemoveFromCartRequest
-  >(key, (_, { arg }) => removeFromCart({ ...arg }, authHeaders));
+  >(key, (_, { arg }) => removeFromCart({ ...arg }, authHeaders), {
+    ...useClearCacheOnSuccess(CartSWRKeys.CART),
+  });
 };

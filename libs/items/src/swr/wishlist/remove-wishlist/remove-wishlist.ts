@@ -3,6 +3,7 @@ import { RemoveFromWishlistRequest, RemoveFromWishlistResponse } from './types';
 import { useAuth } from '@vestido-ecommerce/auth';
 import { removeFromWishlist } from './service';
 import { WishlistSWRKeys } from '../keys';
+import { useClearCacheOnSuccess } from '@vestido-ecommerce/utils';
 
 export const useRemoveFromWishlist = () => {
   const { authHeaders } = useAuth();
@@ -13,5 +14,7 @@ export const useRemoveFromWishlist = () => {
     Error,
     string[] | null,
     RemoveFromWishlistRequest
-  >(key, (_, { arg }) => removeFromWishlist({ ...arg }, authHeaders));
+  >(key, (_, { arg }) => removeFromWishlist({ ...arg }, authHeaders), {
+    ...useClearCacheOnSuccess(WishlistSWRKeys.WISHLIST),
+  });
 };

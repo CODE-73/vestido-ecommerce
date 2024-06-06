@@ -3,6 +3,7 @@ import { AddToWishlistRequest, AddToWishlistResponse } from './types';
 import { useAuth } from '@vestido-ecommerce/auth';
 import { addToWishlist } from './service';
 import { WishlistSWRKeys } from '../keys';
+import { useClearCacheOnSuccess } from '@vestido-ecommerce/utils';
 
 export const useAddToWishlist = () => {
   const { authHeaders } = useAuth();
@@ -13,5 +14,7 @@ export const useAddToWishlist = () => {
     Error,
     string[] | null,
     AddToWishlistRequest
-  >(key, (_, { arg }) => addToWishlist({ ...arg }, authHeaders));
+  >(key, (_, { arg }) => addToWishlist({ ...arg }, authHeaders), {
+    ...useClearCacheOnSuccess(WishlistSWRKeys.WISHLIST),
+  });
 };

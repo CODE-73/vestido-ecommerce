@@ -1,6 +1,7 @@
 import useSWRMutation from 'swr/mutation';
 import { ItemUpsertRequest, ItemUpsertResponse } from './types';
 import { upsertItem } from './service';
+import { useClearCacheOnSuccess } from '@vestido-ecommerce/utils';
 
 import { ItemUpsertSWRKeys } from '../keys';
 
@@ -12,5 +13,7 @@ export const useItemUpsert = () => {
     Error,
     string[] | null,
     ItemUpsertRequest
-  >(key, (_, { arg }) => upsertItem({ ...arg }));
+  >(key, (_, { arg }) => upsertItem({ ...arg }), {
+    ...useClearCacheOnSuccess(ItemUpsertSWRKeys.ITEM),
+  });
 };
