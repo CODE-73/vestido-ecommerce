@@ -48,6 +48,29 @@ const carouselSlides: PrimaryCarouselItemData[] = [
     textColor: 'white',
     textPosition: 'right-6',
   },
+  {
+    backgroundImage: image2,
+    mainTitle: 'must-haves for the season',
+    subtitle1: 'need-it-now',
+    subtitle2: 'Contemporary, minimal and beautifully iconic.',
+    buttonText: 'discover now!',
+    buttonLink: '2',
+    textAlign: 'center',
+    textColor: 'white',
+    textPosition: 'left-6',
+  },
+  {
+    backgroundImage: image1,
+    mainTitle: 'find your new favourite clothing',
+    subtitle1: 'new collection',
+    subtitle2:
+      'Keep perfect time with the contemporary, expertly-crafted designs.',
+    buttonText: 'discover now!',
+    buttonLink: '1',
+    textAlign: 'left',
+    textColor: '[#333333]',
+    textPosition: 'left-6',
+  },
 ];
 
 export const PrimaryCarousel: React.FC = () => {
@@ -72,8 +95,9 @@ export const PrimaryCarousel: React.FC = () => {
           <CarouselDots>
             {({ scrollSnap, onClick, selectedIndex, index }) => (
               <button
-                className={clsx('rounded-none h-1 w-3 bg-white', {
-                  'bg-[#333] w-12': selectedIndex === index,
+                className={clsx('rounded-none h-1', {
+                  'bg-[#333] w-8': selectedIndex === index,
+                  'w-3 bg-white': selectedIndex !== index,
                 })}
                 key={scrollSnap}
                 onClick={() => onClick(index)}
