@@ -5,13 +5,15 @@ import {
   NavigationMenuItem,
   NavigationMenuList,
 } from '@vestido-ecommerce/shadcn-ui/navigation-menu';
-import { NavigationMenuTrigger } from './CategoryHeader';
+import { NavigationMenuTrigger } from './MainHeader';
 import { Heart, Search, ShoppingBag, UserRound, X } from 'lucide-react';
 import { useState } from 'react';
-import CategoriesDropDown from '../modules/HomePage/CategoriesDropDown';
 import Link from 'next/link';
 import { cn } from 'libs/shadcn-ui/src/utils';
 import { InputProps } from '@vestido-ecommerce/shadcn-ui/input';
+import Image from 'next/image';
+import useIsMobile from '../hooks/useIsMobile';
+import HeaderDropdown from './HeaderDropdown';
 
 type ListItemProps = {
   href: string;
@@ -102,6 +104,7 @@ const categoriesData = [
 ];
 
 const FixedHeader = () => {
+  const isMobile = useIsMobile();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const toggleSearch = () => {
@@ -148,7 +151,27 @@ const FixedHeader = () => {
         </div>
       )}
       <div className="flex flex-1 justify-around items-center max-w-7xl ">
-        <CategoriesDropDown />
+        <Link href="/" className="self-center">
+          {isMobile ? (
+            <span>
+              <Image
+                src="/assets/favico.ico"
+                alt="Logo"
+                width="25"
+                height="35"
+              />
+            </span>
+          ) : (
+            <span className="self-end">
+              <Image
+                src="/assets/new-logo.png"
+                alt="Logo"
+                width="250"
+                height="250"
+              />
+            </span>
+          )}
+        </Link>
         <div className=" sm:py-4 flex-1">
           <NavigationMenu>
             <NavigationMenuList>
@@ -197,6 +220,7 @@ const FixedHeader = () => {
           <Link href="/cart" className="hover:text-[#48cab2]">
             <ShoppingBag />
           </Link>
+          <HeaderDropdown fixedHeader={true} />
         </div>
       </div>
     </div>

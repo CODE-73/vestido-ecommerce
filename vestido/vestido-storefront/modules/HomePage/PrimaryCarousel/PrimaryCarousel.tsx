@@ -79,10 +79,10 @@ export const PrimaryCarousel: React.FC = () => {
   );
 
   return (
-    <div className="grid grid-cols-8 gap-12">
+    <div className="">
       <Carousel
         plugins={[plugin.current]}
-        className="col-span-8 sm:col-start-3 sm:col-span-6 sm:p-4 pr-0 relative"
+        className="col-span-8 sm:col-start-3 sm:col-span-6 pt-2 pr-0 relative"
         onMouseEnter={plugin.current.stop}
         onMouseLeave={plugin.current.reset}
       >

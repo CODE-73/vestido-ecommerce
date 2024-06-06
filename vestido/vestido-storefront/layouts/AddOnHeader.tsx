@@ -5,15 +5,14 @@ import {
   CarouselItem,
 } from '@vestido-ecommerce/shadcn-ui/carousel';
 import Autoplay from 'embla-carousel-autoplay';
+import Link from 'next/link';
 
 const AddOnHeader = () => {
   const messages = [
     {
-      title: 'FREE 2-DAYS',
       description: 'standard shipping on orders $255',
     },
     {
-      title: 'Your second message',
       description: 'Your second description',
     },
   ];
@@ -43,9 +42,9 @@ const AddOnHeader = () => {
             <div key={index} className="flex-shrink-0 w-full">
               <CarouselItem>
                 <div className="flex">
-                  <div className="text-[#333] text-sm font-bold">
+                  {/* <div className="text-[#333] text-sm font-bold">
                     {message.title}&nbsp;
-                  </div>
+                  </div> */}
                   <div>{message.description}</div>
                 </div>
               </CarouselItem>
@@ -54,24 +53,24 @@ const AddOnHeader = () => {
         </CarouselContent>
       </Carousel>
       <div className="flex gap-3 text-gray-500 justify-end pb-2">
-        <a
-          href="/wishlist"
-          className="hover:underline hover:text-[#333] transition duration-300"
-        >
-          Facebook
-        </a>
-        <a
-          href="/wishlist"
-          className="hover:underline hover:text-[#333] transition duration-300"
-        >
-          Twitter
-        </a>
-        <a
-          href="/wishlist"
+        <Link
+          href="https://www.instagram.com/vestido_nation/"
           className="hover:underline hover:text-[#333] transition duration-300"
         >
           Instagram
-        </a>
+        </Link>{' '}
+        <Link
+          href="https://www.linkedin.com/company/vestidonation/"
+          className="hover:underline hover:text-[#333] transition duration-300"
+        >
+          LinkedIn
+        </Link>
+        <Link
+          href="https://www.facebook.com/people/Vestido-Nation/61554017931370/?mibextid=ZbWKwL"
+          className="hover:underline hover:text-[#333] transition duration-300"
+        >
+          Facebook
+        </Link>
       </div>
     </div>
   );

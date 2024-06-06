@@ -1,6 +1,10 @@
-import { useState } from 'react';
 import {
-  AlignLeft,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@vestido-ecommerce/shadcn-ui/dropdown-menu';
+import {
   Headset,
   MessageCircleQuestion,
   Ruler,
@@ -9,65 +13,69 @@ import {
   Truck,
   Undo2,
   Wrench,
-  X,
 } from 'lucide-react';
 
-const CategoriesDropDown = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<string | null>(null);
+interface DropdownProps {
+  fixedHeader: boolean;
+}
 
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const handleItemClick = (item: string) => {
-    setSelectedItem(item);
-    setIsOpen(false);
-  };
+const HeaderDropdown: React.FC<DropdownProps> = ({ fixedHeader }) => {
   return (
-    <div className="bg-[#48CAB2]  uppercase font-semibold text-white relative">
-      <div
-        className="flex gap-4 sm:pl-4 sm:pr-28  sm:py-4 border-solid border-2 border-white cursor-pointer"
-        onClick={toggleDropdown}
-      >
-        {isOpen ? <X /> : <AlignLeft />}
-        <div>Categories</div>
-      </div>
-      {isOpen && (
-        <div className="dropdown flex text-black flex-col gap-11 absolute z-10 pt-3 pb-2 bg-white w-full cursor-pointer border-solid border-2 border-slate-200 pl-2">
+    <DropdownMenu>
+      <DropdownMenuTrigger>
+        <MessageCircleQuestion color={fixedHeader ? 'black' : 'white'} />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="relative right-12">
+        <DropdownMenuItem>
           <div className="hover:text-[#48CAB2] flex items-center gap-3">
-            <Store size={28} strokeWidth={1.3} />
-            About Us
+            <Store size={20} strokeWidth={1.3} />
+            <div>About Us</div>
           </div>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          {' '}
           <div className="hover:text-[#48CAB2] flex items-center gap-3">
             <Truck size={28} strokeWidth={1.3} />
             Shipping
           </div>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          {' '}
           <div className="hover:text-[#48CAB2] flex items-center gap-3">
             <Undo2 size={28} strokeWidth={1.3} /> Return
           </div>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
           <div className="hover:text-[#48CAB2] flex items-center gap-3">
             <MessageCircleQuestion size={28} strokeWidth={1.3} /> FAQs
           </div>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
           <div className="hover:text-[#48CAB2] flex items-center gap-3">
             <Headset size={28} strokeWidth={1.3} />
             Contact Us
           </div>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
           <div className="hover:text-[#48CAB2] flex items-center gap-3">
             <Wrench size={28} strokeWidth={1.3} /> Maintenance
           </div>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
           <div className="hover:text-[#48CAB2] flex items-center gap-3">
             <Settings2 size={28} strokeWidth={1.3} />
             Settings
           </div>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
           <div className="hover:text-[#48CAB2] flex items-center gap-3">
             <Ruler size={28} strokeWidth={1.3} />
             Size Guide
           </div>
-        </div>
-      )}
-    </div>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 
-export default CategoriesDropDown;
+export default HeaderDropdown;
