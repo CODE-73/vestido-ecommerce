@@ -67,11 +67,11 @@ const SpecialOfferCard: React.FC<SpecialOfferCardProps> = ({ data }) => {
           <>
             <div className="flex text-xl justify-between w-full pt-3">
               <div className="line-through">{data.price}</div>
-              <div className="text-red-700 font-bold">{data.offerPrice}</div>
+              <div className="text-red-700">{data.offerPrice}</div>
             </div>
 
             <div className={`p-2 bg-[#48CAB2] w-full`}>
-              <Button className="bg-[#48CAB2] w-full flex gap-3 text-lg mb-1 text-white p-2 font-bold">
+              <Button className="bg-[#48CAB2] w-full flex gap-3 text-lg mb-1 text-white p-2">
                 <ShoppingBag color="#fff" />
                 <div> Add to Cart</div>
               </Button>
@@ -91,7 +91,7 @@ const SpecialOfferCard: React.FC<SpecialOfferCardProps> = ({ data }) => {
                 <ShoppingBag color="#fff" />
                 {isHovering && (
                   <button
-                    className=" absolute top-1 right-0 bg-[#48CAB2] text-white p-2 font-bold"
+                    className=" absolute top-1 right-0 bg-[#48CAB2] text-white p-2"
                     onClick={() => setShowModal(true)}
                   >
                     Add to Cart
@@ -100,7 +100,7 @@ const SpecialOfferCard: React.FC<SpecialOfferCardProps> = ({ data }) => {
               </div>
               <div className="flex flex-col">
                 <div className="line-through">{data.price}</div>
-                <div className="text-red-700 font-bold">{data.offerPrice}</div>
+                <div className="text-red-700">{data.offerPrice}</div>
               </div>
             </div>
           </div>

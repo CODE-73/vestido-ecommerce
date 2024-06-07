@@ -120,9 +120,7 @@ const WishlistView: React.FC = () => {
               <>
                 <div className="flex text-xl justify-between w-full pt-3">
                   <div className="line-through">{item.price}</div>
-                  <div className="text-red-700 font-bold">
-                    {item.offerPrice}
-                  </div>
+                  <div className="text-red-700">{item.offerPrice}</div>
                 </div>
                 <div className={`p-2 bg-[#48CAB2] w-full`}>
                   <Button className="bg-[#48CAB2] w-full flex gap-3 text-lg mb-1 text-white p-2 font-bold">
@@ -153,9 +151,7 @@ const WishlistView: React.FC = () => {
                   </div>
                   <div className="flex flex-col">
                     <div className="line-through">{item.price}</div>
-                    <div className="text-red-700 font-bold">
-                      {item.offerPrice}
-                    </div>
+                    <div className="text-red-700">{item.offerPrice}</div>
                   </div>
                 </div>
               </div>

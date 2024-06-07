@@ -112,7 +112,7 @@ const ProductlistView: React.FC = () => {
                   </div>
                 </div>
                 <div className={`p-2 bg-[#48CAB2] w-full`}>
-                  <Button className="bg-[#48CAB2] w-full flex gap-3 text-lg mb-1 text-white p-2 font-bold">
+                  <Button className="bg-[#48CAB2] w-full flex gap-3 text-lg mb-1 text-white p-2">
                     <ShoppingBag color="#fff" />
                     <div> Add to Cart</div>
                   </Button>
@@ -133,7 +133,7 @@ const ProductlistView: React.FC = () => {
                   >
                     <ShoppingBag color="#fff" />
                     {isHovering && (
-                      <button className=" absolute top-1 right-0 bg-[#48CAB2] text-white p-2 font-bold">
+                      <button className=" absolute top-1 right-0 bg-[#48CAB2] text-white p-2">
                         Add to Cart
                       </button>
                     )}

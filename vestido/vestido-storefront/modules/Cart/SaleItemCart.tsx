@@ -91,7 +91,7 @@ const SaleItemCart: React.FC = () => {
                     </div>
                   </div>
                   <div className="p-2 bg-[#48CAB2]">
-                    <Button className="bg-[#48CAB2] flex gap-3 text-lg text-white font-bold">
+                    <Button className="bg-[#48CAB2] flex gap-3 text-lg text-white">
                       <ShoppingBag color="#fff" />
                       <div> Add to Cart</div>
                     </Button>
@@ -107,7 +107,7 @@ const SaleItemCart: React.FC = () => {
                       <ShoppingBag color="#fff" />
 
                       <button
-                        className="absolute top-0 bg-[#48CAB2] text-white  w-44 p-2 font-bold opacity-0 transition-opacity duration-500 hover:opacity-100"
+                        className="absolute top-0 bg-[#48CAB2] text-white  w-44 p-2 opacity-0 transition-opacity duration-500 hover:opacity-100"
                         style={{ minWidth: 'min-content' }}
                       >
                         Add to Cart
@@ -159,7 +159,7 @@ const SaleItemCart: React.FC = () => {
                     </div>
                   </div>
                   <div className="p-2 bg-[#48CAB2]">
-                    <Button className="bg-[#48CAB2] flex gap-3 text-lg text-white font-bold">
+                    <Button className="bg-[#48CAB2] flex gap-3 text-lg text-white">
                       <ShoppingBag color="#fff" />
                       <div> Add to Cart</div>
                     </Button>
@@ -175,7 +175,7 @@ const SaleItemCart: React.FC = () => {
                       <ShoppingBag color="#fff" />
 
                       <button
-                        className="absolute top-0 bg-[#48CAB2] text-white p-2 font-bold opacity-0 transition-opacity duration-500 hover:opacity-100"
+                        className="absolute top-0 bg-[#48CAB2] text-white p-2 opacity-0 transition-opacity duration-500 hover:opacity-100"
                         style={{ minWidth: 'min-content' }}
                       >
                         Add to Cart
