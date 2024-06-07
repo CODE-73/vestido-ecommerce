@@ -5,7 +5,6 @@ import category4 from '../../../assets/category/shirts.jpeg';
 import category5 from '../../../assets/category/tshirts.jpg';
 import category6 from '../../../assets/category/jeans.jpg';
 import { FC } from 'react';
-import clsx from 'clsx';
 import CategoryCard, { CategoryCardData } from './CategoryCard';
 
 const cards: CategoryCardData[] = [
@@ -33,15 +32,24 @@ const cards: CategoryCardData[] = [
     cardImage: category6,
     title: 'Pants',
   },
+  {
+    cardImage: category6,
+    title: 'Pants',
+  },
+  {
+    cardImage: category6,
+    title: 'Pants',
+  },
 ];
+
 type CategoryCardProps = {
   className?: string;
 };
 
 export const CategoryCards: FC<CategoryCardProps> = (props) => {
   return (
-    <div className={`flex flex-col items-center ${clsx(props.className)}`}>
-      <div className="grid grid-cols-2 gap-2 px-2 md:px-auto md:flex md:gap-8">
+    <div className="w-full lg:w-auto overflow-x-auto no-scrollbar">
+      <div className="flex space-x-4 lg:space-x-2 px-4">
         {cards.map((card, index) => (
           <CategoryCard key={index} data={card} />
         ))}

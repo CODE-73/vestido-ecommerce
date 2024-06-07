@@ -10,14 +10,21 @@ interface CategoryCardProps {
 }
 const CategoryCard: React.FC<CategoryCardProps> = ({ data }) => {
   return (
-    <div className="group relative">
-      <div className="overflow-hidden">
-        <div className="group-hover:scale-110 transition duration-500 cursor-pointer object-cover ">
-          <Image src={data.cardImage} alt="alt text" />
+    <div className="group basis-1/4 lg:basis-48 text-center transition duration-700 ease-in-out md:hover:-translate-y-5 text-[#333333] pt-24 lg:pt-10">
+      <div className="flex flex-col items-center">
+        <div
+          className="
+      w-16 h-16 md:w-32 md:h-32 overflow-hidden rounded-full"
+        >
+          <Image
+            src={data.cardImage}
+            alt="alt text"
+            sizes="(max-width: 640px) 50vw"
+          />
         </div>
-      </div>
-      <div className="pt-2 capitalize text-center font-bold text-md group-hover:underline group-hover:underline-offset-4 leading-normal text-[#333333] group-hover:text-[#48CAB2] group-hover:text-lg">
-        {data.title}
+        <div className="pt-2 capitalize text-center text-sm md:text-md group-hover:underline group-hover:underline-offset-4 leading-normal text-[#333333] group-hover:text-[#48CAB2] ">
+          {data.title}
+        </div>
       </div>
     </div>
   );
