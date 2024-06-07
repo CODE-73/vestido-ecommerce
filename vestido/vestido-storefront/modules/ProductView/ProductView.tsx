@@ -25,7 +25,6 @@ import {
   ShoppingBag,
   Heart,
   GitCompareArrows,
-  Star,
 } from 'lucide-react';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import product11 from '../../assets/offer-products/product1-1.jpg';
@@ -111,11 +110,6 @@ const ProductView: React.FC = () => {
           <div className="text-2xl font-semibold text-red-700 ">$390.00</div>
         </div>
         <div className="flex flex-row py-3 gap-3 items-center">
-          <div className="flex self-start  gap-1 ">
-            {Array.from({ length: 5 }).map((_, index) => (
-              <Star key={index} fill="#ffb503" strokeWidth={0} size={20} />
-            ))}
-          </div>
           <div className="text-xs font-semibold text-[#48CAB2] ">2 reviews</div>
         </div>
         <div className="text-sm ">
@@ -273,16 +267,6 @@ const ProductView: React.FC = () => {
               <AccordionTrigger>Reviews </AccordionTrigger>
               <AccordionContent>
                 <div className="flex flex-row py-3 gap-3 pb-7">
-                  <div className="flex self-start  gap-1 ">
-                    {Array.from({ length: 5 }).map((_, index) => (
-                      <Star
-                        key={index}
-                        fill="#ffb503"
-                        strokeWidth={0}
-                        size={20}
-                      />
-                    ))}
-                  </div>
                   <div className="text-sm font-bold text-[#48CAB2] ">
                     Based on 2 reviews
                   </div>
@@ -291,16 +275,6 @@ const ProductView: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="flex self-start gap-1 pb-3">
-                  {Array.from({ length: 5 }).map((_, index) => (
-                    <Star
-                      key={index}
-                      fill="#ffb503"
-                      strokeWidth={0}
-                      size={20}
-                    />
-                  ))}
-                </div>
                 <div>
                   {reviews.map((review, index) => (
                     <div key={index}>

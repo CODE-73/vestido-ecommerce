@@ -1,12 +1,10 @@
 import * as React from 'react';
 import Image from 'next/image';
 
-import { Star, ShoppingBag } from 'lucide-react';
-import { Badge } from 'libs/shadcn-ui/src/ui/badge';
+import { ShoppingBag } from 'lucide-react';
 import { AddToWishListButton } from '../HomePage/SpecialOffer/AddToWishlistButton';
 import { QuickViewButton } from '../HomePage/SpecialOffer/QuickViewButton';
-import { useState } from 'react';
-import useIsMobile from 'vestido/vestido-storefront/hooks/useIsMobile';
+import useIsMobile from '../../../vestido-storefront/hooks/useIsMobile';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import product11 from '../../assets/offer-products/product1-1.jpg';
 import product12 from '../../assets/offer-products/product1-2.jpg';
@@ -53,7 +51,7 @@ const data = [
 
 const SaleItemCart: React.FC = () => {
   const isMobile = useIsMobile();
-  const labels = ['Days', 'Hrs', 'Min', 'Sec'];
+  // const labels = ['Days', 'Hrs', 'Min', 'Sec'];
   return (
     <div className="px-4">
       <div className="text-4xl tracking-wide text-[#333333] text-center font-extrabold my-5">
@@ -81,12 +79,6 @@ const SaleItemCart: React.FC = () => {
                 src={item.cardImage2}
                 alt="alt text"
               />
-
-              <div className="flex self-start pt-2 gap-1 ">
-                {Array.from({ length: 5 }).map((_, index) => (
-                  <Star key={index} fill="#ffb503" strokeWidth={0} size={20} />
-                ))}
-              </div>
 
               <div className="self-start pt-[#1px] capitalize text-[#333333] text-md font-thin">
                 {item.name}
@@ -155,12 +147,6 @@ const SaleItemCart: React.FC = () => {
                 src={item.cardImage2}
                 alt="alt text"
               />
-
-              <div className="flex self-start pt-2 gap-1 ">
-                {Array.from({ length: 5 }).map((_, index) => (
-                  <Star key={index} fill="#ffb503" strokeWidth={0} size={20} />
-                ))}
-              </div>
 
               <div className="self-start pt-[#1px] capitalize text-[#333333] text-md font-thin">
                 {item.name}

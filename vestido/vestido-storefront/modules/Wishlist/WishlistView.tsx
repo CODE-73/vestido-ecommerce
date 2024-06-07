@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Image from 'next/image';
 import { Badge } from 'libs/shadcn-ui/src/ui/badge';
-import { ShoppingBag, Star } from 'lucide-react';
+import { ShoppingBag } from 'lucide-react';
 import { useState } from 'react';
 import { CarouselItem } from '@vestido-ecommerce/shadcn-ui/carousel';
 import { AddToWishListButton } from '../HomePage/SpecialOffer/AddToWishlistButton';
@@ -111,11 +111,6 @@ const WishlistView: React.FC = () => {
                   </div>
                 ))}
               </div>
-            </div>
-            <div className="flex self-start pt-2 gap-1 ">
-              {Array.from({ length: 5 }).map((_, index) => (
-                <Star key={index} fill="#ffb503" strokeWidth={0} size={20} />
-              ))}
             </div>
 
             <div className="self-start pt-[#1px] capitalize text-[#333333] text-md font-thin">

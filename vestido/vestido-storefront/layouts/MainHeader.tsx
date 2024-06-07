@@ -107,7 +107,7 @@ const CategoryHeader = () => {
   const router = useRouter();
   const isMobile = useIsMobile();
   return (
-    <div className="bg-[#333333] flex items-center  justify-between px-3">
+    <div className="bg-[#1B2149] flex items-center  justify-between px-3">
       <div className="flex">
         <Link href="/" className="self-center">
           {isMobile ? (
