@@ -20,17 +20,15 @@ enum Gender {
     GIRLS
 }
 
-model Image {
-    id           String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    title        String
-    blurHash     String
-    alt          String
-    url          String
-    displayIndex Int
-    item         Item?   @relation(fields: [itemId], references: [id])
-    itemId       String? @db.Uuid
-    mainImage    Boolean
-}
+// model Image {
+//     id           String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+//     title        String
+//     blurHash     String
+//     alt          String
+//     url          String
+//     displayIndex Int
+//     default      Boolean
+// }
 
 model CustomerAddress {
     id         String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
@@ -67,7 +65,7 @@ model Item {
     gender      Gender[] @default([MEN, WOMEN])
     hasVariants Boolean  @default(false)
 
-    images        Image[]
+    images        Json           @default("[]")
     wishlistItems WishlistItem[]
     cartItems     CartItem[]
     variants      ItemVariant[]
@@ -80,8 +78,10 @@ model ItemVariant {
     id     String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     item   Item   @relation(fields: [itemId], references: [id])
     itemId String @db.Uuid
+
     title  String
     price  Float  @default(0)
+    images Json   @default("[]")
 
     attributeValues VariantAttributeValue[]
 }
