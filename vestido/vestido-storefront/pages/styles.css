@@ -82,3 +82,14 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
+
+/* styles/scrollbar.css */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+
