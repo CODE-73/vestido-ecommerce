@@ -124,8 +124,8 @@ const CategoryHeader = () => {
               <Image
                 src="/assets/white-logo.png"
                 alt="Logo"
-                width="250"
-                height="250"
+                width="180"
+                height="180"
               />
             </span>
           )}
