@@ -1,5 +1,4 @@
 import * as jwt from 'jsonwebtoken';
-import { SignOptions } from 'jsonwebtoken';
 
 export async function makeJWTToken(id: string) {
   return new Promise((resolve, reject) => {

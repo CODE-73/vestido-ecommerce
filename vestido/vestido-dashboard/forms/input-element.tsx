@@ -13,7 +13,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from 'libs/shadcn-ui/src/ui/form';
+} from '@vestido-ecommerce/shadcn-ui/form';
 import { Input, InputProps } from 'libs/shadcn-ui/src/ui/input';
 
 export type InputElementProps<T extends FieldValues = FieldValues> = Omit<
