@@ -2,9 +2,7 @@ import * as React from 'react';
 import Image from 'next/image';
 import { Trash2, Minus, Plus, ChevronLeft, RefreshCcw } from 'lucide-react';
 import { Checkbox } from '@vestido-ecommerce/shadcn-ui/checkbox';
-import { Badge } from 'libs/shadcn-ui/src/ui/badge';
-import { useState } from 'react';
-import useIsMobile from 'vestido/vestido-storefront/hooks/useIsMobile';
+import useIsMobile from '../../../vestido-storefront/hooks/useIsMobile';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
   Select,
@@ -17,7 +15,6 @@ import { Input } from '@vestido-ecommerce/shadcn-ui/input';
 import { Label } from '@vestido-ecommerce/shadcn-ui/label';
 import { Textarea } from '@vestido-ecommerce/shadcn-ui/textarea';
 import SaleItemCart from './SaleItemCart';
-import Link from 'next/link';
 import product11 from '../../assets/offer-products/product1-1.jpg';
 import product12 from '../../assets/offer-products/product1-2.jpg';
 import product21 from '../../assets/offer-products/product2-1.jpg';
@@ -62,9 +59,8 @@ const data = [
 ];
 
 const CartView: React.FC = () => {
-  const [isHovering, setIsHovering] = useState(false);
+  // const [isHovering, setIsHovering] = useState(false);
   const isMobile = useIsMobile();
-  const labels = ['Days', 'Hrs', 'Min', 'Sec'];
 
   return (
     <div>

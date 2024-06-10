@@ -3,7 +3,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from 'libs/shadcn-ui/src/ui/tooltip';
+} from '@vestido-ecommerce/shadcn-ui/tooltip';
 import { Heart } from 'lucide-react';
 
 export function AddToWishListButton() {

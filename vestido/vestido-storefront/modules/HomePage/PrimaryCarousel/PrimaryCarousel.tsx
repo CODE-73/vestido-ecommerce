@@ -7,7 +7,7 @@ import {
   Carousel,
   CarouselContent,
   CarouselDots,
-} from 'libs/shadcn-ui/src/ui/carousel';
+} from '@vestido-ecommerce/shadcn-ui/carousel';
 import PrimaryCarouselItem, {
   PrimaryCarouselItemData,
 } from './PrimaryCarouselItem';

@@ -1,11 +1,11 @@
 import Image, { StaticImageData } from 'next/image';
-import { Badge } from 'libs/shadcn-ui/src/ui/badge';
-import { ShoppingBag, Star } from 'lucide-react';
+import { Badge } from '@vestido-ecommerce/shadcn-ui/badge';
+import { ShoppingBag } from 'lucide-react';
 import { useState } from 'react';
 import { AddToWishListButton } from './AddToWishlistButton';
 import { QuickViewButton } from './QuickViewButton';
 import { CarouselItem } from '@vestido-ecommerce/shadcn-ui/carousel';
-import useIsMobile from 'vestido/vestido-storefront/hooks/useIsMobile';
+import useIsMobile from '../../../vestido-storefront/hooks/useIsMobile';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import CardDailog from './CardDialog';
 import Link from 'next/link';

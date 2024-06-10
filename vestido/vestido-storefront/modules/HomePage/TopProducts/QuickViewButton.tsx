@@ -3,8 +3,8 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from 'libs/shadcn-ui/src/ui/tooltip';
-import {ZoomIn } from 'lucide-react';
+} from '@vestido-ecommerce/shadcn-ui/tooltip';
+import { ZoomIn } from 'lucide-react';
 
 export function QuickViewButton() {
   return (

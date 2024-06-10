@@ -1,10 +1,9 @@
 import Image, { StaticImageData } from 'next/image';
-import { Badge } from 'libs/shadcn-ui/src/ui/badge';
-import { ShoppingBag, Star } from 'lucide-react';
+import { ShoppingBag } from 'lucide-react';
 import { useState } from 'react';
 import { AddToWishListButton } from './AddToWishlistButton';
 import { QuickViewButton } from './QuickViewButton';
-import useIsMobile from 'vestido/vestido-storefront/hooks/useIsMobile';
+import useIsMobile from '../../../vestido-storefront/hooks/useIsMobile';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import Link from 'next/link';
 
