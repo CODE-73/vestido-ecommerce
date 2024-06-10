@@ -1,7 +1,7 @@
 import * as React from 'react';
-import BlankLayout from '../../../vestido-storefront/layouts/BlankLayout';
+import BlankLayout from '../../layouts/authorized/BlankLayout';
 import LoginView from '../../modules/auth/LoginView';
-import { NextPageWithLayout } from '../../../vestido-storefront/types';
+import { NextPageWithLayout } from '../../types';
 
 const LoginPage: NextPageWithLayout = () => <LoginView />;
 

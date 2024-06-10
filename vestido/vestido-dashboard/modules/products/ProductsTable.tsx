@@ -7,7 +7,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from 'libs/shadcn-ui/src/ui/table';
+} from '@vestido-ecommerce/shadcn-ui/table';
 
 import { useRouter } from 'next/router';
 

@@ -1,23 +1,9 @@
-// function CustomApp({ Component, pageProps }: AppProps) {
-//   return (
-//     <>
-//       <Head>
-//         <title>VestidoNation</title>
-//       </Head>
-//       <main className="app">
-//         <Component {...pageProps} />
-//       </main>
-//     </>
-//   );
-// }
-
-// export default CustomApp;
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import './styles.css';
 import { NextPageWithLayout } from '../types/layout';
 import AuthorizedLayout from '../layouts/authorized';
-import { Toaster } from 'libs/shadcn-ui/src/ui/toaster';
+import { Toaster } from '@vestido-ecommerce/shadcn-ui/toaster';
 import localFont from 'next/font/local';
 import { AuthProvider } from '@vestido-ecommerce/auth';
 type AppPropsWithLayout = AppProps & {

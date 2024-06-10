@@ -1,14 +1,10 @@
-import { InputElement } from '../../forms/input-element';
-import { Form } from 'libs/shadcn-ui/src/ui/form';
-import { Button } from 'libs/shadcn-ui/src/ui/button';
+import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { AiOutlineSearch } from 'react-icons/ai';
 import CategoryTable from './CategoriesTable';
 import { useRouter } from 'next/router';
-import Link from 'next/link';
 import { useCategories } from '@vestido-ecommerce/items';
-import { Input } from 'libs/shadcn-ui/src/ui/input';
+import { Input } from '@vestido-ecommerce/shadcn-ui/input';
 
 const Categories: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');

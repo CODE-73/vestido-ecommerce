@@ -2,12 +2,11 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
-} from 'libs/shadcn-ui/src/ui/table';
-import { useCategory } from 'libs/items/src/swr/index';
+} from '@vestido-ecommerce/shadcn-ui/table';
+import { useCategory } from '@vestido-ecommerce/items';
 import { useRouter } from 'next/router';
 import { Gender, Category } from '@prisma/client';
 

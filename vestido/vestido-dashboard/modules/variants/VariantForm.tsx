@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { Form } from '@vestido-ecommerce/shadcn-ui/form';
 import { InputElement } from '../../forms/input-element';
-import { useVariantUpsert } from 'libs/items/src/swr/variants/upsert-variant';
-import { Button } from 'libs/shadcn-ui/src/ui/button';
+import { useVariantUpsert } from '@vestido-ecommerce/items';
+import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { useVariant } from 'libs/items/src/swr/variants';
+import { useVariant } from '@vestido-ecommerce/items';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { useRouter } from 'next/router';
 import { ChevronRight, Plus } from 'lucide-react';
-import { AttributeElement } from 'vestido/vestido-dashboard/forms/attribute-combobox-element';
-import { AttributeValueElement } from 'vestido/vestido-dashboard/forms/attribute-value-combobox';
+import { AttributeElement } from '../../forms/attribute-combobox-element';
+import { AttributeValueElement } from '../../forms/attribute-value-combobox';
 
 export const VariantAttributeValueSchema = z.object({
   attributeId: z.string(),
@@ -54,12 +54,12 @@ const VariantForm: React.FC<VariantFormProps> = ({
     name: 'attributeValues',
   });
   const { trigger } = useVariantUpsert(itemId);
-  const { data: { data: variant } = { data: null }, error } = useVariant(
+  const { data: { data: variant } = { data: null } /*error*/ } = useVariant(
     itemId,
     isNew ? null : variantId
   );
 
-  const { isDirty, isValid, errors } = form.formState;
+  const { isDirty, isValid /*,errors*/ } = form.formState;
   const isSubmitting = form.formState.isSubmitting;
 
   useEffect(() => {

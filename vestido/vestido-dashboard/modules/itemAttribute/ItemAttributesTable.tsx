@@ -1,14 +1,12 @@
 import { useRouter } from 'next/router';
-import { useAttributes } from 'libs/items/src/swr/index';
 import {
   Table,
   TableBody,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
-} from 'libs/shadcn-ui/src/ui/table';
+} from '@vestido-ecommerce/shadcn-ui/table';
 import { ListAttributesResponse } from '@vestido-ecommerce/items';
 
 interface ItemAttributeTableProps {

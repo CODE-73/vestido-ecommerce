@@ -2,12 +2,11 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
-} from 'libs/shadcn-ui/src/ui/table';
-import { useVariants } from 'libs/items/src/swr/index';
+} from '@vestido-ecommerce/shadcn-ui/table';
+import { useVariants } from '@vestido-ecommerce/items';
 
 import { useRouter } from 'next/router';
 import React from 'react';

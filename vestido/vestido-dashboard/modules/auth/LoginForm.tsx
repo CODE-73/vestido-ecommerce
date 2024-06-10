@@ -3,18 +3,17 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-
-import { Button } from 'libs/shadcn-ui/src/ui/button';
+import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-} from 'libs/shadcn-ui/src/ui/form';
-import { Input } from 'libs/shadcn-ui/src/ui/input';
+} from '@vestido-ecommerce/shadcn-ui/form';
+import { Input } from '@vestido-ecommerce/shadcn-ui/input';
 import { useLogin } from '@vestido-ecommerce/auth';
-import { useAuth } from 'libs/auth/src/providers/AuthProvider';
+import { useAuth } from '@vestido-ecommerce/auth';
 import { useRouter } from 'next/router';
 
 interface Props {

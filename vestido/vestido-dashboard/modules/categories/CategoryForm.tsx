@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { InputElement } from '../../forms/input-element';
-import { Button } from 'libs/shadcn-ui/src/ui/button';
+import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useCategoryUpsert } from '@vestido-ecommerce/items';
-import { useCategories, useCategory } from 'libs/items/src/swr/category';
+import { useCategory } from '@vestido-ecommerce/items';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { useRouter } from 'next/router';
 import { Checkbox } from '@vestido-ecommerce/shadcn-ui/checkbox';
@@ -19,9 +19,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@vestido-ecommerce/shadcn-ui/form';
-import { Combobox } from '@vestido-ecommerce/shadcn-ui/combobox';
-import clsx from 'clsx';
-import { CategoryElement } from 'vestido/vestido-dashboard/forms/category-combobox-element';
+import { CategoryElement } from '../../forms/category-combobox-element';
 
 const CreateCategoryFormSchema = z.object({
   name: z.string(),
@@ -72,10 +70,10 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
       gender: ['MEN', 'WOMEN'],
     },
   });
-  const parentCategoryId = form.watch('parentCategoryId');
+  // const parentCategoryId = form.watch('parentCategoryId');
 
   const { trigger } = useCategoryUpsert();
-  const { data: { data: category } = { data: null }, error } = useCategory(
+  const { data: { data: category } = { data: null } } = useCategory(
     isNew ? null : categoryId
   );
 

@@ -5,7 +5,7 @@ import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { useRouter } from 'next/router';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { InputElement } from '../../forms/input-element';
-import { Button } from 'libs/shadcn-ui/src/ui/button';
+import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Form } from '@vestido-ecommerce/shadcn-ui/form';
 import { useAttribute, useAttributeUpsert } from '@vestido-ecommerce/items';
 import { Edit, Plus, Trash } from 'lucide-react';
@@ -42,7 +42,7 @@ const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
 }) => {
   const { toast } = useToast();
   const router = useRouter();
-  const [searchQuery, setSearchQuery] = useState('');
+  // const [searchQuery, setSearchQuery] = useState('');
   const form = useForm<CreateItemAttributeForm>({
     mode: 'onBlur',
     resolver: zodResolver(CreateItemAttributeFormSchema),
@@ -53,7 +53,7 @@ const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
     },
   });
   const { trigger } = useAttributeUpsert();
-  const { data: { data: itemAttribute } = { data: null }, error } =
+  const { data: { data: itemAttribute } = { data: null } /*error*/ } =
     useAttribute(isNew ? null : itemAttributeId);
   const { isDirty, isValid, errors } = form.formState;
   const isSubmitting = form.formState.isSubmitting;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   Form,
@@ -10,21 +10,21 @@ import {
   FormMessage,
 } from '@vestido-ecommerce/shadcn-ui/form';
 import { InputElement } from '../../forms/input-element';
-import { useItemUpsert } from 'libs/items/src/swr/item/upsert-item';
-import { Button } from 'libs/shadcn-ui/src/ui/button';
+import { useItemUpsert } from '@vestido-ecommerce/items';
+import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { useItem } from 'libs/items/src/swr/item';
+import { useItem } from '@vestido-ecommerce/items';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { useRouter } from 'next/router';
 import { Checkbox } from '@vestido-ecommerce/shadcn-ui/checkbox';
 import { Genders } from '@vestido-ecommerce/items';
 import VariantsTable from '../variants/VariantsTable';
-import { SwitchElement } from 'vestido/vestido-dashboard/forms/switch-element';
-import { CategoryElement } from 'vestido/vestido-dashboard/forms/category-combobox-element';
+import { SwitchElement } from '../../forms/switch-element';
+import { CategoryElement } from '../../forms/category-combobox-element';
 // import { ImageSchema } from '@vestido-ecommerce/utils';
 
-import { useVariants } from 'libs/items/src/swr/index';
+import { useVariants } from '@vestido-ecommerce/items';
 
 const CreateProductFormSchema = z.object({
   title: z.string(),
@@ -68,13 +68,15 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
     },
   });
   const { trigger } = useItemUpsert();
-  const { data: { data: item } = { data: null }, error } = useItem(
+  const { data: { data: item } = { data: null } } = useItem(
     isNew ? null : itemId
   );
-  const { isDirty, isValid, errors } = form.formState;
+  const { isDirty, isValid } = form.formState;
   const isSubmitting = form.formState.isSubmitting;
 
   const { data: variants } = useVariants(itemId!);
+
+  const no_of_variants = variants?.data.length;
 
   useEffect(() => {
     if (!isNew && item) {
@@ -188,7 +190,9 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
             />{' '}
             <div>
               <SwitchElement
-                disabled={!isNew && variants?.data?.length! > 0}
+                disabled={
+                  !isNew && no_of_variants != undefined && no_of_variants > 0
+                }
                 name="hasVariants"
                 label="Has Variant(s)"
               />
