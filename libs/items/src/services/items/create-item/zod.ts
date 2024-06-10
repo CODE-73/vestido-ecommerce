@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { ImageSchema } from '@vestido-ecommerce/utils';
 import { Gender } from '@prisma/client';
 
 export const CreateItemSchema = z.object({
@@ -8,6 +9,7 @@ export const CreateItemSchema = z.object({
   unit: z.string(),
   stock: z.string(),
   categoryId: z.string(),
+  images: z.array(ImageSchema),
   hasVariants: z.boolean().default(false),
   gender: z
     .array(z.nativeEnum(Gender))

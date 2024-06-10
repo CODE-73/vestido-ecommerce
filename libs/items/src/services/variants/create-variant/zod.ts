@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { ImageSchema } from '@vestido-ecommerce/utils';
 const uuid = z.string().uuid();
 
 export const VariantAttributeValueSchema = z.object({
@@ -9,6 +10,7 @@ export const VariantAttributeValueSchema = z.object({
 export const CreateVariantSchema = z.object({
   itemId: uuid,
   title: z.string().nullish(),
+  images: z.array(ImageSchema),
   attributeValues: z.array(VariantAttributeValueSchema),
   price: z.coerce.number(),
 });

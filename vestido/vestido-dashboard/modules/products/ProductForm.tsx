@@ -22,6 +22,7 @@ import { Genders } from '@vestido-ecommerce/items';
 import VariantsTable from '../variants/VariantsTable';
 import { SwitchElement } from 'vestido/vestido-dashboard/forms/switch-element';
 import { CategoryElement } from 'vestido/vestido-dashboard/forms/category-combobox-element';
+// import { ImageSchema } from '@vestido-ecommerce/utils';
 
 import { useVariants } from 'libs/items/src/swr/index';
 
@@ -33,6 +34,7 @@ const CreateProductFormSchema = z.object({
   unit: z.string(),
   categoryId: z.string(),
   hasVariants: z.boolean().default(false),
+  // images: z.array(ImageSchema),
   gender: z
     .array(z.enum(Genders))
     .refine((value) => value.some((gender) => gender), {
@@ -92,7 +94,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
           ? 'Product Added Successfully'
           : 'Product Updated Successfully',
       });
-      console.log('reponse.data.id', response);
+
       router.replace(`/products/${response.data.id}`);
     } catch (e) {
       console.error('Error updating item:', e);

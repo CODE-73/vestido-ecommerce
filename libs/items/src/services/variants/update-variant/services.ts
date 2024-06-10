@@ -24,8 +24,7 @@ export async function updateVariant(
         id: variantId,
       },
       data: {
-        itemId: validatedData.itemId,
-        price: validatedData.price,
+        ...validatedData,
         title: varTitle,
       },
     });
