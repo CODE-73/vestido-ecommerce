@@ -1,10 +1,10 @@
 import { ListCategoryRequest } from 'libs/items/src/services';
 
-import { ListCategoriesResponse } from './types';
+import { ListCategoryResponse } from './types';
 
 export async function getCategoriesList(
   args: ListCategoryRequest
-): Promise<ListCategoriesResponse> {
+): Promise<ListCategoryResponse> {
   let url = '/api/categories';
 
   if (args.q) {
@@ -18,5 +18,5 @@ export async function getCategoriesList(
   }
 
   const data = await r.json();
-  return data as ListCategoriesResponse;
+  return data as ListCategoryResponse;
 }
