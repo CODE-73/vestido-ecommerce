@@ -1,4 +1,4 @@
-import { ListCategoryRequest } from 'libs/items/src/services';
+import { ListCategoryRequest } from '../../../services/categories/list-category/types';
 
 import { ListCategoryResponse } from './types';
 

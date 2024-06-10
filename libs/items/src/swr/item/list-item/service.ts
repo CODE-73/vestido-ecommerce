@@ -1,5 +1,5 @@
 import { ListItemResponse } from './types';
-import { ListItemRequest } from 'libs/items/src/services';
+import { ListItemRequest } from '../../../services/items/list-item/types';
 
 export async function getItemList(
   args: ListItemRequest

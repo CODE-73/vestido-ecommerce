@@ -7,12 +7,10 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from '@vestido-ecommerce/shadcn-ui/navigation-menu';
-import { cn } from 'libs/shadcn-ui/src/utils';
+import { clsx } from 'clsx';
 import { UserRound, Heart, ShoppingBag } from 'lucide-react';
 import { Search } from 'lucide-react';
 import { Input } from '@vestido-ecommerce/shadcn-ui/input';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import useIsMobile from '../hooks/useIsMobile';
@@ -104,7 +102,6 @@ const categoriesData = [
   },
 ];
 const CategoryHeader = () => {
-  const router = useRouter();
   const isMobile = useIsMobile();
   return (
     <div className="bg-[#1B2149] flex items-center  justify-between px-3">
@@ -199,7 +196,7 @@ export const NavigationMenuTrigger = React.forwardRef<
 >(({ className, children, ...props }, ref) => (
   <NavigationMenuPrimitive.Trigger
     ref={ref}
-    className={cn(navigationMenuTriggerStyle(), 'group', className)}
+    className={clsx(navigationMenuTriggerStyle(), 'group', className)}
     {...props}
   >
     {children}

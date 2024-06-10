@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { Gender } from '@prisma/client';
 
 export const CreateItemSchema = z.object({
   title: z.string(),
@@ -9,11 +10,11 @@ export const CreateItemSchema = z.object({
   categoryId: z.string(),
   hasVariants: z.boolean().default(false),
   gender: z
-    .array(z.string())
+    .array(z.nativeEnum(Gender))
     .refine((value) => value.some((gender) => gender), {
       message: 'You have to select at least one item.',
     })
-    .default(['Men', 'Women']),
+    .default(['MEN', 'WOMEN'] satisfies Gender[]),
 });
 
 export type CreateItemSchemaType = z.infer<typeof CreateItemSchema>;

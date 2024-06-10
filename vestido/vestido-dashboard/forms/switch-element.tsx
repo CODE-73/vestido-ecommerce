@@ -1,5 +1,5 @@
 import { ComponentProps } from 'react';
-import { Switch } from 'libs/shadcn-ui/src/ui/switch';
+import { Switch } from '@vestido-ecommerce/shadcn-ui/switch';
 import { FormField } from 'libs/shadcn-ui/src/ui/form';
 import { Control, FieldValues, FieldPath } from 'react-hook-form';
 import { Label } from 'libs/shadcn-ui/src/ui/label';
