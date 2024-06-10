@@ -2,11 +2,16 @@ import {
   Control,
   ControllerProps,
   FieldPath,
-  FieldValues, 
+  FieldValues,
 } from 'react-hook-form';
 
-import { FormField, FormItem, FormMessage, FormLabel } from 'components/ui/form';
-import { Textarea, TextareaProps } from 'components/ui/textarea';
+import {
+  FormField,
+  FormItem,
+  FormMessage,
+  FormLabel,
+} from '@vestido-ecommerce/shadcn-ui/form';
+import { Textarea, TextareaProps } from '@vestido-ecommerce/shadcn-ui/textarea';
 
 export type TextAreaElementProps<T extends FieldValues = FieldValues> = Omit<
   TextareaProps,
@@ -19,10 +24,9 @@ export type TextAreaElementProps<T extends FieldValues = FieldValues> = Omit<
   validation?: ControllerProps<T>['rules'];
 };
 
-export function TextAreaElement<TFieldValues extends FieldValues = FieldValues>(
-  {label, ...props}: 
-  TextAreaElementProps<TFieldValues>
-) {
+export function TextAreaElement<
+  TFieldValues extends FieldValues = FieldValues
+>({ label, ...props }: TextAreaElementProps<TFieldValues>) {
   const validation: ControllerProps<TFieldValues>['rules'] =
     props.validation ?? {};
 
@@ -36,8 +40,8 @@ export function TextAreaElement<TFieldValues extends FieldValues = FieldValues>(
       rules={validation}
       render={({ field }) => (
         <FormItem>
-            {label && <FormLabel>{label}</FormLabel>}
-          <Textarea   
+          {label && <FormLabel>{label}</FormLabel>}
+          <Textarea
             name={field.name}
             value={field.value}
             onChange={field.onChange}

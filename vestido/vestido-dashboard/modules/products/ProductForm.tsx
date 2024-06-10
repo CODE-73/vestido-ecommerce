@@ -25,6 +25,7 @@ import { CategoryElement } from '../../forms/category-combobox-element';
 // import { ImageSchema } from '@vestido-ecommerce/utils';
 
 import { useVariants } from '@vestido-ecommerce/items';
+import { Gender } from '@prisma/client';
 
 const CreateProductFormSchema = z.object({
   title: z.string(),
@@ -36,11 +37,11 @@ const CreateProductFormSchema = z.object({
   hasVariants: z.boolean().default(false),
   // images: z.array(ImageSchema),
   gender: z
-    .array(z.enum(Genders))
+    .array(z.nativeEnum(Gender))
     .refine((value) => value.some((gender) => gender), {
       message: 'You have to select at least one item.',
     })
-    .default(['MEN', 'WOMEN']),
+    .default(['MEN', 'WOMEN'] satisfies Gender[]),
 });
 
 export type CreateProductForm = z.infer<typeof CreateProductFormSchema>;

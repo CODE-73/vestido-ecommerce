@@ -10,8 +10,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from 'components/ui/form';
-import { RadioGroup, RadioGroupItem } from 'components/ui/radio-group';
+} from '@vestido-ecommerce/shadcn-ui/form';
+import {
+  RadioGroup,
+  RadioGroupItem,
+} from '@vestido-ecommerce/shadcn-ui/radio-group';
 
 export type RadioGroupElementProps<T extends FieldValues = FieldValues> = {
   name: FieldPath<T>;

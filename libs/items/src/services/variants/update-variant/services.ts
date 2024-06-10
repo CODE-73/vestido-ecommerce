@@ -26,6 +26,11 @@ export async function updateVariant(
       data: {
         ...validatedData,
         title: varTitle,
+        attributeValues: {
+          createMany: {
+            data: validatedData.attributeValues ?? [],
+          },
+        },
       },
     });
 

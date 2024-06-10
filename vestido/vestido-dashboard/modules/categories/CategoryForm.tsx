@@ -10,6 +10,7 @@ import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { useRouter } from 'next/router';
 import { Checkbox } from '@vestido-ecommerce/shadcn-ui/checkbox';
 import { Genders } from '@vestido-ecommerce/items';
+import { Gender } from '@prisma/client';
 import {
   Form,
   FormControl,
@@ -42,11 +43,11 @@ const CreateCategoryFormSchema = z.object({
       return x;
     }),
   gender: z
-    .array(z.enum(Genders))
+    .array(z.nativeEnum(Gender))
     .refine((value) => value.some((gender) => gender), {
       message: 'You have to select at least one item.',
     })
-    .default(['MEN', 'WOMEN']),
+    .default(['MEN', 'WOMEN'] satisfies Gender[]),
 });
 
 export type CreateCategoryForm = z.infer<typeof CreateCategoryFormSchema>;

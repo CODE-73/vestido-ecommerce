@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { AddToWishListButton } from './AddToWishlistButton';
 import { QuickViewButton } from './QuickViewButton';
 import { CarouselItem } from '@vestido-ecommerce/shadcn-ui/carousel';
-import useIsMobile from '../../../vestido-storefront/hooks/useIsMobile';
+import useIsMobile from '../../../hooks/useIsMobile';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import CardDailog from './CardDialog';
 import Link from 'next/link';

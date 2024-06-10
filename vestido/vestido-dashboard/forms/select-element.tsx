@@ -13,7 +13,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from 'components/ui/form';
+} from '@vestido-ecommerce/shadcn-ui/form';
 import {
   Select,
   SelectContent,
@@ -22,7 +22,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from 'components/ui/select';
+} from '@vestido-ecommerce/shadcn-ui/select';
 
 export type SelectProps = InputHTMLAttributes<HTMLSelectElement>;
 

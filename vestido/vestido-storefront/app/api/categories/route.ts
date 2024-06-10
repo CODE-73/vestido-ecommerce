@@ -1,9 +1,11 @@
 import { listCategories, createCategory } from '@vestido-ecommerce/items';
 import { ZodError } from 'zod';
+import { type NextRequest } from 'next/server';
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   try {
-    const categories = await listCategories();
+    const args = Object.fromEntries(request.nextUrl.searchParams.entries());
+    const categories = await listCategories(args);
 
     return new Response(JSON.stringify(categories), {
       headers: {

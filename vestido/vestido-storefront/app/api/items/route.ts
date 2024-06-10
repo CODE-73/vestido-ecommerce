@@ -1,10 +1,12 @@
 import { listItem } from '@vestido-ecommerce/items';
+import { type NextRequest } from 'next/server';
 
 export const dynamic = 'force-dynamic'; // static by default, unless reading the request
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   try {
-    const items = await listItem();
+    const args = Object.fromEntries(request.nextUrl.searchParams.entries());
+    const items = await listItem(args);
 
     return new Response(
       JSON.stringify({
