@@ -22,7 +22,9 @@ import { Genders } from '@vestido-ecommerce/items';
 import VariantsTable from '../variants/VariantsTable';
 import { SwitchElement } from '../../forms/switch-element';
 import { CategoryElement } from '../../forms/category-combobox-element';
-// import { ImageSchema } from '@vestido-ecommerce/utils';
+import MultiImageUploaderElement from '../../components/MultiImageUploaderElement';
+
+import { ImageSchema } from '@vestido-ecommerce/utils';
 
 import { useVariants } from '@vestido-ecommerce/items';
 import { Gender } from '@prisma/client';
@@ -35,7 +37,7 @@ const CreateProductFormSchema = z.object({
   unit: z.string(),
   categoryId: z.string(),
   hasVariants: z.boolean().default(false),
-  // images: z.array(ImageSchema),
+  images: z.array(ImageSchema),
   gender: z
     .array(z.nativeEnum(Gender))
     .refine((value) => value.some((gender) => gender), {
@@ -81,7 +83,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
 
   useEffect(() => {
     if (!isNew && item) {
-      // categoryId is optional in DB. We are going to enforce it as required.
       form.reset({ ...item, categoryId: item.categoryId ?? '' });
     }
   }, [isNew, item, form]);
@@ -200,6 +201,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
             </div>
           </div>
         </div>
+        <hr />
+        <MultiImageUploaderElement name="images" />
 
         <div className="grid grid-cols-8 mt-3 text-right gap-2">
           <Button type="submit" disabled={!isValid || !isDirty || isSubmitting}>

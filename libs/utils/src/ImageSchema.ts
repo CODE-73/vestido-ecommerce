@@ -7,3 +7,5 @@ export const ImageSchema = z.object({
   displayIndex: z.number(),
   default: z.boolean(),
 });
+
+export type ImageSchemaType = z.infer<typeof ImageSchema>;
