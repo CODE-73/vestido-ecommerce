@@ -20,15 +20,11 @@ enum Gender {
     GIRLS
 }
 
-// model Image {
-//     id           String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-//     title        String
-//     blurHash     String
-//     alt          String
-//     url          String
-//     displayIndex Int
-//     default      Boolean
-// }
+enum StockStatus {
+    AVAILABLE
+    LIMITED_STOCK
+    OUT_OF_STOCK
+}
 
 model CustomerAddress {
     id         String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
@@ -56,14 +52,13 @@ model Profile {
 }
 
 model Item {
-    id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    id          String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     title       String
     description String
     price       String
-    unit        String
-    stock       String
-    gender      Gender[] @default([MEN, WOMEN])
-    hasVariants Boolean  @default(false)
+    stockStatus StockStatus @default(AVAILABLE)
+    gender      Gender[]    @default([MEN, WOMEN])
+    hasVariants Boolean     @default(false)
 
     images        Json           @default("[]")
     wishlistItems WishlistItem[]
@@ -75,9 +70,10 @@ model Item {
 }
 
 model ItemVariant {
-    id     String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    item   Item   @relation(fields: [itemId], references: [id])
-    itemId String @db.Uuid
+    id          String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    item        Item        @relation(fields: [itemId], references: [id])
+    itemId      String      @db.Uuid
+    stockStatus StockStatus @default(AVAILABLE)
 
     title  String
     price  Float  @default(0)
