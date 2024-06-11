@@ -12,6 +12,7 @@ import { useRouter } from 'next/router';
 import { ChevronRight, Plus } from 'lucide-react';
 import { AttributeElement } from '../../forms/attribute-combobox-element';
 import { AttributeValueElement } from '../../forms/attribute-value-combobox';
+import MultiImageUploaderElement from '../../components/MultiImageUploaderElement';
 
 export const VariantAttributeValueSchema = z.object({
   attributeId: z.string(),
@@ -157,6 +158,10 @@ const VariantForm: React.FC<VariantFormProps> = ({
             <Plus /> Add Attribute
           </Button>
         </div>
+
+        <hr className="border-t-1 border-slate-400 mb-4 w-full" />
+        <div className="text-lg font-semibold">Variant Images</div>
+        <MultiImageUploaderElement name="images" />
 
         <div className="grid grid-cols-8 mt-3 text-right gap-2">
           <Button type="submit" disabled={!isValid || !isDirty || isSubmitting}>

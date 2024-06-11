@@ -107,7 +107,7 @@ const MultiImageUploader: React.FC<ImageUploaderProps> = ({ name }) => {
         ))}
         {images.length < 10 && (
           <div
-            className="relative lg:w-56 flex-shrink-0 bg-white opacity-75 border border-2 text-gray-300 border-dashed border-gray-300 hover:bg-white hover:opacity-100 flex items-center justify-center"
+            className="relative lg:w-56 lg:h-72 flex-shrink-0 bg-white opacity-75 border border-2 text-gray-300 border-dashed border-gray-300 hover:bg-white hover:opacity-100 flex items-center justify-center"
             onClick={() => {
               if (images.length < 10) {
                 const randomIndex = Math.floor(

@@ -201,7 +201,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
             </div>
           </div>
         </div>
-        <hr />
+        <hr className="border-t-1 border-slate-400 mb-4 w-full" />
+        <div className="text-lg font-semibold">Product Images</div>
         <MultiImageUploaderElement name="images" />
 
         <div className="grid grid-cols-8 mt-3 text-right gap-2">
