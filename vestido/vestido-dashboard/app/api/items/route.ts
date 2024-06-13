@@ -73,7 +73,8 @@ export async function POST(request: Request) {
       console.error('Unexpected Error', e);
       return new Response(
         JSON.stringify({
-          message: 'Unknown Error',
+          success: false,
+          error: e,
         }),
         {
           status: 500,

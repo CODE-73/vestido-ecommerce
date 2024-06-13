@@ -27,16 +27,18 @@ import MultiImageUploaderElement from '../../components/MultiImageUploaderElemen
 import { ImageSchema } from '@vestido-ecommerce/utils';
 
 import { useVariants } from '@vestido-ecommerce/items';
-import { Gender } from '@prisma/client';
+import { Gender, StockStatus } from '@prisma/client';
+import { RadioGroupElement } from '../../forms/radio-group-element';
 
 const CreateProductFormSchema = z.object({
   title: z.string(),
   price: z.string(),
   description: z.string(),
-  stock: z.string(),
-  unit: z.string(),
   categoryId: z.string(),
   hasVariants: z.boolean().default(false),
+  stockStatus: z
+    .nativeEnum(StockStatus)
+    .default('AVAILABLE' satisfies StockStatus),
   images: z.array(ImageSchema),
   gender: z
     .array(z.nativeEnum(Gender))
@@ -63,19 +65,20 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
       title: '',
       price: '',
       description: '',
-      stock: '',
-      unit: '',
       categoryId: '',
       gender: ['MEN', 'WOMEN'],
       hasVariants: false,
+      stockStatus: 'AVAILABLE',
     },
   });
   const { trigger } = useItemUpsert();
   const { data: { data: item } = { data: null } } = useItem(
     isNew ? null : itemId
   );
-  const { isDirty, isValid } = form.formState;
+  const { isDirty, isValid, errors } = form.formState;
+
   const isSubmitting = form.formState.isSubmitting;
+  console.info(isDirty, isValid, isSubmitting, errors);
 
   const { data: variants } = useVariants(itemId ?? '');
 
@@ -137,10 +140,23 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
               label="Category"
             />
           </div>
-          <div className="grid grid-cols-2 gap-5 lg:px-10">
+          <div className="grid grid-cols-2 gap-5 lg:px-10 mt-10">
             <div>
-              <InputElement name="unit" placeholder="unit" label="Unit" />
-              <InputElement name="stock" placeholder="Stock" label="Stock" />
+              <RadioGroupElement
+                name="stockStatus"
+                label="Stock Status"
+                options={[
+                  { label: 'Available', value: 'AVAILABLE' },
+                  {
+                    label: 'Limited Stock',
+                    value: 'LIMITED_STOCK',
+                  },
+                  {
+                    label: 'Out of Stock',
+                    value: 'OUT_OF_STOCK',
+                  },
+                ]}
+              />
             </div>
             <FormField
               control={form.control}
@@ -189,7 +205,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
                   <FormMessage />
                 </FormItem>
               )}
-            />{' '}
+            />
             <div>
               <SwitchElement
                 disabled={
