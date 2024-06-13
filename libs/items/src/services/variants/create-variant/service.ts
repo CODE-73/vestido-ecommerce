@@ -16,7 +16,7 @@ export async function createVariant(data: CreateVariantSchemaType) {
     prisma,
     validatedData.attributeValues ?? []
   );
-  console.log(varTitle);
+
   const newVariant = await prisma.itemVariant.create({
     data: {
       // itemId: validatedData.itemId,

@@ -42,12 +42,9 @@ const MultiImageUploader: React.FC<ImageUploaderProps> = ({ name }) => {
   const handleMoveImageLeft = () => {
     if (activeImageIdx !== null && activeImageIdx > 0) {
       const newImages = [...images];
-      console.log('newImages', newImages);
       const temp = newImages[activeImageIdx - 1];
       newImages[activeImageIdx - 1] = newImages[activeImageIdx];
       newImages[activeImageIdx] = temp;
-      console.log('newImages active', newImages[activeImageIdx]);
-      console.log(name);
       setImages(newImages);
       setActiveImageIdx(activeImageIdx - 1);
     }

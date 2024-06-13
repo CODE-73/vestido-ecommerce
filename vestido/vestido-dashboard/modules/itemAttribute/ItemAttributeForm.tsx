@@ -55,9 +55,8 @@ const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
   const { trigger } = useAttributeUpsert();
   const { data: { data: itemAttribute } = { data: null } /*error*/ } =
     useAttribute(isNew ? null : itemAttributeId);
-  const { isDirty, isValid, errors } = form.formState;
+  const { isDirty, isValid } = form.formState;
   const isSubmitting = form.formState.isSubmitting;
-  console.info({ form: form.getValues(), isDirty, isValid, errors });
 
   const itemAttributeValues = form.watch('itemAttributeValues');
   const lastValue =
@@ -98,12 +97,6 @@ const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
       console.error('Error updating item Attribute:', e);
     }
   };
-
-  console.info(
-    'AttributeItems Len',
-    attrValues.length,
-    attrValues.map((x) => x.value)
-  );
 
   return (
     <Form {...form}>

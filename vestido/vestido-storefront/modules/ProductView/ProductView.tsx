@@ -144,7 +144,7 @@ const ProductView: React.FC = () => {
           </div>
           <Button
             className="bg-transparent hover:bg-transparent text-xs "
-            onClick={() => console.log('haii')}
+            onClick={() => console.log('on-click')}
           >
             <Avatar className="outline outline-3  hover:outline-black">
               <AvatarFallback className="bg-[#48CAB2] text-xs ">

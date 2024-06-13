@@ -78,9 +78,8 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
     isNew ? null : categoryId
   );
 
-  const { isDirty, isValid, errors } = form.formState;
+  const { isDirty, isValid } = form.formState;
   const isSubmitting = form.formState.isSubmitting;
-  console.info({ form: form.getValues(), isDirty, isValid, errors });
 
   useEffect(() => {
     if (!isNew && category) {

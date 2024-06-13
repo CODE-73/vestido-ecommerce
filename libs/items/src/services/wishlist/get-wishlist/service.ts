@@ -13,13 +13,12 @@ export async function listWishlistItems(customerId: string) {
           title: true,
           description: true,
           price: true,
-          unit: true,
-          stock: true,
+          stockStatus: true,
+          images: true,
         },
       },
     },
   });
-  // no try..catch here
 
   return wishlistItems;
 }

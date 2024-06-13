@@ -28,7 +28,6 @@ export async function GET(request: Request) {
       },
     });
   } catch (e) {
-    console.error({ success: false, e });
     return new Response(
       JSON.stringify({
         success: false,
