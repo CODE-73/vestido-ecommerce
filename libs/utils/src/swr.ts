@@ -1,3 +1,5 @@
+"use client";
+
 import { useSWRConfig } from 'swr';
 
 export function useClearCacheOnSuccess(...keyRoot: string[]) {

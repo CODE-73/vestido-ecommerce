@@ -6,10 +6,12 @@ const ItemDetails: NextPage = () => {
   const router = useRouter();
   const itemId = router.query.productName;
 
+  const isNew = itemId === 'add-new';
+
   return (
     <ProductDetailsView
-      isNew={itemId === 'add-new'}
-      itemId={itemId as string}
+      isNew={isNew}
+      itemId={isNew ? null : (itemId as string)}
     />
   );
 };

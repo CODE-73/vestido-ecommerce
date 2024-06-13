@@ -3,7 +3,15 @@ import { Gender } from '@prisma/client';
 
 export const CreateCategorySchema = z.object({
   name: z.string(),
-  description: z.string(),
+  description: z
+    .string()
+    .nullable()
+    .transform((x) => {
+      if (!x || x.length === 0) {
+        return null;
+      }
+      return x;
+    }),
   parentCategoryId: z
     .string()
     .nullable()

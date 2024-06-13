@@ -10,21 +10,18 @@ export async function sendOTP(data: SendOtpSchemaType) {
 
   await redis.connect();
 
-  const validatedData = SendOtpSchema.parse(data);
+  const { mobile } = SendOtpSchema.parse(data);
 
-  const mobileNumber = validatedData.mobile;
-
-  const otp = await redis.get(mobileNumber);
+  let otp = await redis.get(mobile);
 
   if (!otp) {
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-    await redis.set(mobileNumber, otp);
+    await redis.set(mobile, otp);
 
-    await redis.expire(mobileNumber, 300);
-
-    return otp;
-  } else {
-    return otp;
+    await redis.expire(mobile, 300);
   }
+
+  console.info('OTP:', mobile, otp);
+  return otp;
 }

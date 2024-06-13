@@ -48,10 +48,10 @@ const CreateProductFormSchema = z.object({
 
 export type CreateProductForm = z.infer<typeof CreateProductFormSchema>;
 
-interface ProductFormProps {
-  itemId?: string;
+type ProductFormProps = {
+  itemId: string | null;
   isNew: boolean;
-}
+};
 
 const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
   const { toast } = useToast();
@@ -77,7 +77,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
   const { isDirty, isValid } = form.formState;
   const isSubmitting = form.formState.isSubmitting;
 
-  const { data: variants } = useVariants(itemId!);
+  const { data: variants } = useVariants(itemId ?? '');
 
   const no_of_variants = variants?.data.length;
 
@@ -91,7 +91,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
     try {
       const response = await trigger({
         ...data,
-        id: isNew ? undefined : itemId,
+        id: isNew ? undefined : (itemId as string),
       });
       toast({
         title: isNew
