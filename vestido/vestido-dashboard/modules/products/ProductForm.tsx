@@ -75,10 +75,9 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
   const { data: { data: item } = { data: null } } = useItem(
     isNew ? null : itemId
   );
-  const { isDirty, isValid, errors } = form.formState;
+  const { isDirty, isValid } = form.formState;
 
   const isSubmitting = form.formState.isSubmitting;
-  console.info(isDirty, isValid, isSubmitting, errors);
 
   const { data: variants } = useVariants(itemId ?? '');
 
