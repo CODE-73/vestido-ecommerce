@@ -168,12 +168,12 @@ model Order {
 }
 
 model OrderItem {
-    id              String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    price           String
+    id              String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    price           Int
     qty             String
-    order           Order             @relation(fields: [orderId], references: [id])
-    orderId         String            @db.Uuid
-    FulfillmentItem FulfillmentItem[]
+    order           Order            @relation(fields: [orderId], references: [id])
+    orderId         String           @db.Uuid
+    FulfillmentItem FulfillmentItem?
 }
 
 model Payment {
@@ -201,7 +201,7 @@ model FulfillmentItem {
     fulfillment   Fulfillment @relation(fields: [fulfillmentId], references: [id])
     fulfillmentId String      @db.Uuid
     orderItem     OrderItem   @relation(fields: [orderItemId], references: [id])
-    orderItemId   String      @db.Uuid
+    orderItemId   String      @unique @db.Uuid
     quantity      Int         @default(1)
     status        String
 }
