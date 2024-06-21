@@ -161,7 +161,6 @@ model Order {
     customer        Profile       @relation(fields: [customerId], references: [id])
     customerId      String        @db.Uuid
     shippingAddress String
-    billingAddress  String
     orderItems      OrderItem[]
     payment         Payment?
     fulfillment     Fulfillment[]
