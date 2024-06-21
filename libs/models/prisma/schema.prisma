@@ -26,6 +26,17 @@ enum StockStatus {
     OUT_OF_STOCK
 }
 
+enum OrderStatus {
+    PENDING
+    PAID
+    CANCELLED
+    FULFILLMENT_IN_PROGRESS
+    FULFILLED
+    COMPLETED
+    PARTIALLY_RETURNED
+    RETURNED
+}
+
 model CustomerAddress {
     id         String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     customer   Profile @relation(fields: [customerId], references: [id])
@@ -45,9 +56,10 @@ model Profile {
     lastName        String?
     mobile          String?           @unique
     email           String?           @unique
-    WishlistItem    WishlistItem[]
-    CartItem        CartItem[]
+    wishlistItems   WishlistItem[]
+    cartItems       CartItem[]
     ContactUs       ContactUs[]
+    orders          Order[]
     CustomerAddress CustomerAddress[]
 }
 
@@ -141,19 +153,57 @@ model CartItem {
 }
 
 model Order {
-    id         String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    dateTime   DateTime
-    totalPrice String
-    itemsCount Int
-    orderItem  OrderItem[]
+    id              String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    dateTime        DateTime      @default(now())
+    totalPrice      Float
+    itemsCount      Int
+    status          OrderStatus   @default(PENDING)
+    customer        Profile       @relation(fields: [customerId], references: [id])
+    customerId      String        @db.Uuid
+    shippingAddress String
+    billingAddress  String
+    orderItems      OrderItem[]
+    payment         Payment?
+    fulfillment     Fulfillment[]
 }
 
 model OrderItem {
-    id      String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    price   String
-    qty     String
-    order   Order  @relation(fields: [orderId], references: [id])
-    orderId String @db.Uuid
+    id              String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    price           String
+    qty             String
+    order           Order             @relation(fields: [orderId], references: [id])
+    orderId         String            @db.Uuid
+    FulfillmentItem FulfillmentItem[]
+}
+
+model Payment {
+    id       String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    order    Order    @relation(fields: [orderId], references: [id])
+    orderId  String   @unique @db.Uuid
+    amount   Float
+    method   String
+    status   String
+    dateTime DateTime @default(now())
+}
+
+model Fulfillment {
+    id              String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    order           Order             @relation(fields: [orderId], references: [id])
+    orderId         String            @db.Uuid
+    status          String
+    tracking        String?
+    dateTime        DateTime          @default(now())
+    FulfillmentItem FulfillmentItem[]
+}
+
+model FulfillmentItem {
+    id            String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    fulfillment   Fulfillment @relation(fields: [fulfillmentId], references: [id])
+    fulfillmentId String      @db.Uuid
+    orderItem     OrderItem   @relation(fields: [orderItemId], references: [id])
+    orderItemId   String      @db.Uuid
+    quantity      Int         @default(1)
+    status        String
 }
 
 model ContactUs {
