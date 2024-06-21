@@ -169,8 +169,8 @@ model Order {
 
 model OrderItem {
     id              String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    price           Int
-    qty             String
+    price           Float
+    qty             Int
     order           Order            @relation(fields: [orderId], references: [id])
     orderId         String           @db.Uuid
     FulfillmentItem FulfillmentItem?
