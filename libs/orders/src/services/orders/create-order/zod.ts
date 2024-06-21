@@ -15,6 +15,7 @@ export const CreateOrderSchema = z.object({
     .nativeEnum(OrderStatus)
     .default('PENDING' satisfies OrderStatus),
   shippingAddress: z.string().uuid(),
+  customerId: z.string().uuid(),
   orderItems: z.array(OrderItemSchema),
 });
 

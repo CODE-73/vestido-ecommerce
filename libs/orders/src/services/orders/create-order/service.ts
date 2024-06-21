@@ -9,12 +9,10 @@ export async function createItem(data: CreateOrderSchemaType) {
   // pass to prisma next
 
   const newItem = await prisma.order.create({
-    data: {
-      ...validatedData,
-      orderItems: {
-        createMany: {
-          data: validatedData.orderItems,
-        },
+    data: validatedData,
+    orderItems: {
+      createMany: {
+        data: validatedData.orderItems,
       },
     },
   });
