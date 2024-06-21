@@ -3,6 +3,8 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { composePlugins, withNx } = require('@nx/next');
 
+const R2_NEXT_IMAGE_HOSTNAME = process.env.R2_NEXT_IMAGE_HOSTNAME || '';
+
 /**
  * @type {import('@nx/next/plugins/with-nx').WithNxOptions}
  **/
@@ -13,7 +15,9 @@ const nextConfig = {
     svgr: false,
   },
   images: {
-    domains: ['images.unsplash.com'],
+    remotePatterns: [{
+      hostname: R2_NEXT_IMAGE_HOSTNAME
+    }],
   },
   webpack: (config, { isServer }) => {
     if (!isServer) {

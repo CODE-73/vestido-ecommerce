@@ -1,7 +1,7 @@
-export type DownlaodFileRequest = {
+export type DownloadFileRequest = {
   key: string;
 };
 
-export type DownlaodFileResponse = {
+export type DownloadFileResponse = {
   url: string;
 };

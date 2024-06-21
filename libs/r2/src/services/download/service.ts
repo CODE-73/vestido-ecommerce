@@ -1,9 +1,9 @@
 import { makeSignedUrl } from '../make-signed-url';
-import { DownlaodFileRequest, DownlaodFileResponse } from './types';
+import { DownloadFileRequest, DownloadFileResponse } from './types';
 
 export async function downloadFile({
   key,
-}: DownlaodFileRequest): Promise<DownlaodFileResponse> {
+}: DownloadFileRequest): Promise<DownloadFileResponse> {
   const url = await makeSignedUrl({
     requestType: 'GET',
     key: key,
