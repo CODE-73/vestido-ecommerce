@@ -15,7 +15,7 @@ export const CreateItemSchema = z.object({
       message: 'You have to select at least one item.',
     })
     .default(['MEN', 'WOMEN'] satisfies Gender[]),
-  categoryId: z.string(),
+  categoryId: z.string().uuid(),
   images: z.array(ImageSchema),
   hasVariants: z.boolean().default(false),
 });
