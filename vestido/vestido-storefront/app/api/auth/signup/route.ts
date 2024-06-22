@@ -17,7 +17,7 @@ export async function POST(request: Request) {
       otp,
     };
 
-    const user = await verifyUserExist(verifyOtpBody);
+    const user = await verifyUserExist({ mobile: mobileNumber });
 
     if (!user) {
       const isOtpVerfied = await verifyOTP(verifyOtpBody);

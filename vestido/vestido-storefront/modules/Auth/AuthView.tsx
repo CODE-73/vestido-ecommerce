@@ -16,6 +16,7 @@ import { Input } from '@vestido-ecommerce/shadcn-ui/input';
 import { useSendOTP } from '@vestido-ecommerce/auth';
 import { useState } from 'react';
 import LoginForm from './LoginForm';
+import SignupForm from './SignupForm';
 
 const indianMobileRegex = /^[6-9]\d{9}$/;
 
@@ -25,7 +26,7 @@ const FormSchema = z.object({
     .regex(indianMobileRegex, 'Please enter a valid Indian mobile number'),
 });
 
-const LoginView: React.FC = () => {
+const AuthView: React.FC = () => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -36,16 +37,21 @@ const LoginView: React.FC = () => {
   const { trigger } = useSendOTP();
 
   const [otpSent, setOtpSent] = useState(false);
+  const [userExists, setUserExists] = useState(true);
   const [userMobile, setUserMobile] = useState('');
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    await trigger({
+    const response = await trigger({
       mobile: data.mobile,
     });
     setOtpSent(true);
     setUserMobile(data.mobile);
+    if (response?.userExists !== undefined) {
+      setUserExists(response.userExists);
+    }
+    console.log(response, response.userExists);
   }
-
+  console.log('final userExists:', userExists);
   return (
     <Form {...form}>
       <div className="flex flex-col justify-center items-center h-screen">
@@ -70,10 +76,11 @@ const LoginView: React.FC = () => {
             <Button type="submit">Send OTP</Button>
           </form>
         )}
-        {otpSent && <LoginForm mobile={userMobile} />}
+        {otpSent && userExists && <LoginForm mobile={userMobile} />}
+        {otpSent && userExists == false && <SignupForm mobile={userMobile} />}
       </div>
     </Form>
   );
 };
 
-export default LoginView;
+export default AuthView;
