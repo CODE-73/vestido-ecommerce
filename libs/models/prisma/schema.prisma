@@ -44,8 +44,9 @@ model CustomerAddress {
     line1      String
     line2      String
     district   String
-    State      String
+    state      String
     postalCode String
+    Order      Order[]
 }
 
 model Profile {
@@ -153,14 +154,15 @@ model CartItem {
 }
 
 model Order {
-    id              String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    dateTime        DateTime      @default(now())
+    id              String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    dateTime        DateTime        @default(now())
     totalPrice      Float
     itemsCount      Int
-    status          OrderStatus   @default(PENDING)
-    customer        Profile       @relation(fields: [customerId], references: [id])
-    customerId      String        @db.Uuid
-    shippingAddress String
+    status          OrderStatus     @default(PENDING)
+    customer        Profile         @relation(fields: [customerId], references: [id])
+    customerId      String          @db.Uuid
+    shippingAddress CustomerAddress @relation(fields: [addressId], references: [id])
+    addressId       String          @db.Uuid
     orderItems      OrderItem[]
     payment         Payment?
     fulfillment     Fulfillment[]
