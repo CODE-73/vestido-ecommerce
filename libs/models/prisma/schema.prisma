@@ -78,8 +78,9 @@ model Item {
     cartItems     CartItem[]
     variants      ItemVariant[]
 
-    category   Category @relation(fields: [categoryId], references: [id])
-    categoryId String   @db.Uuid
+    category   Category    @relation(fields: [categoryId], references: [id])
+    categoryId String      @db.Uuid
+    OrderItem  OrderItem[]
 }
 
 model ItemVariant {
@@ -174,6 +175,8 @@ model OrderItem {
     qty             Int
     order           Order            @relation(fields: [orderId], references: [id])
     orderId         String           @db.Uuid
+    item            Item             @relation(fields: [itemId], references: [id])
+    itemId          String           @db.Uuid
     FulfillmentItem FulfillmentItem?
 }
 
