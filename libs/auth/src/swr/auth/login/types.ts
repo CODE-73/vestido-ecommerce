@@ -1,6 +1,6 @@
 import { Profile } from '@prisma/client';
 export type LoginRequest = {
-  mobileNumber: string;
+  mobile: string;
   otp: string;
 };
 

@@ -9,15 +9,15 @@ import { ZodError } from 'zod';
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const mobileNumber = body.mobile;
+    const mobile = body.mobile;
     const otp = body.otp;
 
     const verifyOtpBody = {
-      mobileNumber,
+      mobile,
       otp,
     };
 
-    const user = await verifyUserExist({ mobile: mobileNumber });
+    const user = await verifyUserExist({ mobile: mobile });
 
     if (!user) {
       const isOtpVerfied = await verifyOTP(verifyOtpBody);

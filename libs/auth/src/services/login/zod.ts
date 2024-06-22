@@ -3,7 +3,7 @@ import { z } from 'zod';
 const indianMobileRegex = /^[6-9]\d{9}$/;
 
 export const loginSchema = z.object({
-  mobileNumber: z
+  mobile: z
     .string()
     .regex(indianMobileRegex, 'Please enter a valid Indian mobile number'),
   otp: z.string().refine((otp) => otp.length === 6, {

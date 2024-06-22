@@ -49,7 +49,7 @@ const LoginForm: React.FC<Props> = ({ mobile }) => {
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
       const r = await trigger({
-        mobileNumber: data.mobile,
+        mobile: data.mobile,
         otp: data.otp,
       });
 

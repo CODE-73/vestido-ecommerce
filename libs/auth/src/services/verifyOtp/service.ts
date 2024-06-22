@@ -10,7 +10,7 @@ export async function verifyOTP(data: loginSchemaType) {
 
   const validatedData = loginSchema.parse(data);
 
-  const storedOtp = await redis.get(validatedData.mobileNumber);
+  const storedOtp = await redis.get(validatedData.mobile);
 
   if (validatedData.otp == storedOtp) {
     return true;
