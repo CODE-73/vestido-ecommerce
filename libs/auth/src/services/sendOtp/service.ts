@@ -1,5 +1,6 @@
 import { createClient } from 'redis';
 import { SendOtpSchemaType, SendOtpSchema } from './zod';
+import { verifyUserExist } from '../verifyUser';
 
 export async function sendOTP(data: SendOtpSchemaType) {
   const redis = createClient({
@@ -23,5 +24,11 @@ export async function sendOTP(data: SendOtpSchemaType) {
   }
 
   console.info('OTP:', mobile, otp);
-  return otp;
+  const user = await verifyUserExist({ mobile: mobile });
+  const userExists = !!user; // Convert the user object to a boolean
+
+  return {
+    otp,
+    userExists,
+  };
 }

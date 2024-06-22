@@ -1,14 +1,14 @@
 import { PrismaClient } from '@prisma/client';
-import { loginSchema, loginSchemaType } from '../login';
+import { SendOtpSchema, SendOtpSchemaType } from '../sendOtp';
 
-export async function verifyUserExist(data: loginSchemaType) {
+export async function verifyUserExist(data: SendOtpSchemaType) {
   const prisma = new PrismaClient();
 
-  const validatedData = loginSchema.parse(data);
+  const validatedData = SendOtpSchema.parse(data);
 
   const user = await prisma.profile.findUnique({
     where: {
-      mobile: validatedData.mobileNumber,
+      mobile: validatedData.mobile,
     },
   });
 
