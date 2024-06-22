@@ -6,3 +6,6 @@ export enum OtpSWRKeys {
 export enum LoginSWRKeys {
   LOGIN = 'login',
 }
+export enum SignupSWRKeys {
+  SIGNUP = 'signup',
+}
