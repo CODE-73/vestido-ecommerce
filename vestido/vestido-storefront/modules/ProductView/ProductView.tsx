@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { Checkbox } from '@vestido-ecommerce/shadcn-ui/checkbox';
+// import { Checkbox } from '@vestido-ecommerce/shadcn-ui/checkbox';
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '@vestido-ecommerce/shadcn-ui/accordion';
-import { Avatar, AvatarFallback } from '@vestido-ecommerce/shadcn-ui/avatar';
+// import { Avatar, AvatarFallback } from '@vestido-ecommerce/shadcn-ui/avatar';
 import {
   Table,
   TableCell,
@@ -18,28 +18,19 @@ import Image from 'next/image';
 
 import {
   Scaling,
-  Truck,
-  Mail,
   Minus,
   Plus,
   ShoppingBag,
   Heart,
-  GitCompareArrows,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
+import { useCategory, useItem, useVariants } from '@vestido-ecommerce/items';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
-import product11 from '../../assets/offer-products/product1-1.jpg';
-import product12 from '../../assets/offer-products/product1-2.jpg';
 
-const product = [
-  {
-    cardImage1: product11,
-    cardImage2: product12,
-    name: 'T-shirt with pearly sleeves',
-    salePercent: '13',
-    price: '$450.00',
-    offerPrice: '$390.00',
-  },
-];
+interface ProductViewProps {
+  itemId: string;
+}
 
 const reviews = [
   {
@@ -58,91 +49,121 @@ const reviews = [
   },
 ];
 
-const ProductView: React.FC = () => {
+const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
+  const { data } = useItem(itemId);
+  const item = data?.data;
+
+  const { data: category } = useCategory(item?.categoryId);
+  const itemCategory = category?.data.name;
+
+  const { data: variants } = useVariants(itemId);
+  const itemVariants = variants?.data;
+
+  const [selectedImage, setSelectedImage] = React.useState<string>(
+    data?.data.images[0].url ?? ''
+  );
+
+  const scrollRef = React.useRef<HTMLDivElement>(null);
+
+  const scrollLeft = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: -800, behavior: 'smooth' });
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: 800, behavior: 'smooth' });
+    }
+  };
   const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
 
-  const labels = ['Days', 'Hrs', 'Min', 'Sec'];
   return (
-    <div className="w-full flex flex-row py-5 ">
-      <div className="w-1/6 grid justify-items-end">
-        <div className="w-20">
-          <div className="sticky top-0">
-            <Image
-              className="outline outline-3 hover:outline-black mb-3"
-              src={product[0].cardImage1}
-              alt="alt text"
-            />
-            <Image
-              className="outline outline-3 hover:outline-black"
-              src={product[0].cardImage2}
-              alt="alt text"
-            />
-          </div>
-        </div>
-      </div>
-      <div className="w-1/3">
-        <div className="sticky top-0">
+    <div className="w-full flex py-5 space-x-10">
+      <div className="w-1/2">
+        <div className="flex justify-center items-center pb-4">
           <Image
-            className="w-5/6 px-5 h-4/6"
-            src={product[0].cardImage1}
+            className="w-4/6 px-5 h-4/6"
+            src={selectedImage ? selectedImage : data?.data.images[0].url ?? ''}
             alt="alt text"
+            width={550}
+            height={720}
           />
         </div>
-      </div>
-      <div className="w-1/3">
-        <div className="text-sm font-semibold pb-3">Offer Will End Through</div>
-        <div className="flex gap-2 pb-7">
-          {labels.map((label, index) => (
-            <div
-              key={index}
-              className="flex flex-col bg-zinc-100 w-16 h-14 items-center"
-            >
-              <div className="font-extrabold text-2xl">0</div>
-              <div className="text-xs">{label}</div>
+        <div className="relative">
+          {' '}
+          <button
+            onClick={scrollLeft}
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white z-10 p-2 rounded-full shadow-md"
+          >
+            <ChevronLeft />
+          </button>
+          <div
+            ref={scrollRef}
+            className="overflow-x-auto overflow-y-hidden no-scrollbar flex space-x-2"
+            style={{ scrollbarWidth: 'none' }}
+          >
+            <div className="flex space-x-2 w-full">
+              {data?.data.images.map((image, index) => (
+                <div
+                  key={index}
+                  className="basis-1/5 flex-none"
+                  onClick={() => setSelectedImage(image.url!)}
+                >
+                  <Image
+                    className="outline outline-3 hover:outline-[#48CAB2] mb-3"
+                    src={image.url!}
+                    alt="alt text"
+                    width={100}
+                    height={150}
+                  />
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-        <h1 className="text-3xl font-semibold">T-shirt with pearly sleeves</h1>
-        <div className="flex flex-row items-center gap-1">
-          <div>
-            <s>$450.00</s>
           </div>
-          <div className="text-2xl font-semibold text-red-700 ">$390.00</div>
+          <button
+            onClick={scrollRight}
+            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white z-10 p-2 rounded-full shadow-md"
+          >
+            <ChevronRight />
+          </button>
         </div>
-        <div className="flex flex-row py-3 gap-3 items-center">
+      </div>
+      <div className="w-1/2">
+        <h1 className="text-3xl font-semibold">{item?.title}</h1>
+        <div className="flex flex-row items-center gap-1">
+          <div className="text-2xl font-semibold">Rs.{item?.price}</div>
+          {/* <div className="text-2xl font-semibold text-red-700 ">
+            Rs.{item?.price}
+          </div> */}
+        </div>
+        {/* <div className="flex flex-row py-3 gap-3 items-center">
           <div className="text-xs font-semibold text-[#48CAB2] ">2 reviews</div>
-        </div>
+        </div> */}
         <div className="text-sm ">
           <div className="flex flex-row">
-            <h1 className="font-extralight">SKU:&nbsp; </h1>
-            <h1 className="font-semibold">w20</h1>
-          </div>
-          <div className="flex flex-row">
             <h1 className="font-extralight">Availability:&nbsp; </h1>
-            <h1 className="font-semibold">Many in stock</h1>
-          </div>
-          <div className="flex flex-row">
-            <h1 className="font-extralight">Vendor:&nbsp; </h1>
-          </div>
-          <div className="flex flex-row">
-            <h1 className="font-extralight">Product Type:&nbsp; </h1>
-            <h1 className="font-semibold no-underline hover:underline">
-              T-Shirts
+            <h1 className="font-semibold">
+              {item?.stockStatus === 'LIMITED_STOCK'
+                ? 'Limited Stock'
+                : item?.stockStatus === 'OUT_OF_STOCK'
+                ? 'Out of Stock'
+                : 'Available'}
             </h1>
           </div>
-          <div className="flex flex-row">
-            <h1 className="font-extralight">Barcode:&nbsp; </h1>
-            <h1 className="font-semibold">0123456789</h1>
+
+          <div className="flex gap-2">
+            <h1 className="font-extralight">Category</h1>
+            <h1 className="font-semibold no-underline hover:underline">
+              {itemCategory}
+            </h1>
           </div>
-          <div className="flex flex-row">
-            <h1 className="font-extralight">Tags:&nbsp; </h1>
-            <h1 className="font-semibold no-underline hover:underline">Nice</h1>
-          </div>
-          <div className="flex flex-row pt-4">
+
+          {/* <div className="flex flex-row pt-4">
             <h1 className="font-extralight">Color:&nbsp; </h1>
             <h1 className="font-semibold no-underline ">Green</h1>
-          </div>
-          <Button
+          </div> */}
+          {/* <Button
             className="bg-transparent hover:bg-transparent text-xs "
             onClick={() => console.log('on-click')}
           >
@@ -151,7 +172,7 @@ const ProductView: React.FC = () => {
                 Green
               </AvatarFallback>
             </Avatar>
-          </Button>
+          </Button> */}
 
           <div className="flex flex-row pt-4">
             <h1 className="font-extralight">Size:&nbsp; </h1>
@@ -169,70 +190,53 @@ const ProductView: React.FC = () => {
           ))}
         </div>
 
-        <div className="flex flex-row r py-6 text-sm ">
-          <div className="flex flex-row pr-5 gap-1 ">
-            <Scaling />
-            <h1>Size Guide</h1>
-          </div>
-          <div className="flex flex-row pr-5 gap-1">
+        {/* <div className="flex flex-row r py-6 text-sm "> */}
+        <div className="flex flex-row pr-5 gap-1 py-6">
+          <Scaling />
+          <h1>Size Guide</h1>
+        </div>
+        {/* <div className="flex flex-row pr-5 gap-1">
             <Truck />
             <h1>Shipping</h1>
-          </div>
-          <div className="flex flex-row  gap-1">
-            <Mail />
-            <h1>Ask about this product</h1>
-          </div>
-        </div>
-        <div>
-          <div className="flex flex-row gap-2 mb-5 ">
-            <div className="flex flex-row bg-zinc-100 px-4 h-12 items-center justify-around ">
-              <div className="text-zinc-300  ">
-                <Minus />
-              </div>
-              <div className="px-3 font-medium">1</div>
-              <div className="text-zinc-300">
-                <Plus />
-              </div>
+          </div> */}
+        {/* </div> */}
+
+        <div className="flex gap-2 mb-5 ">
+          <div className="flex bg-zinc-100 px-4 h-12 items-center justify-around ">
+            <div className="text-zinc-300 ">
+              <Minus />
             </div>
-            <div className="flex flex-row bg-[#48CAB2] items-center gap-2 w-full justify-center text-white  ">
-              <ShoppingBag />
-              <div className="text-xs font-semibold ">ADD TO CART</div>
+            <div className="px-3 font-medium">1</div>
+            <div className="text-zinc-300">
+              <Plus />
             </div>
           </div>
-        </div>
-        <div className="flex flex-row gap-2 items-center justify-center">
-          <div className="flex flex-row outline outline-1 outline-zinc-100  hover:outline-black font-medium text-xs w-2/4 h-7 items-center justify-center">
+          <div className="flex bg-[#48CAB2] items-center gap-2 w-full justify-center text-white  ">
+            <ShoppingBag />
+            <Button className="text-xl font-semibold bg-transparent hover:bg-transparent">
+              ADD TO CART
+            </Button>
+          </div>
+          <div className="outline outline-2 outline-[#48CAB2] font-medium text-xs  h-full self-center p-4">
             <Heart />
-            <div>Add to whistlist</div>
-          </div>
-          <div className="flex flex-row outline outline-1 outline-zinc-100 hover:outline-black font-medium text-xs w-2/4 h-7 items-center justify-center">
-            <GitCompareArrows />
-            <div>Add to compare</div>
           </div>
         </div>
-        <div className="flex flex-row items-center gap-2 py-4">
+
+        {/* <div className="flex flex-row gap-2 items-center justify-center">
+         
+        </div> */}
+        {/* <div className="flex flex-row items-center gap-2 py-4">
           <Checkbox />
           <div className="text-black font-extralight text-sm">
             I agree with the terms and conditions
           </div>
-        </div>
-        <div className="w-full bg-neutral-500 flex items-center justify-center font-medium text-white text-xs h-10">
-          Buy it now
-        </div>
+        </div> */}
+
         <div>
           <Accordion type="single" collapsible>
             <AccordionItem value="item-1">
               <AccordionTrigger>Description</AccordionTrigger>
-              <AccordionContent>
-                Please, enjoy our best rated Shopify Theme Yanka. This item is
-                among bestsellers among Top Popular items on ThemeForest. Yanka
-                is universal Shopify theme. Take a look on our amazing demos -
-                any store niche os covered by Yanka functionality. Yanka Shopify
-                theme is compatible with Oberlo, Weglot and many other 3rd party
-                apps from Shopify community. Buying Yanka Shopify theme will be
-                best investment in your future web store. You do not need to
-                review our competitors
-              </AccordionContent>
+              <AccordionContent>{item?.description}</AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2">
               <AccordionTrigger>Additional Information</AccordionTrigger>
@@ -248,7 +252,14 @@ const ProductView: React.FC = () => {
                   </TableHeader>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="w-[100px]">Size:</TableHead>
+                      {itemVariants?.map((variant, index) => (
+                        <TableHead key={index} className="w-[100px]">
+                          {variant?.attributeValues.map((attribute, index) => (
+                            <div key={index}></div>
+                          ))}
+                        </TableHead>
+                      ))}
+
                       <TableCell className="font-extrabold"> 20, 24</TableCell>
                     </TableRow>
                   </TableHeader>

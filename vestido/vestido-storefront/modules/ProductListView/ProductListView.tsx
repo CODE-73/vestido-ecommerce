@@ -10,16 +10,21 @@ import { useItems } from '@vestido-ecommerce/items';
 import ProductFilter from './ProductFilter';
 import { Item } from '@prisma/client';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
+import { useRouter } from 'next/router';
 
 const ProductlistView: React.FC = () => {
   const [isHovering, setIsHovering] = useState(false);
   const isMobile = useIsMobile();
+  const router = useRouter();
 
   const { data } = useItems();
-  // console.log('data is', data[8].images[0].url);
   const handleShowMoreClick = () => {
     // function
   };
+  const handleProductClick = (itemId: string) => {
+    router.push(`/products/${encodeURIComponent(itemId)}`);
+  };
+
   return (
     <div className="md:px-16">
       <div className="text-4xl  tracking-wide text-[#333333] text-center font-extrabold my-5 py-14">
@@ -30,6 +35,7 @@ const ProductlistView: React.FC = () => {
         {!isMobile && <ProductFilter />}
         {data?.map((item: Item, index: number) => (
           <div
+            onClick={() => handleProductClick(item.id)}
             key={index}
             className="relative flex flex-col items-center group  mb-10 "
           >
