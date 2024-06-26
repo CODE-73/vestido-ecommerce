@@ -2,24 +2,21 @@ import * as React from 'react';
 import Image from 'next/image';
 import { Checkbox } from '@vestido-ecommerce/shadcn-ui/checkbox';
 import { Form } from '@vestido-ecommerce/shadcn-ui/form';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@vestido-ecommerce/shadcn-ui/select';
+// import {
+//   Select,
+//   SelectContent,
+//   SelectItem,
+//   SelectTrigger,
+//   SelectValue,
+// } from '@vestido-ecommerce/shadcn-ui/select';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Search } from 'lucide-react';
-import { Label } from '@vestido-ecommerce/shadcn-ui/label';
-import {
-  RadioGroup,
-  RadioGroupItem,
-} from '@vestido-ecommerce/shadcn-ui/radio-group';
+// import { Label } from '@vestido-ecommerce/shadcn-ui/label';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+// import { useState } from 'react';
 import { InputElement } from '@vestido-ecommerce/shadcn-ui/form/InputElement';
 import { useCart } from '@vestido-ecommerce/items';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
@@ -28,15 +25,15 @@ const formSchema = z.object({
   email: z.string().email(),
 });
 const CheckoutView: React.FC = () => {
-  const [selectedOption, setSelectedOption] = useState('default');
-  const handleOptionChange = (value: string) => {
-    setSelectedOption(value);
-  };
+  // const [selectedOption, setSelectedOption] = useState('default');
+  // const handleOptionChange = (value: string) => {
+  //   setSelectedOption(value);
+  // };
   const { data: cartItems } = useCart();
 
   const totalPrice =
     cartItems?.data.reduce((total, item) => {
-      return total + item.qty * parseFloat(item.item.price);
+      return total + item.qty * item.item.price;
     }, 0) ?? 0;
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -66,22 +63,9 @@ const CheckoutView: React.FC = () => {
               className="h-12 pl-3 rounded-md my-4"
               placeholder="Email or mobile phone number"
             />
-            <div className="flex flex-row items-center gap-2 ">
-              <Checkbox className="bg-white" />
-              <div className="text-lg">Email me with news and offers</div>
-            </div>
+
             <div className="text-2xl mt-7">Delivery</div>
-            <Select>
-              <SelectTrigger className="h-12 my-5" id="framework">
-                <SelectValue placeholder="Country/Region" />
-              </SelectTrigger>
-              <SelectContent position="popper">
-                <SelectItem value="india">India</SelectItem>
-                <SelectItem value="america">America</SelectItem>
-                <SelectItem value="china">China</SelectItem>
-                <SelectItem value="us">US</SelectItem>
-              </SelectContent>
-            </Select>
+
             <div className="flex flex-row space-x-3 h-12 my-5 ">
               <InputElement
                 name="firstName"
@@ -129,96 +113,7 @@ const CheckoutView: React.FC = () => {
               <Checkbox className="bg-white" />
               <div className="text-lg">Save this information for next time</div>
             </div>
-            <div className="text-xl mt-5">Shipping method</div>
-            <div className="flex items-center pl-3 bg-stone-100 h-16 text-gray-500 my-4 rounded-md">
-              Enter your shipping address to view available shipping methods.
-            </div>
-            <div className="text-2xl mt-10">Payment</div>
-            <div className="text-gray-500 my-3">
-              All transactions are secure and encrypted.
-            </div>
-            <div className="flex items-center pl-3 bg-sky-50 h-16 outline outline-sky-600  rounded-md">
-              Cash on Delivery (COD)
-            </div>
-            <div className="text-xl mt-5">Billing address</div>
-            <RadioGroup
-              name="radioItem"
-              value={selectedOption}
-              onValueChange={handleOptionChange}
-            >
-              <div className="rounded-t-lg flex items-center pl-3 space-x-2 h-12 outline outline-stone-300 ">
-                <RadioGroupItem value="default" id="r1" />
-                <Label htmlFor="r1">Same as shipping address</Label>
-              </div>
-              <div className="flex items-center space-x-2 pl-3 h-12 -mt-2  outline outline-stone-300">
-                <RadioGroupItem value="comfortable" id="r2" />
-                <Label htmlFor="r2">Use a different billing address</Label>
-              </div>
-            </RadioGroup>
-            {selectedOption === 'comfortable' && (
-              <form className="rounded-b-lg outline outline-stone-300 bg-stone-100 p-5  transition-all duration-1000 ease-in-out transform translate-y-0">
-                <Select>
-                  <SelectTrigger className="h-12 my-5" id="framework">
-                    <SelectValue placeholder="Country/Region" />
-                  </SelectTrigger>
-                  <SelectContent position="popper">
-                    <SelectItem value="india">India</SelectItem>
-                    <SelectItem value="america">America</SelectItem>
-                    <SelectItem value="china">China</SelectItem>
-                    <SelectItem value="us">US</SelectItem>
-                  </SelectContent>
-                </Select>
-                <div className="flex flex-row space-x-3 h-12 my-5 ">
-                  <InputElement
-                    name="firstName"
-                    type="text"
-                    className="pl-3 "
-                    placeholder="First name (optional)"
-                  />
-                  <InputElement
-                    name="lastName"
-                    type="text"
-                    className="pl-3 "
-                    placeholder="Last name"
-                  />
-                </div>
-                <div className="relative">
-                  <InputElement
-                    name="address"
-                    type="text"
-                    className="pl-3 h-12 my-5 "
-                    placeholder="Address"
-                  />
-                  <Search className="absolute top-1/2 right-2 transform -translate-y-1/2 text-gray-600" />
-                </div>
-                <InputElement
-                  name="apartment"
-                  type="text"
-                  className="pl-3 h-12"
-                  placeholder="Apartment, suite, etc. (optional)"
-                />
-                <div className="flex flex-row space-x-3 h-12 my-5 ">
-                  <InputElement
-                    name="firstName"
-                    type="text"
-                    className="pl-3 h-12"
-                    placeholder="City"
-                  />
-                  <InputElement
-                    name="lastName"
-                    type="text"
-                    className="pl-3 h-12"
-                    placeholder="State"
-                  />
-                  <InputElement
-                    name="lastName"
-                    type="text"
-                    className="pl-3 h-12"
-                    placeholder="PIN code"
-                  />
-                </div>
-              </form>
-            )}
+
             <Button className="bg-sky-600 w-full py-8 my-8 text-xl">
               Complete order
             </Button>
@@ -247,7 +142,7 @@ const CheckoutView: React.FC = () => {
                     {cartItem.item.title}
                   </div>
                   <div className="text-sm col-span-1 flex justify-center text-right">
-                    {cartItem.item.price}
+                    {cartItem.item.price.toFixed(2)}
                   </div>
                 </div>
               </div>
@@ -256,7 +151,7 @@ const CheckoutView: React.FC = () => {
           <hr />
           <div className="flex justify-between pr-3 mt-3">
             <div className="text-md ">Subtotal</div>
-            <div className=" text-lg">{totalPrice}</div>
+            <div className=" text-lg">{totalPrice.toFixed(2)}</div>
           </div>
           <div className="flex justify-between pr-3 mt-3">
             <div className="text-md ">Shipping</div>
@@ -265,7 +160,7 @@ const CheckoutView: React.FC = () => {
           <hr />
           <div className="flex justify-between mt-3 pr-3 font-bold">
             <div className="text-md ">Total</div>
-            <div className=" text-lg">{totalPrice + 29}</div>
+            <div className=" text-lg">{(totalPrice + 29).toFixed(2)}</div>
           </div>
         </div>
       </div>
