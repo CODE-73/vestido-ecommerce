@@ -2,7 +2,7 @@ import { CartResponse } from './types';
 
 import axios from 'axios'; // Import Axios
 
-export async function getCart(
+export async function getCartItems(
   authHeaders: Record<string, string>
 ): Promise<CartResponse> {
   try {

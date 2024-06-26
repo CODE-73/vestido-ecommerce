@@ -2,7 +2,7 @@ import { RemoveFromCartRequest, RemoveFromCartResponse } from './types';
 
 import axios from 'axios'; // Import Axios
 
-export async function removeFromCart(
+export async function removeCartItem(
   args: RemoveFromCartRequest,
   authHeaders: Record<string, string>
 ): Promise<RemoveFromCartResponse> {

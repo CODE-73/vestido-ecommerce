@@ -1,7 +1,7 @@
 import useSWRMutation from 'swr/mutation';
 import { AddToCartRequest, AddToCartResponse } from './types';
 import { useAuth } from '@vestido-ecommerce/auth';
-import { addToCart } from './service';
+import { addCartItem } from './service';
 import { CartSWRKeys } from '../keys';
 import { useClearCacheOnSuccess } from '@vestido-ecommerce/utils';
 
@@ -14,7 +14,7 @@ export const useAddToCart = () => {
     Error,
     string[] | null,
     AddToCartRequest
-  >(key, (_, { arg }) => addToCart({ ...arg }, authHeaders), {
+  >(key, (_, { arg }) => addCartItem({ ...arg }, authHeaders), {
     ...useClearCacheOnSuccess(CartSWRKeys.CART),
   });
 };

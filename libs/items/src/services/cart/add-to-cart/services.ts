@@ -8,6 +8,7 @@ export async function addToCart(body: AddToCartSchemaType) {
 
   const cartItem = await prisma.cartItem.create({
     data: {
+      qty: validatedData.qty,
       customer: {
         connect: {
           id: validatedData.customerId,
