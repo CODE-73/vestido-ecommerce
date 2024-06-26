@@ -37,16 +37,26 @@ enum OrderStatus {
     RETURNED
 }
 
+enum AddressType {
+    HOME
+    OFFICE
+}
+
 model CustomerAddress {
-    id         String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    customer   Profile @relation(fields: [customerId], references: [id])
-    customerId String  @db.Uuid
-    line1      String
-    line2      String
-    district   String
-    state      String
-    postalCode String
-    Order      Order[]
+    id          String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    customer    Profile     @relation(fields: [customerId], references: [id])
+    customerId  String      @db.Uuid
+    firstName   String
+    lastName    String
+    mobile      String      @unique
+    line1       String
+    line2       String
+    district    String
+    state       String
+    pinCode     String
+    addressType AddressType @default(HOME)
+    default     Boolean
+    Order       Order[]
 }
 
 model Profile {
