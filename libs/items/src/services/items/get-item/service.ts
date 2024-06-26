@@ -9,6 +9,9 @@ export async function itemDetails(itemId: string) {
     where: {
       id: itemId,
     },
+    include: {
+      variants: true,
+    },
   });
   // no try..catch here
 

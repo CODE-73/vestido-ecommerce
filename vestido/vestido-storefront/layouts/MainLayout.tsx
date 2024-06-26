@@ -12,7 +12,7 @@ const MainLayout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <div className="bg-background justify-center items-center flex flex-col scroll-smooth">
-      <div className="lg:max-w-7xl">
+      <div className="lg:w-[75vw]">
         <div>
           <Header />
         </div>

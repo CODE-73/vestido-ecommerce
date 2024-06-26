@@ -22,11 +22,14 @@ export async function GET(request: Request) {
     const customerId = auth.profileId;
     const wishlistItems = await listWishlistItems(customerId);
 
-    return new Response(JSON.stringify({ success: true, wishlistItems }), {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    return new Response(
+      JSON.stringify({ success: true, data: wishlistItems }),
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
   } catch (e) {
     console.error(e);
     return new Response(JSON.stringify(e), {

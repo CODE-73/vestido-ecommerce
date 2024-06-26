@@ -22,7 +22,7 @@ export async function GET(request: Request) {
     const customerId = auth.profileId;
     const cartItems = await listCartItems(customerId);
 
-    return new Response(JSON.stringify({ success: true, cartItems }), {
+    return new Response(JSON.stringify({ success: true, data: cartItems }), {
       headers: {
         'Content-Type': 'application/json',
       },
@@ -56,13 +56,11 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    await addToCart({
+    const cartItems = await addToCart({
       customerId: auth.profileId,
       itemId: body.itemId,
       qty: body.qty,
     });
-
-    const cartItems = await addToCart(body);
 
     return new Response(JSON.stringify({ success: true, data: cartItems }), {
       headers: {

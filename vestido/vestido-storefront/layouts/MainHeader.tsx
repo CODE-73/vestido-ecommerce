@@ -15,6 +15,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import useIsMobile from '../hooks/useIsMobile';
 import HeaderDropdown from './HeaderDropdown';
+import { useCart /*useWishlist*/ } from '@vestido-ecommerce/items';
 
 type ListItemProps = {
   href: string;
@@ -103,6 +104,9 @@ const categoriesData = [
 ];
 const CategoryHeader = () => {
   const isMobile = useIsMobile();
+  const { data: cart } = useCart();
+  const no_of_cart_items = cart?.data.length;
+  // const {  } = useWishlist();
   return (
     <div className="bg-[#1B2149] flex items-center  justify-between px-3">
       <div className="flex">
@@ -174,16 +178,22 @@ const CategoryHeader = () => {
           size={24}
         />
       </div>
-      <div className="flex space-x-4 ">
-        <Link href="/user" className="text-white hover:text-[#48cab2]">
+      <div className="flex ">
+        <Link href="/user" className="text-white hover:text-[#48cab2] px-3">
           <UserRound />
         </Link>
-        <Link href="/wishlist" className=" text-white hover:text-[#48cab2]">
+        <Link href="/wishlist" className=" text-white hover:text-[#48cab2] ">
           <Heart />
         </Link>
+        <sup className=" text-[#48cab2] font-semibold text-sm pr-3">
+          {no_of_cart_items}
+        </sup>
         <Link href="/cart" className="text-white  hover:text-[#48cab2]">
           <ShoppingBag />
         </Link>
+        <sup className="text-[#48cab2] font-semibold text-sm pr-3">
+          {no_of_cart_items}
+        </sup>
 
         <HeaderDropdown fixedHeader={false} />
       </div>

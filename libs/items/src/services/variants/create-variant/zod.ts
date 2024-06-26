@@ -10,7 +10,7 @@ export const VariantAttributeValueSchema = z.object({
 export const CreateVariantSchema = z.object({
   itemId: uuid,
   title: z.string().nullish(),
-  images: z.array(ImageSchema),
+  images: z.array(ImageSchema).default([]),
   attributeValues: z.array(VariantAttributeValueSchema),
   price: z.coerce.number(),
 });

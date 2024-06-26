@@ -31,10 +31,12 @@ import { Gender, StockStatus } from '@prisma/client';
 import { RadioGroupElement } from '../../forms/radio-group-element';
 
 const CreateProductFormSchema = z.object({
-  title: z.string(),
+  title: z
+    .string()
+    .min(2, { message: 'Please provide a title for the product' }),
   price: z.string(),
   description: z.string(),
-  categoryId: z.string(),
+  categoryId: z.string().min(2, { message: 'You have to choose a category' }),
   hasVariants: z.boolean().default(false),
   stockStatus: z
     .nativeEnum(StockStatus)

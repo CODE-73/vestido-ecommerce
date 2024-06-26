@@ -32,6 +32,7 @@ import {
   useAddToCart,
 } from '@vestido-ecommerce/items';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
+import { useState } from 'react';
 
 interface ProductViewProps {
   itemId: string;
@@ -39,7 +40,7 @@ interface ProductViewProps {
 
 const reviews = [
   {
-    title: 'AMZAZING',
+    title: 'AMAZING',
     user: 'Violan',
     date: 'Jul 09, 2019',
     description:
@@ -67,6 +68,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
   const [selectedImage, setSelectedImage] = React.useState<string>(
     data?.data.images[0].url ?? ''
   );
+  const [qty, setQty] = useState(1);
 
   const { trigger } = useAddToCart();
 
@@ -84,6 +86,17 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
     }
   };
   const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
+
+  const handleAddToCart = () => {
+    if (item) {
+      trigger({
+        itemId: item.id,
+        qty: qty,
+        variantId: itemVariants?.[0]?.id,
+      });
+    }
+    console.log('handleAddToCart');
+  };
 
   return (
     <div className="w-full flex py-5 space-x-10">
@@ -166,21 +179,6 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
             </h1>
           </div>
 
-          {/* <div className="flex flex-row pt-4">
-            <h1 className="font-extralight">Color:&nbsp; </h1>
-            <h1 className="font-semibold no-underline ">Green</h1>
-          </div> */}
-          {/* <Button
-            className="bg-transparent hover:bg-transparent text-xs "
-            onClick={() => console.log('on-click')}
-          >
-            <Avatar className="outline outline-3  hover:outline-black">
-              <AvatarFallback className="bg-[#48CAB2] text-xs ">
-                Green
-              </AvatarFallback>
-            </Avatar>
-          </Button> */}
-
           <div className="flex flex-row pt-4">
             <h1 className="font-extralight">Size:&nbsp; </h1>
             <h1 className="font-semibold no-underline">XS</h1>
@@ -197,30 +195,30 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
           ))}
         </div>
 
-        {/* <div className="flex flex-row r py-6 text-sm "> */}
         <div className="flex flex-row pr-5 gap-1 py-6">
           <Scaling />
           <h1>Size Guide</h1>
         </div>
-        {/* <div className="flex flex-row pr-5 gap-1">
-            <Truck />
-            <h1>Shipping</h1>
-          </div> */}
-        {/* </div> */}
 
         <div className="flex gap-2 mb-5 ">
           <div className="flex bg-zinc-100 px-4 h-12 items-center justify-around ">
-            <div className="text-zinc-300 ">
+            <div
+              className="text-zinc-300 "
+              onClick={() => setQty(qty > 1 ? qty - 1 : 1)}
+            >
               <Minus />
             </div>
-            <div className="px-3 font-medium">1</div>
-            <div className="text-zinc-300">
+            <div className="px-3 font-medium">{qty}</div>
+            <div className="text-zinc-300" onClick={() => setQty(qty + 1)}>
               <Plus />
             </div>
           </div>
           <div className="flex bg-[#48CAB2] items-center gap-2 w-full justify-center text-white  ">
             <ShoppingBag />
-            <Button className="text-xl font-semibold bg-transparent hover:bg-transparent">
+            <Button
+              onClick={() => handleAddToCart()}
+              className="text-xl font-semibold bg-transparent hover:bg-transparent"
+            >
               ADD TO CART
             </Button>
           </div>
@@ -228,17 +226,6 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
             <Heart />
           </div>
         </div>
-
-        {/* <div className="flex flex-row gap-2 items-center justify-center">
-         
-        </div> */}
-        {/* <div className="flex flex-row items-center gap-2 py-4">
-          <Checkbox />
-          <div className="text-black font-extralight text-sm">
-            I agree with the terms and conditions
-          </div>
-        </div> */}
-
         <div>
           <Accordion type="single" collapsible>
             <AccordionItem value="item-1">
