@@ -25,7 +25,12 @@ import {
   ChevronLeft,
   ChevronRight,
 } from 'lucide-react';
-import { useCategory, useItem, useVariants } from '@vestido-ecommerce/items';
+import {
+  useCategory,
+  useItem,
+  useVariants,
+  useAddToCart,
+} from '@vestido-ecommerce/items';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 
 interface ProductViewProps {
@@ -62,6 +67,8 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
   const [selectedImage, setSelectedImage] = React.useState<string>(
     data?.data.images[0].url ?? ''
   );
+
+  const { trigger } = useAddToCart();
 
   const scrollRef = React.useRef<HTMLDivElement>(null);
 
