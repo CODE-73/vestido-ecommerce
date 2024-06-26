@@ -1,43 +1,45 @@
 // import { type NextRequest } from 'next/server';
-import { createOrder } from '@vestido-ecommerce/orders';
+import { createOrder, listOrder } from '@vestido-ecommerce/orders';
 import { ZodError } from 'zod';
+import { verifyAuth } from '../verify-auth';
 // import { verifyAuth } from '../verify-auth';
 
 export const dynamic = 'force-dynamic'; // static by default, unless reading the request
 
-// export async function GET(request: NextRequest) {
-//   try {
-//     const args = Object.fromEntries(request.nextUrl.searchParams.entries());
-//     const items = await listItem(args);
+export async function GET(request: Request) {
+  try {
+    const auth = await verifyAuth(request);
+    if (!auth.authenticated) {
+      return new Response(JSON.stringify({ error: auth.reason }), {
+        status: 401,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    }
+    const customerId = auth.profileId;
+    const orders = await listOrder(customerId);
 
-//     return new Response(
-//       JSON.stringify({
-//         success: true,
-//         data: items,
-//       }),
-//       {
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//       }
-//     );
-//   } catch (e) {
-//     console.error(e);
-//     return new Response(
-//       JSON.stringify({
-//         success: false,
-//         error: e,
-//       }),
-//       {
-//         status: 500,
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//       }
-//     );
-//   }
-// }
-
+    return new Response(JSON.stringify({ success: true, data: orders }), {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  } catch (e) {
+    return new Response(
+      JSON.stringify({
+        success: false,
+        error: e,
+      }),
+      {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+  }
+}
 export async function POST(request: Request) {
   try {
     const body = await request.json();

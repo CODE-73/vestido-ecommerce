@@ -1,5 +1,9 @@
 import { ZodError } from 'zod';
-import { getAddress, updateAddress } from '@vestido-ecommerce/orders';
+import {
+  deleteAddress,
+  getAddress,
+  updateAddress,
+} from '@vestido-ecommerce/orders';
 
 export const dynamic = 'force-dynamic'; // static by default, unless reading the request
 
@@ -76,25 +80,28 @@ export async function PUT(
   }
 }
 
-// export async function DELETE(
-//   request: Request,
-//   { params }: { params: { slug: string } }
-// ) {
-//   try {
-//     const deletedcategory = await deleteCategory(params.slug);
+export async function DELETE(
+  request: Request,
+  { params }: { params: { slug: string } }
+) {
+  try {
+    const deletedAddress = await deleteAddress(params.slug);
 
-//     return new Response(JSON.stringify(deletedcategory), {
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//     });
-//   } catch (e) {
-//     console.error(e);
-//     return new Response(JSON.stringify(e), {
-//       status: 400,
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//     });
-//   }
-// }
+    return new Response(
+      JSON.stringify({ success: true, data: deletedAddress }),
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+  } catch (e) {
+    console.error(e);
+    return new Response(JSON.stringify(e), {
+      status: 400,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  }
+}
