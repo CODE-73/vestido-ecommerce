@@ -20,6 +20,7 @@ import { useForm } from 'react-hook-form';
 import { InputElement } from '@vestido-ecommerce/shadcn-ui/form/InputElement';
 import { useCart } from '@vestido-ecommerce/items';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
+import { useAddresses } from '@vestido-ecommerce/orders';
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -30,6 +31,7 @@ const CheckoutView: React.FC = () => {
   //   setSelectedOption(value);
   // };
   const { data: cartItems } = useCart();
+  const { data: addresses } = useAddresses();
 
   const totalPrice =
     cartItems?.data.reduce((total, item) => {
@@ -50,6 +52,11 @@ const CheckoutView: React.FC = () => {
         </span>
         ----- Payment
       </div>
+      {addresses?.data.map((address, index) => (
+        <div key={index}>
+          <div>{address.firstName}</div>
+        </div>
+      ))}
       <div className=" flex flex-col lg:flex-row items-start ">
         <div className="basis-3/4 p-10 border-2 border-r-gray-300">
           <div className="flex flex-row">
