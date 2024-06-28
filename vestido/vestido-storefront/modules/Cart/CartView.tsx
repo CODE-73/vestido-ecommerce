@@ -14,7 +14,7 @@ const CartView: React.FC = () => {
   const { data: cartItems } = useCart();
   const totalPrice =
     cartItems?.data.reduce((total, item) => {
-      return total + item.qty * parseFloat(item.item.price);
+      return total + item.qty * item.item.price;
     }, 0) ?? 0;
 
   return (
@@ -96,14 +96,14 @@ const CartView: React.FC = () => {
           <div className="border-t border-gray-300 my-4"></div>
           <div className="flex justify-between items-center">
             <div>
-              <div className="flex items-center">
+              <div className="flex items-center cursor-pointer">
                 <ChevronLeft />
                 <div className="font-extrabold no-underline hover:underline">
                   Continue Shopping
                 </div>
               </div>
             </div>
-            <div className="flex">
+            <div className="flex cursor-pointer">
               <Trash2 className="mr-3 " />
               <div className="mr-5 font-extrabold no-underline hover:underline">
                 Clear Shopping Cart
@@ -128,92 +128,8 @@ const CartView: React.FC = () => {
               <Link href="/checkout">PROCEED TO CHECKOUT</Link>
             </Button>
           </div>
-          {/* </div> */}
         </div>
       </div>
-
-      {/* 
-        <div className="grid gap-6 grid-cols-3 h-96 p-10 mb-44 ">
-          <div className="bg-gray-100 p-10">
-            <div className="text-3xl font-extrabold pb-5">
-              Estimate Shipping and Tax
-            </div>
-            <div className="text-xl text-neutral-500 pb-3">
-              Enter your destination to get a shipping estimate
-            </div>
-            <form>
-              <div className="grid w-full items-center gap-4">
-                <div className="flex flex-col space-y-1.5">
-                  <Label className="text-neutral-500 text-lg" htmlFor="name">
-                    Country *
-                  </Label>
-                  <Select>
-                    <SelectTrigger id="framework">
-                      <SelectValue placeholder="Select" />
-                    </SelectTrigger>
-                    <SelectContent position="popper">
-                      <SelectItem value="India">India</SelectItem>
-                      <SelectItem value="China">China</SelectItem>
-                      <SelectItem value="US">US</SelectItem>
-                      <SelectItem value="Japan">Japan</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="flex flex-col space-y-1.5 ">
-                  <Label
-                    className="text-neutral-500 text-lg"
-                    htmlFor="framework"
-                  >
-                    Zip/Postal Code
-                  </Label>
-                  <Input type="email" placeholder="Zip/Postal Code" />
-                  <div className="flex pt-5 justify-center items-center">
-                    <Button
-                      variant="outline"
-                      className="tracking-wider font-extrabold bg-gray-100 outline outline-1 outline-zinc-100  hover:outline-black "
-                    >
-                      Calculate Shipping
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
-          <div className="bg-gray-100 p-10">
-            <div className="text-3xl font-extrabold pb-5">Note</div>
-            <div className="text-xl text-neutral-500 pb-3">
-              Add special instructions for your order...
-            </div>
-            <Textarea placeholder="Type your message here." />
-          </div>
-
-          <div className="bg-neutral-800 p-10">
-            <div className="flex items-center text-stone-400 justify-center pb-3 text-white font-extrabold text-3xl">
-              Subtotal:
-            </div>
-            <div className="flex item-center  text-stone-400 pb-8 justify-center text-white font-extrabold text-3xl">
-              $1,140.00
-            </div>
-            <div className="flex item-center  text-white justify-center text-white font-extrabold text-5xl pb-5">
-              Grand Total:
-            </div>
-            <div className="flex item-center  text-white justify-center text-white font-extrabold text-5xl">
-              $1,140.00
-            </div>
-            <div className="flex flex-row items-center gap-2 py-4">
-              <Checkbox className="bg-white" />
-              <div className="text-white  text-lg">
-                I agree with the terms and conditions
-              </div>
-            </div>
-            <div className="flex items-center justify-center">
-              <Button className="flex items-center tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-white font-extrabold hover:text-black text-white justify-center">
-                <a href="/checkout/Checkout">PROCEED TO CHECKOUT</a>
-              </Button>
-            </div>
-          </div>
-        </div>
-       */}
     </div>
   );
 };

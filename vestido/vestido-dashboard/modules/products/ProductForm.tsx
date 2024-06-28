@@ -34,7 +34,7 @@ const CreateProductFormSchema = z.object({
   title: z
     .string()
     .min(2, { message: 'Please provide a title for the product' }),
-  price: z.string(),
+  price: z.coerce.number(),
   description: z.string(),
   categoryId: z.string().min(2, { message: 'You have to choose a category' }),
   hasVariants: z.boolean().default(false),
@@ -65,7 +65,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
     resolver: zodResolver(CreateProductFormSchema),
     defaultValues: {
       title: '',
-      price: '',
+      price: 0,
       description: '',
       categoryId: '',
       gender: ['MEN', 'WOMEN'],

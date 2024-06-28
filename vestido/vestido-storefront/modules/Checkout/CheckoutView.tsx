@@ -1,139 +1,120 @@
 import * as React from 'react';
 import Image from 'next/image';
-import { Checkbox } from '@vestido-ecommerce/shadcn-ui/checkbox';
-import { Form } from '@vestido-ecommerce/shadcn-ui/form';
-// import {
-//   Select,
-//   SelectContent,
-//   SelectItem,
-//   SelectTrigger,
-//   SelectValue,
-// } from '@vestido-ecommerce/shadcn-ui/select';
-import { Button } from '@vestido-ecommerce/shadcn-ui/button';
-import { Search } from 'lucide-react';
-// import { Label } from '@vestido-ecommerce/shadcn-ui/label';
-
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { useForm } from 'react-hook-form';
-// import { useState } from 'react';
-import { InputElement } from '@vestido-ecommerce/shadcn-ui/form/InputElement';
 import { useCart } from '@vestido-ecommerce/items';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
-import { useAddresses } from '@vestido-ecommerce/orders';
+import { z } from 'zod';
+import { Dialog, DialogTrigger } from '@vestido-ecommerce/shadcn-ui/dialog';
+import AddAddressDialog from './AddAddressDialog';
+import { CustomerAddressElement } from './CustomerAddressElement';
+import { Form } from '@vestido-ecommerce/shadcn-ui/form';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import Link from 'next/link';
 
-const formSchema = z.object({
-  email: z.string().email(),
+const OrderItemSchema = z.object({
+  itemId: z.string().uuid(),
+  price: z.coerce.number(),
+  qty: z.number().int(),
 });
+
+const CreateOrderFormSchema = z.object({
+  // dateTime: z.string().datetime(),
+  totalPrice: z.coerce.number(),
+  itemsCount: z.number().int(),
+  addressId: z.string().uuid(),
+  customerId: z.string().uuid(),
+  orderItems: z.array(OrderItemSchema),
+});
+
+export type CreateOrderForm = z.infer<typeof CreateOrderFormSchema>;
 const CheckoutView: React.FC = () => {
-  // const [selectedOption, setSelectedOption] = useState('default');
-  // const handleOptionChange = (value: string) => {
-  //   setSelectedOption(value);
-  // };
   const { data: cartItems } = useCart();
-  const { data: addresses } = useAddresses();
+
+  const form = useForm<CreateOrderForm>({
+    resolver: zodResolver(CreateOrderFormSchema),
+    defaultValues: {},
+  });
 
   const totalPrice =
     cartItems?.data.reduce((total, item) => {
       return total + item.qty * item.item.price;
     }, 0) ?? 0;
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: '',
-    },
-  });
+
+  const handleSubmit = () => {
+    console.log('hello');
+  };
+
   return (
     <>
       <div className="text-lg tracking-wide text-gray-300 text-center font-semibold my-12 uppercase">
-        <span className="text-black">Cart ----- </span>
+        <span className="text-black">
+          <Link href="/cart">Cart ----- </Link>
+        </span>
         <span className="text-[#48CAB2] text-2xl underline decoration-4 underline-offset-3">
           Address
         </span>
         ----- Payment
       </div>
-      {addresses?.data.map((address, index) => (
-        <div key={index}>
-          <div>{address.firstName}</div>
-        </div>
-      ))}
-      <div className=" flex flex-col lg:flex-row items-start ">
-        <div className="basis-3/4 p-10 border-2 border-r-gray-300">
-          <div className="flex flex-row">
-            <div className="text-2xl">Contact</div>
-            <button className="ml-auto underline text-sky-700">Log in</button>
-          </div>
+      <div className="text-lg font-semibold pb-3">Choose Delivery Address </div>
+
+      <div className=" flex flex-col lg:flex-row items-start gap-2 divide-x">
+        <div className="basis-3/5">
           <Form {...form}>
-            <InputElement
-              name="email"
-              type="email"
-              className="h-12 pl-3 rounded-md my-4"
-              placeholder="Email or mobile phone number"
-            />
-
-            <div className="text-2xl mt-7">Delivery</div>
-
-            <div className="flex flex-row space-x-3 h-12 my-5 ">
-              <InputElement
-                name="firstName"
-                type="text"
-                className="pl-3 "
-                placeholder="First name (optional)"
-              />
-              <InputElement
-                name="lastName"
-                type="text"
-                className="pl-3 "
-                placeholder="Last name"
-              />
+            <form onSubmit={form.handleSubmit(handleSubmit)}>
+              {/* {addresses?.data.map((address, index) => (
+            <div
+              key={index}
+              className="h-40 border   w-full p-5 mb-5 shadow border-3 border-gray-300
+              "
+            >
+              <div className="font-semibold flex justify-between items-center">
+                <div className="flex gap-2 items-center">
+                  <div>
+                    {address.firstName} {address.lastName}
+                  </div>
+                  <div className="text-[#48CAB2] rounded-xl border border-1 border-[#48CAB2] text-[10px] px-2 flex items-center">
+                    {address.addressType}
+                  </div>
+                </div>
+                <div
+                  className={`${
+                    address.default
+                      ? 'bg-[#48CAB2] px-3 py-2 rounded-lg text-white'
+                      : 'hidden'
+                  }`}
+                >
+                  DEFAULT
+                </div>
+              </div>
+              <div className="text-sm w-1/2 text-wrap pt-4 text-gray-600">
+                {address.line1}, {address.line2}, {address.district},
+                {address.state}, {address.pinCode}
+              </div>
+              <div className="pt-4 flex gap-2 font-semibold items-center">
+                <div className="text-sm text-gray-600">Mobile:</div>
+                <div> {address.mobile}</div>
+              </div>
             </div>
-            <div className="relative">
-              <InputElement
-                name="address"
-                type="text"
-                className="pl-3 h-12 my-5 "
-                placeholder="Address"
-              />
-              <Search className="absolute top-1/2 right-2 transform -translate-y-1/2 text-gray-600" />
-            </div>
-            <InputElement
-              name="apartment"
-              type="text"
-              className="pl-3 h-12"
-              placeholder="Apartment, suite, etc. (optional)"
-            />
-            <div className="flex flex-row space-x-3 mt-5 ">
-              <InputElement
-                name="postalCode"
-                type="number"
-                className="pl-3 h-12 "
-                placeholder="Postal code"
-              />
-              <InputElement
-                name="city"
-                type="text"
-                className="pl-3 h-12 "
-                placeholder="City"
-              />
-            </div>
-            <div className="flex flex-row items-center gap-2 py-4">
-              <Checkbox className="bg-white" />
-              <div className="text-lg">Save this information for next time</div>
-            </div>
-
-            <Button className="bg-sky-600 w-full py-8 my-8 text-xl">
-              Complete order
-            </Button>
-            <div className="border-t border-gray-300 my-4"></div>
+          ))} */}
+              <CustomerAddressElement name="addressId" required />
+            </form>
           </Form>
+          <Dialog>
+            <DialogTrigger asChild>
+              <div className="border font-semibold w-full p-5 mb-10 cursor-pointer  border-dashed text-[#48CAB2] border-3 border-gray-300">
+                + Add New Address
+              </div>
+            </DialogTrigger>
+            <AddAddressDialog />
+          </Dialog>
         </div>
-        <div className="basis-1/4 bg-stone-100 overflow-auto hidden lg:block pl-5 sticky top-0">
+        <div className="basis-2/5 overflow-auto hidden lg:block pl-5 sticky top-0">
           <div className="flex flex-col">
             {cartItems?.data.map((cartItem, index) => (
               <div key={index}>
                 <div className="flex justify-between py-3 px-2 gap-2 items-center">
                   <Image
-                    className="w-10 h-12 col-span-1 outline outline-offset-2 outline-1 rounded-lg outline-gray-400 "
+                    className="w-10 h-12 col-span-1 "
                     src={
                       ((cartItem.item.images ?? []) as ImageSchemaType[])[0]
                         .url!

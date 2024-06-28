@@ -41,17 +41,27 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    const auth = await verifyAuth(request);
+    if (!auth.authenticated) {
+      return new Response(JSON.stringify({ error: auth.reason }), {
+        status: 401,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    }
     const body = await request.json();
 
     // Call the createAddress function with the validated request body
-    const newAddress = await createAddress(body);
-
-    const r = newAddress;
+    const newAddress = await createAddress({
+      ...body,
+      customerId: auth.profileId,
+    });
 
     return new Response(
       JSON.stringify({
         success: true,
-        data: r,
+        data: newAddress,
       }),
       {
         headers: {

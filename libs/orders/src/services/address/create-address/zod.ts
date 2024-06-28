@@ -4,7 +4,7 @@ import { z } from 'zod';
 const indianPostalCodeRegex = /^[1-9][0-9]{5}$/;
 
 export const CreateAddressSchema = z.object({
-  customerId: z.string().uuid(),
+  customerId: z.string(),
   firstName: z.string(),
   lastName: z.string(),
   mobile: z.string(),
