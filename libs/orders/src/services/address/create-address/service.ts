@@ -6,6 +6,19 @@ export async function createAddress(body: CreateAddressSchemaType) {
 
   // validate zod here
   const validatedData = CreateAddressSchema.parse(body);
+
+  if (validatedData.default) {
+    // Update all existing addresses to set default to false
+    await prisma.customerAddress.updateMany({
+      where: {
+        customerId: validatedData.customerId,
+        default: true,
+      },
+      data: {
+        default: false,
+      },
+    });
+  }
   // pass to prisma next
 
   const newAddress = await prisma.customerAddress.create({

@@ -7,7 +7,6 @@ import { useForm } from 'react-hook-form';
 import {
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from '@vestido-ecommerce/shadcn-ui/dialog';
@@ -18,7 +17,7 @@ import { AddressType } from '@prisma/client';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 
 import { useAddressUpsert } from '@vestido-ecommerce/orders';
-// import { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 
 const indianPostalCodeRegex = /^[1-9][0-9]{5}$/;
 
@@ -39,7 +38,7 @@ const AddAddressFormSchema = z.object({
 
 export type AddAddressForm = z.infer<typeof AddAddressFormSchema>;
 const AddAddressDialog = () => {
-  // const router = useRouter();
+  const router = useRouter();
   const { toast } = useToast();
   const form = useForm<AddAddressForm>({
     resolver: zodResolver(AddAddressFormSchema),
@@ -61,7 +60,7 @@ const AddAddressDialog = () => {
         //   : 'Product Updated Successfully',
       });
 
-      // router.replace(`/addresses/${response.data.id}`);
+      router.replace('/checkout');
     } catch (e) {
       console.error('Error updating item:', e);
     }
@@ -117,7 +116,6 @@ const AddAddressDialog = () => {
           </Button>
         </form>
       </Form>
-      <DialogFooter></DialogFooter>
     </DialogContent>
   );
 };

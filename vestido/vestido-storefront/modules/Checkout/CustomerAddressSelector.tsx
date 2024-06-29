@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAddresses } from '@vestido-ecommerce/orders';
 import {
   RadioGroup,
@@ -10,23 +10,41 @@ interface CustomerAddressSelectorProps {
   onChange?: (value: string) => void;
 }
 
-const CustomerAddressSelector: React.FC<CustomerAddressSelectorProps> = ({
-  value,
-  onChange,
-}) => {
-  const { data: addresses } = useAddresses();
-  console.log('addresses', addresses?.data[0].firstName);
+const CustomerAddressSelector: React.FC<CustomerAddressSelectorProps> = () =>
+  // {
+  //   value,
+  //   onChange,
+  // }
+  {
+    const { data: addresses } = useAddresses();
 
-  return (
-    <RadioGroup value={value} onValueChange={onChange}>
-      {addresses?.data.map((address, index) => (
-        <div
-          key={index}
-          className="h-40 border   w-full p-5 mb-5 shadow border-3 border-gray-300"
-        >
-          <RadioGroupItem value={address.id}>
+    const [value, setValue] = useState<string>('');
+
+    useEffect(() => {
+      // Find the default address and set its id as the initial value
+      const defaultAddress = addresses?.data.find((address) => address.default);
+      if (defaultAddress) {
+        setValue(defaultAddress.id);
+      }
+    }, [addresses]);
+
+    const handleValueChange = (newValue: string) => {
+      setValue(newValue);
+    };
+
+    const sortedAddresses = [...(addresses?.data ?? [])].sort(
+      (a, b) => (b.default ? 1 : 0) - (a.default ? 1 : 0)
+    );
+    return (
+      <RadioGroup value={value} onValueChange={handleValueChange}>
+        {sortedAddresses.map((address, index) => (
+          <div
+            key={index}
+            className="border   w-full p-5 mb-5 shadow border-3 border-gray-300"
+          >
             <div className="font-semibold flex justify-between items-center">
               <div className="flex gap-2 items-center">
+                <RadioGroupItem value={address.id} />
                 <div>
                   {address.firstName} {address.lastName}
                 </div>
@@ -52,20 +70,19 @@ const CustomerAddressSelector: React.FC<CustomerAddressSelectorProps> = ({
               <div className="text-sm text-gray-600">Mobile:</div>
               <div> {address.mobile}</div>
             </div>
-          </RadioGroupItem>
-        </div>
-      ))}
-    </RadioGroup>
+          </div>
+        ))}
+      </RadioGroup>
 
-    // <RadioGroupElement
-    //   name="shippingAddress"
-    //   label="Choose Address"
-    //   // defaultValue="Home"
-    //   wrapperClassName="flex"
-    //   required
-    //   options={options}
-    // />
-  );
-};
+      // <RadioGroupElement
+      //   name="shippingAddress"
+      //   label="Choose Address"
+      //   // defaultValue="Home"
+      //   wrapperClassName="flex"
+      //   required
+      //   options={options}
+      // />
+    );
+  };
 
 export default CustomerAddressSelector;

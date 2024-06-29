@@ -10,6 +10,8 @@ import { Form } from '@vestido-ecommerce/shadcn-ui/form';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
+import { useState } from 'react';
+import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 
 const OrderItemSchema = z.object({
   itemId: z.string().uuid(),
@@ -29,11 +31,13 @@ const CreateOrderFormSchema = z.object({
 export type CreateOrderForm = z.infer<typeof CreateOrderFormSchema>;
 const CheckoutView: React.FC = () => {
   const { data: cartItems } = useCart();
+  const [currentSession, setCurrentSession] = useState('Address');
 
   const form = useForm<CreateOrderForm>({
     resolver: zodResolver(CreateOrderFormSchema),
     defaultValues: {},
   });
+  const selectedAddress = form.watch('addressId');
 
   const totalPrice =
     cartItems?.data.reduce((total, item) => {
@@ -46,7 +50,7 @@ const CheckoutView: React.FC = () => {
 
   return (
     <>
-      <div className="text-lg tracking-wide text-gray-300 text-center font-semibold my-12 uppercase">
+      <div className="text-lg tracking-wide text-gray-300 text-center font-semibold md:mt-12 md:mb-12 mt-32 mb-16 uppercase">
         <span className="text-black">
           <Link href="/cart">Cart ----- </Link>
         </span>
@@ -61,52 +65,23 @@ const CheckoutView: React.FC = () => {
         <div className="basis-3/5">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(handleSubmit)}>
-              {/* {addresses?.data.map((address, index) => (
-            <div
-              key={index}
-              className="h-40 border   w-full p-5 mb-5 shadow border-3 border-gray-300
-              "
-            >
-              <div className="font-semibold flex justify-between items-center">
-                <div className="flex gap-2 items-center">
-                  <div>
-                    {address.firstName} {address.lastName}
-                  </div>
-                  <div className="text-[#48CAB2] rounded-xl border border-1 border-[#48CAB2] text-[10px] px-2 flex items-center">
-                    {address.addressType}
-                  </div>
-                </div>
-                <div
-                  className={`${
-                    address.default
-                      ? 'bg-[#48CAB2] px-3 py-2 rounded-lg text-white'
-                      : 'hidden'
-                  }`}
-                >
-                  DEFAULT
-                </div>
-              </div>
-              <div className="text-sm w-1/2 text-wrap pt-4 text-gray-600">
-                {address.line1}, {address.line2}, {address.district},
-                {address.state}, {address.pinCode}
-              </div>
-              <div className="pt-4 flex gap-2 font-semibold items-center">
-                <div className="text-sm text-gray-600">Mobile:</div>
-                <div> {address.mobile}</div>
-              </div>
-            </div>
-          ))} */}
-              <CustomerAddressElement name="addressId" required />
+              {currentSession == 'Address' ? (
+                <CustomerAddressElement name="addressId" required />
+              ) : (
+                <div>Hello</div>
+              )}
             </form>
           </Form>
-          <Dialog>
-            <DialogTrigger asChild>
-              <div className="border font-semibold w-full p-5 mb-10 cursor-pointer  border-dashed text-[#48CAB2] border-3 border-gray-300">
-                + Add New Address
-              </div>
-            </DialogTrigger>
-            <AddAddressDialog />
-          </Dialog>
+          {currentSession == 'Address' && (
+            <Dialog>
+              <DialogTrigger asChild>
+                <div className="border font-semibold w-full p-5 mb-10 cursor-pointer  border-dashed text-[#48CAB2] border-3 border-gray-300">
+                  + Add New Address
+                </div>
+              </DialogTrigger>
+              <AddAddressDialog />
+            </Dialog>
+          )}
         </div>
         <div className="basis-2/5 overflow-auto hidden lg:block pl-5 sticky top-0">
           <div className="flex flex-col">
@@ -150,6 +125,13 @@ const CheckoutView: React.FC = () => {
             <div className="text-md ">Total</div>
             <div className=" text-lg">{(totalPrice + 29).toFixed(2)}</div>
           </div>
+
+          <Button
+            disabled={!selectedAddress}
+            className="disabled:bg-gray-300 flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 text-md font-extrabold hover:text-black text-white justify-center mt-5"
+          >
+            <div>PROCEED TO PAYMENT</div>
+          </Button>
         </div>
       </div>
     </>

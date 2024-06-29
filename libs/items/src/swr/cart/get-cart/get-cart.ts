@@ -1,6 +1,6 @@
 import useSWRImmutable from 'swr/immutable';
 import { getCartItems } from './service';
-import { CartItemResponse } from '@vestido-ecommerce/items';
+import { CartItemResponse } from '../../../services/cart/get-cart';
 import { CartSWRKeys } from '../keys';
 import { useAuth } from '@vestido-ecommerce/auth';
 
