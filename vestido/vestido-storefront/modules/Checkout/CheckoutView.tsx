@@ -13,6 +13,8 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { RadioGroupElement } from '../../forms/radio-group-element';
+import { useShippingCharges } from '@vestido-ecommerce/orders';
+import { ChevronRight } from 'lucide-react';
 
 const OrderItemSchema = z.object({
   itemId: z.string().uuid(),
@@ -27,6 +29,7 @@ const CreateOrderFormSchema = z.object({
   addressId: z.string().uuid(),
   customerId: z.string().uuid(),
   orderItems: z.array(OrderItemSchema),
+  paymentType: z.enum(['ONLINE', 'CASH_ON_DELIVERY']),
 });
 
 export type CreateOrderForm = z.infer<typeof CreateOrderFormSchema>;
@@ -39,10 +42,19 @@ const CheckoutView: React.FC = () => {
     defaultValues: {},
   });
 
-  // const isPinCodeInKerala = (pinCode) => {
-  //   const pinCodeNumber = parseInt(pinCode, 10);
-  //   return pinCodeNumber >= 670001 && pinCodeNumber <= 695615;
-  // };
+  const [shippingAddressId, paymentType] = form.watch([
+    'addressId',
+    'paymentType',
+  ]);
+
+  console.log('address is', shippingAddressId);
+  const { data: shipping } = useShippingCharges({
+    shippingAddressId,
+    paymentType,
+  });
+
+  console.log('shipping', shipping);
+  console.info('formvalues', form.getValues());
 
   const totalPrice =
     cartItems?.data.reduce((total, item) => {
@@ -95,10 +107,10 @@ const CheckoutView: React.FC = () => {
                   name="paymentType"
                   label="Payment Type"
                   options={[
-                    { label: 'Pay Now', value: 'pay_now' },
+                    { label: 'Pay Now', value: 'ONLINE' },
                     {
                       label: 'Cash on Delivery',
-                      value: 'cod',
+                      value: 'CASH_ON_DELIVERY',
                     },
                   ]}
                 />
@@ -151,7 +163,9 @@ const CheckoutView: React.FC = () => {
           </div>
           <div className="flex justify-between pr-3 mt-3">
             <div className="text-md ">Shipping</div>
-            <div className=" text-lg">29.00</div>
+            <div className=" text-lg">
+              {shipping?.data?.shippingCost.toFixed(2)}
+            </div>
           </div>
           <hr />
           <div className="flex justify-between mt-3 pr-3 font-bold">
@@ -160,10 +174,16 @@ const CheckoutView: React.FC = () => {
           </div>
 
           <Button
+            type={currentSession == 'Address' ? 'button' : 'submit'}
             onClick={() => setCurrentSession('Payment')}
-            className="disabled:bg-gray-300 flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 text-md font-extrabold hover:text-black text-white justify-center mt-5"
+            className="disabled:bg-gray-300 uppercase flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 text-md font-extrabold hover:text-black text-white justify-center mt-5"
           >
-            <div>PROCEED TO PAYMENT</div>
+            {currentSession == 'Address' && (
+              <div className="flex">
+                CHOOSE PAYMENT METHOD <ChevronRight />
+              </div>
+            )}
+            {currentSession == 'Payment' && <div>proceed to payment</div>}
           </Button>
         </div>
       </div>
