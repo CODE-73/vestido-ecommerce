@@ -12,6 +12,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useState } from 'react';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
+import { RadioGroupElement } from '../../forms/radio-group-element';
 
 const OrderItemSchema = z.object({
   itemId: z.string().uuid(),
@@ -37,7 +38,11 @@ const CheckoutView: React.FC = () => {
     resolver: zodResolver(CreateOrderFormSchema),
     defaultValues: {},
   });
-  const selectedAddress = form.watch('addressId');
+
+  // const isPinCodeInKerala = (pinCode) => {
+  //   const pinCodeNumber = parseInt(pinCode, 10);
+  //   return pinCodeNumber >= 670001 && pinCodeNumber <= 695615;
+  // };
 
   const totalPrice =
     cartItems?.data.reduce((total, item) => {
@@ -50,15 +55,33 @@ const CheckoutView: React.FC = () => {
 
   return (
     <>
-      <div className="text-lg tracking-wide text-gray-300 text-center font-semibold md:mt-12 md:mb-12 mt-32 mb-16 uppercase">
-        <span className="text-black">
-          <Link href="/cart">Cart ----- </Link>
-        </span>
-        <span className="text-[#48CAB2] text-2xl underline decoration-4 underline-offset-3">
-          Address
-        </span>
-        ----- Payment
-      </div>
+      {currentSession == 'Address' && (
+        <div className="text-lg tracking-wide text-gray-300 text-center font-semibold md:mt-12 md:mb-12 mt-32 mb-16 uppercase">
+          <span className="text-black">
+            <Link href="/cart">Cart ----- </Link>
+          </span>
+          <span className="text-[#48CAB2] text-2xl underline decoration-4 underline-offset-3">
+            Address
+          </span>
+          ----- Payment
+        </div>
+      )}
+      {currentSession == 'Payment' && (
+        <div className="text-lg tracking-wide text-gray-300 text-center font-semibold md:mt-12 md:mb-12 mt-32 mb-16 uppercase">
+          <span className="text-black">
+            <Link href="/cart">Cart ----- </Link>
+          </span>
+          <span
+            onClick={() => setCurrentSession('Address')}
+            className="text-black cursor-pointer"
+          >
+            Address -----
+          </span>
+          <span className="text-[#48CAB2] text-2xl underline decoration-4 underline-offset-3">
+            Payment
+          </span>
+        </div>
+      )}
       <div className="text-lg font-semibold pb-3">Choose Delivery Address </div>
 
       <div className=" flex flex-col lg:flex-row items-start gap-2 divide-x">
@@ -68,7 +91,17 @@ const CheckoutView: React.FC = () => {
               {currentSession == 'Address' ? (
                 <CustomerAddressElement name="addressId" required />
               ) : (
-                <div>Hello</div>
+                <RadioGroupElement
+                  name="paymentType"
+                  label="Payment Type"
+                  options={[
+                    { label: 'Pay Now', value: 'pay_now' },
+                    {
+                      label: 'Cash on Delivery',
+                      value: 'cod',
+                    },
+                  ]}
+                />
               )}
             </form>
           </Form>
@@ -127,7 +160,7 @@ const CheckoutView: React.FC = () => {
           </div>
 
           <Button
-            disabled={!selectedAddress}
+            onClick={() => setCurrentSession('Payment')}
             className="disabled:bg-gray-300 flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 text-md font-extrabold hover:text-black text-white justify-center mt-5"
           >
             <div>PROCEED TO PAYMENT</div>
