@@ -12,11 +12,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
-import { RadioGroupElement } from '../../forms/radio-group-element';
 import { useCreateOrder, useShippingCharges } from '@vestido-ecommerce/orders';
 import { ChevronRight } from 'lucide-react';
-// import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
-
+import { PaymentTypeElement } from './PaymentTypeElement';
 const OrderItemSchema = z.object({
   itemId: z.string().uuid(),
   price: z.coerce.number(),
@@ -127,7 +125,15 @@ const CheckoutView: React.FC = () => {
           </span>
         </div>
       )}
-      <div className="text-lg font-semibold pb-3">Choose Delivery Address </div>
+      {currentSession == 'Payment' ? (
+        <div className="text-lg font-semibold pb-3">
+          Choose a Payment Method
+        </div>
+      ) : (
+        <div className="text-lg font-semibold pb-3">
+          Choose Delivery Address{' '}
+        </div>
+      )}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)}>
           <div className=" flex flex-col lg:flex-row items-start gap-2 divide-x">
@@ -135,17 +141,7 @@ const CheckoutView: React.FC = () => {
               {currentSession == 'Address' ? (
                 <CustomerAddressElement name="addressId" required />
               ) : (
-                <RadioGroupElement
-                  name="paymentType"
-                  label="Payment Type"
-                  options={[
-                    { label: 'Pay Now', value: 'ONLINE' },
-                    {
-                      label: 'Cash on Delivery',
-                      value: 'CASH_ON_DELIVERY',
-                    },
-                  ]}
-                />
+                <PaymentTypeElement name="paymentType" required />
               )}
 
               {currentSession == 'Address' && (
