@@ -172,7 +172,6 @@ model Order {
     id              String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     dateTime        DateTime        @default(now())
     totalPrice      Float
-    itemsCount      Int
     status          OrderStatus     @default(PENDING)
     customer        Profile         @relation(fields: [customerId], references: [id])
     customerId      String          @db.Uuid
