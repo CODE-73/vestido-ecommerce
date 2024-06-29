@@ -6,11 +6,12 @@ export async function createOrder(_data: CreateOrderSchemaType) {
   const prisma = new PrismaClient();
 
   // validate zod here
-  const { addressId, customerId, ...data } = CreateOrderSchema.parse(_data);
+  const { addressId, customerId, paymentType, ...data } =
+    CreateOrderSchema.parse(_data);
   // pass to prisma next
 
   const shipping = await calculateShippingCharges({
-    paymentType: data.paymentType,
+    paymentType: paymentType,
     shippingAddressId: addressId,
   });
 
