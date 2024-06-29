@@ -42,10 +42,20 @@ export async function GET(request: Request) {
 }
 export async function POST(request: Request) {
   try {
+    const auth = await verifyAuth(request);
+    if (!auth.authenticated) {
+      return new Response(JSON.stringify({ error: auth.reason }), {
+        status: 401,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    }
+    const customerId = auth.profileId;
     const body = await request.json();
 
     // Call the createItem function with the validated request body
-    const newOrder = await createOrder(body);
+    const newOrder = await createOrder({ ...body, customerId });
 
     // const r = {
     //   data: newItem,

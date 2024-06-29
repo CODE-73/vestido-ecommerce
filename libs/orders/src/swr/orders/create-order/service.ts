@@ -1,4 +1,7 @@
-import { CreateOrderRequest, CreateOrderResponse } from './types';
+import {
+  CreateOrderRequest,
+  CreateOrderResponse,
+} from '../../../services/orders/create-order/types';
 
 import axios from 'axios'; // Import Axios
 

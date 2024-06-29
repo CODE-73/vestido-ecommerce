@@ -7,12 +7,10 @@ export const OrderItemSchema = z.object({
 });
 
 export const CreateOrderSchema = z.object({
-  dateTime: z.string().datetime(),
-  totalPrice: z.coerce.number(),
-  itemsCount: z.number().int(),
   addressId: z.string().uuid(),
   customerId: z.string().uuid(),
   orderItems: z.array(OrderItemSchema),
+  paymentType: z.enum(['ONLINE', 'CASH_ON_DELIVERY']),
 });
 
 export type CreateOrderSchemaType = z.infer<typeof CreateOrderSchema>;

@@ -1,5 +1,8 @@
 import useSWRMutation from 'swr/mutation';
-import { CreateOrderRequest, CreateOrderResponse } from './types';
+import {
+  CreateOrderRequest,
+  CreateOrderResponse,
+} from '../../../services/orders/create-order/types';
 import { useAuth } from '@vestido-ecommerce/auth';
 import { createOrder } from './service';
 import { CreateOrderSWRKeys } from '../keys';

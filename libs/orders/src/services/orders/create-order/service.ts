@@ -1,18 +1,32 @@
 import { PrismaClient } from '@prisma/client';
 import { CreateOrderSchema, CreateOrderSchemaType } from './zod';
+import { calculateShippingCharges } from '../../shipping/get-shipping-charge';
 
-export async function createOrder(data: CreateOrderSchemaType) {
+export async function createOrder(_data: CreateOrderSchemaType) {
   const prisma = new PrismaClient();
 
   // validate zod here
-  const { addressId, customerId, ...validatedData } =
-    CreateOrderSchema.parse(data);
+  const { addressId, customerId, ...data } = CreateOrderSchema.parse(_data);
   // pass to prisma next
+
+  const shipping = await calculateShippingCharges({
+    paymentType: data.paymentType,
+    shippingAddressId: addressId,
+  });
+
+  const shippingCharges = shipping.shippingCost ?? 0;
+
+  const itemsPrice =
+    data.orderItems?.reduce((total, item) => {
+      return total + item.qty * item.price;
+    }, 0) ?? 0;
 
   const newOrder = await prisma.order.create({
     data: {
-      ...validatedData,
+      ...data,
+      dateTime: new Date(),
       status: 'PENDING',
+      totalPrice: itemsPrice + shippingCharges,
       customer: {
         connect: {
           id: customerId,
@@ -25,7 +39,7 @@ export async function createOrder(data: CreateOrderSchemaType) {
       },
       orderItems: {
         createMany: {
-          data: validatedData.orderItems,
+          data: data.orderItems,
         },
       },
     },
