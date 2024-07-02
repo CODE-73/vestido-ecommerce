@@ -25,13 +25,16 @@ export async function calculateShippingCharges(
   }
 
   if (data.paymentType === 'ONLINE') {
+    console.log(isPinCodeInKerala(pinCode));
     if (isPinCodeInKerala(pinCode)) {
       shippingCost = 0.0;
+    } else {
+      shippingCost = 29.0;
     }
-    shippingCost = 29.0; // Example cost
   } else if (data.paymentType === 'CASH_ON_DELIVERY') {
-    shippingCost = 49.0; // Additional cost for COD
+    shippingCost = 49.0;
   }
+  console.log(shippingCost, 'shippingcost');
 
   const estimatedDelivery = new Date();
   estimatedDelivery.setDate(estimatedDelivery.getDate() + 7); // 7 days delivery

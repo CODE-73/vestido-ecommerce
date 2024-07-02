@@ -19,15 +19,15 @@ const CartView: React.FC = () => {
 
   return (
     <div>
-      <div className="text-lg tracking-wide text-gray-300 text-center font-semibold my-12 uppercase">
+      <div className="text-lg tracking-wide text-gray-300 text-center font-semibold md:mt-12 md:mb-12 mt-32 mb-16 uppercase">
         <span className="text-2xl text-[#48CAB2] underline decoration-4 underline-offset-3">
           Cart
         </span>
         ----- Address ----- Payment
       </div>
 
-      <div className="flex gap-5 divide-x">
-        <div className="basis-2/3 flex flex-col px-2 sm:px-0">
+      <div className="flex flex-col md:flex-row gap-5 divide-x">
+        <div className="md:basis-2/3 flex flex-col px-2 sm:px-0">
           {cartItems?.data.map((cartItem, index) => (
             <div key={index}>
               <div>
@@ -94,7 +94,7 @@ const CartView: React.FC = () => {
             </div>
           ))}
           <div className="border-t border-gray-300 my-4"></div>
-          <div className="flex justify-between items-center">
+          <div className="flex flex-col lg:flex-row gap-3 lg:justify-between items-center">
             <div>
               <div className="flex items-center cursor-pointer">
                 <ChevronLeft />
@@ -112,11 +112,11 @@ const CartView: React.FC = () => {
           </div>
         </div>
 
-        <div className="basis-1/3 flex-flex-col">
+        <div className="md:basis-1/3 flex flex-col">
           <div className="bg-gray-100 p-10 min-h-[275px] relative flex flex-col justify-between">
             <div>
               <div className="flex items-center text-neutral-800 justify-center pb-3 font-semibold text-xl justify-between ">
-                Items Total: <div>{totalPrice}</div>
+                Items Total: <div>Rs.{totalPrice.toFixed(2)}</div>
               </div>
 
               <div className="font-medium text-sm">

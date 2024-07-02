@@ -64,9 +64,9 @@ const Header: React.FC = () => {
           )}
         </button>
 
-        <span>
+        <Link href="/">
           <Image src="/assets/favico.ico" alt="Logo" width="25" height="35" />
-        </span>
+        </Link>
 
         <Search size={30} onClick={toggleSearch} className="z-50" />
         {isSearchExpanded && (
@@ -97,7 +97,10 @@ const Header: React.FC = () => {
           </button>
           <hr />
           <Link href="/cart">
-            <div className="hover:text-[#48CAB2] flex items-center gap-3">
+            <div
+              onClick={toggleDrawer}
+              className="hover:text-[#48CAB2] flex items-center gap-3"
+            >
               <ShoppingBag size={28} strokeWidth={1.3} />
               View your cart
             </div>
@@ -115,20 +118,26 @@ const Header: React.FC = () => {
           </div>
           {dropdownsOpen.men && (
             <div className="capitalize font-normal text-md">
-              <div className="underline decoration-4 underline-offset-4">
+              <div
+                className="underline decoration-4 underline-offset-4"
+                onClick={toggleDrawer}
+              >
                 Topwears
               </div>
               <div className="flex flex-col pt-4 ">
-                <span>Formal Shirts</span>
-                <span>Casual Shirts</span>
+                <span onClick={toggleDrawer}>Formal Shirts</span>
+                <span onClick={toggleDrawer}>Casual Shirts</span>
               </div>
               <hr className="my-4" />
-              <div className="underline decoration-4 underline-offset-4">
+              <div
+                onClick={toggleDrawer}
+                className="underline decoration-4 underline-offset-4"
+              >
                 Bottomwears
               </div>
               <div className="flex flex-col pt-4 ">
-                <span>Formal Pants</span>
-                <span>Casual Pants</span>
+                <span onClick={toggleDrawer}>Formal Pants</span>
+                <span onClick={toggleDrawer}>Casual Pants</span>
               </div>
             </div>
           )}
@@ -145,40 +154,64 @@ const Header: React.FC = () => {
           {dropdownsOpen.women && (
             <div className="capitalize font-normal text-md">
               <div className="flex flex-col gap-4 pt-4 ">
-                <span>A-line dresses</span>
-                <span>Bodycon Dresses</span>
-                <span>Floral Dresses</span>
-                <span>Cocktail Dresses</span>
+                <span onClick={toggleDrawer}>A-line dresses</span>
+                <span onClick={toggleDrawer}>Bodycon Dresses</span>
+                <span onClick={toggleDrawer}>Floral Dresses</span>
+                <span onClick={toggleDrawer}>Cocktail Dresses</span>
               </div>
             </div>
           )}
           <hr />
-          <div className="hover:text-[#48CAB2] flex items-center gap-3">
+          <div
+            onClick={toggleDrawer}
+            className="hover:text-[#48CAB2] flex items-center gap-3"
+          >
             <Store size={28} strokeWidth={1.3} />
             About Us
           </div>
-          <div className="hover:text-[#48CAB2] flex items-center gap-3">
+          <div
+            onClick={toggleDrawer}
+            className="hover:text-[#48CAB2] flex items-center gap-3"
+          >
             <Truck size={28} strokeWidth={1.3} />
             Shipping
           </div>
-          <div className="hover:text-[#48CAB2] flex items-center gap-3">
+          <div
+            onClick={toggleDrawer}
+            className="hover:text-[#48CAB2] flex items-center gap-3"
+          >
             <Undo2 size={28} strokeWidth={1.3} /> Return
           </div>
-          <div className="hover:text-[#48CAB2] flex items-center gap-3">
+          <div
+            onClick={toggleDrawer}
+            className="hover:text-[#48CAB2] flex items-center gap-3"
+          >
             <MessageCircleQuestion size={28} strokeWidth={1.3} /> FAQs
           </div>
-          <div className="hover:text-[#48CAB2] flex items-center gap-3">
+          <div
+            onClick={toggleDrawer}
+            className="hover:text-[#48CAB2] flex items-center gap-3"
+          >
             <Headset size={28} strokeWidth={1.3} />
             Contact Us
           </div>
-          <div className="hover:text-[#48CAB2] flex items-center gap-3">
+          <div
+            onClick={toggleDrawer}
+            className="hover:text-[#48CAB2] flex items-center gap-3"
+          >
             <Wrench size={28} strokeWidth={1.3} /> Maintenance
           </div>
-          <div className="hover:text-[#48CAB2] flex items-center gap-3">
+          <div
+            onClick={toggleDrawer}
+            className="hover:text-[#48CAB2] flex items-center gap-3"
+          >
             <Settings2 size={28} strokeWidth={1.3} />
             Settings
           </div>
-          <div className="hover:text-[#48CAB2] flex items-center gap-3">
+          <div
+            onClick={toggleDrawer}
+            className="hover:text-[#48CAB2] flex items-center gap-3"
+          >
             <Ruler size={28} strokeWidth={1.3} />
             Size Guide
           </div>

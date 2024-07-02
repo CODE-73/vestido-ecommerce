@@ -12,7 +12,11 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
-import { useCreateOrder, useShippingCharges } from '@vestido-ecommerce/orders';
+import {
+  // useAddresses,
+  useCreateOrder,
+  useShippingCharges,
+} from '@vestido-ecommerce/orders';
 import { ChevronRight } from 'lucide-react';
 import { PaymentTypeElement } from './PaymentTypeElement';
 const OrderItemSchema = z.object({
@@ -30,14 +34,7 @@ const CreateOrderFormSchema = z.object({
 export type CreateOrderForm = z.infer<typeof CreateOrderFormSchema>;
 const CheckoutView: React.FC = () => {
   const { data: cartItems } = useCart();
-  console.log(cartItems?.data);
-  // const toast = useToast();
-
-  // const orderItems = cartItems?.data.map((cartItem, index) => ({
-  //   itemId: cartItem.itemId,
-  //   price: cartItem.item.price,
-  //   qty: cartItem.qty,
-  // }));
+  // const { data: addresses } = useAddresses();
 
   const [currentSession, setCurrentSession] = useState('Address');
 
@@ -56,6 +53,8 @@ const CheckoutView: React.FC = () => {
           qty: cartItem.qty,
         }))
       );
+      // form.setValue('addressId', sortedAddresses[0].id);
+      // form.setValue('addressId', addresses?.data?.find((x) => x.default)?.id!);
     }
   }, [cartItems?.data, form]);
 
@@ -64,14 +63,10 @@ const CheckoutView: React.FC = () => {
     'paymentType',
   ]);
 
-  console.log('address is', shippingAddressId);
   const { data: shipping } = useShippingCharges({
     shippingAddressId,
     paymentType,
   });
-
-  console.log('shipping', shipping);
-  console.info('formvalues', form.getValues());
 
   const shippingCharges = shipping?.data?.shippingCost ?? 0;
 
@@ -81,9 +76,6 @@ const CheckoutView: React.FC = () => {
     cartItems?.data.reduce((total, item) => {
       return total + item.qty * item.item.price;
     }, 0) ?? 0;
-
-  const { isDirty, isValid, errors } = form.formState;
-  console.info(isDirty, isValid, errors);
 
   const handleSubmit = async (data: CreateOrderForm) => {
     console.log('data is', data);
@@ -136,8 +128,8 @@ const CheckoutView: React.FC = () => {
       )}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)}>
-          <div className=" flex flex-col lg:flex-row items-start gap-2 divide-x">
-            <div className="basis-3/5">
+          <div className=" flex flex-col md:flex-row items-start gap-2 md:divide-x">
+            <div className="md:basis-3/5">
               {currentSession == 'Address' ? (
                 <CustomerAddressElement name="addressId" required />
               ) : (
@@ -155,7 +147,7 @@ const CheckoutView: React.FC = () => {
                 </Dialog>
               )}
             </div>
-            <div className="basis-2/5 overflow-auto hidden lg:block pl-5 sticky top-0">
+            <div className="md:basis-2/5 overflow-auto  px-3 md:pl-5 md:sticky top-0 w-full">
               <div className="flex flex-col">
                 {cartItems?.data.map((cartItem, index) => (
                   <div key={index}>
@@ -204,6 +196,7 @@ const CheckoutView: React.FC = () => {
 
               {currentSession == 'Address' && (
                 <Button
+                  disabled={!shippingAddressId}
                   type="button"
                   onClick={() => setCurrentSession('Payment')}
                   className="disabled:bg-gray-300 uppercase flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 text-md font-extrabold hover:text-black text-white justify-center mt-5"
