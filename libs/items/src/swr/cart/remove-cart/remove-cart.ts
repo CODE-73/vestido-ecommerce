@@ -1,8 +1,6 @@
 import useSWRMutation from 'swr/mutation';
-import {
-  RemoveFromCartRequest,
-  RemoveFromCartResponse,
-} from '../../../services/cart/remove-from-cart/types';
+import { RemoveFromCartResponse } from '../../../services/cart/remove-from-cart/types';
+import { RemoveFromCartSWRRequest } from './types';
 import { useAuth } from '@vestido-ecommerce/auth';
 import { removeCartItem } from './service';
 import { CartSWRKeys } from '../keys';
@@ -16,7 +14,7 @@ export const useRemoveFromCart = () => {
     RemoveFromCartResponse,
     Error,
     string[] | null,
-    RemoveFromCartRequest
+    RemoveFromCartSWRRequest
   >(key, (_, { arg }) => removeCartItem({ ...arg }, authHeaders), {
     ...useClearCacheOnSuccess(CartSWRKeys.CART),
   });

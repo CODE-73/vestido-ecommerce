@@ -1,16 +1,14 @@
-import {
-  RemoveFromCartRequest,
-  RemoveFromCartResponse,
-} from '../../../services/cart/remove-from-cart/types';
+import { RemoveFromCartResponse } from '../../../services/cart/remove-from-cart/types';
+import { RemoveFromCartSWRRequest } from './types';
 
 import axios from 'axios'; // Import Axios
 
 export async function removeCartItem(
-  args: RemoveFromCartRequest,
+  args: RemoveFromCartSWRRequest,
   authHeaders: Record<string, string>
 ): Promise<RemoveFromCartResponse> {
   try {
-    const itemId = args.data.itemId;
+    const itemId = args.itemId;
     const r = await axios.delete(`/api/cart?itemId=${itemId}`, {
       headers: {
         ...authHeaders,

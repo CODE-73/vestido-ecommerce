@@ -5,17 +5,26 @@ import { Trash2, Minus, Plus, ChevronLeft } from 'lucide-react';
 import useIsMobile from '../../../vestido-storefront/hooks/useIsMobile';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 
-import { useCart } from '@vestido-ecommerce/items';
+import { useCart, useRemoveFromCart } from '@vestido-ecommerce/items';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 import Link from 'next/link';
 
 const CartView: React.FC = () => {
   const isMobile = useIsMobile();
   const { data: cartItems } = useCart();
+
+  const { trigger } = useRemoveFromCart();
+
   const totalPrice =
     cartItems?.data.reduce((total, item) => {
       return total + item.qty * item.item.price;
     }, 0) ?? 0;
+
+  const handleRemoveFromCart = (itemId: string) => {
+    trigger({
+      itemId: itemId,
+    });
+  };
 
   return (
     <div>
@@ -25,111 +34,128 @@ const CartView: React.FC = () => {
         </span>
         ----- Address ----- Payment
       </div>
-
-      <div className="flex flex-col md:flex-row gap-5 divide-x">
-        <div className="md:basis-2/3 flex flex-col px-2 sm:px-0">
-          {cartItems?.data.map((cartItem, index) => (
-            <div key={index}>
-              <div>
-                <div className="border-t border-gray-300 py-2"></div>
-              </div>
-              <div className="grid gap-2 grid-cols-8 items-center">
-                <div className="col-span-1 flex justify-center">
-                  <div className="">
+      {cartItems?.data.length && cartItems.data.length > 0 ? (
+        <div className="flex flex-col md:flex-row gap-5 divide-x">
+          <div className="md:basis-2/3 flex flex-col px-2 sm:px-0">
+            {cartItems?.data.map((cartItem, index) => (
+              <div key={index}>
+                <div>
+                  <div className="border-t border-gray-300 py-2"></div>
+                </div>
+                <div className="grid gap-2 grid-cols-8 items-center">
+                  <div
+                    onClick={() => handleRemoveFromCart(cartItem.itemId)}
+                    className="col-span-1 flex justify-center cursor-pointer"
+                  >
                     <Trash2 />
                   </div>
-                </div>
-                <Image
-                  className="block col-span-2"
-                  src={
-                    ((cartItem.item.images ?? []) as ImageSchemaType[])[0].url!
-                  }
-                  alt={
-                    ((cartItem.item.images ?? []) as ImageSchemaType[])[0].alt!
-                  }
-                  width={200}
-                  height={260}
-                />
-                {isMobile ? (
-                  <div className=" col-span-5 flex flex-col space-y-5 pl-8">
-                    <div className="truncate text-md md:text-xl font-semibold whitespace-nowrap">
-                      {cartItem.item.title}
-                    </div>
-                    <div className="text-xl font-semibold text-[#48CAB2] flex ">
-                      {cartItem.item.price}
-                    </div>
-                    <div className="flex flex-row bg-zinc-100 w-32 h-14 items-center justify-around ">
-                      <div className="text-zinc-300">
-                        <Minus />
+                  <Image
+                    className="block col-span-2"
+                    src={
+                      ((cartItem.item.images ?? []) as ImageSchemaType[])[0]
+                        .url!
+                    }
+                    alt={
+                      ((cartItem.item.images ?? []) as ImageSchemaType[])[0]
+                        .alt!
+                    }
+                    width={200}
+                    height={260}
+                  />
+                  {isMobile ? (
+                    <div className=" col-span-5 flex flex-col space-y-5 pl-8">
+                      <div className="truncate text-md md:text-xl font-semibold whitespace-nowrap">
+                        {cartItem.item.title}
                       </div>
-                      <div className="font-semibold text-2xl">
-                        {cartItem.qty}
+                      <div className="text-xl font-semibold text-[#48CAB2] flex ">
+                        {cartItem.item.price}
                       </div>
-                      <div className="text-zinc-300">
-                        <Plus />
+                      <div className="flex flex-row bg-zinc-100 w-32 h-14 items-center justify-around ">
+                        <div className="text-zinc-300">
+                          <Minus />
+                        </div>
+                        <div className="font-semibold text-2xl">
+                          {cartItem.qty}
+                        </div>
+                        <div className="text-zinc-300">
+                          <Plus />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ) : (
-                  <>
-                    <div className="text-xl font-extrabold col-span-2">
-                      {cartItem.item.title}
-                    </div>
+                  ) : (
+                    <>
+                      <div className="text-xl font-extrabold col-span-2">
+                        {cartItem.item.title}
+                      </div>
 
-                    <div className="flex flex-row bg-zinc-100 px-4 h-14 items-center justify-around col-span-1">
-                      <div className="text-zinc-300">
-                        <Minus />
+                      <div className="flex flex-row bg-zinc-100 px-4 h-14 items-center justify-around col-span-1">
+                        <div className="text-zinc-300">
+                          <Minus />
+                        </div>
+                        <div className="font-semibold text-2xl">1</div>
+                        <div className="text-zinc-300">
+                          <Plus />
+                        </div>
                       </div>
-                      <div className="font-semibold text-2xl">1</div>
-                      <div className="text-zinc-300">
-                        <Plus />
+                      <div className="text-3xl font-semibold text-[#48CAB2] col-span-1 flex justify-center">
+                        {cartItem.item.price.toFixed(2)}
                       </div>
-                    </div>
-                    <div className="text-3xl font-semibold text-[#48CAB2] col-span-1 flex justify-center">
-                      {cartItem.item.price.toFixed(2)}
-                    </div>
-                  </>
-                )}
-              </div>
-            </div>
-          ))}
-          <div className="border-t border-gray-300 my-4"></div>
-          <div className="flex flex-col lg:flex-row gap-3 lg:justify-between items-center">
-            <div>
-              <div className="flex items-center cursor-pointer">
-                <ChevronLeft />
-                <div className="font-extrabold no-underline hover:underline">
-                  Continue Shopping
+                    </>
+                  )}
                 </div>
               </div>
-            </div>
-            <div className="flex cursor-pointer">
-              <Trash2 className="mr-3 " />
-              <div className="mr-5 font-extrabold no-underline hover:underline">
-                Clear Shopping Cart
+            ))}
+            <div className="border-t border-gray-300 my-4"></div>
+            <div className="flex flex-col lg:flex-row gap-3 lg:justify-between items-center">
+              <div>
+                <div className="flex items-center cursor-pointer">
+                  <ChevronLeft />
+                  <div className="font-extrabold no-underline hover:underline">
+                    Continue Shopping
+                  </div>
+                </div>
+              </div>
+              <div className="flex cursor-pointer">
+                <Trash2 className="mr-3 " />
+                <div className="mr-5 font-extrabold no-underline hover:underline">
+                  Clear Shopping Cart
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div className="md:basis-1/3 flex flex-col">
-          <div className="bg-gray-100 p-10 min-h-[275px] relative flex flex-col justify-between">
-            <div>
-              <div className="flex items-center text-neutral-800 justify-center pb-3 font-semibold text-xl justify-between ">
-                Items Total: <div>Rs.{totalPrice.toFixed(2)}</div>
-              </div>
+          <div className="md:basis-1/3 flex flex-col">
+            <div className="bg-gray-100 p-10 min-h-[275px] relative flex flex-col justify-between">
+              <div>
+                <div className="flex items-center text-neutral-800 justify-center pb-3 font-semibold text-xl justify-between ">
+                  Items Total: <div>Rs.{totalPrice.toFixed(2)}</div>
+                </div>
 
-              <div className="font-medium text-sm">
-                Shipping charges calculated at checkout (Free Shipping all over
-                Kerala)
+                <div className="font-medium text-sm">
+                  Shipping charges calculated at checkout (Free Shipping all
+                  over Kerala)
+                </div>
               </div>
+              <Button className="flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 font-extrabold hover:text-black text-white justify-center">
+                <Link href="/checkout">PROCEED TO CHECKOUT</Link>
+              </Button>
             </div>
+          </div>
+        </div>
+      ) : (
+        <div className="min-h-[80%] w-full flex flex-col gap-5 items-center justify-center font-semibold text-lg">
+          Your cart is empty.
+          <div className="flex flex-col md:flex-row gap-3">
+            {' '}
             <Button className="flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 font-extrabold hover:text-black text-white justify-center">
-              <Link href="/checkout">PROCEED TO CHECKOUT</Link>
+              Add from Wishlist
+            </Button>
+            <Button className="flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 font-extrabold hover:text-black text-white justify-center">
+              Continue Shopping
             </Button>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
