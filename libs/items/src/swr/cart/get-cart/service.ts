@@ -1,4 +1,4 @@
-import { CartItemResponse } from '@vestido-ecommerce/items';
+import { CartItemResponse } from '../../../services/cart/get-cart/types';
 
 import axios from 'axios'; // Import Axios
 

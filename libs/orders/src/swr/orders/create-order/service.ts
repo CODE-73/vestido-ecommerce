@@ -5,7 +5,7 @@ import {
 
 import axios from 'axios'; // Import Axios
 
-export async function createOrder(
+export async function createNewOrder(
   args: CreateOrderRequest,
   authHeaders: Record<string, string>
 ): Promise<CreateOrderResponse> {

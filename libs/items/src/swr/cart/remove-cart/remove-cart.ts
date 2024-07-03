@@ -1,5 +1,8 @@
 import useSWRMutation from 'swr/mutation';
-import { RemoveFromCartRequest, RemoveFromCartResponse } from './types';
+import {
+  RemoveFromCartRequest,
+  RemoveFromCartResponse,
+} from '../../../services/cart/remove-from-cart/types';
 import { useAuth } from '@vestido-ecommerce/auth';
 import { removeCartItem } from './service';
 import { CartSWRKeys } from '../keys';

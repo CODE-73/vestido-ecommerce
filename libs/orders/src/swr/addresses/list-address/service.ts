@@ -1,4 +1,4 @@
-import { ListAddressResponse } from '@vestido-ecommerce/orders';
+import { ListAddressResponse } from '../../../services/address/list-address/types';
 import axios from 'axios'; // Import Axios
 
 export async function getAddressList(

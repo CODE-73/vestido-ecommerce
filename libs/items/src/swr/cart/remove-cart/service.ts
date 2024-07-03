@@ -1,4 +1,7 @@
-import { RemoveFromCartRequest, RemoveFromCartResponse } from './types';
+import {
+  RemoveFromCartRequest,
+  RemoveFromCartResponse,
+} from '../../../services/cart/remove-from-cart/types';
 
 import axios from 'axios'; // Import Axios
 

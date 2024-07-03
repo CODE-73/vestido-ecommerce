@@ -5,7 +5,7 @@ import { Gender, StockStatus } from '@prisma/client';
 export const UpdateItemSchema = z.object({
   title: z.string(),
   description: z.string(),
-  price: z.string(),
+  price: z.coerce.number(),
   stockStatus: z
     .nativeEnum(StockStatus)
     .default('AVAILABLE' satisfies StockStatus),

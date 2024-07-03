@@ -1,11 +1,11 @@
-import { AddToCartRequest, AddToCartResponse } from './types';
+import { AddCartRequest, AddCartResponse } from './types';
 
 import axios from 'axios'; // Import Axios
 
 export async function addCartItem(
-  args: AddToCartRequest,
+  args: AddCartRequest,
   authHeaders: Record<string, string>
-): Promise<AddToCartResponse> {
+): Promise<AddCartResponse> {
   try {
     const r = await axios.post('/api/cart', args, {
       headers: {
@@ -13,7 +13,7 @@ export async function addCartItem(
       },
     });
 
-    return r.data as AddToCartResponse;
+    return r.data as AddCartResponse;
   } catch (error) {
     console.error('Error adding to cart', error);
     throw new Error('Error adding to cart');

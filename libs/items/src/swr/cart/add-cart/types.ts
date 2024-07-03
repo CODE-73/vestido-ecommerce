@@ -1,7 +1,7 @@
 import { CartItem } from '@prisma/client';
 
-export type AddToCartRequest = Partial<CartItem>;
+export type AddCartRequest = Omit<CartItem, 'id' | 'customerId'>;
 
-export type AddToCartResponse = {
+export type AddCartResponse = {
   data: CartItem;
 };

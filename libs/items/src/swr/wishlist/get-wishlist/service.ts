@@ -1,4 +1,4 @@
-import { wishlistItemsResponse } from '@vestido-ecommerce/items';
+import { wishlistItemsResponse } from '../../../services/wishlist/get-wishlist/types';
 
 import axios from 'axios';
 
