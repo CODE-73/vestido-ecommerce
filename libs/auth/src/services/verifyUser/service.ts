@@ -1,8 +1,8 @@
-import { PrismaClient } from '@prisma/client';
+import { getPrismaClient } from '@vestido-ecommerce/models';
 import { SendOtpSchema, SendOtpSchemaType } from '../sendOtp';
 
 export async function verifyUserExist(data: SendOtpSchemaType) {
-  const prisma = new PrismaClient();
+  const prisma = getPrismaClient();
 
   const validatedData = SendOtpSchema.parse(data);
 

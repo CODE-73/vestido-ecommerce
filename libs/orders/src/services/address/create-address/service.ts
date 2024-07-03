@@ -1,8 +1,8 @@
-import { PrismaClient } from '@prisma/client';
+import { getPrismaClient } from '@vestido-ecommerce/models';
 import { CreateAddressSchema, CreateAddressSchemaType } from './zod';
 
 export async function createAddress(body: CreateAddressSchemaType) {
-  const prisma = new PrismaClient();
+  const prisma = getPrismaClient();
 
   // validate zod here
   const validatedData = CreateAddressSchema.parse(body);
