@@ -13,6 +13,7 @@
     "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
+    "esModuleInterop": true,
     "baseUrl": ".",
     "paths": {
       "@vestido-ecommerce/auth": [
@@ -26,6 +27,10 @@
       "@vestido-ecommerce/orders": [
         "libs/orders/src/index.ts",
         "../../libs/orders/src/index.ts"
+      ],
+      "@vestido-ecommerce/razorpay": [
+        "libs/razorpay/src/index.ts", 
+        "../../libs/razorpay/src/index.ts"
       ],
       "@vestido-ecommerce/r2": [
         "libs/r2/src/index.ts",
