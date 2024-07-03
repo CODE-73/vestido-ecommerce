@@ -70,7 +70,7 @@ const AddAddressDialog = () => {
       <DialogHeader>
         <DialogTitle>Add New Address</DialogTitle>
         <DialogDescription>
-          Make changes to your profile here. Click save when you are done.
+          Add a new address, and save itfor future use.
         </DialogDescription>
       </DialogHeader>
       <Form {...form}>
@@ -99,7 +99,6 @@ const AddAddressDialog = () => {
             label="Choose Address Type"
             defaultValue="Home"
             wrapperClassName="flex"
-            required
             options={[
               { label: 'Home', value: 'HOME' },
               { label: 'Office', value: 'OFFICE' },
