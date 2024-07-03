@@ -15,14 +15,20 @@ type AuthContextValue = {
   authHeaders: Record<string, string>;
 };
 
-type TokenProviderProps = {
+type AuthProvider = {
   children: ReactNode;
+  autoLoginRedirect?: boolean;
+  loginPage?: string;
 };
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 AuthContext.displayName = 'TokenContext';
 
-export const AuthProvider = ({ children }: TokenProviderProps) => {
+export const AuthProvider = ({
+  children,
+  autoLoginRedirect = true,
+  loginPage = '/auth/login',
+}: AuthProvider) => {
   const [token, setToken] = useState<string | null>(null);
   const [authLoaded, setAuthLoaded] = useState(false);
   const router = useRouter();
@@ -32,8 +38,8 @@ export const AuthProvider = ({ children }: TokenProviderProps) => {
     const token = localStorage.getItem('token');
     if (token && token !== 'undefined') {
       setToken(token);
-    } else {
-      router.push('/auth/login'); // Redirect to your login page
+    } else if (autoLoginRedirect) {
+      router.push(loginPage); // Redirect to your login page
     }
     setAuthLoaded(true);
   }, []);

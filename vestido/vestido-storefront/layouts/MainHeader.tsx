@@ -64,7 +64,7 @@ const categoriesData = [
         title: 'Dresses',
         items: [
           'A-Line Dress',
-          'Floaral Dress',
+          'Floral Dress',
           'Bodycon Dress',
           'Cocktail Dress',
           'Casual Dress',
@@ -93,7 +93,7 @@ const categoriesData = [
         title: 'Girls',
         items: [
           'A-Line Dress',
-          'Floaral Dress',
+          'Floral Dress',
           'Bodycon Dress',
           'Cocktail Dress',
           'Casual Dress',

@@ -86,7 +86,7 @@ const CartView: React.FC = () => {
                       </div>
                     </div>
                     <div className="text-3xl font-semibold text-[#48CAB2] col-span-1 flex justify-center">
-                      {cartItem.item.price}
+                      {cartItem.item.price.toFixed(2)}
                     </div>
                   </>
                 )}

@@ -79,7 +79,9 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
       <Head>
         <title>Vestido Storefront</title>
       </Head>
-      <AuthProvider>{getLayout(<Component {...pageProps} />)}</AuthProvider>
+      <AuthProvider loginPage="/auth" autoLoginRedirect={false}>
+        {getLayout(<Component {...pageProps} />)}
+      </AuthProvider>
     </div>
   );
 }
