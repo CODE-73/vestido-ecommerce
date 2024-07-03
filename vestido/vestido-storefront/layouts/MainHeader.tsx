@@ -76,37 +76,14 @@ const categoriesData = [
       },
     ],
   },
-  {
-    category: 'KIDS',
-    subcategories: [
-      {
-        title: 'Boys',
-        items: [
-          'Casual Shirts',
-          'Formal Shirts',
-          'Denim Shirts',
-          'T Shirts',
-          'Hoodies',
-        ],
-      },
-      {
-        title: 'Girls',
-        items: [
-          'A-Line Dress',
-          'Floral Dress',
-          'Bodycon Dress',
-          'Cocktail Dress',
-          'Casual Dress',
-        ],
-      },
-    ],
-  },
 ];
 const CategoryHeader = () => {
   const isMobile = useIsMobile();
   const { data: cart } = useCart();
   const no_of_cart_items = cart?.data.length;
-  // const {  } = useWishlist();
+  // const { data: categories } = useCategories();
+
+  // console.log(categories);
   return (
     <div className="bg-[#1B2149] flex items-center  justify-between px-3">
       <div className="flex">
@@ -136,7 +113,7 @@ const CategoryHeader = () => {
             <NavigationMenuList>
               {categoriesData.map((category, index) => (
                 <NavigationMenuItem key={index}>
-                  <NavigationMenuTrigger className="font-semibold h-6 text-white bg-transparent hover:bg-transparent data-active:bg-transparent data-[state=open]:bg-transparent hover:text-[#48CAB2] hover:border-b-2 border-[#48CAB2] rounded-none mx-3">
+                  <NavigationMenuTrigger className="font-semibold h-6 text-white bg-transparent hover:bg-transparent data-active:bg-transparent data-[state=open]:bg-transparent hover:text-white hover:border-b-2 border-[#48CAB2] rounded-none mx-3 focus:bg-transparent focus:text-white">
                     {category.category}
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
