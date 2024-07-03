@@ -92,7 +92,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
       trigger({
         itemId: item.id,
         qty: qty,
-        variantId: itemVariants?.[0]?.id,
+        variantId: itemVariants?.[0]?.id ?? null,
       });
     }
     console.log('handleAddToCart');

@@ -60,6 +60,7 @@ export async function POST(request: Request) {
       customerId: auth.profileId,
       itemId: body.itemId,
       qty: body.qty,
+      variantId: body.variantId,
     });
 
     return new Response(JSON.stringify({ success: true, data: cartItems }), {
