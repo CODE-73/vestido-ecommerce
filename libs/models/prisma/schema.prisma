@@ -48,7 +48,7 @@ model CustomerAddress {
     customerId  String      @db.Uuid
     firstName   String
     lastName    String
-    mobile      String      @unique
+    mobile      String
     line1       String
     line2       String
     district    String
