@@ -10,7 +10,7 @@ interface CategoryCardProps {
 }
 const CategoryCard: React.FC<CategoryCardProps> = ({ data }) => {
   return (
-    <div className="group basis-1/4 lg:basis-48 text-center transition duration-700 ease-in-out md:hover:-translate-y-5 text-[#333333] pt-24 lg:pt-10">
+    <div className="group basis-1/4 lg:basis-48 text-center transition duration-700 ease-in-out md:hover:-translate-y-5 text-[#333333]">
       <div className="flex flex-col items-center">
         <div
           className="

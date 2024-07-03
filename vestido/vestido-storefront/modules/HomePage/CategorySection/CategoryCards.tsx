@@ -48,7 +48,7 @@ type CategoryCardProps = {
 
 export const CategoryCards: FC<CategoryCardProps> = (props) => {
   return (
-    <div className="w-full lg:w-auto overflow-x-auto no-scrollbar">
+    <div className="w-full lg:w-auto overflow-x-auto no-scrollbar sm:pt-4 lg:pt-10">
       <div className="flex space-x-4 lg:space-x-2 px-4">
         {cards.map((card, index) => (
           <CategoryCard key={index} data={card} />
