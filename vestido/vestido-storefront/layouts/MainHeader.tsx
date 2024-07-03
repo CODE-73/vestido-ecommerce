@@ -120,16 +120,18 @@ const CategoryHeader = () => {
                     <div className="flex flex-col p-3 ">
                       {category.subcategories.map((subcategory, subIndex) => (
                         <div key={subIndex}>
-                          <h1 className=" font-black hover:text-[#48cab2] px-4">
-                            {subcategory.title}
-                          </h1>
+                          <Link href="/products">
+                            <h1 className=" font-black hover:text-[#48cab2] px-4">
+                              {subcategory.title}
+                            </h1>
+                          </Link>
                           <ul className="text-stone-500 py-3 md:w-[200px] lg:w-[200px]">
                             {subcategory.items.map((item, itemIndex) => (
                               <div
                                 key={itemIndex}
                                 className="hover:text-[#48cab2]"
                               >
-                                <ListItem href="/" title={item} />
+                                <ListItem href="/products" title={item} />
                               </div>
                             ))}
                           </ul>

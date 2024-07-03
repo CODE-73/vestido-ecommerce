@@ -147,12 +147,16 @@ const CartView: React.FC = () => {
           Your cart is empty.
           <div className="flex flex-col md:flex-row gap-3">
             {' '}
-            <Button className="flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 font-extrabold hover:text-black text-white justify-center">
-              Add from Wishlist
-            </Button>
-            <Button className="flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 font-extrabold hover:text-black text-white justify-center">
-              Continue Shopping
-            </Button>
+            <Link href="/wishlist">
+              <Button className="flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 font-extrabold hover:text-black text-white justify-center">
+                Add from Wishlist
+              </Button>
+            </Link>
+            <Link href="/products">
+              <Button className="flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 font-extrabold hover:text-black text-white justify-center">
+                Continue Shopping
+              </Button>
+            </Link>
           </div>
         </div>
       )}
