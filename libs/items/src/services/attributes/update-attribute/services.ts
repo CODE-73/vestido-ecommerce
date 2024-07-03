@@ -1,11 +1,11 @@
-import { PrismaClient } from '@prisma/client';
+import { getPrismaClient } from '@vestido-ecommerce/models';
 import { UpdateAttributeSchema, UpdateAttributeSchemaType } from './zod';
 
 export async function updateAttribute(
   attributeId: string,
   data: UpdateAttributeSchemaType
 ) {
-  const prisma = new PrismaClient();
+  const prisma = getPrismaClient();
 
   const validatedData = UpdateAttributeSchema.parse(data);
 

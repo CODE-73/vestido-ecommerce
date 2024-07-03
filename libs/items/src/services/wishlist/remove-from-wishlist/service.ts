@@ -1,8 +1,8 @@
-import { PrismaClient } from '@prisma/client';
+import { getPrismaClient } from '@vestido-ecommerce/models';
 import { RemoveFromWishlistSchema, RemoveFromWishlistSchemaType } from './zod';
 
 export async function removeFromWishlist(body: RemoveFromWishlistSchemaType) {
-  const prisma = new PrismaClient();
+  const prisma = getPrismaClient();
 
   const validatedData = RemoveFromWishlistSchema.parse(body);
 

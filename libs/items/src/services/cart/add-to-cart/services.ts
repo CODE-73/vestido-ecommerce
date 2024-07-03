@@ -1,8 +1,8 @@
-import { PrismaClient } from '@prisma/client';
+import { getPrismaClient } from '@vestido-ecommerce/models';
 import { AddToCartSchema, AddToCartSchemaType } from './zod';
 
 export async function addToCart(body: AddToCartSchemaType) {
-  const prisma = new PrismaClient();
+  const prisma = getPrismaClient();
 
   const validatedData = AddToCartSchema.parse(body);
 

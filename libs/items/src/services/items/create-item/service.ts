@@ -1,8 +1,8 @@
-import { PrismaClient } from '@prisma/client';
+import { getPrismaClient } from '@vestido-ecommerce/models';
 import { CreateItemSchema, CreateItemSchemaType } from './zod';
 
 export async function createItem(data: CreateItemSchemaType) {
-  const prisma = new PrismaClient();
+  const prisma = getPrismaClient();
 
   // validate zod here
   const validatedData = CreateItemSchema.parse(data);

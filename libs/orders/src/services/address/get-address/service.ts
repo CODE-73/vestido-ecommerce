@@ -1,7 +1,7 @@
-import { PrismaClient } from '@prisma/client';
+import { getPrismaClient } from '@vestido-ecommerce/models';
 
 export async function getAddress(addressId: string) {
-  const prisma = new PrismaClient();
+  const prisma = getPrismaClient();
 
   const address = await prisma.customerAddress.findUnique({
     where: {

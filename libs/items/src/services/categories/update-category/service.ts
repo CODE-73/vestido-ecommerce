@@ -1,12 +1,12 @@
 import { UpdateCategoryRequest } from './types';
-import { PrismaClient } from '@prisma/client';
+import { getPrismaClient } from '@vestido-ecommerce/models';
 import { UpdateCategorySchema } from './zod';
 
 export async function updateCategory(
   categoryId: string,
   data: UpdateCategoryRequest
 ) {
-  const prisma = new PrismaClient();
+  const prisma = getPrismaClient();
 
   const validatedData = UpdateCategorySchema.parse(data);
 

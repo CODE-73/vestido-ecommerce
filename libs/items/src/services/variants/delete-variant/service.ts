@@ -1,7 +1,7 @@
-import { PrismaClient } from '@prisma/client';
+import { getPrismaClient } from '@vestido-ecommerce/models';
 
 export async function deleteVariant(variantId: string) {
-  const prisma = new PrismaClient();
+  const prisma = getPrismaClient();
 
   await prisma.$transaction(async (prisma) => {
     await prisma.variantAttributeValue.deleteMany({

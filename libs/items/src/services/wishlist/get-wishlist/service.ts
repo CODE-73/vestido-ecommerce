@@ -1,7 +1,7 @@
-import { PrismaClient } from '@prisma/client';
+import { getPrismaClient } from '@vestido-ecommerce/models';
 
 export async function listWishlistItems(customerId: string) {
-  const prisma = new PrismaClient();
+  const prisma = getPrismaClient();
 
   const wishlistItems = await prisma.wishlistItem.findMany({
     where: {

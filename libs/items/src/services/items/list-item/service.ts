@@ -1,11 +1,11 @@
-import { PrismaClient } from '@prisma/client';
+import { getPrismaClient } from '@vestido-ecommerce/models';
 import { ListItemRequest } from './types';
 import { ListItemRequestSchema } from './zod';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 import { makeSignedUrl } from '@vestido-ecommerce/r2';
 
 export async function listItem(_args: ListItemRequest) {
-  const prisma = new PrismaClient();
+  const prisma = getPrismaClient();
   const args = ListItemRequestSchema.parse(_args);
   // pass to prisma next
 

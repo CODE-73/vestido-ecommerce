@@ -1,9 +1,9 @@
-import { PrismaClient } from '@prisma/client';
+import { getPrismaClient } from '@vestido-ecommerce/models';
 import { ListAttributesRequest } from './types';
 import { ListAttributeRequestSchema } from './zod';
 
 export async function listAttribute(_args: ListAttributesRequest) {
-  const prisma = new PrismaClient();
+  const prisma = getPrismaClient();
   const args = ListAttributeRequestSchema.parse(_args ?? {});
 
   const listAttribute = await prisma.itemAttribute.findMany({

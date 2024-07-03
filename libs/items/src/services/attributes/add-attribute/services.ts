@@ -1,8 +1,8 @@
-import { PrismaClient } from '@prisma/client';
+import { getPrismaClient } from '@vestido-ecommerce/models';
 import { CreateAttributeSchema, CreateAttributeSchemaType } from './zod';
 
 export async function createAttribute(body: CreateAttributeSchemaType) {
-  const prisma = new PrismaClient();
+  const prisma = getPrismaClient();
 
   const validatedData = CreateAttributeSchema.parse(body);
 

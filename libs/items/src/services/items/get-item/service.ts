@@ -1,9 +1,9 @@
-import { PrismaClient } from '@prisma/client';
+import { getPrismaClient } from '@vestido-ecommerce/models';
 import { makeSignedUrl } from '@vestido-ecommerce/r2';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 export async function itemDetails(itemId: string) {
-  const prisma = new PrismaClient();
+  const prisma = getPrismaClient();
 
   const item = await prisma.item.findUnique({
     where: {

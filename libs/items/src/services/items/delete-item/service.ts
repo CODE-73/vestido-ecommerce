@@ -1,7 +1,7 @@
-import { PrismaClient } from '@prisma/client';
+import { getPrismaClient } from '@vestido-ecommerce/models';
 
 export async function deleteItem(itemId: string) {
-  const prisma = new PrismaClient();
+  const prisma = getPrismaClient();
 
   const item = await prisma.item.delete({
     where: {

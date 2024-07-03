@@ -1,8 +1,8 @@
-import { PrismaClient } from '@prisma/client';
+import { getPrismaClient } from '@vestido-ecommerce/models';
 import { CreateCategorySchema, CreateCategorySchemaType } from './zod';
 
 export async function createCategory(body: CreateCategorySchemaType) {
-  const prisma = new PrismaClient();
+  const prisma = getPrismaClient();
 
   const validatedData = CreateCategorySchema.parse(body);
 

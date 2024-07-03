@@ -1,8 +1,8 @@
-import { PrismaClient } from '@prisma/client';
+import { getPrismaClient } from '@vestido-ecommerce/models';
 import { SignUpSchema, SignUpSchemaType } from './zod';
 
 export async function signUp(data: SignUpSchemaType) {
-  const prisma = new PrismaClient();
+  const prisma = getPrismaClient();
 
   const validatedData = SignUpSchema.parse(data);
 

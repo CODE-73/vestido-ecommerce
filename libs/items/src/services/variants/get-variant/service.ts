@@ -1,7 +1,7 @@
-import { PrismaClient } from '@prisma/client';
+import { getPrismaClient } from '@vestido-ecommerce/models';
 
 export async function variantDetails(variantId: string) {
-  const prisma = new PrismaClient();
+  const prisma = getPrismaClient();
 
   const variant = await prisma.itemVariant.findUnique({
     where: {

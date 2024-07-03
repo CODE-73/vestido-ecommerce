@@ -1,11 +1,11 @@
-import { PrismaClient } from '@prisma/client';
+import { getPrismaClient } from '@vestido-ecommerce/models';
 import { CreateVariantSchema, CreateVariantSchemaType } from './zod';
 import { variantDetails } from '../get-variant';
 import { validateAttributes } from '../validate_attributes';
 import { generateVariantTitle } from '../generate_variant_title';
 
 export async function createVariant(data: CreateVariantSchemaType) {
-  const prisma = new PrismaClient();
+  const prisma = getPrismaClient();
 
   // validate zod here
   const validatedData = CreateVariantSchema.parse(data);

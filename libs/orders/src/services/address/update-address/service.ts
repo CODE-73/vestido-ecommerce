@@ -1,12 +1,12 @@
 import { UpdateAddressRequest } from './types';
-import { PrismaClient } from '@prisma/client';
+import { getPrismaClient } from '@vestido-ecommerce/models';
 import { UpdateAddressSchema } from './zod';
 
 export async function updateAddress(
   addressId: string,
   data: UpdateAddressRequest
 ) {
-  const prisma = new PrismaClient();
+  const prisma = getPrismaClient();
 
   const validatedData = UpdateAddressSchema.parse(data);
 
