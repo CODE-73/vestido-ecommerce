@@ -82,11 +82,16 @@ const FileUpload: FC<FileUploadProps> = (props) => {
         <input ref={ref} type="file" hidden />
       </div>
       {value ? (
-        <Button size="icon" onClick={() => onComplete?.(null)}>
+        <Button type="button" size="icon" onClick={() => onComplete?.(null)}>
           <FaTrashAlt className="text-xl text-danger" />
         </Button>
       ) : (
-        <Button size="icon" onClick={showFileDialog} disabled={!!uploadStatus}>
+        <Button
+          type="button"
+          size="icon"
+          onClick={showFileDialog}
+          disabled={!!uploadStatus}
+        >
           <FaCloudUploadAlt className="text-xl" />
         </Button>
       )}

@@ -13,6 +13,7 @@ import { ChevronRight, Plus } from 'lucide-react';
 import { AttributeElement } from '../../forms/attribute-combobox-element';
 import { AttributeValueElement } from '../../forms/attribute-value-combobox';
 import MultiImageUploaderElement from '../../components/MultiImageUploaderElement';
+import { ImageSchema } from '@vestido-ecommerce/utils';
 
 export const VariantAttributeValueSchema = z.object({
   attributeId: z.string(),
@@ -22,6 +23,7 @@ const CreateVariantFormSchema = z.object({
   itemId: z.string(),
   price: z.coerce.number(),
   title: z.string().optional(),
+  images: z.array(ImageSchema),
   attributeValues: z.array(VariantAttributeValueSchema),
 });
 
