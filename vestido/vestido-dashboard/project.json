@@ -8,7 +8,7 @@
       "executor": "@nx/next:build",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
-      "dependsOn": ["shadcn-ui:build"],
+      "dependsOn": ["models:generate-types", "shadcn-ui:build"],
       "options": {
         "outputPath": "dist/vestido/vestido-dashboard"
       },
