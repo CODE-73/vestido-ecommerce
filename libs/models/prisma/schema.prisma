@@ -178,7 +178,7 @@ model Order {
     shippingAddress CustomerAddress @relation(fields: [addressId], references: [id])
     addressId       String          @db.Uuid
     orderItems      OrderItem[]
-    payment         Payment?
+    payments        Payment[]
     fulfillment     Fulfillment[]
 }
 
@@ -197,10 +197,15 @@ model Payment {
     id       String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     order    Order    @relation(fields: [orderId], references: [id])
     orderId  String   @unique @db.Uuid
-    amount   Float
-    method   String
-    status   String
     dateTime DateTime @default(now())
+
+    paymentGateway    String
+    paymentGatewayRef String
+    moreDetails       String
+
+    currency String
+    amount   Float
+    status   String
 }
 
 model Fulfillment {
