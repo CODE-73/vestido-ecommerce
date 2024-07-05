@@ -31,7 +31,8 @@ const ProductsTable: React.FC<ProductTableProps> = ({ data }) => {
           <TableHead>Price</TableHead>
           <TableHead>Category</TableHead>
           <TableHead>Description</TableHead>
-          <TableHead className="text-right">Has Variants</TableHead>
+          <TableHead>Has Variants</TableHead>
+          <TableHead className="text-right">Variants Count</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -47,11 +48,17 @@ const ProductsTable: React.FC<ProductTableProps> = ({ data }) => {
               </TableCell>
               <TableCell>{item.price}</TableCell>
               <TableCell>{item.category?.name}</TableCell>
-              <TableCell>{item.description}</TableCell>
-              <TableCell className="text-right">
-                {item.hasVariants ? 'Yes' : 'No'}
+              <TableCell className="truncate">{item.description}</TableCell>
+              <TableCell>{item.hasVariants ? 'Yes' : 'No'}</TableCell>
+              <TableCell
+                className={`${
+                  item.hasVariants && item.variants.length < 1
+                    ? 'text-red-500 font-semibold'
+                    : ''
+                } text-center`}
+              >
+                {item.hasVariants ? `${item.variants.length}` : 'No variant'}
               </TableCell>
-              <TableCell></TableCell>
             </TableRow>
           ))}
       </TableBody>

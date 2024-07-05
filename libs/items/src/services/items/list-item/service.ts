@@ -22,6 +22,7 @@ export async function listItem(_args: ListItemRequest) {
       : {}),
     include: {
       category: true,
+      variants: true,
     },
   });
   // no try..catch here
