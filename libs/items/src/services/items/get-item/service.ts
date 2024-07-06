@@ -10,7 +10,16 @@ export async function itemDetails(itemId: string) {
       id: itemId,
     },
     include: {
-      variants: true,
+      variants: {
+        include: {
+          attributeValues: {
+            include: {
+              attribute: true,
+              attributeValue: true,
+            },
+          },
+        },
+      },
     },
   });
   // no try..catch here

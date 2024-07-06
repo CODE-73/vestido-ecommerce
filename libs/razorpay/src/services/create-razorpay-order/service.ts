@@ -1,7 +1,7 @@
 import { CreateRPOrderRequest } from './types';
 import Razorpay from 'razorpay';
 import { CreateRPOrderSchema } from './zod';
-import { PrismaClient } from '@prisma/client';
+import { getPrismaClient } from '@vestido-ecommerce/models';
 
 export async function createRazorpayOrder(data: CreateRPOrderRequest) {
   const razorpay = new Razorpay({
@@ -9,7 +9,7 @@ export async function createRazorpayOrder(data: CreateRPOrderRequest) {
     key_secret: process.env['RAZORPAY_KEY_SECRET'],
   });
 
-  const prisma = new PrismaClient();
+  const prisma = getPrismaClient();
 
   const validatedData = CreateRPOrderSchema.parse(data);
 
