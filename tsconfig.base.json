@@ -13,7 +13,6 @@
     "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "esModuleInterop": true,
     "baseUrl": ".",
     "paths": {
       "@vestido-ecommerce/auth": [

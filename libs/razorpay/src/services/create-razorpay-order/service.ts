@@ -5,8 +5,8 @@ import { getPrismaClient } from '@vestido-ecommerce/models';
 
 export async function createRazorpayOrder(data: CreateRPOrderRequest) {
   const razorpay = new Razorpay({
-    key_id: process.env['RAZORPAY_KEY_ID'],
-    key_secret: process.env['RAZORPAY_KEY_SECRET'],
+    key_id: process.env['RAZORPAY_KEY_ID'] as string,
+    key_secret: process.env['RAZORPAY_KEY_SECRET'] as string,
   });
 
   const prisma = getPrismaClient();

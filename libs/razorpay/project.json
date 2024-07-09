@@ -1,7 +1,7 @@
 {
-  "name": "payment",
+  "name": "razorpay",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/payment/src",
+  "sourceRoot": "libs/razorpay/src",
   "projectType": "library",
   "targets": {
     "lint": {
