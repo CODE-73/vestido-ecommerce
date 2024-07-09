@@ -24,7 +24,7 @@ import { SwitchElement } from '../../forms/switch-element';
 import { CategoryElement } from '../../forms/category-combobox-element';
 import MultiImageUploaderElement from '../../components/MultiImageUploaderElement';
 
-import { ImageSchema } from '@vestido-ecommerce/utils';
+import { ImageSchema, ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import { useVariants } from '@vestido-ecommerce/items';
 import { Gender, StockStatus } from '@prisma/client';
@@ -57,6 +57,17 @@ type ProductFormProps = {
   isNew: boolean;
 };
 
+const defaultValues = {
+  title: '',
+  price: 0,
+  description: '',
+  categoryId: '',
+  gender: ['MEN', 'WOMEN'],
+  hasVariants: false,
+  stockStatus: 'AVAILABLE',
+  images: [],
+} satisfies CreateProductForm;
+
 const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
   const { toast } = useToast();
   const router = useRouter();
@@ -64,13 +75,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
   const form = useForm<CreateProductForm>({
     resolver: zodResolver(CreateProductFormSchema),
     defaultValues: {
-      title: '',
-      price: 0,
-      description: '',
-      categoryId: '',
-      gender: ['MEN', 'WOMEN'],
-      hasVariants: false,
-      stockStatus: 'AVAILABLE',
+      ...defaultValues,
     },
   });
   const { trigger } = useItemUpsert();
@@ -87,7 +92,14 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
 
   useEffect(() => {
     if (!isNew && item) {
-      form.reset({ ...item, categoryId: item.categoryId ?? '' });
+      form.reset({
+        ...{
+          ...defaultValues,
+          ...item,
+          images: (item.images as ImageSchemaType[]) ?? [],
+        },
+        categoryId: item.categoryId ?? '',
+      });
     }
   }, [isNew, item, form]);
 
