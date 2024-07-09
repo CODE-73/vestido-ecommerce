@@ -9,7 +9,7 @@ import * as z from 'zod';
 import { useVariant } from '@vestido-ecommerce/items';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { useRouter } from 'next/router';
-import { ChevronRight, Plus } from 'lucide-react';
+import { LuChevronRight, LuPlus } from 'react-icons/lu';
 import { AttributeElement } from '../../forms/attribute-combobox-element';
 import { AttributeValueElement } from '../../forms/attribute-value-combobox';
 import MultiImageUploaderElement from '../../components/MultiImageUploaderElement';
@@ -157,7 +157,7 @@ const VariantForm: React.FC<VariantFormProps> = ({
             onClick={() => append({ attributeId: '', attributeValueId: '' })}
             className="mx-10 mt-3 bg-white opacity-75 border border-2 text-gray-400 border-dashed border-gray-300 hover:bg-white hover:opacity-100"
           >
-            <Plus /> Add Attribute
+            <LuPlus /> Add Attribute
           </Button>
         </div>
 
@@ -170,7 +170,7 @@ const VariantForm: React.FC<VariantFormProps> = ({
             {isNew ? 'Create' : 'Update'}
           </Button>
           <Button type="button" onClick={handleButtonClick} disabled={isNew}>
-            Add Next Variant <ChevronRight />
+            Add Next Variant <LuChevronRight />
           </Button>
         </div>
       </form>

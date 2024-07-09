@@ -1,13 +1,13 @@
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 import {
-  AlertTriangle,
-  ChevronLeft,
-  ChevronRight,
-  Plus,
-  Trash,
-  Timer,
-} from 'lucide-react';
+  LuAlertTriangle,
+  LuChevronLeft,
+  LuChevronRight,
+  LuPlus,
+  LuTrash,
+  LuTimer,
+} from 'react-icons/lu';
 import Image from 'next/image';
 import { useState } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
@@ -97,12 +97,12 @@ const MultiImageUploader: React.FC<ImageUploaderProps> = ({ name }) => {
           onClick={handleMoveImageLeft}
           disabled={activeImageIdx === -1 || activeImageIdx === 0}
         >
-          <ChevronLeft />
+          <LuChevronLeft />
         </Button>
         <Button className="basis-2/5" type="button" onClick={addNewImage}>
           <div className="flex gap-2 items-center">
             <span>Add Image</span>
-            <Plus />
+            <LuPlus />
           </div>
         </Button>
         <Button
@@ -111,7 +111,7 @@ const MultiImageUploader: React.FC<ImageUploaderProps> = ({ name }) => {
           onClick={handleMoveImageRight}
           disabled={activeImageIdx === -1 || activeImageIdx >= name.length - 1}
         >
-          <ChevronRight />
+          <LuChevronRight />
         </Button>
         {activeImageIdx >= 0 && (
           <InputElement name={`images.${activeImageIdx}.alt`}></InputElement>
@@ -171,9 +171,9 @@ const ImageCardElement: React.FC<ImageCardElementProps> = ({
             className="h-40 w-32"
           />
         ) : isLoading ? (
-          <Timer />
+          <LuTimer />
         ) : (
-          <AlertTriangle />
+          <LuAlertTriangle />
         )
       ) : (
         <>
@@ -194,7 +194,7 @@ const ImageCardElement: React.FC<ImageCardElementProps> = ({
           variant="destructive"
           onClick={onDelete}
         >
-          <Trash />
+          <LuTrash />
         </Button>
       )}
     </div>

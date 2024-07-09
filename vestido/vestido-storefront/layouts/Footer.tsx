@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { Mail, Facebook, Twitter, Instagram, Youtube } from 'lucide-react';
+import {
+  LuMail,
+  LuFacebook,
+  LuTwitter,
+  LuInstagram,
+  LuYoutube,
+} from 'react-icons/lu';
 import { Input } from '@vestido-ecommerce/shadcn-ui/input';
 import CollapsableFooterSection from '../modules/HomePage/CollapsableFooterSection/CollapsableFooterSection';
 import useIsMobile from '../hooks/useIsMobile';
@@ -83,7 +89,7 @@ const Footer = () => {
               type="email"
               placeholder="Enter your e-mail"
             />
-            <Mail className="absolute top-1/2 transform -translate-y-1/2 right-20" />
+            <LuMail className="absolute top-1/2 transform -translate-y-1/2 right-20" />
           </div>
           <div className="text-sm w-3/4 leading-relaxed">
             By entering your email, you agree to our Terms of Service and
@@ -91,10 +97,10 @@ const Footer = () => {
           </div>
           <div className="flex flex-row space-x-4 opacity-50">
             <div className="text-black font-bold text-base "> Follow Us:</div>
-            <Facebook />
-            <Twitter />
-            <Instagram />
-            <Youtube />
+            <LuFacebook />
+            <LuTwitter />
+            <LuInstagram />
+            <LuYoutube />
           </div>
         </div>
       </div>

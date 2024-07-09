@@ -4,14 +4,14 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@vestido-ecommerce/shadcn-ui/tooltip';
-import { ZoomIn } from 'lucide-react';
+import { LuZoomIn } from 'react-icons/lu';
 
 export function QuickViewButton() {
   return (
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger>
-          <ZoomIn
+          <LuZoomIn
             strokeWidth={1.3}
             size={32}
             className="text-gray-600 hover:text-[#48CAB2]"

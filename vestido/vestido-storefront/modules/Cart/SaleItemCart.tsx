@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Image from 'next/image';
 
-import { ShoppingBag } from 'lucide-react';
+import { LuShoppingBag } from 'react-icons/lu';
 import { AddToWishListButton } from '../HomePage/SpecialOffer/AddToWishlistButton';
 import { QuickViewButton } from '../HomePage/SpecialOffer/QuickViewButton';
 import useIsMobile from '../../../vestido-storefront/hooks/useIsMobile';
@@ -92,7 +92,7 @@ const SaleItemCart: React.FC = () => {
                   </div>
                   <div className="p-2 bg-[#48CAB2]">
                     <Button className="bg-[#48CAB2] flex gap-3 text-lg text-white">
-                      <ShoppingBag color="#fff" />
+                      <LuShoppingBag color="#fff" />
                       <div> Add to Cart</div>
                     </Button>
                   </div>
@@ -104,7 +104,7 @@ const SaleItemCart: React.FC = () => {
                       className="p-2 bg-[#48CAB2] relative"
                       style={{ minWidth: 'min-content' }}
                     >
-                      <ShoppingBag color="#fff" />
+                      <LuShoppingBag color="#fff" />
 
                       <button
                         className="absolute top-0 bg-[#48CAB2] text-white  w-44 p-2 opacity-0 transition-opacity duration-500 hover:opacity-100"
@@ -160,7 +160,7 @@ const SaleItemCart: React.FC = () => {
                   </div>
                   <div className="p-2 bg-[#48CAB2]">
                     <Button className="bg-[#48CAB2] flex gap-3 text-lg text-white">
-                      <ShoppingBag color="#fff" />
+                      <LuShoppingBag color="#fff" />
                       <div> Add to Cart</div>
                     </Button>
                   </div>
@@ -172,7 +172,7 @@ const SaleItemCart: React.FC = () => {
                       className="p-2 bg-[#48CAB2] relative"
                       style={{ minWidth: 'min-content' }}
                     >
-                      <ShoppingBag color="#fff" />
+                      <LuShoppingBag color="#fff" />
 
                       <button
                         className="absolute top-0 bg-[#48CAB2] text-white p-2 opacity-0 transition-opacity duration-500 hover:opacity-100"

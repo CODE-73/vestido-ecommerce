@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { LuChevronDown, LuChevronUp } from 'react-icons/lu';
 
 const data = [
   {
@@ -70,7 +70,7 @@ const ProductFilter: React.FC = () => {
               <div className=" font-semibold hover:text-[#48CAB2] cursor-pointer">
                 {item.category}
               </div>
-              {isExpanded(item.category) ? <ChevronUp /> : <ChevronDown />}
+              {isExpanded(item.category) ? <LuChevronUp /> : <LuChevronDown />}
             </div>
             {isExpanded(item.category) &&
               (item.type === 'list' ? (

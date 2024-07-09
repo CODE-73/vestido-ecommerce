@@ -4,14 +4,14 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@vestido-ecommerce/shadcn-ui/tooltip';
-import { Heart } from 'lucide-react';
+import { LuHeart } from 'react-icons/lu';
 
 export function AddToWishListButton() {
   return (
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger>
-          <Heart
+          <LuHeart
             strokeWidth={1.3}
             size={32}
             className="text-gray-600 hover:text-[#48CAB2]"

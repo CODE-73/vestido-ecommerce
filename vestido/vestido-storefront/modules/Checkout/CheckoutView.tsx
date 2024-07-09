@@ -17,7 +17,7 @@ import {
   useCreateOrder,
   useShippingCharges,
 } from '@vestido-ecommerce/orders';
-import { ChevronRight } from 'lucide-react';
+import { LuChevronRight } from 'react-icons/lu';
 import { PaymentTypeElement } from './PaymentTypeElement';
 const OrderItemSchema = z.object({
   itemId: z.string().uuid(),
@@ -202,7 +202,7 @@ const CheckoutView: React.FC = () => {
                   className="disabled:bg-gray-300 uppercase flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 text-md font-extrabold hover:text-black text-white justify-center mt-5"
                 >
                   <div className="flex">
-                    CHOOSE PAYMENT METHOD <ChevronRight />
+                    CHOOSE PAYMENT METHOD <LuChevronRight />
                   </div>
                 </Button>
               )}

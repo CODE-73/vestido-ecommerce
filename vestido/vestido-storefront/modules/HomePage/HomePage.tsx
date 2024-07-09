@@ -4,7 +4,7 @@ import { CategoryCards } from './CategorySection/CategoryCards';
 import { TopProducts } from './TopProducts/TopProducts';
 import { PopularCollection } from './Popular/PopularCollection';
 import { HorizontalScrollCards } from './HorizontalScroll/HorizontalScrollCards';
-import { ChevronUp } from 'lucide-react';
+import { LuChevronUp } from 'react-icons/lu';
 import useIsMobile from '../../hooks/useIsMobile';
 
 const BackToTopButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
@@ -12,7 +12,7 @@ const BackToTopButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
     className="fixed bottom-8 right-8 bg-neutral-800 hover:bg-[#48CAB2] text-white px-4 py-4 shadow transition-colors duration-200"
     onClick={onClick}
   >
-    <ChevronUp />
+    <LuChevronUp />
   </button>
 );
 

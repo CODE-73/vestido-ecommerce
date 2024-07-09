@@ -17,14 +17,14 @@ import {
 import Image from 'next/image';
 
 import {
-  Scaling,
-  Minus,
-  Plus,
-  ShoppingBag,
-  Heart,
-  ChevronLeft,
-  ChevronRight,
-} from 'lucide-react';
+  LuScaling,
+  LuMinus,
+  LuPlus,
+  LuShoppingBag,
+  LuHeart,
+  LuChevronLeft,
+  LuChevronRight,
+} from 'react-icons/lu';
 import { useCategory, useItem, useAddToCart } from '@vestido-ecommerce/items';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { useState } from 'react';
@@ -140,7 +140,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
             onClick={scrollLeft}
             className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white z-10 p-2 rounded-full shadow-md"
           >
-            <ChevronLeft />
+            <LuChevronLeft />
           </button>
           <div
             ref={scrollRef}
@@ -171,7 +171,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
             onClick={scrollRight}
             className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white z-10 p-2 rounded-full shadow-md"
           >
-            <ChevronRight />
+            <LuChevronRight />
           </button>
         </div>
       </div>
@@ -245,7 +245,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
         </div>
 
         <div className="flex flex-row pr-5 gap-1 py-6">
-          <Scaling />
+          <LuScaling />
           <h1>Size Guide</h1>
         </div>
 
@@ -255,15 +255,15 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
               className="text-zinc-300 "
               onClick={() => setQty(qty > 1 ? qty - 1 : 1)}
             >
-              <Minus />
+              <LuMinus />
             </div>
             <div className="px-3 font-medium">{qty}</div>
             <div className="text-zinc-300" onClick={() => setQty(qty + 1)}>
-              <Plus />
+              <LuPlus />
             </div>
           </div>
           <div className="flex bg-[#48CAB2] items-center gap-2 w-full justify-center text-white  ">
-            <ShoppingBag />
+            <LuShoppingBag />
             <Button
               onClick={() => handleAddToCart()}
               className="text-xl font-semibold bg-transparent hover:bg-transparent"
@@ -272,7 +272,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
             </Button>
           </div>
           <div className="outline outline-2 outline-[#48CAB2] font-medium text-xs  h-full self-center p-4">
-            <Heart />
+            <LuHeart />
           </div>
         </div>
         <div>

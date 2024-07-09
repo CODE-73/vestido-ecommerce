@@ -1,4 +1,4 @@
-import { Plus } from 'lucide-react';
+import { LuPlus } from 'react-icons/lu';
 import React, { useMemo } from 'react';
 
 type CollapsableFooterSectionProps = {
@@ -31,7 +31,7 @@ const CollapsableFooterSection: React.FC<CollapsableFooterSectionProps> = ({
           {title}
         </h1>
         {collapsible && (
-          <Plus
+          <LuPlus
             className="inline-block"
             onClick={() => setActiveSection(title)}
           />

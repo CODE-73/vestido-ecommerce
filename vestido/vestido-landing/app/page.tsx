@@ -1,5 +1,5 @@
 import React from 'react';
-import { Instagram, Facebook, Youtube, Twitter } from 'lucide-react';
+import { LuInstagram, LuFacebook, LuYoutube, LuTwitter } from 'react-icons/lu';
 import Image from 'next/image';
 import BackgroundVideo from './background-video';
 const ComingSoon = () => {
@@ -43,14 +43,14 @@ const ComingSoon = () => {
           </p>
           <div className="flex gap-3 justify-center">
             <a href="https://www.instagram.com/vestido_nation?igsh=MTZkdXQ0andwdXBibg==">
-              <Instagram />
+              <LuInstagram />
             </a>
             <a href="https://www.facebook.com/profile.php?id=61554017931370&mibextid=ZbWKwL">
-              <Facebook />
+              <LuFacebook />
             </a>
-            <Youtube />
+            <LuYoutube />
             <a href="https://x.com/Vestido_Nation?t=FuI3fcJs4dUj18JEhhlH3w&s=09">
-              <Twitter />
+              <LuTwitter />
             </a>
           </div>
         </div>

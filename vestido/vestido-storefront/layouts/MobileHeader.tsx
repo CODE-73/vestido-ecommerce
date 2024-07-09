@@ -1,23 +1,23 @@
 import {
-  AlignLeft,
-  ChevronDown,
-  ChevronUp,
-  Search,
-  Headset,
-  MessageCircleQuestion,
-  Ruler,
-  Settings2,
-  Store,
-  Truck,
-  Undo2,
-  Wrench,
-  X,
-  ShoppingBag,
-} from 'lucide-react';
+  LuAlignLeft,
+  LuChevronDown,
+  LuChevronUp,
+  LuSearch,
+  LuHeadphones,
+  LuMailQuestion,
+  LuRuler,
+  LuSettings2,
+  LuStore,
+  LuTruck,
+  LuUndo2,
+  LuWrench,
+  LuX,
+  LuShoppingBag,
+} from 'react-icons/lu';
 import { useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import Image from 'next/image';
-import {} from 'lucide-react';
+import {} from 'react-icons/lu';
 import { AiOutlineMan, AiOutlineWoman } from 'react-icons/ai';
 import { Input } from '@vestido-ecommerce/shadcn-ui/input';
 import Link from 'next/link';
@@ -60,7 +60,7 @@ const Header: React.FC = () => {
           {isDrawerOpen ? (
             <AiOutlineClose size={24} />
           ) : (
-            <AlignLeft color="black" />
+            <LuAlignLeft color="black" />
           )}
         </button>
 
@@ -68,7 +68,7 @@ const Header: React.FC = () => {
           <Image src="/assets/favico.ico" alt="Logo" width="25" height="35" />
         </Link>
 
-        <Search size={30} onClick={toggleSearch} className="z-50" />
+        <LuSearch size={30} onClick={toggleSearch} className="z-50" />
         {isSearchExpanded && (
           <>
             <Input
@@ -92,7 +92,7 @@ const Header: React.FC = () => {
             className="text-gray-400 flex gap-2 mb-10"
             onClick={toggleDrawer}
           >
-            <X size={24} />
+            <LuX size={24} />
             Close
           </button>
           <hr />
@@ -101,7 +101,7 @@ const Header: React.FC = () => {
               onClick={toggleDrawer}
               className="hover:text-[#48CAB2] flex items-center gap-3"
             >
-              <ShoppingBag size={28} strokeWidth={1.3} />
+              <LuShoppingBag size={28} strokeWidth={1.3} />
               View your cart
             </div>
           </Link>
@@ -114,7 +114,7 @@ const Header: React.FC = () => {
               <AiOutlineMan size={25} />
               Men
             </div>
-            {dropdownsOpen.men ? <ChevronUp /> : <ChevronDown />}
+            {dropdownsOpen.men ? <LuChevronUp /> : <LuChevronDown />}
           </div>
           {dropdownsOpen.men && (
             <div className="capitalize font-normal text-md">
@@ -149,7 +149,7 @@ const Header: React.FC = () => {
               <AiOutlineWoman size={25} />
               Women
             </div>
-            {dropdownsOpen.women ? <ChevronUp /> : <ChevronDown />}
+            {dropdownsOpen.women ? <LuChevronUp /> : <LuChevronDown />}
           </div>
           {dropdownsOpen.women && (
             <div className="capitalize font-normal text-md">
@@ -166,53 +166,53 @@ const Header: React.FC = () => {
             onClick={toggleDrawer}
             className="hover:text-[#48CAB2] flex items-center gap-3"
           >
-            <Store size={28} strokeWidth={1.3} />
+            <LuStore size={28} strokeWidth={1.3} />
             About Us
           </div>
           <div
             onClick={toggleDrawer}
             className="hover:text-[#48CAB2] flex items-center gap-3"
           >
-            <Truck size={28} strokeWidth={1.3} />
+            <LuTruck size={28} strokeWidth={1.3} />
             Shipping
           </div>
           <div
             onClick={toggleDrawer}
             className="hover:text-[#48CAB2] flex items-center gap-3"
           >
-            <Undo2 size={28} strokeWidth={1.3} /> Return
+            <LuUndo2 size={28} strokeWidth={1.3} /> Return
           </div>
           <div
             onClick={toggleDrawer}
             className="hover:text-[#48CAB2] flex items-center gap-3"
           >
-            <MessageCircleQuestion size={28} strokeWidth={1.3} /> FAQs
+            <LuMailQuestion size={28} strokeWidth={1.3} /> FAQs
           </div>
           <div
             onClick={toggleDrawer}
             className="hover:text-[#48CAB2] flex items-center gap-3"
           >
-            <Headset size={28} strokeWidth={1.3} />
+            <LuHeadphones size={28} strokeWidth={1.3} />
             Contact Us
           </div>
           <div
             onClick={toggleDrawer}
             className="hover:text-[#48CAB2] flex items-center gap-3"
           >
-            <Wrench size={28} strokeWidth={1.3} /> Maintenance
+            <LuWrench size={28} strokeWidth={1.3} /> Maintenance
           </div>
           <div
             onClick={toggleDrawer}
             className="hover:text-[#48CAB2] flex items-center gap-3"
           >
-            <Settings2 size={28} strokeWidth={1.3} />
+            <LuSettings2 size={28} strokeWidth={1.3} />
             Settings
           </div>
           <div
             onClick={toggleDrawer}
             className="hover:text-[#48CAB2] flex items-center gap-3"
           >
-            <Ruler size={28} strokeWidth={1.3} />
+            <LuRuler size={28} strokeWidth={1.3} />
             Size Guide
           </div>
         </div>

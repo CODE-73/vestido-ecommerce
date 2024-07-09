@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Image from 'next/image';
-import { Trash2, Minus, Plus, ChevronLeft } from 'lucide-react';
+import { LuTrash2, LuMinus, LuPlus, LuChevronLeft } from 'react-icons/lu';
 
 import useIsMobile from '../../../vestido-storefront/hooks/useIsMobile';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
@@ -47,7 +47,7 @@ const CartView: React.FC = () => {
                     onClick={() => handleRemoveFromCart(cartItem.itemId)}
                     className="col-span-1 flex justify-center cursor-pointer"
                   >
-                    <Trash2 />
+                    <LuTrash2 />
                   </div>
                   <Image
                     className="block col-span-2"
@@ -72,13 +72,13 @@ const CartView: React.FC = () => {
                       </div>
                       <div className="flex flex-row bg-zinc-100 w-32 h-14 items-center justify-around ">
                         <div className="text-zinc-300">
-                          <Minus />
+                          <LuMinus />
                         </div>
                         <div className="font-semibold text-2xl">
                           {cartItem.qty}
                         </div>
                         <div className="text-zinc-300">
-                          <Plus />
+                          <LuPlus />
                         </div>
                       </div>
                     </div>
@@ -90,11 +90,11 @@ const CartView: React.FC = () => {
 
                       <div className="flex flex-row bg-zinc-100 px-4 h-14 items-center justify-around col-span-1">
                         <div className="text-zinc-300">
-                          <Minus />
+                          <LuMinus />
                         </div>
                         <div className="font-semibold text-2xl">1</div>
                         <div className="text-zinc-300">
-                          <Plus />
+                          <LuPlus />
                         </div>
                       </div>
                       <div className="text-3xl font-semibold text-[#48CAB2] col-span-1 flex justify-center">
@@ -109,14 +109,14 @@ const CartView: React.FC = () => {
             <div className="flex flex-col lg:flex-row gap-3 lg:justify-between items-center">
               <div>
                 <div className="flex items-center cursor-pointer">
-                  <ChevronLeft />
+                  <LuChevronLeft />
                   <div className="font-extrabold no-underline hover:underline">
                     Continue Shopping
                   </div>
                 </div>
               </div>
               <div className="flex cursor-pointer">
-                <Trash2 className="mr-3 " />
+                <LuTrash2 className="mr-3 " />
                 <div className="mr-5 font-extrabold no-underline hover:underline">
                   Clear Shopping Cart
                 </div>

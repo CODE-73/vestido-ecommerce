@@ -8,7 +8,7 @@ import { InputElement } from '../../forms/input-element';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Form } from '@vestido-ecommerce/shadcn-ui/form';
 import { useAttribute, useAttributeUpsert } from '@vestido-ecommerce/items';
-import { Edit, Plus, Trash } from 'lucide-react';
+import { LuFileEdit, LuPlus, LuTrash } from 'react-icons/lu';
 
 const ItemAttributeValueSchema = z.object({
   value: z.string(),
@@ -150,14 +150,14 @@ const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
                     setEditingRowIdx(editingRowIdx === index ? -1 : index)
                   }
                 >
-                  <Edit size={20} />
+                  <LuFileEdit size={20} />
                 </Button>
                 <Button
                   type="button"
                   variant="ghost"
                   onClick={() => remove(index)}
                 >
-                  <Trash size={25} />
+                  <LuTrash size={25} />
                 </Button>
               </div>
             ))}
@@ -170,7 +170,7 @@ const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
               className=" bg-white opacity-75 border border-2 text-gray-300 border-dashed border-gray-300 hover:bg-white hover:opacity-100"
               disabled={attrValues.length != 0 && !lastValue}
             >
-              <Plus />
+              <LuPlus />
             </Button>
           </div>
         </div>

@@ -8,8 +8,7 @@ import {
   navigationMenuTriggerStyle,
 } from '@vestido-ecommerce/shadcn-ui/navigation-menu';
 import { clsx } from 'clsx';
-import { UserRound, Heart, ShoppingBag } from 'lucide-react';
-import { Search } from 'lucide-react';
+import { LuUser2, LuHeart, LuShoppingBag, LuSearch } from 'react-icons/lu';
 import { Input } from '@vestido-ecommerce/shadcn-ui/input';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -152,23 +151,23 @@ const CategoryHeader = () => {
           type="search"
           className="rounded-none max-w-28 bg-transparent text-white border-slate-300"
         />
-        <Search
+        <LuSearch
           className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#48cab2]"
           size={24}
         />
       </div>
       <div className="flex ">
         <Link href="/user" className="text-white hover:text-[#48cab2] px-3">
-          <UserRound />
+          <LuUser2 />
         </Link>
         <Link href="/wishlist" className=" text-white hover:text-[#48cab2] ">
-          <Heart />
+          <LuHeart />
         </Link>
         <sup className=" text-[#48cab2] font-semibold text-sm pr-3">
           {no_of_cart_items}
         </sup>
         <Link href="/cart" className="text-white  hover:text-[#48cab2]">
-          <ShoppingBag />
+          <LuShoppingBag />
         </Link>
         <sup className="text-[#48cab2] font-semibold text-sm pr-3">
           {no_of_cart_items}

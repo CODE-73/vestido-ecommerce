@@ -7,7 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@vestido-ecommerce/shadcn-ui/dialog';
-import { ChevronLeft } from 'lucide-react';
+import { LuChevronLeft } from 'react-icons/lu';
 import { Checkbox } from '@vestido-ecommerce/shadcn-ui/checkbox';
 import product11 from '../../../assets/offer-products/product1-1.jpg';
 import product12 from '../../../assets/offer-products/product1-2.jpg';
@@ -62,7 +62,7 @@ const CardDialog: React.FC<CardDialogProps> = ({ isOpen, onClose }) => {
             {product[0].offerPrice}
           </div>
           <div className="flex items-center justify-center w-full bg-neutral-700 hover:bg-[#48CAB2] h-1/3 text-white">
-            <ChevronLeft />
+            <LuChevronLeft />
             <button className="font-extrabold tracking-wider ">
               Continue Shopping
             </button>

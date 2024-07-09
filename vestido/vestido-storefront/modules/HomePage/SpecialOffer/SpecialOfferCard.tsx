@@ -1,6 +1,6 @@
 import Image, { StaticImageData } from 'next/image';
 import { Badge } from '@vestido-ecommerce/shadcn-ui/badge';
-import { ShoppingBag } from 'lucide-react';
+import { LuShoppingBag } from 'react-icons/lu';
 import { useState } from 'react';
 import { AddToWishListButton } from './AddToWishlistButton';
 import { QuickViewButton } from './QuickViewButton';
@@ -72,7 +72,7 @@ const SpecialOfferCard: React.FC<SpecialOfferCardProps> = ({ data }) => {
 
             <div className={`p-2 bg-[#48CAB2] w-full`}>
               <Button className="bg-[#48CAB2] w-full flex gap-3 text-lg mb-1 text-white p-2">
-                <ShoppingBag color="#fff" />
+                <LuShoppingBag color="#fff" />
                 <div> Add to Cart</div>
               </Button>
             </div>
@@ -88,7 +88,7 @@ const SpecialOfferCard: React.FC<SpecialOfferCardProps> = ({ data }) => {
                 className={`p-2 bg-[#48CAB2] ${isHovering ? 'w-20' : 'w-auto'}`}
                 style={{ minWidth: 'min-content' }}
               >
-                <ShoppingBag color="#fff" />
+                <LuShoppingBag color="#fff" />
                 {isHovering && (
                   <button
                     className=" absolute top-1 right-0 bg-[#48CAB2] text-white p-2"

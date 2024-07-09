@@ -6,7 +6,7 @@ import {
   NavigationMenuList,
 } from '@vestido-ecommerce/shadcn-ui/navigation-menu';
 import { NavigationMenuTrigger } from './MainHeader';
-import { Heart, Search, ShoppingBag, UserRound, X } from 'lucide-react';
+import { LuHeart, LuSearch, LuShoppingBag, LuUser2, LuX } from 'react-icons/lu';
 import { useState } from 'react';
 import Link from 'next/link';
 import { clsx } from 'clsx';
@@ -131,7 +131,7 @@ const FixedHeader = () => {
                   What are you looking for ?
                 </div>
                 <button onClick={toggleSearch} className="hover:text-[#48cab2]">
-                  <X />
+                  <LuX />
                 </button>
               </div>
               <div className="relative hidden md:flex space-x-4 items-center justify-items-center content-center pt-5 ">
@@ -141,7 +141,7 @@ const FixedHeader = () => {
                   type="search"
                   className="rounded-none max-w-56  border-t-0 border-r-0 border-l-0 border-b-1 border-gray-300 focus:border-none"
                 />
-                <Search
+                <LuSearch
                   className="absolute right-2 bottom-1 -translate-y-1/2 text-slate-400 hover:text-[#48cab2]"
                   size={24}
                 />
@@ -208,17 +208,17 @@ const FixedHeader = () => {
         </div>
         <div className="flex space-x-4 py-4 ">
           <span className="hover:text-[#48cab2]">
-            <Search onClick={toggleSearch} />
+            <LuSearch onClick={toggleSearch} />
           </span>
           <Link href="/user" className="hover:text-[#48cab2]">
-            <UserRound />
+            <LuUser2 />
           </Link>
 
           <Link href="/wishlist/" className="hover:text-[#48cab2]">
-            <Heart />
+            <LuHeart />
           </Link>
           <Link href="/cart" className="hover:text-[#48cab2]">
-            <ShoppingBag />
+            <LuShoppingBag />
           </Link>
           <HeaderDropdown fixedHeader={true} />
         </div>
