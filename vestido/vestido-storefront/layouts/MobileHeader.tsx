@@ -22,7 +22,10 @@ import { AiOutlineMan, AiOutlineWoman } from 'react-icons/ai';
 import { Input } from '@vestido-ecommerce/shadcn-ui/input';
 import Link from 'next/link';
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  data: number | undefined;
+}
+const MobileHeader: React.FC<HeaderProps> = ({ data }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [dropdownsOpen, setDropdownsOpen] = useState({
     men: false,
@@ -102,7 +105,10 @@ const Header: React.FC = () => {
               className="hover:text-[#48CAB2] flex items-center gap-3"
             >
               <LuShoppingBag size={28} strokeWidth={1.3} />
-              View your cart
+              View your cart{' '}
+              <div className="text-white h-5 w-5 text-center rounded-full bg-[#48cab2] font-semibold text-sm">
+                {data}
+              </div>
             </div>
           </Link>
           <hr />
@@ -221,4 +227,4 @@ const Header: React.FC = () => {
   );
 };
 
-export default Header;
+export default MobileHeader;

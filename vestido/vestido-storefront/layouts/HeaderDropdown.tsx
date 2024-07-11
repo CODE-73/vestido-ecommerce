@@ -23,7 +23,7 @@ const HeaderDropdown: React.FC<DropdownProps> = ({ fixedHeader }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <LuMailQuestion color={fixedHeader ? 'black' : 'white'} />
+        <LuMailQuestion size={24} color={fixedHeader ? 'black' : 'white'} />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="relative right-12">
         <DropdownMenuItem>

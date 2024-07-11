@@ -1,86 +1,43 @@
-import Image, { StaticImageData } from 'next/image';
-import { LuShoppingBag } from 'react-icons/lu';
-import { useState } from 'react';
+import Image from 'next/image';
 import { AddToWishListButton } from './AddToWishlistButton';
 import { QuickViewButton } from './QuickViewButton';
-import useIsMobile from '../../../hooks/useIsMobile';
-import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import Link from 'next/link';
-
-export type SpecialOfferCardData = {
-  cardImage1: StaticImageData;
-  cardImage2: StaticImageData;
-  name: string;
-  textColor?: string;
-  salePercent?: string;
-  price: string;
-  offerPrice: string;
-};
+import AddToCartButton from './AddToCartButton';
+import { Item } from '@prisma/client';
+import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 interface SpecialOfferCardProps {
-  data: SpecialOfferCardData;
+  data: Item;
 }
 const SpecialOfferCard: React.FC<SpecialOfferCardProps> = ({ data }) => {
-  const [isHovering, setIsHovering] = useState(false);
-  const isMobile = useIsMobile();
-
   return (
     <div className={`flex flex-col items-center group relative mb-10 `}>
       <Link href="/product/Product">
         <Image
           className="block group-hover:hidden"
-          src={data.cardImage1}
+          src={((data?.images ?? []) as ImageSchemaType[])[0]?.url ?? ''}
           alt="alt text"
+          width={430}
+          height={551}
         />
         <Image
           className="hidden group-hover:block"
-          src={data.cardImage2}
+          src={((data?.images ?? []) as ImageSchemaType[])[0]?.url ?? ''}
           alt="alt text"
+          width={430}
+          height={551}
         />
       </Link>
 
       <div className="self-start pt-[#1px] capitalize text-[#333333] text-md font-thin">
-        {data.name}
+        {data.title}
       </div>
-      {isMobile ? (
-        <>
-          <div className="flex text-xl justify-between w-full pt-3">
-            <div className="line-through">{data.price}</div>
-            <div className="text-red-700">{data.offerPrice}</div>
-          </div>
+      <AddToCartButton
+        price={data.price}
+        // offerPrice={data.offerPrice}
+        item={data}
+      />
 
-          <div className={`p-2 bg-[#48CAB2] w-full`}>
-            <Button className="bg-[#48CAB2] w-full flex gap-3 text-lg mb-1 text-white p-2">
-              <LuShoppingBag color="#fff" />
-              <div> Add to Cart</div>
-            </Button>
-          </div>
-        </>
-      ) : (
-        <div className="self-start mt-2">
-          <div
-            className="flex gap-1 relative items-center"
-            onMouseEnter={() => setIsHovering(true)}
-            onMouseLeave={() => setIsHovering(false)}
-          >
-            <div
-              className={`p-2 bg-[#48CAB2] ${isHovering ? 'w-20' : 'w-auto'}`}
-              style={{ minWidth: 'min-content' }}
-            >
-              <LuShoppingBag color="#fff" />
-              {isHovering && (
-                <button className=" absolute top-1 right-0 bg-[#48CAB2] text-white p-2">
-                  Add to Cart
-                </button>
-              )}
-            </div>
-            <div className="flex flex-col">
-              <div className="line-through">{data.price}</div>
-              <div className="text-red-700">{data.offerPrice}</div>
-            </div>
-          </div>
-        </div>
-      )}
       <div className="sm:hidden flex flex-row justify-start sm:group-hover:flex sm:flex-col gap-3 sm:absolute top-3 right-3 pt-2 sm:pt-0">
         <AddToWishListButton />
         <QuickViewButton />

@@ -14,7 +14,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import useIsMobile from '../hooks/useIsMobile';
 import HeaderDropdown from './HeaderDropdown';
-import { useCart /*useWishlist*/ } from '@vestido-ecommerce/items';
 
 type ListItemProps = {
   href: string;
@@ -76,10 +75,13 @@ const categoriesData = [
     ],
   },
 ];
-const CategoryHeader = () => {
+
+interface HeaderProps {
+  data: number | undefined;
+}
+const MainHeader: React.FC<HeaderProps> = ({ data }) => {
   const isMobile = useIsMobile();
-  const { data: cart } = useCart();
-  const no_of_cart_items = cart?.data.length;
+
   // const { data: categories } = useCategories();
 
   // console.log(categories);
@@ -158,19 +160,23 @@ const CategoryHeader = () => {
       </div>
       <div className="flex ">
         <Link href="/user" className="text-white hover:text-[#48cab2] px-3">
-          <LuUser2 />
+          <LuUser2 size={24} />
         </Link>
-        <Link href="/wishlist" className=" text-white hover:text-[#48cab2] ">
-          <LuHeart />
+
+        <Link
+          href="/wishlist"
+          className=" relative text-white hover:text-[#48cab2] "
+        >
+          <LuHeart size={24} />
         </Link>
-        <sup className=" text-[#48cab2] font-semibold text-sm pr-3">
-          {no_of_cart_items}
+        <sup className="relative right-2 text-white h-4 w-4 text-center rounded-full bg-[#48cab2] font-semibold text-xs">
+          {data}
         </sup>
         <Link href="/cart" className="text-white  hover:text-[#48cab2]">
-          <LuShoppingBag />
+          <LuShoppingBag size={24} />
         </Link>
-        <sup className="text-[#48cab2] font-semibold text-sm pr-3">
-          {no_of_cart_items}
+        <sup className="relative right-2 text-white h-4 w-4 text-center rounded-full bg-[#48cab2] font-semibold text-xs">
+          {data}
         </sup>
 
         <HeaderDropdown fixedHeader={false} />
@@ -191,4 +197,4 @@ export const NavigationMenuTrigger = React.forwardRef<
   </NavigationMenuPrimitive.Trigger>
 ));
 NavigationMenuTrigger.displayName = NavigationMenuPrimitive.Trigger.displayName;
-export default CategoryHeader;
+export default MainHeader;

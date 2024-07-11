@@ -103,7 +103,10 @@ const categoriesData = [
   },
 ];
 
-const FixedHeader = () => {
+interface HeaderProps {
+  data: number | undefined;
+}
+const FixedHeader: React.FC<HeaderProps> = ({ data }) => {
   const isMobile = useIsMobile();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
@@ -211,15 +214,21 @@ const FixedHeader = () => {
             <LuSearch onClick={toggleSearch} />
           </span>
           <Link href="/user" className="hover:text-[#48cab2]">
-            <LuUser2 />
+            <LuUser2 size={24} />
           </Link>
 
           <Link href="/wishlist/" className="hover:text-[#48cab2]">
-            <LuHeart />
+            <LuHeart size={24} />
           </Link>
+          <sup className="relative right-2 text-white h-4 w-4 text-center rounded-full bg-[#48cab2] font-semibold text-xs">
+            {data}
+          </sup>
           <Link href="/cart" className="hover:text-[#48cab2]">
-            <LuShoppingBag />
+            <LuShoppingBag size={24} />
           </Link>
+          <sup className="relative right-2 text-white h-4 w-4 text-center rounded-full bg-[#48cab2] font-semibold text-xs">
+            {data}
+          </sup>
           <HeaderDropdown fixedHeader={true} />
         </div>
       </div>

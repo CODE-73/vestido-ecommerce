@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Image from 'next/image';
 import { LuShoppingBag } from 'react-icons/lu';
-import { useState } from 'react';
 import { AddToWishListButton } from '../HomePage/SpecialOffer/AddToWishlistButton';
 import { QuickViewButton } from '../HomePage/SpecialOffer/QuickViewButton';
 import useIsMobile from '../../hooks/useIsMobile';
@@ -11,9 +10,9 @@ import ProductFilter from './ProductFilter';
 import { Item } from '@prisma/client';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 import { useRouter } from 'next/router';
+import AddToCartButton from '../HomePage/TopProducts/AddToCartButton';
 
 const ProductlistView: React.FC = () => {
-  const [isHovering, setIsHovering] = useState(false);
   const isMobile = useIsMobile();
   const router = useRouter();
 
@@ -65,32 +64,7 @@ const ProductlistView: React.FC = () => {
                 </div>
               </>
             ) : (
-              <div className="self-start mt-2">
-                <div
-                  className="flex gap-1 relative items-center"
-                  onMouseEnter={() => setIsHovering(true)}
-                  onMouseLeave={() => setIsHovering(false)}
-                >
-                  <div
-                    className={`p-2 bg-[#48CAB2] ${
-                      isHovering ? 'w-20' : 'w-auto'
-                    }`}
-                    style={{ minWidth: 'min-content' }}
-                  >
-                    <LuShoppingBag color="#fff" />
-                    {isHovering && (
-                      <button className=" absolute top-0 right-0 bg-[#48CAB2] text-white p-2">
-                        Add to Cart
-                      </button>
-                    )}
-                  </div>
-                  <div className="flex flex-col">
-                    <div className="text-[#48CAB2] font-semibold">
-                      {item.price}
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <AddToCartButton price={item.price} item={item} />
             )}
             <div className="sm:hidden flex flex-row justify-start sm:group-hover:flex sm:flex-col gap-3 sm:absolute top-3 right-3 pt-2 sm:pt-0">
               <AddToWishListButton />
