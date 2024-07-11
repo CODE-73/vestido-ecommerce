@@ -118,18 +118,18 @@ const CheckoutView: React.FC = () => {
         </div>
       )}
       {currentSession == 'Payment' ? (
-        <div className="text-lg font-semibold pb-3">
+        <div className="text-lg font-semibold pb-3 pl-3 md:pl-0">
           Choose a Payment Method
         </div>
       ) : (
-        <div className="text-lg font-semibold pb-3">
+        <div className="text-lg font-semibold pb-3 pl-3 md:pl-0">
           Choose Delivery Address{' '}
         </div>
       )}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)}>
-          <div className=" flex flex-col md:flex-row items-start gap-2 md:divide-x">
-            <div className="md:basis-3/5">
+          <div className=" flex flex-col items-center md:flex-row md:items-start items-start gap-2 md:divide-x">
+            <div className="w-full md:w-auto px-3 md:px-0 md:basis-3/5">
               {currentSession == 'Address' ? (
                 <CustomerAddressElement name="addressId" required />
               ) : (
