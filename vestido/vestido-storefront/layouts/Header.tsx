@@ -4,7 +4,7 @@ import FixedHeader from './FixedHeader';
 import { useInView } from 'react-intersection-observer';
 import MobileHeader from './MobileHeader';
 import AddOnHeader from './AddOnHeader';
-import { useCart } from '@vestido-ecommerce/items';
+import { useCart, useWishlist } from '@vestido-ecommerce/items';
 
 const Header = () => {
   const { ref, inView } = useInView({
@@ -12,7 +12,10 @@ const Header = () => {
   });
 
   const { data: cart } = useCart();
-  const no_of_cart_items = cart?.data.length;
+  const cart_count = cart?.data.length;
+
+  const { data: wishlist } = useWishlist();
+  const wishlist_count = wishlist?.data.length;
 
   return (
     <>
@@ -22,16 +25,22 @@ const Header = () => {
             <AddOnHeader />
             <hr />
 
-            <MainHeader data={no_of_cart_items} />
+            <MainHeader
+              cart_count={cart_count}
+              wishlist_count={wishlist_count}
+            />
           </>
         ) : (
           <div className="fixed left-0 z-10 w-full">
-            <FixedHeader data={no_of_cart_items} />
+            <FixedHeader
+              cart_count={cart_count}
+              wishlist_count={wishlist_count}
+            />
           </div>
         )}
       </div>
       <div className="fixed w-screen left-0 top-0 z-50 sm:hidden">
-        <MobileHeader data={no_of_cart_items} />
+        <MobileHeader cart_count={cart_count} wishlist_count={wishlist_count} />
       </div>
     </>
   );

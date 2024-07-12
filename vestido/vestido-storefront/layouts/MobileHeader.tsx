@@ -23,9 +23,13 @@ import { Input } from '@vestido-ecommerce/shadcn-ui/input';
 import Link from 'next/link';
 
 interface HeaderProps {
-  data: number | undefined;
+  cart_count: number | undefined;
+  wishlist_count: number | undefined;
 }
-const MobileHeader: React.FC<HeaderProps> = ({ data }) => {
+const MobileHeader: React.FC<HeaderProps> = ({
+  cart_count,
+  wishlist_count,
+}) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [dropdownsOpen, setDropdownsOpen] = useState({
     men: false,
@@ -105,9 +109,9 @@ const MobileHeader: React.FC<HeaderProps> = ({ data }) => {
               className="hover:text-[#48CAB2] flex items-center gap-3"
             >
               <LuShoppingBag size={28} strokeWidth={1.3} />
-              View your cart{' '}
+              View your cart
               <div className="text-white h-5 w-5 text-center rounded-full bg-[#48cab2] font-semibold text-sm">
-                {data}
+                {cart_count ?? 0}
               </div>
             </div>
           </Link>

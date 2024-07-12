@@ -25,7 +25,12 @@ import {
   LuChevronLeft,
   LuChevronRight,
 } from 'react-icons/lu';
-import { useCategory, useItem, useAddToCart } from '@vestido-ecommerce/items';
+import {
+  useCategory,
+  useItem,
+  useAddToCart,
+  useAddToWishlist,
+} from '@vestido-ecommerce/items';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { useState } from 'react';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
@@ -68,7 +73,8 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
 
   const [qty, setQty] = useState(1);
 
-  const { trigger } = useAddToCart();
+  const { trigger: cartTrigger } = useAddToCart();
+  const { trigger: wishlistTrigger } = useAddToWishlist();
 
   const scrollRef = React.useRef<HTMLDivElement>(null);
 
@@ -109,13 +115,21 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
   });
   const handleAddToCart = () => {
     if (item) {
-      trigger({
+      cartTrigger({
         itemId: item.id,
         qty: qty,
         variantId: item.variants?.[0]?.id ?? null,
       });
     }
     console.log('handleAddToCart');
+  };
+
+  const handleAddToWishlist = () => {
+    if (item) {
+      wishlistTrigger({
+        itemId: item.id,
+      });
+    }
   };
 
   return (
@@ -271,8 +285,11 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
               ADD TO CART
             </Button>
           </div>
-          <div className="outline outline-2 outline-[#48CAB2] font-medium text-xs  h-full self-center p-4">
-            <LuHeart />
+          <div
+            onClick={() => handleAddToWishlist()}
+            className="outline outline-2 outline-[#48CAB2] font-medium text-xs  h-full self-center p-4"
+          >
+            <LuHeart size={24} />
           </div>
         </div>
         <div>

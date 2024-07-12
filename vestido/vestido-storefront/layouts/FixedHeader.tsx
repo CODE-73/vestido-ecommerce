@@ -104,9 +104,10 @@ const categoriesData = [
 ];
 
 interface HeaderProps {
-  data: number | undefined;
+  cart_count: number | undefined;
+  wishlist_count: number | undefined;
 }
-const FixedHeader: React.FC<HeaderProps> = ({ data }) => {
+const FixedHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
   const isMobile = useIsMobile();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
@@ -221,13 +222,13 @@ const FixedHeader: React.FC<HeaderProps> = ({ data }) => {
             <LuHeart size={24} />
           </Link>
           <sup className="relative right-2 text-white h-4 w-4 text-center rounded-full bg-[#48cab2] font-semibold text-xs">
-            {data}
+            {wishlist_count}
           </sup>
           <Link href="/cart" className="hover:text-[#48cab2]">
             <LuShoppingBag size={24} />
           </Link>
           <sup className="relative right-2 text-white h-4 w-4 text-center rounded-full bg-[#48cab2] font-semibold text-xs">
-            {data}
+            {cart_count}
           </sup>
           <HeaderDropdown fixedHeader={true} />
         </div>

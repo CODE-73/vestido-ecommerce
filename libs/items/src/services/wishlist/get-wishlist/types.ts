@@ -1,5 +1,9 @@
-import { WishlistItem } from '@prisma/client';
+import { WishlistItem, Item } from '@prisma/client';
 
-export type wishlistItemsResponse = {
-  data: WishlistItem[];
+export type WishlistItemResponse = {
+  data: Array<
+    WishlistItem & {
+      item: Item;
+    }
+  >;
 };

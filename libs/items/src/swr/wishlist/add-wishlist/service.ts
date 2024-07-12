@@ -7,7 +7,7 @@ export async function addToWishlist(
   authHeaders: Record<string, string>
 ): Promise<AddToWishlistResponse> {
   try {
-    const r = await axios.post('/api/wishlist', args.data, {
+    const r = await axios.post('/api/wishlist', args, {
       headers: {
         ...authHeaders,
       },
