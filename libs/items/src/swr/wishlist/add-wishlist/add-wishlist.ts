@@ -1,7 +1,7 @@
 import useSWRMutation from 'swr/mutation';
-import { AddToWishlistRequest, AddToWishlistResponse } from './types';
+import { AddToWishListRequest, AddToWishListResponse } from './types';
 import { useAuth } from '@vestido-ecommerce/auth';
-import { addToWishlist } from './service';
+import { addToWishList } from './service';
 import { WishlistSWRKeys } from '../keys';
 import { useClearCacheOnSuccess } from '@vestido-ecommerce/utils';
 
@@ -10,11 +10,11 @@ export const useAddToWishlist = () => {
   const key = [WishlistSWRKeys.WISHLIST];
 
   return useSWRMutation<
-    AddToWishlistResponse,
+    AddToWishListResponse,
     Error,
     string[] | null,
-    AddToWishlistRequest
-  >(key, (_, { arg }) => addToWishlist({ ...arg }, authHeaders), {
+    AddToWishListRequest
+  >(key, (_, { arg }) => addToWishList({ ...arg }, authHeaders), {
     ...useClearCacheOnSuccess(WishlistSWRKeys.WISHLIST),
   });
 };

@@ -1,11 +1,11 @@
-import { RemoveFromWishlistRequest, RemoveFromWishlistResponse } from './types';
+import { RemoveFromWishListRequest, RemoveFromWishListResponse } from './types';
 
 import axios from 'axios'; // Import Axios
 
-export async function removeFromWishlist(
-  args: RemoveFromWishlistRequest,
+export async function removeFromWishList(
+  args: RemoveFromWishListRequest,
   authHeaders: Record<string, string>
-): Promise<RemoveFromWishlistResponse> {
+): Promise<RemoveFromWishListResponse> {
   try {
     const itemId = args.data.itemId;
 
@@ -14,7 +14,7 @@ export async function removeFromWishlist(
         ...authHeaders,
       },
     });
-    return r.data as RemoveFromWishlistResponse;
+    return r.data as RemoveFromWishListResponse;
   } catch (error) {
     console.error('Error Fetching wishlist:', error);
     throw new Error('Error Fetching wishlist');

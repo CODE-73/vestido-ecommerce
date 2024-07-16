@@ -1,7 +1,7 @@
 import { WishlistItem } from '@prisma/client';
 
-export type AddToWishlistRequest = Omit<WishlistItem, 'id' | 'customerId'>;
+export type AddToWishListRequest = Omit<WishlistItem, 'id' | 'customerId'>;
 
-export type AddToWishlistResponse = {
+export type AddToWishListResponse = {
   data: WishlistItem;
 };

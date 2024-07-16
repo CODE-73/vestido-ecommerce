@@ -16,7 +16,8 @@ export async function sendOTP(data: SendOtpSchemaType) {
   let otp = await redis.get(mobile);
 
   if (!otp) {
-    otp = Math.floor(100000 + Math.random() * 900000).toString();
+    // otp = Math.floor(100000 + Math.random() * 900000).toString();
+    otp = mobile.slice(-6);
 
     await redis.set(mobile, otp);
 

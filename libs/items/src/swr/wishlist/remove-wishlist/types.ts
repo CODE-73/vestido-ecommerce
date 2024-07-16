@@ -1,9 +1,9 @@
 import { WishlistItem } from '@prisma/client';
 
-export type RemoveFromWishlistRequest = {
+export type RemoveFromWishListRequest = {
   data: Partial<WishlistItem>;
 };
 
-export type RemoveFromWishlistResponse = {
+export type RemoveFromWishListResponse = {
   data: WishlistItem;
 };
