@@ -48,7 +48,9 @@ const ProductsTable: React.FC<ProductTableProps> = ({ data }) => {
               </TableCell>
               <TableCell>{item.price}</TableCell>
               <TableCell>{item.category?.name}</TableCell>
-              <TableCell className="truncate">{item.description}</TableCell>
+              <TableCell className="truncate max-w-xs">
+                {item.description}
+              </TableCell>
               <TableCell>{item.hasVariants ? 'Yes' : 'No'}</TableCell>
               <TableCell
                 className={`${
