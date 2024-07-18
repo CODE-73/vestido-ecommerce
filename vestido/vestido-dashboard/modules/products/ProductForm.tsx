@@ -29,6 +29,7 @@ import { ImageSchema, ImageSchemaType } from '@vestido-ecommerce/utils';
 import { useVariants } from '@vestido-ecommerce/items';
 import { Gender, StockStatus } from '@prisma/client';
 import { RadioGroupElement } from '../../forms/radio-group-element';
+import { TextAreaElement } from '../../forms/textarea-element';
 
 const CreateProductFormSchema = z.object({
   title: z
@@ -145,7 +146,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
             <InputElement name="price" placeholder="Price" label="Price" />
           </div>
           <div className="grid grid-cols-2 gap-5 lg:px-10">
-            <InputElement
+            <TextAreaElement
               name="description"
               placeholder="Description"
               label="Description"

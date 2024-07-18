@@ -1,6 +1,6 @@
 import { DeleteItemRequest, DeleteItemResponse } from './types';
 
-export async function deleteItem(
+export async function itemDelete(
   args: DeleteItemRequest
 ): Promise<DeleteItemResponse> {
   const url = `/api/items/${encodeURIComponent(args.itemId)}`;

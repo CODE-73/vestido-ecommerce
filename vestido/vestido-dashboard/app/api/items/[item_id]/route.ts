@@ -1,4 +1,4 @@
-import { itemDetails, updateItem, deleteItem } from '@vestido-ecommerce/items';
+import { itemDetails, updateItem, itemDelete } from '@vestido-ecommerce/items';
 import { ZodError } from 'zod';
 
 export const dynamic = 'force-dynamic'; // static by default, unless reading the request
@@ -89,7 +89,7 @@ export async function DELETE(
   { params }: { params: { item_id: string } }
 ) {
   try {
-    await deleteItem(params.item_id);
+    await itemDelete(params.item_id);
 
     return new Response(
       JSON.stringify({

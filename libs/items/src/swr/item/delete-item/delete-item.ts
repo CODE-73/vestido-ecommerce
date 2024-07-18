@@ -1,6 +1,6 @@
 import useSWRMutation from 'swr/mutation';
 import { DeleteItemResponse, DeleteItemRequest } from './types';
-import { deleteItem } from './service';
+import { itemDelete } from './service';
 import { ItemDetailsSWRKeys } from '../keys';
 import { useClearCacheOnSuccess } from '@vestido-ecommerce/utils';
 
@@ -12,7 +12,7 @@ export function useItemDelete() {
     Error,
     string[] | null,
     Pick<DeleteItemRequest, 'itemId'>
-  >(key, (_, { arg }) => deleteItem({ ...arg }), {
+  >(key, (_, { arg }) => itemDelete({ ...arg }), {
     ...useClearCacheOnSuccess(ItemDetailsSWRKeys.ITEM),
   });
 }
