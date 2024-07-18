@@ -118,6 +118,9 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
       router.replace(`/products/${response.data.id}`);
     } catch (e) {
       console.error('Error updating item:', e);
+      toast({
+        title: isNew ? 'Error adding Product' : 'Error updating Product',
+      });
     }
   };
 

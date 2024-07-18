@@ -10,7 +10,8 @@ export async function POST(request: Request) {
     const body = await request.json();
 
     const user = await verifyUserExist(body);
-    if (user) {
+    console.log('user is', user);
+    if (user && user.role == 'CUSTOMER') {
       const isOtpVerfied = await verifyOTP(body);
       if (isOtpVerfied) {
         const token = await makeJWTToken(user.id);
