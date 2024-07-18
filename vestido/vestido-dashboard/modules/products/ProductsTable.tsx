@@ -1,4 +1,5 @@
-import { ListItemResponse } from '@vestido-ecommerce/items';
+import { ListItemResponse, useItemDelete } from '@vestido-ecommerce/items';
+import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
   Table,
   TableBody,
@@ -8,8 +9,10 @@ import {
   TableHeader,
   TableRow,
 } from '@vestido-ecommerce/shadcn-ui/table';
+import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 
 import { useRouter } from 'next/router';
+import { LuTrash } from 'react-icons/lu';
 
 interface ProductTableProps {
   data: ListItemResponse;
@@ -17,10 +20,26 @@ interface ProductTableProps {
 
 const ProductsTable: React.FC<ProductTableProps> = ({ data }) => {
   const router = useRouter();
+  const { toast } = useToast();
   // const { data } = useItems();
 
   const handleRowClick = (product: string) => {
     router.push(`/products/${encodeURIComponent(product)}`);
+  };
+
+  const { trigger, isMutating } = useItemDelete();
+
+  const handleItemDelete = async (itemId: string) => {
+    try {
+      await trigger({
+        itemId: itemId,
+      });
+    } catch (e) {
+      console.error('Error deleting item:', e);
+      toast({
+        title: 'Error deleting Product',
+      });
+    }
   };
 
   return (
@@ -32,7 +51,8 @@ const ProductsTable: React.FC<ProductTableProps> = ({ data }) => {
           <TableHead>Category</TableHead>
           <TableHead>Description</TableHead>
           <TableHead>Has Variants</TableHead>
-          <TableHead className="text-right">Variants Count</TableHead>
+          <TableHead>Variants Count</TableHead>
+          <TableHead className="text-right">Delete</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -60,6 +80,20 @@ const ProductsTable: React.FC<ProductTableProps> = ({ data }) => {
                 } text-center`}
               >
                 {item.hasVariants ? `${item.variants.length}` : 'No variant'}
+              </TableCell>
+              <TableCell>
+                <Button
+                  className="bg-transparent text-black hover:text-white"
+                  type="button"
+                  disabled={isMutating}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleItemDelete(item.id);
+                  }}
+                >
+                  {' '}
+                  {isMutating ? 'Deleting...' : <LuTrash />}
+                </Button>
               </TableCell>
             </TableRow>
           ))}
