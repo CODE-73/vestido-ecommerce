@@ -75,10 +75,12 @@ model Profile {
 }
 
 model Item {
-    id              String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    id              String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     title           String
+    sku             String?
+    enabled         Boolean @default(true)
     description     String
-    price           Float  @default(0)
+    price           Float   @default(0)
     discountPercent Float?
     discountedPrice Float?
 
@@ -97,14 +99,17 @@ model Item {
 }
 
 model ItemVariant {
-    id          String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    item        Item        @relation(fields: [itemId], references: [id])
-    itemId      String      @db.Uuid
-    stockStatus StockStatus @default(AVAILABLE)
-
-    title  String
-    price  Float  @default(0)
-    images Json   @default("[]")
+    id              String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    item            Item        @relation(fields: [itemId], references: [id])
+    itemId          String      @db.Uuid
+    stockStatus     StockStatus @default(AVAILABLE)
+    sku             String?
+    enabled         Boolean     @default(true)
+    title           String
+    price           Float       @default(0)
+    discountPercent Float?
+    discountedPrice Float?
+    images          Json        @default("[]")
 
     attributeValues VariantAttributeValue[]
     CartItem        CartItem[]
