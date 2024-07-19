@@ -16,7 +16,7 @@ import {
 } from '@vestido-ecommerce/shadcn-ui/table';
 import Image from 'next/image';
 // import Markdown from 'react-markdown';
-import ReactMarkdown from 'react-markdown';
+import Markdown from 'react-markdown';
 
 import {
   LuScaling,
@@ -282,7 +282,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
             <AccordionItem value="item-1">
               <AccordionTrigger>Description</AccordionTrigger>
               <AccordionContent>
-                <ReactMarkdown>{item?.description}</ReactMarkdown>
+                <Markdown className="prose">{item?.description}</Markdown>
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2">
