@@ -75,10 +75,13 @@ model Profile {
 }
 
 model Item {
-    id          String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    title       String
-    description String
-    price       Float       @default(0)
+    id              String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    title           String
+    description     String
+    price           Float  @default(0)
+    discountPercent Float?
+    discountedPrice Float?
+
     stockStatus StockStatus @default(AVAILABLE)
     gender      Gender[]    @default([MEN, WOMEN])
     hasVariants Boolean     @default(false)
