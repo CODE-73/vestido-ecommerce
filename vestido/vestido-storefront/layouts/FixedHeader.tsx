@@ -134,7 +134,8 @@ const FixedHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
           </div>
         </div>
       )}
-      <div className="flex flex-1 justify-around items-center max-w-7xl ">
+
+      <div className="flex flex-1 gap-48 items-center px-10 " /* max-w-7xl*/>
         <Link href="/" className="self-center">
           {isMobile ? (
             <span>
