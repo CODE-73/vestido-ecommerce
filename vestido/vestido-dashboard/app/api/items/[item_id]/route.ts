@@ -89,7 +89,7 @@ export async function DELETE(
   { params }: { params: { item_id: string } }
 ) {
   try {
-    await itemDelete(params.item_id);
+    await itemDelete({ itemId: params.item_id });
 
     return new Response(
       JSON.stringify({

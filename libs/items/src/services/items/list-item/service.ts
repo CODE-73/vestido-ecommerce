@@ -14,8 +14,9 @@ export async function listItem(_args: ListItemRequest) {
       ? {
           where: {
             OR: [
-              { title: { contains: args.q, mode: 'insensitive' } }, // Example field to search
-              { description: { contains: args.q } }, // Another example field to search
+              { title: { contains: args.q, mode: 'insensitive' } },
+              { description: { contains: args.q } },
+              //add more fields if required
             ],
           },
         }

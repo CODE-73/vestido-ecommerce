@@ -15,6 +15,8 @@ import {
   TableRow,
 } from '@vestido-ecommerce/shadcn-ui/table';
 import Image from 'next/image';
+// import Markdown from 'react-markdown';
+import ReactMarkdown from 'react-markdown';
 
 import {
   LuScaling,
@@ -39,23 +41,6 @@ import { ImageSchemaType } from '@vestido-ecommerce/utils';
 interface ProductViewProps {
   itemId: string;
 }
-
-const reviews = [
-  {
-    title: 'AMAZING',
-    user: 'Violan',
-    date: 'Jul 09, 2019',
-    description:
-      'Thank you very much for providing this wonderful theme which provides all the features you may need it is an integrated template :) Full support is also provided. They have wonderful support :)',
-  },
-  {
-    title: 'PERFECT',
-    user: 'Sarah',
-    date: 'Jul 09, 2019',
-    description:
-      'The Feature and options of customization are amazing. buy this theme without any research. The team is very helpful and the output of the theme is very user friendly.',
-  },
-];
 
 const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
   const { data } = useItem(itemId);
@@ -296,7 +281,9 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
           <Accordion type="single" collapsible>
             <AccordionItem value="item-1">
               <AccordionTrigger>Description</AccordionTrigger>
-              <AccordionContent>{item?.description}</AccordionContent>
+              <AccordionContent>
+                <ReactMarkdown>{item?.description}</ReactMarkdown>
+              </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2">
               <AccordionTrigger>Additional Information</AccordionTrigger>
@@ -320,41 +307,6 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
                     </TableRow>
                   </TableHeader>
                 </Table>
-              </AccordionContent>
-            </AccordionItem>
-            <AccordionItem value="item-3">
-              <AccordionTrigger>Reviews </AccordionTrigger>
-              <AccordionContent>
-                <div className="flex flex-row py-3 gap-3 pb-7">
-                  <div className="text-sm font-bold text-[#48CAB2] ">
-                    Based on 2 reviews
-                  </div>
-                  <div className="text-sm font-bold text-[#48CAB2] underline hover:no-underline ml-auto">
-                    Write a review
-                  </div>
-                </div>
-
-                <div>
-                  {reviews.map((review, index) => (
-                    <div key={index}>
-                      <div className="font-extrabold text-2xl">
-                        {review.title}
-                      </div>
-                      <div className="flex flex-row py-5">
-                        <div className="font-semibold">{review.user} </div>
-                        <div>&nbsp;on&nbsp;</div>
-                        <div className="font-semibold"> {review.date} </div>
-                      </div>
-                      <div className="pb-7 text-gray-500">
-                        {review.description}
-                      </div>
-                      <div className="text-sm font-bold text-[#48CAB2] underline hover:no-underline flex justify-end">
-                        Report as Inappropriate
-                      </div>
-                      <div className="border-t border-gray-300 my-4"></div>
-                    </div>
-                  ))}
-                </div>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
