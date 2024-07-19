@@ -61,7 +61,7 @@ export function RadioGroupElement<
               <div key={index} className="flex items-center space-x-2">
                 <RadioGroupItem value={option.value} id={`radio-${index}`} />
                 {option.label && (
-                  <FormLabel htmlFor={`radio-${index}`}>
+                  <FormLabel className="ml-2" htmlFor={`radio-${index}`}>
                     {option.label}
                   </FormLabel>
                 )}
