@@ -18,6 +18,12 @@ export const CreateItemSchema = z.object({
   categoryId: z.string().uuid(),
   images: z.array(ImageSchema),
   hasVariants: z.boolean().default(false),
+  discountPercent: z.coerce
+    .number()
+    .max(100, { message: 'Percentage cannot be more than 100' })
+    .default(0)
+    .nullable(),
+  discountedPrice: z.coerce.number().nullable(),
 });
 
 export type CreateItemSchemaType = z.infer<typeof CreateItemSchema>;

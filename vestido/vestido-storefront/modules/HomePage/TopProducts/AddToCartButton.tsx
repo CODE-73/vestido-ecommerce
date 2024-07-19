@@ -7,7 +7,7 @@ import { useAddToCart, useItem } from '@vestido-ecommerce/items';
 
 interface AddToCartButtonProps {
   price: number;
-  offerPrice?: number;
+  offerPrice: number | null;
   item: Item;
 }
 
@@ -35,21 +35,28 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   };
 
   const buttonHeight = '60px'; // Set the desired fixed height
+  // console.log(item.discountedPrice);
 
   return (
     <>
       {isMobile ? (
         <>
-          <div className="flex flex-row text-xl w-full pt-3">
-            <div className="line-through">{price}</div>
-            <div className="text-red-700">{offerPrice}</div>
+          <div className="flex text-xl justify-between w-full pt-3 gap-2">
+            {item?.discountPercent && item.discountPercent > 0 ? (
+              <div className="flex text-sm items-center gap-2">
+                <div className="text-[#48CAB2] font-semibold line-through text-red-400">
+                  {item.price}
+                </div>
+                <div className="text-[#48CAB2] text-xl font-bold">
+                  {item.discountedPrice}
+                </div>
+              </div>
+            ) : (
+              <div className="text-[#48CAB2] font-bold">{item.price}</div>
+            )}
           </div>
-
           <div className={`p-2 bg-[#48CAB2] w-full`}>
-            <Button
-              className="bg-[#48CAB2] w-full flex gap-3 text-lg mb-1 text-white p-2"
-              onClick={() => handleAddToCart()}
-            >
+            <Button className="bg-[#48CAB2] w-full flex gap-3 text-lg mb-1 text-white p-2">
               <LuShoppingBag color="#fff" />
               <div> Add to Cart</div>
             </Button>
@@ -78,14 +85,22 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
           </div>
           {!hovered && (
             <div className="ml-4 font-semibold text-left flex-grow">
-              <div
-                className={`text-gray-500 ${
-                  offerPrice ? 'line-through' : 'text-lg'
-                }`}
-              >
-                {price}
+              <div className="flex gap-4 items-center">
+                <div
+                  className={`text-gray-500 ${
+                    offerPrice && offerPrice < price
+                      ? 'line-through'
+                      : 'text-lg'
+                  }`}
+                >
+                  {price}
+                </div>
+                {offerPrice ? (
+                  <div className="text-black text-lg">{offerPrice}</div>
+                ) : (
+                  ''
+                )}
               </div>
-              <div className="text-black">{offerPrice}</div>
             </div>
           )}
         </Button>

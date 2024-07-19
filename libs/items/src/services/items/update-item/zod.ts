@@ -18,6 +18,12 @@ export const UpdateItemSchema = z.object({
       message: 'You have to select at least one item.',
     })
     .default(['MEN', 'WOMEN'] satisfies Gender[]),
+  discountPercent: z.coerce
+    .number()
+    .max(100, { message: 'Percentage cannot be more than 100' })
+    .default(0)
+    .nullable(),
+  discountedPrice: z.coerce.number().nullable(),
 });
 
 export type UpdateItemSchemaType = z.infer<typeof UpdateItemSchema>;

@@ -49,6 +49,12 @@ const CreateProductFormSchema = z.object({
       message: 'You have to select at least one item.',
     })
     .default(['MEN', 'WOMEN'] satisfies Gender[]),
+  discountPercent: z.coerce
+    .number()
+    .max(100, { message: 'Percentage cannot be more than 100' })
+    .default(0)
+    .nullable(),
+  discountedPrice: z.coerce.number().nullable(),
 });
 
 export type CreateProductForm = z.infer<typeof CreateProductFormSchema>;
@@ -67,6 +73,8 @@ const defaultValues = {
   hasVariants: false,
   stockStatus: 'AVAILABLE',
   images: [],
+  discountPercent: 0,
+  discountedPrice: 0,
 } satisfies CreateProductForm;
 
 const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
@@ -104,6 +112,14 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
     }
   }, [isNew, item, form]);
 
+  const price = form.watch('price');
+  const discountPercent = form.watch('discountPercent');
+
+  useEffect(() => {
+    const discountedPrice = price - (price * (discountPercent ?? 0)) / 100;
+    form.setValue('discountedPrice', discountedPrice);
+  }, [form, price, discountPercent]);
+
   const handleSubmit = async (data: CreateProductForm) => {
     try {
       const response = await trigger({
@@ -129,10 +145,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="flex flex-col justify-center w-full space-y-8 mt-16 bg-slate-200 p-5"
+        className="flex flex-col justify-center w-full space-y-2 mt-16 bg-slate-200 p-5"
       >
-        <div className="text-lg font-bold">
-          {isNew ? 'Add New Product' : 'Product Details'}
+        <div className="text-xl font-semibold">
+          {isNew ? 'Add New Product' : item?.title}
         </div>
         <div className="flex h-full flex-col flex-grow ps-2 pe-2">
           <hr className="border-t-1 border-slate-400 mb-4 w-full" />
@@ -145,16 +161,30 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
             />
             <InputElement name="price" placeholder="Price" label="Price" />
           </div>
-          <div className="grid grid-cols-2 gap-5 lg:px-10">
-            <TextAreaElement
-              name="description"
-              placeholder="Description"
-              label="Description"
-            />
+          <div className="grid grid-cols-1 lg:px-10 mt-2">
             <CategoryElement
               name="categoryId"
               placeholder="Category"
               label="Category"
+            />
+          </div>
+          <div className="grid grid-cols-2 gap-5 lg:px-10 mt-2">
+            <InputElement
+              name="discountPercent"
+              placeholder="Discount %"
+              label="Discount percentage"
+            />
+            <InputElement
+              name="discountedPrice"
+              placeholder="Price after discount"
+              label="Discounted Price"
+            />
+          </div>
+          <div className="grid grid-cols-1 lg:px-10 mt-2">
+            <TextAreaElement
+              name="description"
+              placeholder="Description"
+              label="Description"
             />
           </div>
           <div className="grid grid-cols-2 gap-5 lg:px-10 mt-10">

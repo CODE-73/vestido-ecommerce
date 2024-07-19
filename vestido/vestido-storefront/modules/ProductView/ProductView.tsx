@@ -199,6 +199,8 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
             </h1>
           </div>
 
+          <div>{item?.discountedPrice}</div>
+
           {/* <div>
             {' '}
             {item?.variants.map((variant, variantIndex) => (

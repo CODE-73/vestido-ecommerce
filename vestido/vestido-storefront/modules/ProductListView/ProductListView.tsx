@@ -1,10 +1,8 @@
 import * as React from 'react';
 import Image from 'next/image';
-import { LuShoppingBag } from 'react-icons/lu';
 import { AddToWishListButton } from '../HomePage/SpecialOffer/AddToWishlistButton';
 import { QuickViewButton } from '../HomePage/SpecialOffer/QuickViewButton';
 import useIsMobile from '../../hooks/useIsMobile';
-import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { useItems } from '@vestido-ecommerce/items';
 import ProductFilter from './ProductFilter';
 import { Item } from '@prisma/client';
@@ -51,21 +49,13 @@ const ProductlistView: React.FC = () => {
             <div className="self-start pt-[#1px] capitalize text-[#333333] text-md font-light mb-4">
               {item.title}
             </div>
-            {isMobile ? (
-              <>
-                <div className="flex text-xl justify-between w-full pt-3">
-                  <div className="text-[#48CAB2] font-bold">{item.price}</div>
-                </div>
-                <div className={`p-2 bg-[#48CAB2] w-full`}>
-                  <Button className="bg-[#48CAB2] w-full flex gap-3 text-lg mb-1 text-white p-2">
-                    <LuShoppingBag color="#fff" />
-                    <div> Add to Cart</div>
-                  </Button>
-                </div>
-              </>
-            ) : (
-              <AddToCartButton price={item.price} item={item} />
-            )}
+
+            <AddToCartButton
+              price={item.price}
+              offerPrice={item.discountedPrice}
+              item={item}
+            />
+
             <div className="sm:hidden flex flex-row justify-start sm:group-hover:flex sm:flex-col gap-3 sm:absolute top-3 right-3 pt-2 sm:pt-0">
               <AddToWishListButton />
               <QuickViewButton />
