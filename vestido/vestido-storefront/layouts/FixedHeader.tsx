@@ -76,32 +76,9 @@ const categoriesData = [
       },
     ],
   },
-  {
-    category: 'KIDS',
-    subcategories: [
-      {
-        title: 'Boys',
-        items: [
-          'Casual Shirts',
-          'Formal Shirts',
-          'Denim Shirts',
-          'T Shirts',
-          'Hoodies',
-        ],
-      },
-      {
-        title: 'Girls',
-        items: [
-          'A-Line Dress',
-          'Floaral Dress',
-          'Bodycon Dress',
-          'Cocktail Dress',
-          'Casual Dress',
-        ],
-      },
-    ],
-  },
 ];
+
+const fixedHeight = '60px';
 
 interface HeaderProps {
   cart_count: number | undefined;
@@ -115,7 +92,10 @@ const FixedHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
     setIsSearchOpen(!isSearchOpen);
   };
   return (
-    <div className=" w-full bg-white shadow flex  justify-center z-10">
+    <div
+      className=" w-full bg-white shadow flex  justify-center z-10"
+      style={{ height: fixedHeight, minHeight: fixedHeight }}
+    >
       {isSearchOpen && (
         <div
           className="fixed inset-0 bg-gray-800 bg-opacity-50 z-20"

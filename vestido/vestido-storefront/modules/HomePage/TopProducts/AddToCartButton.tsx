@@ -33,6 +33,9 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
     }
     console.log('added to cart');
   };
+
+  const buttonHeight = '60px'; // Set the desired fixed height
+
   return (
     <>
       {isMobile ? (
@@ -57,12 +60,12 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
           className="relative flex items-center transition-all justify-start duration-300 bg-white rounded-none hover:bg-[#48CAB2] w-full p-0"
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
-          style={{ height: 'auto', minHeight: '48px' }}
+          style={{ height: buttonHeight, minHeight: buttonHeight }}
           onClick={() => handleAddToCart()}
         >
           <div
-            className={`flex items-center justify-start gap-3  transition-all duration-300 bg-[#48CAB2] p-4 ${
-              hovered ? 'w-full ' : ''
+            className={`flex items-center justify-start gap-3 transition-all duration-300 bg-[#48CAB2] p-4 ${
+              hovered ? 'w-full' : ''
             }`}
             style={{ height: '100%' }}
           >
@@ -74,7 +77,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
             )}
           </div>
           {!hovered && (
-            <div className="ml-4 font-semibold text-left  flex-grow">
+            <div className="ml-4 font-semibold text-left flex-grow">
               <div
                 className={`text-gray-500 ${
                   offerPrice ? 'line-through' : 'text-lg'

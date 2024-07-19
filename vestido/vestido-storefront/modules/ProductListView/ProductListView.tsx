@@ -48,7 +48,7 @@ const ProductlistView: React.FC = () => {
               />
             )}
 
-            <div className="self-start pt-[#1px] capitalize text-[#333333] text-sm font-thin">
+            <div className="self-start pt-[#1px] capitalize text-[#333333] text-md font-light mb-4">
               {item.title}
             </div>
             {isMobile ? (
