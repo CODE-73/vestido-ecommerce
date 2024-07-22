@@ -268,8 +268,12 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
         <div className="text-lg font-semibold">Product Images</div>
         <MultiImageUploaderElement name="images" />
 
-        <div className="grid grid-cols-8 mt-3 text-right gap-2">
-          <Button type="submit" disabled={!isValid || !isDirty || isSubmitting}>
+        <div className=" mt-3 gap-2">
+          <Button
+            className="lg:px-5"
+            type="submit"
+            disabled={!isValid || !isDirty || isSubmitting}
+          >
             {isNew ? 'Create' : 'Update'}
           </Button>
         </div>
