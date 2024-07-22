@@ -28,7 +28,7 @@ const cards: ScrollCardData[] = [
   },
   {
     cardImage: cardImage2,
-    mainTitle: 'must-haves for the season',
+    mainTitle: "Season's must haves",
     subtitle1: 'need-it-now',
     subtitle2: 'Contemporary, minimal and beautifully iconic.',
   },

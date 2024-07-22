@@ -118,8 +118,8 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
   };
 
   return (
-    <div className="w-full flex py-5 space-x-10">
-      <div className="w-1/2">
+    <div className="w-full flex flex-col md:flex-row py-5 px-2 md:px-0 md:space-x-10">
+      <div className="w-full md:w-1/2">
         <div className="flex justify-center items-center pb-4">
           <Image
             className="w-4/6 px-5 h-4/6"
@@ -251,7 +251,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
         </div>
 
         <div className="flex gap-2 mb-5 ">
-          <div className="flex bg-zinc-100 px-4 h-12 items-center justify-around ">
+          {/* <div className="flex bg-zinc-100 px-4 h-12 items-center justify-around ">
             <div
               className="text-zinc-300 "
               onClick={() => setQty(qty > 1 ? qty - 1 : 1)}
@@ -262,7 +262,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
             <div className="text-zinc-300" onClick={() => setQty(qty + 1)}>
               <LuPlus />
             </div>
-          </div>
+          </div> */}
           <div className="flex bg-[#48CAB2] items-center gap-2 w-full justify-center text-white  ">
             <LuShoppingBag />
             <Button
