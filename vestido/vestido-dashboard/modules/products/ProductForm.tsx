@@ -120,6 +120,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
     form.setValue('discountedPrice', discountedPrice);
   }, [form, price, discountPercent]);
 
+  const hasVariants = form.watch('hasVariants');
+
   const handleSubmit = async (data: CreateProductForm) => {
     try {
       const response = await trigger({
@@ -188,7 +190,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
             />
           </div>
           <div className="grid grid-cols-2 gap-5 lg:px-10 mt-10">
-            <div>
+            {hasVariants == false && (
               <RadioGroupElement
                 name="stockStatus"
                 label="Stock Status"
@@ -204,7 +206,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
                   },
                 ]}
               />
-            </div>
+            )}
+            <div></div>
             <FormField
               control={form.control}
               name="gender"
@@ -278,7 +281,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
           </Button>
         </div>
       </form>
-      {item?.hasVariants && <VariantsTable itemId={itemId as string} />}
+      {hasVariants && <VariantsTable itemId={itemId as string} />}
     </Form>
   );
 };
