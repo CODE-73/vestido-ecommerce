@@ -1,17 +1,28 @@
-import { listCategories, createCategory } from '@vestido-ecommerce/items';
+import {
+  listCategories,
+  createCategory,
+  ListCategoriesResponse,
+} from '@vestido-ecommerce/items';
 import { ZodError } from 'zod';
 import { type NextRequest } from 'next/server';
+import { VestidoResponse } from '@vestido-ecommerce/auth';
 
 export async function GET(request: NextRequest) {
   try {
     const args = Object.fromEntries(request.nextUrl.searchParams.entries());
     const categories = await listCategories(args);
 
-    return new Response(JSON.stringify(categories), {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    return new Response(
+      JSON.stringify({
+        success: true,
+        data: categories,
+      } as VestidoResponse<ListCategoriesResponse>),
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
   } catch (e) {
     console.error(e);
     return new Response(JSON.stringify(e), {
