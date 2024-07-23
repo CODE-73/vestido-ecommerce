@@ -17,6 +17,19 @@ export async function createVariant(data: CreateVariantSchemaType) {
     validatedData.attributeValues ?? []
   );
 
+  if (validatedData.default) {
+    // Update all existing addresses to set default to false
+    await prisma.itemVariant.updateMany({
+      where: {
+        itemId: validatedData.itemId,
+        default: true,
+      },
+      data: {
+        default: false,
+      },
+    });
+  }
+
   const newVariant = await prisma.itemVariant.create({
     data: {
       // itemId: validatedData.itemId,
