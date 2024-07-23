@@ -16,20 +16,20 @@ import useIsMobile from '../hooks/useIsMobile';
 import HeaderDropdown from './HeaderDropdown';
 import { Gender, useCategories } from '@vestido-ecommerce/items';
 
-// type ListItemProps = {
-//   href: string;
-//   title: string;
-// };
-// const ListItem: React.FC<ListItemProps> = ({ href, title }) => (
-//   <li className="row-span-3">
-//     <Link
-//       className="flex select-none flex-col justify-start md:justify-end rounded-md  pl-3 no-underline outline-none focus:shadow-md"
-//       href={href}
-//     >
-//       <div className="font-normal text-sm font-medium p-1">{title}</div>
-//     </Link>
-//   </li>
-// );
+type ListItemProps = {
+  href: string;
+  title: string;
+};
+const ListItem: React.FC<ListItemProps> = ({ href, title }) => (
+  <li className="row-span-3">
+    <Link
+      className="flex select-none flex-col justify-start md:justify-end rounded-md  pl-3 no-underline outline-none focus:shadow-md"
+      href={href}
+    >
+      <div className="font-normal text-sm font-medium p-1">{title}</div>
+    </Link>
+  </li>
+);
 // const categoriesData = [
 //   {
 //     category: "MEN'S",
@@ -225,20 +225,28 @@ const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
                     .map((category, index) => (
                       <div key={index}>
                         <div className=" font-black hover:text-[#48cab2] px-2 cursor-pointer">
-                          {category.name}
+                          <Link href={`/products/${category.id}`}>
+                            {category.name}
+                          </Link>
                         </div>
 
-                        {getSubcategories(category.id, ['MEN', 'WOMEN'])?.map(
-                          (subcategory, subIndex) => (
-                            <div key={subIndex}>
-                              <Link href="/products">
+                        <ul className="text-stone-500 py-3 md:w-[200px] lg:w-[200px]">
+                          {getSubcategories(category.id, ['MEN', 'WOMEN'])?.map(
+                            (subcategory, subIndex) => (
+                              <div key={subIndex}>
+                                {/* <Link href={`/products/${subcategory.id}`}>
                                 <h1 className="text-stone-500 py-1 md:w-[200px] lg:w-[200px] px-2 hover:text-[#48cab2]">
                                   {subcategory.name}
                                 </h1>
-                              </Link>
-                            </div>
-                          )
-                        )}
+                              </Link> */}
+                                <ListItem
+                                  href={`/${subcategory.id}`}
+                                  title={subcategory.name}
+                                />
+                              </div>
+                            )
+                          )}
+                        </ul>
                       </div>
                     ))}
                 </NavigationMenuContent>
