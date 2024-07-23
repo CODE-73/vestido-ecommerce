@@ -20,8 +20,6 @@ import Markdown from 'react-markdown';
 
 import {
   LuScaling,
-  LuMinus,
-  LuPlus,
   LuShoppingBag,
   LuHeart,
   LuChevronLeft,
@@ -34,7 +32,6 @@ import {
   useAddToWishlist,
 } from '@vestido-ecommerce/items';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
-import { useState } from 'react';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 // import { ItemVariant, VariantAttributeValue } from '@prisma/client';
 
@@ -55,8 +52,6 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
   const [selectedImage, setSelectedImage] = React.useState<string>(
     ((item?.images ?? []) as ImageSchemaType[])[0]?.url ?? ''
   );
-
-  const [qty, setQty] = useState(1);
 
   const { trigger: cartTrigger } = useAddToCart();
   const { trigger: wishlistTrigger } = useAddToWishlist();
@@ -102,7 +97,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
     if (item) {
       cartTrigger({
         itemId: item.id,
-        qty: qty,
+        qty: 1,
         variantId: item.variants?.[0]?.id ?? null,
       });
     }
@@ -118,8 +113,8 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
   };
 
   return (
-    <div className="w-full flex py-5 space-x-10">
-      <div className="w-1/2">
+    <div className="w-full flex flex-col md:flex-row py-5 px-2 md:px-0 md:space-x-10">
+      <div className="w-full md:w-1/2">
         <div className="flex justify-center items-center pb-4">
           <Image
             className="w-4/6 px-5 h-4/6"
@@ -174,10 +169,11 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
           </button>
         </div>
       </div>
-      <div className="w-1/2">
+      <div className="w-full md:w-1/2">
         <h1 className="text-3xl font-semibold">{item?.title}</h1>
         <div className="flex flex-row items-center gap-1">
           <div className="text-2xl font-semibold">Rs.{item?.price}</div>
+          <div>{item?.discountedPrice}</div>
         </div>
 
         <div className="text-sm ">
@@ -198,8 +194,6 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
               {itemCategory}
             </h1>
           </div>
-
-          <div>{item?.discountedPrice}</div>
 
           {/* <div>
             {' '}
@@ -250,8 +244,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
           <h1>Size Guide</h1>
         </div>
 
-        <div className="flex gap-2 mb-5 ">
-          <div className="flex bg-zinc-100 px-4 h-12 items-center justify-around ">
+        {/* <div className="flex bg-zinc-100 px-4 h-12 items-center justify-around ">
             <div
               className="text-zinc-300 "
               onClick={() => setQty(qty > 1 ? qty - 1 : 1)}
@@ -262,9 +255,10 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
             <div className="text-zinc-300" onClick={() => setQty(qty + 1)}>
               <LuPlus />
             </div>
-          </div>
-          <div className="flex bg-[#48CAB2] items-center gap-2 w-full justify-center text-white  ">
-            <LuShoppingBag />
+          </div> */}
+        <div className="flex gap-2 mb-5 w-full">
+          <div className="flex bg-[#48CAB2] items-center gap-2 flex-1 justify-center text-white  ">
+            <LuShoppingBag size={30} />
             <Button
               onClick={() => handleAddToCart()}
               className="text-xl font-semibold bg-transparent hover:bg-transparent"
@@ -274,11 +268,12 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
           </div>
           <div
             onClick={() => handleAddToWishlist()}
-            className="outline outline-2 outline-[#48CAB2] font-medium text-xs  h-full self-center p-4"
+            className="border border-2 border-[#48CAB2] font-medium text-xs  h-full self-center p-4"
           >
             <LuHeart size={24} />
           </div>
         </div>
+
         <div>
           <Accordion type="single" collapsible>
             <AccordionItem value="item-1">

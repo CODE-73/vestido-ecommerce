@@ -75,7 +75,7 @@ const MultiImageUploader: React.FC<ImageUploaderProps> = ({ name }) => {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="flex flex-wrap gap-2 lg:w-full cursor-pointer">
+      <div className="flex flex-wrap w-full cursor-pointer">
         {images.map((image, index) => (
           <ImageCardElement
             key={`image-${index}-${image.key}`}
@@ -90,7 +90,7 @@ const MultiImageUploader: React.FC<ImageUploaderProps> = ({ name }) => {
           />
         ))}
       </div>
-      <div className="flex gap-5 lg:w-1/2 mt-5">
+      {/* <div className="flex gap-1 lg:gap-5 lg:w-1/2 mt-5">
         <Button
           className="basis-1/5"
           type="button"
@@ -114,7 +114,47 @@ const MultiImageUploader: React.FC<ImageUploaderProps> = ({ name }) => {
           <LuChevronRight />
         </Button>
         {activeImageIdx >= 0 && (
-          <InputElement name={`images.${activeImageIdx}.alt`}></InputElement>
+          <InputElement
+            placeholder="Alt text"
+            name={`images.${activeImageIdx}.alt`}
+          ></InputElement>
+        )}
+      </div> */}
+      <div className="w-full md:w-auto lg:flex lg:gap-5 lg:w-1/2 mt-5">
+        <div className="flex gap-2 lg:gap-5 w-full justify-center">
+          <Button
+            className="basis-1/5"
+            type="button"
+            onClick={handleMoveImageLeft}
+            disabled={activeImageIdx === -1 || activeImageIdx === 0}
+          >
+            <LuChevronLeft />
+          </Button>
+          <Button className="basis-2/5" type="button" onClick={addNewImage}>
+            <div className="flex gap-2 items-center">
+              <span>Add Image</span>
+              <LuPlus />
+            </div>
+          </Button>
+          <Button
+            className="basis-1/5"
+            type="button"
+            onClick={handleMoveImageRight}
+            disabled={
+              activeImageIdx === -1 || activeImageIdx >= name.length - 1
+            }
+          >
+            <LuChevronRight />
+          </Button>
+        </div>
+        {activeImageIdx >= 0 && (
+          <div className="mt-2 lg:mt-0 lg:ml-2 w-full">
+            <InputElement
+              className="w-full"
+              placeholder="Alt text"
+              name={`images.${activeImageIdx}.alt`}
+            />
+          </div>
         )}
       </div>
     </div>
@@ -144,12 +184,12 @@ const ImageCardElement: React.FC<ImageCardElementProps> = ({
   return (
     <div
       className={clsx(
-        'flex items-center justify-center flex-shrink-0',
+        'flex items-center justify-center ',
         'h-40 w-32 overflow-hidden',
         'border border-2 border-dashed border-gray-300',
-        `relative basis-1/5 bg-white text-gray-300 hover:bg-white`,
+        `relative lg:basis-1/5 md:basis-1/3 basis-1/2 bg-white text-gray-300 hover:bg-white`,
         {
-          'border-blue-800 border-double border-4': isSelected,
+          'border border-blue-800 border-double border-4': isSelected,
         }
       )}
       onClick={onSelect}
@@ -165,7 +205,7 @@ const ImageCardElement: React.FC<ImageCardElementProps> = ({
           <Image
             src={imgURL}
             alt={image.alt}
-            sizes="100vw"
+            sizes="80vw"
             width={0}
             height={0}
             className="h-40 w-32"

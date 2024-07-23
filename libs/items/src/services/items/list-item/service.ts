@@ -44,10 +44,15 @@ export async function listItem(_args: ListItemRequest) {
         requestType: 'GET',
         key: x,
         expiresIn: 3600,
-      }).then((url) => {
-        urlMap[x] = url;
-        return url;
       })
+        .then((url) => {
+          urlMap[x] = url;
+          return url;
+        })
+        .catch(() => {
+          urlMap[x] = '';
+          return '';
+        })
     )
   );
 
