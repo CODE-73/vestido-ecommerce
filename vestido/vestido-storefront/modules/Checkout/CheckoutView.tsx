@@ -17,6 +17,7 @@ import {
   useCreateOrder,
   useShippingCharges,
 } from '@vestido-ecommerce/orders';
+import { useRazorpayCreateOrder } from '@vestido-ecommerce/razorpay';
 import { LuChevronRight } from 'react-icons/lu';
 import { PaymentTypeElement } from './PaymentTypeElement';
 const OrderItemSchema = z.object({
@@ -70,7 +71,8 @@ const CheckoutView: React.FC = () => {
 
   const shippingCharges = shipping?.data?.shippingCost ?? 0;
 
-  const { trigger } = useCreateOrder();
+  const { trigger: createOrderTrigger } = useCreateOrder();
+  const { trigger: createRazorpayOrderTrigger } = useRazorpayCreateOrder();
 
   const totalPrice =
     cartItems?.data.reduce((total, item) => {
@@ -78,11 +80,25 @@ const CheckoutView: React.FC = () => {
     }, 0) ?? 0;
 
   const handleSubmit = async (data: CreateOrderForm) => {
-    console.log('data is', data);
     try {
-      await trigger({
+      const createOrderResponse = await createOrderTrigger({
         ...data,
       });
+      console.log('Create Order Response: ', createOrderResponse);
+
+      const orderId = createOrderResponse.data.id;
+      const currency = 'INR';
+
+      const razorpayData = {
+        orderId,
+        amount: totalPrice,
+        currency,
+      };
+      const razorpayOrderResponse = await createRazorpayOrderTrigger({
+        razorpayData,
+      });
+
+      console.log('Razorpay OrderId from frontend: ', razorpayOrderResponse);
     } catch (e) {
       console.error('Error creating order:', e);
     }

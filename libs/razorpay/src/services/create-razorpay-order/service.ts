@@ -9,8 +9,9 @@ export async function createRazorpayOrder(data: CreateRPOrderRequest) {
     key_secret: process.env['RAZORPAY_KEY_SECRET'] as string,
   });
 
+  console.log('data in services:', data);
   const prisma = getPrismaClient();
-  const validatedData = CreateRPOrderSchema.parse(data);
+  const validatedData = CreateRPOrderSchema.parse(data.razorpayData);
 
   const { amount, currency } = validatedData;
 
@@ -18,9 +19,9 @@ export async function createRazorpayOrder(data: CreateRPOrderRequest) {
     amount,
     currency,
   };
-
+  console.log('options and validatedData', validatedData, options);
   const resp = await razorpay.orders.create(options);
-  console.log('resp:', resp);
+  console.log('resp from services:', resp);
   if (resp.status == 'created') {
     await prisma.payment.create({
       data: {

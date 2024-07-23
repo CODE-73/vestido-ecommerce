@@ -11,7 +11,7 @@ export async function createNewRazorpayOrder(
 ): Promise<CreateRPOrderResponse> {
   try {
     const r = await axios.post(
-      `/api/orders/${args.data.orderId}/payment`,
+      `/api/orders/${args.razorpayData.orderId}/payment`,
       args,
       {
         headers: {

@@ -18,7 +18,6 @@ export async function POST(
     }
     const body = await request.json();
     const rpOrderId = await createRazorpayOrder(body);
-    console.log(rpOrderId);
     return new Response(JSON.stringify({ success: true, data: rpOrderId }), {
       headers: {
         'Content-Type': 'application/json',
