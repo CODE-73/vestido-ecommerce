@@ -48,6 +48,7 @@ const CreateCategoryFormSchema = z.object({
       message: 'You have to select at least one item.',
     })
     .default(['MEN', 'WOMEN'] satisfies Gender[]),
+    slug:z.string()
 });
 
 export type CreateCategoryForm = z.infer<typeof CreateCategoryFormSchema>;
@@ -69,6 +70,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
       description: '',
       parentCategoryId: '',
       gender: ['MEN', 'WOMEN'],
+      slug:''
     },
   });
   // const parentCategoryId = form.watch('parentCategoryId');
@@ -127,6 +129,11 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
               placeholder="Description"
               label="Description"
             />
+              <div className="grid grid-cols-2 gap-5 mb-10">
+        
+        <InputElement name="slug" placeholder="Slug" label="Slug" />
+     
+      </div>
             <FormField
               control={form.control}
               name="gender"

@@ -24,6 +24,7 @@ export const CreateItemSchema = z.object({
     .default(0)
     .nullable(),
   discountedPrice: z.coerce.number().nullable(),
+  slug:z.string()
 });
 
 export type CreateItemSchemaType = z.infer<typeof CreateItemSchema>;

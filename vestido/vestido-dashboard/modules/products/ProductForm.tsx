@@ -55,6 +55,7 @@ const CreateProductFormSchema = z.object({
     .default(0)
     .nullable(),
   discountedPrice: z.coerce.number().nullable(),
+  slug:z.string()
 });
 
 export type CreateProductForm = z.infer<typeof CreateProductFormSchema>;
@@ -75,6 +76,7 @@ const defaultValues = {
   images: [],
   discountPercent: 0,
   discountedPrice: 0,
+  slug: ''
 } satisfies CreateProductForm;
 
 const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
@@ -163,6 +165,11 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
             />
             <InputElement name="price" placeholder="Price" label="Price" />
           </div>
+          <div className="grid grid-cols-2 gap-5 lg:px-10 mb-10">
+        
+        <InputElement name="slug" placeholder="Slug" label="Slug" />
+     
+      </div>
           <div className="grid grid-cols-1 lg:px-10 mt-2">
             <CategoryElement
               name="categoryId"
