@@ -10,15 +10,15 @@ import CategoryCard, { CategoryCardData } from './CategoryCard';
 const cards: CategoryCardData[] = [
   {
     cardImage: category1,
-    title: 'Bodycon Dress',
+    title: 'Bodycon Dresses',
   },
   {
     cardImage: category2,
-    title: 'Wrap Dress',
+    title: 'Wrap Dresses',
   },
   {
     cardImage: category3,
-    title: 'Floral Dress',
+    title: 'Floral Dresses',
   },
   {
     cardImage: category4,
