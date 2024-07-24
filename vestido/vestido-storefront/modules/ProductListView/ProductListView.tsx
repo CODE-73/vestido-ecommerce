@@ -3,12 +3,17 @@ import Image from 'next/image';
 import { AddToWishListButton } from '../HomePage/SpecialOffer/AddToWishlistButton';
 import { QuickViewButton } from '../HomePage/SpecialOffer/QuickViewButton';
 import useIsMobile from '../../hooks/useIsMobile';
-import { useCategory, useItems } from '@vestido-ecommerce/items';
+import {
+  useAddToWishlist,
+  useCategory,
+  useItems,
+} from '@vestido-ecommerce/items';
 import ProductFilter from './ProductFilter';
 import { Item } from '@prisma/client';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 import { useRouter } from 'next/router';
 import AddToCartButton from '../HomePage/TopProducts/AddToCartButton';
+import { useState } from 'react';
 
 type ProductListViewProps = {
   categoryId?: string;
@@ -20,12 +25,27 @@ const ProductlistView: React.FC<ProductListViewProps> = ({ categoryId }) => {
 
   const { data } = useItems();
   const { data: category } = useCategory(categoryId as string);
+  const { trigger: wishlistTrigger } = useAddToWishlist();
   console.log(categoryId);
   const handleShowMoreClick = () => {
     // function
   };
   const handleProductClick = (itemId: string) => {
     router.push(`/products/${encodeURIComponent(itemId)}`);
+  };
+
+  const [wishlistedItems, setWishlistedItems] = useState<{
+    [key: string]: boolean;
+  }>({});
+
+  const handleAddToWishlist = (item: Item) => {
+    wishlistTrigger({
+      itemId: item.id,
+    });
+    setWishlistedItems((prevState) => ({
+      ...prevState,
+      [item.id]: !prevState[item.id],
+    }));
   };
 
   return (
@@ -64,8 +84,19 @@ const ProductlistView: React.FC<ProductListViewProps> = ({ categoryId }) => {
                 item={item}
               />
 
-              <div className="sm:hidden flex flex-row justify-start sm:group-hover:flex sm:flex-col gap-3 sm:absolute top-3 right-3 pt-2 sm:pt-0">
-                <AddToWishListButton />
+              <div
+                className={` flex flex-row justify-start ${
+                  wishlistedItems[item.id] ? 'flex' : 'sm:hidden'
+                } sm:group-hover:flex sm:flex-col gap-3 sm:absolute top-3 right-3 pt-2 sm:pt-0`}
+              >
+                <div
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleAddToWishlist(item);
+                  }}
+                >
+                  <AddToWishListButton wishlisted={wishlistedItems[item.id]} />
+                </div>
                 <QuickViewButton />
               </div>
             </div>

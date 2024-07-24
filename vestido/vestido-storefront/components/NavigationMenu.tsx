@@ -69,9 +69,7 @@ const NavMenu: React.FC<NavMenuProps> = ({ isFixed }) => {
               .map((category, index) => (
                 <div key={index}>
                   <div className=" font-black hover:text-[#48cab2] px-2 cursor-pointer">
-                    <Link href={`/products/${category.id}`}>
-                      {category.name}
-                    </Link>
+                    <Link href={`/${category.id}`}>{category.name}</Link>
                   </div>
 
                   <ul className="text-stone-500  py-3 md:w-[200px] lg:w-[200px]">
@@ -108,9 +106,7 @@ const NavMenu: React.FC<NavMenuProps> = ({ isFixed }) => {
                   // className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]"
                 >
                   <div className=" font-black hover:text-[#48cab2] px-2 cursor-pointer">
-                    <Link href={`/products/${category.id}`}>
-                      {category.name}
-                    </Link>
+                    <Link href={`/${category.id}`}>{category.name}</Link>
                   </div>
 
                   <ul className="text-stone-500  py-3 md:w-[200px] lg:w-[200px]">
@@ -148,9 +144,7 @@ const NavMenu: React.FC<NavMenuProps> = ({ isFixed }) => {
               .map((category, index) => (
                 <div key={index}>
                   <div className=" font-black hover:text-[#48cab2] px-2 cursor-pointer">
-                    <Link href={`/products/${category.id}`}>
-                      {category.name}
-                    </Link>
+                    <Link href={`/${category.id}`}>{category.name}</Link>
                   </div>
 
                   <ul className="text-stone-500 py-3 md:w-[200px] lg:w-[200px]">
