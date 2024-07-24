@@ -10,7 +10,10 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": ["es2020", "dom"],
+    "lib": [
+      "es2020",
+      "dom"
+    ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
@@ -19,30 +22,36 @@
         "libs/auth/src/index.ts",
         "../../libs/auth/src/index.ts"
       ],
+      "@vestido-ecommerce/caching": [
+        "libs/caching/src/index.ts",
+        "../../libs/caching/src/index.ts"
+      ],
       "@vestido-ecommerce/items": [
         "libs/items/src/index.ts",
         "../../libs/items/src/index.ts"
+      ],
+      "@vestido-ecommerce/models": [
+        "libs/models/src/index.ts",
+        "../../libs/models/src/index.ts"
       ],
       "@vestido-ecommerce/orders": [
         "libs/orders/src/index.ts",
         "../../libs/orders/src/index.ts"
       ],
-      "@vestido-ecommerce/razorpay": [
-        "libs/razorpay/src/index.ts", 
-        "../../libs/razorpay/src/index.ts"
-      ],
       "@vestido-ecommerce/r2": [
         "libs/r2/src/index.ts",
         "../../libs/r2/src/index.ts"
+      ],
+      "@vestido-ecommerce/razorpay": [
+        "libs/razorpay/src/index.ts",
+        "../../libs/razorpay/src/index.ts"
       ],
       "@vestido-ecommerce/shadcn-ui": [
         "libs/shadcn-ui/src/index.ts",
         "../../libs/shadcn-ui/src/index.ts"
       ],
-      "@vestido-ecommerce/shadcn-ui/*": ["libs/shadcn-ui/src/ui/*"],
-      "@vestido-ecommerce/models": [
-        "libs/models/src/index.ts",
-        "../../libs/models/src/index.ts"
+      "@vestido-ecommerce/shadcn-ui/*": [
+        "libs/shadcn-ui/src/ui/*"
       ],
       "@vestido-ecommerce/utils": [
         "libs/utils/src/index.ts",
@@ -50,5 +59,8 @@
       ]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }

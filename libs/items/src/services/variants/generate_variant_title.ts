@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { type PrismaClient } from '@prisma/client';
 export async function generateVariantTitle(
   client: PrismaClient,
   attributes: Array<{ attributeId: string; attributeValueId: string }>
