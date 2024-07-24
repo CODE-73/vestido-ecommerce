@@ -36,12 +36,9 @@ const NavMenu: React.FC<NavMenuProps> = ({ isFixed }) => {
 
   //   const isMobile = useIsMobile();
 
-  console.log(categories?.data);
-
   const mainCategories = categories?.data?.filter(
     (category) => category.parentCategoryId === null
   );
-  console.log('maiin', mainCategories);
 
   const getSubcategories = (categoryId: string, genders: Gender[]) => {
     return categories?.data?.filter(
