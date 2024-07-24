@@ -175,7 +175,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
     if (item) {
       wishlistTrigger({
         itemId: item.id,
-        variantId: selectedVariantId ?? null,
+        // variantId: selectedVariantId ?? null,
       });
     }
   };

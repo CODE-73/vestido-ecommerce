@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Image from 'next/image';
-import { LuShoppingBag, LuTrash2 } from 'react-icons/lu';
-import { useState } from 'react';
+import { LuShoppingBag } from 'react-icons/lu';
 
 import useIsMobile from '../../../vestido-storefront/hooks/useIsMobile';
 
