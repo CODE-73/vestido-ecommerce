@@ -1,86 +1,101 @@
 import * as React from 'react';
 import Image from 'next/image';
-import { Badge } from '@vestido-ecommerce/shadcn-ui/badge';
-import { LuShoppingBag } from 'react-icons/lu';
+import { LuShoppingBag, LuTrash2 } from 'react-icons/lu';
 import { useState } from 'react';
-import { AddToWishListButton } from '../HomePage/SpecialOffer/AddToWishlistButton';
-import { QuickViewButton } from '../HomePage/SpecialOffer/QuickViewButton';
+
 import useIsMobile from '../../../vestido-storefront/hooks/useIsMobile';
+
+import { useWishlist } from '@vestido-ecommerce/items';
+import { ImageSchemaType } from '@vestido-ecommerce/utils';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
-
-import product11 from '../../assets/offer-products/product1-1.jpg';
-import product12 from '../../assets/offer-products/product1-2.jpg';
-import product21 from '../../assets/offer-products/product2-1.jpg';
-import product22 from '../../assets/offer-products/product2-2.jpg';
-import product31 from '../../assets/offer-products/product3-1.jpg';
-import product32 from '../../assets/offer-products/product3-2.jpg';
-import product41 from '../../assets/offer-products/product4-1.jpg';
-import product42 from '../../assets/offer-products/product4-2.jpg';
-import product51 from '../../assets/offer-products/product5-1.jpg';
-import product52 from '../../assets/offer-products/product5-2.jpg';
-import product61 from '../../assets/offer-products/product6-1.jpg';
-import product62 from '../../assets/offer-products/product6-2.jpg';
-
-const data = [
-  {
-    cardImage1: product11,
-    cardImage2: product12,
-    name: 'T-shirt with pearly sleeves',
-    salePercent: '13',
-    price: '$450.00',
-    offerPrice: '$390.00',
-  },
-  {
-    cardImage1: product21,
-    cardImage2: product22,
-    name: 'Metallic Effect Bag',
-    price: '$450.00',
-    offerPrice: '$390.00',
-  },
-  {
-    cardImage1: product31,
-    cardImage2: product32,
-    name: 'Knit Beanie with slogan',
-    textColor: 'white',
-    price: '$450.00',
-    offerPrice: '$390.00',
-  },
-  {
-    cardImage1: product41,
-    cardImage2: product42,
-    name: 'T-shirt with pearly sleeves',
-    salePercent: '13',
-    price: '$450.00',
-    offerPrice: '$390.00',
-  },
-  {
-    cardImage1: product51,
-    cardImage2: product52,
-    name: 'Metallic Effect Bag',
-    price: '$450.00',
-    offerPrice: '$390.00',
-  },
-  {
-    cardImage1: product61,
-    cardImage2: product62,
-    name: 'Knit Beanie with slogan',
-    textColor: 'white',
-    price: '$450.00',
-    offerPrice: '$390.00',
-  },
-];
+import AddToCartButton from '../HomePage/TopProducts/AddToCartButton';
 
 const WishlistView: React.FC = () => {
-  const [isHovering, setIsHovering] = useState(false);
+  const { data: wishlistItems } = useWishlist();
+  console.log('wishlist', wishlistItems);
   const isMobile = useIsMobile();
-  const labels = ['Days', 'Hrs', 'Min', 'Sec'];
+
   return (
     <div className="md:px-16">
       <div className="text-4xl tracking-wide text-[#333333] text-center font-extrabold my-5 lg:py-10">
         Wishlist
       </div>
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-10">
-        {data.map((item, index) => (
+        {wishlistItems?.data.map((wishlistItem, index) => (
+          <div
+            key={index}
+            className="relative flex flex-col items-center group  mb-10 "
+          >
+            {/* <div
+              onClick={() => handleRemoveFromCart(cartItem.itemId)}
+              className="col-span-1 flex justify-center cursor-pointer"
+            >
+              <LuTrash2 />
+            </div> */}
+            <Image
+              className="block col-span-2"
+              src={
+                ((wishlistItem.item.images ?? []) as ImageSchemaType[])[0]
+                  ?.url ?? ''
+              }
+              alt={
+                ((wishlistItem.item.images ?? []) as ImageSchemaType[])[0]
+                  ?.alt ?? ''
+              }
+              width={200}
+              height={260}
+            />
+            <div className="self-start pt-[#1px] capitalize text-[#333333] text-md font-thin">
+              {wishlistItem.item.title}
+            </div>
+            {/* {isMobile ? (
+              <div className=" col-span-5 flex flex-col space-y-5 pl-8">
+                <div className="truncate text-md md:text-xl font-semibold whitespace-nowrap">
+                  {wishlistItem.item.title}
+                </div>
+                <div className="text-xl font-semibold text-[#48CAB2] flex ">
+                  {wishlistItem.item.price}
+                </div>
+                <div className="flex flex-row bg-zinc-100 w-32 h-14 items-center justify-around ">
+                  hi
+                </div>
+              </div>
+            ) : (
+              <>
+                <div className="text-xl font-extrabold col-span-2">
+                  {wishlistItem.item.title}
+                </div>
+
+                <div className="text-3xl font-semibold text-[#48CAB2] col-span-1 flex justify-center">
+                  {wishlistItem.item.price.toFixed(2)}
+                </div>
+              </>
+            )} */}
+            {isMobile ? (
+              <>
+                <div className="flex text-xl justify-between w-full pt-3">
+                  <div className="line-through">
+                    {wishlistItem.item.discountedPrice}
+                  </div>
+                </div>
+                <div className={`p-2 bg-[#48CAB2] w-full`}>
+                  <Button className="bg-[#48CAB2] w-full flex gap-3 text-lg mb-1 text-white p-2 font-bold">
+                    <LuShoppingBag color="#fff" />
+                    <div> Add to Cart</div>
+                  </Button>
+                </div>
+              </>
+            ) : (
+              <AddToCartButton
+                price={wishlistItem.item.price}
+                offerPrice={wishlistItem.item.discountedPrice}
+                item={wishlistItem.item}
+              />
+            )}
+          </div>
+        ))}
+
+        {/* {data.map((item, index) => (
           <div
             key={index}
             className="relative flex flex-col items-center group  mb-10 "
@@ -95,22 +110,6 @@ const WishlistView: React.FC = () => {
               src={item.cardImage2}
               alt="alt text"
             />
-            {item.salePercent && (
-              <Badge className="absolute left-3 top-3 rounded-none bg-red-600">
-                SALE {item.salePercent}%
-              </Badge>
-            )}
-            <div className=" absolute bottom-64 sm:bottom-36 bg-white opacity-80 font-extralight text-[#333333] text-lg text-center lg:px-16">
-              <div>Offer Will End Through</div>
-              <div className="flex gap-2 justify-center">
-                {labels.map((label, index) => (
-                  <div key={index} className="flex flex-col">
-                    <div className="font-extrabold text-2xl">0</div>
-                    <div className="text-xs">{label}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
 
             <div className="self-start pt-[#1px] capitalize text-[#333333] text-md font-thin">
               {item.name}
@@ -156,11 +155,10 @@ const WishlistView: React.FC = () => {
               </div>
             )}
             <div className="sm:hidden flex flex-row justify-start sm:group-hover:flex sm:flex-col gap-3 sm:absolute top-3 right-3 pt-2 sm:pt-0">
-              <AddToWishListButton />
               <QuickViewButton />
             </div>
           </div>
-        ))}
+        ))} */}
       </div>
     </div>
   );
