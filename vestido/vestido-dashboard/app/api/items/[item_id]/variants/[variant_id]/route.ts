@@ -74,7 +74,7 @@ export async function PUT(
       console.error('Unexpected Error', e);
       return new Response(
         JSON.stringify({
-          message: 'Unknown Error',
+          message: e,
         }),
         {
           status: 500,

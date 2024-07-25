@@ -45,7 +45,7 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="flex flex-col justify-center ">
-      <div className="flex flex-col lg:flex-col-reverse">
+      <div className="flex flex-col lg:flex-col-reverse justify-center">
         <CategoryCards /> <PrimaryCarousel />
       </div>
       <TopProducts className="pt-16 sm:pt-24 max-w-[100vw] overflow-hidden px-4 sm:px-0 md:px-4 lg:max-w-7xl lg:self-center" />

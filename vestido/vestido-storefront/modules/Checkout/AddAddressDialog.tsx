@@ -104,7 +104,7 @@ const AddAddressDialog = () => {
               { label: 'Office', value: 'OFFICE' },
             ]}
           />
-          <div className="mt-4">
+          <div className="mt-4 mb-2">
             <CheckBoxElement
               name="default"
               label="Set this as your default address"

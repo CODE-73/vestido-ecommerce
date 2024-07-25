@@ -9,6 +9,18 @@ export async function updateAddress(
   const prisma = getPrismaClient();
 
   const validatedData = UpdateAddressSchema.parse(data);
+  if (validatedData.default) {
+    // Update all existing addresses to set default to false
+    await prisma.customerAddress.updateMany({
+      where: {
+        customerId: validatedData.customerId,
+        default: true,
+      },
+      data: {
+        default: false,
+      },
+    });
+  }
 
   const updatedAddress = await prisma.customerAddress.update({
     where: {

@@ -34,7 +34,7 @@ const SpecialOfferCard: React.FC<SpecialOfferCardProps> = ({ data }) => {
       </div>
       <AddToCartButton
         price={data.price}
-        // offerPrice={data.offerPrice}
+        offerPrice={data.discountedPrice}
         item={data}
       />
 

@@ -14,6 +14,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import useIsMobile from '../hooks/useIsMobile';
 import HeaderDropdown from './HeaderDropdown';
+import { Gender, useCategories } from '@vestido-ecommerce/items';
 
 type ListItemProps = {
   href: string;
@@ -29,63 +30,95 @@ const ListItem: React.FC<ListItemProps> = ({ href, title }) => (
     </Link>
   </li>
 );
-const categoriesData = [
-  {
-    category: "MEN'S",
-    subcategories: [
-      {
-        title: 'Top Wear',
-        items: [
-          'Casual Shirts',
-          'Formal Shirts',
-          'Denim Shirts',
-          'T Shirts',
-          'Hoodies',
-        ],
-      },
-      {
-        title: 'Bottom Wear',
-        items: [
-          'Baggy Jeans',
-          'Casual Jeans',
-          'Cargo Pants',
-          'Formal Pants',
-          'Jogger',
-        ],
-      },
-    ],
-  },
-  {
-    category: "WOMEN'S",
-    subcategories: [
-      {
-        title: 'Dresses',
-        items: [
-          'A-Line Dress',
-          'Floral Dress',
-          'Bodycon Dress',
-          'Cocktail Dress',
-          'Casual Dress',
-        ],
-      },
-      {
-        title: 'Other',
-        items: ['Kurthi Dress', 'Wrap Dress', 'Salwar Dress'],
-      },
-    ],
-  },
-];
+// const categoriesData = [
+//   {
+//     category: "MEN'S",
+//     subcategories: [
+//       {
+//         title: 'Top Wear',
+//         items: [
+//           'Casual Shirts',
+//           'Formal Shirts',
+//           'Denim Shirts',
+//           'T Shirts',
+//           'Hoodies',
+//         ],
+//       },
+//       {
+//         title: 'Bottom Wear',
+//         items: [
+//           'Baggy Jeans',
+//           'Casual Jeans',
+//           'Cargo Pants',
+//           'Formal Pants',
+//           'Jogger',
+//         ],
+//       },
+//     ],
+//   },
+//   {
+//     category: "WOMEN'S",
+//     subcategories: [
+//       {
+//         title: 'Dresses',
+//         items: [
+//           'A-Line Dress',
+//           'Floral Dress',
+//           'Bodycon Dress',
+//           'Cocktail Dress',
+//           'Casual Dress',
+//         ],
+//       },
+//       {
+//         title: 'Other',
+//         items: ['Kurthi Dress', 'Wrap Dress', 'Salwar Dress'],
+//       },
+//     ],
+//   },
+//   {
+//     category: "WOMEN'S",
+//     subcategories: [
+//       {
+//         title: 'Dresses',
+//         items: [
+//           'A-Line Dress',
+//           'Floral Dress',
+//           'Bodycon Dress',
+//           'Cocktail Dress',
+//           'Casual Dress',
+//         ],
+//       },
+//       {
+//         title: 'Other',
+//         items: ['Kurthi Dress', 'Wrap Dress', 'Salwar Dress'],
+//       },
+//     ],
+//   },
+// ];
 
 interface HeaderProps {
   cart_count: number | undefined;
   wishlist_count: number | undefined;
 }
 const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
+  const { data: categories } = useCategories();
+
   const isMobile = useIsMobile();
 
-  // const { data: categories } = useCategories();
+  console.log(categories?.data);
 
-  // console.log(categories);
+  const mainCategories = categories?.data?.filter(
+    (category) => category.parentCategoryId === null
+  );
+  console.log('maiin', mainCategories);
+
+  const getSubcategories = (categoryId: string, genders: Gender[]) => {
+    return categories?.data?.filter(
+      (subcategory) =>
+        subcategory.parentCategoryId === categoryId &&
+        genders.every((gender) => subcategory.gender.includes(gender))
+    );
+  };
   return (
     <div className="bg-[#1B2149] flex items-center  justify-between px-3">
       <div className="flex">
@@ -113,9 +146,116 @@ const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
         <div className=" sm:py-4">
           <NavigationMenu>
             <NavigationMenuList>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger className="font-semibold h-6 text-white bg-transparent hover:bg-transparent data-active:bg-transparent data-[state=open]:bg-transparent hover:text-green-300  rounded-none mx-3 focus:bg-transparent focus:text-white">
+                  MEN
+                </NavigationMenuTrigger>
+
+                <NavigationMenuContent className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr] divide-x ">
+                  {mainCategories
+                    ?.filter((category) => category.gender.includes('MEN'))
+                    .map((category, index) => (
+                      <div
+                        key={index}
+                        // className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]"
+                      >
+                        <div className=" font-black hover:text-[#48cab2] px-2 cursor-pointer">
+                          {category.name}
+                        </div>
+
+                        {getSubcategories(category.id, ['MEN'])?.map(
+                          (subcategory, subIndex) => (
+                            <div key={subIndex}>
+                              <Link href="/products">
+                                <h1 className="text-stone-500 py-1 md:w-[200px] lg:w-[200px] px-2 hover:text-[#48cab2]">
+                                  {subcategory.name}
+                                </h1>
+                              </Link>
+                            </div>
+                          )
+                        )}
+                      </div>
+                    ))}
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger className="font-semibold h-6 text-white bg-transparent hover:bg-transparent data-active:bg-transparent data-[state=open]:bg-transparent hover:text-green-300  rounded-none mx-3 focus:bg-transparent focus:text-white">
+                  WOMEN
+                </NavigationMenuTrigger>
+
+                <NavigationMenuContent className="grid grid-cols-3 gap-3 p-6 md:w-[400px] lg:w-[600px] lg:grid-cols-[1fr_1fr_1fr] divide-x">
+                  {mainCategories
+                    ?.filter((category) => category.gender.includes('WOMEN'))
+                    .map((category, index) => (
+                      <div
+                        key={index}
+                        // className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]"
+                      >
+                        <div className=" font-black hover:text-[#48cab2] px-2 cursor-pointer">
+                          {category.name}
+                        </div>
+
+                        {getSubcategories(category.id, ['WOMEN'])?.map(
+                          (subcategory, subIndex) => (
+                            <div key={subIndex}>
+                              <Link href="/products">
+                                <h1 className="text-stone-500 py-1 md:w-[200px] lg:w-[200px] px-2 hover:text-[#48cab2]">
+                                  {subcategory.name}
+                                </h1>
+                              </Link>
+                            </div>
+                          )
+                        )}
+                      </div>
+                    ))}
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger className="font-semibold h-6 text-white bg-transparent hover:bg-transparent data-active:bg-transparent data-[state=open]:bg-transparent hover:text-green-300  rounded-none mx-3 focus:bg-transparent focus:text-white">
+                  UNISEX
+                </NavigationMenuTrigger>
+
+                <NavigationMenuContent className="grid grid-cols-3 gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[0.75fr_1fr] divide-x">
+                  {mainCategories
+                    ?.filter(
+                      (category) =>
+                        category.gender.includes('MEN') &&
+                        category.gender.includes('WOMEN')
+                    )
+                    .map((category, index) => (
+                      <div key={index}>
+                        <div className=" font-black hover:text-[#48cab2] px-2 cursor-pointer">
+                          <Link href={`/products/${category.id}`}>
+                            {category.name}
+                          </Link>
+                        </div>
+
+                        <ul className="text-stone-500 py-3 md:w-[200px] lg:w-[200px]">
+                          {getSubcategories(category.id, ['MEN', 'WOMEN'])?.map(
+                            (subcategory, subIndex) => (
+                              <div key={subIndex}>
+                                {/* <Link href={`/products/${subcategory.id}`}>
+                                <h1 className="text-stone-500 py-1 md:w-[200px] lg:w-[200px] px-2 hover:text-[#48cab2]">
+                                  {subcategory.name}
+                                </h1>
+                              </Link> */}
+                                <ListItem
+                                  href={`/${subcategory.id}`}
+                                  title={subcategory.name}
+                                />
+                              </div>
+                            )
+                          )}
+                        </ul>
+                      </div>
+                    ))}
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+            {/* <NavigationMenuList>
               {categoriesData.map((category, index) => (
                 <NavigationMenuItem key={index}>
-                  <NavigationMenuTrigger className="font-semibold h-6 text-white bg-transparent hover:bg-transparent data-active:bg-transparent data-[state=open]:bg-transparent hover:text-white hover:border-b-2 border-[#48CAB2] rounded-none mx-3 focus:bg-transparent focus:text-white">
+                  <NavigationMenuTrigger className="font-semibold h-6 text-white bg-transparent hover:bg-transparent data-active:bg-transparent data-[state=open]:bg-transparent hover:text-green-300  rounded-none mx-3 focus:bg-transparent focus:text-white">
                     {category.category}
                   </NavigationMenuTrigger>
                   <NavigationMenuContent>
@@ -143,7 +283,7 @@ const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
                   </NavigationMenuContent>
                 </NavigationMenuItem>
               ))}
-            </NavigationMenuList>
+            </NavigationMenuList> */}
           </NavigationMenu>
         </div>
       </div>

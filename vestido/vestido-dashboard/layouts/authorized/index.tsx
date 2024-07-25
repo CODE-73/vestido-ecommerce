@@ -4,11 +4,13 @@ import Sidebar from './Sidebar';
 import { navItems } from './nav-items';
 import Link from 'next/link';
 import Image from 'next/image';
-import { LuMenu } from 'react-icons/lu';
+import { LuChevronLeft, LuMenu } from 'react-icons/lu';
+import { useRouter } from 'next/router';
 
 type AuthorizedLayoutProps = ComponentWithChildrenProps;
 
 const AuthorizedLayout: React.FC<AuthorizedLayoutProps> = ({ children }) => {
+  const router = useRouter();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -60,6 +62,9 @@ const AuthorizedLayout: React.FC<AuthorizedLayoutProps> = ({ children }) => {
       </div>
       <div className="sm:hidden flex flex-col w-full fixed top-0 left-0 bg-white">
         <div className="flex justify-between items-center p-4">
+          <button onClick={() => router.back()}>
+            <LuChevronLeft size={24} />
+          </button>
           <div className="font-bold text-lg">
             <Link href="/">
               <div className="flex items-center">

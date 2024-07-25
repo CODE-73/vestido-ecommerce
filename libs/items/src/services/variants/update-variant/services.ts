@@ -17,6 +17,19 @@ export async function updateVariant(
     validatedData.attributeValues ?? []
   );
 
+  if (validatedData.default) {
+    // Update all existing addresses to set default to false
+    await prisma.itemVariant.updateMany({
+      where: {
+        itemId: validatedData.itemId,
+        default: true,
+      },
+      data: {
+        default: false,
+      },
+    });
+  }
+
   await prisma.$transaction(async (prisma) => {
     // Update ItemVariants fields( except variantAttributeValues)
     await prisma.itemVariant.update({
