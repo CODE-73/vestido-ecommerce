@@ -8,6 +8,6 @@ export function useLogin() {
 
   return useSWRMutation<LoginResponse, Error, string[] | null, LoginRequest>(
     key,
-    (_, { arg }) => login({ ...arg })
+    (_, { arg }) => login({ ...arg }),
   );
 }

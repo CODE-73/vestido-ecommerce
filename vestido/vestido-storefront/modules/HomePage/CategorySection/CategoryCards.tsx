@@ -10,15 +10,15 @@ import CategoryCard, { CategoryCardData } from './CategoryCard';
 const cards: CategoryCardData[] = [
   {
     cardImage: category1,
-    title: 'Bodycon Dress',
+    title: 'Bodycon Dresses',
   },
   {
     cardImage: category2,
-    title: 'Wrap Dress',
+    title: 'Wrap Dresses',
   },
   {
     cardImage: category3,
-    title: 'Floral Dress',
+    title: 'Floral Dresses',
   },
   {
     cardImage: category4,
@@ -49,7 +49,7 @@ type CategoryCardProps = {
 export const CategoryCards: FC<CategoryCardProps> = (props) => {
   return (
     <div className="w-full lg:w-auto overflow-x-auto no-scrollbar sm:pt-4 lg:pt-10">
-      <div className="flex space-x-4 lg:space-x-2 px-4">
+      <div className="flex space-x-4 lg:space-x-2 px-4 lg:justify-center">
         {cards.map((card, index) => (
           <CategoryCard key={index} data={card} />
         ))}

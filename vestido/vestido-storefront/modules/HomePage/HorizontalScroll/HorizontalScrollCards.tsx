@@ -58,7 +58,7 @@ const cards: ScrollCardData[] = [
   },
 ];
 export const HorizontalScrollCards: FC<HorizontalScrollCardsProps> = (
-  props
+  props,
 ) => {
   return (
     <Carousel

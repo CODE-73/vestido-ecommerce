@@ -44,7 +44,7 @@ export const AttributeValueCombobox: React.FC<AttributeValueComboboxProps> = ({
       }
 
       return x.value.toLowerCase().includes(searchQuery.toLowerCase());
-    }
+    },
   );
 
   return (
@@ -84,7 +84,7 @@ export type AttributeValueElementProps<T extends FieldValues = FieldValues> =
   };
 
 export function AttributeValueElement<
-  TFieldValues extends FieldValues = FieldValues
+  TFieldValues extends FieldValues = FieldValues,
 >({
   name,
   control,

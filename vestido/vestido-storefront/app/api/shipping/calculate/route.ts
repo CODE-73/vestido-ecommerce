@@ -17,7 +17,7 @@ export async function POST(request: Request) {
     if (!body.paymentType || !body.shippingAddressId) {
       return new Response(
         JSON.stringify({ success: false, error: 'Invalid input parameters' }),
-        { status: 400, headers: { 'Content-Type': 'application/json' } }
+        { status: 400, headers: { 'Content-Type': 'application/json' } },
       );
     }
 
@@ -26,19 +26,19 @@ export async function POST(request: Request) {
         success: true,
         data: shipping,
       }),
-      { headers: { 'Content-Type': 'application/json' } }
+      { headers: { 'Content-Type': 'application/json' } },
     );
   } catch (e) {
     if (e instanceof ZodError) {
       return new Response(
         JSON.stringify({ success: false, error: e.message }),
-        { status: 400, headers: { 'Content-Type': 'application/json' } }
+        { status: 400, headers: { 'Content-Type': 'application/json' } },
       );
     } else {
       console.error('Unexpected Error', e);
       return new Response(
         JSON.stringify({ success: false, message: 'Unknown Error' }),
-        { status: 500, headers: { 'Content-Type': 'application/json' } }
+        { status: 500, headers: { 'Content-Type': 'application/json' } },
       );
     }
   }

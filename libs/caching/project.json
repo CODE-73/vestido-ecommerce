@@ -1,0 +1,23 @@
+{
+  "name": "caching",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/caching/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/caching",
+        "main": "libs/caching/src/index.ts",
+        "tsConfig": "libs/caching/tsconfig.lib.json",
+        "assets": ["libs/caching/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": []
+}

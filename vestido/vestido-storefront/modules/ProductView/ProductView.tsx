@@ -33,6 +33,7 @@ import {
 } from '@vestido-ecommerce/items';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
+import { useEffect, useState, useMemo } from 'react';
 // import { ItemVariant, VariantAttributeValue } from '@prisma/client';
 
 interface ProductViewProps {
@@ -50,8 +51,73 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
   const itemCategory = category?.data.name;
 
   const [selectedImage, setSelectedImage] = React.useState<string>(
-    ((item?.images ?? []) as ImageSchemaType[])[0]?.url ?? ''
+    ((item?.images ?? []) as ImageSchemaType[])[0]?.url ?? '',
   );
+
+  const [selectedVariantId, setSelectedVariantId] = useState<string | null>(
+    null,
+  );
+
+  const selectedVariant = useMemo(
+    () => item?.variants?.find((x) => x.id === selectedVariantId) ?? null,
+    [item, selectedVariantId],
+  );
+
+  useEffect(() => {
+    if (item) {
+      const defaultVar =
+        item.variants.find((variant) => variant.default) || null;
+      setSelectedVariantId(defaultVar?.id ?? null);
+      setSelectedImage(
+        ((defaultVar?.images ?? []) as ImageSchemaType[])[0]?.url || '',
+      );
+    }
+  }, [item]);
+
+  console.log('selectedVariantId', selectedVariantId);
+
+  // const currentAttributeValues ={}
+  interface AttributeValuesMap {
+    [key: string]: string;
+  }
+
+  const currentAttributeValues = useMemo<AttributeValuesMap>(() => {
+    if (!selectedVariant) return {};
+
+    return selectedVariant.attributeValues.reduce((acc, attributeValue) => {
+      acc[attributeValue.attribute.id] = attributeValue.attributeValue.id;
+      return acc;
+    }, {} as AttributeValuesMap);
+  }, [selectedVariant]);
+
+  console.log(currentAttributeValues);
+
+  const changeToVariant = (attributeId: string, valueId: string) => {
+    const values = {
+      ...currentAttributeValues,
+      [attributeId]: valueId,
+    };
+
+    const _v = item?.variants.find((x) =>
+      x.attributeValues.every(
+        (attrVal) => values[attrVal.attribute.id] === attrVal.attributeValue.id,
+      ),
+    );
+
+    if (_v) {
+      setSelectedVariantId(_v.id);
+      setSelectedImage(
+        ((selectedVariant?.images ?? []) as ImageSchemaType[])[0]?.url || '',
+      );
+    }
+  };
+  //   const _v = item?.variants.find((x) => {
+  //     x.attribute
+  //   });
+  //   if (_v) {
+  //     setSelectedVariantId(_v.id);
+  //   }
+  // };
 
   const { trigger: cartTrigger } = useAddToCart();
   const { trigger: wishlistTrigger } = useAddToWishlist();
@@ -69,10 +135,10 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
       scrollRef.current.scrollBy({ left: 800, behavior: 'smooth' });
     }
   };
-  const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'];
 
-  const attributeMap: { [key: string]: { name: string; values: string[] } } =
-    {};
+  const attributeMap: {
+    [key: string]: { name: string; values: { value: string; id: string }[] };
+  } = {};
 
   item?.variants.forEach((variant) => {
     variant.attributeValues.forEach((attributeValue) => {
@@ -83,13 +149,14 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
         };
       }
       if (
-        !attributeMap[attributeValue.attributeId].values.includes(
-          attributeValue.attributeValue.value
+        !attributeMap[attributeValue.attributeId].values.find(
+          (x) => x.id === attributeValue.attributeValue.id,
         )
       ) {
-        attributeMap[attributeValue.attributeId].values.push(
-          attributeValue.attributeValue.value
-        );
+        attributeMap[attributeValue.attributeId].values.push({
+          value: attributeValue.attributeValue.value,
+          id: attributeValue.attributeValue.id,
+        });
       }
     });
   });
@@ -98,7 +165,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
       cartTrigger({
         itemId: item.id,
         qty: 1,
-        variantId: item.variants?.[0]?.id ?? null,
+        variantId: selectedVariantId ?? null,
       });
     }
     console.log('handleAddToCart');
@@ -108,6 +175,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
     if (item) {
       wishlistTrigger({
         itemId: item.id,
+        // variantId: selectedVariantId ?? null,
       });
     }
   };
@@ -121,7 +189,8 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
             src={
               selectedImage
                 ? selectedImage
-                : ((item?.images ?? []) as ImageSchemaType[])[0]?.url ?? ''
+                : (((selectedVariant?.images ?? []) as ImageSchemaType[])[0]
+                    ?.url ?? '')
             }
             alt="alt text"
             width={550}
@@ -142,7 +211,49 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
             style={{ scrollbarWidth: 'none' }}
           >
             <div className="flex space-x-2 w-full">
-              {((item?.images ?? []) as ImageSchemaType[]).map(
+              {((selectedVariant?.images ?? []) as ImageSchemaType[]).length >
+              1 ? (
+                <>
+                  {((selectedVariant?.images ?? []) as ImageSchemaType[]).map(
+                    (image, index) => (
+                      <div
+                        key={index}
+                        className="basis-1/5 flex-none"
+                        onClick={() => setSelectedImage(image.url!)}
+                      >
+                        <Image
+                          className="outline outline-3 hover:outline-[#48CAB2] mb-3"
+                          src={image.url!}
+                          alt="alt text"
+                          width={100}
+                          height={150}
+                        />
+                      </div>
+                    ),
+                  )}
+                </>
+              ) : (
+                <>
+                  {((item?.images ?? []) as ImageSchemaType[]).map(
+                    (image, index) => (
+                      <div
+                        key={index}
+                        className="basis-1/5 flex-none"
+                        onClick={() => setSelectedImage(image.url!)}
+                      >
+                        <Image
+                          className="outline outline-3 hover:outline-[#48CAB2] mb-3"
+                          src={image.url!}
+                          alt="alt text"
+                          width={100}
+                          height={150}
+                        />
+                      </div>
+                    ),
+                  )}
+                </>
+              )}
+              {/* {((item?.images ?? []) as ImageSchemaType[]).map(
                 (image, index) => (
                   <div
                     key={index}
@@ -158,7 +269,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
                     />
                   </div>
                 )
-              )}
+              )} */}
             </div>
           </div>
           <button
@@ -183,8 +294,8 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
               {item?.stockStatus === 'LIMITED_STOCK'
                 ? 'Limited Stock'
                 : item?.stockStatus === 'OUT_OF_STOCK'
-                ? 'Out of Stock'
-                : 'Available'}
+                  ? 'Out of Stock'
+                  : 'Available'}
             </h1>
           </div>
 
@@ -195,28 +306,27 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
             </h1>
           </div>
 
-          {/* <div>
-            {' '}
-            {item?.variants.map((variant, variantIndex) => (
-              <div key={variantIndex}>
-                {variant.attributeValues.map((attribute, attributeIndex) => (
-                  <div key={attributeIndex}>{attribute.attribute.name}</div>
-                ))}
-              </div>
-            ))}
-          </div> */}
-
           <div className="mt-5 flex flex-col gap-5">
             {Object.keys(attributeMap).map((attributeId) => (
-              <div key={attributeId} className="flex gap-5">
+              <div key={attributeId} className="flex gap-2">
                 <strong>{attributeMap[attributeId].name}:</strong>
-
                 {attributeMap[attributeId].values.map((value, index) => (
                   <div
                     key={index}
-                    className="flex flex-col outline outline-3 outline-zinc-100 hover:outline-black "
+                    onClick={() => changeToVariant(attributeId, value.id)}
+                    className={`flex flex-col outline outline-3 ${
+                      selectedVariant?.attributeValues.some(
+                        (attrVal) =>
+                          attrVal.attributeId === attributeId &&
+                          attrVal.attributeValue.id === value.id,
+                      )
+                        ? 'outline-black'
+                        : 'outline-zinc-100 hover:outline-black'
+                    }`}
                   >
-                    <div className="text-xs outline outline-3 p-2">{value}</div>
+                    <div className="text-xs outline outline-3 p-2">
+                      {value.value}
+                    </div>
                   </div>
                 ))}
               </div>
@@ -227,16 +337,6 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
             <h1 className="font-extralight">Size:&nbsp; </h1>
             <h1 className="font-semibold no-underline">XS</h1>
           </div>
-        </div>
-        <div className="flex gap-2 pt-2 ">
-          {sizes.map((size, index) => (
-            <div
-              key={index}
-              className="flex flex-col outline outline-3 outline-zinc-100 hover:outline-black   "
-            >
-              <div className="text-xs outline outline-3 p-2">{size}</div>
-            </div>
-          ))}
         </div>
 
         <div className="flex flex-row pr-5 gap-1 py-6">

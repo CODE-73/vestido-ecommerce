@@ -106,7 +106,7 @@ const SpecialOfferCard: React.FC<SpecialOfferCardProps> = ({ data }) => {
           </div>
         )}
         <div className="sm:hidden flex flex-row justify-start sm:group-hover:flex sm:flex-col gap-3 sm:absolute top-3 right-3 pt-2 sm:pt-0">
-          <AddToWishListButton />
+          <AddToWishListButton wishlisted={false} />
           <QuickViewButton />
         </div>
       </div>

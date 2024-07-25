@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic'; // static by default, unless reading the
 
 export async function GET(
   request: Request,
-  { params }: { params: { item_id: string } }
+  { params }: { params: { item_id: string } },
 ) {
   try {
     const item = await itemDetails(params.item_id);
@@ -19,7 +19,7 @@ export async function GET(
         headers: {
           'Content-Type': 'application/json',
         },
-      }
+      },
     );
   } catch (e) {
     console.error(e);
@@ -34,7 +34,7 @@ export async function GET(
 
 export async function PUT(
   request: Request,
-  { params }: { params: { item_id: string } }
+  { params }: { params: { item_id: string } },
 ) {
   const body = await request.json();
 
@@ -50,7 +50,7 @@ export async function PUT(
         headers: {
           'Content-Type': 'application/json',
         },
-      }
+      },
     );
   } catch (e) {
     if (e instanceof ZodError) {
@@ -64,7 +64,7 @@ export async function PUT(
           headers: {
             'Content-Type': 'application/json',
           },
-        }
+        },
       );
     } else {
       console.error('Unexpected Error', e);
@@ -79,14 +79,14 @@ export async function PUT(
           headers: {
             'Content-Type': 'application/json',
           },
-        }
+        },
       );
     }
   }
 }
 export async function DELETE(
   request: Request,
-  { params }: { params: { item_id: string } }
+  { params }: { params: { item_id: string } },
 ) {
   try {
     await itemDelete({ itemId: params.item_id });
@@ -100,7 +100,7 @@ export async function DELETE(
         headers: {
           'Content-Type': 'application/json',
         },
-      }
+      },
     );
   } catch (e) {
     console.error(e);
@@ -114,7 +114,7 @@ export async function DELETE(
         headers: {
           'Content-Type': 'application/json',
         },
-      }
+      },
     );
   }
 }

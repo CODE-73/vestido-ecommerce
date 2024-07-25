@@ -71,7 +71,7 @@ export type CategoryElementProps<T extends FieldValues = FieldValues> =
   };
 
 export function CategoryElement<
-  TFieldValues extends FieldValues = FieldValues
+  TFieldValues extends FieldValues = FieldValues,
 >({
   name,
   control,

@@ -1,7 +1,7 @@
 import { attributeDetailsResponse } from './types';
 
 export async function getAttributeDetails(
-  attributeId: string
+  attributeId: string,
 ): Promise<attributeDetailsResponse> {
   const url = `/api/attributes/${encodeURIComponent(attributeId)}`;
   const r = await fetch(url);

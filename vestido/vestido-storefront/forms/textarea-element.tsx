@@ -25,7 +25,7 @@ export type TextAreaElementProps<T extends FieldValues = FieldValues> = Omit<
 };
 
 export function TextAreaElement<
-  TFieldValues extends FieldValues = FieldValues
+  TFieldValues extends FieldValues = FieldValues,
 >({ label, ...props }: TextAreaElementProps<TFieldValues>) {
   const validation: ControllerProps<TFieldValues>['rules'] =
     props.validation ?? {};

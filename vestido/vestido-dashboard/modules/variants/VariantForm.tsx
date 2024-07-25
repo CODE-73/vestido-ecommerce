@@ -13,7 +13,10 @@ import { LuChevronRight, LuPlus } from 'react-icons/lu';
 import { AttributeElement } from '../../forms/attribute-combobox-element';
 import { AttributeValueElement } from '../../forms/attribute-value-combobox';
 import MultiImageUploaderElement from '../../components/MultiImageUploaderElement';
-import { ImageSchema } from '@vestido-ecommerce/utils';
+import { ImageSchema, ImageSchemaType } from '@vestido-ecommerce/utils';
+import { RadioGroupElement } from '../../forms/radio-group-element';
+import { SwitchElement } from '../../forms/switch-element';
+import { StockStatus } from '@prisma/client';
 
 export const VariantAttributeValueSchema = z.object({
   attributeId: z.string(),
@@ -25,6 +28,17 @@ const CreateVariantFormSchema = z.object({
   title: z.string().optional(),
   images: z.array(ImageSchema),
   attributeValues: z.array(VariantAttributeValueSchema),
+  default: z.boolean(),
+  stockStatus: z
+    .nativeEnum(StockStatus)
+    .default('AVAILABLE' satisfies StockStatus),
+  discountPercent: z.coerce
+    .number()
+    .max(100, { message: 'Percentage cannot be more than 100' })
+    .default(0)
+    .nullable(),
+  discountedPrice: z.coerce.number().nullable(),
+  slug: z.string(),
 });
 
 export type CreateVariantForm = z.infer<typeof CreateVariantFormSchema>;
@@ -42,12 +56,19 @@ const VariantForm: React.FC<VariantFormProps> = ({
 }) => {
   const { toast } = useToast();
   const router = useRouter();
+  // const { data } = useItem(propItemId);
+  // const item = data?.data;
+
   const form = useForm<CreateVariantForm>({
     resolver: zodResolver(CreateVariantFormSchema),
     defaultValues: {
       itemId: propItemId ?? '',
       price: 0,
+      discountPercent: 0,
+      discountedPrice: 0,
       attributeValues: [],
+      default: false,
+      slug: '',
     },
   });
   const itemId = form.watch('itemId');
@@ -59,10 +80,11 @@ const VariantForm: React.FC<VariantFormProps> = ({
   const { trigger } = useVariantUpsert(itemId);
   const { data: { data: variant } = { data: null } /*error*/ } = useVariant(
     itemId,
-    isNew ? null : variantId
+    isNew ? null : variantId,
   );
 
-  const { isDirty, isValid /*,errors*/ } = form.formState;
+  const { isDirty, isValid, errors } = form.formState;
+  console.info(isValid, errors);
   const isSubmitting = form.formState.isSubmitting;
 
   useEffect(() => {
@@ -72,9 +94,23 @@ const VariantForm: React.FC<VariantFormProps> = ({
         price: variant.price,
         attributeValues: variant.attributeValues,
         title: variant.title,
+        default: variant.default,
+        images: (variant.images ?? []) as ImageSchemaType[],
+        stockStatus: variant.stockStatus,
+        discountPercent: variant.discountPercent,
+        discountedPrice: variant.discountedPrice,
+        slug: variant.slug,
       });
     }
   }, [isNew, variant, form]);
+
+  const price = form.watch('price');
+  const discountPercent = form.watch('discountPercent');
+
+  useEffect(() => {
+    const discountedPrice = price - (price * (discountPercent ?? 0)) / 100;
+    form.setValue('discountedPrice', discountedPrice);
+  }, [form, price, discountPercent]);
 
   const handleSubmit = async (data: CreateVariantForm) => {
     try {
@@ -107,6 +143,10 @@ const VariantForm: React.FC<VariantFormProps> = ({
         </div>
         <div className="flex flex-col flex-grow ps-2 pe-2">
           <hr className="border-t-1 border-slate-400 mb-4 w-full" />
+          <div>
+            <SwitchElement name="default" label="Default Variant" />
+          </div>{' '}
+          <hr className="border-t-1 border-slate-400 my-4 w-full" />
           <div className="grid grid-cols-2 gap-5 lg:px-10 mb-10">
             <InputElement
               name="itemId"
@@ -122,10 +162,40 @@ const VariantForm: React.FC<VariantFormProps> = ({
               label="Title"
             ></InputElement>
           </div>
+          <div className="grid grid-cols-2 gap-5 lg:px-10 mb-10">
+            <InputElement name="slug" placeholder="Slug" label="Slug" />
+          </div>
+          <div className="grid grid-cols-2 gap-5 lg:px-10 my-2">
+            <InputElement
+              name="discountPercent"
+              placeholder="Discount %"
+              label="Discount percentage"
+            />
+            <InputElement
+              name="discountedPrice"
+              placeholder="Price after discount"
+              label="Discounted Price"
+            />
+          </div>
+          <RadioGroupElement
+            name="stockStatus"
+            label="Stock Status"
+            options={[
+              { label: 'Available', value: 'AVAILABLE' },
+              {
+                label: 'Limited Stock',
+                value: 'LIMITED_STOCK',
+              },
+              {
+                label: 'Out of Stock',
+                value: 'OUT_OF_STOCK',
+              },
+            ]}
+          />
           {fields.map((field, index) => (
             <div
               key={field.id}
-              className="grid grid-cols-5 gap-3 lg:px-10 mt-2"
+              className="grid grid-cols-5 gap-3 lg:px-10 mt-3"
             >
               <div className="col-span-2">
                 <AttributeElement
@@ -136,9 +206,9 @@ const VariantForm: React.FC<VariantFormProps> = ({
               <div className="col-span-2">
                 <AttributeValueElement
                   name={`attributeValues.${index}.attributeValueId`}
-                  placeholder="Attribute Value"
+                  placeholder="Value"
                   attributeId={form.watch(
-                    `attributeValues.${index}.attributeId`
+                    `attributeValues.${index}.attributeId`,
                   )}
                 />
               </div>
@@ -151,7 +221,6 @@ const VariantForm: React.FC<VariantFormProps> = ({
               </Button>
             </div>
           ))}
-
           <Button
             type="button"
             onClick={() => append({ attributeId: '', attributeValueId: '' })}
@@ -165,7 +234,7 @@ const VariantForm: React.FC<VariantFormProps> = ({
         <div className="text-lg font-semibold">Variant Images</div>
         <MultiImageUploaderElement name="images" />
 
-        <div className="grid grid-cols-8 mt-3 text-right gap-2">
+        <div className=" flex justify-between md:justify-start  mt-3 text-right gap-2">
           <Button type="submit" disabled={!isValid || !isDirty || isSubmitting}>
             {isNew ? 'Create' : 'Update'}
           </Button>

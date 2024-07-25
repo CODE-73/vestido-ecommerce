@@ -13,6 +13,6 @@ export function useVariants(itemId: string, query?: string) {
     () => getVariantsList(itemId, query!),
     {
       keepPreviousData: true,
-    }
+    },
   );
 }

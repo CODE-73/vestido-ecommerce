@@ -19,6 +19,6 @@ export function useCategories(args?: ListCategoryRequest) {
       }),
     {
       keepPreviousData: true,
-    }
+    },
   );
 }

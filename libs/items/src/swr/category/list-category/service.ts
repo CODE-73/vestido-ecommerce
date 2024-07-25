@@ -3,7 +3,7 @@ import { ListCategoryRequest } from '../../../services/categories/list-category/
 import { ListCategoryResponse } from './types';
 
 export async function getCategoriesList(
-  args: ListCategoryRequest
+  args: ListCategoryRequest,
 ): Promise<ListCategoryResponse> {
   let url = '/api/categories';
 

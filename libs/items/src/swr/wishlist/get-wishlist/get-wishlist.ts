@@ -13,6 +13,6 @@ export function useWishlist(query?: string) {
     () => getWishlist(authHeaders),
     {
       keepPreviousData: true,
-    }
+    },
   );
 }

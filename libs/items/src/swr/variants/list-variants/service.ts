@@ -2,7 +2,7 @@ import { VariantListResponse } from './types';
 
 export async function getVariantsList(
   itemId: string,
-  query?: string
+  query?: string,
 ): Promise<VariantListResponse> {
   let url = `/api/items/${itemId}/variants`;
   const r = await fetch(url);

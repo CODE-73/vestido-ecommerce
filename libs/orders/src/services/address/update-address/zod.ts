@@ -11,6 +11,7 @@ export const UpdateAddressSchema = z.object({
   postalCode: z
     .string()
     .regex(indianPostalCodeRegex, 'Please enter a valid Indian postal code'),
+  default: z.boolean().default(true),
 });
 
 export type UpdateAddressSchemaType = z.infer<typeof UpdateAddressSchema>;

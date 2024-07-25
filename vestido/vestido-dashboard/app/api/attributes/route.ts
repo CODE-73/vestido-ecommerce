@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
         headers: {
           'Content-Type': 'application/json',
         },
-      }
+      },
     );
   } catch (e) {
     console.error(e);
@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
         headers: {
           'Content-Type': 'application/json',
         },
-      }
+      },
     );
   }
 }
@@ -64,7 +64,7 @@ export async function POST(request: Request) {
           JSON.stringify({
             success: false,
             message: 'Unknown Error',
-          })
+          }),
         ),
         {
           status: 500,

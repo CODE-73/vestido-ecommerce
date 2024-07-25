@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic'; // static by default, unless reading the
 
 export async function GET(
   request: Request,
-  { params }: { params: { slug: string } }
+  { params }: { params: { slug: string } },
 ) {
   try {
     const address = await getAddress(params.slug);
@@ -22,7 +22,7 @@ export async function GET(
         headers: {
           'content-Type': 'application/json',
         },
-      }
+      },
     );
   } catch (e) {
     console.error(e);
@@ -37,7 +37,7 @@ export async function GET(
 
 export async function PUT(
   request: Request,
-  { params }: { params: { slug: string } }
+  { params }: { params: { slug: string } },
 ) {
   const data = await request.json();
 
@@ -53,7 +53,7 @@ export async function PUT(
         headers: {
           'Content-Type': 'application/json',
         },
-      }
+      },
     );
   } catch (e) {
     if (e instanceof ZodError) {
@@ -74,7 +74,7 @@ export async function PUT(
           headers: {
             'Content-Type': 'application/json',
           },
-        }
+        },
       );
     }
   }
@@ -82,7 +82,7 @@ export async function PUT(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { slug: string } }
+  { params }: { params: { slug: string } },
 ) {
   try {
     const deletedAddress = await deleteAddress(params.slug);
@@ -93,7 +93,7 @@ export async function DELETE(
         headers: {
           'Content-Type': 'application/json',
         },
-      }
+      },
     );
   } catch (e) {
     console.error(e);

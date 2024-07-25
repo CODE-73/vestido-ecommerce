@@ -4,7 +4,7 @@ import axios from 'axios'; // Import Axios
 
 export async function removeFromWishList(
   args: RemoveFromWishListRequest,
-  authHeaders: Record<string, string>
+  authHeaders: Record<string, string>,
 ): Promise<RemoveFromWishListResponse> {
   try {
     const itemId = args.data.itemId;

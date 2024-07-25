@@ -2,7 +2,7 @@ import { variantUpsertRequest, variantUpsertResponse } from './types';
 
 export async function upsertVariant(
   args: variantUpsertRequest,
-  itemId: string
+  itemId: string,
 ): Promise<variantUpsertResponse> {
   let url = `/api/items/${itemId}/variants`;
   let method = 'POST';

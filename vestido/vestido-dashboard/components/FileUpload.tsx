@@ -23,7 +23,7 @@ const FileUpload: FC<FileUploadProps> = (props) => {
 
   const key = useMemo(
     () => (file !== null ? makeUploadKey(targetKey, file) : null),
-    [targetKey, file]
+    [targetKey, file],
   );
 
   const { data: uploadStatus } = useR2Upload({
@@ -70,7 +70,7 @@ const FileUpload: FC<FileUploadProps> = (props) => {
     <div
       className={clsx(
         'flex items-center justify-between border border-4 border-black-500 border-dashed',
-        props.className
+        props.className,
       )}
     >
       <div className="flex flex-col items-start">

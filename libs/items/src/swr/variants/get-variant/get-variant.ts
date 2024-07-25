@@ -18,6 +18,6 @@ export function useVariant(itemId: string, variantId?: string | null) {
     () => getVariantDetails(variantId as string, itemId),
     {
       keepPreviousData: true,
-    }
+    },
   );
 }

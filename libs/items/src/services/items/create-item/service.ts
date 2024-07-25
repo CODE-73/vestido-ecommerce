@@ -17,12 +17,12 @@ export async function createItem(data: CreateItemSchemaType) {
     const itemGenders = validatedData.gender;
 
     const isSubset = itemGenders.every((gender) =>
-      categoryGenders.includes(gender)
+      categoryGenders.includes(gender),
     );
 
     if (!isSubset) {
       throw new Error(
-        "The genders of a product must be a subset of its category's genders."
+        "The genders of a product must be a subset of its category's genders.",
       );
     }
   }

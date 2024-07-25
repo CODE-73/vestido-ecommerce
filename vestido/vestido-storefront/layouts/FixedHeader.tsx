@@ -1,11 +1,6 @@
 import * as React from 'react';
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuList,
-} from '@vestido-ecommerce/shadcn-ui/navigation-menu';
-import { NavigationMenuTrigger } from './MainHeader';
+
+import NavigationMenu from '../components/NavigationMenu';
 import { LuHeart, LuSearch, LuShoppingBag, LuUser2, LuX } from 'react-icons/lu';
 import { useState } from 'react';
 import Link from 'next/link';
@@ -14,69 +9,6 @@ import { InputProps } from '@vestido-ecommerce/shadcn-ui/input';
 import Image from 'next/image';
 import useIsMobile from '../hooks/useIsMobile';
 import HeaderDropdown from './HeaderDropdown';
-
-type ListItemProps = {
-  href: string;
-  title: string;
-};
-
-const ListItem: React.FC<ListItemProps> = ({ href, title }) => (
-  <li className="row-span-3">
-    <a
-      className="flex select-none flex-col justify-start md:justify-end rounded-md  pl-3 no-underline outline-none focus:shadow-md"
-      href={href}
-    >
-      <div className="font-normal text-sm font-medium p-1">{title}</div>
-    </a>
-  </li>
-);
-
-const categoriesData = [
-  {
-    category: "MEN'S",
-    subcategories: [
-      {
-        title: 'Top Wear',
-        items: [
-          'Casual Shirts',
-          'Formal Shirts',
-          'Denim Shirts',
-          'T Shirts',
-          'Hoodies',
-        ],
-      },
-      {
-        title: 'Bottom Wear',
-        items: [
-          'Baggy Jeans',
-          'Casual Jeans',
-          'Cargo Pants',
-          'Formal Pants',
-          'Jogger',
-        ],
-      },
-    ],
-  },
-  {
-    category: "WOMEN'S",
-    subcategories: [
-      {
-        title: 'Dresses',
-        items: [
-          'A-Line Dress',
-          'Floaral Dress',
-          'Bodycon Dress',
-          'Cocktail Dress',
-          'Casual Dress',
-        ],
-      },
-      {
-        title: 'Other',
-        items: ['Kurthi Dress', 'Wrap Dress', 'Salwar Dress'],
-      },
-    ],
-  },
-];
 
 const fixedHeight = '60px';
 
@@ -158,7 +90,7 @@ const FixedHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
           )}
         </Link>
         <div className=" sm:py-4 flex-1">
-          <NavigationMenu>
+          {/* <NavigationMenu>
             <NavigationMenuList>
               {categoriesData.map((category, index) => (
                 <NavigationMenuItem key={index}>
@@ -189,7 +121,8 @@ const FixedHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
                 </NavigationMenuItem>
               ))}
             </NavigationMenuList>
-          </NavigationMenu>
+          </NavigationMenu> */}
+          <NavigationMenu isFixed={true} />
         </div>
         <div className="flex space-x-4 py-4 ">
           <span className="hover:text-[#48cab2]">
@@ -218,6 +151,8 @@ const FixedHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
   );
 };
 
+export default FixedHeader;
+
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, ...props }, ref) => {
     return (
@@ -225,14 +160,12 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         type={type}
         className={clsx(
           'flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:font-medium placeholder:text-black placeholder:text-2xl placeholder:font-semibold focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-none focus-visible:ring-offset-none disabled:cursor-not-allowed disabled:opacity-50',
-          className
+          className,
         )}
         ref={ref}
         {...props}
       />
     );
-  }
+  },
 );
 Input.displayName = 'Input';
-
-export default FixedHeader;

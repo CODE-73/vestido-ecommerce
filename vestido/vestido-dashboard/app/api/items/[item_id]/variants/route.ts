@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic'; // static by default, unless reading the
 
 export async function GET(
   request: Request,
-  { params }: { params: { item_id: string } }
+  { params }: { params: { item_id: string } },
 ) {
   try {
     const variants = await listVariants(params.item_id);
@@ -20,7 +20,7 @@ export async function GET(
         headers: {
           'Content-Type': 'application/json',
         },
-      }
+      },
     );
   } catch (e) {
     console.error(e);
@@ -34,7 +34,7 @@ export async function GET(
         headers: {
           'Content-Type': 'application/json',
         },
-      }
+      },
     );
   }
 }
@@ -60,7 +60,7 @@ export async function POST(request: Request) {
         headers: {
           'Content-Type': 'application/json',
         },
-      }
+      },
     );
   } catch (e) {
     if (e instanceof ZodError) {
@@ -74,20 +74,20 @@ export async function POST(request: Request) {
           headers: {
             'Content-Type': 'application/json',
           },
-        }
+        },
       );
     } else {
       console.error('Unexpected Error', e);
       return new Response(
         JSON.stringify({
-          message: 'Unknown Error',
+          message: e,
         }),
         {
           status: 500,
           headers: {
             'Content-Type': 'application/json',
           },
-        }
+        },
       );
     }
   }

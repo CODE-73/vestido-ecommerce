@@ -1,7 +1,7 @@
 import { ItemUpsertRequest, ItemUpsertResponse } from './types';
 
 export async function upsertItem(
-  args: ItemUpsertRequest
+  args: ItemUpsertRequest,
 ): Promise<ItemUpsertResponse> {
   let url = '/api/items';
   let method = 'POST';

@@ -4,6 +4,7 @@ export type VestidoResponse<T> =
       data: T;
     }
   | {
+      data?: T;
       success: false;
       error: object;
     };

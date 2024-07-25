@@ -21,6 +21,6 @@ export function useShippingCharges(args: shippingChargesRequest) {
     () => getShipping(args, authHeaders),
     {
       keepPreviousData: true,
-    }
+    },
   );
 }

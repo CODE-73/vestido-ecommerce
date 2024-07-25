@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic'; // static by default, unless reading the
 
 export async function GET(
   request: Request,
-  { params }: { params: { variant_id: string } }
+  { params }: { params: { variant_id: string } },
 ) {
   try {
     const variant = await variantDetails(params.variant_id);
@@ -23,7 +23,7 @@ export async function GET(
         headers: {
           'Content-Type': 'application/json',
         },
-      }
+      },
     );
   } catch (e) {
     console.error(e);
@@ -37,14 +37,14 @@ export async function GET(
         headers: {
           'Content-Type': 'application/json',
         },
-      }
+      },
     );
   }
 }
 
 export async function PUT(
   request: Request,
-  { params }: { params: { item_id: string; variant_id: string } }
+  { params }: { params: { item_id: string; variant_id: string } },
 ) {
   const body = await request.json();
 
@@ -60,7 +60,7 @@ export async function PUT(
         headers: {
           'Content-Type': 'application/json',
         },
-      }
+      },
     );
   } catch (e) {
     if (e instanceof ZodError) {
@@ -74,21 +74,21 @@ export async function PUT(
       console.error('Unexpected Error', e);
       return new Response(
         JSON.stringify({
-          message: 'Unknown Error',
+          message: e,
         }),
         {
           status: 500,
           headers: {
             'Content-Type': 'application/json',
           },
-        }
+        },
       );
     }
   }
 }
 export async function DELETE(
   request: Request,
-  { params }: { params: { item_id: string; variant_id: string } }
+  { params }: { params: { item_id: string; variant_id: string } },
 ) {
   try {
     await deleteVariant(params.variant_id);
@@ -109,7 +109,7 @@ export async function DELETE(
         headers: {
           'Content-Type': 'application/json',
         },
-      }
+      },
     );
   }
 }

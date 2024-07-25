@@ -2,10 +2,10 @@ import { DeleteVariantRequest, DeleteVariantResponse } from './types';
 
 export async function deleteVariant(
   args: DeleteVariantRequest,
-  itemId: string
+  itemId: string,
 ): Promise<DeleteVariantResponse> {
   const url = `/api/items/${itemId}/variants/${encodeURIComponent(
-    args.variantId
+    args.variantId,
   )}`;
   const r = await fetch(url, {
     method: 'DELETE',

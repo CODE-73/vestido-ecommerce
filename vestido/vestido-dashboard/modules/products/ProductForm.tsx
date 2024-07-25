@@ -55,6 +55,7 @@ const CreateProductFormSchema = z.object({
     .default(0)
     .nullable(),
   discountedPrice: z.coerce.number().nullable(),
+  slug: z.string(),
 });
 
 export type CreateProductForm = z.infer<typeof CreateProductFormSchema>;
@@ -75,6 +76,7 @@ const defaultValues = {
   images: [],
   discountPercent: 0,
   discountedPrice: 0,
+  slug: '',
 } satisfies CreateProductForm;
 
 const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
@@ -89,7 +91,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
   });
   const { trigger } = useItemUpsert();
   const { data: { data: item } = { data: null } } = useItem(
-    isNew ? null : itemId
+    isNew ? null : itemId,
   );
   const { isDirty, isValid } = form.formState;
 
@@ -119,6 +121,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
     const discountedPrice = price - (price * (discountPercent ?? 0)) / 100;
     form.setValue('discountedPrice', discountedPrice);
   }, [form, price, discountPercent]);
+
+  const hasVariants = form.watch('hasVariants');
 
   const handleSubmit = async (data: CreateProductForm) => {
     try {
@@ -161,6 +165,9 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
             />
             <InputElement name="price" placeholder="Price" label="Price" />
           </div>
+          <div className="grid grid-cols-2 gap-5 lg:px-10 mb-10">
+            <InputElement name="slug" placeholder="Slug" label="Slug" />
+          </div>
           <div className="grid grid-cols-1 lg:px-10 mt-2">
             <CategoryElement
               name="categoryId"
@@ -188,7 +195,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
             />
           </div>
           <div className="grid grid-cols-2 gap-5 lg:px-10 mt-10">
-            <div>
+            {hasVariants == false && (
               <RadioGroupElement
                 name="stockStatus"
                 label="Stock Status"
@@ -204,7 +211,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
                   },
                 ]}
               />
-            </div>
+            )}
+            <div></div>
             <FormField
               control={form.control}
               name="gender"
@@ -235,8 +243,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
                                     ? field.onChange([...field.value, gender])
                                     : field.onChange(
                                         field.value?.filter(
-                                          (value) => value !== gender
-                                        )
+                                          (value) => value !== gender,
+                                        ),
                                       );
                                 }}
                               />
@@ -278,7 +286,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
           </Button>
         </div>
       </form>
-      {item?.hasVariants && <VariantsTable itemId={itemId as string} />}
+      {hasVariants && <VariantsTable itemId={itemId as string} />}
     </Form>
   );
 };

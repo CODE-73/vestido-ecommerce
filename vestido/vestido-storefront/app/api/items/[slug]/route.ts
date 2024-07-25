@@ -4,7 +4,7 @@ export const dynamic = 'force-dynamic'; // static by default, unless reading the
 
 export async function GET(
   request: Request,
-  { params }: { params: { slug: string } }
+  { params }: { params: { slug: string } },
 ) {
   try {
     const item = await itemDetails(params.slug);
@@ -18,7 +18,7 @@ export async function GET(
         headers: {
           'Content-Type': 'application/json',
         },
-      }
+      },
     );
   } catch (e) {
     console.error(e);
@@ -32,7 +32,7 @@ export async function GET(
         headers: {
           'Content-Type': 'application/json',
         },
-      }
+      },
     );
   }
 }

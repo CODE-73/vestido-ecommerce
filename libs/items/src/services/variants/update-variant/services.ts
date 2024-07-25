@@ -6,7 +6,7 @@ import { generateVariantTitle } from '../generate_variant_title';
 
 export async function updateVariant(
   variantId: string,
-  data: UpdateVariantSchemaType
+  data: UpdateVariantSchemaType,
 ) {
   const prisma = getPrismaClient();
 
@@ -14,8 +14,21 @@ export async function updateVariant(
   await validateAttributes(prisma, validatedData.attributeValues ?? []);
   const varTitle = await generateVariantTitle(
     prisma,
-    validatedData.attributeValues ?? []
+    validatedData.attributeValues ?? [],
   );
+
+  if (validatedData.default) {
+    // Update all existing addresses to set default to false
+    await prisma.itemVariant.updateMany({
+      where: {
+        itemId: validatedData.itemId,
+        default: true,
+      },
+      data: {
+        default: false,
+      },
+    });
+  }
 
   await prisma.$transaction(async (prisma) => {
     // Update ItemVariants fields( except variantAttributeValues)
@@ -43,7 +56,7 @@ export async function updateVariant(
     const incomingIds = new Set(
       validatedData.attributeValues
         ?.map((value) => value.id)
-        .filter((id) => !!id)
+        .filter((id) => !!id),
     );
 
     // Delete VariantAttributeValues that are not in the request

@@ -7,7 +7,7 @@ import axios from 'axios'; // Import Axios
 
 export async function createNewOrder(
   args: CreateOrderRequest,
-  authHeaders: Record<string, string>
+  authHeaders: Record<string, string>,
 ): Promise<CreateOrderResponse> {
   try {
     const r = await axios.post('/api/orders', args, {

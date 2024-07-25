@@ -3,7 +3,7 @@ import { UpdateAttributeSchema, UpdateAttributeSchemaType } from './zod';
 
 export async function updateAttribute(
   attributeId: string,
-  data: UpdateAttributeSchemaType
+  data: UpdateAttributeSchemaType,
 ) {
   const prisma = getPrismaClient();
 
@@ -30,7 +30,7 @@ export async function updateAttribute(
     const incomingIds = new Set(
       validatedData.itemAttributeValues
         ?.map((value) => value.id)
-        .filter((id) => !!id)
+        .filter((id) => !!id),
     );
 
     // Delete ItemAttributeValues that are not in the request

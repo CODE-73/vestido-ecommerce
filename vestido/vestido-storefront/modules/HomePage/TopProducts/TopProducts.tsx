@@ -18,9 +18,9 @@ export const TopProducts: FC<SpecialOfferProps> = (props) => {
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
-        {data?.slice(0, 5).map((data, index) => (
-          <SpecialOfferCard key={index} data={data} />
-        ))}
+        {data
+          ?.slice(0, 5)
+          .map((data, index) => <SpecialOfferCard key={index} data={data} />)}
       </div>
     </div>
   );

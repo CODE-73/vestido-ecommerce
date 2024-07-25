@@ -7,7 +7,7 @@ import axios from 'axios'; // Import Axios
 
 export async function getShipping(
   args: shippingChargesRequest,
-  authHeaders: Record<string, string>
+  authHeaders: Record<string, string>,
 ): Promise<shippingChargesResponse> {
   try {
     const r = await axios.post('/api/shipping/calculate', args, {
