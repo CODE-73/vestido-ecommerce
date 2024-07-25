@@ -1,5 +1,6 @@
-import { AddToCartSchemaType } from './zod';
 import { CartItem } from '@prisma/client';
+
+import { AddToCartSchemaType } from './zod';
 
 export type AddToCartRequest = AddToCartSchemaType;
 

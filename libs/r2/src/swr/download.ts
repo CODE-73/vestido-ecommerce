@@ -1,10 +1,11 @@
-import { R2SWRKeys } from './keys';
 import useSWRMutation from 'swr/mutation';
+
 import {
-  DownloadFileResponse,
-  DownloadFileRequest,
   downloadFile,
+  DownloadFileRequest,
+  DownloadFileResponse,
 } from './../services/download';
+import { R2SWRKeys } from './keys';
 
 export function useR2Download() {
   const key = [R2SWRKeys.DOWNLOAD];

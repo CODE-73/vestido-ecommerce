@@ -1,10 +1,13 @@
 import Image from 'next/image';
+import Link from 'next/link';
+
+import { Item } from '@prisma/client';
+
+import { ImageSchemaType } from '@vestido-ecommerce/utils';
+
+import AddToCartButton from './AddToCartButton';
 import { AddToWishListButton } from './AddToWishlistButton';
 import { QuickViewButton } from './QuickViewButton';
-import Link from 'next/link';
-import AddToCartButton from './AddToCartButton';
-import { Item } from '@prisma/client';
-import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 interface SpecialOfferCardProps {
   data: Item;

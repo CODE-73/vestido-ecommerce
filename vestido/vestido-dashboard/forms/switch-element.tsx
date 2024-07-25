@@ -1,8 +1,10 @@
 import { ComponentProps } from 'react';
-import { Switch } from '@vestido-ecommerce/shadcn-ui/switch';
+
+import { Control, FieldPath, FieldValues } from 'react-hook-form';
+
 import { FormField } from '@vestido-ecommerce/shadcn-ui/form';
-import { Control, FieldValues, FieldPath } from 'react-hook-form';
 import { Label } from '@vestido-ecommerce/shadcn-ui/label';
+import { Switch } from '@vestido-ecommerce/shadcn-ui/switch';
 
 export type SwitchElementProps<T extends FieldValues = FieldValues> =
   ComponentProps<typeof Switch> & {

@@ -1,10 +1,11 @@
 import useSWRSubscription, { type SWRSubscription } from 'swr/subscription';
-import { R2SWRKeys } from './keys';
+
 import {
+  FileUploadEvent,
   uploadFile,
   UploadFileRequest,
-  FileUploadEvent,
 } from '../services/upload';
+import { R2SWRKeys } from './keys';
 
 type Nullable<T> = {
   [P in keyof T]: T[P] | null;

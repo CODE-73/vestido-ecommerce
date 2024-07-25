@@ -4,7 +4,6 @@ import { ComponentProps, FocusEventHandler, useEffect, useState } from 'react';
 import { LuCheck, LuChevronsUpDown } from 'react-icons/lu';
 
 import { cn } from '../utils';
-
 import { Button } from './button';
 import {
   Command,

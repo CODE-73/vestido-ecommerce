@@ -1,6 +1,7 @@
-import clsx from 'clsx';
 import { useState } from 'react';
 import { FC } from 'react';
+
+import clsx from 'clsx';
 
 type WelcomeToStoreProps = {
   className?: string;

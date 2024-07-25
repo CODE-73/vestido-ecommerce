@@ -1,8 +1,10 @@
 import { FC } from 'react';
+
+import clsx from 'clsx';
+
 import cardImage1 from '../../../assets/final/image1.jpg';
 import cardImage2 from '../../../assets/final/image2.jpg';
 import FinalSectionCard, { FinalSectionCardData } from './FinalSectionCard';
-import clsx from 'clsx';
 
 const cards: FinalSectionCardData[] = [
   {

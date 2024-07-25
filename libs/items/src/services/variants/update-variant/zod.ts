@@ -1,6 +1,7 @@
-import { z } from 'zod';
-import { ImageSchema } from '@vestido-ecommerce/utils';
 import { StockStatus } from '@prisma/client';
+import { z } from 'zod';
+
+import { ImageSchema } from '@vestido-ecommerce/utils';
 
 export const variantAttributeValueSchema = z.object({
   id: z.string().optional(),

@@ -1,4 +1,5 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
+
 import { RemoveFromWishlistSchema, RemoveFromWishlistSchemaType } from './zod';
 
 export async function removeFromWishlist(body: RemoveFromWishlistSchemaType) {

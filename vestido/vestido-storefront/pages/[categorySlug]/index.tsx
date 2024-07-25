@@ -1,6 +1,7 @@
 import * as React from 'react';
-import ProductlistView from '../../modules/ProductListView/ProductListView';
 import { useRouter } from 'next/router';
+
+import ProductlistView from '../../modules/ProductListView/ProductListView';
 
 const CategorizedProductlist = () => {
   const router = useRouter();

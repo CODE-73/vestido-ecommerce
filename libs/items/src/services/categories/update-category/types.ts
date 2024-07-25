@@ -1,5 +1,6 @@
-import { UpdateCategorySchemaType } from './zod';
 import { Category } from '@prisma/client';
+
+import { UpdateCategorySchemaType } from './zod';
 
 export type UpdateCategoryRequest = {
   data: UpdateCategorySchemaType;

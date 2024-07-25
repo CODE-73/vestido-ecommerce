@@ -1,6 +1,8 @@
-import { getPrismaClient } from '@vestido-ecommerce/models';
-import { CreateItemSchema, CreateItemSchemaType } from './zod';
 import { Gender } from '@prisma/client';
+
+import { getPrismaClient } from '@vestido-ecommerce/models';
+
+import { CreateItemSchema, CreateItemSchemaType } from './zod';
 
 export async function createItem(data: CreateItemSchemaType) {
   const prisma = getPrismaClient();

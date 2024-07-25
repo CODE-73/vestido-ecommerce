@@ -1,4 +1,23 @@
 import * as React from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import Image from 'next/image';
+
+import {
+  LuChevronLeft,
+  LuChevronRight,
+  LuHeart,
+  LuScaling,
+  LuShoppingBag,
+} from 'react-icons/lu';
+// import Markdown from 'react-markdown';
+import Markdown from 'react-markdown';
+
+import {
+  useAddToCart,
+  useAddToWishlist,
+  useCategory,
+  useItem,
+} from '@vestido-ecommerce/items';
 // import { Checkbox } from '@vestido-ecommerce/shadcn-ui/checkbox';
 import {
   Accordion,
@@ -6,6 +25,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@vestido-ecommerce/shadcn-ui/accordion';
+import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 // import { Avatar, AvatarFallback } from '@vestido-ecommerce/shadcn-ui/avatar';
 import {
   Table,
@@ -14,26 +34,7 @@ import {
   TableHeader,
   TableRow,
 } from '@vestido-ecommerce/shadcn-ui/table';
-import Image from 'next/image';
-// import Markdown from 'react-markdown';
-import Markdown from 'react-markdown';
-
-import {
-  LuScaling,
-  LuShoppingBag,
-  LuHeart,
-  LuChevronLeft,
-  LuChevronRight,
-} from 'react-icons/lu';
-import {
-  useCategory,
-  useItem,
-  useAddToCart,
-  useAddToWishlist,
-} from '@vestido-ecommerce/items';
-import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
-import { useEffect, useState, useMemo } from 'react';
 // import { ItemVariant, VariantAttributeValue } from '@prisma/client';
 
 interface ProductViewProps {

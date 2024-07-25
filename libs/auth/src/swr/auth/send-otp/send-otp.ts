@@ -1,7 +1,8 @@
 import useSWRMutation from 'swr/mutation';
+
+import { OtpSWRKeys } from '../keys';
 import { sendOtp } from './service';
 import { SendOtpRequest, SendOtpResponse } from './types';
-import { OtpSWRKeys } from '../keys';
 
 export function useSendOTP() {
   const key = [OtpSWRKeys.OTP, OtpSWRKeys.SEND];

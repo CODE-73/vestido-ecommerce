@@ -1,12 +1,14 @@
 import * as React from 'react';
+import { useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+
+import { clsx } from 'clsx';
+import { LuHeart, LuSearch, LuShoppingBag, LuUser2, LuX } from 'react-icons/lu';
+
+import { InputProps } from '@vestido-ecommerce/shadcn-ui/input';
 
 import NavigationMenu from '../components/NavigationMenu';
-import { LuHeart, LuSearch, LuShoppingBag, LuUser2, LuX } from 'react-icons/lu';
-import { useState } from 'react';
-import Link from 'next/link';
-import { clsx } from 'clsx';
-import { InputProps } from '@vestido-ecommerce/shadcn-ui/input';
-import Image from 'next/image';
 import useIsMobile from '../hooks/useIsMobile';
 import HeaderDropdown from './HeaderDropdown';
 

@@ -1,5 +1,6 @@
-import { ListAddressResponse } from '../../../services/address/list-address/types';
 import axios from 'axios'; // Import Axios
+
+import { ListAddressResponse } from '../../../services/address/list-address/types';
 
 export async function getAddressList(
   authHeaders: Record<string, string>,

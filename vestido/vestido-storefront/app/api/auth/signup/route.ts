@@ -1,10 +1,11 @@
+import { ZodError } from 'zod';
+
 import {
+  makeJWTToken,
   signUp,
   verifyOTP,
   verifyUserExist,
-  makeJWTToken,
 } from '@vestido-ecommerce/auth';
-import { ZodError } from 'zod';
 
 export async function POST(request: Request) {
   try {

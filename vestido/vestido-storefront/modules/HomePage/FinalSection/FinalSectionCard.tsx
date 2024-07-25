@@ -1,4 +1,5 @@
 import Image, { StaticImageData } from 'next/image';
+
 import { DiscoverButton } from '../DiscoverButton';
 
 export type FinalSectionCardData = {

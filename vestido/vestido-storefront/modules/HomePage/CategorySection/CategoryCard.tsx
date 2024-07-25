@@ -1,6 +1,7 @@
-import { useCategories } from '@vestido-ecommerce/items';
 import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
+
+import { useCategories } from '@vestido-ecommerce/items';
 
 export type CategoryCardData = {
   cardImage: StaticImageData;

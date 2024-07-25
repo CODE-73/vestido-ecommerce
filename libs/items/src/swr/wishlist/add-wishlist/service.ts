@@ -1,6 +1,6 @@
-import { AddToWishListRequest, AddToWishListResponse } from './types';
-
 import axios from 'axios'; // Import Axios
+
+import { AddToWishListRequest, AddToWishListResponse } from './types';
 
 export async function addToWishList(
   args: AddToWishListRequest,

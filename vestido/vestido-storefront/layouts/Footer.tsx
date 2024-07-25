@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+
 import {
-  LuMail,
   LuFacebook,
-  LuTwitter,
   LuInstagram,
+  LuMail,
+  LuTwitter,
   LuYoutube,
 } from 'react-icons/lu';
-import { Input } from '@vestido-ecommerce/shadcn-ui/input';
-import CollapsableFooterSection from '../modules/HomePage/CollapsableFooterSection/CollapsableFooterSection';
-import useIsMobile from '../hooks/useIsMobile';
-import Link from 'next/link';
-import Image from 'next/image';
+
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
+import { Input } from '@vestido-ecommerce/shadcn-ui/input';
+
+import useIsMobile from '../hooks/useIsMobile';
+import CollapsableFooterSection from '../modules/HomePage/CollapsableFooterSection/CollapsableFooterSection';
 
 const Footer = () => {
   const isMobile = useIsMobile();

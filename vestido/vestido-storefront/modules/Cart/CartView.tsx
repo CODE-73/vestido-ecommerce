@@ -1,13 +1,14 @@
 import * as React from 'react';
 import Image from 'next/image';
-import { LuTrash2, LuMinus, LuPlus, LuChevronLeft } from 'react-icons/lu';
+import Link from 'next/link';
 
-import useIsMobile from '../../../vestido-storefront/hooks/useIsMobile';
-import { Button } from '@vestido-ecommerce/shadcn-ui/button';
+import { LuChevronLeft, LuMinus, LuPlus, LuTrash2 } from 'react-icons/lu';
 
 import { useCart, useRemoveFromCart } from '@vestido-ecommerce/items';
+import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
-import Link from 'next/link';
+
+import useIsMobile from '../../../vestido-storefront/hooks/useIsMobile';
 
 const CartView: React.FC = () => {
   const isMobile = useIsMobile();

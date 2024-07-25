@@ -1,10 +1,13 @@
 import * as React from 'react';
-import MainHeader from './MainHeader';
-import FixedHeader from './FixedHeader';
+
 import { useInView } from 'react-intersection-observer';
-import MobileHeader from './MobileHeader';
-import AddOnHeader from './AddOnHeader';
+
 import { useCart, useWishlist } from '@vestido-ecommerce/items';
+
+import AddOnHeader from './AddOnHeader';
+import FixedHeader from './FixedHeader';
+import MainHeader from './MainHeader';
+import MobileHeader from './MobileHeader';
 
 const Header = () => {
   const { ref, inView } = useInView({

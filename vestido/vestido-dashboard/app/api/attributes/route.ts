@@ -1,11 +1,13 @@
+import { type NextRequest } from 'next/server';
+
+import { ZodError } from 'zod';
+
+import { VestidoResponse } from '@vestido-ecommerce/auth';
 import {
   createAttribute,
   listAttribute,
   ListAttributesResponse,
 } from '@vestido-ecommerce/items';
-import { ZodError } from 'zod';
-import { type NextRequest } from 'next/server';
-import { VestidoResponse } from '@vestido-ecommerce/auth';
 
 export async function GET(request: NextRequest) {
   try {

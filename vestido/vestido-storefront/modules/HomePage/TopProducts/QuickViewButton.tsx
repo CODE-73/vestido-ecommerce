@@ -1,10 +1,11 @@
+import { LuZoomIn } from 'react-icons/lu';
+
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@vestido-ecommerce/shadcn-ui/tooltip';
-import { LuZoomIn } from 'react-icons/lu';
 
 export function QuickViewButton() {
   return (

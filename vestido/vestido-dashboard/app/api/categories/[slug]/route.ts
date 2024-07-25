@@ -1,8 +1,9 @@
 import { ZodError } from 'zod';
+
 import {
-  updateCategory,
   categoryDetails,
   deleteCategory,
+  updateCategory,
 } from '@vestido-ecommerce/items';
 
 export const dynamic = 'force-dynamic'; // static by default, unless reading the request

@@ -1,11 +1,13 @@
 import useSWRImmutable from 'swr/immutable';
+
+import { useAuth } from '@vestido-ecommerce/auth';
+
 import {
   shippingChargesRequest,
   shippingChargesResponse,
 } from '../../../services/shipping/get-shipping-charge/types';
-import { useAuth } from '@vestido-ecommerce/auth';
-import { getShipping } from './service';
 import { ShippingDetailsSWRKeys } from '../keys';
+import { getShipping } from './service';
 
 export function useShippingCharges(args: shippingChargesRequest) {
   const { authHeaders } = useAuth();

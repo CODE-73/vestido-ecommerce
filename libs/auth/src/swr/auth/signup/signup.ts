@@ -1,7 +1,8 @@
 import useSWRMutation from 'swr/mutation';
+
+import { SignupSWRKeys } from '../keys';
 import { signup } from './service';
 import { SignUpRequest, SignUpResponse } from './types';
-import { SignupSWRKeys } from '../keys';
 
 export function useSignup() {
   const key = [SignupSWRKeys.SIGNUP];

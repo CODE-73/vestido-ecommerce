@@ -1,20 +1,23 @@
-import { Button } from '@vestido-ecommerce/shadcn-ui/button';
-import { ImageSchemaType } from '@vestido-ecommerce/utils';
+import { useState } from 'react';
+import Image from 'next/image';
+
+import { clsx } from 'clsx';
+import { useFieldArray, useFormContext } from 'react-hook-form';
 import {
   LuAlertTriangle,
   LuChevronLeft,
   LuChevronRight,
   LuPlus,
-  LuTrash,
   LuTimer,
+  LuTrash,
 } from 'react-icons/lu';
-import Image from 'next/image';
-import { useState } from 'react';
-import { useFieldArray, useFormContext } from 'react-hook-form';
+
+import { useR2SignedURL } from '@vestido-ecommerce/r2';
+import { Button } from '@vestido-ecommerce/shadcn-ui/button';
+import { ImageSchemaType } from '@vestido-ecommerce/utils';
+
 import { InputElement } from '../forms/input-element';
 import { FileUploadElement } from './FileUpload';
-import { useR2SignedURL } from '@vestido-ecommerce/r2';
-import { clsx } from 'clsx';
 
 interface ImageUploaderProps {
   name: string;

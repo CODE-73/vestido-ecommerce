@@ -1,4 +1,13 @@
-import SpecialOfferCard, { SpecialOfferCardData } from './SpecialOfferCard';
+import { FC } from 'react';
+
+import clsx from 'clsx';
+
+import {
+  Carousel,
+  CarouselContent,
+  CarouselNext,
+  CarouselPrevious,
+} from '@vestido-ecommerce/shadcn-ui/carousel';
 
 import product11 from '../../../assets/offer-products/product1-1.jpg';
 import product12 from '../../../assets/offer-products/product1-2.jpg';
@@ -12,14 +21,7 @@ import product51 from '../../../assets/offer-products/product5-1.jpg';
 import product52 from '../../../assets/offer-products/product5-2.jpg';
 import product61 from '../../../assets/offer-products/product6-1.jpg';
 import product62 from '../../../assets/offer-products/product6-2.jpg';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselNext,
-  CarouselPrevious,
-} from '@vestido-ecommerce/shadcn-ui/carousel';
-import { FC } from 'react';
-import clsx from 'clsx';
+import SpecialOfferCard, { SpecialOfferCardData } from './SpecialOfferCard';
 
 const cards: SpecialOfferCardData[] = [
   {

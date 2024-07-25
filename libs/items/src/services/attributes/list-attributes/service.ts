@@ -1,4 +1,5 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
+
 import { ListAttributesRequest } from './types';
 import { ListAttributeRequestSchema } from './zod';
 

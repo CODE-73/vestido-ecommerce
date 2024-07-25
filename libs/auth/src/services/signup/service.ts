@@ -1,4 +1,5 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
+
 import { SignUpSchema, SignUpSchemaType } from './zod';
 
 export async function signUp(data: SignUpSchemaType) {

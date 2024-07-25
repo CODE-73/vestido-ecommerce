@@ -1,5 +1,7 @@
-import { NextPage } from 'next';
 import { useRouter } from 'next/router';
+
+import { NextPage } from 'next';
+
 import CategoryDetailsView from '../../modules/categories/CategoryForm';
 
 const CategoryDetails: NextPage = () => {

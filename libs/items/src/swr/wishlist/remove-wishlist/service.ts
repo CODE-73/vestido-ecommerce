@@ -1,6 +1,6 @@
-import { RemoveFromWishListRequest, RemoveFromWishListResponse } from './types';
-
 import axios from 'axios'; // Import Axios
+
+import { RemoveFromWishListRequest, RemoveFromWishListResponse } from './types';
 
 export async function removeFromWishList(
   args: RemoveFromWishListRequest,

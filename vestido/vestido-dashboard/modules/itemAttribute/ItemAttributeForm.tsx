@@ -1,14 +1,17 @@
-import { z } from 'zod';
 import React, { useEffect, useState } from 'react';
-import { Controller, useFieldArray, useForm } from 'react-hook-form';
-import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { useRouter } from 'next/router';
+
 import { zodResolver } from '@hookform/resolvers/zod';
-import { InputElement } from '../../forms/input-element';
+import { Controller, useFieldArray, useForm } from 'react-hook-form';
+import { LuFileEdit, LuPlus, LuTrash } from 'react-icons/lu';
+import { z } from 'zod';
+
+import { useAttribute, useAttributeUpsert } from '@vestido-ecommerce/items';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Form } from '@vestido-ecommerce/shadcn-ui/form';
-import { useAttribute, useAttributeUpsert } from '@vestido-ecommerce/items';
-import { LuFileEdit, LuPlus, LuTrash } from 'react-icons/lu';
+import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
+
+import { InputElement } from '../../forms/input-element';
 
 const ItemAttributeValueSchema = z.object({
   value: z.string(),

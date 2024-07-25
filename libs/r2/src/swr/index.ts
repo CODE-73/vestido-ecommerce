@@ -2,5 +2,5 @@
 
 export * from './download';
 export * from './keys';
-export * from './upload';
 export * from './signed-url';
+export * from './upload';

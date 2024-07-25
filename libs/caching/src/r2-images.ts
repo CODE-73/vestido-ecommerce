@@ -1,5 +1,6 @@
-import { ImageSchemaType } from '@vestido-ecommerce/utils';
 import { makeSignedUrl } from '@vestido-ecommerce/r2';
+import { ImageSchemaType } from '@vestido-ecommerce/utils';
+
 import { getRedisClient } from './client';
 
 const SIGNED_URL_EXPRIY = 2 * 24 * 60 * 60; // 2 days // 48 hours

@@ -1,6 +1,8 @@
 import React from 'react';
-import { LuInstagram, LuFacebook, LuYoutube, LuTwitter } from 'react-icons/lu';
 import Image from 'next/image';
+
+import { LuFacebook, LuInstagram, LuTwitter, LuYoutube } from 'react-icons/lu';
+
 import BackgroundVideo from './background-video';
 const ComingSoon = () => {
   return (

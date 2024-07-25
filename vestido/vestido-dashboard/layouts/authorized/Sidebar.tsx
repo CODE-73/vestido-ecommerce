@@ -1,5 +1,5 @@
-import Link from 'next/link';
 import { FC } from 'react';
+import Link from 'next/link';
 
 import {
   NavigationMenu,
@@ -7,6 +7,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from '@radix-ui/react-navigation-menu';
+
 import { NavigationItem } from '../../types/navigation';
 
 type SideBarProps = {

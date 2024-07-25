@@ -1,5 +1,7 @@
-import { NextPage } from 'next';
 import { useRouter } from 'next/router';
+
+import { NextPage } from 'next';
+
 import AttributeDetailsView from '../../modules/itemAttribute/ItemAttributeForm';
 
 const CategoryDetails: NextPage = () => {

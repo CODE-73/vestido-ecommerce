@@ -1,10 +1,12 @@
 import React from 'react';
+
 import {
   Control,
   ControllerProps,
   FieldPath,
   FieldValues,
 } from 'react-hook-form';
+
 import {
   FormDescription,
   FormField,
@@ -12,6 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@vestido-ecommerce/shadcn-ui/form';
+
 import PaymentTypeSelector from './PaymentTypeSelector';
 
 interface PaymentTypeElementProps<T extends FieldValues = FieldValues> {

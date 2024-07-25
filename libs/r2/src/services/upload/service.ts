@@ -1,6 +1,7 @@
+import { EventIterator } from 'event-iterator';
+
 import { makeSignedUrl } from '../make-signed-url';
 import { FileUploadEvent, UploadFileRequest } from './types';
-import { EventIterator } from 'event-iterator';
 
 export async function uploadFile({ key, fileContents }: UploadFileRequest) {
   console.info('Starting upload', { key, fileContents });

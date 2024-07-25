@@ -1,5 +1,7 @@
-import { createAddress, listAddress } from '@vestido-ecommerce/orders';
 import { ZodError } from 'zod';
+
+import { createAddress, listAddress } from '@vestido-ecommerce/orders';
+
 import { verifyAuth } from '../verify-auth';
 
 export const dynamic = 'force-dynamic'; // static by default, unless reading the request

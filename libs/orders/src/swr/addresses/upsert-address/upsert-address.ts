@@ -1,10 +1,11 @@
 import useSWRMutation from 'swr/mutation';
-import { AddressUpsertRequest, AddressUpsertResponse } from './types';
-import { upsertAddress } from './service';
+
 import { useAuth } from '@vestido-ecommerce/auth';
 import { useClearCacheOnSuccess } from '@vestido-ecommerce/utils';
 
 import { AddressUpsertSWRKeys } from '../keys';
+import { upsertAddress } from './service';
+import { AddressUpsertRequest, AddressUpsertResponse } from './types';
 
 export const useAddressUpsert = () => {
   const { authHeaders } = useAuth();

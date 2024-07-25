@@ -1,9 +1,9 @@
+import axios from 'axios'; // Import Axios
+
 import {
   shippingChargesRequest,
   shippingChargesResponse,
 } from '../../../services/shipping/get-shipping-charge/types';
-
-import axios from 'axios'; // Import Axios
 
 export async function getShipping(
   args: shippingChargesRequest,

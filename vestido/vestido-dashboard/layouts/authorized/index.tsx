@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { ComponentWithChildrenProps } from '../../types/component';
-import Sidebar from './Sidebar';
-import { navItems } from './nav-items';
-import Link from 'next/link';
 import Image from 'next/image';
-import { LuChevronLeft, LuMenu } from 'react-icons/lu';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
+
+import { LuChevronLeft, LuMenu } from 'react-icons/lu';
+
+import { ComponentWithChildrenProps } from '../../types/component';
+import { navItems } from './nav-items';
+import Sidebar from './Sidebar';
 
 type AuthorizedLayoutProps = ComponentWithChildrenProps;
 

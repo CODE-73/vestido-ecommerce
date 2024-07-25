@@ -1,5 +1,7 @@
-import { NextPage } from 'next';
 import { useRouter } from 'next/router';
+
+import { NextPage } from 'next';
+
 import VariantDetailsView from '../../../../modules/variants/VariantForm';
 
 const VariantDetails: NextPage = () => {

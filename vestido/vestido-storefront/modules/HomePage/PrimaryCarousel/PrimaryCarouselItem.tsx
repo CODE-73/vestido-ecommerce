@@ -1,5 +1,7 @@
-import { CarouselItem } from '@vestido-ecommerce/shadcn-ui/carousel';
 import Image, { StaticImageData } from 'next/image';
+
+import { CarouselItem } from '@vestido-ecommerce/shadcn-ui/carousel';
+
 import { DiscoverButton } from '../DiscoverButton';
 
 export type PrimaryCarouselItemData = {

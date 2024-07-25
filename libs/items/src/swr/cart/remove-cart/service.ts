@@ -1,7 +1,7 @@
+import axios from 'axios'; // Import Axios
+
 import { RemoveFromCartResponse } from '../../../services/cart/remove-from-cart/types';
 import { RemoveFromCartSWRRequest } from './types';
-
-import axios from 'axios'; // Import Axios
 
 export async function removeCartItem(
   args: RemoveFromCartSWRRequest,

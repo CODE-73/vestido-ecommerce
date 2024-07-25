@@ -1,9 +1,11 @@
 import useSWRMutation from 'swr/mutation';
-import { AddToWishListRequest, AddToWishListResponse } from './types';
+
 import { useAuth } from '@vestido-ecommerce/auth';
-import { addToWishList } from './service';
-import { WishlistSWRKeys } from '../keys';
 import { useClearCacheOnSuccess } from '@vestido-ecommerce/utils';
+
+import { WishlistSWRKeys } from '../keys';
+import { addToWishList } from './service';
+import { AddToWishListRequest, AddToWishListResponse } from './types';
 
 export const useAddToWishlist = () => {
   const { authHeaders } = useAuth();

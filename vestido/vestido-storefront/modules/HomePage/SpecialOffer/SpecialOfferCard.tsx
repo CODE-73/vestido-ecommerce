@@ -1,14 +1,17 @@
-import Image, { StaticImageData } from 'next/image';
-import { Badge } from '@vestido-ecommerce/shadcn-ui/badge';
-import { LuShoppingBag } from 'react-icons/lu';
 import { useState } from 'react';
-import { AddToWishListButton } from './AddToWishlistButton';
-import { QuickViewButton } from './QuickViewButton';
-import { CarouselItem } from '@vestido-ecommerce/shadcn-ui/carousel';
-import useIsMobile from '../../../hooks/useIsMobile';
-import { Button } from '@vestido-ecommerce/shadcn-ui/button';
-import CardDailog from './CardDialog';
+import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
+
+import { LuShoppingBag } from 'react-icons/lu';
+
+import { Badge } from '@vestido-ecommerce/shadcn-ui/badge';
+import { Button } from '@vestido-ecommerce/shadcn-ui/button';
+import { CarouselItem } from '@vestido-ecommerce/shadcn-ui/carousel';
+
+import useIsMobile from '../../../hooks/useIsMobile';
+import { AddToWishListButton } from './AddToWishlistButton';
+import CardDailog from './CardDialog';
+import { QuickViewButton } from './QuickViewButton';
 
 export type SpecialOfferCardData = {
   cardImage1: StaticImageData;

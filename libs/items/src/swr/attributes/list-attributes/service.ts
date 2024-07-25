@@ -1,5 +1,5 @@
-import { AttributeListResponse } from './types';
 import { ListAttributesRequest } from '../../../services/attributes/list-attributes/types';
+import { AttributeListResponse } from './types';
 
 export async function getAttributesList(
   args: ListAttributesRequest,

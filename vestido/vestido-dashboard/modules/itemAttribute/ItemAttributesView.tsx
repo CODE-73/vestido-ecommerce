@@ -1,10 +1,13 @@
-import { useRouter } from 'next/router';
-import { AiOutlineSearch } from 'react-icons/ai';
-import { Button } from '@vestido-ecommerce/shadcn-ui/button';
-import ItemAttributeTable from './ItemAttributesTable';
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
+
+import { AiOutlineSearch } from 'react-icons/ai';
+
 import { useAttributes } from '@vestido-ecommerce/items';
+import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Input } from '@vestido-ecommerce/shadcn-ui/input';
+
+import ItemAttributeTable from './ItemAttributesTable';
 
 const ItemAttributes: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');

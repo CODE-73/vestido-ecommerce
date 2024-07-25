@@ -1,4 +1,5 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
+
 import { SendOtpSchema, SendOtpSchemaType } from '../sendOtp';
 
 export async function verifyUserExist(data: SendOtpSchemaType) {

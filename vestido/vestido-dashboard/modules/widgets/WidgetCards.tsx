@@ -1,8 +1,8 @@
-import WidgetCard from './WidgetCard';
 import newOrdersIcon from '../../assets/icons/new-orders.png';
-import incomeIcon from '../../assets/icons/total-income.png';
-import expenseIcon from '../../assets/icons/total-expense.png';
 import userIcon from '../../assets/icons/new-users.png';
+import expenseIcon from '../../assets/icons/total-expense.png';
+import incomeIcon from '../../assets/icons/total-income.png';
+import WidgetCard from './WidgetCard';
 
 const widgetItems = [
   {

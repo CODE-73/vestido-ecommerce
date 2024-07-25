@@ -1,5 +1,6 @@
-import { UpdateVariantSchemaType } from './zod';
 import { ItemVariant, VariantAttributeValue } from '@prisma/client';
+
+import { UpdateVariantSchemaType } from './zod';
 
 export type UpdateVariantRequest = UpdateVariantSchemaType;
 

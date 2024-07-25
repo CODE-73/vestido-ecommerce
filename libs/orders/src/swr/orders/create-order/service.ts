@@ -1,9 +1,9 @@
+import axios from 'axios'; // Import Axios
+
 import {
   CreateOrderRequest,
   CreateOrderResponse,
 } from '../../../services/orders/create-order/types';
-
-import axios from 'axios'; // Import Axios
 
 export async function createNewOrder(
   args: CreateOrderRequest,

@@ -1,6 +1,7 @@
 import { generateOTP } from '@vestido-ecommerce/caching';
-import { SendOtpSchemaType, SendOtpSchema } from './zod';
+
 import { verifyUserExist } from '../verifyUser';
+import { SendOtpSchema, SendOtpSchemaType } from './zod';
 
 export async function sendOTP(data: SendOtpSchemaType) {
   const { mobile } = SendOtpSchema.parse(data);

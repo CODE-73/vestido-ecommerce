@@ -1,12 +1,13 @@
 import * as React from 'react';
 import Image from 'next/image';
+
 import { LuShoppingBag } from 'react-icons/lu';
 
-import useIsMobile from '../../../vestido-storefront/hooks/useIsMobile';
-
 import { useWishlist } from '@vestido-ecommerce/items';
-import { ImageSchemaType } from '@vestido-ecommerce/utils';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
+import { ImageSchemaType } from '@vestido-ecommerce/utils';
+
+import useIsMobile from '../../../vestido-storefront/hooks/useIsMobile';
 import AddToCartButton from '../HomePage/TopProducts/AddToCartButton';
 
 const WishlistView: React.FC = () => {

@@ -1,5 +1,11 @@
 import * as React from 'react';
+import Link from 'next/link';
+
 import * as NavigationMenuPrimitive from '@radix-ui/react-navigation-menu';
+import { clsx } from 'clsx';
+
+// import useIsMobile from '../hooks/useIsMobile';
+import { Gender, useCategories } from '@vestido-ecommerce/items';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -7,10 +13,6 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from '@vestido-ecommerce/shadcn-ui/navigation-menu';
-import { clsx } from 'clsx';
-import Link from 'next/link';
-// import useIsMobile from '../hooks/useIsMobile';
-import { Gender, useCategories } from '@vestido-ecommerce/items';
 
 type ListItemProps = {
   href: string;

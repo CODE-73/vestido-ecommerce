@@ -1,7 +1,8 @@
 import useSWRImmutable from 'swr/immutable';
+
 import { CategoryDetailsResponse } from '../../../services/categories/get-category/types';
-import { getCategoryDetails } from './service';
 import { CategoryDetailsSWRKeys } from '../keys';
+import { getCategoryDetails } from './service';
 
 export function useCategory(categoryId?: string | null) {
   const key = categoryId

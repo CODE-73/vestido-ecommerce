@@ -1,5 +1,6 @@
-import { RemoveFromWishlistSchemaType } from './zod';
 import { WishlistItem } from '@prisma/client';
+
+import { RemoveFromWishlistSchemaType } from './zod';
 
 export type RemoveFromWishlistRequest = {
   data: RemoveFromWishlistSchemaType;

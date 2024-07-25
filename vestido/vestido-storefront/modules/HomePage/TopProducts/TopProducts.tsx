@@ -1,8 +1,10 @@
-import SpecialOfferCard from './TopProductCard';
-
 import { FC } from 'react';
+
 import clsx from 'clsx';
+
 import { useItems } from '@vestido-ecommerce/items';
+
+import SpecialOfferCard from './TopProductCard';
 
 type SpecialOfferProps = {
   className?: string;
