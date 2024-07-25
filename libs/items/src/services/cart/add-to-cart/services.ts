@@ -20,6 +20,15 @@ export async function addToCart(body: AddToCartSchemaType) {
           id: validatedData.itemId,
         },
       },
+      ...(validatedData.variantId
+        ? {
+            variant: {
+              connect: {
+                id: validatedData.variantId,
+              },
+            },
+          }
+        : {}),
     },
   });
 

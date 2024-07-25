@@ -91,39 +91,7 @@ const FixedHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
             </span>
           )}
         </Link>
-        <div className=" sm:py-4 flex-1">
-          {/* <NavigationMenu>
-            <NavigationMenuList>
-              {categoriesData.map((category, index) => (
-                <NavigationMenuItem key={index}>
-                  <NavigationMenuTrigger className="font-semibold h-6 px-4 bg-transparent hover:bg-transparent data-active:bg-transparent data-[state=open]:bg-transparent hover:text-[#48CAB2] hover:border-b-2 border-[#48CAB2] rounded-none mx-3">
-                    {category.category}
-                  </NavigationMenuTrigger>
-                  <NavigationMenuContent>
-                    <div className="flex flex-col p-3">
-                      {category.subcategories.map((subcategory, subIndex) => (
-                        <div key={subIndex}>
-                          <h1 className="font-black px-4 hover:text-[#48cab2] py-2">
-                            {subcategory.title}
-                          </h1>
-                          <ul className=" text-stone-500 grid gap-1 md:w-[200px]">
-                            {subcategory.items.map((item, itemIndex) => (
-                              <div
-                                key={itemIndex}
-                                className="hover:text-[#48cab2]"
-                              >
-                                <ListItem href="/" title={item} />
-                              </div>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
-                    </div>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>
-              ))}
-            </NavigationMenuList>
-          </NavigationMenu> */}
+        <div className=" sm:py-4 flex-1">          
           <NavigationMenu isFixed={true} />
         </div>
         <div className="flex space-x-4 py-4 ">
