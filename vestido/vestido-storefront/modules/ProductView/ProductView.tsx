@@ -46,8 +46,6 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
 
   const item = data?.data;
 
-  console.log(item?.variants);
-
   const { data: category } = useCategory(item?.categoryId);
   const itemCategory = category?.data.name;
 
@@ -75,8 +73,6 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
     }
   }, [item]);
 
-  console.log('selectedVariantId', selectedVariantId);
-
   // const currentAttributeValues ={}
   interface AttributeValuesMap {
     [key: string]: string;
@@ -90,8 +86,6 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
       return acc;
     }, {} as AttributeValuesMap);
   }, [selectedVariant]);
-
-  console.log(currentAttributeValues);
 
   const changeToVariant = (attributeId: string, valueId: string) => {
     const values = {

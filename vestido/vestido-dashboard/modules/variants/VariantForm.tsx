@@ -86,8 +86,7 @@ const VariantForm: React.FC<VariantFormProps> = ({
     isNew ? null : variantId,
   );
 
-  const { isDirty, isValid, errors } = form.formState;
-  console.info(isValid, errors);
+  const { isDirty, isValid } = form.formState;
   const isSubmitting = form.formState.isSubmitting;
 
   useEffect(() => {

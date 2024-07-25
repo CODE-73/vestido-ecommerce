@@ -29,7 +29,6 @@ const ProductlistView: React.FC<ProductListViewProps> = ({ categoryId }) => {
   const { data } = useItems();
   const { data: category } = useCategory(categoryId as string);
   const { trigger: wishlistTrigger } = useAddToWishlist();
-  console.log(categoryId);
   const handleShowMoreClick = () => {
     // function
   };

@@ -34,7 +34,6 @@ export const AttributeValueCombobox: React.FC<AttributeValueComboboxProps> = ({
   placeholder = 'Select Attribute',
   className,
 }) => {
-  console.log('Attr ID', attributeId);
   const [searchQuery, setSearchQuery] = useState('');
   const { data: attribute } = useAttribute(attributeId);
 

@@ -51,9 +51,7 @@ const AuthView: React.FC = () => {
     if (response?.userExists !== undefined) {
       setUserExists(response.userExists);
     }
-    console.log(response, response.userExists);
   }
-  console.log('final userExists:', userExists);
   return (
     <Form {...form}>
       <div className="flex flex-col justify-center items-center h-screen">

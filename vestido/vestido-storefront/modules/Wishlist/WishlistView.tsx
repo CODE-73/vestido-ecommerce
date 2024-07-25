@@ -13,8 +13,6 @@ import { AddToCartDialog } from './AddToCartFromWishlistDialog';
 
 const WishlistView: React.FC = () => {
   const { data: wishlistItems } = useWishlist();
-  console.log('wishlist', wishlistItems);
-
   const { trigger } = useRemoveFromWishlist();
 
   const handleRemoveFromWishlist = (itemId: string) => {
