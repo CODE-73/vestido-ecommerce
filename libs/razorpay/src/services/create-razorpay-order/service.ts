@@ -1,9 +1,7 @@
-import Razorpay from 'razorpay';
-
-import { getPrismaClient } from '@vestido-ecommerce/models';
-
 import { CreateRPOrderRequest } from './types';
+import Razorpay from 'razorpay';
 import { CreateRPOrderSchema } from './zod';
+import { getPrismaClient } from '@vestido-ecommerce/models';
 
 export async function createRazorpayOrder(data: CreateRPOrderRequest) {
   const razorpay = new Razorpay({
@@ -11,7 +9,6 @@ export async function createRazorpayOrder(data: CreateRPOrderRequest) {
     key_secret: process.env['RAZORPAY_KEY_SECRET'] as string,
   });
 
-  console.log('data in services:', data);
   const prisma = getPrismaClient();
   const validatedData = CreateRPOrderSchema.parse(data.razorpayData);
 
@@ -21,9 +18,7 @@ export async function createRazorpayOrder(data: CreateRPOrderRequest) {
     amount,
     currency,
   };
-  console.log('options and validatedData', validatedData, options);
   const resp = await razorpay.orders.create(options);
-  console.log('resp from services:', resp);
   if (resp.status == 'created') {
     await prisma.payment.create({
       data: {
@@ -40,6 +35,7 @@ export async function createRazorpayOrder(data: CreateRPOrderRequest) {
         status: resp.status,
       },
     });
-    return resp.id;
+    console.log('Response from RP order creation: ', resp);
+    return resp;
   } else return null;
 }
