@@ -19,6 +19,6 @@ export function useAttributes(args?: ListAttributesRequest) {
       }),
     {
       keepPreviousData: true,
-    }
+    },
   );
 }

@@ -2,7 +2,7 @@ import { ShippingChargesSchema, ShippingChargesSchemaType } from './zod';
 import { getPrismaClient } from '@vestido-ecommerce/models';
 
 export async function calculateShippingCharges(
-  _data: ShippingChargesSchemaType
+  _data: ShippingChargesSchemaType,
 ) {
   const prisma = getPrismaClient();
 

@@ -17,7 +17,7 @@ const CustomerAddressSelector: React.FC<CustomerAddressSelectorProps> = ({
   const { data: addresses } = useAddresses();
 
   const sortedAddresses = [...(addresses?.data ?? [])].sort(
-    (a, b) => (b.default ? 1 : 0) - (a.default ? 1 : 0)
+    (a, b) => (b.default ? 1 : 0) - (a.default ? 1 : 0),
   );
   return (
     <RadioGroup value={value} onValueChange={onChange}>

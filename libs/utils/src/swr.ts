@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useSWRConfig } from 'swr';
 
@@ -8,7 +8,7 @@ export function useClearCacheOnSuccess(...keyRoot: string[]) {
     onSuccess() {
       return mutate(
         (key: string | string[]) =>
-          key instanceof Array && keyRoot.includes(key[0])
+          key instanceof Array && keyRoot.includes(key[0]),
       );
     },
   };

@@ -1,8 +1,10 @@
+import { populateImageURLs } from '@vestido-ecommerce/caching';
 import { getPrismaClient } from '@vestido-ecommerce/models';
+import { ImageSchemaType } from '@vestido-ecommerce/utils';
 export async function listCartItems(customerId: string) {
   const prisma = getPrismaClient();
 
-  const CartItems = await prisma.cartItem.findMany({
+  const cartItems = await prisma.cartItem.findMany({
     where: {
       customerId: customerId,
     },
@@ -16,8 +18,24 @@ export async function listCartItems(customerId: string) {
           images: true,
         },
       },
+      variant: {
+        select: {
+          id: true,
+          title: true,
+          price: true,
+          stockStatus: true,
+          images: true,
+        },
+      },
     },
   });
 
-  return CartItems;
+  await populateImageURLs(
+    cartItems.flatMap((item) => [
+      ...((item.variant?.images ?? []) as ImageSchemaType[]),
+      ...((item.item.images ?? []) as ImageSchemaType[]),
+    ]),
+  );
+
+  return cartItems;
 }

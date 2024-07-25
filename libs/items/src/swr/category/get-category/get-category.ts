@@ -17,6 +17,6 @@ export function useCategory(categoryId?: string | null) {
     () => getCategoryDetails(categoryId as string),
     {
       keepPreviousData: true,
-    }
+    },
   );
 }

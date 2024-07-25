@@ -5,7 +5,7 @@ import axios from 'axios'; // Import Axios
 
 export async function removeCartItem(
   args: RemoveFromCartSWRRequest,
-  authHeaders: Record<string, string>
+  authHeaders: Record<string, string>,
 ): Promise<RemoveFromCartResponse> {
   try {
     const itemId = args.itemId;

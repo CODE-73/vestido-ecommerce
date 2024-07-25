@@ -8,6 +8,6 @@ export function useSignup() {
 
   return useSWRMutation<SignUpResponse, Error, string[] | null, SignUpRequest>(
     key,
-    (_, { arg }) => signup({ ...arg })
+    (_, { arg }) => signup({ ...arg }),
   );
 }

@@ -24,7 +24,7 @@ interface CustomerAddressElementProps<T extends FieldValues = FieldValues> {
 }
 
 export function CustomerAddressElement<
-  TFieldValues extends FieldValues = FieldValues
+  TFieldValues extends FieldValues = FieldValues,
 >({
   name,
   control,

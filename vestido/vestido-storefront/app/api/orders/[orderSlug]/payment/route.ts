@@ -4,7 +4,7 @@ import { createRazorpayOrder } from '@vestido-ecommerce/razorpay';
 
 export async function POST(
   request: Request,
-  { params }: { params: { orderSlug: string } }
+  { params }: { params: { orderSlug: string } },
 ) {
   try {
     const auth = await verifyAuth(request);
@@ -43,7 +43,7 @@ export async function POST(
           headers: {
             'Content-Type': 'application/json',
           },
-        }
+        },
       );
     }
   }

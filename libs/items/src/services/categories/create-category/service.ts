@@ -16,12 +16,12 @@ export async function createCategory(body: CreateCategorySchemaType) {
     const newCategoryGenders = validatedData.gender;
 
     const isSubset = newCategoryGenders.every((gender) =>
-      parentGenders.includes(gender)
+      parentGenders.includes(gender),
     );
 
     if (!isSubset) {
       throw new Error(
-        "The genders of the new category must be a subset of the parent category's genders."
+        "The genders of the new category must be a subset of the parent category's genders.",
       );
     }
   }

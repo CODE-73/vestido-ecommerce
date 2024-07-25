@@ -41,7 +41,7 @@ export type SelectElementProps<T extends FieldValues = FieldValues> = Omit<
 };
 
 export function SelectElement<TFieldValues extends FieldValues = FieldValues>(
-  props: SelectElementProps<TFieldValues>
+  props: SelectElementProps<TFieldValues>,
 ) {
   const validation: ControllerProps<TFieldValues>['rules'] =
     props.validation ?? {};

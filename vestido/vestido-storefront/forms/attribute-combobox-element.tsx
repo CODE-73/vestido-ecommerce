@@ -70,7 +70,7 @@ export type AttributeElementProps<T extends FieldValues = FieldValues> =
   };
 
 export function AttributeElement<
-  TFieldValues extends FieldValues = FieldValues
+  TFieldValues extends FieldValues = FieldValues,
 >({
   name,
   control,

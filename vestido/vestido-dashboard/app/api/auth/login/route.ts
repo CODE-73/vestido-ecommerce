@@ -29,7 +29,7 @@ export async function POST(request: Request) {
             headers: {
               'Content-Type': 'application.json',
             },
-          }
+          },
         );
       }
     } else {
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
           headers: {
             'Content-Type': 'application.json',
           },
-        }
+        },
       );
     }
   } catch (e) {
@@ -64,7 +64,7 @@ export async function POST(request: Request) {
           headers: {
             'Content-Type': 'application/json',
           },
-        }
+        },
       );
     }
   }

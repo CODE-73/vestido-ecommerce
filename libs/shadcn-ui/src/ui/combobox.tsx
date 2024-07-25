@@ -59,7 +59,7 @@ function Combobox({
   // Incoming options[] may no longer contain the selected value
   // This is used to show the selected value when it's not in the list
   const [prevSelection, setPrevSelection] = useState<ComboboxOption | null>(
-    null
+    null,
   );
 
   useEffect(() => {
@@ -120,7 +120,7 @@ function Combobox({
                   className={cn(
                     'me-2 h-4 w-4 opacity-0',
                     !multiple && value === option.value && 'opacity-100',
-                    multiple && values.includes(option.value) && 'opacity-100'
+                    multiple && values.includes(option.value) && 'opacity-100',
                   )}
                 />
                 {option.label}

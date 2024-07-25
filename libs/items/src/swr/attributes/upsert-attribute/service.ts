@@ -1,7 +1,7 @@
 import { attributeUpsertRequest, attributeUpsertResponse } from './types';
 
 export async function upsertAttribute(
-  args: attributeUpsertRequest
+  args: attributeUpsertRequest,
 ): Promise<attributeUpsertResponse> {
   let url = '/api/attributes';
   let method = 'POST';

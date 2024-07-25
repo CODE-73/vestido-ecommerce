@@ -13,7 +13,7 @@ export async function POST(request: Request) {
         headers: {
           'Content-Type': 'application/json',
         },
-      }
+      },
     );
   } catch (e) {
     return new Response(JSON.stringify(e), {

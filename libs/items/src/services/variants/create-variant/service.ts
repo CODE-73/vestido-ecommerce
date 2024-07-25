@@ -14,7 +14,7 @@ export async function createVariant(data: CreateVariantSchemaType) {
   await validateAttributes(prisma, validatedData.attributeValues ?? []);
   const varTitle = await generateVariantTitle(
     prisma,
-    validatedData.attributeValues ?? []
+    validatedData.attributeValues ?? [],
   );
 
   if (validatedData.default) {

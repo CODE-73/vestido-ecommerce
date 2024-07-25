@@ -83,6 +83,7 @@ model Item {
     price           Float   @default(0)
     discountPercent Float?
     discountedPrice Float?
+    slug            String  @unique
 
     stockStatus StockStatus @default(AVAILABLE)
     gender      Gender[]    @default([MEN, WOMEN])
@@ -110,6 +111,7 @@ model ItemVariant {
     discountPercent Float?
     discountedPrice Float?
     default         Boolean     @default(false)
+    slug            String      @unique
 
     images Json @default("[]")
 
@@ -153,6 +155,7 @@ model Category {
     description String?
     gender      Gender[] @default([MEN, WOMEN])
     enabled     Boolean  @default(true)
+    slug        String   @unique
 
     parentCategoryId String?    @db.Uuid()
     parentCategory   Category?  @relation("ParentCategory", fields: [parentCategoryId], references: [id])

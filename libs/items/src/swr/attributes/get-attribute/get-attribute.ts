@@ -17,6 +17,6 @@ export function useAttribute(attributeId?: string | null) {
     () => getAttributeDetails(attributeId as string),
     {
       keepPreviousData: true,
-    }
+    },
   );
 }

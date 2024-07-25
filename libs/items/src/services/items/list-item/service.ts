@@ -1,8 +1,8 @@
+import { populateImageURLs } from '@vestido-ecommerce/caching';
 import { getPrismaClient } from '@vestido-ecommerce/models';
+import { ImageSchemaType } from '@vestido-ecommerce/utils';
 import { ListItemRequest } from './types';
 import { ListItemRequestSchema } from './zod';
-import { ImageSchemaType } from '@vestido-ecommerce/utils';
-import { makeSignedUrl } from '@vestido-ecommerce/r2';
 
 export async function listItem(_args: ListItemRequest) {
   const prisma = getPrismaClient();
@@ -26,44 +26,14 @@ export async function listItem(_args: ListItemRequest) {
       variants: true,
     },
   });
-  // no try..catch here
 
-  console.log('type of', typeof itemList[0].images, itemList[0].images);
-  const imgKeys = Array.from(
-    new Set(
-      itemList.flatMap((item) =>
-        (item.images as ImageSchemaType[]).flatMap((x) => x.key)
-      )
-    )
+  await populateImageURLs(
+    itemList.flatMap((x) => [
+      ...(x.variants?.flatMap((v) => (v.images ?? []) as ImageSchemaType[]) ??
+        []),
+      ...((x.images ?? []) as ImageSchemaType[]),
+    ]),
   );
-
-  const urlMap: { [x: string]: string } = {};
-  await Promise.all(
-    imgKeys.map((x) =>
-      makeSignedUrl({
-        requestType: 'GET',
-        key: x,
-        expiresIn: 3600,
-      })
-        .then((url) => {
-          urlMap[x] = url;
-          return url;
-        })
-        .catch(() => {
-          urlMap[x] = '';
-          return '';
-        })
-    )
-  );
-
-  for (const item of itemList) {
-    const images = (item.images ?? []) as ImageSchemaType[];
-    for (const img of images) {
-      if (img.key in urlMap) {
-        img.url = urlMap[img.key];
-      }
-    }
-  }
 
   return itemList;
 }

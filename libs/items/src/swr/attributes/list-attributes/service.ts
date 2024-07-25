@@ -2,7 +2,7 @@ import { AttributeListResponse } from './types';
 import { ListAttributesRequest } from '../../../services/attributes/list-attributes/types';
 
 export async function getAttributesList(
-  args: ListAttributesRequest
+  args: ListAttributesRequest,
 ): Promise<AttributeListResponse> {
   let url = '/api/attributes';
   if (args.q) {

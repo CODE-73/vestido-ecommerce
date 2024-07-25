@@ -3,7 +3,7 @@ import { WishlistItemResponse } from '../../../services/wishlist/get-wishlist/ty
 import axios from 'axios';
 
 export async function getWishlist(
-  authHeaders: Record<string, string>
+  authHeaders: Record<string, string>,
 ): Promise<WishlistItemResponse> {
   try {
     const r = await axios.get('/api/wishlist', {
