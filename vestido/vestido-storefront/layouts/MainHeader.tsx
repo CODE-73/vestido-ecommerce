@@ -7,7 +7,6 @@ import { LuHeart, LuSearch, LuShoppingBag, LuUser2 } from 'react-icons/lu';
 import { Input } from '@vestido-ecommerce/shadcn-ui/input';
 
 import NavigationMenu from '../components/NavigationMenu';
-import useIsMobile from '../hooks/useIsMobile';
 import HeaderDropdown from './HeaderDropdown';
 
 interface HeaderProps {
@@ -15,31 +14,21 @@ interface HeaderProps {
   wishlist_count: number | undefined;
 }
 const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
-  const isMobile = useIsMobile();
-
   return (
     <div className="bg-[#1B2149] flex items-center  justify-between px-3">
       <div className="flex">
         <Link href="/" className="self-center">
-          {isMobile ? (
-            <span>
-              <Image
-                src="/assets/favico.ico"
-                alt="Logo"
-                width="25"
-                height="35"
-              />
-            </span>
-          ) : (
-            <span className="self-end">
-              <Image
-                src="/assets/white-logo.png"
-                alt="Logo"
-                width="180"
-                height="180"
-              />
-            </span>
-          )}
+          <span className="md:hidden">
+            <Image src="/assets/favico.ico" alt="Logo" width="25" height="35" />
+          </span>
+          <span className="self-end hidden md:block">
+            <Image
+              src="/assets/white-logo.png"
+              alt="Logo"
+              width="180"
+              height="35"
+            />
+          </span>
         </Link>
         <div className=" sm:py-4">
           <NavigationMenu isFixed={false} />

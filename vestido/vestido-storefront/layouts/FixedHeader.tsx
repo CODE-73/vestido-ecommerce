@@ -91,7 +91,7 @@ const FixedHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
             </span>
           )}
         </Link>
-        <div className=" sm:py-4 flex-1">          
+        <div className=" sm:py-4 flex-1">
           <NavigationMenu isFixed={true} />
         </div>
         <div className="flex space-x-4 py-4 ">

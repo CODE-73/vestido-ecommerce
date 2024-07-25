@@ -286,8 +286,12 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
       <div className="w-full md:w-1/2">
         <h1 className="text-3xl font-semibold">{item?.title}</h1>
         <div className="flex flex-row items-center gap-1">
-          <div className="text-2xl font-semibold">Rs.{item?.discountedPrice && item?.discountedPrice > 0 ? item?.discountedPrice : item?.price}</div>
-        
+          <div className="text-2xl font-semibold">
+            Rs.
+            {item?.discountedPrice && item?.discountedPrice > 0
+              ? item?.discountedPrice
+              : item?.price}
+          </div>
         </div>
 
         <div className="text-sm ">
@@ -335,8 +339,6 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
               </div>
             ))}
           </div>
-
-        
         </div>
 
         <div className="flex flex-row pr-5 gap-1 py-6">

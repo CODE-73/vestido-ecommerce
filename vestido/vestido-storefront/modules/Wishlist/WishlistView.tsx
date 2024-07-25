@@ -1,16 +1,14 @@
 import * as React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
+
 import { LuShoppingBag, LuX } from 'react-icons/lu';
 
-import {
-  useAddToCart,
-  useRemoveFromWishlist,
-  useWishlist,
-} from '@vestido-ecommerce/items';
-import { ImageSchemaType } from '@vestido-ecommerce/utils';
+import { useRemoveFromWishlist, useWishlist } from '@vestido-ecommerce/items';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
-import Link from 'next/link';
 import { Dialog, DialogTrigger } from '@vestido-ecommerce/shadcn-ui/dialog';
+import { ImageSchemaType } from '@vestido-ecommerce/utils';
+
 import { AddToCartDialog } from './AddToCartFromWishlistDialog';
 
 const WishlistView: React.FC = () => {
@@ -18,21 +16,11 @@ const WishlistView: React.FC = () => {
   console.log('wishlist', wishlistItems);
 
   const { trigger } = useRemoveFromWishlist();
-  const { trigger: cartTrigger } = useAddToCart();
 
   const handleRemoveFromWishlist = (itemId: string) => {
     trigger({
       itemId: itemId,
     });
-  };
-  const handleAddToCart = (itemId: string) => {
-    cartTrigger({
-      itemId: itemId,
-      qty: 1,
-      variantId: '123',
-    });
-
-    console.log('handleAddToCart');
   };
 
   return (

@@ -1,11 +1,11 @@
-import { RemoveFromWishListSwrRequest } from './types';
-import { RemoveFromWishlistResponse } from '../../../services/wishlist/remove-from-wishlist';
-
 import axios from 'axios';
+
+import { RemoveFromWishlistResponse } from '../../../services/wishlist/remove-from-wishlist';
+import { RemoveFromWishListSwrRequest } from './types';
 
 export async function removeFromWishList(
   args: RemoveFromWishListSwrRequest,
-  authHeaders: Record<string, string>
+  authHeaders: Record<string, string>,
 ): Promise<RemoveFromWishlistResponse> {
   try {
     const itemId = args.itemId;

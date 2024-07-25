@@ -11,6 +11,7 @@ import MobileHeader from './MobileHeader';
 
 const Header = () => {
   const { ref, inView } = useInView({
+    initialInView: true,
     threshold: 0,
   });
 
