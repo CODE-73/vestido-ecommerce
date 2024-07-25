@@ -86,7 +86,7 @@ const FixedHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
                 src="/assets/new-logo.png"
                 alt="Logo"
                 width="250"
-                height="250"
+                height="50"
               />
             </span>
           )}
