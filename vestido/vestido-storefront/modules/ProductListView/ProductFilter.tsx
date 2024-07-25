@@ -41,7 +41,7 @@ const data = [
 
 const ProductFilter: React.FC = () => {
   const [expandedCategories, setExpandedCategories] = React.useState<string[]>(
-    []
+    [],
   );
 
   const toggleCategory = (category: string) => {

@@ -12,7 +12,7 @@ export const WelcomeToStore: FC<WelcomeToStoreProps> = (props) => {
   return (
     <div
       className={`flex flex-col items-center justify-center ${clsx(
-        props.className
+        props.className,
       )}`}
     >
       <div className="text-4xl capitalize tracking-wide text-[#333333] font-extrabold">

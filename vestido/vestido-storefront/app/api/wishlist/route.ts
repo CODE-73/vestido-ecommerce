@@ -28,7 +28,7 @@ export async function GET(request: Request) {
         headers: {
           'Content-Type': 'application/json',
         },
-      }
+      },
     );
   } catch (e) {
     console.error(e);
@@ -85,7 +85,7 @@ export async function POST(request: Request) {
           headers: {
             'Content-Type': 'application/json',
           },
-        }
+        },
       );
     }
   }
@@ -140,7 +140,7 @@ export async function DELETE(request: Request) {
           headers: {
             'Content-Type': 'application/json',
           },
-        }
+        },
       );
     }
   }

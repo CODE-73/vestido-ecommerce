@@ -13,6 +13,6 @@ export function useAddresses() {
     () => getAddressList(authHeaders),
     {
       keepPreviousData: true,
-    }
+    },
   );
 }

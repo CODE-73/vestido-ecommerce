@@ -1,7 +1,7 @@
 import { MakeSignedUrlRequest, MakeSignedUrlResponse } from './types';
 
 export async function makeSignedUrl(
-  args: MakeSignedUrlRequest
+  args: MakeSignedUrlRequest,
 ): Promise<MakeSignedUrlResponse> {
   const r = await fetch(getBucketManagerURL(), {
     method: 'POST',

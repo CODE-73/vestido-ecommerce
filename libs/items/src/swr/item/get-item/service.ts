@@ -1,7 +1,7 @@
 import { ItemDetailsResponse } from '../../../services/items/get-item/types';
 
 export async function getItemDetails(
-  itemId: string
+  itemId: string,
 ): Promise<ItemDetailsResponse> {
   const url = `/api/items/${encodeURIComponent(itemId)}`;
   const r = await fetch(url);

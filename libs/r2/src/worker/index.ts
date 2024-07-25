@@ -25,12 +25,12 @@ export default {
             'Content-Type': 'application/json',
           },
           status: 400,
-        }
+        },
       );
     }
 
     const { success, ...body } = RequestSchema.safeParse(
-      await request.json().catch(() => ({}))
+      await request.json().catch(() => ({})),
     );
 
     if (!success || 'error' in body) {
@@ -76,7 +76,7 @@ export default {
         {
           headers: { ...CORSHeaders, 'Content-Type': 'application/json' },
           status: 400,
-        }
+        },
       );
     }
 
@@ -88,7 +88,7 @@ export default {
       JSON.stringify({ success: true, requestType, key, signedURL }, null, 2),
       {
         headers: { ...CORSHeaders, 'Content-Type': 'application/json' },
-      }
+      },
     );
   },
 };

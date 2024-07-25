@@ -24,7 +24,7 @@ export const UpdateItemSchema = z.object({
     .default(0)
     .nullable(),
   discountedPrice: z.coerce.number().nullable(),
-  slug:z.string()
+  slug: z.string(),
 });
 
 export type UpdateItemSchemaType = z.infer<typeof UpdateItemSchema>;

@@ -15,7 +15,7 @@ export type CheckboxElementProps<T extends FieldValues = FieldValues> = {
 };
 
 export function CheckBoxElement<TFieldValues extends FieldValues = FieldValues>(
-  props: CheckboxElementProps<TFieldValues>
+  props: CheckboxElementProps<TFieldValues>,
 ) {
   return (
     <FormField

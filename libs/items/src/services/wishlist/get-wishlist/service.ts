@@ -35,7 +35,7 @@ export async function listWishlistItems(customerId: string) {
     wishlistItems.flatMap((item) => [
       ...((item.variant?.images ?? []) as ImageSchemaType[]),
       ...((item.item.images ?? []) as ImageSchemaType[]),
-    ])
+    ]),
   );
 
   return wishlistItems;

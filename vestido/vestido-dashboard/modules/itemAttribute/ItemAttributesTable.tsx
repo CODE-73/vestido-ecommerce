@@ -44,7 +44,7 @@ const ItemAttributeTable: React.FC<ItemAttributeTableProps> = ({ data }) => {
               <TableCell>{itemAttribute.description}</TableCell>
               <TableCell>
                 {itemAttribute.ItemAttributeValues.map((x) => x.value).join(
-                  ', '
+                  ', ',
                 )}
               </TableCell>
             </TableRow>

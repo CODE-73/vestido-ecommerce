@@ -2,7 +2,7 @@ import { type PrismaClient } from '@prisma/client';
 
 export async function validateAttributes(
   client: PrismaClient,
-  attributes: Array<{ attributeId: string; attributeValueId: string }>
+  attributes: Array<{ attributeId: string; attributeValueId: string }>,
 ) {
   // Validate no two duplicate attribute values are mentioned under the same attributeId
   if (
@@ -24,7 +24,7 @@ export async function validateAttributes(
     if (
       !values.find(
         (x) =>
-          x.attributeId === attr.attributeId && x.id === attr.attributeValueId
+          x.attributeId === attr.attributeId && x.id === attr.attributeValueId,
       )
     ) {
       throw new Error('Attribute values incompatible');

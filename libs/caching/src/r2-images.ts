@@ -19,8 +19,8 @@ export async function populateImageURLs(images: ImageSchemaType[]) {
       _makeSignedUrl(x).then((url) => {
         urlMap[x] = url;
         return url;
-      })
-    )
+      }),
+    ),
   );
 
   for (const img of images) {

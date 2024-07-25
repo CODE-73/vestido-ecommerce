@@ -2,7 +2,7 @@ import { ListItemResponse } from './types';
 import { ListItemRequest } from '../../../services/items/list-item/types';
 
 export async function getItemList(
-  args: ListItemRequest
+  args: ListItemRequest,
 ): Promise<ListItemResponse> {
   let url = '/api/items';
 

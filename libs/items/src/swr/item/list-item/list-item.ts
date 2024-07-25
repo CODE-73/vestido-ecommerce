@@ -19,6 +19,6 @@ export function useItems(args?: ListItemRequest) {
       }),
     {
       keepPreviousData: true,
-    }
+    },
   );
 }

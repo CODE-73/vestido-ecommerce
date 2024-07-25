@@ -17,6 +17,6 @@ export function useR2SignedURL(args: MakeSignedUrlRequest) {
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
-    }
+    },
   );
 }

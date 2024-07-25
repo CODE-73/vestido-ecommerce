@@ -29,7 +29,7 @@ export type RadioGroupElementProps<T extends FieldValues = FieldValues> = {
 };
 
 export function RadioGroupElement<
-  TFieldValues extends FieldValues = FieldValues
+  TFieldValues extends FieldValues = FieldValues,
 >({
   name,
   control,

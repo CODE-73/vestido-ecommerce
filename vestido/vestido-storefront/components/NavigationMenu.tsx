@@ -37,14 +37,14 @@ const NavMenu: React.FC<NavMenuProps> = ({ isFixed }) => {
   //   const isMobile = useIsMobile();
 
   const mainCategories = categories?.data?.filter(
-    (category) => category.parentCategoryId === null
+    (category) => category.parentCategoryId === null,
   );
 
   const getSubcategories = (categoryId: string, genders: Gender[]) => {
     return categories?.data?.filter(
       (subcategory) =>
         subcategory.parentCategoryId === categoryId &&
-        genders.every((gender) => subcategory.gender.includes(gender))
+        genders.every((gender) => subcategory.gender.includes(gender)),
     );
   };
 
@@ -78,7 +78,7 @@ const NavMenu: React.FC<NavMenuProps> = ({ isFixed }) => {
                             title={subcategory.name}
                           />
                         </div>
-                      )
+                      ),
                     )}
                   </ul>
                 </div>
@@ -115,7 +115,7 @@ const NavMenu: React.FC<NavMenuProps> = ({ isFixed }) => {
                             title={subcategory.name}
                           />
                         </div>
-                      )
+                      ),
                     )}
                   </ul>
                 </div>
@@ -136,7 +136,7 @@ const NavMenu: React.FC<NavMenuProps> = ({ isFixed }) => {
               ?.filter(
                 (category) =>
                   category.gender.includes('MEN') &&
-                  category.gender.includes('WOMEN')
+                  category.gender.includes('WOMEN'),
               )
               .map((category, index) => (
                 <div key={index}>
@@ -153,7 +153,7 @@ const NavMenu: React.FC<NavMenuProps> = ({ isFixed }) => {
                             title={subcategory.name}
                           />
                         </div>
-                      )
+                      ),
                     )}
                   </ul>
                 </div>

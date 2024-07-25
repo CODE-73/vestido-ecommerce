@@ -190,7 +190,7 @@ const ImageCardElement: React.FC<ImageCardElementProps> = ({
         `relative lg:basis-1/5 md:basis-1/3 basis-1/2 bg-white text-gray-300 hover:bg-white`,
         {
           'border border-blue-800 border-double border-4': isSelected,
-        }
+        },
       )}
       onClick={onSelect}
     >

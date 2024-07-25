@@ -13,6 +13,6 @@ export function useItem(itemId?: string | null) {
     () => getItemDetails(itemId as string),
     {
       keepPreviousData: true,
-    }
+    },
   );
 }

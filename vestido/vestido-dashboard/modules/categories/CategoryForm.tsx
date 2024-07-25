@@ -48,7 +48,7 @@ const CreateCategoryFormSchema = z.object({
       message: 'You have to select at least one item.',
     })
     .default(['MEN', 'WOMEN'] satisfies Gender[]),
-    slug:z.string()
+  slug: z.string(),
 });
 
 export type CreateCategoryForm = z.infer<typeof CreateCategoryFormSchema>;
@@ -70,14 +70,14 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
       description: '',
       parentCategoryId: '',
       gender: ['MEN', 'WOMEN'],
-      slug:''
+      slug: '',
     },
   });
   // const parentCategoryId = form.watch('parentCategoryId');
 
   const { trigger } = useCategoryUpsert();
   const { data: { data: category } = { data: null } } = useCategory(
-    isNew ? null : categoryId
+    isNew ? null : categoryId,
   );
 
   const { isDirty, isValid } = form.formState;
@@ -129,11 +129,9 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
               placeholder="Description"
               label="Description"
             />
-              <div className="grid grid-cols-2 gap-5 mb-10">
-        
-        <InputElement name="slug" placeholder="Slug" label="Slug" />
-     
-      </div>
+            <div className="grid grid-cols-2 gap-5 mb-10">
+              <InputElement name="slug" placeholder="Slug" label="Slug" />
+            </div>
             <FormField
               control={form.control}
               name="gender"
@@ -164,8 +162,8 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
                                     ? field.onChange([...field.value, gender])
                                     : field.onChange(
                                         field.value?.filter(
-                                          (value) => value !== gender
-                                        )
+                                          (value) => value !== gender,
+                                        ),
                                       );
                                 }}
                               />

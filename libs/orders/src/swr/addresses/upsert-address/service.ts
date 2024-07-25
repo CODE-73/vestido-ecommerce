@@ -3,7 +3,7 @@ import axios from 'axios'; // Import Axios
 
 export async function upsertAddress(
   args: AddressUpsertRequest,
-  authHeaders: Record<string, string>
+  authHeaders: Record<string, string>,
 ): Promise<AddressUpsertResponse> {
   let url = '/api/addresses';
   let method = 'POST';

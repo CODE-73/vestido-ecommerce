@@ -51,7 +51,7 @@ const CheckoutView: React.FC = () => {
           itemId: cartItem.itemId,
           price: cartItem.item.price,
           qty: cartItem.qty,
-        }))
+        })),
       );
       // form.setValue('addressId', sortedAddresses[0].id);
       // form.setValue('addressId', addresses?.data?.find((x) => x.default)?.id!);

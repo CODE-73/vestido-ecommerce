@@ -1,7 +1,7 @@
 import { DeleteItemRequest, DeleteItemResponse } from './types';
 
 export async function itemDelete(
-  args: DeleteItemRequest
+  args: DeleteItemRequest,
 ): Promise<DeleteItemResponse> {
   const url = `/api/items/${encodeURIComponent(args.itemId)}`;
   const r = await fetch(url, {

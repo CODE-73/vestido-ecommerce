@@ -13,6 +13,6 @@ export function useCart(query?: string) {
     () => getCartItems(authHeaders),
     {
       keepPreviousData: true,
-    }
+    },
   );
 }

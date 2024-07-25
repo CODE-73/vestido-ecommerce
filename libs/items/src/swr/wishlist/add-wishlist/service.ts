@@ -4,7 +4,7 @@ import axios from 'axios'; // Import Axios
 
 export async function addToWishList(
   args: AddToWishListRequest,
-  authHeaders: Record<string, string>
+  authHeaders: Record<string, string>,
 ): Promise<AddToWishListResponse> {
   try {
     const r = await axios.post('/api/wishlist', args, {

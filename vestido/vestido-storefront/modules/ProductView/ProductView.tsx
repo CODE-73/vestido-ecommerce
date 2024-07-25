@@ -51,16 +51,16 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
   const itemCategory = category?.data.name;
 
   const [selectedImage, setSelectedImage] = React.useState<string>(
-    ((item?.images ?? []) as ImageSchemaType[])[0]?.url ?? ''
+    ((item?.images ?? []) as ImageSchemaType[])[0]?.url ?? '',
   );
 
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(
-    null
+    null,
   );
 
   const selectedVariant = useMemo(
     () => item?.variants?.find((x) => x.id === selectedVariantId) ?? null,
-    [item, selectedVariantId]
+    [item, selectedVariantId],
   );
 
   useEffect(() => {
@@ -69,7 +69,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
         item.variants.find((variant) => variant.default) || null;
       setSelectedVariantId(defaultVar?.id ?? null);
       setSelectedImage(
-        ((defaultVar?.images ?? []) as ImageSchemaType[])[0]?.url || ''
+        ((defaultVar?.images ?? []) as ImageSchemaType[])[0]?.url || '',
       );
     }
   }, [item]);
@@ -100,14 +100,14 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
 
     const _v = item?.variants.find((x) =>
       x.attributeValues.every(
-        (attrVal) => values[attrVal.attribute.id] === attrVal.attributeValue.id
-      )
+        (attrVal) => values[attrVal.attribute.id] === attrVal.attributeValue.id,
+      ),
     );
 
     if (_v) {
       setSelectedVariantId(_v.id);
       setSelectedImage(
-        ((selectedVariant?.images ?? []) as ImageSchemaType[])[0]?.url || ''
+        ((selectedVariant?.images ?? []) as ImageSchemaType[])[0]?.url || '',
       );
     }
   };
@@ -150,7 +150,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
       }
       if (
         !attributeMap[attributeValue.attributeId].values.find(
-          (x) => x.id === attributeValue.attributeValue.id
+          (x) => x.id === attributeValue.attributeValue.id,
         )
       ) {
         attributeMap[attributeValue.attributeId].values.push({
@@ -189,8 +189,8 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
             src={
               selectedImage
                 ? selectedImage
-                : ((selectedVariant?.images ?? []) as ImageSchemaType[])[0]
-                    ?.url ?? ''
+                : (((selectedVariant?.images ?? []) as ImageSchemaType[])[0]
+                    ?.url ?? '')
             }
             alt="alt text"
             width={550}
@@ -229,7 +229,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
                           height={150}
                         />
                       </div>
-                    )
+                    ),
                   )}
                 </>
               ) : (
@@ -249,7 +249,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
                           height={150}
                         />
                       </div>
-                    )
+                    ),
                   )}
                 </>
               )}
@@ -294,8 +294,8 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
               {item?.stockStatus === 'LIMITED_STOCK'
                 ? 'Limited Stock'
                 : item?.stockStatus === 'OUT_OF_STOCK'
-                ? 'Out of Stock'
-                : 'Available'}
+                  ? 'Out of Stock'
+                  : 'Available'}
             </h1>
           </div>
 
@@ -318,7 +318,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
                       selectedVariant?.attributeValues.some(
                         (attrVal) =>
                           attrVal.attributeId === attributeId &&
-                          attrVal.attributeValue.id === value.id
+                          attrVal.attributeValue.id === value.id,
                       )
                         ? 'outline-black'
                         : 'outline-zinc-100 hover:outline-black'

@@ -3,7 +3,7 @@ import { CartItemResponse } from '../../../services/cart/get-cart/types';
 import axios from 'axios'; // Import Axios
 
 export async function getCartItems(
-  authHeaders: Record<string, string>
+  authHeaders: Record<string, string>,
 ): Promise<CartItemResponse> {
   try {
     const r = await await axios.get('/api/cart', {

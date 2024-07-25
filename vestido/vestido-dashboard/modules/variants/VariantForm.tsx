@@ -38,7 +38,7 @@ const CreateVariantFormSchema = z.object({
     .default(0)
     .nullable(),
   discountedPrice: z.coerce.number().nullable(),
-  slug:z.string()
+  slug: z.string(),
 });
 
 export type CreateVariantForm = z.infer<typeof CreateVariantFormSchema>;
@@ -68,7 +68,7 @@ const VariantForm: React.FC<VariantFormProps> = ({
       discountedPrice: 0,
       attributeValues: [],
       default: false,
-      slug:''
+      slug: '',
     },
   });
   const itemId = form.watch('itemId');
@@ -80,7 +80,7 @@ const VariantForm: React.FC<VariantFormProps> = ({
   const { trigger } = useVariantUpsert(itemId);
   const { data: { data: variant } = { data: null } /*error*/ } = useVariant(
     itemId,
-    isNew ? null : variantId
+    isNew ? null : variantId,
   );
 
   const { isDirty, isValid, errors } = form.formState;
@@ -99,7 +99,7 @@ const VariantForm: React.FC<VariantFormProps> = ({
         stockStatus: variant.stockStatus,
         discountPercent: variant.discountPercent,
         discountedPrice: variant.discountedPrice,
-        slug:variant.slug
+        slug: variant.slug,
       });
     }
   }, [isNew, variant, form]);
@@ -163,9 +163,7 @@ const VariantForm: React.FC<VariantFormProps> = ({
             ></InputElement>
           </div>
           <div className="grid grid-cols-2 gap-5 lg:px-10 mb-10">
-        
             <InputElement name="slug" placeholder="Slug" label="Slug" />
-         
           </div>
           <div className="grid grid-cols-2 gap-5 lg:px-10 my-2">
             <InputElement
@@ -210,7 +208,7 @@ const VariantForm: React.FC<VariantFormProps> = ({
                   name={`attributeValues.${index}.attributeValueId`}
                   placeholder="Value"
                   attributeId={form.watch(
-                    `attributeValues.${index}.attributeId`
+                    `attributeValues.${index}.attributeId`,
                   )}
                 />
               </div>

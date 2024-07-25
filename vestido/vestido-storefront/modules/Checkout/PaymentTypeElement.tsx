@@ -24,7 +24,7 @@ interface PaymentTypeElementProps<T extends FieldValues = FieldValues> {
 }
 
 export function PaymentTypeElement<
-  TFieldValues extends FieldValues = FieldValues
+  TFieldValues extends FieldValues = FieldValues,
 >({
   name,
   control,

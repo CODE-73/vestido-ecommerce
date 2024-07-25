@@ -19,7 +19,7 @@ export const UpdateCategorySchema = z.object({
       message: 'You have to select at least one item.',
     })
     .default(['MEN', 'WOMEN'] satisfies Gender[]),
-    slug:z.string()
+  slug: z.string(),
 });
 
 export type UpdateCategorySchemaType = z.infer<typeof UpdateCategorySchema>;

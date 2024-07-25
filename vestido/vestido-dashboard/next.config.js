@@ -15,9 +15,11 @@ const nextConfig = {
     svgr: false,
   },
   images: {
-    remotePatterns: [{
-      hostname: R2_NEXT_IMAGE_HOSTNAME
-    }],
+    remotePatterns: [
+      {
+        hostname: R2_NEXT_IMAGE_HOSTNAME,
+      },
+    ],
   },
   webpack: (config, { isServer }) => {
     if (!isServer) {
@@ -35,12 +37,12 @@ const nextConfig = {
           // fixes mapbox dependencies
           events: false,
           // fixes sentry dependencies
-          process: false
-        }
+          process: false,
+        },
       };
     }
     return config;
-  }
+  },
 };
 
 const plugins = [

@@ -1,7 +1,7 @@
 import { type PrismaClient } from '@prisma/client';
 export async function generateVariantTitle(
   client: PrismaClient,
-  attributes: Array<{ attributeId: string; attributeValueId: string }>
+  attributes: Array<{ attributeId: string; attributeValueId: string }>,
 ) {
   const attributeNames: string[] = [];
 

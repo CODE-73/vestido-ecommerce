@@ -16,11 +16,11 @@ export function useR2Upload(args: Nullable<UploadFileRequest>) {
 
   const sub: SWRSubscription<string[] | null, FileUploadEvent, Error> = (
     _,
-    { next }
+    { next },
   ) => {
     (async () => {
       for await (const progress of await uploadFile(
-        args as UploadFileRequest
+        args as UploadFileRequest,
       )) {
         next(null, progress);
       }

@@ -4,7 +4,7 @@ import { UpdateAddressSchema } from './zod';
 
 export async function updateAddress(
   addressId: string,
-  data: UpdateAddressRequest
+  data: UpdateAddressRequest,
 ) {
   const prisma = getPrismaClient();
 

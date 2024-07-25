@@ -25,7 +25,7 @@ export const CreateVariantSchema = z.object({
     .default(0)
     .nullable(),
   discountedPrice: z.coerce.number().nullable(),
-  slug:z.string()
+  slug: z.string(),
 });
 
 export type CreateVariantSchemaType = z.infer<typeof CreateVariantSchema>;

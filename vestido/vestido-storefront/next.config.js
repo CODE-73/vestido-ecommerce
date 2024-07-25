@@ -35,7 +35,9 @@ const nextConfig = {
     return config;
   },
   images: {
-    domains: ['vestido.45fff1c9b9ec39d339c480173cd09d22.r2.cloudflarestorage.com'],
+    domains: [
+      'vestido.45fff1c9b9ec39d339c480173cd09d22.r2.cloudflarestorage.com',
+    ],
   },
 };
 

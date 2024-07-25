@@ -32,7 +32,7 @@ export async function listItem(_args: ListItemRequest) {
       ...(x.variants?.flatMap((v) => (v.images ?? []) as ImageSchemaType[]) ??
         []),
       ...((x.images ?? []) as ImageSchemaType[]),
-    ])
+    ]),
   );
 
   return itemList;

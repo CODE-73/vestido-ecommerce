@@ -34,7 +34,7 @@ export async function listCartItems(customerId: string) {
     cartItems.flatMap((item) => [
       ...((item.variant?.images ?? []) as ImageSchemaType[]),
       ...((item.item.images ?? []) as ImageSchemaType[]),
-    ])
+    ]),
   );
 
   return cartItems;

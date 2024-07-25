@@ -23,7 +23,7 @@ export const UpdateVariantSchema = z.object({
     .default(0)
     .nullable(),
   discountedPrice: z.coerce.number().nullable(),
-  slug:z.string()
+  slug: z.string(),
 });
 
 export type UpdateVariantSchemaType = z.infer<typeof UpdateVariantSchema>;

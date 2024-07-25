@@ -2,7 +2,7 @@ import { ListAddressResponse } from '../../../services/address/list-address/type
 import axios from 'axios'; // Import Axios
 
 export async function getAddressList(
-  authHeaders: Record<string, string>
+  authHeaders: Record<string, string>,
 ): Promise<ListAddressResponse> {
   // const r = await fetch('/api/addresses');
 

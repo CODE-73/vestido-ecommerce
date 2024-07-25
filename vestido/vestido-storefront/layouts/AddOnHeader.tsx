@@ -18,7 +18,7 @@ const AddOnHeader = () => {
   ];
 
   const plugin = React.useRef(
-    Autoplay({ delay: 4000, stopOnInteraction: false, stopOnMouseEnter: true })
+    Autoplay({ delay: 4000, stopOnInteraction: false, stopOnMouseEnter: true }),
   );
 
   return (

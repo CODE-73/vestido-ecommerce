@@ -1,7 +1,7 @@
 import { categoryUpsertRequest, categoryUpsertResponse } from './types';
 
 export async function upsertCategory(
-  args: categoryUpsertRequest
+  args: categoryUpsertRequest,
 ): Promise<categoryUpsertResponse> {
   let url = '/api/categories';
   let method = 'POST';

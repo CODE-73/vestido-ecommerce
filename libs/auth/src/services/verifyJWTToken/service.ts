@@ -18,7 +18,7 @@ export async function verifyJWTToken(token: string) {
             resolve(JSON.stringify(decoded));
           }
         }
-      }
+      },
     );
   });
 }
