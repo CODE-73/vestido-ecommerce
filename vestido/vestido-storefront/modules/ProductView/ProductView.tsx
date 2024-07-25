@@ -63,12 +63,21 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
   );
 
   useEffect(() => {
-    if (item) {
+    if (!item) {
+      return;
+    }
+
+    if (item.hasVariants) {
       const defaultVar =
         item.variants.find((variant) => variant.default) || null;
       setSelectedVariantId(defaultVar?.id ?? null);
       setSelectedImage(
         ((defaultVar?.images ?? []) as ImageSchemaType[])[0]?.url || '',
+      );
+    } else {
+      setSelectedVariantId(null);
+      setSelectedImage(
+        ((item?.images ?? []) as ImageSchemaType[])[0]?.url ?? '',
       );
     }
   }, [item]);
