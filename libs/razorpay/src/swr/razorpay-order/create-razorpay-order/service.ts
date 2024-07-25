@@ -20,7 +20,7 @@ export async function createNewRazorpayOrder(
       }
     );
 
-    return r.data as CreateRPOrderResponse;
+    return r as CreateRPOrderResponse;
   } catch (error) {
     console.error('Error creating the order in Razorpay', error);
     throw new Error('Error creating the order in Razorpay');

@@ -23,6 +23,7 @@ import { ImageSchemaType } from '@vestido-ecommerce/utils';
 import AddAddressDialog from './AddAddressDialog';
 import { CustomerAddressElement } from './CustomerAddressElement';
 import { PaymentTypeElement } from './PaymentTypeElement';
+
 const OrderItemSchema = z.object({
   itemId: z.string().uuid(),
   price: z.coerce.number(),
@@ -34,6 +35,49 @@ const CreateOrderFormSchema = z.object({
   orderItems: z.array(OrderItemSchema),
   paymentType: z.enum(['ONLINE', 'CASH_ON_DELIVERY']),
 });
+
+// types.tsx
+
+export interface RazorpayResponse {
+  razorpay_payment_id: string;
+  razorpay_order_id: string;
+  razorpay_signature: string;
+}
+
+export interface RazorpayOptions {
+  key_id: string;
+  amount: number;
+  currency: string;
+  name: string;
+  description: string;
+  order_id: string; // assuming order_id is a string; adjust if it should be a different type
+  handler: (razorpayOrderResponse: RazorpayResponse) => Promise<void>;
+  prefill: {
+    name: string;
+    email: string;
+    contact: string;
+  };
+  notes: {
+    address: string;
+  };
+  theme: {
+    color: string;
+  };
+}
+
+export interface RazorpayFailedPaymentResponse {
+  error: {
+    code: string;
+    description: string;
+    source: string;
+    step: string;
+    reason: string;
+    metadata: {
+      order_id: string;
+      payment_id: string;
+    };
+  };
+}
 
 export type CreateOrderForm = z.infer<typeof CreateOrderFormSchema>;
 const CheckoutView: React.FC = () => {
@@ -82,6 +126,17 @@ const CheckoutView: React.FC = () => {
       return total + item.qty * item.item.price;
     }, 0) ?? 0;
 
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
   const handleSubmit = async (data: CreateOrderForm) => {
     try {
       const createOrderResponse = await createOrderTrigger({
@@ -102,6 +157,79 @@ const CheckoutView: React.FC = () => {
       });
 
       console.log('Razorpay OrderId from frontend: ', razorpayOrderResponse);
+
+      const options = {
+        key: 'rzp_test_NUv3lWuzHRmchC',
+        amount: totalPrice * 100,
+        currency: currency,
+        name: 'Vestido Nation',
+        description: 'New Order',
+        order_id: razorpayOrderResponse,
+        handler: async (razorpayOrderResponse: RazorpayResponse) => {
+          try {
+            const verificationResponse = await fetch(
+              `/api/orders/${orderId}/payment/verify-sign`,
+              {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  order_id: razorpayOrderResponse.razorpay_order_id,
+                  payment_id: razorpayOrderResponse.razorpay_payment_id,
+                  razorpay_signature: razorpayOrderResponse.razorpay_signature,
+                }),
+              }
+            );
+
+            console.log(
+              'Razorpay Verification Response: ',
+              verificationResponse
+            );
+            const verificationData = await verificationResponse.json();
+            console.log('Razorpay Verification Data: ', verificationData);
+
+            if (verificationData.status === 'success') {
+              // Handle successful payment here
+              console.log('Payment successful');
+            } else {
+              // Handle payment failure here
+              console.log('Payment failed');
+            }
+          } catch (error) {
+            console.error('Error verifying payment:', error);
+          }
+        },
+        prefill: {
+          name: 'Customer Name',
+          email: 'customer@example.com',
+          contact: '9567233994',
+        },
+        notes: {
+          address: 'Customer Address',
+        },
+        theme: {
+          color: '#F37254',
+        },
+      };
+
+      console.log('Options: ', options);
+
+      const rzp1 = new window.Razorpay(options);
+
+      rzp1.on(
+        'payment.failed',
+        function (response: RazorpayFailedPaymentResponse) {
+          alert(response.error.code);
+          alert(response.error.description);
+          alert(response.error.source);
+          alert(response.error.step);
+          alert(response.error.reason);
+          alert(response.error.metadata.order_id);
+          alert(response.error.metadata.payment_id);
+        }
+      );
+      rzp1.open();
     } catch (e) {
       console.error('Error creating order:', e);
     }
