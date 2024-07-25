@@ -1,10 +1,12 @@
 import { FC, useEffect, useMemo, useRef, useState } from 'react';
-import { useR2Upload, makeUploadKey } from '@vestido-ecommerce/r2';
-import { FaCloudUploadAlt, FaTrashAlt } from 'react-icons/fa';
-import { FieldPath, FieldValues } from 'react-hook-form';
-import { FormField } from '@vestido-ecommerce/shadcn-ui/form';
-import { Button } from '@vestido-ecommerce/shadcn-ui/button';
+
 import { clsx } from 'clsx';
+import { FieldPath, FieldValues } from 'react-hook-form';
+import { FaCloudUploadAlt, FaTrashAlt } from 'react-icons/fa';
+
+import { makeUploadKey, useR2Upload } from '@vestido-ecommerce/r2';
+import { Button } from '@vestido-ecommerce/shadcn-ui/button';
+import { FormField } from '@vestido-ecommerce/shadcn-ui/form';
 
 type FileUploadProps = {
   label: string;

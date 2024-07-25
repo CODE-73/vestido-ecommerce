@@ -1,19 +1,21 @@
 import useSWRMutation from 'swr/mutation';
-import { RemoveFromWishListRequest, RemoveFromWishListResponse } from './types';
+import { RemoveFromWishListSwrRequest } from './types';
+import { RemoveFromWishlistResponse } from '../../../services/wishlist/remove-from-wishlist';
 import { useAuth } from '@vestido-ecommerce/auth';
-import { removeFromWishList } from './service';
-import { WishlistSWRKeys } from '../keys';
 import { useClearCacheOnSuccess } from '@vestido-ecommerce/utils';
+
+import { WishlistSWRKeys } from '../keys';
+import { removeFromWishList } from './service';
 
 export const useRemoveFromWishlist = () => {
   const { authHeaders } = useAuth();
   const key = [WishlistSWRKeys.WISHLIST];
 
   return useSWRMutation<
-    RemoveFromWishListResponse,
+    RemoveFromWishlistResponse,
     Error,
     string[] | null,
-    RemoveFromWishListRequest
+    RemoveFromWishListSwrRequest
   >(key, (_, { arg }) => removeFromWishList({ ...arg }, authHeaders), {
     ...useClearCacheOnSuccess(WishlistSWRKeys.WISHLIST),
   });

@@ -1,8 +1,10 @@
 import useSWRImmutable from 'swr/immutable';
-import { ListAddressSWRKeys } from '../keys';
-import { ListAddressResponse } from '../../../services/address/list-address';
-import { getAddressList } from './service';
+
 import { useAuth } from '@vestido-ecommerce/auth';
+
+import { ListAddressResponse } from '../../../services/address/list-address';
+import { ListAddressSWRKeys } from '../keys';
+import { getAddressList } from './service';
 
 export function useAddresses() {
   const { authHeaders } = useAuth();

@@ -1,8 +1,10 @@
 import useSWRMutation from 'swr/mutation';
-import { DeleteVariantResponse, DeleteVariantRequest } from './types';
-import { deleteVariant } from './service';
-import { VariantDetailsSWRKeys } from '../keys';
+
 import { useClearCacheOnSuccess } from '@vestido-ecommerce/utils';
+
+import { VariantDetailsSWRKeys } from '../keys';
+import { deleteVariant } from './service';
+import { DeleteVariantRequest, DeleteVariantResponse } from './types';
 
 export function useVariantDelete(variantId: string, itemId: string) {
   const key = [

@@ -1,8 +1,9 @@
 import useSWRImmutable from 'swr/immutable';
+
+import { ListItemRequest } from '../../../services/items/list-item/types';
+import { ListItemSWRKeys } from '../keys';
 import { getItemList } from './service';
 import { ListItemResponse } from './types';
-import { ListItemSWRKeys } from '../keys';
-import { ListItemRequest } from '../../../services/items/list-item/types';
 
 export function useItems(args?: ListItemRequest) {
   const key = [

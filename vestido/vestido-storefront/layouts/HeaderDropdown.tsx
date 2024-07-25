@@ -1,10 +1,4 @@
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@vestido-ecommerce/shadcn-ui/dropdown-menu';
-import {
   LuHeadphones,
   LuMailQuestion,
   LuRuler,
@@ -14,6 +8,13 @@ import {
   LuUndo2,
   LuWrench,
 } from 'react-icons/lu';
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@vestido-ecommerce/shadcn-ui/dropdown-menu';
 
 interface DropdownProps {
   fixedHeader: boolean;

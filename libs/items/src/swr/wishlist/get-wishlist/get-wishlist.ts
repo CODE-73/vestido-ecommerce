@@ -1,8 +1,10 @@
 import useSWRImmutable from 'swr/immutable';
-import { getWishlist } from './service';
+
 import { useAuth } from '@vestido-ecommerce/auth';
-import { WishlistSWRKeys } from '../keys';
+
 import { WishlistItemResponse } from '../../../services/wishlist/get-wishlist/types';
+import { WishlistSWRKeys } from '../keys';
+import { getWishlist } from './service';
 
 export function useWishlist(query?: string) {
   const { authHeaders } = useAuth();

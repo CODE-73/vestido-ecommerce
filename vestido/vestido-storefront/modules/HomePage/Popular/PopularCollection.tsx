@@ -1,17 +1,15 @@
+import { FC } from 'react';
+
+import clsx from 'clsx';
+
+import cardImage1 from '../../../assets/popular/brown.jpg';
+import cardImage2 from '../../../assets/popular/chair.jpg';
+import cardImage5 from '../../../assets/popular/floor.jpg';
+import cardImage3 from '../../../assets/popular/purple.jpg';
+import cardImage4 from '../../../assets/popular/shoe.jpg';
 import PopularCollectionCard, {
   PopularCollectionCardData,
 } from './PopularCollectionCard';
-
-import cardImage2 from '../../../assets/popular/chair.jpg';
-import cardImage5 from '../../../assets/popular/floor.jpg';
-
-import cardImage3 from '../../../assets/popular/purple.jpg';
-
-import cardImage4 from '../../../assets/popular/shoe.jpg';
-import cardImage1 from '../../../assets/popular/brown.jpg';
-
-import { FC } from 'react';
-import clsx from 'clsx';
 
 const cards: PopularCollectionCardData[] = [
   {

@@ -1,4 +1,5 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
+
 import { AddToCartSchema, AddToCartSchemaType } from './zod';
 
 export async function addToCart(body: AddToCartSchemaType) {
@@ -19,6 +20,15 @@ export async function addToCart(body: AddToCartSchemaType) {
           id: validatedData.itemId,
         },
       },
+      ...(validatedData.variantId
+        ? {
+            variant: {
+              connect: {
+                id: validatedData.variantId,
+              },
+            },
+          }
+        : {}),
     },
   });
 

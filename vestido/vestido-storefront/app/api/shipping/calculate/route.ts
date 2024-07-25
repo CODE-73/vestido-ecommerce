@@ -1,6 +1,8 @@
 import { ZodError } from 'zod';
-import { verifyAuth } from '../../verify-auth';
+
 import { calculateShippingCharges } from '@vestido-ecommerce/orders';
+
+import { verifyAuth } from '../../verify-auth';
 
 export async function POST(request: Request) {
   try {

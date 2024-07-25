@@ -2,10 +2,10 @@ import * as React from 'react';
 import Image from 'next/image';
 
 import { LuShoppingBag } from 'react-icons/lu';
-import { AddToWishListButton } from '../HomePage/SpecialOffer/AddToWishlistButton';
-import { QuickViewButton } from '../HomePage/SpecialOffer/QuickViewButton';
-import useIsMobile from '../../../vestido-storefront/hooks/useIsMobile';
+
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
+
+import useIsMobile from '../../../vestido-storefront/hooks/useIsMobile';
 import product11 from '../../assets/offer-products/product1-1.jpg';
 import product12 from '../../assets/offer-products/product1-2.jpg';
 import product21 from '../../assets/offer-products/product2-1.jpg';
@@ -14,6 +14,8 @@ import product31 from '../../assets/offer-products/product3-1.jpg';
 import product32 from '../../assets/offer-products/product3-2.jpg';
 import product41 from '../../assets/offer-products/product4-1.jpg';
 import product42 from '../../assets/offer-products/product4-2.jpg';
+import { AddToWishListButton } from '../HomePage/SpecialOffer/AddToWishlistButton';
+import { QuickViewButton } from '../HomePage/SpecialOffer/QuickViewButton';
 
 const data = [
   {

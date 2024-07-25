@@ -1,3 +1,7 @@
+import { useRouter } from 'next/router';
+
+import { LuTrash } from 'react-icons/lu';
+
 import { ListItemResponse, useItemDelete } from '@vestido-ecommerce/items';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
@@ -10,9 +14,6 @@ import {
   TableRow,
 } from '@vestido-ecommerce/shadcn-ui/table';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
-
-import { useRouter } from 'next/router';
-import { LuTrash } from 'react-icons/lu';
 
 interface ProductTableProps {
   data: ListItemResponse;

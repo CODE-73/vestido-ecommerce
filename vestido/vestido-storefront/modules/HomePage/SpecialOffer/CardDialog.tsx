@@ -1,14 +1,16 @@
 import * as React from 'react';
 import Image from 'next/image';
 
+import { LuChevronLeft } from 'react-icons/lu';
+
+import { Checkbox } from '@vestido-ecommerce/shadcn-ui/checkbox';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from '@vestido-ecommerce/shadcn-ui/dialog';
-import { LuChevronLeft } from 'react-icons/lu';
-import { Checkbox } from '@vestido-ecommerce/shadcn-ui/checkbox';
+
 import product11 from '../../../assets/offer-products/product1-1.jpg';
 import product12 from '../../../assets/offer-products/product1-2.jpg';
 

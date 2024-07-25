@@ -1,11 +1,14 @@
-import './styles.css';
 import { AppProps } from 'next/app';
-import Head from 'next/head';
-import { NextPageWithLayout } from './../types';
-import MainLayout from '../layouts/MainLayout';
 // import { Poppins } from 'next/font/google';
 import localFont from 'next/font/local';
+import Head from 'next/head';
+
 import { AuthProvider } from '@vestido-ecommerce/auth';
+
+import MainLayout from '../layouts/MainLayout';
+import { NextPageWithLayout } from './../types';
+
+import './styles.css';
 
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;

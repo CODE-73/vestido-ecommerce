@@ -1,8 +1,10 @@
 import useSWRMutation from 'swr/mutation';
-import { VariantUpsertSWRKeys } from '../keys';
-import { variantUpsertRequest, variantUpsertResponse } from './types';
-import { upsertVariant } from './service';
+
 import { useClearCacheOnSuccess } from '@vestido-ecommerce/utils';
+
+import { VariantUpsertSWRKeys } from '../keys';
+import { upsertVariant } from './service';
+import { variantUpsertRequest, variantUpsertResponse } from './types';
 
 export const useVariantUpsert = (itemId: string) => {
   const key = [

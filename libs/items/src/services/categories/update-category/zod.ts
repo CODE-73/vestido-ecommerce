@@ -1,5 +1,5 @@
-import { z } from 'zod';
 import { Gender } from '@prisma/client';
+import { z } from 'zod';
 
 export const UpdateCategorySchema = z.object({
   name: z.string(),

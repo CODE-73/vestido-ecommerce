@@ -1,4 +1,4 @@
-import { WishlistItem, Item } from '@prisma/client';
+import { Item, WishlistItem } from '@prisma/client';
 
 export type WishlistItemResponse = {
   data: Array<

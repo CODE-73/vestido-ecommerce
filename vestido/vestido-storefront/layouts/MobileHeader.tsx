@@ -1,26 +1,28 @@
+import { useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+
+import { AiOutlineClose } from 'react-icons/ai';
+import { AiOutlineMan, AiOutlineWoman } from 'react-icons/ai';
 import {
   LuAlignLeft,
   LuChevronDown,
   LuChevronUp,
-  LuSearch,
   LuHeadphones,
   LuMailQuestion,
   LuRuler,
+  LuSearch,
   LuSettings2,
+  LuShoppingBag,
   LuStore,
   LuTruck,
   LuUndo2,
   LuWrench,
   LuX,
-  LuShoppingBag,
 } from 'react-icons/lu';
-import { useState } from 'react';
-import { AiOutlineClose } from 'react-icons/ai';
-import Image from 'next/image';
 import {} from 'react-icons/lu';
-import { AiOutlineMan, AiOutlineWoman } from 'react-icons/ai';
+
 import { Input } from '@vestido-ecommerce/shadcn-ui/input';
-import Link from 'next/link';
 
 interface HeaderProps {
   cart_count: number | undefined;

@@ -1,10 +1,11 @@
+import { FC } from 'react';
+
 import category1 from '../../../assets/category/bodycon.jpeg';
-import category2 from '../../../assets/category/wrap.jpeg';
 import category3 from '../../../assets/category/floral.jpeg';
+import category6 from '../../../assets/category/jeans.jpg';
 import category4 from '../../../assets/category/shirts.jpeg';
 import category5 from '../../../assets/category/tshirts.jpg';
-import category6 from '../../../assets/category/jeans.jpg';
-import { FC } from 'react';
+import category2 from '../../../assets/category/wrap.jpeg';
 import CategoryCard, { CategoryCardData } from './CategoryCard';
 
 const cards: CategoryCardData[] = [

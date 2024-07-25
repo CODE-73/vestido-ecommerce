@@ -1,6 +1,7 @@
 import { populateImageURLs } from '@vestido-ecommerce/caching';
 import { getPrismaClient } from '@vestido-ecommerce/models';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
+
 import { ListItemRequest } from './types';
 import { ListItemRequestSchema } from './zod';
 

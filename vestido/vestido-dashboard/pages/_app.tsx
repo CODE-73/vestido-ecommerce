@@ -1,11 +1,14 @@
 import { AppProps } from 'next/app';
-import Head from 'next/head';
-import './styles.css';
-import { NextPageWithLayout } from '../types/layout';
-import AuthorizedLayout from '../layouts/authorized';
-import { Toaster } from '@vestido-ecommerce/shadcn-ui/toaster';
 import localFont from 'next/font/local';
+import Head from 'next/head';
+
 import { AuthProvider } from '@vestido-ecommerce/auth';
+import { Toaster } from '@vestido-ecommerce/shadcn-ui/toaster';
+
+import AuthorizedLayout from '../layouts/authorized';
+import { NextPageWithLayout } from '../types/layout';
+
+import './styles.css';
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };

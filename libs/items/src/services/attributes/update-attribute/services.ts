@@ -1,4 +1,5 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
+
 import { UpdateAttributeSchema, UpdateAttributeSchemaType } from './zod';
 
 export async function updateAttribute(

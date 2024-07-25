@@ -1,17 +1,20 @@
 import * as React from 'react';
+
+import clsx from 'clsx';
 import Autoplay from 'embla-carousel-autoplay';
-import image1 from '../../../assets/carousel/slide-1.jpg';
-import image2 from '../../../assets/carousel/slide-2.jpg';
-import image3 from '../../../assets/carousel/slide-3.jpg';
+
 import {
   Carousel,
   CarouselContent,
   CarouselDots,
 } from '@vestido-ecommerce/shadcn-ui/carousel';
+
+import image1 from '../../../assets/carousel/slide-1.jpg';
+import image2 from '../../../assets/carousel/slide-2.jpg';
+import image3 from '../../../assets/carousel/slide-3.jpg';
 import PrimaryCarouselItem, {
   PrimaryCarouselItemData,
 } from './PrimaryCarouselItem';
-import clsx from 'clsx';
 
 const carouselSlides: PrimaryCarouselItemData[] = [
   {

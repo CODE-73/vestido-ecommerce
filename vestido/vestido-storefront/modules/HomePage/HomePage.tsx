@@ -1,11 +1,13 @@
 import * as React from 'react';
-import { PrimaryCarousel } from './PrimaryCarousel/PrimaryCarousel';
-import { CategoryCards } from './CategorySection/CategoryCards';
-import { TopProducts } from './TopProducts/TopProducts';
-import { PopularCollection } from './Popular/PopularCollection';
-import { HorizontalScrollCards } from './HorizontalScroll/HorizontalScrollCards';
+
 import { LuChevronUp } from 'react-icons/lu';
+
 import useIsMobile from '../../hooks/useIsMobile';
+import { CategoryCards } from './CategorySection/CategoryCards';
+import { HorizontalScrollCards } from './HorizontalScroll/HorizontalScrollCards';
+import { PopularCollection } from './Popular/PopularCollection';
+import { PrimaryCarousel } from './PrimaryCarousel/PrimaryCarousel';
+import { TopProducts } from './TopProducts/TopProducts';
 
 const BackToTopButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
   <button

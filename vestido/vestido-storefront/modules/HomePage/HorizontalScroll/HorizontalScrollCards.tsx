@@ -1,19 +1,22 @@
-import { ScrollCardData } from './HorizontalScrollCard';
-import HorizontalScrollCard from './HorizontalScrollCard';
-import cardImage1 from '../../../assets/cards/card-1.jpg';
-import cardImage2 from '../../../assets/cards/card-2.jpg';
-import cardImage3 from '../../../assets/cards/card-3.jpg';
-import cardImage4 from '../../../assets/cards/card-4.jpg';
-import cardImage5 from '../../../assets/cards/card-5.jpg';
-import cardImage6 from '../../../assets/cards/card-6.jpg';
+import { FC } from 'react';
+
+import clsx from 'clsx';
+
 import {
   Carousel,
   CarouselContent,
   CarouselNext,
   CarouselPrevious,
 } from '@vestido-ecommerce/shadcn-ui/carousel';
-import { FC } from 'react';
-import clsx from 'clsx';
+
+import cardImage1 from '../../../assets/cards/card-1.jpg';
+import cardImage2 from '../../../assets/cards/card-2.jpg';
+import cardImage3 from '../../../assets/cards/card-3.jpg';
+import cardImage4 from '../../../assets/cards/card-4.jpg';
+import cardImage5 from '../../../assets/cards/card-5.jpg';
+import cardImage6 from '../../../assets/cards/card-6.jpg';
+import { ScrollCardData } from './HorizontalScrollCard';
+import HorizontalScrollCard from './HorizontalScrollCard';
 
 type HorizontalScrollCardsProps = {
   className?: string;

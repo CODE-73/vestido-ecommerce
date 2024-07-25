@@ -1,5 +1,6 @@
-import { UpdateAddressRequest } from './types';
 import { getPrismaClient } from '@vestido-ecommerce/models';
+
+import { UpdateAddressRequest } from './types';
 import { UpdateAddressSchema } from './zod';
 
 export async function updateAddress(

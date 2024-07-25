@@ -1,8 +1,10 @@
 import useSWRMutation from 'swr/mutation';
-import { CategoryUpsertSWRKeys } from '../keys';
-import { categoryUpsertRequest, categoryUpsertResponse } from './types';
-import { upsertCategory } from './service';
+
 import { useClearCacheOnSuccess } from '@vestido-ecommerce/utils';
+
+import { CategoryUpsertSWRKeys } from '../keys';
+import { upsertCategory } from './service';
+import { categoryUpsertRequest, categoryUpsertResponse } from './types';
 
 export const useCategoryUpsert = () => {
   const key = [CategoryUpsertSWRKeys.CATEGORY, CategoryUpsertSWRKeys.UPSERT];

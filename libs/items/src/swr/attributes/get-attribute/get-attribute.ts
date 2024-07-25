@@ -1,7 +1,8 @@
 import useSWRImmutable from 'swr/immutable';
+
 import { AttributeDetailsResponse } from '../../../services/attributes/get-attribute/types';
-import { getAttributeDetails } from './service';
 import { AttributeDetailsSWRKeys } from '../keys';
+import { getAttributeDetails } from './service';
 
 export function useAttribute(attributeId?: string | null) {
   const key = attributeId

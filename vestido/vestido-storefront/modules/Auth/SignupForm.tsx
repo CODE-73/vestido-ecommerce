@@ -1,9 +1,13 @@
 'use client';
 
+import { useRouter } from 'next/router';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
+import { useSignup } from '@vestido-ecommerce/auth';
+import { useAuth } from '@vestido-ecommerce/auth';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
   Form,
@@ -12,11 +16,8 @@ import {
   FormItem,
   FormLabel,
 } from '@vestido-ecommerce/shadcn-ui/form';
-import { Input } from '@vestido-ecommerce/shadcn-ui/input';
-import { useSignup } from '@vestido-ecommerce/auth';
-import { useAuth } from '@vestido-ecommerce/auth';
-import { useRouter } from 'next/router';
 import { InputElement } from '@vestido-ecommerce/shadcn-ui/form/InputElement';
+import { Input } from '@vestido-ecommerce/shadcn-ui/input';
 
 interface Props {
   mobile: string;

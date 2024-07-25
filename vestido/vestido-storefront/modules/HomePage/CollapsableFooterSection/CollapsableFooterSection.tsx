@@ -1,5 +1,6 @@
-import { LuPlus } from 'react-icons/lu';
 import React, { useMemo } from 'react';
+
+import { LuPlus } from 'react-icons/lu';
 
 type CollapsableFooterSectionProps = {
   title: string;

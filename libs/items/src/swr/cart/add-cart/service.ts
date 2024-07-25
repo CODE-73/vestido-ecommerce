@@ -1,6 +1,6 @@
-import { AddCartRequest, AddCartResponse } from './types';
-
 import axios from 'axios'; // Import Axios
+
+import { AddCartRequest, AddCartResponse } from './types';
 
 export async function addCartItem(
   args: AddCartRequest,

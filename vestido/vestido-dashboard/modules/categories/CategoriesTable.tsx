@@ -1,3 +1,8 @@
+import { useRouter } from 'next/router';
+
+import { Category, Gender } from '@prisma/client';
+
+import { useCategory } from '@vestido-ecommerce/items';
 import {
   Table,
   TableBody,
@@ -6,9 +11,6 @@ import {
   TableHeader,
   TableRow,
 } from '@vestido-ecommerce/shadcn-ui/table';
-import { useCategory } from '@vestido-ecommerce/items';
-import { useRouter } from 'next/router';
-import { Gender, Category } from '@prisma/client';
 
 interface CategoryTableProps {
   data: Category[];

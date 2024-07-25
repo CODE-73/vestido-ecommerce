@@ -1,6 +1,6 @@
+export * from './list-item';
 export * from './service';
 export * from './types';
-export * from './list-item';
 
 /*
   INSERT

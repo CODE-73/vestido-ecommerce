@@ -1,4 +1,6 @@
 import { useRouter } from 'next/router';
+
+import { ListAttributesResponse } from '@vestido-ecommerce/items';
 import {
   Table,
   TableBody,
@@ -7,7 +9,6 @@ import {
   TableHeader,
   TableRow,
 } from '@vestido-ecommerce/shadcn-ui/table';
-import { ListAttributesResponse } from '@vestido-ecommerce/items';
 
 interface ItemAttributeTableProps {
   data: ListAttributesResponse;

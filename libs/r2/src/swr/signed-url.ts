@@ -1,10 +1,11 @@
-import { R2SWRKeys } from './keys';
 import useSWR from 'swr';
+
 import {
+  makeSignedUrl,
   MakeSignedUrlRequest,
   MakeSignedUrlResponse,
-  makeSignedUrl,
 } from './../services/make-signed-url';
+import { R2SWRKeys } from './keys';
 
 export function useR2SignedURL(args: MakeSignedUrlRequest) {
   const key = args.key

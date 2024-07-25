@@ -1,6 +1,8 @@
-import { getPrismaClient } from '@vestido-ecommerce/models';
-import { UpdateItemSchema, UpdateItemSchemaType } from './zod';
 import { Gender } from '@prisma/client';
+
+import { getPrismaClient } from '@vestido-ecommerce/models';
+
+import { UpdateItemSchema, UpdateItemSchemaType } from './zod';
 
 export async function updateItem(itemId: string, data: UpdateItemSchemaType) {
   const prisma = getPrismaClient();

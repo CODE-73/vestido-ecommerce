@@ -1,6 +1,6 @@
-import { CartItemResponse } from '../../../services/cart/get-cart/types';
-
 import axios from 'axios'; // Import Axios
+
+import { CartItemResponse } from '../../../services/cart/get-cart/types';
 
 export async function getCartItems(
   authHeaders: Record<string, string>,

@@ -1,8 +1,10 @@
 import useSWRMutation from 'swr/mutation';
-import { DeleteAttributeResponse, DeleteAttributeRequest } from './types';
-import { deleteAttribute } from './service';
-import { AttributeDetailsSWRKeys } from '../keys';
+
 import { useClearCacheOnSuccess } from '@vestido-ecommerce/utils';
+
+import { AttributeDetailsSWRKeys } from '../keys';
+import { deleteAttribute } from './service';
+import { DeleteAttributeRequest, DeleteAttributeResponse } from './types';
 
 export function useAttributeDelete(attributeId: string) {
   const key = [

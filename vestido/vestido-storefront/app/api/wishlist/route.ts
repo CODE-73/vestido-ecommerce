@@ -1,9 +1,11 @@
+import { ZodError } from 'zod';
+
 import {
-  listWishlistItems,
   addToWishlist,
+  listWishlistItems,
   removeFromWishlist,
 } from '@vestido-ecommerce/items';
-import { ZodError } from 'zod';
+
 import { verifyAuth } from '../verify-auth';
 
 export const dynamic = 'force-dynamic'; // static by default, unless reading the request

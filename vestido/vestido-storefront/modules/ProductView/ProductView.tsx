@@ -1,4 +1,23 @@
 import * as React from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import Image from 'next/image';
+
+import {
+  LuChevronLeft,
+  LuChevronRight,
+  LuHeart,
+  LuScaling,
+  LuShoppingBag,
+} from 'react-icons/lu';
+// import Markdown from 'react-markdown';
+import Markdown from 'react-markdown';
+
+import {
+  useAddToCart,
+  useAddToWishlist,
+  useCategory,
+  useItem,
+} from '@vestido-ecommerce/items';
 // import { Checkbox } from '@vestido-ecommerce/shadcn-ui/checkbox';
 import {
   Accordion,
@@ -6,6 +25,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@vestido-ecommerce/shadcn-ui/accordion';
+import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 // import { Avatar, AvatarFallback } from '@vestido-ecommerce/shadcn-ui/avatar';
 import {
   Table,
@@ -14,26 +34,7 @@ import {
   TableHeader,
   TableRow,
 } from '@vestido-ecommerce/shadcn-ui/table';
-import Image from 'next/image';
-// import Markdown from 'react-markdown';
-import Markdown from 'react-markdown';
-
-import {
-  LuScaling,
-  LuShoppingBag,
-  LuHeart,
-  LuChevronLeft,
-  LuChevronRight,
-} from 'react-icons/lu';
-import {
-  useCategory,
-  useItem,
-  useAddToCart,
-  useAddToWishlist,
-} from '@vestido-ecommerce/items';
-import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
-import { useEffect, useState, useMemo } from 'react';
 // import { ItemVariant, VariantAttributeValue } from '@prisma/client';
 
 interface ProductViewProps {
@@ -160,6 +161,8 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
       }
     });
   });
+
+  console.log('selectedVariantId now', selectedVariantId);
   const handleAddToCart = () => {
     if (item) {
       cartTrigger({
@@ -223,7 +226,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
                       >
                         <Image
                           className="outline outline-3 hover:outline-[#48CAB2] mb-3"
-                          src={image.url!}
+                          src={image.url ?? ''}
                           alt="alt text"
                           width={100}
                           height={150}
@@ -283,8 +286,8 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
       <div className="w-full md:w-1/2">
         <h1 className="text-3xl font-semibold">{item?.title}</h1>
         <div className="flex flex-row items-center gap-1">
-          <div className="text-2xl font-semibold">Rs.{item?.price}</div>
-          <div>{item?.discountedPrice}</div>
+          <div className="text-2xl font-semibold">Rs.{item?.discountedPrice && item?.discountedPrice > 0 ? item?.discountedPrice : item?.price}</div>
+        
         </div>
 
         <div className="text-sm ">
@@ -333,10 +336,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
             ))}
           </div>
 
-          <div className="flex flex-row pt-4">
-            <h1 className="font-extralight">Size:&nbsp; </h1>
-            <h1 className="font-semibold no-underline">XS</h1>
-          </div>
+        
         </div>
 
         <div className="flex flex-row pr-5 gap-1 py-6">

@@ -1,6 +1,7 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
-import { CreateOrderSchema, CreateOrderSchemaType } from './zod';
+
 import { calculateShippingCharges } from '../../shipping/get-shipping-charge';
+import { CreateOrderSchema, CreateOrderSchemaType } from './zod';
 
 export async function createOrder(_data: CreateOrderSchemaType) {
   const prisma = getPrismaClient();

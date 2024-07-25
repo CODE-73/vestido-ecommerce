@@ -1,5 +1,6 @@
-import { UpdateAttributeSchemaType } from './zod';
 import { ItemAttribute, ItemAttributeValue } from '@prisma/client';
+
+import { UpdateAttributeSchemaType } from './zod';
 
 export type UpdateAttributeRequest = UpdateAttributeSchemaType;
 

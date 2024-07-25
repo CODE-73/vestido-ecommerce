@@ -1,3 +1,13 @@
+import { FocusEventHandler, ReactElement, useState } from 'react';
+
+import clsx from 'clsx';
+import {
+  Control,
+  ControllerProps,
+  FieldPath,
+  FieldValues,
+} from 'react-hook-form';
+
 import { useAttribute } from '@vestido-ecommerce/items';
 import { Combobox } from '@vestido-ecommerce/shadcn-ui/combobox';
 import {
@@ -7,14 +17,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@vestido-ecommerce/shadcn-ui/form';
-import clsx from 'clsx';
-import { ReactElement, useState, FocusEventHandler } from 'react';
-import {
-  Control,
-  ControllerProps,
-  FieldPath,
-  FieldValues,
-} from 'react-hook-form';
 
 interface AttributeValueComboboxProps {
   attributeId: string | null;

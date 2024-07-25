@@ -1,9 +1,12 @@
 'use client';
 
+import { useState } from 'react';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
+import { useSendOTP } from '@vestido-ecommerce/auth';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
   Form,
@@ -13,8 +16,7 @@ import {
   FormLabel,
 } from '@vestido-ecommerce/shadcn-ui/form';
 import { Input } from '@vestido-ecommerce/shadcn-ui/input';
-import { useSendOTP } from '@vestido-ecommerce/auth';
-import { useState } from 'react';
+
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
 

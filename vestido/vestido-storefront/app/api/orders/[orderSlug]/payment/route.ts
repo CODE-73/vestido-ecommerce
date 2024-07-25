@@ -1,6 +1,8 @@
-import { verifyAuth } from '../../../verify-auth';
 import { ZodError } from 'zod';
+
 import { createRazorpayOrder } from '@vestido-ecommerce/razorpay';
+
+import { verifyAuth } from '../../../verify-auth';
 
 export async function POST(
   request: Request,

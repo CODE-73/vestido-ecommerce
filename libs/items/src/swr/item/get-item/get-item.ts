@@ -1,7 +1,8 @@
 import useSWRImmutable from 'swr/immutable';
+
 import { ItemDetailsResponse } from '../../../services/items/get-item/types';
-import { getItemDetails } from './service';
 import { ItemDetailsSWRKeys } from '../keys';
+import { getItemDetails } from './service';
 
 export function useItem(itemId?: string | null) {
   const key = itemId

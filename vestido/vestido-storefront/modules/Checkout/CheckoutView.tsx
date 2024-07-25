@@ -1,24 +1,27 @@
 import * as React from 'react';
-import Image from 'next/image';
-import { useCart } from '@vestido-ecommerce/items';
-import { ImageSchemaType } from '@vestido-ecommerce/utils';
-import { z } from 'zod';
-import { Dialog, DialogTrigger } from '@vestido-ecommerce/shadcn-ui/dialog';
-import AddAddressDialog from './AddAddressDialog';
-import { CustomerAddressElement } from './CustomerAddressElement';
-import { Form } from '@vestido-ecommerce/shadcn-ui/form';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { Button } from '@vestido-ecommerce/shadcn-ui/button';
+import Image from 'next/image';
+import Link from 'next/link';
+
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { LuChevronRight } from 'react-icons/lu';
+import { z } from 'zod';
+
+import { useCart } from '@vestido-ecommerce/items';
 import {
   // useAddresses,
   useCreateOrder,
   useShippingCharges,
 } from '@vestido-ecommerce/orders';
 import { useRazorpayCreateOrder } from '@vestido-ecommerce/razorpay';
-import { LuChevronRight } from 'react-icons/lu';
+import { Button } from '@vestido-ecommerce/shadcn-ui/button';
+import { Dialog, DialogTrigger } from '@vestido-ecommerce/shadcn-ui/dialog';
+import { Form } from '@vestido-ecommerce/shadcn-ui/form';
+import { ImageSchemaType } from '@vestido-ecommerce/utils';
+
+import AddAddressDialog from './AddAddressDialog';
+import { CustomerAddressElement } from './CustomerAddressElement';
 import { PaymentTypeElement } from './PaymentTypeElement';
 const OrderItemSchema = z.object({
   itemId: z.string().uuid(),
@@ -52,7 +55,7 @@ const CheckoutView: React.FC = () => {
           itemId: cartItem.itemId,
           price: cartItem.item.price,
           qty: cartItem.qty,
-        })),
+        }))
       );
       // form.setValue('addressId', sortedAddresses[0].id);
       // form.setValue('addressId', addresses?.data?.find((x) => x.default)?.id!);

@@ -1,4 +1,5 @@
 import WidgetCards from '../modules/widgets/WidgetCards';
+
 import styles from './index.module.scss';
 
 export function Index() {

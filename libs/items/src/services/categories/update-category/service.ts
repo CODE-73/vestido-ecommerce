@@ -1,7 +1,9 @@
-import { UpdateCategoryRequest } from './types';
-import { getPrismaClient } from '@vestido-ecommerce/models';
-import { UpdateCategorySchema } from './zod';
 import { Gender } from '@prisma/client';
+
+import { getPrismaClient } from '@vestido-ecommerce/models';
+
+import { UpdateCategoryRequest } from './types';
+import { UpdateCategorySchema } from './zod';
 
 export async function updateCategory(
   categoryId: string,

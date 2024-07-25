@@ -1,6 +1,7 @@
-import { z } from 'zod';
-import { ImageSchema } from '@vestido-ecommerce/utils';
 import { Gender, StockStatus } from '@prisma/client';
+import { z } from 'zod';
+
+import { ImageSchema } from '@vestido-ecommerce/utils';
 
 export const CreateItemSchema = z.object({
   title: z.string(),

@@ -1,8 +1,9 @@
 import React from 'react';
-import { ComponentWithChildrenProps } from '../types';
-import Header from './Header';
-import Footer from './Footer';
 import { useRouter } from 'next/router';
+
+import { ComponentWithChildrenProps } from '../types';
+import Footer from './Footer';
+import Header from './Header';
 
 type LayoutProps = ComponentWithChildrenProps;
 
@@ -13,7 +14,7 @@ const MainLayout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div className="bg-background justify-center items-center flex flex-col scroll-smooth">
       {/* <div className="lg:w-[75vw]"> */}
-      <div>
+      <div className='w-full md:px-42 xl:px-72'>
         <Header />
 
         <main className={`w-[100vw] lg:w-full mt-24 sm:mt-auto`}>

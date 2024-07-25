@@ -1,10 +1,11 @@
+import { LuHeart } from 'react-icons/lu';
+
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@vestido-ecommerce/shadcn-ui/tooltip';
-import { LuHeart } from 'react-icons/lu';
 
 type WishlistbuttonProps = {
   wishlisted: boolean;

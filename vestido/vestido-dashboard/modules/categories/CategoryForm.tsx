@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import { InputElement } from '../../forms/input-element';
-import { Button } from '@vestido-ecommerce/shadcn-ui/button';
+import { useRouter } from 'next/router';
+
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Gender } from '@prisma/client';
+import { useForm } from 'react-hook-form';
 import * as z from 'zod';
+
 import { useCategoryUpsert } from '@vestido-ecommerce/items';
 import { useCategory } from '@vestido-ecommerce/items';
-import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
-import { useRouter } from 'next/router';
-import { Checkbox } from '@vestido-ecommerce/shadcn-ui/checkbox';
 import { Genders } from '@vestido-ecommerce/items';
-import { Gender } from '@prisma/client';
+import { Button } from '@vestido-ecommerce/shadcn-ui/button';
+import { Checkbox } from '@vestido-ecommerce/shadcn-ui/checkbox';
 import {
   Form,
   FormControl,
@@ -20,7 +20,10 @@ import {
   FormLabel,
   FormMessage,
 } from '@vestido-ecommerce/shadcn-ui/form';
+import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
+
 import { CategoryElement } from '../../forms/category-combobox-element';
+import { InputElement } from '../../forms/input-element';
 
 const CreateCategoryFormSchema = z.object({
   name: z.string(),

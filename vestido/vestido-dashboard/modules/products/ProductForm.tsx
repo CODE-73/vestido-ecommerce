@@ -1,5 +1,17 @@
 import React, { useEffect } from 'react';
+import { useRouter } from 'next/router';
+
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Gender, StockStatus } from '@prisma/client';
 import { useForm } from 'react-hook-form';
+import * as z from 'zod';
+
+import { useItemUpsert } from '@vestido-ecommerce/items';
+import { useItem } from '@vestido-ecommerce/items';
+import { Genders } from '@vestido-ecommerce/items';
+import { useVariants } from '@vestido-ecommerce/items';
+import { Button } from '@vestido-ecommerce/shadcn-ui/button';
+import { Checkbox } from '@vestido-ecommerce/shadcn-ui/checkbox';
 import {
   Form,
   FormControl,
@@ -9,27 +21,16 @@ import {
   FormLabel,
   FormMessage,
 } from '@vestido-ecommerce/shadcn-ui/form';
-import { InputElement } from '../../forms/input-element';
-import { useItemUpsert } from '@vestido-ecommerce/items';
-import { Button } from '@vestido-ecommerce/shadcn-ui/button';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { useItem } from '@vestido-ecommerce/items';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
-import { useRouter } from 'next/router';
-import { Checkbox } from '@vestido-ecommerce/shadcn-ui/checkbox';
-import { Genders } from '@vestido-ecommerce/items';
-import VariantsTable from '../variants/VariantsTable';
-import { SwitchElement } from '../../forms/switch-element';
-import { CategoryElement } from '../../forms/category-combobox-element';
-import MultiImageUploaderElement from '../../components/MultiImageUploaderElement';
-
 import { ImageSchema, ImageSchemaType } from '@vestido-ecommerce/utils';
 
-import { useVariants } from '@vestido-ecommerce/items';
-import { Gender, StockStatus } from '@prisma/client';
+import MultiImageUploaderElement from '../../components/MultiImageUploaderElement';
+import { CategoryElement } from '../../forms/category-combobox-element';
+import { InputElement } from '../../forms/input-element';
 import { RadioGroupElement } from '../../forms/radio-group-element';
+import { SwitchElement } from '../../forms/switch-element';
 import { TextAreaElement } from '../../forms/textarea-element';
+import VariantsTable from '../variants/VariantsTable';
 
 const CreateProductFormSchema = z.object({
   title: z

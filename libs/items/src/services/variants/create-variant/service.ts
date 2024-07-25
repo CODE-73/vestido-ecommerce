@@ -1,8 +1,9 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
-import { CreateVariantSchema, CreateVariantSchemaType } from './zod';
+
+import { generateVariantTitle } from '../generate_variant_title';
 import { variantDetails } from '../get-variant';
 import { validateAttributes } from '../validate_attributes';
-import { generateVariantTitle } from '../generate_variant_title';
+import { CreateVariantSchema, CreateVariantSchemaType } from './zod';
 
 export async function createVariant(data: CreateVariantSchemaType) {
   const prisma = getPrismaClient();

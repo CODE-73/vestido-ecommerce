@@ -1,7 +1,8 @@
 import useSWRImmutable from 'swr/immutable';
+
 import { VariantDetailsResponse } from '../../../services/variants/get-variant/types';
-import { getVariantDetails } from './service';
 import { VariantDetailsSWRKeys } from '../keys';
+import { getVariantDetails } from './service';
 
 export function useVariant(itemId: string, variantId?: string | null) {
   const key = variantId

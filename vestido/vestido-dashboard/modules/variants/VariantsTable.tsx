@@ -1,3 +1,8 @@
+import React from 'react';
+import { useRouter } from 'next/router';
+
+import { useVariants } from '@vestido-ecommerce/items';
+import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
   Table,
   TableBody,
@@ -6,11 +11,6 @@ import {
   TableHeader,
   TableRow,
 } from '@vestido-ecommerce/shadcn-ui/table';
-import { useVariants } from '@vestido-ecommerce/items';
-
-import { useRouter } from 'next/router';
-import React from 'react';
-import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 
 interface VariantProps {
   itemId: string;

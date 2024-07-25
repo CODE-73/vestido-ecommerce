@@ -1,6 +1,6 @@
-import { WishlistItemResponse } from '../../../services/wishlist/get-wishlist/types';
-
 import axios from 'axios';
+
+import { WishlistItemResponse } from '../../../services/wishlist/get-wishlist/types';
 
 export async function getWishlist(
   authHeaders: Record<string, string>,

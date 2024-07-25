@@ -1,5 +1,6 @@
-import { ShippingChargesSchema, ShippingChargesSchemaType } from './zod';
 import { getPrismaClient } from '@vestido-ecommerce/models';
+
+import { ShippingChargesSchema, ShippingChargesSchemaType } from './zod';
 
 export async function calculateShippingCharges(
   _data: ShippingChargesSchemaType,

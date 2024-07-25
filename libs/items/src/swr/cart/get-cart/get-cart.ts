@@ -1,8 +1,10 @@
 import useSWRImmutable from 'swr/immutable';
-import { getCartItems } from './service';
+
+import { useAuth } from '@vestido-ecommerce/auth';
+
 import { CartItemResponse } from '../../../services/cart/get-cart';
 import { CartSWRKeys } from '../keys';
-import { useAuth } from '@vestido-ecommerce/auth';
+import { getCartItems } from './service';
 
 export function useCart(query?: string) {
   const { authHeaders } = useAuth();

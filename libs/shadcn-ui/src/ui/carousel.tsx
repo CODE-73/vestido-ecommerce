@@ -1,6 +1,8 @@
 'use client';
 
 import * as React from 'react';
+import { useCallback, useEffect, useState } from 'react';
+
 import useEmblaCarousel, {
   type UseEmblaCarouselType,
 } from 'embla-carousel-react';
@@ -8,7 +10,6 @@ import { LuArrowLeft, LuArrowRight } from 'react-icons/lu';
 
 import { cn } from '../utils';
 import { Button } from './button';
-import { useCallback, useEffect, useState } from 'react';
 
 type CarouselApi = UseEmblaCarouselType[1];
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
@@ -328,11 +329,11 @@ const CarouselDots = React.forwardRef<
 CarouselDots.displayName = 'CarouselDots';
 
 export {
-  type CarouselApi,
   Carousel,
+  type CarouselApi,
   CarouselContent,
-  CarouselItem,
-  CarouselPrevious,
-  CarouselNext,
   CarouselDots,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
 };
