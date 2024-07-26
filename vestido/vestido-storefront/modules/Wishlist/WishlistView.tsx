@@ -92,7 +92,22 @@ const WishlistView: React.FC = () => {
           ))}
         </div>
       ) : (
-        <div>helllo</div>
+        <div className="min-h-[80%] w-full flex flex-col gap-5 items-center justify-center font-semibold text-lg">
+          Your wishlist is empty.
+          <div className="flex flex-col md:flex-row gap-3">
+            {' '}
+            <Link href="/cart">
+              <Button className="flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 font-extrabold hover:text-black text-white justify-center">
+                Go to Cart
+              </Button>
+            </Link>
+            <Link href="/products">
+              <Button className="flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 font-extrabold hover:text-black text-white justify-center">
+                Continue Shopping
+              </Button>
+            </Link>
+          </div>
+        </div>
       )}
     </div>
   );

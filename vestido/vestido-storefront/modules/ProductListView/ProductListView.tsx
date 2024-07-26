@@ -59,7 +59,7 @@ const ProductlistView: React.FC<ProductListViewProps> = ({ categoryId }) => {
       <div className="grid grid-cols-2 gap-2 px-5 md:grid-cols-4 md:gap-10 md:px-0">
         {!isMobile && <ProductFilter />}
         {data
-          ?.filter((item) => item.categoryId === categoryId)
+          ?.filter((item) => !categoryId || item.categoryId === categoryId)
           .map((item: Item, index: number) => (
             <div
               onClick={() => handleProductClick(item.id)}
