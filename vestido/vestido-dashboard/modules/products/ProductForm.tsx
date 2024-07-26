@@ -295,7 +295,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
           <Button
             className="lg:px-5"
             type="submit"
-            disabled={!isValid || !isDirty || isSubmitting}
+            // disabled={!isValid || !isDirty || isSubmitting}
           >
             {isNew ? 'Create' : 'Update'}
           </Button>
