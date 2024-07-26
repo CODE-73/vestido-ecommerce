@@ -9,12 +9,20 @@ import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import useIsMobile from '../../../vestido-storefront/hooks/useIsMobile';
+import { useState } from 'react';
 
 const CartView: React.FC = () => {
   const isMobile = useIsMobile();
   const { data: cartItems } = useCart();
 
   const { trigger } = useRemoveFromCart();
+
+  const [quantities, setQuantities] = useState<{ [key: string]: number }>(
+    cartItems?.data.reduce((acc, item) => {
+      acc[item.itemId] = item.qty;
+      return acc;
+    }, {} as { [key: string]: number }) ?? {}
+  );
 
   const totalPrice =
     cartItems?.data.reduce((total, item) => {
@@ -25,6 +33,13 @@ const CartView: React.FC = () => {
     trigger({
       itemId: itemId,
     });
+  };
+
+  const handleQtyChange = (itemId: string, newQty: number) => {
+    setQuantities((prev) => ({
+      ...prev,
+      [itemId]: newQty,
+    }));
   };
 
   return (
@@ -72,13 +87,31 @@ const CartView: React.FC = () => {
                         {cartItem.item.price}
                       </div>
                       <div className="flex flex-row bg-zinc-100 w-32 h-14 items-center justify-around ">
-                        <div className="text-zinc-300">
+                        <div
+                          className="text-zinc-300"
+                          onClick={() =>
+                            handleQtyChange(
+                              cartItem.itemId,
+                              quantities[cartItem.itemId] > 1
+                                ? quantities[cartItem.itemId] - 1
+                                : 1
+                            )
+                          }
+                        >
                           <LuMinus />
                         </div>
                         <div className="font-semibold text-2xl">
-                          {cartItem.qty}
+                          {quantities[cartItem.itemId]}
                         </div>
-                        <div className="text-zinc-300">
+                        <div
+                          className="text-zinc-300"
+                          onClick={() =>
+                            handleQtyChange(
+                              cartItem.itemId,
+                              quantities[cartItem.itemId] + 1
+                            )
+                          }
+                        >
                           <LuPlus />
                         </div>
                       </div>
@@ -90,11 +123,32 @@ const CartView: React.FC = () => {
                       </div>
 
                       <div className="flex flex-row bg-zinc-100 px-4 h-14 items-center justify-around col-span-1">
-                        <div className="text-zinc-300">
+                        <div
+                          className="text-zinc-300"
+                          onClick={() =>
+                            handleQtyChange(
+                              cartItem.itemId,
+                              quantities[cartItem.itemId] > 1
+                                ? quantities[cartItem.itemId] - 1
+                                : 1
+                            )
+                          }
+                        >
                           <LuMinus />
                         </div>
-                        <div className="font-semibold text-2xl">1</div>
-                        <div className="text-zinc-300">
+                        <div className="font-semibold text-2xl">
+                          {' '}
+                          {quantities[cartItem.itemId]}
+                        </div>
+                        <div
+                          className="text-zinc-300"
+                          onClick={() =>
+                            handleQtyChange(
+                              cartItem.itemId,
+                              quantities[cartItem.itemId] + 1
+                            )
+                          }
+                        >
                           <LuPlus />
                         </div>
                       </div>
@@ -103,6 +157,19 @@ const CartView: React.FC = () => {
                       </div>
                     </>
                   )}
+
+                  {/* <div className="flex bg-zinc-100 px-4 h-12 items-center justify-around ">
+            <div
+              className="text-zinc-300 "
+              onClick={() => setQty(qty > 1 ? qty - 1 : 1)}
+            >
+              <LuMinus />
+            </div>
+            <div className="px-3 font-medium">{qty}</div>
+            <div className="text-zinc-300" onClick={() => setQty(qty + 1)}>
+              <LuPlus />
+            </div>
+          </div> */}
                 </div>
               </div>
             ))}

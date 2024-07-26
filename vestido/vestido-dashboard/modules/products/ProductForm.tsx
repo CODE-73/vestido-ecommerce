@@ -36,27 +36,41 @@ const CreateProductFormSchema = z.object({
   title: z
     .string()
     .min(2, { message: 'Please provide a title for the product' }),
-  price: z.coerce.number(),
-  description: z.string(),
+
+  price: z.coerce
+    .number()
+    .min(0, { message: 'Price must be a positive number' }),
+  description: z
+    .string()
+    .min(2, { message: 'Please provide description for the product' }),
   categoryId: z.string().min(2, { message: 'You have to choose a category' }),
+
   hasVariants: z.boolean().default(false),
   stockStatus: z
     .nativeEnum(StockStatus)
     .default('AVAILABLE' satisfies StockStatus),
-  images: z.array(ImageSchema),
+  images: z.array(ImageSchema).optional(),
   gender: z
     .array(z.nativeEnum(Gender))
     .refine((value) => value.some((gender) => gender), {
-      message: 'You have to select at least one item.',
+      message: 'You have to select at least one gender',
     })
     .default(['MEN', 'WOMEN'] satisfies Gender[]),
   discountPercent: z.coerce
     .number()
     .max(100, { message: 'Percentage cannot be more than 100' })
     .default(0)
-    .nullable(),
-  discountedPrice: z.coerce.number().nullable(),
-  slug: z.string(),
+    .nullable()
+    .or(z.literal(null)),
+  discountedPrice: z.coerce
+    .number()
+    .min(0, { message: 'Discounted price must be a positive number' })
+    .nullable()
+    .or(z.literal(null)),
+  slug: z
+    .string()
+    .min(2, { message: 'slug is required' })
+    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, { message: 'Invalid slug format' }),
 });
 
 export type CreateProductForm = z.infer<typeof CreateProductFormSchema>;
@@ -92,7 +106,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
   });
   const { trigger } = useItemUpsert();
   const { data: { data: item } = { data: null } } = useItem(
-    isNew ? null : itemId,
+    isNew ? null : itemId
   );
   const { isDirty, isValid } = form.formState;
 
@@ -244,8 +258,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
                                     ? field.onChange([...field.value, gender])
                                     : field.onChange(
                                         field.value?.filter(
-                                          (value) => value !== gender,
-                                        ),
+                                          (value) => value !== gender
+                                        )
                                       );
                                 }}
                               />

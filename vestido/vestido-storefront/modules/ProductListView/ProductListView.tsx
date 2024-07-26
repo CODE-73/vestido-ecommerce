@@ -62,18 +62,19 @@ const ProductlistView: React.FC<ProductListViewProps> = ({ categoryId }) => {
           ?.filter((item) => !categoryId || item.categoryId === categoryId)
           .map((item: Item, index: number) => (
             <div
-              onClick={() => handleProductClick(item.id)}
               key={index}
               className="relative flex flex-col items-center group  mb-10 "
             >
               {((item.images ?? []) as ImageSchemaType[]).length > 0 && (
-                <Image
-                  className="block"
-                  src={((item.images ?? []) as ImageSchemaType[])[0].url!}
-                  alt="alt text"
-                  width={430}
-                  height={551}
-                />
+                <div onClick={() => handleProductClick(item.id)}>
+                  <Image
+                    className="block"
+                    src={((item.images ?? []) as ImageSchemaType[])[0].url!}
+                    alt="alt text"
+                    width={430}
+                    height={551}
+                  />
+                </div>
               )}
 
               <div className="self-start pt-[#1px] capitalize text-[#333333] text-md font-light mb-4">

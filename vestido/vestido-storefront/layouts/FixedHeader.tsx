@@ -94,27 +94,42 @@ const FixedHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
         <div className=" sm:py-4 flex-1">
           <NavigationMenu isFixed={true} />
         </div>
-        <div className="flex space-x-4 py-4 ">
-          <span className="hover:text-[#48cab2]">
-            <LuSearch onClick={toggleSearch} />
-          </span>
-          <Link href="/user" className="hover:text-[#48cab2]">
-            <LuUser2 size={24} />
-          </Link>
 
-          <Link href="/wishlist/" className="hover:text-[#48cab2]">
-            <LuHeart size={24} />
-          </Link>
-          <sup className="relative right-2 text-white h-4 w-4 text-center rounded-full bg-[#48cab2] font-semibold text-xs">
-            {wishlist_count}
-          </sup>
-          <Link href="/cart" className="hover:text-[#48cab2]">
-            <LuShoppingBag size={24} />
-          </Link>
-          <sup className="relative right-2 text-white h-4 w-4 text-center rounded-full bg-[#48cab2] font-semibold text-xs">
-            {cart_count}
-          </sup>
-          <HeaderDropdown fixedHeader={true} />
+        <div className="flex items-center">
+          <div className=" relative hidden md:flex space-x-4 items-center justify-items-center content-center">
+            <Input
+              name="search-products"
+              placeholder="Search Products..."
+              type="search"
+              className="rounded-none max-w-28 bg-transparent border-slate-300 placeholder:text-sm placeholder:text-stone-300"
+            />
+            <LuSearch
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#48cab2]"
+              size={24}
+            />
+          </div>
+          <div className="flex">
+            {' '}
+            <Link href="/user" className="text-black hover:text-[#48cab2] px-3">
+              <LuUser2 size={24} />
+            </Link>
+            <Link
+              href="/wishlist"
+              className=" relative text-text-black hover:text-[#48cab2] "
+            >
+              <LuHeart size={24} />
+            </Link>
+            <sup className="relative right-2 text-white h-4 w-4 text-center rounded-full bg-[#48cab2] font-semibold text-xs">
+              {wishlist_count}
+            </sup>
+            <Link href="/cart" className="text-black  hover:text-[#48cab2]">
+              <LuShoppingBag size={24} />
+            </Link>
+            <sup className="relative right-2 text-white h-4 w-4 text-center rounded-full bg-[#48cab2] font-semibold text-xs">
+              {cart_count}
+            </sup>
+            <HeaderDropdown fixedHeader={true} />
+          </div>
         </div>
       </div>
     </div>
@@ -130,12 +145,12 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         type={type}
         className={clsx(
           'flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:font-medium placeholder:text-black placeholder:text-2xl placeholder:font-semibold focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-none focus-visible:ring-offset-none disabled:cursor-not-allowed disabled:opacity-50',
-          className,
+          className
         )}
         ref={ref}
         {...props}
       />
     );
-  },
+  }
 );
 Input.displayName = 'Input';

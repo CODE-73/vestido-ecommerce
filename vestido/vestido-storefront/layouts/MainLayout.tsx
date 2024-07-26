@@ -16,7 +16,7 @@ const MainLayout: React.FC<LayoutProps> = ({ children }) => {
       <div className="w-full xl:px-48">
         <Header />
 
-        <main className={`w-[100vw] lg:w-full mt-24 sm:mt-auto`}>
+        <main className={`w-[100vw] md:w-full mt-24 sm:mt-auto`}>
           {children}
         </main>
       </div>
