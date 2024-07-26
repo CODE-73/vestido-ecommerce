@@ -71,6 +71,7 @@ const WishlistView: React.FC = () => {
               <>
                 <div className="flex text-lg justify-between w-full pt-1">
                   <div>
+                    ₹&nbsp;
                     {wishlistItem.item.discountedPrice?.toFixed(2) ??
                       wishlistItem.item.price?.toFixed(2)}
                   </div>

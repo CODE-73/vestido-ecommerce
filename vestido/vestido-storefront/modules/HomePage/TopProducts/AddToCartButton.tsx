@@ -49,15 +49,15 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
             {item?.discountPercent && item.discountPercent > 0 ? (
               <div className="flex text-sm items-center gap-2">
                 <div className="text-[#48CAB2] font-semibold line-through text-red-400">
-                  {item.price.toFixed(2)}
+                  ₹&nbsp;{item.price.toFixed(2)}
                 </div>
                 <div className="text-[#48CAB2] text-xl font-bold">
-                  {item.discountedPrice?.toFixed(2)}
+                  ₹&nbsp;{item.discountedPrice?.toFixed(2)}
                 </div>
               </div>
             ) : (
               <div className="text-[#48CAB2] font-bold">
-                {item.price.toFixed(2)}
+                ₹&nbsp;{item.price.toFixed(2)}
               </div>
             )}
           </div>
@@ -99,11 +99,11 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
                       : 'text-lg'
                   }`}
                 >
-                  {price.toFixed(2)}
+                  ₹&nbsp;{price.toFixed(2)}
                 </div>
                 {offerPrice ? (
                   <div className="text-black text-lg">
-                    {offerPrice.toFixed(2)}
+                    ₹&nbsp;{offerPrice.toFixed(2)}
                   </div>
                 ) : (
                   ''

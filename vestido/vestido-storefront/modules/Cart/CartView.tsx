@@ -153,7 +153,7 @@ const CartView: React.FC = () => {
                         </div>
                       </div>
                       <div className="text-3xl font-semibold text-[#48CAB2] col-span-1 flex justify-center">
-                        {cartItem.item.price.toFixed(2)}
+                        ₹&nbsp;{cartItem.item.price.toFixed(2)}
                       </div>
                     </>
                   )}
@@ -196,7 +196,7 @@ const CartView: React.FC = () => {
             <div className="bg-gray-100 p-10 min-h-[275px] relative flex flex-col justify-between">
               <div>
                 <div className="flex items-center text-neutral-800 justify-center pb-3 font-semibold text-xl justify-between ">
-                  Items Total: <div>Rs.{totalPrice.toFixed(2)}</div>
+                  Items Total: <div>₹&nbsp;{totalPrice.toFixed(2)}</div>
                 </div>
 
                 <div className="font-medium text-sm">

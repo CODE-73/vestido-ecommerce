@@ -17,6 +17,7 @@ import { AddToWishListButton } from '../HomePage/SpecialOffer/AddToWishlistButto
 import { QuickViewButton } from '../HomePage/SpecialOffer/QuickViewButton';
 import AddToCartButton from '../HomePage/TopProducts/AddToCartButton';
 import ProductFilter from './ProductFilter';
+import { Badge } from '@vestido-ecommerce/shadcn-ui/badge';
 
 type ProductListViewProps = {
   categoryId?: string;
@@ -65,6 +66,14 @@ const ProductlistView: React.FC<ProductListViewProps> = ({ categoryId }) => {
               key={index}
               className="relative flex flex-col items-center group  mb-10 "
             >
+              {item.discountPercent && item.discountPercent > 0 ? (
+                <Badge className="absolute top-2 left-2 rounded-none uppercase bg-red-500 hover:bg-red-400 cursor-auto">
+                  sale&nbsp;{item.discountPercent}&nbsp;%
+                </Badge>
+              ) : (
+                ''
+              )}
+
               {((item.images ?? []) as ImageSchemaType[]).length > 0 && (
                 <div onClick={() => handleProductClick(item.id)}>
                   <Image
