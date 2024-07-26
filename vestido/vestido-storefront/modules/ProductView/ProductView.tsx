@@ -50,16 +50,16 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
   const itemCategory = category?.data.name;
 
   const [selectedImage, setSelectedImage] = React.useState<string>(
-    ((item?.images ?? []) as ImageSchemaType[])[0]?.url ?? '',
+    ((item?.images ?? []) as ImageSchemaType[])[0]?.url ?? ''
   );
 
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(
-    null,
+    null
   );
 
   const selectedVariant = useMemo(
     () => item?.variants?.find((x) => x.id === selectedVariantId) ?? null,
-    [item, selectedVariantId],
+    [item, selectedVariantId]
   );
 
   useEffect(() => {
@@ -72,12 +72,12 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
         item.variants.find((variant) => variant.default) || null;
       setSelectedVariantId(defaultVar?.id ?? null);
       setSelectedImage(
-        ((defaultVar?.images ?? []) as ImageSchemaType[])[0]?.url || '',
+        ((defaultVar?.images ?? []) as ImageSchemaType[])[0]?.url || ''
       );
     } else {
       setSelectedVariantId(null);
       setSelectedImage(
-        ((item?.images ?? []) as ImageSchemaType[])[0]?.url ?? '',
+        ((item?.images ?? []) as ImageSchemaType[])[0]?.url ?? ''
       );
     }
   }, [item]);
@@ -104,14 +104,14 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
 
     const _v = item?.variants.find((x) =>
       x.attributeValues.every(
-        (attrVal) => values[attrVal.attribute.id] === attrVal.attributeValue.id,
-      ),
+        (attrVal) => values[attrVal.attribute.id] === attrVal.attributeValue.id
+      )
     );
 
     if (_v) {
       setSelectedVariantId(_v.id);
       setSelectedImage(
-        ((selectedVariant?.images ?? []) as ImageSchemaType[])[0]?.url || '',
+        ((selectedVariant?.images ?? []) as ImageSchemaType[])[0]?.url || ''
       );
     }
   };
@@ -154,7 +154,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
       }
       if (
         !attributeMap[attributeValue.attributeId].values.find(
-          (x) => x.id === attributeValue.attributeValue.id,
+          (x) => x.id === attributeValue.attributeValue.id
         )
       ) {
         attributeMap[attributeValue.attributeId].values.push({
@@ -195,8 +195,8 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
             src={
               selectedImage
                 ? selectedImage
-                : (((selectedVariant?.images ?? []) as ImageSchemaType[])[0]
-                    ?.url ?? '')
+                : ((selectedVariant?.images ?? []) as ImageSchemaType[])[0]
+                    ?.url ?? ''
             }
             alt="alt text"
             width={550}
@@ -235,7 +235,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
                           height={150}
                         />
                       </div>
-                    ),
+                    )
                   )}
                 </>
               ) : (
@@ -255,7 +255,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
                           height={150}
                         />
                       </div>
-                    ),
+                    )
                   )}
                 </>
               )}
@@ -304,8 +304,8 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
               {item?.stockStatus === 'LIMITED_STOCK'
                 ? 'Limited Stock'
                 : item?.stockStatus === 'OUT_OF_STOCK'
-                  ? 'Out of Stock'
-                  : 'Available'}
+                ? 'Out of Stock'
+                : 'Available'}
             </h1>
           </div>
 
@@ -317,30 +317,34 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
           </div>
 
           <div className="mt-5 flex flex-col gap-5">
+            <hr />
             {Object.keys(attributeMap).map((attributeId) => (
-              <div key={attributeId} className="flex gap-2">
-                <strong>{attributeMap[attributeId].name}:</strong>
+              <div key={attributeId} className="flex items-center gap-[1px]">
+                <div className="capitalize font-semibold">
+                  {attributeMap[attributeId].name}:
+                </div>
                 {attributeMap[attributeId].values.map((value, index) => (
                   <div
                     key={index}
                     onClick={() => changeToVariant(attributeId, value.id)}
-                    className={`flex flex-col outline outline-3 ${
+                    className={`flex flex-col border border-2 rounded-3xl m-1 cursor-pointer ${
                       selectedVariant?.attributeValues.some(
                         (attrVal) =>
                           attrVal.attributeId === attributeId &&
-                          attrVal.attributeValue.id === value.id,
+                          attrVal.attributeValue.id === value.id
                       )
-                        ? 'outline-black'
-                        : 'outline-zinc-100 hover:outline-black'
+                        ? 'border-[#48CAB2] text-[#48CAB2] '
+                        : 'border-zinc-100 hover:border-[#48CAB2] hover:text-[#48CAB2]'
                     }`}
                   >
-                    <div className="text-xs outline outline-3 p-2">
+                    <div className="text-sm font-semibold border border-1 border-stone-200 rounded-3xl py-2 px-4 ">
                       {value.value}
                     </div>
                   </div>
                 ))}
               </div>
             ))}
+            <hr />
           </div>
         </div>
 
@@ -387,7 +391,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
                 <Markdown className="prose">{item?.description}</Markdown>
               </AccordionContent>
             </AccordionItem>
-            <AccordionItem value="item-2">
+            {/* <AccordionItem value="item-2">
               <AccordionTrigger>Additional Information</AccordionTrigger>
               <AccordionContent>
                 <Table>
@@ -410,7 +414,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
                   </TableHeader>
                 </Table>
               </AccordionContent>
-            </AccordionItem>
+            </AccordionItem> */}
           </Accordion>
         </div>
       </div>

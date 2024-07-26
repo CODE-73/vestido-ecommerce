@@ -36,12 +36,6 @@ const WishlistView: React.FC = () => {
               key={index}
               className=" flex flex-col items-center group  mb-10 "
             >
-              {/* <div
-              onClick={() => handleRemoveFromCart(cartItem.itemId)}
-              className="col-span-1 flex justify-center cursor-pointer"
-            >
-              <LuTrash2 />
-            </div> */}
               <div className="relative">
                 <Link href={`/products/${wishlistItem.itemId}`}>
                   {' '}
@@ -73,29 +67,6 @@ const WishlistView: React.FC = () => {
               <div className="self-start pt-[#1px] capitalize text-[#333333] text-md font-thin">
                 {wishlistItem.item.title}
               </div>
-              {/* {isMobile ? (
-              <div className=" col-span-5 flex flex-col space-y-5 pl-8">
-                <div className="truncate text-md md:text-xl font-semibold whitespace-nowrap">
-                  {wishlistItem.item.title}
-                </div>
-                <div className="text-xl font-semibold text-[#48CAB2] flex ">
-                  {wishlistItem.item.price}
-                </div>
-                <div className="flex flex-row bg-zinc-100 w-32 h-14 items-center justify-around ">
-                  hi
-                </div>
-              </div>
-            ) : (
-              <>
-                <div className="text-xl font-extrabold col-span-2">
-                  {wishlistItem.item.title}
-                </div>
-
-                <div className="text-3xl font-semibold text-[#48CAB2] col-span-1 flex justify-center">
-                  {wishlistItem.item.price.toFixed(2)}
-                </div>
-              </>
-            )} */}
 
               <>
                 <div className="flex text-lg justify-between w-full pt-1">
@@ -104,17 +75,18 @@ const WishlistView: React.FC = () => {
                       wishlistItem.item.price?.toFixed(2)}
                   </div>
                 </div>
-                <div className={`p-2 bg-[#48CAB2] w-full`}>
-                  <Dialog>
-                    <DialogTrigger asChild>
+
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <div className={`p-2 bg-[#48CAB2] w-full`}>
                       <Button className="bg-[#48CAB2] w-full flex gap-3 text-lg mb-1 text-white p-2 font-bold hover:bg-transparent">
                         <LuShoppingBag color="#fff" size={24} />
                         <div> Add to Cart</div>
                       </Button>
-                    </DialogTrigger>
-                    <AddToCartDialog itemId={wishlistItem.itemId} />
-                  </Dialog>
-                </div>
+                    </div>
+                  </DialogTrigger>
+                  <AddToCartDialog itemId={wishlistItem.itemId} />
+                </Dialog>
               </>
             </div>
           ))}

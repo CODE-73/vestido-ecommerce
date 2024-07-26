@@ -25,13 +25,14 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   const { data } = useItem(item.id);
   const product = data?.data;
   const { trigger } = useAddToCart();
+  const defaultVar = product?.variants.find((x) => x.default == true);
 
   const handleAddToCart = () => {
     if (item) {
       trigger({
         itemId: item.id,
         qty: qty,
-        variantId: product?.variants?.[0]?.id ?? null,
+        variantId: defaultVar?.id ?? product?.variants?.[0]?.id ?? null,
       });
     }
     console.log('added to cart');
@@ -48,14 +49,16 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
             {item?.discountPercent && item.discountPercent > 0 ? (
               <div className="flex text-sm items-center gap-2">
                 <div className="text-[#48CAB2] font-semibold line-through text-red-400">
-                  {item.price}
+                  {item.price.toFixed(2)}
                 </div>
                 <div className="text-[#48CAB2] text-xl font-bold">
-                  {item.discountedPrice}
+                  {item.discountedPrice?.toFixed(2)}
                 </div>
               </div>
             ) : (
-              <div className="text-[#48CAB2] font-bold">{item.price}</div>
+              <div className="text-[#48CAB2] font-bold">
+                {item.price.toFixed(2)}
+              </div>
             )}
           </div>
           <div className={`p-2 bg-[#48CAB2] w-full`}>
@@ -96,10 +99,12 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
                       : 'text-lg'
                   }`}
                 >
-                  {price}
+                  {price.toFixed(2)}
                 </div>
                 {offerPrice ? (
-                  <div className="text-black text-lg">{offerPrice}</div>
+                  <div className="text-black text-lg">
+                    {offerPrice.toFixed(2)}
+                  </div>
                 ) : (
                   ''
                 )}
