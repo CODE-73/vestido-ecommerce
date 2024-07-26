@@ -172,12 +172,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
         <div className="flex h-full flex-col flex-grow ps-2 pe-2">
           <hr className="border-t-1 border-slate-400 mb-4 w-full" />
           <div className="grid grid-cols-2 gap-5 lg:px-10">
-            <InputElement
-              required
-              name="title"
-              placeholder="Title"
-              label="Title"
-            />
+            <InputElement name="title" placeholder="Title" label="Title" />
             <InputElement name="price" placeholder="Price" label="Price" />
           </div>
           <div className="grid grid-cols-2 gap-5 lg:px-10 mb-10">
