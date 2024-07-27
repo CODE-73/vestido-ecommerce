@@ -25,6 +25,7 @@ export const UpdateVariantSchema = z.object({
     .nullable(),
   discountedPrice: z.coerce.number().nullable(),
   slug: z.string(),
+  enabled: z.boolean().default(true),
 });
 
 export type UpdateVariantSchemaType = z.infer<typeof UpdateVariantSchema>;

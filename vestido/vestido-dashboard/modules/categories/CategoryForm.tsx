@@ -24,6 +24,7 @@ import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 
 import { CategoryElement } from '../../forms/category-combobox-element';
 import { InputElement } from '../../forms/input-element';
+import { SwitchElement } from '../../forms/switch-element';
 
 const CreateCategoryFormSchema = z.object({
   name: z.string(),
@@ -52,6 +53,7 @@ const CreateCategoryFormSchema = z.object({
     })
     .default(['MEN', 'WOMEN'] satisfies Gender[]),
   slug: z.string(),
+  enabled: z.boolean().default(true),
 });
 
 export type CreateCategoryForm = z.infer<typeof CreateCategoryFormSchema>;
@@ -74,6 +76,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
       parentCategoryId: '',
       gender: ['MEN', 'WOMEN'],
       slug: '',
+      enabled: true,
     },
   });
   // const parentCategoryId = form.watch('parentCategoryId');
@@ -113,10 +116,13 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="flex flex-col justify-center w-full space-y-8 mt-16 bg-slate-200 p-5"
+        className="flex flex-col justify-center w-full text-lg mt-16 bg-slate-200 px-5 py-10"
       >
-        <div className="text-lg font-bold">
-          {isNew ? 'Add New Category' : 'Edit Category'}
+        <div className="text-2xl font-semibold capitalize flex justify-between">
+          {isNew ? 'Add New Product' : category?.name}
+          <div>
+            <SwitchElement name="enabled" label="Enabled" />
+          </div>
         </div>
         <div className="flex h-full flex-col flex-grow ps-2 pe-2">
           <hr className="border-t-1 border-slate-400 mb-4 w-full" />

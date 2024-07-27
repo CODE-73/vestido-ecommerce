@@ -7,6 +7,7 @@ export async function listVariants(itemId: string) {
   const itemVariantList = await prisma.itemVariant.findMany({
     where: {
       itemId: itemId,
+      enabled: true,
     },
   });
   // no try..catch here

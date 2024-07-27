@@ -20,6 +20,7 @@ export const UpdateCategorySchema = z.object({
     })
     .default(['MEN', 'WOMEN'] satisfies Gender[]),
   slug: z.string(),
+  enabled: z.boolean().default(true),
 });
 
 export type UpdateCategorySchemaType = z.infer<typeof UpdateCategorySchema>;

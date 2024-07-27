@@ -71,6 +71,7 @@ const CreateProductFormSchema = z.object({
     .string()
     .min(2, { message: 'slug is required' })
     .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, { message: 'Invalid slug format' }),
+  enabled: z.boolean().default(true),
 });
 
 export type CreateProductForm = z.infer<typeof CreateProductFormSchema>;
@@ -92,6 +93,7 @@ const defaultValues = {
   discountPercent: 0,
   discountedPrice: 0,
   slug: '',
+  enabled: true,
 } satisfies CreateProductForm;
 
 const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
@@ -164,10 +166,13 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="flex flex-col justify-center w-full space-y-2 mt-16 bg-slate-200 p-5"
+        className="flex flex-col justify-center w-full text-lg mt-16 bg-slate-200 px-5 py-10"
       >
-        <div className="text-xl font-semibold">
-          {isNew ? 'Add New Product' : item?.title}
+        <div className="text-2xl font-semibold capitalize flex justify-between">
+          {isNew ? 'Add New Product' : item?.title}{' '}
+          <div>
+            <SwitchElement name="enabled" label="Enabled" />
+          </div>
         </div>
         <div className="flex h-full flex-col flex-grow ps-2 pe-2">
           <hr className="border-t-1 border-slate-400 mb-4 w-full" />

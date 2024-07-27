@@ -8,13 +8,18 @@ export async function listCategories(_args: ListCategoryRequest) {
   const args = ListCategoryRequestSchema.parse(_args);
 
   const categoriesList = await prisma.category.findMany({
-    ...(args?.q
-      ? {
-          where: {
-            OR: [{ name: { contains: args.q, mode: 'insensitive' } }],
-          },
-        }
-      : {}),
+    where: {
+      enabled: true,
+      ...(args?.q
+        ? {
+            OR: [
+              { name: { contains: args.q, mode: 'insensitive' } },
+
+              //add more fields if required
+            ],
+          }
+        : {}),
+    },
   });
 
   return categoriesList;

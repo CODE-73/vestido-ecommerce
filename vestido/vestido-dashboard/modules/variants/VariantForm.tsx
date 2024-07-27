@@ -42,6 +42,7 @@ const CreateVariantFormSchema = z.object({
     .nullable(),
   discountedPrice: z.coerce.number().nullable(),
   slug: z.string(),
+  enabled: z.boolean().default(true),
 });
 
 export type CreateVariantForm = z.infer<typeof CreateVariantFormSchema>;
@@ -72,6 +73,7 @@ const VariantForm: React.FC<VariantFormProps> = ({
       attributeValues: [],
       default: false,
       slug: '',
+      enabled: true,
     },
   });
   const itemId = form.watch('itemId');
@@ -83,7 +85,7 @@ const VariantForm: React.FC<VariantFormProps> = ({
   const { trigger } = useVariantUpsert(itemId);
   const { data: { data: variant } = { data: null } /*error*/ } = useVariant(
     itemId,
-    isNew ? null : variantId,
+    isNew ? null : variantId
   );
 
   const { isDirty, isValid } = form.formState;
@@ -138,10 +140,13 @@ const VariantForm: React.FC<VariantFormProps> = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="flex flex-col justify-center w-full space-y-8 mt-16 bg-slate-200 p-5"
+        className="flex flex-col justify-center w-full text-lg mt-16 bg-slate-200 px-5 py-10"
       >
-        <div className="text-lg font-bold">
-          {isNew ? 'Add New Variant' : 'Variant Details'}
+        <div className="text-2xl font-semibold capitalize flex justify-between">
+          {isNew ? 'Add New Product' : variant?.title}
+          <div>
+            <SwitchElement name="enabled" label="Enabled" />
+          </div>
         </div>
         <div className="flex flex-col flex-grow ps-2 pe-2">
           <hr className="border-t-1 border-slate-400 mb-4 w-full" />
@@ -210,7 +215,7 @@ const VariantForm: React.FC<VariantFormProps> = ({
                   name={`attributeValues.${index}.attributeValueId`}
                   placeholder="Value"
                   attributeId={form.watch(
-                    `attributeValues.${index}.attributeId`,
+                    `attributeValues.${index}.attributeId`
                   )}
                 />
               </div>

@@ -28,6 +28,7 @@ export const CreateCategorySchema = z.object({
     })
     .default(['MEN', 'WOMEN'] satisfies Gender[]),
   slug: z.string(),
+  enabled: z.boolean().default(true),
 });
 
 export type CreateCategorySchemaType = z.infer<typeof CreateCategorySchema>;
