@@ -27,7 +27,7 @@ export const CreateCategorySchema = z.object({
       message: 'You have to select at least one item.',
     })
     .default(['MEN', 'WOMEN'] satisfies Gender[]),
-  slug: z.string(),
+  slug: z.string().optional(),
   enabled: z.boolean().default(true),
 });
 

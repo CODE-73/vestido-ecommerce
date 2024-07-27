@@ -67,10 +67,11 @@ const CreateProductFormSchema = z.object({
     .min(0, { message: 'Discounted price must be a positive number' })
     .nullable()
     .or(z.literal(null)),
-  slug: z
-    .string()
-    .min(2, { message: 'slug is required' })
-    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, { message: 'Invalid slug format' }),
+  // slug: z
+  //   .string()
+  //   .min(2, { message: 'slug is required' })
+  //   .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, { message: 'Invalid slug format' }),
+  slug: z.string().optional(),
   enabled: z.boolean().default(true),
 });
 
