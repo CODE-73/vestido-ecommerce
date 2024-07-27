@@ -143,7 +143,7 @@ const VariantForm: React.FC<VariantFormProps> = ({
         className="flex flex-col justify-center w-full text-lg mt-16 bg-slate-200 px-5 py-10"
       >
         <div className="text-2xl font-semibold capitalize flex justify-between">
-          {isNew ? 'Add New Product' : variant?.title}
+          {isNew ? 'Add New Variant' : variant?.title}
           <div>
             <SwitchElement name="enabled" label="Enabled" />
           </div>

@@ -119,7 +119,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
         className="flex flex-col justify-center w-full text-lg mt-16 bg-slate-200 px-5 py-10"
       >
         <div className="text-2xl font-semibold capitalize flex justify-between">
-          {isNew ? 'Add New Product' : category?.name}
+          {isNew ? 'Add New Category' : category?.name}
           <div>
             <SwitchElement name="enabled" label="Enabled" />
           </div>
