@@ -35,7 +35,10 @@ export async function createCategory(body: CreateCategorySchemaType) {
   }
 
   const newCategory = await prisma.category.create({
-    data: validatedData,
+    data: {
+      ...validatedData,
+      slug: validatedData.slug ?? '',
+    },
   });
 
   return newCategory;

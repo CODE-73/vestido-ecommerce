@@ -85,7 +85,7 @@ const VariantForm: React.FC<VariantFormProps> = ({
   const { trigger } = useVariantUpsert(itemId);
   const { data: { data: variant } = { data: null } /*error*/ } = useVariant(
     itemId,
-    isNew ? null : variantId
+    isNew ? null : variantId,
   );
 
   const { isDirty, isValid } = form.formState;
@@ -215,7 +215,7 @@ const VariantForm: React.FC<VariantFormProps> = ({
                   name={`attributeValues.${index}.attributeValueId`}
                   placeholder="Value"
                   attributeId={form.watch(
-                    `attributeValues.${index}.attributeId`
+                    `attributeValues.${index}.attributeId`,
                   )}
                 />
               </div>

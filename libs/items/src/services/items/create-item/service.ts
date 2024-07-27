@@ -38,7 +38,10 @@ export async function createItem(data: CreateItemSchemaType) {
   // pass to prisma next
 
   const newItem = await prisma.item.create({
-    data: validatedData,
+    data: {
+      ...validatedData,
+      slug: validatedData.slug ?? '',
+    },
   });
   // no try..catch here
 

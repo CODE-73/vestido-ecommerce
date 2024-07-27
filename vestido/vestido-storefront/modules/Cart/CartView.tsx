@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -9,7 +10,6 @@ import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import useIsMobile from '../../../vestido-storefront/hooks/useIsMobile';
-import { useState } from 'react';
 
 const CartView: React.FC = () => {
   const isMobile = useIsMobile();
@@ -18,10 +18,13 @@ const CartView: React.FC = () => {
   const { trigger } = useRemoveFromCart();
 
   const [quantities, setQuantities] = useState<{ [key: string]: number }>(
-    cartItems?.data.reduce((acc, item) => {
-      acc[item.itemId] = item.qty;
-      return acc;
-    }, {} as { [key: string]: number }) ?? {}
+    cartItems?.data.reduce(
+      (acc, item) => {
+        acc[item.itemId] = item.qty;
+        return acc;
+      },
+      {} as { [key: string]: number },
+    ) ?? {},
   );
 
   const totalPrice =
@@ -94,7 +97,7 @@ const CartView: React.FC = () => {
                               cartItem.itemId,
                               quantities[cartItem.itemId] > 1
                                 ? quantities[cartItem.itemId] - 1
-                                : 1
+                                : 1,
                             )
                           }
                         >
@@ -108,7 +111,7 @@ const CartView: React.FC = () => {
                           onClick={() =>
                             handleQtyChange(
                               cartItem.itemId,
-                              quantities[cartItem.itemId] + 1
+                              quantities[cartItem.itemId] + 1,
                             )
                           }
                         >
@@ -130,7 +133,7 @@ const CartView: React.FC = () => {
                               cartItem.itemId,
                               quantities[cartItem.itemId] > 1
                                 ? quantities[cartItem.itemId] - 1
-                                : 1
+                                : 1,
                             )
                           }
                         >
@@ -144,7 +147,7 @@ const CartView: React.FC = () => {
                           onClick={() =>
                             handleQtyChange(
                               cartItem.itemId,
-                              quantities[cartItem.itemId] + 1
+                              quantities[cartItem.itemId] + 1,
                             )
                           }
                         >

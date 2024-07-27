@@ -5,7 +5,7 @@ import {
 
 type ValidateSlugArgs = {
   id?: string;
-  slug: string;
+  slug?: string;
   generateFrom: string;
   tableName: PrismaModelName;
 };

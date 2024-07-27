@@ -1,18 +1,17 @@
-import { useAddToCart, useItem } from '@vestido-ecommerce/items';
-import { Button } from '@vestido-ecommerce/shadcn-ui/button';
+import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 
+import { LuShoppingBag } from 'react-icons/lu';
+
+import { useAddToCart, useItem } from '@vestido-ecommerce/items';
+import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
 } from '@vestido-ecommerce/shadcn-ui/dialog';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
-import { useEffect, useMemo, useState } from 'react';
-import AddToCartButton from '../HomePage/TopProducts/AddToCartButton';
-import { LuShoppingBag } from 'react-icons/lu';
 
 type AddToCartDialogProps = {
   itemId: string;
@@ -22,12 +21,12 @@ export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({ itemId }) => {
 
   const item = data?.data;
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(
-    null
+    null,
   );
 
   const selectedVariant = useMemo(
     () => item?.variants?.find((x) => x.id === selectedVariantId) ?? null,
-    [item, selectedVariantId]
+    [item, selectedVariantId],
   );
 
   useEffect(() => {
@@ -64,8 +63,8 @@ export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({ itemId }) => {
 
     const _v = item?.variants.find((x) =>
       x.attributeValues.every(
-        (attrVal) => values[attrVal.attribute.id] === attrVal.attributeValue.id
-      )
+        (attrVal) => values[attrVal.attribute.id] === attrVal.attributeValue.id,
+      ),
     );
 
     if (_v) {
@@ -89,7 +88,7 @@ export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({ itemId }) => {
       }
       if (
         !attributeMap[attributeValue.attributeId].values.find(
-          (x) => x.id === attributeValue.attributeValue.id
+          (x) => x.id === attributeValue.attributeValue.id,
         )
       ) {
         attributeMap[attributeValue.attributeId].values.push({
@@ -158,7 +157,7 @@ export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({ itemId }) => {
                       selectedVariant?.attributeValues.some(
                         (attrVal) =>
                           attrVal.attributeId === attributeId &&
-                          attrVal.attributeValue.id === value.id
+                          attrVal.attributeValue.id === value.id,
                       )
                         ? 'border-[#48CAB2] text-[#48CAB2] '
                         : 'border-zinc-100 hover:border-[#48CAB2] hover:text-[#48CAB2]'

@@ -42,6 +42,7 @@ export async function createVariant(data: CreateVariantSchemaType) {
       // itemId: validatedData.itemId,
       // price: validatedData.price,
       ...validatedData,
+      slug: validatedData.slug ?? '',
       title: varTitle,
       attributeValues: {
         createMany: {

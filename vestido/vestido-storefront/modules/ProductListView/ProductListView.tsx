@@ -11,6 +11,7 @@ import {
   useItems,
   useRemoveFromWishlist,
 } from '@vestido-ecommerce/items';
+import { Badge } from '@vestido-ecommerce/shadcn-ui/badge';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import useIsMobile from '../../hooks/useIsMobile';
@@ -18,7 +19,6 @@ import { AddToWishListButton } from '../HomePage/SpecialOffer/AddToWishlistButto
 import { QuickViewButton } from '../HomePage/SpecialOffer/QuickViewButton';
 import AddToCartButton from '../HomePage/TopProducts/AddToCartButton';
 import ProductFilter from './ProductFilter';
-import { Badge } from '@vestido-ecommerce/shadcn-ui/badge';
 
 type ProductListViewProps = {
   categoryId?: string;

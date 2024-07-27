@@ -109,11 +109,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
   });
   const { trigger } = useItemUpsert();
   const { data: { data: item } = { data: null } } = useItem(
-    isNew ? null : itemId
+    isNew ? null : itemId,
   );
-  const { isDirty, isValid } = form.formState;
-
-  const isSubmitting = form.formState.isSubmitting;
 
   const { data: variants } = useVariants(itemId ?? '');
 
@@ -259,8 +256,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
                                     ? field.onChange([...field.value, gender])
                                     : field.onChange(
                                         field.value?.filter(
-                                          (value) => value !== gender
-                                        )
+                                          (value) => value !== gender,
+                                        ),
                                       );
                                 }}
                               />
