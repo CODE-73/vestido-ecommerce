@@ -62,16 +62,16 @@ const NavMenu: React.FC<NavMenuProps> = ({ isFixed }) => {
             MEN
           </NavigationMenuTrigger>
 
-          <NavigationMenuContent className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr] divide-x ">
+          <NavigationMenuContent className="flex flex-col p-6 w-[100px] ">
             {mainCategories
               ?.filter((category) => category.gender.includes('MEN'))
               .map((category, index) => (
                 <div key={index}>
-                  <div className=" font-black hover:text-[#48cab2] px-2 cursor-pointer">
+                  <div className=" text-stone-500 capitalize hover:text-[#48cab2] px-2 cursor-pointer">
                     <Link href={`/${category.id}`}>{category.name}</Link>
                   </div>
 
-                  <ul className="text-stone-500  py-3 md:w-[200px] lg:w-[200px]">
+                  <ul className="text-stone-500 capitalize py-3 md:w-[200px] lg:w-[200px]">
                     {getSubcategories(category.id, ['MEN'])?.map(
                       (subcategory, subIndex) => (
                         <div key={subIndex} className="hover:text-[#48cab2]">
@@ -96,7 +96,7 @@ const NavMenu: React.FC<NavMenuProps> = ({ isFixed }) => {
             WOMEN
           </NavigationMenuTrigger>
 
-          <NavigationMenuContent className="grid grid-cols-3 gap-3 p-6 md:w-[400px] lg:w-[600px] lg:grid-cols-[1fr_1fr_1fr] divide-x">
+          <NavigationMenuContent className="flex flex-col p-6 w-[100px] ">
             {mainCategories
               ?.filter((category) => category.gender.includes('WOMEN'))
               .map((category, index) => (
@@ -104,11 +104,11 @@ const NavMenu: React.FC<NavMenuProps> = ({ isFixed }) => {
                   key={index}
                   // className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]"
                 >
-                  <div className=" font-black hover:text-[#48cab2] px-2 cursor-pointer">
+                  <div className=" text-stone-500 capitalize hover:text-[#48cab2] px-2 cursor-pointer">
                     <Link href={`/${category.id}`}>{category.name}</Link>
                   </div>
 
-                  <ul className="text-stone-500  py-3 md:w-[200px] lg:w-[200px]">
+                  <ul className="text-stone-500 capitalize py-3 md:w-[200px] lg:w-[200px]">
                     {getSubcategories(category.id, ['WOMEN'])?.map(
                       (subcategory, subIndex) => (
                         <div key={subIndex} className="hover:text-[#48cab2]">
@@ -133,7 +133,7 @@ const NavMenu: React.FC<NavMenuProps> = ({ isFixed }) => {
             UNISEX
           </NavigationMenuTrigger>
 
-          <NavigationMenuContent className="grid grid-cols-3 gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[0.75fr_1fr] divide-x">
+          <NavigationMenuContent className="flex flex-col p-6 w-[100px] ">
             {mainCategories
               ?.filter(
                 (category) =>
@@ -142,11 +142,11 @@ const NavMenu: React.FC<NavMenuProps> = ({ isFixed }) => {
               )
               .map((category, index) => (
                 <div key={index}>
-                  <div className=" font-black hover:text-[#48cab2] px-2 cursor-pointer">
+                  <div className=" text-stone-500  capitalize hover:text-[#48cab2] px-2 cursor-pointer">
                     <Link href={`/${category.id}`}>{category.name}</Link>
                   </div>
 
-                  <ul className="text-stone-500 py-3 md:w-[200px] lg:w-[200px]">
+                  <ul className="text-stone-500 capitalize py-3 md:w-[200px] lg:w-[200px]">
                     {getSubcategories(category.id, ['MEN', 'WOMEN'])?.map(
                       (subcategory, subIndex) => (
                         <div key={subIndex} className="hover:text-[#48cab2]">

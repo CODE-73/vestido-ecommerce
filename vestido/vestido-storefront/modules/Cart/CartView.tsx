@@ -58,7 +58,7 @@ const CartView: React.FC = () => {
                 <div>
                   <div className="border-t border-gray-300 py-2"></div>
                 </div>
-                <div className="grid gap-2 grid-cols-8 items-center">
+                <div className="grid gap-2 grid-cols-9 items-center">
                   <div
                     onClick={() => handleRemoveFromCart(cartItem.itemId)}
                     className="col-span-1 flex justify-center cursor-pointer"
@@ -122,7 +122,7 @@ const CartView: React.FC = () => {
                         {cartItem.item.title}
                       </div>
 
-                      <div className="flex flex-row bg-zinc-100 px-4 h-14 items-center justify-around col-span-1">
+                      <div className="flex flex-row bg-zinc-100 h-14 items-center justify-between col-span-1 px-2">
                         <div
                           className="text-zinc-300"
                           onClick={() =>
@@ -137,7 +137,6 @@ const CartView: React.FC = () => {
                           <LuMinus />
                         </div>
                         <div className="font-semibold text-2xl">
-                          {' '}
                           {quantities[cartItem.itemId]}
                         </div>
                         <div
@@ -152,7 +151,7 @@ const CartView: React.FC = () => {
                           <LuPlus />
                         </div>
                       </div>
-                      <div className="text-3xl font-semibold text-[#48CAB2] col-span-1 flex justify-center">
+                      <div className="text-3xl font-semibold text-[#48CAB2] col-span-3 flex justify-end">
                         ₹&nbsp;{cartItem.item.price.toFixed(2)}
                       </div>
                     </>

@@ -65,11 +65,15 @@ const ProductlistView: React.FC<ProductListViewProps> = ({ categoryId }) => {
 
   return (
     <div className="md:px-16">
-      <div className="text-4xl  tracking-wide text-[#333333] text-center font-extrabold my-5 py-14">
+      <div
+        className={`text-4xl  tracking-wide text-[#333333] text-center font-extrabold my-5 ${
+          category?.data.name ? 'py-14' : 'py-5'
+        }`}
+      >
         {category?.data.name}
       </div>
 
-      <div className="grid grid-cols-2 gap-2 px-5 md:grid-cols-4 md:gap-10 md:px-0">
+      <div className="grid grid-cols-2 gap-2 px-5 md:grid-cols-5 md:gap-10 md:px-0">
         {!isMobile && <ProductFilter />}
         {data
           ?.filter((item) => !categoryId || item.categoryId === categoryId)
