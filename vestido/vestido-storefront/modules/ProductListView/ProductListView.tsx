@@ -9,6 +9,7 @@ import {
   useAddToWishlist,
   useCategory,
   useItems,
+  useRemoveFromWishlist,
 } from '@vestido-ecommerce/items';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
@@ -30,6 +31,8 @@ const ProductlistView: React.FC<ProductListViewProps> = ({ categoryId }) => {
   const { data } = useItems();
   const { data: category } = useCategory(categoryId as string);
   const { trigger: wishlistTrigger } = useAddToWishlist();
+  const { trigger: removeWishlistTrigger } = useRemoveFromWishlist();
+
   const handleShowMoreClick = () => {
     // function
   };
@@ -42,9 +45,18 @@ const ProductlistView: React.FC<ProductListViewProps> = ({ categoryId }) => {
   }>({});
 
   const handleAddToWishlist = (item: Item) => {
-    wishlistTrigger({
-      itemId: item.id,
-    });
+    if (wishlistedItems[item.id]) {
+      // If the item is already in the wishlist, remove it
+      removeWishlistTrigger({
+        itemId: item.id,
+      });
+    } else {
+      // If the item is not in the wishlist, add it
+      wishlistTrigger({
+        itemId: item.id,
+      });
+    }
+
     setWishlistedItems((prevState) => ({
       ...prevState,
       [item.id]: !prevState[item.id],

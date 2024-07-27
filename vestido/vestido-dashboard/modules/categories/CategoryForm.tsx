@@ -80,7 +80,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
 
   const { trigger } = useCategoryUpsert();
   const { data: { data: category } = { data: null } } = useCategory(
-    isNew ? null : categoryId,
+    isNew ? null : categoryId
   );
 
   const { isDirty, isValid } = form.formState;
@@ -165,8 +165,8 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
                                     ? field.onChange([...field.value, gender])
                                     : field.onChange(
                                         field.value?.filter(
-                                          (value) => value !== gender,
-                                        ),
+                                          (value) => value !== gender
+                                        )
                                       );
                                 }}
                               />
@@ -184,6 +184,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
               )}
             />
             <CategoryElement
+              nullable
               name="parentCategoryId"
               placeholder="Select Parent Category"
               label="Parent Category"
