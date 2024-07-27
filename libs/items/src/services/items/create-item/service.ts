@@ -2,6 +2,7 @@ import { Gender } from '@prisma/client';
 
 import { getPrismaClient } from '@vestido-ecommerce/models';
 
+import { validateSlug } from '../../slug';
 import { CreateItemSchema, CreateItemSchemaType } from './zod';
 
 export async function createItem(data: CreateItemSchemaType) {
@@ -9,6 +10,11 @@ export async function createItem(data: CreateItemSchemaType) {
 
   // validate zod here
   const validatedData = CreateItemSchema.parse(data);
+  validatedData.slug = await validateSlug({
+    generateFrom: validatedData.title,
+    slug: validatedData.slug,
+    tableName: 'item',
+  });
 
   if (validatedData.categoryId) {
     const category = await prisma.category.findUnique({

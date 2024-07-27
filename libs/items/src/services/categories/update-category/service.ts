@@ -2,6 +2,7 @@ import { Gender } from '@prisma/client';
 
 import { getPrismaClient } from '@vestido-ecommerce/models';
 
+import { validateSlug } from '../../slug';
 import { UpdateCategoryRequest } from './types';
 import { UpdateCategorySchema } from './zod';
 
@@ -12,6 +13,12 @@ export async function updateCategory(
   const prisma = getPrismaClient();
 
   const validatedData = UpdateCategorySchema.parse(data);
+  validatedData.slug = await validateSlug({
+    id: categoryId,
+    generateFrom: validatedData.name,
+    slug: validatedData.slug,
+    tableName: 'category',
+  });
 
   if (validatedData.parentCategoryId) {
     const parentCategory = await prisma.category.findUnique({

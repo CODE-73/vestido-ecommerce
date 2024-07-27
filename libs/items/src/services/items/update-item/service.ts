@@ -2,6 +2,7 @@ import { Gender } from '@prisma/client';
 
 import { getPrismaClient } from '@vestido-ecommerce/models';
 
+import { validateSlug } from '../../slug';
 import { UpdateItemSchema, UpdateItemSchemaType } from './zod';
 
 export async function updateItem(itemId: string, data: UpdateItemSchemaType) {
@@ -9,6 +10,12 @@ export async function updateItem(itemId: string, data: UpdateItemSchemaType) {
 
   // validate zod here
   const validatedData = UpdateItemSchema.parse(data);
+  validatedData.slug = await validateSlug({
+    id: itemId,
+    generateFrom: validatedData.title,
+    slug: validatedData.slug,
+    tableName: 'item',
+  });
 
   if (validatedData.categoryId) {
     const category = await prisma.category.findUnique({
