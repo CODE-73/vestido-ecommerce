@@ -9,7 +9,18 @@ export async function removeCartItem(
 ): Promise<RemoveFromCartResponse> {
   try {
     const itemId = args.itemId;
-    const r = await axios.delete(`/api/cart?itemId=${itemId}`, {
+    const params = new URLSearchParams();
+    params.append("itemId", args.itemId);
+    if(args.variantId){
+      params.append("variantId", args.variantId);
+    }
+    
+    params.append("actionType", args.actionType);
+
+
+
+    
+    const r = await axios.delete(`/api/cart?${params.toString()}`, {
       headers: {
         ...authHeaders,
       },

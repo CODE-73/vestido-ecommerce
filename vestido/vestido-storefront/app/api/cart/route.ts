@@ -99,7 +99,6 @@ export async function POST(request: Request) {
 export async function DELETE(request: Request) {
   try {
     const params = new URL(request.url).searchParams;
-    const itemId = params.get('itemId') ?? '';
 
     const auth = await verifyAuth(request);
     if (!auth.authenticated) {
@@ -112,8 +111,10 @@ export async function DELETE(request: Request) {
     }
     const customerId = auth.profileId;
     const body = {
-      itemId,
+      itemId: params.get("itemId"),
       customerId,
+      variantId: params.get("variantId"),
+      actionType: params.get("actionType")
     };
 
     await removeFromCart(body);
