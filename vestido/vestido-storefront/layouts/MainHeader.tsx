@@ -6,7 +6,7 @@ import { LuHeart, LuSearch, LuShoppingBag, LuUser2 } from 'react-icons/lu';
 
 import { Input } from '@vestido-ecommerce/shadcn-ui/input';
 
-import NavigationMenu from '../components/NavigationMenu';
+import Menubar from '../components/Menubar';
 import HeaderDropdown from './HeaderDropdown';
 
 interface HeaderProps {
@@ -31,7 +31,7 @@ const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
           </span>
         </Link>
         <div className=" sm:py-4">
-          <NavigationMenu isFixed={false} />
+          <Menubar isFixed={false} />
         </div>
       </div>
       <div className=" relative hidden md:flex space-x-4 items-center justify-items-center content-center">

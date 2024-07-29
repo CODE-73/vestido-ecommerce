@@ -8,7 +8,7 @@ import { LuHeart, LuSearch, LuShoppingBag, LuUser2, LuX } from 'react-icons/lu';
 
 import { InputProps } from '@vestido-ecommerce/shadcn-ui/input';
 
-import NavigationMenu from '../components/NavigationMenu';
+import NavigationMenu from '../components/Menubar';
 import useIsMobile from '../hooks/useIsMobile';
 import HeaderDropdown from './HeaderDropdown';
 
