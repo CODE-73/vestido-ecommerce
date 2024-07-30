@@ -5,5 +5,6 @@ export type CreateRPOrderRequest = {
 };
 
 export type CreateRPOrderResponse = {
-  data: string;
+  paymentId: string;
+  razorpayOrderId: string;
 };

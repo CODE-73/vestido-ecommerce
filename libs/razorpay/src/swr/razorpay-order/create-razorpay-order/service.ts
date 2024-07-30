@@ -7,7 +7,7 @@ import axios from 'axios'; // Import Axios
 
 export async function createNewRazorpayOrder(
   args: CreateRPOrderRequest,
-  authHeaders: Record<string, string>
+  authHeaders: Record<string, string>,
 ): Promise<CreateRPOrderResponse> {
   try {
     const r = await axios.post(
@@ -17,10 +17,10 @@ export async function createNewRazorpayOrder(
         headers: {
           ...authHeaders,
         },
-      }
+      },
     );
 
-    return r as CreateRPOrderResponse;
+    return r.data.data as CreateRPOrderResponse;
   } catch (error) {
     console.error('Error creating the order in Razorpay', error);
     throw new Error('Error creating the order in Razorpay');

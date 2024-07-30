@@ -1,9 +1,8 @@
 import { verifyRPSignSchemaType } from './zod';
 
-export type verifySignatureRequest = {
-  data: verifyRPSignSchemaType;
-};
+export type verifyPaymentRequest = verifyRPSignSchemaType;
 
-export type verifySignatureResponse = {
-  data: string;
+export type verifyPaymentResponse = {
+  success: string;
+  message: string;
 };

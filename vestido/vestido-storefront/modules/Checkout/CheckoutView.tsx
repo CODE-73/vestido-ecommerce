@@ -15,6 +15,7 @@ import {
   useShippingCharges,
 } from '@vestido-ecommerce/orders';
 import { useRazorpayCreateOrder } from '@vestido-ecommerce/razorpay';
+import { useVerifyPayment } from './../../../../libs/razorpay/src/swr/razorpay-order/verify-payment';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Dialog, DialogTrigger } from '@vestido-ecommerce/shadcn-ui/dialog';
 import { Form } from '@vestido-ecommerce/shadcn-ui/form';
@@ -99,7 +100,7 @@ const CheckoutView: React.FC = () => {
           itemId: cartItem.itemId,
           price: cartItem.item.price,
           qty: cartItem.qty,
-        }))
+        })),
       );
       // form.setValue('addressId', sortedAddresses[0].id);
       // form.setValue('addressId', addresses?.data?.find((x) => x.default)?.id!);
@@ -120,6 +121,7 @@ const CheckoutView: React.FC = () => {
 
   const { trigger: createOrderTrigger } = useCreateOrder();
   const { trigger: createRazorpayOrderTrigger } = useRazorpayCreateOrder();
+  const { trigger: createVerifyPaymentTrigger } = useVerifyPayment();
 
   const totalPrice =
     cartItems?.data.reduce((total, item) => {
@@ -152,11 +154,10 @@ const CheckoutView: React.FC = () => {
         amount: totalPrice,
         currency,
       };
-      const razorpayOrderResponse = await createRazorpayOrderTrigger({
+
+      const razorpayOrderResp = await createRazorpayOrderTrigger({
         razorpayData,
       });
-
-      console.log('Razorpay OrderId from frontend: ', razorpayOrderResponse);
 
       const options = {
         key: 'rzp_test_NUv3lWuzHRmchC',
@@ -164,32 +165,22 @@ const CheckoutView: React.FC = () => {
         currency: currency,
         name: 'Vestido Nation',
         description: 'New Order',
-        order_id: razorpayOrderResponse,
+        order_id: razorpayOrderResp.razorpayOrderId,
         handler: async (razorpayOrderResponse: RazorpayResponse) => {
           try {
-            const verificationResponse = await fetch(
-              `/api/orders/${orderId}/payment/verify-sign`,
-              {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                  order_id: razorpayOrderResponse.razorpay_order_id,
-                  payment_id: razorpayOrderResponse.razorpay_payment_id,
-                  razorpay_signature: razorpayOrderResponse.razorpay_signature,
-                }),
-              }
-            );
+            const verifyData = {
+              paymentId: razorpayOrderResp.paymentId,
+              type: 'CAPTURE_PAYMENT',
+              order_id: razorpayOrderResp.razorpayOrderId,
+              payment_RP_id: razorpayOrderResponse.razorpay_payment_id,
+              razorpay_signature: razorpayOrderResponse.razorpay_signature,
+            };
 
-            console.log(
-              'Razorpay Verification Response: ',
-              verificationResponse
-            );
-            const verificationData = await verificationResponse.json();
-            console.log('Razorpay Verification Data: ', verificationData);
+            const verificationResponse = await createVerifyPaymentTrigger({
+              ...verifyData,
+            });
 
-            if (verificationData.status === 'success') {
+            if (verificationResponse.success) {
               // Handle successful payment here
               console.log('Payment successful');
             } else {
@@ -227,7 +218,7 @@ const CheckoutView: React.FC = () => {
           alert(response.error.reason);
           alert(response.error.metadata.order_id);
           alert(response.error.metadata.payment_id);
-        }
+        },
       );
       rzp1.open();
     } catch (e) {

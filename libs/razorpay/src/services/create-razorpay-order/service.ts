@@ -1,7 +1,9 @@
-import { CreateRPOrderRequest } from './types';
 import Razorpay from 'razorpay';
-import { CreateRPOrderSchema } from './zod';
+
 import { getPrismaClient } from '@vestido-ecommerce/models';
+
+import { CreateRPOrderRequest } from './types';
+import { CreateRPOrderSchema } from './zod';
 
 export async function createRazorpayOrder(data: CreateRPOrderRequest) {
   const razorpay = new Razorpay({
@@ -20,7 +22,7 @@ export async function createRazorpayOrder(data: CreateRPOrderRequest) {
   };
   const resp = await razorpay.orders.create(options);
   if (resp.status == 'created') {
-    await prisma.payment.create({
+    const newPayment = await prisma.payment.create({
       data: {
         order: {
           connect: {
@@ -35,7 +37,10 @@ export async function createRazorpayOrder(data: CreateRPOrderRequest) {
         status: resp.status,
       },
     });
-    console.log('Response from RP order creation: ', resp);
-    return resp;
+    const response = {
+      razorpayOrderId: resp.id,
+      paymentId: newPayment.id,
+    };
+    return response;
   } else return null;
 }
