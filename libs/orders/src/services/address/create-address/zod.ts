@@ -17,6 +17,7 @@ export const CreateAddressSchema = z.object({
     .regex(indianPostalCodeRegex, 'Please enter a valid Indian postal code'),
   addressType: z.nativeEnum(AddressType).default('HOME' satisfies AddressType),
   default: z.boolean().default(true),
+  archived: z.boolean().default(false),
 });
 
 export type CreateAddressSchemaType = z.infer<typeof CreateAddressSchema>;
