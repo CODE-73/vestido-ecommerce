@@ -134,9 +134,9 @@ const CheckoutView: React.FC = () => {
           <div className=" flex flex-col items-center md:flex-row md:items-start items-start gap-2 md:divide-x">
             <div className="w-full md:w-auto px-3 md:px-0 md:basis-3/5">
               {currentSession == 'Address' ? (
-                <CustomerAddressElement name="addressId" required />
+                <CustomerAddressElement name="addressId" />
               ) : (
-                <PaymentTypeElement name="paymentType" required />
+                <PaymentTypeElement name="paymentType" />
               )}
 
               {currentSession == 'Address' && (
@@ -146,7 +146,7 @@ const CheckoutView: React.FC = () => {
                       + Add New Address
                     </div>
                   </DialogTrigger>
-                  <AddAddressDialog />
+                  <AddAddressDialog isNew={true} addressId={null} />
                 </Dialog>
               )}
             </div>

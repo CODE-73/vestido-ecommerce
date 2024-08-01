@@ -12,7 +12,6 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from '@vestido-ecommerce/shadcn-ui/form';
 
 import CustomerAddressSelector from './CustomerAddressSelector';
@@ -55,7 +54,7 @@ export function CustomerAddressElement<
             onChange={field.onChange}
           />
           {description && <FormDescription>{description}</FormDescription>}
-          <FormMessage />
+          {/* <FormMessage /> */}
         </FormItem>
       )}
     />
