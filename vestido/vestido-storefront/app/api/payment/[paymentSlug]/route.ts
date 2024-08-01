@@ -3,6 +3,7 @@ import { ZodError } from 'zod';
 import { verifySignature } from '@vestido-ecommerce/razorpay';
 
 import { verifyAuth } from '../../verify-auth';
+import { verifyPaymentExist } from './../../../../../../libs/orders/src/services/payment/get-payment';
 
 export async function POST(
   request: Request,
@@ -19,6 +20,17 @@ export async function POST(
       });
     }
     const body = await request.json();
+
+    const isPaymentExist = await verifyPaymentExist(params.paymentSlug);
+
+    if (!isPaymentExist) {
+      return new Response(JSON.stringify({ error: 'Payment does not exist' }), {
+        status: 404,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    }
 
     const isSignverified = await verifySignature(body);
     if (isSignverified) {

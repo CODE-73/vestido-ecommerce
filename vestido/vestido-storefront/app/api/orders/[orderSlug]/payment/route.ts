@@ -1,5 +1,6 @@
 import { ZodError } from 'zod';
 
+import { verifyOrderExist } from '@vestido-ecommerce/orders';
 import { createRazorpayOrder } from '@vestido-ecommerce/razorpay';
 
 import { verifyAuth } from '../../../verify-auth';
@@ -19,6 +20,17 @@ export async function POST(
       });
     }
     const body = await request.json();
+
+    const isOrderExist = await verifyOrderExist(params.orderSlug);
+
+    if (!isOrderExist) {
+      return new Response(JSON.stringify({ error: 'Order does not exist' }), {
+        status: 404,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    }
     const rpOrderId = await createRazorpayOrder(body);
     return new Response(JSON.stringify({ success: true, data: rpOrderId }), {
       headers: {
