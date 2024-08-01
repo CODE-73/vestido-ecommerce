@@ -8,8 +8,6 @@ export async function handleRazorpayWebhook(data: RazorpayWebhookSchemaType) {
   const prisma = getPrismaClient();
   const secret = '6d2Lv76AugGojJGt1Wa7MEgFZmSZaq5z';
 
-  console.log('data:', data);
-
   const webhookSignature = data.signature;
   delete (data as { signature?: string }).signature;
 

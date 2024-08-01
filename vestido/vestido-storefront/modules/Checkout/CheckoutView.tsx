@@ -16,6 +16,7 @@ import {
 } from '@vestido-ecommerce/orders';
 import { useRazorpayCreateOrder } from '@vestido-ecommerce/razorpay';
 import { useVerifyPayment } from './../../../../libs/razorpay/src/swr/razorpay-order/verify-payment';
+import { useCreateCOD } from './../../../../libs/orders/src/swr/cod';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Dialog, DialogTrigger } from '@vestido-ecommerce/shadcn-ui/dialog';
 import { Form } from '@vestido-ecommerce/shadcn-ui/form';
@@ -122,6 +123,7 @@ const CheckoutView: React.FC = () => {
   const { trigger: createOrderTrigger } = useCreateOrder();
   const { trigger: createRazorpayOrderTrigger } = useRazorpayCreateOrder();
   const { trigger: createVerifyPaymentTrigger } = useVerifyPayment();
+  const { trigger: createCODTrigger } = useCreateCOD();
 
   const totalPrice =
     cartItems?.data.reduce((total, item) => {
@@ -148,79 +150,94 @@ const CheckoutView: React.FC = () => {
 
       const orderId = createOrderResponse.data.id;
       const currency = 'INR';
+      const toPay = totalPrice + shippingCharges;
+      const amountInPaise = Math.round(toPay * 100);
 
-      const razorpayData = {
-        orderId,
-        amount: totalPrice,
-        currency,
-      };
+      if (paymentType == 'ONLINE') {
+        const razorpayData = {
+          orderId,
+          amount: amountInPaise,
+          currency,
+        };
 
-      const razorpayOrderResp = await createRazorpayOrderTrigger({
-        razorpayData,
-      });
+        const razorpayOrderResp = await createRazorpayOrderTrigger({
+          razorpayData,
+        });
 
-      const options = {
-        key: 'rzp_test_NUv3lWuzHRmchC',
-        amount: totalPrice * 100,
-        currency: currency,
-        name: 'Vestido Nation',
-        description: 'New Order',
-        order_id: razorpayOrderResp.razorpayOrderId,
-        handler: async (razorpayOrderResponse: RazorpayResponse) => {
-          try {
-            const verifyData = {
-              paymentId: razorpayOrderResp.paymentId,
-              type: 'CAPTURE_PAYMENT',
-              order_id: razorpayOrderResp.razorpayOrderId,
-              payment_RP_id: razorpayOrderResponse.razorpay_payment_id,
-              razorpay_signature: razorpayOrderResponse.razorpay_signature,
-            };
+        const options = {
+          key: 'rzp_test_NUv3lWuzHRmchC',
+          amount: amountInPaise,
+          currency: currency,
+          name: 'Vestido Nation',
+          description: 'New Order',
+          order_id: razorpayOrderResp.razorpayOrderId,
+          handler: async (razorpayOrderResponse: RazorpayResponse) => {
+            try {
+              const verifyData = {
+                paymentId: razorpayOrderResp.paymentId,
+                type: 'CAPTURE_PAYMENT',
+                order_id: razorpayOrderResp.razorpayOrderId,
+                payment_RP_id: razorpayOrderResponse.razorpay_payment_id,
+                razorpay_signature: razorpayOrderResponse.razorpay_signature,
+              };
 
-            const verificationResponse = await createVerifyPaymentTrigger({
-              ...verifyData,
-            });
+              const verificationResponse = await createVerifyPaymentTrigger({
+                ...verifyData,
+              });
 
-            if (verificationResponse.success) {
-              // Handle successful payment here
-              console.log('Payment successful');
-            } else {
-              // Handle payment failure here
-              console.log('Payment failed');
+              if (verificationResponse.success) {
+                // Handle successful payment here
+                console.log('Payment successful');
+              } else {
+                // Handle payment failure here
+                console.log('Payment failed');
+              }
+            } catch (error) {
+              console.error('Error verifying Razorpay payment:', error);
             }
-          } catch (error) {
-            console.error('Error verifying payment:', error);
-          }
-        },
-        prefill: {
-          name: 'Customer Name',
-          email: 'customer@example.com',
-          contact: '9567233994',
-        },
-        notes: {
-          address: 'Customer Address',
-        },
-        theme: {
-          color: '#F37254',
-        },
-      };
+          },
+          prefill: {
+            name: 'Customer Name',
+            email: 'customer@example.com',
+            contact: '8086960896',
+          },
+          notes: {
+            address: 'Customer Address',
+          },
+          theme: {
+            color: '#F37254',
+          },
+        };
 
-      console.log('Options: ', options);
+        console.log('Options: ', options);
 
-      const rzp1 = new window.Razorpay(options);
+        const rzp1 = new window.Razorpay(options);
 
-      rzp1.on(
-        'payment.failed',
-        function (response: RazorpayFailedPaymentResponse) {
-          alert(response.error.code);
-          alert(response.error.description);
-          alert(response.error.source);
-          alert(response.error.step);
-          alert(response.error.reason);
-          alert(response.error.metadata.order_id);
-          alert(response.error.metadata.payment_id);
-        },
-      );
-      rzp1.open();
+        rzp1.on(
+          'payment.failed',
+          function (response: RazorpayFailedPaymentResponse) {
+            alert(response.error.code);
+            alert(response.error.description);
+            alert(response.error.source);
+            alert(response.error.step);
+            alert(response.error.reason);
+            alert(response.error.metadata.order_id);
+            alert(response.error.metadata.payment_id);
+          },
+        );
+        rzp1.open();
+      } else {
+        //const shipmentOrderId = ....create shipment orderId
+        const codData = {
+          orderId,
+          amount: amountInPaise,
+          currency,
+        };
+        const payId = await createCODTrigger({
+          ...codData,
+        });
+        console.log('Payment Id: ', payId);
+      }
     } catch (e) {
       console.error('Error creating order:', e);
     }
