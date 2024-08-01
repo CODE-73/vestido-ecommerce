@@ -2,14 +2,8 @@ import * as React from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 
-import {
-  LuChevronLeft,
-  LuChevronRight,
-  LuHeart,
-  LuScaling,
-  LuShoppingBag,
-} from 'react-icons/lu';
-// import Markdown from 'react-markdown';
+import { Item } from '@prisma/client';
+import { LuScaling, LuShoppingBag } from 'react-icons/lu';
 import Markdown from 'react-markdown';
 
 import {
@@ -17,8 +11,9 @@ import {
   useAddToWishlist,
   useCategory,
   useItem,
+  useRemoveFromWishlist,
+  useWishlist,
 } from '@vestido-ecommerce/items';
-// import { Checkbox } from '@vestido-ecommerce/shadcn-ui/checkbox';
 import {
   Accordion,
   AccordionContent,
@@ -26,9 +21,9 @@ import {
   AccordionTrigger,
 } from '@vestido-ecommerce/shadcn-ui/accordion';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
-// import { Avatar, AvatarFallback } from '@vestido-ecommerce/shadcn-ui/avatar';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
-// import { ItemVariant, VariantAttributeValue } from '@prisma/client';
+
+import { AddToWishListButton } from '../HomePage/SpecialOffer/AddToWishlistButton';
 
 interface ProductViewProps {
   itemId: string;
@@ -38,7 +33,6 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
   const { data } = useItem(itemId);
 
   const item = data?.data;
-
   const { data: category } = useCategory(item?.categoryId);
   const itemCategory = category?.data.name;
 
@@ -74,8 +68,6 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
       );
     }
   }, [item]);
-
-  // const currentAttributeValues ={}
   interface AttributeValuesMap {
     [key: string]: string;
   }
@@ -118,20 +110,37 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
 
   const { trigger: cartTrigger } = useAddToCart();
   const { trigger: wishlistTrigger } = useAddToWishlist();
+  const { trigger: removeWishlistTrigger } = useRemoveFromWishlist();
 
   const scrollRef = React.useRef<HTMLDivElement>(null);
+  const mainImageRef = React.useRef<HTMLImageElement>(null);
+  const carouselRef = React.useRef<HTMLDivElement>(null);
 
-  const scrollLeft = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: -800, behavior: 'smooth' });
-    }
-  };
+  // const scrollUp = () => {
+  //   if (scrollRef.current) {
+  //     scrollRef.current.scrollBy({ top: -800, behavior: 'smooth' });
+  //   }
+  // };
 
-  const scrollRight = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: 800, behavior: 'smooth' });
-    }
-  };
+  // const scrollDown = () => {
+  //   if (scrollRef.current) {
+  //     scrollRef.current.scrollBy({ top: 800, behavior: 'smooth' });
+  //   }
+  // };
+  useEffect(() => {
+    const adjustCarouselHeight = () => {
+      if (mainImageRef.current && carouselRef.current) {
+        carouselRef.current.style.height = `${mainImageRef.current.clientHeight}px`;
+      }
+    };
+
+    adjustCarouselHeight();
+    window.addEventListener('resize', adjustCarouselHeight);
+
+    return () => {
+      window.removeEventListener('resize', adjustCarouselHeight);
+    };
+  }, []);
 
   const attributeMap: {
     [key: string]: { name: string; values: { value: string; id: string }[] };
@@ -170,46 +179,49 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
     console.log('handleAddToCart');
   };
 
-  const handleAddToWishlist = () => {
+  const { data: wishlistData } = useWishlist();
+  const wishlist = wishlistData?.data;
+  const [isWishlisted, setIsWishlisted] = useState(false);
+
+  useEffect(() => {
+    if (wishlist && item) {
+      const wishlisted = wishlist.some((x) => x.itemId === item.id);
+      setIsWishlisted(wishlisted);
+    }
+  }, [wishlist, item]);
+
+  const handleAddToWishlist = (item: Item) => {
     if (item) {
-      wishlistTrigger({
-        itemId: item.id,
-        // variantId: selectedVariantId ?? null,
-      });
+      if (isWishlisted) {
+        removeWishlistTrigger({
+          itemId: item.id,
+        });
+      } else {
+        wishlistTrigger({
+          itemId: item.id,
+        });
+      }
     }
   };
-
   return (
     <div className="w-full flex flex-col md:flex-row py-5 px-2 md:px-0 md:space-x-10">
-      <div className="w-full md:w-1/2">
-        <div className="flex justify-center items-center pb-4">
-          <Image
-            className="w-4/6 px-5 h-4/6"
-            src={
-              selectedImage
-                ? selectedImage
-                : (((selectedVariant?.images ?? []) as ImageSchemaType[])[0]
-                    ?.url ?? '')
-            }
-            alt="alt text"
-            width={550}
-            height={720}
-          />
-        </div>
-        <div className="relative">
-          {' '}
-          <button
-            onClick={scrollLeft}
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white z-10 p-2 rounded-full shadow-md"
+      <div className="w-full md:w-1/2 flex justify-start">
+        <div
+          className="relative basis-1/6 overflow-y-auto no-scrollbar lg:pl-10"
+          ref={carouselRef}
+        >
+          {/* <button
+            onClick={scrollUp}
+            className="absolute top-3 left-1/2 transform -translate-x-1/2 bg-white z-10 p-2 rounded-full shadow-md"
           >
-            <LuChevronLeft />
-          </button>
+            <LuChevronUp />
+          </button> */}
           <div
             ref={scrollRef}
-            className="overflow-x-auto overflow-y-hidden no-scrollbar flex space-x-2"
+            className="overflow-y-auto overflow-x-hidden no-scrollbar flex flex-col "
             style={{ scrollbarWidth: 'none' }}
           >
-            <div className="flex space-x-2 w-full">
+            <div className=" w-full px-2">
               {((selectedVariant?.images ?? []) as ImageSchemaType[]).length >
               1 ? (
                 <>
@@ -217,15 +229,14 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
                     (image, index) => (
                       <div
                         key={index}
-                        className="basis-1/5 flex-none"
+                        className=""
                         onClick={() => setSelectedImage(image.url!)}
                       >
                         <Image
                           className="outline outline-3 hover:outline-[#48CAB2] mb-3"
                           src={image.url ?? ''}
                           alt="alt text"
-                          width={100}
-                          height={150}
+                          fill
                         />
                       </div>
                     ),
@@ -252,35 +263,35 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
                   )}
                 </>
               )}
-              {/* {((item?.images ?? []) as ImageSchemaType[]).map(
-                (image, index) => (
-                  <div
-                    key={index}
-                    className="basis-1/5 flex-none"
-                    onClick={() => setSelectedImage(image.url!)}
-                  >
-                    <Image
-                      className="outline outline-3 hover:outline-[#48CAB2] mb-3"
-                      src={image.url!}
-                      alt="alt text"
-                      width={100}
-                      height={150}
-                    />
-                  </div>
-                )
-              )} */}
             </div>
           </div>
-          <button
-            onClick={scrollRight}
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white z-10 p-2 rounded-full shadow-md"
+          {/* <button
+            onClick={scrollDown}
+            className="absolute bottom-3 left-1/2 transform-translate-x-1/2 bg-white z-10 p-2 rounded-full shadow-md"
           >
-            <LuChevronRight />
-          </button>
+            <LuChevronDown />
+          </button> */}
+        </div>
+        <div className="basis-5/6">
+          <Image
+            // className="w-4/6 px-5 h-4/6"
+            ref={mainImageRef}
+            src={
+              selectedImage
+                ? selectedImage
+                : (((selectedVariant?.images ?? []) as ImageSchemaType[])[0]
+                    ?.url ?? '')
+            }
+            alt="alt text"
+            width={550}
+            height={720}
+          />
         </div>
       </div>
       <div className="w-full md:w-1/2">
-        <h1 className="text-3xl font-semibold">{item?.title}</h1>
+        <h1 className="text-3xl font-semibold mt-5 lg:mt-auto">
+          {item?.title}
+        </h1>
         <div className="flex flex-row items-center gap-1">
           <div className="text-2xl font-semibold">
             Rs.
@@ -345,19 +356,6 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
           <LuScaling />
           <h1>Size Guide</h1>
         </div>
-
-        {/* <div className="flex bg-zinc-100 px-4 h-12 items-center justify-around ">
-            <div
-              className="text-zinc-300 "
-              onClick={() => setQty(qty > 1 ? qty - 1 : 1)}
-            >
-              <LuMinus />
-            </div>
-            <div className="px-3 font-medium">{qty}</div>
-            <div className="text-zinc-300" onClick={() => setQty(qty + 1)}>
-              <LuPlus />
-            </div>
-          </div> */}
         <div className="flex gap-2 mb-5 w-full">
           <div className="flex bg-[#48CAB2] items-center gap-2 flex-1 justify-center text-white  ">
             <LuShoppingBag size={30} />
@@ -369,10 +367,12 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
             </Button>
           </div>
           <div
-            onClick={() => handleAddToWishlist()}
+            onClick={() => {
+              handleAddToWishlist(item!);
+            }}
             className="border border-2 border-[#48CAB2] font-medium text-xs  h-full self-center p-4"
           >
-            <LuHeart size={24} />
+            <AddToWishListButton wishlisted={isWishlisted} />
           </div>
         </div>
 
@@ -384,30 +384,6 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
                 <Markdown className="prose">{item?.description}</Markdown>
               </AccordionContent>
             </AccordionItem>
-            {/* <AccordionItem value="item-2">
-              <AccordionTrigger>Additional Information</AccordionTrigger>
-              <AccordionContent>
-                <Table>
-                  <TableHeader className="bg-neutral-100">
-                    <TableRow>
-                      <TableHead className="w-[100px] ">Color:</TableHead>
-                      <TableCell className="font-extrabold">
-                        Blue, Purple, White
-                      </TableCell>
-                    </TableRow>
-                  </TableHeader>
-                  <TableHeader></TableHeader>
-                  <TableHeader className="bg-neutral-100">
-                    <TableRow>
-                      <TableHead className="w-[100px]">Material:</TableHead>
-                      <TableCell className="font-extrabold">
-                        100% Polyester
-                      </TableCell>
-                    </TableRow>
-                  </TableHeader>
-                </Table>
-              </AccordionContent>
-            </AccordionItem> */}
           </Accordion>
         </div>
       </div>

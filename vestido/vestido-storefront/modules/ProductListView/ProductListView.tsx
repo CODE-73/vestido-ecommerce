@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
@@ -10,6 +10,7 @@ import {
   useCategory,
   useItems,
   useRemoveFromWishlist,
+  useWishlist,
 } from '@vestido-ecommerce/items';
 import { Badge } from '@vestido-ecommerce/shadcn-ui/badge';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
@@ -22,6 +23,10 @@ import ProductFilter from './ProductFilter';
 
 type ProductListViewProps = {
   categoryId?: string;
+};
+
+type WishlistStatus = {
+  [key: string]: boolean; // Key is item ID, value is wishlisted status
 };
 
 const ProductlistView: React.FC<ProductListViewProps> = ({ categoryId }) => {
@@ -40,27 +45,34 @@ const ProductlistView: React.FC<ProductListViewProps> = ({ categoryId }) => {
     router.push(`/products/${encodeURIComponent(itemId)}`);
   };
 
-  const [wishlistedItems, setWishlistedItems] = useState<{
-    [key: string]: boolean;
-  }>({});
+  const { data: wishlistData } = useWishlist();
+  const wishlist = wishlistData?.data;
+
+  // const isWishlisted = wishlist?.some((x) => x.itemId == item?.id);
+
+  const [wishlistedItems, setWishlistedItems] = useState<WishlistStatus>({});
+
+  useEffect(() => {
+    if (wishlist && data) {
+      const wishlistedState = data.reduce<Record<string, boolean>>(
+        (acc, item) => {
+          acc[item.id] = wishlist.some((x) => x.itemId === item.id);
+          return acc;
+        },
+        {},
+      );
+      setWishlistedItems(wishlistedState);
+    }
+  }, [wishlist, data]);
 
   const handleAddToWishlist = (item: Item) => {
-    if (wishlistedItems[item.id]) {
-      // If the item is already in the wishlist, remove it
-      removeWishlistTrigger({
-        itemId: item.id,
-      });
-    } else {
-      // If the item is not in the wishlist, add it
-      wishlistTrigger({
-        itemId: item.id,
-      });
+    if (item) {
+      if (wishlistedItems[item.id]) {
+        removeWishlistTrigger({ itemId: item.id });
+      } else {
+        wishlistTrigger({ itemId: item.id });
+      }
     }
-
-    setWishlistedItems((prevState) => ({
-      ...prevState,
-      [item.id]: !prevState[item.id],
-    }));
   };
 
   return (
