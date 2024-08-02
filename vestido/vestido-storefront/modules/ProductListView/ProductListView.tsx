@@ -13,6 +13,14 @@ import {
   useWishlist,
 } from '@vestido-ecommerce/items';
 import { Badge } from '@vestido-ecommerce/shadcn-ui/badge';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@vestido-ecommerce/shadcn-ui/breadcrumb';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import useIsMobile from '../../hooks/useIsMobile';
@@ -23,13 +31,17 @@ import ProductFilter from './ProductFilter';
 
 type ProductListViewProps = {
   categoryId?: string;
+  suggestedList?: boolean;
 };
 
 type WishlistStatus = {
   [key: string]: boolean; // Key is item ID, value is wishlisted status
 };
 
-const ProductlistView: React.FC<ProductListViewProps> = ({ categoryId }) => {
+const ProductlistView: React.FC<ProductListViewProps> = ({
+  categoryId,
+  suggestedList,
+}) => {
   const isMobile = useIsMobile();
   const router = useRouter();
 
@@ -77,16 +89,35 @@ const ProductlistView: React.FC<ProductListViewProps> = ({ categoryId }) => {
 
   return (
     <div className="md:px-16">
+      <Breadcrumb className="p-3">
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/products">Products</BreadcrumbLink>
+          </BreadcrumbItem>
+          {category?.data.name && (
+            <>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage>{category?.data.name}</BreadcrumbPage>
+              </BreadcrumbItem>
+            </>
+          )}
+        </BreadcrumbList>
+      </Breadcrumb>
       <div
         className={`text-4xl  tracking-wide text-[#333333] text-center font-extrabold my-5 ${
-          category?.data.name ? 'py-14' : 'py-5'
+          !suggestedList && category?.data.name ? 'py-14' : 'py-5'
         }`}
       >
-        {category?.data.name}
+        {!suggestedList && category?.data.name}
       </div>
 
       <div className="grid grid-cols-2 gap-2 px-5 md:grid-cols-5 md:gap-10 md:px-0">
-        {!isMobile && <ProductFilter />}
+        {!isMobile && !suggestedList && <ProductFilter />}
         {data
           ?.filter((item) => !categoryId || item.categoryId === categoryId)
           .map((item: Item, index: number) => (

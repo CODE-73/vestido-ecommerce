@@ -20,10 +20,26 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@vestido-ecommerce/shadcn-ui/accordion';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@vestido-ecommerce/shadcn-ui/breadcrumb';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  // CarouselNext,
+  // CarouselPrevious,
+} from '@vestido-ecommerce/shadcn-ui/carousel';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import { AddToWishListButton } from '../HomePage/SpecialOffer/AddToWishlistButton';
+import ProductlistView from '../ProductListView/ProductListView';
 
 interface ProductViewProps {
   itemId: string;
@@ -204,41 +220,129 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
     }
   };
   return (
-    <div className="w-full flex flex-col md:flex-row py-5 px-2 md:px-0 md:space-x-10">
-      <div className="w-full md:w-1/2 flex justify-start">
-        <div
-          className="relative basis-1/6 overflow-y-auto no-scrollbar lg:pl-10"
-          ref={carouselRef}
-        >
-          {/* <button
+    <>
+      <Breadcrumb className="p-3">
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href="/products">Products</BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbLink href={`/${item?.categoryId}`}>
+              {itemCategory}
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>{item?.title}</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
+      <div className="w-full flex flex-col md:flex-row py-5 sm:px-2 md:px-0 md:space-x-10">
+        <div className="w-full sm:flex hidden sm:block md:w-1/2 justify-start">
+          <div
+            className="relative basis-1/6 overflow-y-auto no-scrollbar lg:pl-10"
+            ref={carouselRef}
+          >
+            {/* <button
             onClick={scrollUp}
             className="absolute top-3 left-1/2 transform -translate-x-1/2 bg-white z-10 p-2 rounded-full shadow-md"
           >
             <LuChevronUp />
           </button> */}
-          <div
-            ref={scrollRef}
-            className="overflow-y-auto overflow-x-hidden no-scrollbar flex flex-col "
-            style={{ scrollbarWidth: 'none' }}
+            <div
+              ref={scrollRef}
+              className="overflow-y-auto overflow-x-hidden no-scrollbar flex flex-col "
+              style={{ scrollbarWidth: 'none' }}
+            >
+              <div className=" w-full px-2">
+                {((selectedVariant?.images ?? []) as ImageSchemaType[]).length >
+                1 ? (
+                  <>
+                    {((selectedVariant?.images ?? []) as ImageSchemaType[]).map(
+                      (image, index) => (
+                        <div
+                          key={index}
+                          className=""
+                          onClick={() => setSelectedImage(image.url!)}
+                        >
+                          <Image
+                            className="outline outline-3 hover:outline-[#48CAB2] mb-3"
+                            src={image.url ?? ''}
+                            alt="alt text"
+                            fill
+                          />
+                        </div>
+                      ),
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {((item?.images ?? []) as ImageSchemaType[]).map(
+                      (image, index) => (
+                        <div
+                          key={index}
+                          className="basis-1/5 flex-none"
+                          onClick={() => setSelectedImage(image.url!)}
+                        >
+                          <Image
+                            className="outline outline-3 hover:outline-[#48CAB2] mb-3"
+                            src={image.url!}
+                            alt="alt text"
+                            width={100}
+                            height={150}
+                          />
+                        </div>
+                      ),
+                    )}
+                  </>
+                )}
+              </div>
+            </div>
+            {/* <button
+            onClick={scrollDown}
+            className="absolute bottom-3 left-1/2 transform-translate-x-1/2 bg-white z-10 p-2 rounded-full shadow-md"
           >
-            <div className=" w-full px-2">
+            <LuChevronDown />
+          </button> */}
+          </div>
+          <div className="basis-5/6">
+            <Image
+              // className="w-4/6 px-5 h-4/6"
+              ref={mainImageRef}
+              src={
+                selectedImage
+                  ? selectedImage
+                  : (((selectedVariant?.images ?? []) as ImageSchemaType[])[0]
+                      ?.url ?? '')
+              }
+              alt="alt text"
+              width={550}
+              height={720}
+            />
+          </div>
+        </div>
+        <div className="sm:hidden">
+          <Carousel className=" w-full relative">
+            <CarouselContent>
               {((selectedVariant?.images ?? []) as ImageSchemaType[]).length >
               1 ? (
                 <>
                   {((selectedVariant?.images ?? []) as ImageSchemaType[]).map(
                     (image, index) => (
-                      <div
-                        key={index}
-                        className=""
-                        onClick={() => setSelectedImage(image.url!)}
-                      >
+                      <CarouselItem key={index}>
                         <Image
-                          className="outline outline-3 hover:outline-[#48CAB2] mb-3"
                           src={image.url ?? ''}
                           alt="alt text"
                           fill
+                          width={550}
+                          height={720}
                         />
-                      </div>
+                      </CarouselItem>
                     ),
                   )}
                 </>
@@ -246,148 +350,147 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
                 <>
                   {((item?.images ?? []) as ImageSchemaType[]).map(
                     (image, index) => (
-                      <div
-                        key={index}
-                        className="basis-1/5 flex-none"
-                        onClick={() => setSelectedImage(image.url!)}
-                      >
-                        <Image
-                          className="outline outline-3 hover:outline-[#48CAB2] mb-3"
-                          src={image.url!}
-                          alt="alt text"
-                          width={100}
-                          height={150}
-                        />
-                      </div>
+                      <CarouselItem key={index}>
+                        <div>
+                          <Image
+                            className="outline outline-3 hover:outline-[#48CAB2] mb-3"
+                            src={image.url!}
+                            alt="alt text"
+                            width={550}
+                            height={720}
+                          />
+                        </div>
+                      </CarouselItem>
                     ),
                   )}
                 </>
               )}
+            </CarouselContent>
+            {/* <CarouselPrevious />
+          <CarouselNext /> */}
+          </Carousel>
+        </div>
+        <div className="w-full  md:w-1/2">
+          <div className="px-2 sm:px-auto">
+            <h1 className="text-3xl font-semibold mt-5 lg:mt-auto">
+              {item?.title}
+            </h1>
+            <div className="flex flex-row items-center gap-1">
+              <div className="text-2xl font-semibold">
+                Rs.
+                {item?.discountedPrice && item?.discountedPrice > 0
+                  ? item?.discountedPrice
+                  : item?.price}
+              </div>
+            </div>
+
+            <div className="text-sm ">
+              <div className="flex">
+                <h1 className="font-extralight">Availability:&nbsp; </h1>
+                <h1 className="font-semibold">
+                  {item?.stockStatus === 'LIMITED_STOCK'
+                    ? 'Limited Stock'
+                    : item?.stockStatus === 'OUT_OF_STOCK'
+                      ? 'Out of Stock'
+                      : 'Available'}
+                </h1>
+              </div>
+
+              <div className="flex gap-2">
+                <h1 className="font-extralight">Category</h1>
+                <h1 className="font-semibold no-underline hover:underline">
+                  {itemCategory}
+                </h1>
+              </div>
+
+              <div className="flex gap-2">
+                <h1 className="font-extralight">SKU: </h1>
+                <h1 className="font-semibold no-underline hover:underline">
+                  {item?.sku}
+                </h1>
+              </div>
+
+              <div className="mt-5 flex flex-col gap-5">
+                <hr />
+                {Object.keys(attributeMap).map((attributeId) => (
+                  <div
+                    key={attributeId}
+                    className="flex items-center gap-[1px]"
+                  >
+                    {' '}
+                    <div className="capitalize font-semibold">
+                      {attributeMap[attributeId].name}:
+                    </div>
+                    {attributeMap[attributeId].values.map((value, index) => (
+                      <div
+                        key={index}
+                        onClick={() => changeToVariant(attributeId, value.id)}
+                        className={`flex flex-col border border-2 rounded-3xl m-1 cursor-pointer ${
+                          selectedVariant?.attributeValues.some(
+                            (attrVal) =>
+                              attrVal.attributeId === attributeId &&
+                              attrVal.attributeValue.id === value.id,
+                          )
+                            ? 'border-[#48CAB2] text-[#48CAB2] '
+                            : 'border-zinc-100 hover:border-[#48CAB2] hover:text-[#48CAB2]'
+                        }`}
+                      >
+                        <div className="text-sm font-semibold border border-1 border-stone-200 rounded-3xl py-2 px-4 ">
+                          {value.value}
+                        </div>
+                      </div>
+                    ))}{' '}
+                  </div>
+                ))}{' '}
+                <hr />
+              </div>
+            </div>
+
+            <div className="flex flex-row pr-5 gap-1 py-6">
+              <LuScaling />
+              <h1>Size Guide</h1>
             </div>
           </div>
-          {/* <button
-            onClick={scrollDown}
-            className="absolute bottom-3 left-1/2 transform-translate-x-1/2 bg-white z-10 p-2 rounded-full shadow-md"
-          >
-            <LuChevronDown />
-          </button> */}
-        </div>
-        <div className="basis-5/6">
-          <Image
-            // className="w-4/6 px-5 h-4/6"
-            ref={mainImageRef}
-            src={
-              selectedImage
-                ? selectedImage
-                : (((selectedVariant?.images ?? []) as ImageSchemaType[])[0]
-                    ?.url ?? '')
-            }
-            alt="alt text"
-            width={550}
-            height={720}
-          />
-        </div>
-      </div>
-      <div className="w-full md:w-1/2">
-        <h1 className="text-3xl font-semibold mt-5 lg:mt-auto">
-          {item?.title}
-        </h1>
-        <div className="flex flex-row items-center gap-1">
-          <div className="text-2xl font-semibold">
-            Rs.
-            {item?.discountedPrice && item?.discountedPrice > 0
-              ? item?.discountedPrice
-              : item?.price}
-          </div>
-        </div>
 
-        <div className="text-sm ">
-          <div className="flex flex-row">
-            <h1 className="font-extralight">Availability:&nbsp; </h1>
-            <h1 className="font-semibold">
-              {item?.stockStatus === 'LIMITED_STOCK'
-                ? 'Limited Stock'
-                : item?.stockStatus === 'OUT_OF_STOCK'
-                  ? 'Out of Stock'
-                  : 'Available'}
-            </h1>
-          </div>
-
-          <div className="flex gap-2">
-            <h1 className="font-extralight">Category</h1>
-            <h1 className="font-semibold no-underline hover:underline">
-              {itemCategory}
-            </h1>
-          </div>
-
-          <div className="mt-5 flex flex-col gap-5">
-            <hr />
-            {Object.keys(attributeMap).map((attributeId) => (
-              <div key={attributeId} className="flex items-center gap-[1px]">
-                <div className="capitalize font-semibold">
-                  {attributeMap[attributeId].name}:
-                </div>
-                {attributeMap[attributeId].values.map((value, index) => (
-                  <div
-                    key={index}
-                    onClick={() => changeToVariant(attributeId, value.id)}
-                    className={`flex flex-col border border-2 rounded-3xl m-1 cursor-pointer ${
-                      selectedVariant?.attributeValues.some(
-                        (attrVal) =>
-                          attrVal.attributeId === attributeId &&
-                          attrVal.attributeValue.id === value.id,
-                      )
-                        ? 'border-[#48CAB2] text-[#48CAB2] '
-                        : 'border-zinc-100 hover:border-[#48CAB2] hover:text-[#48CAB2]'
-                    }`}
-                  >
-                    <div className="text-sm font-semibold border border-1 border-stone-200 rounded-3xl py-2 px-4 ">
-                      {value.value}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ))}
-            <hr />
-          </div>
-        </div>
-
-        <div className="flex flex-row pr-5 gap-1 py-6">
-          <LuScaling />
-          <h1>Size Guide</h1>
-        </div>
-        <div className="flex gap-2 mb-5 w-full">
-          <div className="flex bg-[#48CAB2] items-center gap-2 flex-1 justify-center text-white  ">
-            <LuShoppingBag size={30} />
-            <Button
-              onClick={() => handleAddToCart()}
-              className="text-xl font-semibold bg-transparent hover:bg-transparent"
+          <div className="flex gap-2 mb-5 w-full fixed -bottom-5 w-full sm:static bg-white py-4 px-2 mx-0 z-50 sm:z-auto">
+            <div className="flex bg-[#48CAB2] items-center gap-2 flex-1 justify-center text-white  ">
+              <LuShoppingBag size={30} />
+              <Button
+                onClick={() => handleAddToCart()}
+                className="text-xl font-semibold bg-transparent hover:bg-transparent"
+              >
+                ADD TO CART
+              </Button>
+            </div>
+            <div
+              onClick={() => {
+                handleAddToWishlist(item!);
+              }}
+              className="border border-2 border-[#48CAB2] font-medium text-xs  h-full self-center p-4"
             >
-              ADD TO CART
-            </Button>
+              <AddToWishListButton wishlisted={isWishlisted} />
+            </div>
           </div>
-          <div
-            onClick={() => {
-              handleAddToWishlist(item!);
-            }}
-            className="border border-2 border-[#48CAB2] font-medium text-xs  h-full self-center p-4"
-          >
-            <AddToWishListButton wishlisted={isWishlisted} />
-          </div>
-        </div>
 
-        <div>
-          <Accordion type="single" collapsible>
-            <AccordionItem value="item-1">
-              <AccordionTrigger>Description</AccordionTrigger>
-              <AccordionContent>
-                <Markdown className="prose">{item?.description}</Markdown>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
+          <div>
+            <Accordion className="px-2" type="single" collapsible>
+              <AccordionItem value="item-1">
+                <AccordionTrigger>Description</AccordionTrigger>
+                <AccordionContent>
+                  <Markdown className="prose">{item?.description}</Markdown>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </div>
         </div>
       </div>
-    </div>
+      <div>
+        <div className="text-center text-xl md:text-3xl font-semibold pt-10 sm:pt-16 -mb-10">
+          You may also like
+        </div>
+        <ProductlistView categoryId={item?.categoryId} suggestedList={true} />
+      </div>
+    </>
   );
 };
 
