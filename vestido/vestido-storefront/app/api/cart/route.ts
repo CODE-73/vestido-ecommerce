@@ -111,10 +111,10 @@ export async function DELETE(request: Request) {
     }
     const customerId = auth.profileId;
     const body = {
-      itemId: params.get("itemId"),
+      itemId: params.get('itemId'),
       customerId,
-      variantId: params.get("variantId"),
-      actionType: params.get("actionType")
+      variantId: params.get('variantId'),
+      actionType: params.get('actionType'),
     };
 
     await removeFromCart(body);

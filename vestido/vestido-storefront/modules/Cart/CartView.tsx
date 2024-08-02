@@ -1,11 +1,14 @@
 import * as React from 'react';
-import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import { LuChevronLeft, LuMinus, LuPlus, LuTrash2 } from 'react-icons/lu';
 
-import { useAddToCart, useCart, useRemoveFromCart } from '@vestido-ecommerce/items';
+import {
+  useAddToCart,
+  useCart,
+  useRemoveFromCart,
+} from '@vestido-ecommerce/items';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
@@ -17,31 +20,33 @@ const CartView: React.FC = () => {
 
   const { trigger } = useRemoveFromCart();
 
-  const { trigger: addCartTrigger} = useAddToCart();
+  const { trigger: addCartTrigger } = useAddToCart();
 
   const totalPrice =
     cartItems?.data.reduce((total, item) => {
       return total + item.qty * item.item.price;
     }, 0) ?? 0;
 
-  const handleRemoveFromCart = (itemId: string, variantId: string, actionType: "full" | "decrement") => {    
+  const handleRemoveFromCart = (
+    itemId: string,
+    variantId: string,
+    actionType: 'full' | 'decrement',
+  ) => {
     trigger({
       itemId: itemId,
       variantId: variantId,
-     actionType: actionType
+      actionType: actionType,
     });
   };
 
-
-  const handleAddToCart = (itemId: string, qty: number, variantId: string) =>{
+  const handleAddToCart = (itemId: string, qty: number, variantId: string) => {
     addCartTrigger({
       itemId: itemId,
       qty: qty,
-      variantId: variantId
-    })
-    console.log('parameters',itemId, qty, variantId)
-
-  }
+      variantId: variantId,
+    });
+    console.log('parameters', itemId, qty, variantId);
+  };
 
   return (
     <div>
@@ -61,26 +66,34 @@ const CartView: React.FC = () => {
                 </div>
                 <div className="grid gap-2 grid-cols-9 items-center">
                   <div
-                    onClick={() => handleRemoveFromCart(cartItem.itemId, (cartItem.variantId!), "full")}
+                    onClick={() =>
+                      handleRemoveFromCart(
+                        cartItem.itemId,
+                        cartItem.variantId!,
+                        'full',
+                      )
+                    }
                     className="col-span-1 flex justify-center cursor-pointer"
                   >
                     <LuTrash2 />
                   </div>
-                  <Link href={`/products/${cartItem.itemId}`}>    <Image
-                    className="block col-span-2"
-                    
-                    src={
-                      ((cartItem.item.images ?? []) as ImageSchemaType[])[0]
-                        .url!
-                    }
-                    alt={
-                      ((cartItem.item.images ?? []) as ImageSchemaType[])[0]
-                        .alt!
-                    }
-                    width={200}
-                    height={260}
-                  /></Link>
-              
+                  <Link href={`/products/${cartItem.itemId}`}>
+                    {' '}
+                    <Image
+                      className="block col-span-2"
+                      src={
+                        ((cartItem.item.images ?? []) as ImageSchemaType[])[0]
+                          .url!
+                      }
+                      alt={
+                        ((cartItem.item.images ?? []) as ImageSchemaType[])[0]
+                          .alt!
+                      }
+                      width={200}
+                      height={260}
+                    />
+                  </Link>
+
                   {isMobile ? (
                     <div className=" col-span-5 flex flex-col space-y-5 pl-8">
                       <div className="truncate text-md md:text-xl font-semibold whitespace-nowrap">
@@ -93,9 +106,11 @@ const CartView: React.FC = () => {
                         <div
                           className="text-zinc-300"
                           onClick={() => {
-                           
-                           
-                            handleRemoveFromCart(cartItem.itemId, cartItem.variantId!, "decrement")
+                            handleRemoveFromCart(
+                              cartItem.itemId,
+                              cartItem.variantId!,
+                              'decrement',
+                            );
                           }}
                         >
                           <LuMinus />
@@ -105,11 +120,13 @@ const CartView: React.FC = () => {
                         </div>
                         <div
                           className="text-zinc-300"
-                          onClick={() =>{
-                          
-                            handleAddToCart(cartItem.itemId, cartItem.qty, cartItem.variantId!)
-                          }
-                          }
+                          onClick={() => {
+                            handleAddToCart(
+                              cartItem.itemId,
+                              cartItem.qty,
+                              cartItem.variantId!,
+                            );
+                          }}
                         >
                           <LuPlus />
                         </div>
@@ -125,9 +142,11 @@ const CartView: React.FC = () => {
                         <div
                           className="text-zinc-300"
                           onClick={() => {
-                          
-                           
-                            handleRemoveFromCart(cartItem.itemId, cartItem.variantId!, "decrement")
+                            handleRemoveFromCart(
+                              cartItem.itemId,
+                              cartItem.variantId!,
+                              'decrement',
+                            );
                           }}
                         >
                           <LuMinus />
@@ -137,12 +156,13 @@ const CartView: React.FC = () => {
                         </div>
                         <div
                           className="text-zinc-300"
-                          onClick={() =>{
-                        
-                           
-                            handleAddToCart(cartItem.itemId, cartItem.qty+1, cartItem.variantId!)
-                          }
-                          }
+                          onClick={() => {
+                            handleAddToCart(
+                              cartItem.itemId,
+                              cartItem.qty + 1,
+                              cartItem.variantId!,
+                            );
+                          }}
                         >
                           <LuPlus />
                         </div>
