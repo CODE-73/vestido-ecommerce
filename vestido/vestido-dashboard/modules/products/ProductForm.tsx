@@ -116,7 +116,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
 
   const { data: variants } = useVariants(itemId ?? '');
 
-  const no_of_variants = variants?.data.length;
+  const no_of_variants = variants?.data.length ?? 0;
 
   useEffect(() => {
     if (!isNew && item) {
@@ -279,9 +279,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
             />
             <div>
               <SwitchElement
-                disabled={
-                  !isNew && no_of_variants != undefined && no_of_variants > 0
-                }
+                disabled={!isNew && no_of_variants > 0}
                 name="hasVariants"
                 label="Has Variant(s)"
               />
