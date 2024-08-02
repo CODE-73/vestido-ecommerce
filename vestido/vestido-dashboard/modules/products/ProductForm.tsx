@@ -67,12 +67,13 @@ const CreateProductFormSchema = z.object({
     .min(0, { message: 'Discounted price must be a positive number' })
     .nullable()
     .or(z.literal(null)),
-  // slug: z
-  //   .string()
-  //   .min(2, { message: 'slug is required' })
-  //   .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, { message: 'Invalid slug format' }),
-  slug: z.string().optional(),
+  slug: z
+    .string()
+    .min(2, { message: 'slug is required' })
+    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, { message: 'Invalid slug format' }),
+  // slug: z.string().optional(),
   enabled: z.boolean().default(true),
+  sku: z.string().nullish(),
 });
 
 export type CreateProductForm = z.infer<typeof CreateProductFormSchema>;
@@ -95,6 +96,7 @@ const defaultValues = {
   discountedPrice: 0,
   slug: '',
   enabled: true,
+  sku: '',
 } satisfies CreateProductForm;
 
 const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
@@ -180,6 +182,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
           </div>
           <div className="grid grid-cols-2 gap-5 lg:px-10 mb-10">
             <InputElement name="slug" placeholder="Slug" label="Slug" />
+            <InputElement name="sku" placeholder="SKU" label="SKU" />
           </div>
           <div className="grid grid-cols-1 lg:px-10 mt-2">
             <CategoryElement

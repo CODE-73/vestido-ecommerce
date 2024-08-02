@@ -17,7 +17,7 @@ import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import useIsMobile from '../../hooks/useIsMobile';
 import { AddToWishListButton } from '../HomePage/SpecialOffer/AddToWishlistButton';
-import { QuickViewButton } from '../HomePage/SpecialOffer/QuickViewButton';
+// import { QuickViewButton } from '../HomePage/SpecialOffer/QuickViewButton';
 import AddToCartButton from '../HomePage/TopProducts/AddToCartButton';
 import ProductFilter from './ProductFilter';
 
@@ -117,17 +117,18 @@ const ProductlistView: React.FC<ProductListViewProps> = ({ categoryId }) => {
               <div className="self-start pt-[#1px] capitalize text-[#333333] text-md font-light mb-4">
                 {item.title}
               </div>
-
-              <AddToCartButton
-                price={item.price}
-                offerPrice={item.discountedPrice}
-                item={item}
-              />
+              <div className="hidden sm:block">
+                <AddToCartButton
+                  price={item.price}
+                  offerPrice={item.discountedPrice}
+                  item={item}
+                />
+              </div>
 
               <div
                 className={` flex flex-row justify-start ${
                   wishlistedItems[item.id] ? 'flex' : 'sm:hidden'
-                } sm:group-hover:flex sm:flex-col gap-3 sm:absolute top-3 right-3 pt-2 sm:pt-0`}
+                } sm:group-hover:flex sm:flex-col gap-3 absolute top-3 right-3 pt-2 `}
               >
                 <div
                   onClick={(e) => {
@@ -137,7 +138,7 @@ const ProductlistView: React.FC<ProductListViewProps> = ({ categoryId }) => {
                 >
                   <AddToWishListButton wishlisted={wishlistedItems[item.id]} />
                 </div>
-                <QuickViewButton />
+                {/* <QuickViewButton /> */}
               </div>
             </div>
           ))}

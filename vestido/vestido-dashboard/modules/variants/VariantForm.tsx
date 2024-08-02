@@ -43,6 +43,7 @@ const CreateVariantFormSchema = z.object({
   discountedPrice: z.coerce.number().nullable(),
   slug: z.string().optional(),
   enabled: z.boolean().default(true),
+  sku: z.string().nullish(),
 });
 
 export type CreateVariantForm = z.infer<typeof CreateVariantFormSchema>;
@@ -74,6 +75,7 @@ const VariantForm: React.FC<VariantFormProps> = ({
       default: false,
       slug: '',
       enabled: true,
+      sku: '',
     },
   });
   const itemId = form.watch('itemId');
@@ -171,6 +173,7 @@ const VariantForm: React.FC<VariantFormProps> = ({
           </div>
           <div className="grid grid-cols-2 gap-5 lg:px-10 mb-10">
             <InputElement name="slug" placeholder="Slug" label="Slug" />
+            <InputElement name="sku" placeholder="SKU" label="SKU" />
           </div>
           <div className="grid grid-cols-2 gap-5 lg:px-10 my-2">
             <InputElement
