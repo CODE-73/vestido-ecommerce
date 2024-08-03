@@ -15,7 +15,7 @@ interface SpecialOfferCardProps {
 const SpecialOfferCard: React.FC<SpecialOfferCardProps> = ({ data }) => {
   return (
     <div className={`flex flex-col items-center group relative mb-10 `}>
-      <Link href="/product/Product">
+      <Link href={`/products/${data.id}`}>
         <Image
           className="block group-hover:hidden"
           src={((data?.images ?? []) as ImageSchemaType[])[0]?.url ?? ''}

@@ -11,17 +11,19 @@ export async function listItem(_args: ListItemRequest) {
   // pass to prisma next
 
   const itemList = await prisma.item.findMany({
-    ...(args?.q
-      ? {
-          where: {
+    where: {
+      enabled: true,
+      ...(args?.q
+        ? {
             OR: [
               { title: { contains: args.q, mode: 'insensitive' } },
               { description: { contains: args.q } },
               //add more fields if required
             ],
-          },
-        }
-      : {}),
+          }
+        : {}),
+    },
+
     include: {
       category: true,
       variants: true,

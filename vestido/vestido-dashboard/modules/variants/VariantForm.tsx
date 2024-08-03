@@ -41,7 +41,9 @@ const CreateVariantFormSchema = z.object({
     .default(0)
     .nullable(),
   discountedPrice: z.coerce.number().nullable(),
-  slug: z.string(),
+  slug: z.string().optional(),
+  enabled: z.boolean().default(true),
+  sku: z.string().nullish(),
 });
 
 export type CreateVariantForm = z.infer<typeof CreateVariantFormSchema>;
@@ -72,6 +74,8 @@ const VariantForm: React.FC<VariantFormProps> = ({
       attributeValues: [],
       default: false,
       slug: '',
+      enabled: true,
+      sku: '',
     },
   });
   const itemId = form.watch('itemId');
@@ -86,8 +90,7 @@ const VariantForm: React.FC<VariantFormProps> = ({
     isNew ? null : variantId,
   );
 
-  const { isDirty, isValid, errors } = form.formState;
-  console.info(isValid, errors);
+  const { isDirty, isValid } = form.formState;
   const isSubmitting = form.formState.isSubmitting;
 
   useEffect(() => {
@@ -139,10 +142,13 @@ const VariantForm: React.FC<VariantFormProps> = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="flex flex-col justify-center w-full space-y-8 mt-16 bg-slate-200 p-5"
+        className="flex flex-col justify-center w-full text-lg mt-16 bg-slate-200 px-5 py-10"
       >
-        <div className="text-lg font-bold">
-          {isNew ? 'Add New Variant' : 'Variant Details'}
+        <div className="text-2xl font-semibold capitalize flex justify-between">
+          {isNew ? 'Add New Variant' : variant?.title}
+          <div>
+            <SwitchElement name="enabled" label="Enabled" />
+          </div>
         </div>
         <div className="flex flex-col flex-grow ps-2 pe-2">
           <hr className="border-t-1 border-slate-400 mb-4 w-full" />
@@ -167,6 +173,7 @@ const VariantForm: React.FC<VariantFormProps> = ({
           </div>
           <div className="grid grid-cols-2 gap-5 lg:px-10 mb-10">
             <InputElement name="slug" placeholder="Slug" label="Slug" />
+            <InputElement name="sku" placeholder="SKU" label="SKU" />
           </div>
           <div className="grid grid-cols-2 gap-5 lg:px-10 my-2">
             <InputElement

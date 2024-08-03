@@ -57,6 +57,7 @@ model CustomerAddress {
     addressType AddressType @default(HOME)
     default     Boolean
     Order       Order[]
+    archived    Boolean     @default(false)
 }
 
 model Profile {

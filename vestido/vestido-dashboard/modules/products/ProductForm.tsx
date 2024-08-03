@@ -36,27 +36,44 @@ const CreateProductFormSchema = z.object({
   title: z
     .string()
     .min(2, { message: 'Please provide a title for the product' }),
-  price: z.coerce.number(),
-  description: z.string(),
+
+  price: z.coerce
+    .number()
+    .min(0, { message: 'Price must be a positive number' }),
+  description: z
+    .string()
+    .min(2, { message: 'Please provide description for the product' }),
   categoryId: z.string().min(2, { message: 'You have to choose a category' }),
+
   hasVariants: z.boolean().default(false),
   stockStatus: z
     .nativeEnum(StockStatus)
     .default('AVAILABLE' satisfies StockStatus),
-  images: z.array(ImageSchema),
+  images: z.array(ImageSchema).optional(),
   gender: z
     .array(z.nativeEnum(Gender))
     .refine((value) => value.some((gender) => gender), {
-      message: 'You have to select at least one item.',
+      message: 'You have to select at least one gender',
     })
     .default(['MEN', 'WOMEN'] satisfies Gender[]),
   discountPercent: z.coerce
     .number()
     .max(100, { message: 'Percentage cannot be more than 100' })
     .default(0)
-    .nullable(),
-  discountedPrice: z.coerce.number().nullable(),
-  slug: z.string(),
+    .nullable()
+    .or(z.literal(null)),
+  discountedPrice: z.coerce
+    .number()
+    .min(0, { message: 'Discounted price must be a positive number' })
+    .nullable()
+    .or(z.literal(null)),
+  slug: z
+    .string()
+    .min(2, { message: 'slug is required' })
+    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, { message: 'Invalid slug format' }),
+  // slug: z.string().optional(),
+  enabled: z.boolean().default(true),
+  sku: z.string().nullish(),
 });
 
 export type CreateProductForm = z.infer<typeof CreateProductFormSchema>;
@@ -78,6 +95,8 @@ const defaultValues = {
   discountPercent: 0,
   discountedPrice: 0,
   slug: '',
+  enabled: true,
+  sku: '',
 } satisfies CreateProductForm;
 
 const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
@@ -94,13 +113,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
   const { data: { data: item } = { data: null } } = useItem(
     isNew ? null : itemId,
   );
-  const { isDirty, isValid } = form.formState;
-
-  const isSubmitting = form.formState.isSubmitting;
 
   const { data: variants } = useVariants(itemId ?? '');
 
-  const no_of_variants = variants?.data.length;
+  const no_of_variants = variants?.data.length ?? 0;
 
   useEffect(() => {
     if (!isNew && item) {
@@ -150,24 +166,23 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="flex flex-col justify-center w-full space-y-2 mt-16 bg-slate-200 p-5"
+        className="flex flex-col justify-center w-full text-lg mt-16 bg-slate-200 px-5 py-10"
       >
-        <div className="text-xl font-semibold">
-          {isNew ? 'Add New Product' : item?.title}
+        <div className="text-2xl font-semibold capitalize flex justify-between">
+          {isNew ? 'Add New Product' : item?.title}{' '}
+          <div>
+            <SwitchElement name="enabled" label="Enabled" />
+          </div>
         </div>
         <div className="flex h-full flex-col flex-grow ps-2 pe-2">
           <hr className="border-t-1 border-slate-400 mb-4 w-full" />
           <div className="grid grid-cols-2 gap-5 lg:px-10">
-            <InputElement
-              required
-              name="title"
-              placeholder="Title"
-              label="Title"
-            />
+            <InputElement name="title" placeholder="Title" label="Title" />
             <InputElement name="price" placeholder="Price" label="Price" />
           </div>
           <div className="grid grid-cols-2 gap-5 lg:px-10 mb-10">
             <InputElement name="slug" placeholder="Slug" label="Slug" />
+            <InputElement name="sku" placeholder="SKU" label="SKU" />
           </div>
           <div className="grid grid-cols-1 lg:px-10 mt-2">
             <CategoryElement
@@ -264,9 +279,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
             />
             <div>
               <SwitchElement
-                disabled={
-                  !isNew && no_of_variants != undefined && no_of_variants > 0
-                }
+                disabled={!isNew && no_of_variants > 0}
                 name="hasVariants"
                 label="Has Variant(s)"
               />
@@ -281,7 +294,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
           <Button
             className="lg:px-5"
             type="submit"
-            disabled={!isValid || !isDirty || isSubmitting}
+            // disabled={!isValid || !isDirty || isSubmitting}
           >
             {isNew ? 'Create' : 'Update'}
           </Button>

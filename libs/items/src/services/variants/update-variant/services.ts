@@ -1,5 +1,6 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
 
+import { validateSlug } from '../../slug';
 import { generateVariantTitle } from '../generate_variant_title';
 import { variantDetails } from '../get-variant';
 import { validateAttributes } from '../validate_attributes';
@@ -17,6 +18,12 @@ export async function updateVariant(
     prisma,
     validatedData.attributeValues ?? [],
   );
+  validatedData.slug = await validateSlug({
+    id: variantId,
+    generateFrom: varTitle,
+    slug: validatedData.slug,
+    tableName: 'itemVariant',
+  });
 
   if (validatedData.default) {
     // Update all existing addresses to set default to false

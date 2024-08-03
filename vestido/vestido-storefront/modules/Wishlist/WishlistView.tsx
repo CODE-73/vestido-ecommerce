@@ -1,38 +1,24 @@
 import * as React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
+
 import { LuShoppingBag, LuX } from 'react-icons/lu';
 
-import {
-  useAddToCart,
-  useRemoveFromWishlist,
-  useWishlist,
-} from '@vestido-ecommerce/items';
-import { ImageSchemaType } from '@vestido-ecommerce/utils';
+import { useRemoveFromWishlist, useWishlist } from '@vestido-ecommerce/items';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
-import Link from 'next/link';
 import { Dialog, DialogTrigger } from '@vestido-ecommerce/shadcn-ui/dialog';
+import { ImageSchemaType } from '@vestido-ecommerce/utils';
+
 import { AddToCartDialog } from './AddToCartFromWishlistDialog';
 
 const WishlistView: React.FC = () => {
   const { data: wishlistItems } = useWishlist();
-  console.log('wishlist', wishlistItems);
-
   const { trigger } = useRemoveFromWishlist();
-  const { trigger: cartTrigger } = useAddToCart();
 
   const handleRemoveFromWishlist = (itemId: string) => {
     trigger({
       itemId: itemId,
     });
-  };
-  const handleAddToCart = (itemId: string) => {
-    cartTrigger({
-      itemId: itemId,
-      qty: 1,
-      variantId: '123',
-    });
-
-    console.log('handleAddToCart');
   };
 
   return (
@@ -50,12 +36,6 @@ const WishlistView: React.FC = () => {
               key={index}
               className=" flex flex-col items-center group  mb-10 "
             >
-              {/* <div
-              onClick={() => handleRemoveFromCart(cartItem.itemId)}
-              className="col-span-1 flex justify-center cursor-pointer"
-            >
-              <LuTrash2 />
-            </div> */}
               <div className="relative">
                 <Link href={`/products/${wishlistItem.itemId}`}>
                   {' '}
@@ -87,54 +67,48 @@ const WishlistView: React.FC = () => {
               <div className="self-start pt-[#1px] capitalize text-[#333333] text-md font-thin">
                 {wishlistItem.item.title}
               </div>
-              {/* {isMobile ? (
-              <div className=" col-span-5 flex flex-col space-y-5 pl-8">
-                <div className="truncate text-md md:text-xl font-semibold whitespace-nowrap">
-                  {wishlistItem.item.title}
-                </div>
-                <div className="text-xl font-semibold text-[#48CAB2] flex ">
-                  {wishlistItem.item.price}
-                </div>
-                <div className="flex flex-row bg-zinc-100 w-32 h-14 items-center justify-around ">
-                  hi
-                </div>
-              </div>
-            ) : (
-              <>
-                <div className="text-xl font-extrabold col-span-2">
-                  {wishlistItem.item.title}
-                </div>
-
-                <div className="text-3xl font-semibold text-[#48CAB2] col-span-1 flex justify-center">
-                  {wishlistItem.item.price.toFixed(2)}
-                </div>
-              </>
-            )} */}
 
               <>
                 <div className="flex text-lg justify-between w-full pt-1">
                   <div>
+                    ₹&nbsp;
                     {wishlistItem.item.discountedPrice?.toFixed(2) ??
                       wishlistItem.item.price?.toFixed(2)}
                   </div>
                 </div>
-                <div className={`p-2 bg-[#48CAB2] w-full`}>
-                  <Dialog>
-                    <DialogTrigger asChild>
+
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <div className={`p-2 bg-[#48CAB2] w-full`}>
                       <Button className="bg-[#48CAB2] w-full flex gap-3 text-lg mb-1 text-white p-2 font-bold hover:bg-transparent">
                         <LuShoppingBag color="#fff" size={24} />
                         <div> Add to Cart</div>
                       </Button>
-                    </DialogTrigger>
-                    <AddToCartDialog itemId={wishlistItem.itemId} />
-                  </Dialog>
-                </div>
+                    </div>
+                  </DialogTrigger>
+                  <AddToCartDialog itemId={wishlistItem.itemId} />
+                </Dialog>
               </>
             </div>
           ))}
         </div>
       ) : (
-        <div>helllo</div>
+        <div className="min-h-[80%] w-full flex flex-col gap-5 items-center justify-center font-semibold text-lg">
+          Your wishlist is empty.
+          <div className="flex flex-col md:flex-row gap-3">
+            {' '}
+            <Link href="/cart">
+              <Button className="flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 font-extrabold hover:text-black text-white justify-center">
+                Go to Cart
+              </Button>
+            </Link>
+            <Link href="/products">
+              <Button className="flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 font-extrabold hover:text-black text-white justify-center">
+                Continue Shopping
+              </Button>
+            </Link>
+          </div>
+        </div>
       )}
     </div>
   );

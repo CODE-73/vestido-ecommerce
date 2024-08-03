@@ -20,10 +20,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ data }) => {
   };
 
   const category = getCategory(data.title);
-  console.log('category is', category);
   const categoryId = category?.id;
-
-  console.log(category?.name, data.title);
 
   return (
     <div className="group basis-1/4 lg:basis-48 text-center transition duration-700 ease-in-out md:hover:-translate-y-5 text-[#333333]">

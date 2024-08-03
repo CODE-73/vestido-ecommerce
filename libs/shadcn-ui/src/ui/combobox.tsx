@@ -19,10 +19,13 @@ export interface ComboboxOption {
   label: string;
 }
 
+const NullOption: ComboboxOption = { value: '', label: 'None' };
+
 export interface ComboboxProps {
   value: string | null;
   multiple?: boolean;
   values?: string[];
+  nullable?: boolean;
   onChange?: (value: string) => void;
   onBlur?: FocusEventHandler<HTMLInputElement>;
   disabled?: boolean;
@@ -46,6 +49,7 @@ function Combobox({
   onChange,
   onBlur,
   onSearch,
+  nullable,
   isLoading,
   multiple,
   values = [],
@@ -67,6 +71,11 @@ function Combobox({
       setPrevSelection(null);
     }
   }, [value, prevSelection]);
+
+  if (nullable) {
+    options = [NullOption, ...options];
+  }
+  console.info(options);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

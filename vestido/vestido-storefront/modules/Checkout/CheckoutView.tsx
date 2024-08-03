@@ -286,9 +286,9 @@ const CheckoutView: React.FC = () => {
           <div className=" flex flex-col items-center md:flex-row md:items-start items-start gap-2 md:divide-x">
             <div className="w-full md:w-auto px-3 md:px-0 md:basis-3/5">
               {currentSession == 'Address' ? (
-                <CustomerAddressElement name="addressId" required />
+                <CustomerAddressElement name="addressId" />
               ) : (
-                <PaymentTypeElement name="paymentType" required />
+                <PaymentTypeElement name="paymentType" />
               )}
 
               {currentSession == 'Address' && (
@@ -298,7 +298,7 @@ const CheckoutView: React.FC = () => {
                       + Add New Address
                     </div>
                   </DialogTrigger>
-                  <AddAddressDialog />
+                  <AddAddressDialog isNew={true} addressId={null} />
                 </Dialog>
               )}
             </div>
@@ -324,7 +324,7 @@ const CheckoutView: React.FC = () => {
                         {cartItem.item.title}
                       </div>
                       <div className="text-sm col-span-1 flex justify-center text-right">
-                        {cartItem.item.price.toFixed(2)}
+                        ₹&nbsp;{cartItem.item.price.toFixed(2)}
                       </div>
                     </div>
                   </div>
@@ -333,19 +333,19 @@ const CheckoutView: React.FC = () => {
               <hr />
               <div className="flex justify-between pr-3 mt-3">
                 <div className="text-md ">Subtotal</div>
-                <div className=" text-lg">{totalPrice.toFixed(2)}</div>
+                <div className=" text-lg">₹&nbsp;{totalPrice.toFixed(2)}</div>
               </div>
               <div className="flex justify-between pr-3 mt-3">
                 <div className="text-md ">Shipping</div>
                 <div className=" text-lg">
-                  {(shippingCharges as number).toFixed(2)}
+                  ₹&nbsp;{(shippingCharges as number).toFixed(2)}
                 </div>
               </div>
               <hr />
               <div className="flex justify-between mt-3 pr-3 font-bold">
                 <div className="text-md ">Total</div>
                 <div className=" text-lg">
-                  {(totalPrice + (shippingCharges as number)).toFixed(2)}
+                  ₹&nbsp;{(totalPrice + (shippingCharges as number)).toFixed(2)}
                 </div>
               </div>
 

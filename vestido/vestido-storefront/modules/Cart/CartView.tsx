@@ -4,7 +4,11 @@ import Link from 'next/link';
 
 import { LuChevronLeft, LuMinus, LuPlus, LuTrash2 } from 'react-icons/lu';
 
-import { useCart, useRemoveFromCart } from '@vestido-ecommerce/items';
+import {
+  useAddToCart,
+  useCart,
+  useRemoveFromCart,
+} from '@vestido-ecommerce/items';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
@@ -16,15 +20,32 @@ const CartView: React.FC = () => {
 
   const { trigger } = useRemoveFromCart();
 
+  const { trigger: addCartTrigger } = useAddToCart();
+
   const totalPrice =
     cartItems?.data.reduce((total, item) => {
       return total + item.qty * item.item.price;
     }, 0) ?? 0;
 
-  const handleRemoveFromCart = (itemId: string) => {
+  const handleRemoveFromCart = (
+    itemId: string,
+    variantId: string,
+    actionType: 'full' | 'decrement',
+  ) => {
     trigger({
       itemId: itemId,
+      variantId: variantId,
+      actionType: actionType,
     });
+  };
+
+  const handleAddToCart = (itemId: string, qty: number, variantId: string) => {
+    addCartTrigger({
+      itemId: itemId,
+      qty: qty,
+      variantId: variantId,
+    });
+    console.log('parameters', itemId, qty, variantId);
   };
 
   return (
@@ -43,26 +64,36 @@ const CartView: React.FC = () => {
                 <div>
                   <div className="border-t border-gray-300 py-2"></div>
                 </div>
-                <div className="grid gap-2 grid-cols-8 items-center">
+                <div className="grid gap-2 grid-cols-9 items-center">
                   <div
-                    onClick={() => handleRemoveFromCart(cartItem.itemId)}
+                    onClick={() =>
+                      handleRemoveFromCart(
+                        cartItem.itemId,
+                        cartItem.variantId!,
+                        'full',
+                      )
+                    }
                     className="col-span-1 flex justify-center cursor-pointer"
                   >
                     <LuTrash2 />
                   </div>
-                  <Image
-                    className="block col-span-2"
-                    src={
-                      ((cartItem.item.images ?? []) as ImageSchemaType[])[0]
-                        .url!
-                    }
-                    alt={
-                      ((cartItem.item.images ?? []) as ImageSchemaType[])[0]
-                        .alt!
-                    }
-                    width={200}
-                    height={260}
-                  />
+                  <Link href={`/products/${cartItem.itemId}`}>
+                    {' '}
+                    <Image
+                      className="block col-span-2"
+                      src={
+                        ((cartItem.item.images ?? []) as ImageSchemaType[])[0]
+                          .url!
+                      }
+                      alt={
+                        ((cartItem.item.images ?? []) as ImageSchemaType[])[0]
+                          .alt!
+                      }
+                      width={200}
+                      height={260}
+                    />
+                  </Link>
+
                   {isMobile ? (
                     <div className=" col-span-5 flex flex-col space-y-5 pl-8">
                       <div className="truncate text-md md:text-xl font-semibold whitespace-nowrap">
@@ -72,13 +103,31 @@ const CartView: React.FC = () => {
                         {cartItem.item.price}
                       </div>
                       <div className="flex flex-row bg-zinc-100 w-32 h-14 items-center justify-around ">
-                        <div className="text-zinc-300">
+                        <div
+                          className="text-zinc-300"
+                          onClick={() => {
+                            handleRemoveFromCart(
+                              cartItem.itemId,
+                              cartItem.variantId!,
+                              'decrement',
+                            );
+                          }}
+                        >
                           <LuMinus />
                         </div>
                         <div className="font-semibold text-2xl">
                           {cartItem.qty}
                         </div>
-                        <div className="text-zinc-300">
+                        <div
+                          className="text-zinc-300"
+                          onClick={() => {
+                            handleAddToCart(
+                              cartItem.itemId,
+                              cartItem.qty,
+                              cartItem.variantId!,
+                            );
+                          }}
+                        >
                           <LuPlus />
                         </div>
                       </div>
@@ -89,20 +138,53 @@ const CartView: React.FC = () => {
                         {cartItem.item.title}
                       </div>
 
-                      <div className="flex flex-row bg-zinc-100 px-4 h-14 items-center justify-around col-span-1">
-                        <div className="text-zinc-300">
+                      <div className="flex flex-row bg-zinc-100 h-14 items-center justify-between col-span-1 px-2">
+                        <div
+                          className="text-zinc-300"
+                          onClick={() => {
+                            handleRemoveFromCart(
+                              cartItem.itemId,
+                              cartItem.variantId!,
+                              'decrement',
+                            );
+                          }}
+                        >
                           <LuMinus />
                         </div>
-                        <div className="font-semibold text-2xl">1</div>
-                        <div className="text-zinc-300">
+                        <div className="font-semibold text-2xl">
+                          {cartItem.qty}
+                        </div>
+                        <div
+                          className="text-zinc-300"
+                          onClick={() => {
+                            handleAddToCart(
+                              cartItem.itemId,
+                              cartItem.qty + 1,
+                              cartItem.variantId!,
+                            );
+                          }}
+                        >
                           <LuPlus />
                         </div>
                       </div>
-                      <div className="text-3xl font-semibold text-[#48CAB2] col-span-1 flex justify-center">
-                        {cartItem.item.price.toFixed(2)}
+                      <div className="text-3xl font-semibold text-[#48CAB2] col-span-3 flex justify-end">
+                        ₹&nbsp;{cartItem.item.price.toFixed(2)}
                       </div>
                     </>
                   )}
+
+                  {/* <div className="flex bg-zinc-100 px-4 h-12 items-center justify-around ">
+            <div
+              className="text-zinc-300 "
+              onClick={() => setQty(qty > 1 ? qty - 1 : 1)}
+            >
+              <LuMinus />
+            </div>
+            <div className="px-3 font-medium">{qty}</div>
+            <div className="text-zinc-300" onClick={() => setQty(qty + 1)}>
+              <LuPlus />
+            </div>
+          </div> */}
                 </div>
               </div>
             ))}
@@ -129,7 +211,7 @@ const CartView: React.FC = () => {
             <div className="bg-gray-100 p-10 min-h-[275px] relative flex flex-col justify-between">
               <div>
                 <div className="flex items-center text-neutral-800 justify-center pb-3 font-semibold text-xl justify-between ">
-                  Items Total: <div>Rs.{totalPrice.toFixed(2)}</div>
+                  Items Total: <div>₹&nbsp;{totalPrice.toFixed(2)}</div>
                 </div>
 
                 <div className="font-medium text-sm">

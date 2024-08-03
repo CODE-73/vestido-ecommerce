@@ -24,12 +24,14 @@ interface CategoryComboboxProps {
   onBlur?: FocusEventHandler<HTMLInputElement>;
   placeholder?: string;
   className?: string;
+  nullable?: boolean;
 }
 
 export const CategoryCombobox: React.FC<CategoryComboboxProps> = ({
   value,
   onChange,
   onBlur,
+  nullable,
   placeholder = 'Select Category',
   className,
 }) => {
@@ -57,6 +59,7 @@ export const CategoryCombobox: React.FC<CategoryComboboxProps> = ({
       onChange={onChange}
       onBlur={onBlur}
       value={value ?? null}
+      nullable={nullable}
     />
   );
 };
@@ -70,6 +73,7 @@ export type CategoryElementProps<T extends FieldValues = FieldValues> =
     wrapperClassName?: string;
     label?: string;
     description?: string | ReactElement;
+    nullable?: boolean;
   };
 
 export function CategoryElement<
@@ -81,6 +85,8 @@ export function CategoryElement<
   label,
   description,
   onBlur,
+  nullable,
+
   ...props
 }: CategoryElementProps<TFieldValues>) {
   validation ??= {};
@@ -100,6 +106,7 @@ export function CategoryElement<
             {...props}
             value={field.value ?? ''}
             onChange={field.onChange}
+            nullable={nullable}
             onBlur={(e) => {
               field.onBlur();
               onBlur?.(e);

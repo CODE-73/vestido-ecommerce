@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import {
   LuFacebook,
@@ -19,6 +20,13 @@ import CollapsableFooterSection from '../modules/HomePage/CollapsableFooterSecti
 const Footer = () => {
   const isMobile = useIsMobile();
   const [activeSection, setActiveSection] = useState('Info');
+  const router = useRouter();
+
+  const currentPath = router.pathname;
+
+  if (isMobile && currentPath.startsWith('/products/')) {
+    return null;
+  }
 
   return (
     <>

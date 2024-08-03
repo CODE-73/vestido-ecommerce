@@ -6,6 +6,8 @@ import {
   updateAddress,
 } from '@vestido-ecommerce/orders';
 
+import { verifyAuth } from '../../verify-auth';
+
 export const dynamic = 'force-dynamic'; // static by default, unless reading the request
 
 export async function GET(
@@ -40,15 +42,26 @@ export async function PUT(
   request: Request,
   { params }: { params: { slug: string } },
 ) {
-  const data = await request.json();
-
   try {
-    const r = await updateAddress(params.slug, data);
+    const auth = await verifyAuth(request);
+    if (!auth.authenticated) {
+      return new Response(JSON.stringify({ error: auth.reason }), {
+        status: 401,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    }
+    const body = await request.json();
+    const updatedAddress = await updateAddress(params.slug, {
+      ...body,
+      customerId: auth.profileId,
+    });
 
     return new Response(
       JSON.stringify({
         success: true,
-        data: r,
+        data: updatedAddress,
       }),
       {
         headers: {
@@ -68,7 +81,7 @@ export async function PUT(
       console.error('Unexpected Error', e);
       return new Response(
         JSON.stringify({
-          message: 'Unknown Error',
+          message: e,
         }),
         {
           status: 500,
