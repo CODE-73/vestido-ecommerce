@@ -89,7 +89,7 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
 
   return (
     <div className="md:px-16">
-      <Breadcrumb className="p-3">
+      <Breadcrumb className={`${suggestedList ? 'hidden' : ''}   p-3`}>
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink href="/">Home</BreadcrumbLink>
