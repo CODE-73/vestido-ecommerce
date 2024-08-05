@@ -69,7 +69,7 @@ const FixedHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
         </div>
       )}
 
-      <div className="flex flex-1 gap-48 items-center px-10 " /* max-w-7xl*/>
+      <div className="flex flex-1 items-center px-10 " /* max-w-7xl*/>
         <Link href="/" className="self-center">
           {isMobile ? (
             <span>
@@ -109,7 +109,6 @@ const FixedHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
             />
           </div>
           <div className="flex">
-            {' '}
             <Link href="/user" className="text-black hover:text-[#48cab2] px-3">
               <LuUser2 size={24} />
             </Link>

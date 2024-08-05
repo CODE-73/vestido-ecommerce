@@ -22,7 +22,10 @@ import {
 } from 'react-icons/lu';
 import {} from 'react-icons/lu';
 
+import { Gender, useCategories } from '@vestido-ecommerce/items';
 import { Input } from '@vestido-ecommerce/shadcn-ui/input';
+
+import { ListItem } from '../components/Menubar';
 
 interface HeaderProps {
   cart_count: number | undefined;
@@ -36,6 +39,7 @@ const MobileHeader: React.FC<HeaderProps> = ({
   const [dropdownsOpen, setDropdownsOpen] = useState({
     men: false,
     women: false,
+    unisex: false,
   });
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
 
@@ -43,13 +47,32 @@ const MobileHeader: React.FC<HeaderProps> = ({
     setIsDrawerOpen(!isDrawerOpen);
   };
 
-  const toggleDropdown = (dropdown: 'men' | 'women') => {
+  const { data: categories } = useCategories();
+
+  //   const isMobile = useIsMobile();
+
+  const mainCategories = categories?.data?.filter(
+    (category) => category.parentCategoryId === null,
+  );
+
+  const getSubcategories = (categoryId: string, genders: Gender[]) => {
+    return categories?.data?.filter(
+      (subcategory) =>
+        subcategory.parentCategoryId === categoryId &&
+        genders.every((gender) => subcategory.gender.includes(gender)),
+    );
+  };
+
+  const toggleDropdown = (dropdown: 'men' | 'women' | 'unisex') => {
     setDropdownsOpen((prevState) => ({
       ...prevState,
       [dropdown]: !prevState[dropdown],
-      [dropdown === 'men' ? 'women' : 'men']: false,
+      men: dropdown === 'men' ? !prevState[dropdown] : false,
+      women: dropdown === 'women' ? !prevState[dropdown] : false,
+      unisex: dropdown === 'unisex' ? !prevState[dropdown] : false,
     }));
   };
+
   const toggleSearch = () => {
     if (isSearchExpanded) {
       setIsSearchExpanded(false);
@@ -96,14 +119,16 @@ const MobileHeader: React.FC<HeaderProps> = ({
         }`}
       >
         {/* Drawer Content */}
-        <div className="bg-white h-full w-80 fixed left-0 top-0 shadow-lg p-4 flex flex-col gap-5 uppercase font-bold tracking-wide text-slate-500">
-          <button
-            className="text-gray-400 flex gap-2 mb-10"
-            onClick={toggleDrawer}
-          >
-            <LuX size={24} />
-            Close
-          </button>
+        <div className="bg-white min-h-screen h-auto w-80 fixed left-0 top-0 shadow-lg p-4 pt-0 flex flex-col gap-5 uppercase font-bold tracking-wide text-slate-500">
+          <div className="sticky top-0 bg-white py-4 text-right">
+            <button
+              className="text-gray-400 flex gap-2 z-50"
+              onClick={toggleDrawer}
+            >
+              <LuX size={24} />
+              Close
+            </button>
+          </div>
           <hr />
           <Link href="/cart">
             <div
@@ -129,29 +154,37 @@ const MobileHeader: React.FC<HeaderProps> = ({
             {dropdownsOpen.men ? <LuChevronUp /> : <LuChevronDown />}
           </div>
           {dropdownsOpen.men && (
-            <div className="capitalize font-normal text-md">
-              <div
-                className="underline decoration-4 underline-offset-4"
-                onClick={toggleDrawer}
-              >
-                Topwears
-              </div>
-              <div className="flex flex-col pt-4 ">
-                <span onClick={toggleDrawer}>Formal Shirts</span>
-                <span onClick={toggleDrawer}>Casual Shirts</span>
-              </div>
-              <hr className="my-4" />
-              <div
-                onClick={toggleDrawer}
-                className="underline decoration-4 underline-offset-4"
-              >
-                Bottomwears
-              </div>
-              <div className="flex flex-col pt-4 ">
-                <span onClick={toggleDrawer}>Formal Pants</span>
-                <span onClick={toggleDrawer}>Casual Pants</span>
-              </div>
-            </div>
+            <>
+              {mainCategories
+                ?.filter((category) => category.gender.includes('MEN'))
+                .map((category, index) => (
+                  <div key={index}>
+                    <div
+                      onClick={toggleDrawer}
+                      className=" text-stone-500 capitalize hover:text-[#48cab2] px-2 cursor-pointer"
+                    >
+                      <Link href={`/${category.id}`}>{category.name}</Link>
+                    </div>
+
+                    <ul className="text-stone-500 capitalize py-3 md:w-[200px] lg:w-[200px]">
+                      {getSubcategories(category.id, ['MEN'])?.map(
+                        (subcategory, subIndex) => (
+                          <div
+                            key={subIndex}
+                            onClick={toggleDrawer}
+                            className="hover:text-green-300"
+                          >
+                            <ListItem
+                              href={`/${subcategory.id}`}
+                              title={subcategory.name}
+                            />
+                          </div>
+                        ),
+                      )}
+                    </ul>
+                  </div>
+                ))}
+            </>
           )}
           <div
             className="flex justify-between"
@@ -164,15 +197,90 @@ const MobileHeader: React.FC<HeaderProps> = ({
             {dropdownsOpen.women ? <LuChevronUp /> : <LuChevronDown />}
           </div>
           {dropdownsOpen.women && (
-            <div className="capitalize font-normal text-md">
-              <div className="flex flex-col gap-4 pt-4 ">
-                <span onClick={toggleDrawer}>A-line dresses</span>
-                <span onClick={toggleDrawer}>Bodycon Dresses</span>
-                <span onClick={toggleDrawer}>Floral Dresses</span>
-                <span onClick={toggleDrawer}>Cocktail Dresses</span>
-              </div>
-            </div>
+            <>
+              {mainCategories
+                ?.filter((category) => category.gender.includes('WOMEN'))
+                .map((category, index) => (
+                  <div key={index}>
+                    <div
+                      onClick={toggleDrawer}
+                      className=" text-stone-500 capitalize hover:text-[#48cab2] px-2 cursor-pointer"
+                    >
+                      <Link href={`/${category.id}`}>{category.name}</Link>
+                    </div>
+
+                    <ul className="text-stone-500 capitalize py-3 md:w-[200px] lg:w-[200px]">
+                      {getSubcategories(category.id, ['WOMEN'])?.map(
+                        (subcategory, subIndex) => (
+                          <div
+                            key={subIndex}
+                            onClick={toggleDrawer}
+                            className="hover:text-green-300"
+                          >
+                            <ListItem
+                              href={`/${subcategory.id}`}
+                              title={subcategory.name}
+                            />
+                          </div>
+                        ),
+                      )}
+                    </ul>
+                  </div>
+                ))}
+            </>
           )}
+          <div
+            className="flex justify-between"
+            onClick={() => toggleDropdown('unisex')}
+          >
+            <div className=" flex items-center gap-3">
+              <div className="flex gap-0">
+                <AiOutlineWoman size={23} className="-mr-3.5" />
+                <AiOutlineMan size={23} className="-mt-1.5" />
+              </div>
+              Unisex
+            </div>
+            {dropdownsOpen.unisex ? <LuChevronUp /> : <LuChevronDown />}
+          </div>
+          {dropdownsOpen.unisex && (
+            <>
+              {mainCategories
+                ?.filter(
+                  (category) =>
+                    category.gender.includes('MEN') &&
+                    category.gender.includes('WOMEN'),
+                )
+                .map((category, index) => (
+                  <div key={index}>
+                    <div
+                      onClick={toggleDrawer}
+                      className=" capitalize hover:text-[#48cab2] px-2 cursor-pointer"
+                    >
+                      <Link href={`/${category.id}`}>{category.name}</Link>
+                    </div>
+                    {getSubcategories(category.id, ['MEN', 'WOMEN']) && (
+                      <ul className=" capitalize py-3 md:w-[200px] lg:w-[200px]">
+                        {getSubcategories(category.id, ['MEN', 'WOMEN'])?.map(
+                          (subcategory, subIndex) => (
+                            <div
+                              key={subIndex}
+                              className="hover:text-green-300"
+                              onClick={toggleDrawer}
+                            >
+                              <ListItem
+                                href={`/${subcategory.id}`}
+                                title={subcategory.name}
+                              />
+                            </div>
+                          ),
+                        )}
+                      </ul>
+                    )}
+                  </div>
+                ))}
+            </>
+          )}
+
           <hr />
           <div
             onClick={toggleDrawer}
