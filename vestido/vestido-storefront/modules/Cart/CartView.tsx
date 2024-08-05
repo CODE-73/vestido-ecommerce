@@ -6,9 +6,21 @@ import { LuChevronLeft, LuMinus, LuPlus, LuTrash2 } from 'react-icons/lu';
 
 import {
   useAddToCart,
+  useAddToWishlist,
   useCart,
   useRemoveFromCart,
 } from '@vestido-ecommerce/items';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@vestido-ecommerce/shadcn-ui/alert-dialog';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
@@ -21,6 +33,7 @@ const CartView: React.FC = () => {
   const { trigger } = useRemoveFromCart();
 
   const { trigger: addCartTrigger } = useAddToCart();
+  const { trigger: wishlistTrigger } = useAddToWishlist();
 
   const totalPrice =
     cartItems?.data.reduce((total, item) => {
@@ -47,6 +60,11 @@ const CartView: React.FC = () => {
     });
     console.log('parameters', itemId, qty, variantId);
   };
+  const handleAddToWishlist = (itemId: string) => {
+    wishlistTrigger({
+      itemId: itemId,
+    });
+  };
 
   return (
     <div>
@@ -65,17 +83,42 @@ const CartView: React.FC = () => {
                   <div className="border-t border-gray-300 py-2"></div>
                 </div>
                 <div className="grid gap-2 grid-cols-9 items-center">
-                  <div
-                    onClick={() =>
-                      handleRemoveFromCart(
-                        cartItem.itemId,
-                        cartItem.variantId!,
-                        'full',
-                      )
-                    }
-                    className="col-span-1 flex justify-center cursor-pointer"
-                  >
-                    <LuTrash2 />
+                  <div className="col-span-1 flex justify-center cursor-pointer">
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <LuTrash2 size={24} />
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>
+                            Are you sure you want to delete this item from cart?
+                          </AlertDialogTitle>
+                          <AlertDialogDescription>
+                            You can move this to wishlist for future.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+
+                          <AlertDialogAction
+                            onClick={() =>
+                              handleRemoveFromCart(
+                                cartItem.itemId,
+                                cartItem.variantId!,
+                                'full',
+                              )
+                            }
+                          >
+                            Remove
+                          </AlertDialogAction>
+                          <AlertDialogAction
+                            onClick={() => handleAddToWishlist(cartItem.itemId)}
+                          >
+                            Move to wishlist
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                   </div>
                   <Link href={`/products/${cartItem.itemId}`}>
                     {' '}

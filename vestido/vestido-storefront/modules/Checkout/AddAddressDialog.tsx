@@ -10,6 +10,7 @@ import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from '@vestido-ecommerce/shadcn-ui/dialog';
@@ -150,9 +151,11 @@ const AddAddressDialog: React.FC<AddressFormProps> = ({ addressId, isNew }) => {
                   label="Set this as your default address"
                 />
               </div>
-              <Button className="flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 font-extrabold hover:text-black text-white justify-center">
-                {isNew ? 'ADD ADDRESS' : 'UPDATE'}
-              </Button>
+              <DialogFooter>
+                <Button className="flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 font-extrabold hover:text-black text-white justify-center">
+                  {isNew ? 'ADD ADDRESS' : 'UPDATE'}
+                </Button>
+              </DialogFooter>
             </form>
           </Form>
         </DialogContent>
