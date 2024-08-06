@@ -46,7 +46,7 @@ const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
           size={24}
         />
       </div>
-      <div className="flex ">
+      <div className="flex">
         <Link href="/user" className="text-white hover:text-[#48cab2] px-3">
           <LuUser2 size={24} />
         </Link>
