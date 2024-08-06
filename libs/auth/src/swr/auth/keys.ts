@@ -9,3 +9,8 @@ export enum LoginSWRKeys {
 export enum SignupSWRKeys {
   SIGNUP = 'signup',
 }
+
+export enum GetProfileSWRKeys {
+  PROFILE = 'profile',
+  DETAILS = 'details',
+}
