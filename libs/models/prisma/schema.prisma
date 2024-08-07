@@ -256,3 +256,13 @@ model ContactUs {
     customer   Profile? @relation(fields: [customerId], references: [id])
     customerId String?  @db.Uuid
 }
+
+model PrismaSeed {
+  id          String   @id @default(uuid())
+  finished_at DateTime @default(now())
+  checksum    String
+
+  seed_name String @unique
+
+  @@map("_prisma_seeds")
+}
