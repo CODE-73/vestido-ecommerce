@@ -1,36 +1,51 @@
 import * as React from 'react';
 import { useState } from 'react';
+import Link from 'next/link';
+
+import { AiOutlineUser } from 'react-icons/ai';
+import { FaRegHeart } from 'react-icons/fa';
+import { MdLocationOn } from 'react-icons/md';
+import { PiPackage } from 'react-icons/pi';
 
 import { useProfile } from '@vestido-ecommerce/auth';
+import { Button } from '@vestido-ecommerce/shadcn-ui/button';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@vestido-ecommerce/shadcn-ui/tabs';
 
-import ProfileOverview from './Overview';
+import OrdersView from './Orders';
+
+const nav_items = [
+  {
+    title: 'Orders',
+    icon: <PiPackage size={32} />,
+    link: 'Orders & Returns',
+    value: 'orders',
+  },
+  { title: 'Wishlist', icon: <FaRegHeart size={32} />, value: '' },
+  {
+    title: 'Addresses',
+    icon: <MdLocationOn size={32} />,
+    link: 'Addresses',
+    value: 'addresses',
+  },
+  {
+    title: 'Profile',
+    icon: <AiOutlineUser size={32} />,
+    link: 'Profile',
+    value: 'profile',
+  },
+];
 
 const ProfileView: React.FC = () => {
   const { data } = useProfile();
   const currentUser = data?.data;
-  const [selectedNav, setSelectedNav] = useState('Overview');
+  const [selectedNav, setSelectedNav] = useState('overview');
   console.log(selectedNav, 'selected');
 
-  const renderContent = () => {
-    switch (selectedNav) {
-      case 'Overview':
-        return <ProfileOverview user={currentUser} />;
-      case 'Orders & Returns':
-        return <div>Orders & Returns Content</div>;
-      case 'Profile':
-        return <div>Profile Content</div>;
-      case 'Addresses':
-        return <div>Addresses Content</div>;
-      case 'Delete Account':
-        return <div>Delete Account Content</div>;
-      // case 'Terms of Use':
-      //   return <div>Terms of Use Content</div>;
-      // case 'Privacy Policy':
-      //   return <div>Privacy Policy Content</div>;
-      default:
-        return <div>Overview Content</div>;
-    }
-  };
   return (
     <>
       <div className="hidden md:block 2xl:px-72 my-20">
@@ -39,112 +54,98 @@ const ProfileView: React.FC = () => {
           {currentUser?.firstName}&nbsp; {currentUser?.lastName}
         </div>
         <hr />
-        {/* <div className="flex divide-x gap-3 ">
-          <div className="basis-1/5 grid grid-col-1 space-y-10 divide-y">
-            <div className="self-center justify-self-center h-full">
-              Overview
-            </div>
-            <div className="self-center justify-self-center">Overview</div>
 
-            <div className="self-center justify-self-center">Overview</div>
-          </div>
-
-          <div className="basis-4/5 px-4">content</div>
-        </div> */}
-
-        {/* Sidebar */}
-        <div className="flex divide-x gap-3 ">
-          <aside className="w-64 basis-1/4 p-4">
-            <nav>
+        <Tabs
+          value={selectedNav}
+          onValueChange={setSelectedNav}
+          defaultValue="overview"
+          className="flex divide-x gap-3 bg-transparent min-h-[400px]"
+        >
+          <div className="w-64 basis-1/4 p-4">
+            <TabsList className="flex flex-col bg-transparent justify-start items-start">
+              <TabsTrigger
+                className="bg-transparent border-none data-[state=active]:border-none data-[state=active]:text-[#48cab2] text-lg hover:text-[#48cab2] my-4 px-0"
+                value="overview"
+              >
+                Overview
+              </TabsTrigger>
+              <div>ORDERS</div>
+              <TabsTrigger
+                className="bg-transparent border-none data-[state=active]:border-none data-[state=active]:text-[#48cab2] text-lg hover:text-[#48cab2] my-4 px-0"
+                value="orders"
+              >
+                Orders & Returns
+              </TabsTrigger>
+              <div>ACCOUNT</div>
+              <TabsTrigger
+                className="bg-transparent border-none data-[state=active]:border-none data-[state=active]:text-[#48cab2] text-lg hover:text-[#48cab2] mt-4 mb-1 px-0"
+                value="profile"
+              >
+                Profile
+              </TabsTrigger>
+              <TabsTrigger
+                className="bg-transparent border-none data-[state=active]:border-none data-[state=active]:text-[#48cab2] text-lg hover:text-[#48cab2] my-1 px-0"
+                value="addresses"
+              >
+                Addresses
+              </TabsTrigger>
+              <TabsTrigger
+                className="bg-transparent border-none data-[state=active]:border-none data-[state=active]:text-[#48cab2] text-lg hover:text-[#48cab2] my-1 px-0"
+                value="delete"
+              >
+                Delete Account
+              </TabsTrigger>
+              <div>LEGAL</div>
               <ul>
-                <li className="mb-4">
-                  <a
-                    href="#"
-                    className={`${
-                      selectedNav === 'Overview'
-                        ? 'text-[#48CAB2] font-semibold'
-                        : 'text-gray-700 hover:text-[#48CAB2]'
-                    }`}
-                    onClick={() => setSelectedNav('Overview')}
+                <li className="my-4">
+                  <Link
+                    href="/privacy_policy"
+                    className="text-lg hover:text-[#48cab2] "
                   >
-                    Overview
-                  </a>
-                </li>
-                <hr className="my-4" />
-                <div className="mb-4 uppercase">ORDERS</div>
-                <li className="mb-4">
-                  <a
-                    href="#"
-                    className={`${
-                      selectedNav === 'Orders & Returns'
-                        ? 'text-[#48CAB2] font-semibold'
-                        : 'text-gray-700 hover:text-[#48CAB2]'
-                    }`}
-                    onClick={() => setSelectedNav('Orders & Returns')}
-                  >
-                    Orders & Returns
-                  </a>
-                </li>
-                <hr className="my-4" />
-                <div className="mb-4 uppercase">ACCOUNT</div>
-                <li className="mb-4">
-                  <a
-                    href="#"
-                    className={`${
-                      selectedNav === 'Profile'
-                        ? 'text-[#48CAB2] font-semibold'
-                        : 'text-gray-700 hover:text-[#48CAB2]'
-                    }`}
-                    onClick={() => setSelectedNav('Profile')}
-                  >
-                    Profile
-                  </a>
-                </li>
-                <li className="mb-4">
-                  <a
-                    href="#"
-                    className={`${
-                      selectedNav === 'Addresses'
-                        ? 'text-[#48CAB2] font-semibold'
-                        : 'text-gray-700 hover:text-[#48CAB2]'
-                    }`}
-                    onClick={() => setSelectedNav('Addresses')}
-                  >
-                    Addresses
-                  </a>
-                </li>
-                <li className="mb-4">
-                  <a
-                    href="#"
-                    className={`${
-                      selectedNav === 'Delete Account'
-                        ? 'text-[#48CAB2] font-semibold'
-                        : 'text-gray-700 hover:text-[#48CAB2]'
-                    }`}
-                    onClick={() => setSelectedNav('Delete Account')}
-                  >
-                    Delete Account
-                  </a>
-                </li>
-              </ul>
-              <hr className="my-4" />
-              <div className="mb-4 uppercase">LEGAL</div>
-              <ul>
-                <li className="mb-4">
-                  <a href="#" className="text-gray-700 hover:text-[#48CAB2]">
                     Terms of Use
-                  </a>
+                  </Link>
                 </li>
                 <li className="mb-4">
-                  <a href="#" className="text-gray-700 hover:text-[#48CAB2]">
+                  <Link
+                    href="/privacy_policy"
+                    className=" text-lg hover:text-[#48cab2]"
+                  >
                     Privacy Policy
-                  </a>
+                  </Link>
                 </li>
               </ul>
-            </nav>
-          </aside>
-          <div className="basis-4/5 px-4">{renderContent()}</div>
-        </div>
+            </TabsList>
+          </div>
+          <div className="basis-4/5 px-4">
+            <TabsContent value="overview">
+              <div className="grid grid-cols-4 mt-3  gap-4 justify-center items-center">
+                <div className="flex items-center justify-between col-span-4 border border-1 border-stone-300 shadow p-10">
+                  <div className="flex gap-2 items-center text-xl font-semibold">
+                    <div className="h-20 w-20 flex border border-1 justify-center items-center ">
+                      <AiOutlineUser size={40} />
+                    </div>
+                    {currentUser?.email ??
+                      currentUser?.mobile ??
+                      currentUser?.firstName}
+                  </div>
+                  <Button>Edit Profile</Button>
+                </div>
+                {nav_items.map((nav_item, index) => (
+                  <div
+                    key={index}
+                    className="cursor flex gap-2 justify-center items-center border border-2  hover:border-[#48CAB2] border-stone-300 shadow py-20 xl:py-24 text-xl font-semibold text-gray-500  hover:text-[#48CAB2] cursor-pointer"
+                    onClick={() => setSelectedNav(nav_item.value)}
+                  >
+                    {nav_item.icon} {nav_item.title}
+                  </div>
+                ))}
+              </div>
+            </TabsContent>
+            <TabsContent value="orders">
+              <OrdersView profileId={currentUser?.id ?? ''} />
+            </TabsContent>
+          </div>
+        </Tabs>
       </div>
       <div className="md:hidden">Hi</div>
     </>
