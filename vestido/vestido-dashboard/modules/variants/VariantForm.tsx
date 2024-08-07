@@ -106,6 +106,7 @@ const VariantForm: React.FC<VariantFormProps> = ({
         discountPercent: variant.discountPercent,
         discountedPrice: variant.discountedPrice,
         slug: variant.slug,
+        sku: variant.sku,
       });
     }
   }, [isNew, variant, form]);

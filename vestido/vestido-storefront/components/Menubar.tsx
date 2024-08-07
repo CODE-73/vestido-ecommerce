@@ -14,7 +14,7 @@ type ListItemProps = {
   href: string;
   title: string;
 };
-const ListItem: React.FC<ListItemProps> = ({ href, title }) => (
+export const ListItem: React.FC<ListItemProps> = ({ href, title }) => (
   <li className="row-span-3">
     <Link
       className="flex select-none flex-col justify-start md:justify-end rounded-md  pl-3 no-underline outline-none focus:shadow-md"
@@ -119,7 +119,7 @@ const HeaderMenubar: React.FC<NavMenuProps> = ({ isFixed }) => {
                 </ul>
               </div>
             ))}
-        </MenubarContent>{' '}
+        </MenubarContent>
       </MenubarMenu>
 
       <MenubarMenu>

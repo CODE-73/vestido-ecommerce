@@ -9,7 +9,7 @@ import * as z from 'zod';
 import { useItemUpsert } from '@vestido-ecommerce/items';
 import { useItem } from '@vestido-ecommerce/items';
 import { Genders } from '@vestido-ecommerce/items';
-import { useVariants } from '@vestido-ecommerce/items';
+// import { useVariants } from '@vestido-ecommerce/items';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Checkbox } from '@vestido-ecommerce/shadcn-ui/checkbox';
 import {
@@ -114,9 +114,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
     isNew ? null : itemId,
   );
 
-  const { data: variants } = useVariants(itemId ?? '');
-
-  const no_of_variants = variants?.data.length ?? 0;
+  // const { data: variants } = useVariants(itemId ?? '');
+  // const no_of_variants = variants?.data.length ?? 0;
 
   useEffect(() => {
     if (!isNew && item) {
@@ -279,7 +278,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
             />
             <div>
               <SwitchElement
-                disabled={!isNew && no_of_variants > 0}
+                // disabled={!isNew && no_of_variants > 0}
                 name="hasVariants"
                 label="Has Variant(s)"
               />

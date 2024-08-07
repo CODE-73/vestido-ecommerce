@@ -43,7 +43,7 @@ const HomePage: React.FC = () => {
     });
   };
 
-  const height = '650px';
+  const height = '700px';
 
   return (
     <div className="flex flex-col justify-center ">
@@ -54,7 +54,7 @@ const HomePage: React.FC = () => {
 
       <PopularCollection className="pt-16 px-1 sm:px-0" />
       <div style={{ height: height, minHeight: height }}>
-        <HorizontalScrollCards className="w-full relative my-24 px-1 sm:px-0" />
+        <HorizontalScrollCards className="w-full relative mt-20 px-1 sm:px-0" />
       </div>
       {!isMobile && showBackToTop && <BackToTopButton onClick={scrollToTop} />}
     </div>

@@ -19,6 +19,7 @@ type AddToCartDialogProps = {
 export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({ itemId }) => {
   const { data } = useItem(itemId);
 
+  const [isDialogOpen, setIsDialogOpen] = useState(true);
   const item = data?.data;
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(
     null,
@@ -102,87 +103,96 @@ export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({ itemId }) => {
   console.log('selectedVariantId now', selectedVariantId);
   const handleAddToCart = () => {
     if (item) {
+      console.log(item);
       cartTrigger({
         itemId: item.id,
         qty: 1,
         variantId: selectedVariantId ?? null,
       });
     }
+    setIsDialogOpen(false);
     console.log('handleAddToCart');
   };
 
   console.log('data', data);
 
   return (
-    <DialogContent className="sm:max-w-[425px]">
-      <DialogHeader>
-        <DialogTitle>
-          <div className="flex">
-            <Image
-              className=" px-2 w-1/5"
-              src={((item?.images ?? []) as ImageSchemaType[])[0]?.url ?? ''}
-              alt="alt text"
-              width={90}
-              height={115}
-            />
-            <div className="flex flex-col gap-4 ">
-              <div className="font-normal">{item?.title}</div>
+    <>
+      {isDialogOpen && (
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>
               <div className="flex">
-                {item?.discountedPrice?.toFixed(2) ?? item?.price.toFixed(2)}
-                {item?.discountedPrice &&
-                  item?.discountedPrice < item?.price &&
-                  item?.discountedPrice > 0 && (
-                    <div className="font-normal line-through text-sm">
-                      {item.price.toFixed(2)}
-                    </div>
-                  )}
+                <Image
+                  className=" px-2 w-1/5"
+                  src={
+                    ((item?.images ?? []) as ImageSchemaType[])[0]?.url ?? ''
+                  }
+                  alt="alt text"
+                  width={90}
+                  height={115}
+                />
+                <div className="flex flex-col gap-4 ">
+                  <div className="font-normal">{item?.title}</div>
+                  <div className="flex">
+                    {item?.discountedPrice?.toFixed(2) ??
+                      item?.price.toFixed(2)}
+                    {item?.discountedPrice &&
+                      item?.discountedPrice < item?.price &&
+                      item?.discountedPrice > 0 && (
+                        <div className="font-normal line-through text-sm">
+                          {item.price.toFixed(2)}
+                        </div>
+                      )}
+                  </div>
+                </div>
               </div>
+            </DialogTitle>
+          </DialogHeader>
+          <hr />
+
+          <div className="grid grid-cols-4 items-center gap-4 -mt-5">
+            <div className="mt-5 flex flex-col gap-2">
+              {Object.keys(attributeMap).map((attributeId) => (
+                <>
+                  <strong>Select&nbsp;{attributeMap[attributeId].name}:</strong>
+                  <div key={attributeId} className="flex gap-2">
+                    {attributeMap[attributeId].values.map((value, index) => (
+                      <div
+                        key={index}
+                        onClick={() => changeToVariant(attributeId, value.id)}
+                        className={`flex flex-col border border-2 rounded-3xl m-1 cursor-pointer ${
+                          selectedVariant?.attributeValues.some(
+                            (attrVal) =>
+                              attrVal.attributeId === attributeId &&
+                              attrVal.attributeValue.id === value.id,
+                          )
+                            ? 'border-[#48CAB2] text-[#48CAB2] '
+                            : 'border-zinc-100 hover:border-[#48CAB2] hover:text-[#48CAB2]'
+                        }`}
+                      >
+                        <div className="text-sm font-semibold border border-1 border-stone-200 rounded-3xl py-2 px-4 ">
+                          {value.value}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              ))}
             </div>
           </div>
-        </DialogTitle>
-      </DialogHeader>
-      <hr />
 
-      <div className="grid grid-cols-4 items-center gap-4 -mt-5">
-        <div className="mt-5 flex flex-col gap-2">
-          {Object.keys(attributeMap).map((attributeId) => (
-            <>
-              <strong>Select&nbsp;{attributeMap[attributeId].name}:</strong>
-              <div key={attributeId} className="flex gap-2">
-                {attributeMap[attributeId].values.map((value, index) => (
-                  <div
-                    key={index}
-                    onClick={() => changeToVariant(attributeId, value.id)}
-                    className={`flex flex-col border border-2 rounded-3xl m-1 cursor-pointer ${
-                      selectedVariant?.attributeValues.some(
-                        (attrVal) =>
-                          attrVal.attributeId === attributeId &&
-                          attrVal.attributeValue.id === value.id,
-                      )
-                        ? 'border-[#48CAB2] text-[#48CAB2] '
-                        : 'border-zinc-100 hover:border-[#48CAB2] hover:text-[#48CAB2]'
-                    }`}
-                  >
-                    <div className="text-sm font-semibold border border-1 border-stone-200 rounded-3xl py-2 px-4 ">
-                      {value.value}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </>
-          ))}
-        </div>
-      </div>
-
-      <DialogFooter>
-        <Button
-          onClick={() => handleAddToCart()}
-          className="bg-[#48CAB2] w-full flex gap-3 text-lg my-1 text-white px-2 py-6 font-bold hover:bg-[#48CAB2] rounded-none"
-        >
-          <LuShoppingBag color="#fff" size={24} />
-          <div> Add to Cart</div>
-        </Button>
-      </DialogFooter>
-    </DialogContent>
+          <DialogFooter>
+            <Button
+              onClick={() => handleAddToCart()}
+              className="bg-[#48CAB2] w-full flex gap-3 text-lg my-1 text-white px-2 py-6 font-bold hover:bg-[#48CAB2] rounded-none"
+            >
+              <LuShoppingBag color="#fff" size={24} />
+              <div> Add to Cart</div>
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      )}
+    </>
   );
 };
