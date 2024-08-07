@@ -1,9 +1,6 @@
-import {
-  verifyPaymentRequest,
-  verifyPaymentResponse,
-} from 'libs/razorpay/src/services';
-
 import axios from 'axios'; // Import Axios
+
+import { verifyPaymentRequest, verifyPaymentResponse } from '../../../services';
 
 export async function verifyPayment(
   args: verifyPaymentRequest,

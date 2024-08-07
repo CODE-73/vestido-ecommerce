@@ -10,13 +10,14 @@ import { z } from 'zod';
 
 import { useCart } from '@vestido-ecommerce/items';
 import {
-  // useAddresses,
+  useCreateCOD,
   useCreateOrder,
   useShippingCharges,
 } from '@vestido-ecommerce/orders';
-import { useRazorpayCreateOrder } from '@vestido-ecommerce/razorpay';
-import { useVerifyPayment } from './../../../../libs/razorpay/src/swr/razorpay-order/verify-payment';
-import { useCreateCOD } from './../../../../libs/orders/src/swr/cod';
+import {
+  useRazorpayCreateOrder,
+  useVerifyPayment,
+} from '@vestido-ecommerce/razorpay';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Dialog, DialogTrigger } from '@vestido-ecommerce/shadcn-ui/dialog';
 import { Form } from '@vestido-ecommerce/shadcn-ui/form';

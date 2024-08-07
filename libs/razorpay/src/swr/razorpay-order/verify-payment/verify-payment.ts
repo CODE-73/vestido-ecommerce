@@ -1,11 +1,10 @@
 import useSWRMutation from 'swr/mutation';
-import {
-  verifyPaymentRequest,
-  verifyPaymentResponse,
-} from 'libs/razorpay/src/services';
-import { CreateRPOrderSWRKeys } from '../key';
-import { useClearCacheOnSuccess } from '@vestido-ecommerce/utils';
+
 import { useAuth } from '@vestido-ecommerce/auth';
+import { useClearCacheOnSuccess } from '@vestido-ecommerce/utils';
+
+import { verifyPaymentRequest, verifyPaymentResponse } from '../../../services';
+import { CreateRPOrderSWRKeys } from '../key';
 import { verifyPayment } from './service';
 
 export const useVerifyPayment = () => {

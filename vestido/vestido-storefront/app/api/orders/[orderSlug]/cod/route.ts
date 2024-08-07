@@ -1,9 +1,8 @@
 import { ZodError } from 'zod';
 
-import { createCOD } from './../../../../../../../libs/orders/src/services';
+import { createCOD, verifyOrderExist } from '@vestido-ecommerce/orders';
 
 import { verifyAuth } from '../../../verify-auth';
-import { verifyOrderExist } from './../../../../../../../libs/orders/src/services';
 
 export async function POST(
   request: Request,

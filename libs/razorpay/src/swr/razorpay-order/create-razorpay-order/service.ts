@@ -1,9 +1,6 @@
-import {
-  CreateRPOrderRequest,
-  CreateRPOrderResponse,
-} from 'libs/razorpay/src/services';
+import axios from 'axios';
 
-import axios from 'axios'; // Import Axios
+import { CreateRPOrderRequest, CreateRPOrderResponse } from '../../../services';
 
 export async function createNewRazorpayOrder(
   args: CreateRPOrderRequest,

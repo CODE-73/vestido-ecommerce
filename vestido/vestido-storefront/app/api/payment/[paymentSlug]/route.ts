@@ -1,9 +1,9 @@
 import { ZodError } from 'zod';
 
+import { verifyPaymentExist } from '@vestido-ecommerce/orders';
 import { verifySignature } from '@vestido-ecommerce/razorpay';
 
 import { verifyAuth } from '../../verify-auth';
-import { verifyPaymentExist } from './../../../../../../libs/orders/src/services/payment/get-payment';
 
 export async function POST(
   request: Request,
