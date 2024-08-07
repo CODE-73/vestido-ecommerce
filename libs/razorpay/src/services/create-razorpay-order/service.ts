@@ -12,8 +12,7 @@ export async function createRazorpayOrder(data: CreateRPOrderRequest) {
   });
 
   const prisma = getPrismaClient();
-
-  const validatedData = CreateRPOrderSchema.parse(data);
+  const validatedData = CreateRPOrderSchema.parse(data.razorpayData);
 
   const { amount, currency } = validatedData;
 
@@ -21,17 +20,27 @@ export async function createRazorpayOrder(data: CreateRPOrderRequest) {
     amount,
     currency,
   };
-
   const resp = await razorpay.orders.create(options);
-
-  await prisma.payment.update({
-    where: {
-      orderId: validatedData.orderId,
-    },
-    data: {
-      paymentGatewayRef: resp.id,
-    },
-  });
-
-  return resp.id;
+  if (resp.status == 'created') {
+    const newPayment = await prisma.payment.create({
+      data: {
+        order: {
+          connect: {
+            id: validatedData.orderId,
+          },
+        },
+        paymentGateway: 'Razorpay',
+        paymentGatewayRef: resp.id,
+        moreDetails: 'Null',
+        currency: resp.currency,
+        amount: validatedData.amount,
+        status: resp.status,
+      },
+    });
+    const response = {
+      razorpayOrderId: resp.id,
+      paymentId: newPayment.id,
+    };
+    return response;
+  } else return null;
 }

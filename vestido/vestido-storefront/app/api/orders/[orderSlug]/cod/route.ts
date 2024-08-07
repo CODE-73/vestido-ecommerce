@@ -1,7 +1,6 @@
 import { ZodError } from 'zod';
 
-import { verifyOrderExist } from '@vestido-ecommerce/orders';
-import { createRazorpayOrder } from '@vestido-ecommerce/razorpay';
+import { createCOD, verifyOrderExist } from '@vestido-ecommerce/orders';
 
 import { verifyAuth } from '../../../verify-auth';
 
@@ -31,12 +30,17 @@ export async function POST(
         },
       });
     }
-    const rpOrderId = await createRazorpayOrder(body);
-    return new Response(JSON.stringify({ success: true, data: rpOrderId }), {
-      headers: {
-        'Content-Type': 'application/json',
+
+    const paymentId = await createCOD(body);
+
+    return new Response(
+      JSON.stringify({ success: true, paymentId: paymentId }),
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
       },
-    });
+    );
   } catch (e) {
     if (e instanceof ZodError) {
       return new Response(JSON.stringify(e), {

@@ -1,5 +1,10 @@
 import { CreateRPOrderSchemaType } from './zod';
 
 export type CreateRPOrderRequest = {
-  data: CreateRPOrderSchemaType;
+  razorpayData: CreateRPOrderSchemaType;
+};
+
+export type CreateRPOrderResponse = {
+  paymentId: string;
+  razorpayOrderId: string;
 };
