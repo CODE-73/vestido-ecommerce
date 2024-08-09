@@ -97,7 +97,12 @@ const MobileHeader: React.FC<HeaderProps> = ({
         </button>
 
         <Link href="/">
-          <Image src="/assets/favico.ico" alt="Logo" width="25" height="35" />
+          <Image
+            src="/assets/black-logo.png"
+            alt="Logo"
+            width="200"
+            height="35"
+          />
         </Link>
 
         <LuSearch size={30} onClick={toggleSearch} className="z-50" />
@@ -161,12 +166,12 @@ const MobileHeader: React.FC<HeaderProps> = ({
                   <div key={index}>
                     <div
                       onClick={toggleDrawer}
-                      className=" text-stone-500 capitalize hover:text-[#48cab2] px-2 cursor-pointer"
+                      className=" capitalize hover:text-[#48cab2] px-2 cursor-pointer"
                     >
                       <Link href={`/${category.id}`}>{category.name}</Link>
                     </div>
 
-                    <ul className="text-stone-500 capitalize py-3 md:w-[200px] lg:w-[200px]">
+                    <ul className="capitalize py-3 md:w-[200px] lg:w-[200px]">
                       {getSubcategories(category.id, ['MEN'])?.map(
                         (subcategory, subIndex) => (
                           <div
@@ -204,12 +209,12 @@ const MobileHeader: React.FC<HeaderProps> = ({
                   <div key={index}>
                     <div
                       onClick={toggleDrawer}
-                      className=" text-stone-500 capitalize hover:text-[#48cab2] px-2 cursor-pointer"
+                      className="capitalize hover:text-[#48cab2] px-2 cursor-pointer"
                     >
                       <Link href={`/${category.id}`}>{category.name}</Link>
                     </div>
 
-                    <ul className="text-stone-500 capitalize py-3 md:w-[200px] lg:w-[200px]">
+                    <ul className=" capitalize py-3 md:w-[200px] lg:w-[200px]">
                       {getSubcategories(category.id, ['WOMEN'])?.map(
                         (subcategory, subIndex) => (
                           <div

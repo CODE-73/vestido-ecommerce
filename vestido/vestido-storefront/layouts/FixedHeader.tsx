@@ -74,7 +74,7 @@ const FixedHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
           {isMobile ? (
             <span>
               <Image
-                src="/assets/favico.ico"
+                src="/assets/black-logo.png"
                 alt="Logo"
                 width="25"
                 height="35"
