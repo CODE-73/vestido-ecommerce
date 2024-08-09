@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Gender, StockStatus } from '@prisma/client';
 import { useForm } from 'react-hook-form';
+import { LuChevronLeft } from 'react-icons/lu';
 import * as z from 'zod';
 
 import { useItemUpsert } from '@vestido-ecommerce/items';
@@ -163,9 +164,16 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
 
   return (
     <Form {...form}>
+      <div
+        onClick={() => router.back()}
+        className="flex gap-1 items-center mt-12 mb-4 ml-4 cursor-pointer"
+      >
+        <LuChevronLeft />
+        Back
+      </div>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="flex flex-col justify-center w-full text-lg mt-16 bg-slate-200 px-5 py-10"
+        className="flex flex-col justify-center w-full text-lg  bg-slate-200 px-5 py-10"
       >
         <div className="text-2xl font-semibold capitalize flex justify-between">
           {isNew ? 'Add New Product' : item?.title}{' '}

@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Gender } from '@prisma/client';
 import { useForm } from 'react-hook-form';
+import { LuChevronLeft } from 'react-icons/lu';
 import * as z from 'zod';
 
 import { useCategoryUpsert } from '@vestido-ecommerce/items';
@@ -114,6 +115,13 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
 
   return (
     <Form {...form}>
+      <div
+        onClick={() => router.back()}
+        className="flex gap-1 items-center mt-12 mb-4 ml-4 cursor-pointer"
+      >
+        <LuChevronLeft />
+        Back
+      </div>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
         className="flex flex-col justify-center w-full text-lg mt-16 bg-slate-200 px-5 py-10"

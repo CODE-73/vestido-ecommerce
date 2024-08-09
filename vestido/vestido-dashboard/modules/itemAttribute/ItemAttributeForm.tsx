@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
-import { LuFileEdit, LuPlus, LuTrash } from 'react-icons/lu';
+import { LuChevronLeft, LuFileEdit, LuPlus, LuTrash } from 'react-icons/lu';
 import { z } from 'zod';
 
 import { useAttribute, useAttributeUpsert } from '@vestido-ecommerce/items';
@@ -103,6 +103,13 @@ const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
 
   return (
     <Form {...form}>
+      <div
+        onClick={() => router.back()}
+        className="flex gap-1 items-center mt-12 mb-4 ml-4 cursor-pointer"
+      >
+        <LuChevronLeft />
+        Back
+      </div>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
         className="flex flex-col justify-center w-full space-y-8 mt-16 bg-slate-200 p-5"
