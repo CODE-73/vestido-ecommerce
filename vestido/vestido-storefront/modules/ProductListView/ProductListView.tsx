@@ -217,7 +217,6 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
                       wishlisted={wishlistedItems[item.id]}
                     />
                   </div>
-                  {/* <QuickViewButton /> */}
                 </div>
               </div>
             ))}
