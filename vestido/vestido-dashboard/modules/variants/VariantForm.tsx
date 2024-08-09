@@ -191,22 +191,22 @@ const VariantForm: React.FC<VariantFormProps> = ({
               placeholder="Price after discount"
               label="Discounted Price"
             />
+            <RadioGroupElement
+              name="stockStatus"
+              label="Stock Status"
+              options={[
+                { label: 'Available', value: 'AVAILABLE' },
+                {
+                  label: 'Limited Stock',
+                  value: 'LIMITED_STOCK',
+                },
+                {
+                  label: 'Out of Stock',
+                  value: 'OUT_OF_STOCK',
+                },
+              ]}
+            />
           </div>
-          <RadioGroupElement
-            name="stockStatus"
-            label="Stock Status"
-            options={[
-              { label: 'Available', value: 'AVAILABLE' },
-              {
-                label: 'Limited Stock',
-                value: 'LIMITED_STOCK',
-              },
-              {
-                label: 'Out of Stock',
-                value: 'OUT_OF_STOCK',
-              },
-            ]}
-          />
           {fields.map((field, index) => (
             <div
               key={field.id}

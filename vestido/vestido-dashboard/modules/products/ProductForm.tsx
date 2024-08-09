@@ -210,24 +210,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
             />
           </div>
           <div className="grid grid-cols-2 gap-5 lg:px-10 mt-10">
-            {hasVariants == false && (
-              <RadioGroupElement
-                name="stockStatus"
-                label="Stock Status"
-                options={[
-                  { label: 'Available', value: 'AVAILABLE' },
-                  {
-                    label: 'Limited Stock',
-                    value: 'LIMITED_STOCK',
-                  },
-                  {
-                    label: 'Out of Stock',
-                    value: 'OUT_OF_STOCK',
-                  },
-                ]}
-              />
-            )}
-            <div></div>
             <FormField
               control={form.control}
               name="gender"
@@ -276,13 +258,31 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
                 </FormItem>
               )}
             />
-            <div>
-              <SwitchElement
-                // disabled={!isNew && no_of_variants > 0}
-                name="hasVariants"
-                label="Has Variant(s)"
+            {hasVariants == false && (
+              <RadioGroupElement
+                name="stockStatus"
+                label="Stock Status"
+                options={[
+                  { label: 'Available', value: 'AVAILABLE' },
+                  {
+                    label: 'Limited Stock',
+                    value: 'LIMITED_STOCK',
+                  },
+                  {
+                    label: 'Out of Stock',
+                    value: 'OUT_OF_STOCK',
+                  },
+                ]}
               />
-            </div>
+            )}
+          </div>
+          <div>
+            <SwitchElement
+              // disabled={!isNew && no_of_variants > 0}
+              className="my-10"
+              name="hasVariants"
+              label="Has Variant(s)"
+            />
           </div>
         </div>
         <hr className="border-t-1 border-slate-400 mb-4 w-full" />
