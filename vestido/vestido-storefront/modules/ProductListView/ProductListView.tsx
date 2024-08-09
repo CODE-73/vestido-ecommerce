@@ -23,7 +23,7 @@ import {
 } from '@vestido-ecommerce/shadcn-ui/breadcrumb';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
-import useIsMobile from '../../hooks/useIsMobile';
+// import useIsMobile from '../../hooks/useIsMobile';
 import { AddToWishListButton } from '../HomePage/SpecialOffer/AddToWishlistButton';
 // import { QuickViewButton } from '../HomePage/SpecialOffer/QuickViewButton';
 import AddToCartButton from '../HomePage/TopProducts/AddToCartButton';
@@ -42,7 +42,7 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
   categoryId,
   suggestedList,
 }) => {
-  const isMobile = useIsMobile();
+  // const isMobile = useIsMobile();
   const router = useRouter();
 
   const { data } = useItems();
@@ -109,70 +109,119 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
         </BreadcrumbList>
       </Breadcrumb>
       <div
-        className={`text-4xl  tracking-wide text-[#333333] text-center font-extrabold my-5 ${
+        className={`text-2xl lg:text-4xl  tracking-wide text-[#333333] text-center font-extrabold my-5 ${
           !suggestedList && category?.data.name ? 'py-14' : 'py-5'
         }`}
       >
         {!suggestedList && category?.data.name}
       </div>
+      <div className="flex">
+        {' '}
+        <div className="basis-1/5 hidden lg:block">
+          {!suggestedList && <ProductFilter />}
+        </div>
+        <div className="lg:basis-4/5 grid grid-cols-2 gap-2 px-5 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 md:gap-5 xl:gap-10 md:px-0">
+          {data
+            ?.filter((item) => !categoryId || item.categoryId === categoryId)
+            .map((item: Item, index: number) => (
+              <div
+                key={index}
+                className="relative flex flex-col items-center group  mb-10 "
+              >
+                {item.discountPercent && item.discountPercent > 0 ? (
+                  <Badge className="absolute top-2 left-2 rounded-none uppercase bg-red-500 hover:bg-red-400 cursor-auto">
+                    sale&nbsp;{item.discountPercent}&nbsp;%
+                  </Badge>
+                ) : (
+                  ''
+                )}
 
-      <div className="grid grid-cols-2 gap-2 px-5 md:grid-cols-5 md:gap-10 md:px-0">
-        {!isMobile && !suggestedList && <ProductFilter />}
-        {data
-          ?.filter((item) => !categoryId || item.categoryId === categoryId)
-          .map((item: Item, index: number) => (
-            <div
-              key={index}
-              className="relative flex flex-col items-center group  mb-10 "
-            >
-              {item.discountPercent && item.discountPercent > 0 ? (
-                <Badge className="absolute top-2 left-2 rounded-none uppercase bg-red-500 hover:bg-red-400 cursor-auto">
-                  sale&nbsp;{item.discountPercent}&nbsp;%
-                </Badge>
-              ) : (
-                ''
-              )}
+                {((item.images ?? []) as ImageSchemaType[]).length > 0 && (
+                  <div
+                    onClick={() => handleProductClick(item.id)}
+                    className="group"
+                  >
+                    {/* <Image
+                      className="block"
+                      src={((item.images ?? []) as ImageSchemaType[])[0].url!}
+                      alt="alt text"
+                      width={430}
+                      height={551}
+                    /> */}
+                    <Image
+                      className="block group-hover:hidden"
+                      src={
+                        ((item.images ?? []) as ImageSchemaType[])[0]?.url ?? ''
+                      }
+                      alt="alt text"
+                      width={430}
+                      height={551}
+                    />
+                    <Image
+                      className="hidden group-hover:block"
+                      src={
+                        ((item.images ?? []) as ImageSchemaType[])[1]?.url ??
+                        ((item.images ?? []) as ImageSchemaType[])[0]?.url ??
+                        ''
+                      }
+                      alt="alt text"
+                      width={430}
+                      height={551}
+                    />
+                  </div>
+                )}
 
-              {((item.images ?? []) as ImageSchemaType[]).length > 0 && (
-                <div onClick={() => handleProductClick(item.id)}>
-                  <Image
-                    className="block"
-                    src={((item.images ?? []) as ImageSchemaType[])[0].url!}
-                    alt="alt text"
-                    width={430}
-                    height={551}
+                <div className="self-start pt-[#1px] capitalize text-[#333333] text-md font-light md:mb-4">
+                  {item.title}
+                </div>
+                <div className="self-start md:hidden mb-4">
+                  {item.discountedPrice ? (
+                    <div>
+                      <div className="text-black text-sm font-semibold">
+                        ₹&nbsp;{item.discountedPrice.toFixed(2)}
+                      </div>
+                      {item.discountedPrice < item.price ? (
+                        <div className="text-gray-500 line-through text-xs">
+                          ₹&nbsp;{item.price.toFixed(2)}
+                        </div>
+                      ) : (
+                        ''
+                      )}
+                    </div>
+                  ) : (
+                    <div className="text-black text-sm font-semibold">
+                      ₹&nbsp;{item.price.toFixed(2)}
+                    </div>
+                  )}
+                </div>
+                <div className="hidden md:block w-full self-start">
+                  <AddToCartButton
+                    price={item.price}
+                    offerPrice={item.discountedPrice}
+                    item={item}
                   />
                 </div>
-              )}
 
-              <div className="self-start pt-[#1px] capitalize text-[#333333] text-md font-light mb-4">
-                {item.title}
-              </div>
-              <div className="hidden sm:block">
-                <AddToCartButton
-                  price={item.price}
-                  offerPrice={item.discountedPrice}
-                  item={item}
-                />
-              </div>
-
-              <div
-                className={` flex flex-row justify-start ${
-                  wishlistedItems[item.id] ? 'flex' : 'sm:hidden'
-                } sm:group-hover:flex sm:flex-col gap-3 absolute top-3 right-3 pt-2 `}
-              >
                 <div
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleAddToWishlist(item);
-                  }}
+                  className={` flex flex-row justify-start ${
+                    wishlistedItems[item.id] ? 'flex' : 'sm:hidden'
+                  } sm:group-hover:flex sm:flex-col gap-3 absolute top-3 right-3 pt-2 `}
                 >
-                  <AddToWishListButton wishlisted={wishlistedItems[item.id]} />
+                  <div
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleAddToWishlist(item);
+                    }}
+                  >
+                    <AddToWishListButton
+                      wishlisted={wishlistedItems[item.id]}
+                    />
+                  </div>
+                  {/* <QuickViewButton /> */}
                 </div>
-                {/* <QuickViewButton /> */}
               </div>
-            </div>
-          ))}
+            ))}
+        </div>{' '}
       </div>
       <div className="flex justify-center mt-8">
         <button

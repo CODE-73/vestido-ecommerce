@@ -38,7 +38,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
     console.log('added to cart');
   };
 
-  const buttonHeight = '60px'; // Set the desired fixed height
+  const buttonHeight = '40px'; // Set the desired fixed height
   // console.log(item.discountedPrice);
 
   return (
@@ -77,12 +77,12 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
           onClick={() => handleAddToCart()}
         >
           <div
-            className={`flex items-center justify-start gap-3 transition-all duration-300 bg-[#48CAB2] p-4 ${
+            className={`flex items-center justify-start gap-3 transition-all duration-300 bg-[#48CAB2] p-2 ${
               hovered ? 'w-full' : ''
             }`}
             style={{ height: '100%' }}
           >
-            <LuShoppingBag className="text-white" size={24} />
+            <LuShoppingBag className="text-white" size={20} />
             {hovered && (
               <span className="ml-2 text-white text-lg font-semibold">
                 ADD TO CART
@@ -90,25 +90,25 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
             )}
           </div>
           {!hovered && (
-            <div className="ml-4 font-semibold text-left flex-grow">
-              <div className="flex gap-4 items-center">
-                <div
-                  className={`text-gray-500 ${
-                    offerPrice && offerPrice < price
-                      ? 'line-through'
-                      : 'text-lg'
-                  }`}
-                >
-                  ₹&nbsp;{price.toFixed(2)}
-                </div>
-                {offerPrice ? (
-                  <div className="text-black text-lg">
+            <div className="ml-4 font-semibold text-left flex-grow ">
+              {offerPrice ? (
+                <div className="xl:flex items-baseline gap-1">
+                  <div className="text-black text-base">
                     ₹&nbsp;{offerPrice.toFixed(2)}
                   </div>
-                ) : (
-                  ''
-                )}
-              </div>
+                  {offerPrice < price ? (
+                    <div className="text-gray-500 line-through text-xs">
+                      ₹&nbsp;{price.toFixed(2)}
+                    </div>
+                  ) : (
+                    ''
+                  )}
+                </div>
+              ) : (
+                <div className="text-black text-base">
+                  ₹&nbsp;{price.toFixed(2)}
+                </div>
+              )}
             </div>
           )}
         </Button>
