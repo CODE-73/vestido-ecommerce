@@ -406,7 +406,9 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
               <div className="flex gap-2">
                 <h1 className="font-extralight">SKU: </h1>
                 <h1 className="font-semibold no-underline hover:underline">
-                  {selectedVariant?.sku ?? item?.sku}
+                  {item?.variants?.length && item?.variants?.length > 0
+                    ? selectedVariant?.sku
+                    : item?.sku}
                 </h1>
               </div>
 

@@ -181,7 +181,9 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
           </div>
           <div className="grid grid-cols-2 gap-5 lg:px-10 mb-10">
             <InputElement name="slug" placeholder="Slug" label="Slug" />
-            <InputElement name="sku" placeholder="SKU" label="SKU" />
+            {!hasVariants && (
+              <InputElement name="sku" placeholder="SKU" label="SKU" />
+            )}
           </div>
           <div className="grid grid-cols-1 lg:px-10 mt-2">
             <CategoryElement
