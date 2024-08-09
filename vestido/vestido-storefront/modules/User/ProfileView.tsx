@@ -16,7 +16,10 @@ import {
   TabsTrigger,
 } from '@vestido-ecommerce/shadcn-ui/tabs';
 
+import Addresses from './Addresses';
+import DeleteAccount from './DeleteAccount';
 import OrdersView from './Orders';
+import Profile from './Profile';
 
 const nav_items = [
   {
@@ -143,6 +146,15 @@ const ProfileView: React.FC = () => {
             </TabsContent>
             <TabsContent value="orders">
               <OrdersView profileId={currentUser?.id ?? ''} />
+            </TabsContent>
+            <TabsContent value="profile">
+              <Profile />
+            </TabsContent>
+            <TabsContent value="addresses">
+              <Addresses />
+            </TabsContent>
+            <TabsContent value="delete">
+              <DeleteAccount />
             </TabsContent>
           </div>
         </Tabs>
