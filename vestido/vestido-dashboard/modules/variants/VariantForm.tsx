@@ -7,7 +7,7 @@ import { useFieldArray, useForm } from 'react-hook-form';
 import { LuChevronRight, LuPlus } from 'react-icons/lu';
 import * as z from 'zod';
 
-import { useVariantUpsert } from '@vestido-ecommerce/items';
+import { useItem, useVariantUpsert } from '@vestido-ecommerce/items';
 import { useVariant } from '@vestido-ecommerce/items';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Form } from '@vestido-ecommerce/shadcn-ui/form';
@@ -90,6 +90,9 @@ const VariantForm: React.FC<VariantFormProps> = ({
     isNew ? null : variantId,
   );
 
+  const { data: itemData } = useItem(itemId);
+  const item = itemData?.data;
+
   const { isDirty, isValid } = form.formState;
   const isSubmitting = form.formState.isSubmitting;
 
@@ -123,6 +126,7 @@ const VariantForm: React.FC<VariantFormProps> = ({
     try {
       const response = await trigger({
         ...data,
+        price: price > 0 ? price : item?.price,
         id: isNew ? undefined : variantId,
       });
       toast({
