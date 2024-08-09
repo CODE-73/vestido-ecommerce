@@ -143,7 +143,7 @@ const CartView: React.FC = () => {
                         {cartItem.item.title}
                       </div>
                       <div className="text-xl font-semibold text-[#48CAB2] flex ">
-                        {cartItem.item.price}
+                        ₹&nbsp;{cartItem.item.price.toFixed(2)}
                       </div>
                       <div className="flex flex-row bg-zinc-100 w-32 h-14 items-center justify-around ">
                         <div

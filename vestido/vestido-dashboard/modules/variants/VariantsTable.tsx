@@ -68,7 +68,7 @@ const VariantsTable: React.FC<VariantProps> = ({ itemId }) => {
                   <TableCell className="font-medium">
                     {itemVariant.title}
                   </TableCell>
-                  <TableCell>{itemVariant.price}</TableCell>
+                  <TableCell> ₹&nbsp;{itemVariant.price.toFixed(2)}</TableCell>
                   <TableCell className="text-right">
                     {/* {itemVariant.images[0]} */}no.ofimages
                   </TableCell>

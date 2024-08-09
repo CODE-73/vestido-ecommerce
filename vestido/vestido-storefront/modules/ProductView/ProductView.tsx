@@ -377,10 +377,10 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
             </h1>
             <div className="flex flex-row items-center gap-1">
               <div className="text-2xl font-semibold">
-                Rs.
+                ₹&nbsp;
                 {item?.discountedPrice && item?.discountedPrice > 0
-                  ? item?.discountedPrice
-                  : item?.price}
+                  ? item?.discountedPrice.toFixed(2)
+                  : item?.price.toFixed(2)}
               </div>
             </div>
 

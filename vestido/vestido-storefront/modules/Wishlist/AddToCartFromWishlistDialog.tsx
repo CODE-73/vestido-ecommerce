@@ -135,13 +135,14 @@ export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({ itemId }) => {
                 <div className="flex flex-col gap-4 ">
                   <div className="font-normal">{item?.title}</div>
                   <div className="flex">
+                    ₹&nbsp;
                     {item?.discountedPrice?.toFixed(2) ??
                       item?.price.toFixed(2)}
                     {item?.discountedPrice &&
                       item?.discountedPrice < item?.price &&
                       item?.discountedPrice > 0 && (
                         <div className="font-normal line-through text-sm">
-                          {item.price.toFixed(2)}
+                          ₹&nbsp;{item.price.toFixed(2)}
                         </div>
                       )}
                   </div>
