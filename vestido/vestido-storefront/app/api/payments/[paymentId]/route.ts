@@ -1,13 +1,13 @@
 import { ZodError } from 'zod';
 
 import { verifyPaymentExist } from '@vestido-ecommerce/orders';
-import { verifySignature } from '@vestido-ecommerce/razorpay';
+import { processPayment } from '@vestido-ecommerce/razorpay';
 
 import { verifyAuth } from '../../verify-auth';
 
 export async function POST(
   request: Request,
-  { params }: { params: { paymentSlug: string } },
+  { params }: { params: { paymentId: string } },
 ) {
   try {
     const auth = await verifyAuth(request);
@@ -21,7 +21,7 @@ export async function POST(
     }
     const body = await request.json();
 
-    const isPaymentExist = await verifyPaymentExist(params.paymentSlug);
+    const isPaymentExist = await verifyPaymentExist(params.paymentId);
 
     if (!isPaymentExist) {
       return new Response(JSON.stringify({ error: 'Payment does not exist' }), {
@@ -32,7 +32,7 @@ export async function POST(
       });
     }
 
-    const isSignverified = await verifySignature(body);
+    const isSignverified = await processPayment(body);
     if (isSignverified) {
       return new Response(
         JSON.stringify({

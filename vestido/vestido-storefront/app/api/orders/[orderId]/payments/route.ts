@@ -1,12 +1,13 @@
 import { ZodError } from 'zod';
 
-import { createCOD, verifyOrderExist } from '@vestido-ecommerce/orders';
+import { verifyOrderExist } from '@vestido-ecommerce/orders';
+import { createRazorpayOrder } from '@vestido-ecommerce/razorpay';
 
 import { verifyAuth } from '../../../verify-auth';
 
 export async function POST(
   request: Request,
-  { params }: { params: { orderSlug: string } },
+  { params }: { params: { orderId: string } },
 ) {
   try {
     const auth = await verifyAuth(request);
@@ -20,7 +21,7 @@ export async function POST(
     }
     const body = await request.json();
 
-    const isOrderExist = await verifyOrderExist(params.orderSlug);
+    const isOrderExist = await verifyOrderExist(params.orderId);
 
     if (!isOrderExist) {
       return new Response(JSON.stringify({ error: 'Order does not exist' }), {
@@ -30,17 +31,12 @@ export async function POST(
         },
       });
     }
-
-    const paymentId = await createCOD(body);
-
-    return new Response(
-      JSON.stringify({ success: true, paymentId: paymentId }),
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
+    const rpOrderId = await createRazorpayOrder(body);
+    return new Response(JSON.stringify({ success: true, data: rpOrderId }), {
+      headers: {
+        'Content-Type': 'application/json',
       },
-    );
+    });
   } catch (e) {
     if (e instanceof ZodError) {
       return new Response(JSON.stringify(e), {

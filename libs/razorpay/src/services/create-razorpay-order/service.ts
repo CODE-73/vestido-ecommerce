@@ -7,7 +7,7 @@ import { CreateRPOrderSchema } from './zod';
 
 export async function createRazorpayOrder(data: CreateRPOrderRequest) {
   const razorpay = new Razorpay({
-    key_id: process.env['RAZORPAY_KEY_ID'] as string,
+    key_id: process.env['NEXT_PUBLIC_RAZORPAY_KEY_ID'] as string,
     key_secret: process.env['RAZORPAY_KEY_SECRET'] as string,
   });
 
@@ -42,5 +42,7 @@ export async function createRazorpayOrder(data: CreateRPOrderRequest) {
       paymentId: newPayment.id,
     };
     return response;
-  } else return null;
+  } else {
+    throw new Error('Error Creating Razorpay Order');
+  }
 }

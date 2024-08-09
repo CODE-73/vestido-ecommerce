@@ -8,7 +8,7 @@ export async function createNewRazorpayOrder(
 ): Promise<CreateRPOrderResponse> {
   try {
     const r = await axios.post(
-      `/api/orders/${args.razorpayData.orderId}/payment`,
+      `/api/orders/${args.razorpayData.orderId}/payments`,
       args,
       {
         headers: {

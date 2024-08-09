@@ -1,21 +1,16 @@
-import * as CryptoJS from 'crypto-js';
-
 import { getPrismaClient } from '@vestido-ecommerce/models';
 
+import { generateWebhookSignature } from '../signature';
 import { RazorpayWebhookSchemaType } from './zod';
 
 export async function handleRazorpayWebhook(data: RazorpayWebhookSchemaType) {
   const prisma = getPrismaClient();
-  const secret = '6d2Lv76AugGojJGt1Wa7MEgFZmSZaq5z';
 
   const webhookSignature = data.signature;
   delete (data as { signature?: string }).signature;
-
   const dataString = JSON.stringify(data);
 
-  const generatedSignature = CryptoJS.HmacSHA256(dataString, secret).toString(
-    CryptoJS.enc.Hex,
-  );
+  const generatedSignature = generateWebhookSignature(dataString);
 
   if (generatedSignature === webhookSignature) {
     // Handle the event

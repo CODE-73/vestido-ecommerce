@@ -7,7 +7,7 @@ export async function verifyPayment(
   authHeaders: Record<string, string>,
 ): Promise<verifyPaymentResponse> {
   try {
-    const r = await axios.post(`/api/payment/${args.paymentId}`, args, {
+    const r = await axios.post(`/api/payments/${args.paymentId}`, args, {
       headers: {
         ...authHeaders,
       },
