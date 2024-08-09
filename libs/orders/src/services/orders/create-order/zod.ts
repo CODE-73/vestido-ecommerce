@@ -4,6 +4,7 @@ export const OrderItemSchema = z.object({
   itemId: z.string().uuid(),
   price: z.coerce.number(),
   qty: z.number().int(),
+  variantId: z.string().uuid().nullish(),
 });
 
 export const CreateOrderSchema = z.object({

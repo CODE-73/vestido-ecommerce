@@ -15,7 +15,15 @@ export async function listOrder(customerId: string) {
         include: {
           item: {
             include: {
-              variants: true,
+              variants: {
+                include: {
+                  attributeValues: {
+                    include: {
+                      attribute: true,
+                    },
+                  },
+                },
+              },
             },
           },
         },
