@@ -113,7 +113,7 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
           !suggestedList && category?.data.name ? 'py-14' : 'py-5'
         }`}
       >
-        {!suggestedList && category?.data.name}
+        {!suggestedList && (category?.data.name ?? 'All')}
       </div>
       <div className="flex">
         {' '}
