@@ -1,14 +1,15 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
 
-export async function verifyOrderExist(orderId: string) {
+export async function getOrder(orderId: string) {
   const prisma = getPrismaClient();
 
   const order = await prisma.order.findUnique({
     where: {
       id: orderId,
     },
+    include: {
+      orderItems: true,
+    },
   });
-  if (order) {
-    return true;
-  } else return false;
+  return order;
 }

@@ -1,6 +1,6 @@
 import { ZodError } from 'zod';
 
-import { verifyOrderExist } from '@vestido-ecommerce/orders';
+import { getOrder } from '@vestido-ecommerce/orders';
 import { createRazorpayOrder } from '@vestido-ecommerce/razorpay';
 
 import { verifyAuth } from '../../../verify-auth';
@@ -21,7 +21,7 @@ export async function POST(
     }
     const body = await request.json();
 
-    const isOrderExist = await verifyOrderExist(params.orderId);
+    const isOrderExist = await getOrder(params.orderId);
 
     if (!isOrderExist) {
       return new Response(JSON.stringify({ error: 'Order does not exist' }), {
