@@ -28,6 +28,7 @@ const OrderItemSchema = z.object({
   itemId: z.string().uuid(),
   price: z.coerce.number(),
   qty: z.number().int(),
+  variantId: z.string().uuid().nullish(),
 });
 
 const CreateOrderFormSchema = z.object({
@@ -58,6 +59,7 @@ const CheckoutView: React.FC = () => {
           itemId: cartItem.itemId,
           price: cartItem.item.price,
           qty: cartItem.qty,
+          variantId: cartItem.variantId ?? null,
         })),
       );
       // form.setValue('addressId', sortedAddresses[0].id);

@@ -20,7 +20,7 @@ export async function createOrder(_data: CreateOrderSchemaType) {
 
   const itemsPrice =
     data.orderItems?.reduce((total, item) => {
-      return total + item.qty * item.price;
+      return total + (item.qty ?? 1) * item.price;
     }, 0) ?? 0;
 
   const newOrder = await prisma.order.create({

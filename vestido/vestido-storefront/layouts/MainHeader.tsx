@@ -19,7 +19,12 @@ const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
       <div className="flex">
         <Link href="/" className="self-center">
           <span className="md:hidden">
-            <Image src="/assets/favico.ico" alt="Logo" width="25" height="35" />
+            <Image
+              src="/assets/black-logo.png"
+              alt="Logo"
+              width="300"
+              height="35"
+            />
           </span>
           <span className="self-end hidden md:block">
             <Image

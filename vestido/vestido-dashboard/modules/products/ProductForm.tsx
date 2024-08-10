@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Gender, StockStatus } from '@prisma/client';
 import { useForm } from 'react-hook-form';
+import { LuChevronLeft } from 'react-icons/lu';
 import * as z from 'zod';
 
 import { useItemUpsert } from '@vestido-ecommerce/items';
@@ -163,9 +164,16 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
 
   return (
     <Form {...form}>
+      <div
+        onClick={() => router.back()}
+        className="flex gap-1 items-center mt-12 mb-4 ml-4 cursor-pointer"
+      >
+        <LuChevronLeft />
+        Back
+      </div>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="flex flex-col justify-center w-full text-lg mt-16 bg-slate-200 px-5 py-10"
+        className="flex flex-col justify-center w-full text-lg  bg-slate-200 px-5 py-10"
       >
         <div className="text-2xl font-semibold capitalize flex justify-between">
           {isNew ? 'Add New Product' : item?.title}{' '}
@@ -181,7 +189,9 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
           </div>
           <div className="grid grid-cols-2 gap-5 lg:px-10 mb-10">
             <InputElement name="slug" placeholder="Slug" label="Slug" />
-            <InputElement name="sku" placeholder="SKU" label="SKU" />
+            {!hasVariants && (
+              <InputElement name="sku" placeholder="SKU" label="SKU" />
+            )}
           </div>
           <div className="grid grid-cols-1 lg:px-10 mt-2">
             <CategoryElement
@@ -210,24 +220,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
             />
           </div>
           <div className="grid grid-cols-2 gap-5 lg:px-10 mt-10">
-            {hasVariants == false && (
-              <RadioGroupElement
-                name="stockStatus"
-                label="Stock Status"
-                options={[
-                  { label: 'Available', value: 'AVAILABLE' },
-                  {
-                    label: 'Limited Stock',
-                    value: 'LIMITED_STOCK',
-                  },
-                  {
-                    label: 'Out of Stock',
-                    value: 'OUT_OF_STOCK',
-                  },
-                ]}
-              />
-            )}
-            <div></div>
             <FormField
               control={form.control}
               name="gender"
@@ -276,13 +268,31 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
                 </FormItem>
               )}
             />
-            <div>
-              <SwitchElement
-                // disabled={!isNew && no_of_variants > 0}
-                name="hasVariants"
-                label="Has Variant(s)"
+            {hasVariants == false && (
+              <RadioGroupElement
+                name="stockStatus"
+                label="Stock Status"
+                options={[
+                  { label: 'Available', value: 'AVAILABLE' },
+                  {
+                    label: 'Limited Stock',
+                    value: 'LIMITED_STOCK',
+                  },
+                  {
+                    label: 'Out of Stock',
+                    value: 'OUT_OF_STOCK',
+                  },
+                ]}
               />
-            </div>
+            )}
+          </div>
+          <div>
+            <SwitchElement
+              // disabled={!isNew && no_of_variants > 0}
+              className="my-10"
+              name="hasVariants"
+              label="Has Variant(s)"
+            />
           </div>
         </div>
         <hr className="border-t-1 border-slate-400 mb-4 w-full" />

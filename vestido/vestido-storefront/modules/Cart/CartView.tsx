@@ -65,7 +65,16 @@ const CartView: React.FC = () => {
       itemId: itemId,
     });
   };
-
+  const handleClearCart = () => {
+    cartItems?.data.forEach((cartItem) => {
+      handleRemoveFromCart(cartItem.itemId, cartItem.variantId!, 'full');
+    });
+  };
+  const handleMoveAllToWishlist = () => {
+    cartItems?.data.forEach((cartItem) => {
+      handleAddToWishlist(cartItem.itemId);
+    });
+  };
   return (
     <div>
       <div className="text-lg tracking-wide text-gray-300 text-center font-semibold md:mt-12 md:mb-12 mt-32 mb-16 uppercase">
@@ -143,7 +152,7 @@ const CartView: React.FC = () => {
                         {cartItem.item.title}
                       </div>
                       <div className="text-xl font-semibold text-[#48CAB2] flex ">
-                        {cartItem.item.price}
+                        ₹&nbsp;{cartItem.item.price.toFixed(2)}
                       </div>
                       <div className="flex flex-row bg-zinc-100 w-32 h-14 items-center justify-around ">
                         <div
@@ -183,7 +192,7 @@ const CartView: React.FC = () => {
 
                       <div className="flex flex-row bg-zinc-100 h-14 items-center justify-between col-span-1 px-2">
                         <div
-                          className="text-zinc-300"
+                          className="text-zinc-300 cursor-pointer"
                           onClick={() => {
                             handleRemoveFromCart(
                               cartItem.itemId,
@@ -198,7 +207,7 @@ const CartView: React.FC = () => {
                           {cartItem.qty}
                         </div>
                         <div
-                          className="text-zinc-300"
+                          className="text-zinc-300 cursor-pointer"
                           onClick={() => {
                             handleAddToCart(
                               cartItem.itemId,
@@ -233,20 +242,49 @@ const CartView: React.FC = () => {
             ))}
             <div className="border-t border-gray-300 my-4"></div>
             <div className="flex flex-col lg:flex-row gap-3 lg:justify-between items-center">
-              <div>
+              <Link href="/products">
                 <div className="flex items-center cursor-pointer">
                   <LuChevronLeft />
                   <div className="font-extrabold no-underline hover:underline">
                     Continue Shopping
                   </div>
                 </div>
-              </div>
-              <div className="flex cursor-pointer">
-                <LuTrash2 className="mr-3 " />
-                <div className="mr-5 font-extrabold no-underline hover:underline">
-                  Clear Shopping Cart
-                </div>
-              </div>
+              </Link>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <div className="flex cursor-pointer">
+                    <LuTrash2 className="mr-3 " />
+                    <div className="mr-5 font-extrabold no-underline hover:underline">
+                      Clear Shopping Cart
+                    </div>
+                  </div>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Are you sure you want to delete every item in the cart?
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                      You can move it all to wishlist for future.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+
+                    <AlertDialogAction onClick={() => handleClearCart()}>
+                      Remove
+                    </AlertDialogAction>
+                    <AlertDialogAction
+                      onClick={() => {
+                        handleMoveAllToWishlist();
+                        handleClearCart();
+                      }}
+                    >
+                      Move to wishlist
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
             </div>
           </div>
 

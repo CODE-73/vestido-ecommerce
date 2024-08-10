@@ -67,7 +67,7 @@ const ProductsTable: React.FC<ProductTableProps> = ({ data }) => {
               <TableCell className="font-semibold capitalize">
                 {item.title}
               </TableCell>
-              <TableCell>{item.price}</TableCell>
+              <TableCell> ₹&nbsp;{item.price.toFixed(2)}</TableCell>
               <TableCell>{item.category?.name}</TableCell>
               <TableCell className="truncate max-w-xs">
                 {item.description}

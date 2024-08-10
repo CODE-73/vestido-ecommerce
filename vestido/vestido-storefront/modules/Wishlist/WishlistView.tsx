@@ -44,9 +44,9 @@ const WishlistView: React.FC = () => {
           {wishlistItems?.data.map((wishlistItem, index) => (
             <div
               key={index}
-              className=" flex flex-col items-center group  mb-10 "
+              className=" flex flex-col items-center group relative mb-10 "
             >
-              <div className="relative">
+              <div>
                 <div className="absolute right-3 top-3 text-stone-400 border border-1 border-stone-400 rounded-full p-1 cursor-pointer">
                   <AlertDialog>
                     <AlertDialogTrigger asChild>
@@ -84,8 +84,8 @@ const WishlistView: React.FC = () => {
                       ((wishlistItem.item.images ?? []) as ImageSchemaType[])[0]
                         ?.alt ?? ''
                     }
-                    width={200}
-                    height={260}
+                    width={250}
+                    height={300}
                   />
                 </Link>
               </div>

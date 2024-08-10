@@ -113,23 +113,33 @@ const Footer = () => {
             <LuInstagram />
             <LuYoutube />
           </div>
+          <div className="flex flex-col w-full items-start  md:flex-row md:justify-center md:items-center bg-zinc-100 gap-4 pb-10">
+            <Button className=" lg:flex gap-4 h-auto">
+              <Image
+                src="/assets/gplay.png"
+                alt="G-Play"
+                width="25"
+                height="25"
+              />
+              <div className="flex  flex-col items-start">
+                <div className="uppercase">get it on</div>
+                <div className="font-semibold">Google Play</div>
+              </div>
+            </Button>
+            <Button className="flex gap-4 h-auto">
+              <Image
+                src="/assets/apple.png"
+                alt="G-Play"
+                width="25"
+                height="25"
+              />
+              <div className="flex text-xs md:text-base flex-col items-start">
+                <div className=" uppercase ">Available on </div>
+                <div className="font-semibold">App Store</div>
+              </div>
+            </Button>
+          </div>
         </div>
-      </div>
-      <div className="flex flex-col  md:flex-row justify-center items-center bg-zinc-100 gap-4 pb-10">
-        <Button className="flex gap-4 h-auto">
-          <Image src="/assets/gplay.png" alt="G-Play" width="50" height="50" />
-          <div className="flex flex-col items-start">
-            <div className="uppercase">get it on</div>
-            <div className="text-2xl">Google Play</div>
-          </div>
-        </Button>
-        <Button className="flex gap-4 h-auto">
-          <Image src="/assets/apple.png" alt="G-Play" width="50" height="50" />
-          <div className="flex flex-col items-start">
-            <div>Available on the</div>
-            <div className="text-3xl">App Store</div>
-          </div>
-        </Button>
       </div>
 
       <div className="flex justify-center">

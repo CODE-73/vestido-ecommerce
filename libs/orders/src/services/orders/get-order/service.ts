@@ -11,5 +11,6 @@ export async function getOrder(orderId: string) {
       orderItems: true,
     },
   });
+  // no try..catch here
   return order;
 }
