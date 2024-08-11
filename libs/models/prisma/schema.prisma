@@ -42,6 +42,11 @@ enum AddressType {
     OFFICE
 }
 
+enum ProfileGender {
+    MALE
+    FEMALE
+}
+
 model CustomerAddress {
     id          String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     customer    Profile     @relation(fields: [customerId], references: [id])
@@ -68,6 +73,7 @@ model Profile {
     lastName        String?
     mobile          String?           @unique
     email           String?           @unique
+    gender          ProfileGender     @default(FEMALE)
     wishlistItems   WishlistItem[]
     cartItems       CartItem[]
     ContactUs       ContactUs[]
