@@ -27,10 +27,7 @@
     "**/*.js",
     "**/*.jsx",
     "next-env.d.ts",
-    "razorpay.d.ts",
     ".next/types/**/*.ts",
-    "../../libs/shadcn-ui/src/ui/form/InputElement.tsx",
-    "../../libs/shadcn-ui/src/ui/form/Form.tsx",
     "../../dist/vestido/vestido-storefront/.next/types/**/*.ts"
   ],
   "exclude": [
