@@ -1,7 +1,3 @@
-import { Order, OrderItem } from '@prisma/client';
+import { getOrder } from './service';
 
-export type GetOrderResponse = {
-  data: Order & {
-    OrderItems: OrderItem[];
-  };
-};
+export type GetOrderResponse = { data: Awaited<ReturnType<typeof getOrder>> };

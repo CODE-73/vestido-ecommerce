@@ -1,4 +1,6 @@
+import { populateImageURLs } from '@vestido-ecommerce/caching';
 import { getPrismaClient } from '@vestido-ecommerce/models';
+import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 export async function getOrder(orderId: string) {
   const prisma = getPrismaClient();
@@ -8,9 +10,27 @@ export async function getOrder(orderId: string) {
       id: orderId,
     },
     include: {
-      orderItems: true,
+      orderItems: {
+        include: {
+          item: {
+            include: {
+              variants: true,
+            },
+          },
+        },
+      },
     },
   });
-  // no try..catch here
+
+  if (order) {
+    const images = order.orderItems.flatMap((orderItem) => [
+      ...((orderItem.item.images ?? []) as ImageSchemaType[]),
+      ...(orderItem.item.variants?.flatMap(
+        (v) => (v.images ?? []) as ImageSchemaType[],
+      ) ?? []),
+    ]);
+    await populateImageURLs(images);
+  }
+
   return order;
 }
