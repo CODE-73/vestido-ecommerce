@@ -3,6 +3,7 @@
 import { useRouter } from 'next/router';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { ProfileGender } from '@prisma/client';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -18,6 +19,8 @@ import {
 } from '@vestido-ecommerce/shadcn-ui/form';
 import { InputElement } from '@vestido-ecommerce/shadcn-ui/form/InputElement';
 import { Input } from '@vestido-ecommerce/shadcn-ui/input';
+
+import { RadioGroupElement } from '../../forms/radio-group-element';
 
 interface Props {
   mobile: string;
@@ -35,8 +38,11 @@ const SignUpSchema = z.object({
     message: 'OTP must be exactly 6 digits long',
     path: ['otp'],
   }),
+  gender: z.nativeEnum(ProfileGender).default('FEMALE' satisfies ProfileGender),
+  email: z.string().email({
+    message: 'Invalid email address',
+  }),
 });
-
 const SignupForm: React.FC<Props> = ({ mobile }) => {
   const router = useRouter();
   const form = useForm<z.infer<typeof SignUpSchema>>({
@@ -46,6 +52,7 @@ const SignupForm: React.FC<Props> = ({ mobile }) => {
       lastName: '',
       mobile: mobile,
       otp: '',
+      gender: 'FEMALE',
     },
   });
 
@@ -74,19 +81,40 @@ const SignupForm: React.FC<Props> = ({ mobile }) => {
       <div className="flex flex-col justify-center items-center">
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full space-y-6"
+          className="w-full md:w-1/2 space-y-6 bg-white z-10 p-10"
         >
+          {' '}
+          <div className="font-semibold text-2xl">Signup</div>
+          <hr />
           <InputElement
             name="firstName"
             label="First Name"
             placeholder="First Name"
+            className="h-12 rounded-none"
           />
           <InputElement
             name="lastName"
             label="Last Name"
             placeholder="Last Name"
+            className="h-12 rounded-none"
           />
-
+          <InputElement
+            name="email"
+            label="Email"
+            placeholder="Email"
+            className="h-12 rounded-none"
+          />
+          <RadioGroupElement
+            name="gender"
+            label="Gender"
+            control={form.control}
+            options={[
+              { label: 'Male', value: 'MALE' },
+              { label: 'Female', value: 'FEMALE' },
+            ]}
+            itemClassName="basis-1/2"
+            wrapperClassName="flex space-x-12"
+          />
           <FormField
             control={form.control}
             name="mobile"
@@ -94,7 +122,11 @@ const SignupForm: React.FC<Props> = ({ mobile }) => {
               <FormItem>
                 <FormLabel>Mobile</FormLabel>
                 <FormControl>
-                  <Input placeholder="mobile" {...field} />
+                  <Input
+                    className="h-12 rounded-none"
+                    placeholder="mobile"
+                    {...field}
+                  />
                 </FormControl>
               </FormItem>
             )}
@@ -106,12 +138,21 @@ const SignupForm: React.FC<Props> = ({ mobile }) => {
               <FormItem>
                 <FormLabel>OTP</FormLabel>
                 <FormControl>
-                  <Input placeholder="otp" {...field} />
+                  <Input
+                    className="h-12 rounded-none"
+                    placeholder="otp"
+                    {...field}
+                  />
                 </FormControl>
               </FormItem>
             )}
           />
-          <Button type="submit">SignUp</Button>
+          <Button
+            type="submit"
+            className="w-full h-14 uppercase tracking-widest rounded-none"
+          >
+            SignUp
+          </Button>
         </form>
       </div>
     </Form>

@@ -67,8 +67,10 @@ const LoginForm: React.FC<Props> = ({ mobile }) => {
       <div className="flex flex-col justify-center items-center">
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full space-y-6"
+          className="w-full md:w-1/2 space-y-6 bg-white z-10 p-10"
         >
+          <div className="font-semibold text-2xl">Login</div>
+          <hr />
           <FormField
             control={form.control}
             name="mobile"
@@ -76,7 +78,11 @@ const LoginForm: React.FC<Props> = ({ mobile }) => {
               <FormItem>
                 <FormLabel>Mobile</FormLabel>
                 <FormControl>
-                  <Input placeholder="mobile" {...field} />
+                  <Input
+                    className="h-12 rounded-none"
+                    placeholder="mobile"
+                    {...field}
+                  />
                 </FormControl>
               </FormItem>
             )}
@@ -88,12 +94,21 @@ const LoginForm: React.FC<Props> = ({ mobile }) => {
               <FormItem>
                 <FormLabel>OTP</FormLabel>
                 <FormControl>
-                  <Input placeholder="otp" {...field} />
+                  <Input
+                    className="h-12 rounded-none"
+                    placeholder="otp"
+                    {...field}
+                  />
                 </FormControl>
               </FormItem>
             )}
           />
-          <Button type="submit">Login</Button>
+          <Button
+            type="submit"
+            className="w-full h-14 uppercase tracking-widest rounded-none"
+          >
+            Login
+          </Button>
         </form>
       </div>
     </Form>
