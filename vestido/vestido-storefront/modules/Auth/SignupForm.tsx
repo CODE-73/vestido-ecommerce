@@ -112,7 +112,6 @@ const SignupForm: React.FC<Props> = ({ mobile }) => {
               { label: 'Male', value: 'MALE' },
               { label: 'Female', value: 'FEMALE' },
             ]}
-            itemClassName="basis-1/2"
             wrapperClassName="flex space-x-12"
           />
           <FormField
