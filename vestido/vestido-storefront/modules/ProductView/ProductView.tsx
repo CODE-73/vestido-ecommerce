@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 
 import { Item } from '@prisma/client';
-import { LuScaling, LuShoppingBag } from 'react-icons/lu';
+import { LuCalendar, LuScaling, LuShoppingBag, LuTruck } from 'react-icons/lu';
 import Markdown from 'react-markdown';
 
 import {
@@ -158,6 +158,17 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
     };
   }, []);
 
+  const predefinedSizeOrder = [
+    'xs',
+    'sm',
+    'md',
+    'lg',
+    'xl',
+    '2xl',
+    '3xl',
+    '4xl',
+  ];
+
   const attributeMap: {
     [key: string]: { name: string; values: { value: string; id: string }[] };
   } = {};
@@ -181,6 +192,18 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
         });
       }
     });
+  });
+
+  Object.keys(attributeMap).forEach((attributeId) => {
+    const attributeName = attributeMap[attributeId].name.toLowerCase();
+
+    if (attributeName === 'size' || attributeName === 'sizes') {
+      attributeMap[attributeId].values.sort(
+        (a, b) =>
+          predefinedSizeOrder.indexOf(a.value.toLowerCase()) -
+          predefinedSizeOrder.indexOf(b.value.toLowerCase()),
+      );
+    }
   });
 
   console.log('selectedVariantId now', selectedVariantId);
@@ -310,7 +333,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
             <LuChevronDown />
           </button> */}
           </div>
-          <div className="basis-5/6">
+          <div className="basis-5/6 text-right">
             <Image
               // className="w-4/6 px-5 h-4/6"
               ref={mainImageRef}
@@ -384,10 +407,12 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
               </div>
             </div>
 
-            <div className="text-sm ">
+            <div className="text-sm mt-4">
               <div className="flex">
                 <h1 className="font-extralight">Availability:&nbsp; </h1>
-                <h1 className="font-semibold">
+                <h1
+                  className={`font-semibold ${item?.stockStatus == 'LIMITED_STOCK' ? 'text-yellow-400' : item?.stockStatus === 'OUT_OF_STOCK' ? 'text-red-400' : 'text-green-500'}`}
+                >
                   {item?.stockStatus === 'LIMITED_STOCK'
                     ? 'Limited Stock'
                     : item?.stockStatus === 'OUT_OF_STOCK'
@@ -448,12 +473,8 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
               </div>
             </div>
 
-            <div className="flex flex-row pr-5 gap-1 py-6">
-              <LuScaling />
-              <h1>Size Guide</h1>
-            </div>
+            <hr />
           </div>
-
           <div className="flex gap-2 mb-5 w-full fixed -bottom-5 w-full sm:static bg-white py-4 px-2 mx-0 z-50 sm:z-auto">
             <div className="flex bg-[#48CAB2] items-center gap-2 flex-1 justify-center text-white  ">
               <LuShoppingBag size={30} />
@@ -473,7 +494,25 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
               <AddToWishListButton wishlisted={isWishlisted} />
             </div>
           </div>
-
+          <hr />
+          <div className="flex justify-between py-5">
+            <div className="flex flex-col  gap-1 items-center">
+              <LuScaling size={28} style={{ strokeWidth: 0.5 }} />
+              <div>Size Guide</div>
+            </div>
+            <div className="flex  flex-col  gap-1 items-center">
+              <LuCalendar size={28} style={{ strokeWidth: 0.5 }} />
+              <div>7 Days Easy Return</div>
+            </div>
+            <div className="flex  flex-col  gap-1 items-center">
+              <LuTruck size={30} style={{ strokeWidth: 0.5 }} />
+              <div>
+                Free Shipping in Kerala
+                <div className="text-[10px] text-center">(Prepaid)</div>
+              </div>
+            </div>
+          </div>{' '}
+          <hr />
           <div>
             <Accordion className="px-2" type="single" collapsible>
               <AccordionItem value="item-1">
