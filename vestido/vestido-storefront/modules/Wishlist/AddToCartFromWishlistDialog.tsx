@@ -37,7 +37,7 @@ export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({ itemId }) => {
 
     if (item.hasVariants) {
       const defaultVar =
-        item.variants.find((variant) => variant.default) || null;
+        item.variants.find((variant) => variant.default) || item.variants[0];
       setSelectedVariantId(defaultVar?.id ?? null);
     } else {
       setSelectedVariantId(null);

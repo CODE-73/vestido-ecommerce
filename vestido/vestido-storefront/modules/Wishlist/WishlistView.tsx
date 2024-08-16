@@ -106,7 +106,7 @@ const WishlistView: React.FC = () => {
                 <Dialog>
                   <DialogTrigger asChild>
                     <div className={`p-2 bg-[#48CAB2] w-full`}>
-                      <Button className="bg-[#48CAB2] w-full flex gap-3 text-lg mb-1 text-white p-2 font-bold hover:bg-transparent">
+                      <Button className="bg-[#48CAB2] w-full flex gap-3 h-[30px] text-lg mb-1 text-white p-2 uppercase font-semibold tracking-wide hover:bg-transparent">
                         <LuShoppingBag color="#fff" size={24} />
                         <div> Add to Cart</div>
                       </Button>
