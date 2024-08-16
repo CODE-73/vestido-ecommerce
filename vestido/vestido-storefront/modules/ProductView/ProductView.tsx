@@ -72,7 +72,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
 
     if (item.hasVariants) {
       const defaultVar =
-        item.variants.find((variant) => variant.default) || null;
+        item.variants.find((variant) => variant.default) || item.variants[0];
       setSelectedVariantId(defaultVar?.id ?? null);
       setSelectedImage(
         ((defaultVar?.images ?? []) as ImageSchemaType[])[0]?.url || '',
@@ -265,7 +265,8 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <div className="w-full flex flex-col md:flex-row py-5 sm:px-2 md:px-0 md:space-x-10">
+
+      <div className="w-full flex flex-col md:flex-row py-5 sm:px-2 md:px-0 md:space-x-10 md:px-64">
         <div className="w-full sm:flex hidden sm:block md:w-1/2 justify-start">
           <div
             className="relative basis-1/6 overflow-y-auto no-scrollbar lg:pl-10"
@@ -525,6 +526,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
           </div>
         </div>
       </div>
+
       <div>
         <div className="text-center text-xl md:text-3xl font-semibold pt-10 sm:pt-16 -mb-10">
           You may also like

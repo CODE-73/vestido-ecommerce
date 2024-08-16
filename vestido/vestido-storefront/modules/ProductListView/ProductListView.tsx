@@ -122,7 +122,9 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
             <ProductFilter />
           </div>
         )}
-        <div className="lg:basis-4/5 grid grid-cols-2 gap-2 px-5 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 md:gap-5 xl:gap-10 md:px-0">
+        <div
+          className={`${suggestedList ? '' : ' lg:basis-4/5'} grid grid-cols-2 gap-2 px-5 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 md:gap-5 xl:gap-10 md:px-0`}
+        >
           {data
             ?.filter((item) => !categoryId || item.categoryId === categoryId)
             .map((item: Item, index: number) => (
