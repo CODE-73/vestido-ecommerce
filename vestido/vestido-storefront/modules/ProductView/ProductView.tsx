@@ -7,10 +7,10 @@ import { LuCalendar, LuScaling, LuShoppingBag, LuTruck } from 'react-icons/lu';
 import Markdown from 'react-markdown';
 
 import {
+  ItemDetailsResponse,
   useAddToCart,
   useAddToWishlist,
   useCategory,
-  useItem,
   useRemoveFromWishlist,
   useWishlist,
 } from '@vestido-ecommerce/items';
@@ -33,8 +33,6 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  // CarouselNext,
-  // CarouselPrevious,
 } from '@vestido-ecommerce/shadcn-ui/carousel';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
@@ -42,18 +40,15 @@ import { AddToWishListButton } from '../HomePage/SpecialOffer/AddToWishlistButto
 import ProductlistView from '../ProductListView/ProductListView';
 
 interface ProductViewProps {
-  itemId: string;
+  item: NonNullable<ItemDetailsResponse['data']>;
 }
 
-const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
-  const { data } = useItem(itemId);
-
-  const item = data?.data;
-  const { data: category } = useCategory(item?.categoryId);
+const ProductView: React.FC<ProductViewProps> = ({ item }) => {
+  const { data: category } = useCategory(item.categoryId);
   const itemCategory = category?.data.name;
 
   const [selectedImage, setSelectedImage] = React.useState<string>(
-    ((item?.images ?? []) as ImageSchemaType[])[0]?.url ?? '',
+    ((item.images ?? []) as ImageSchemaType[])[0]?.url ?? '',
   );
 
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(
