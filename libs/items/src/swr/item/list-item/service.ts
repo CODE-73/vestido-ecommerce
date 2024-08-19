@@ -2,11 +2,11 @@ import { ListItemRequest } from '../../../services/items/list-item/types';
 import { ListItemResponse } from './types';
 
 export async function getItemList(
-  args: ListItemRequest,
+  args?: ListItemRequest,
 ): Promise<ListItemResponse> {
   let url = '/api/items';
 
-  if (args.q) {
+  if (args?.q) {
     const encodedQuery = encodeURIComponent(args.q);
     url += `?q=${encodedQuery}`;
   }
