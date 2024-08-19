@@ -68,7 +68,6 @@ const Footer = () => {
             <Link href="/my-account">My Account</Link>
             <Link href="/view-cart">View Cart</Link>
             <Link href="/wishlist">Wishlist</Link>
-            <Link href="/compare">Compare</Link>
           </CollapsableFooterSection>
         </div>
         <div className="sm:col-span-6 xl:col-span-3 sm:pt-10 xl:pt-0">
