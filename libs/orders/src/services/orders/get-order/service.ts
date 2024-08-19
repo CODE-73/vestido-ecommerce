@@ -10,6 +10,9 @@ export async function getOrder(orderId: string) {
       id: orderId,
     },
     include: {
+      customer: true,
+      shippingAddress: true,
+      payments: true,
       orderItems: {
         include: {
           item: {

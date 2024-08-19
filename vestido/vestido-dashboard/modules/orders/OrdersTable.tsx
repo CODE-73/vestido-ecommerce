@@ -15,31 +15,30 @@ import {
 interface ProductTableProps {
   data: ListAdminOrderResponse | undefined;
 }
+export const formattedDate = (dateTime: Date) => {
+  const day = String(dateTime.getDate()).padStart(2, '0'); // Get day and ensure two digits
+  const month = String(dateTime.getMonth() + 1).padStart(2, '0'); // Get month and ensure two digits (months are zero-indexed in JS)
+  const year = dateTime.getFullYear(); // Get the full year
+
+  return `${day}/${month}/${year}`; // Format as dd/mm/yyyy
+};
+
+export const formattedTime = (dateTime: Date) => {
+  let hours = dateTime.getHours(); // Get hours (0-23)
+  const minutes = String(dateTime.getMinutes()).padStart(2, '0'); // Get minutes and ensure two digits
+  const ampm = hours >= 12 ? 'PM' : 'AM'; // Determine AM or PM
+
+  hours = hours % 12; // Convert to 12-hour format
+  hours = hours ? hours : 12; // The hour '0' should be '12'
+
+  return `${hours}:${minutes} ${ampm}`;
+};
 
 const OrdersTable: React.FC<ProductTableProps> = ({ data }) => {
   const router = useRouter();
 
   const handleRowClick = (order: string) => {
     router.push(`/orders/${encodeURIComponent(order)}`);
-  };
-
-  const formattedDate = (dateTime: Date) => {
-    const day = String(dateTime.getDate()).padStart(2, '0'); // Get day and ensure two digits
-    const month = String(dateTime.getMonth() + 1).padStart(2, '0'); // Get month and ensure two digits (months are zero-indexed in JS)
-    const year = dateTime.getFullYear(); // Get the full year
-
-    return `${day}/${month}/${year}`; // Format as dd/mm/yyyy
-  };
-
-  const formattedTime = (dateTime: Date) => {
-    let hours = dateTime.getHours(); // Get hours (0-23)
-    const minutes = String(dateTime.getMinutes()).padStart(2, '0'); // Get minutes and ensure two digits
-    const ampm = hours >= 12 ? 'PM' : 'AM'; // Determine AM or PM
-
-    hours = hours % 12; // Convert to 12-hour format
-    hours = hours ? hours : 12; // The hour '0' should be '12'
-
-    return `${hours}:${minutes} ${ampm}`;
   };
 
   return (
