@@ -6,8 +6,6 @@ import {
   LuMapPin,
   LuPhone,
   LuUser,
-  LuUserCircle,
-  LuWalletCards,
 } from 'react-icons/lu';
 
 import { useOrder } from '@vestido-ecommerce/orders';
@@ -35,6 +33,7 @@ import {
   DialogContent,
   DialogTrigger,
 } from '@vestido-ecommerce/shadcn-ui/dialog';
+import { CreateFulfillmentDialog } from './CreateFulfillmentDialog';
 type OrderDetailsProps = {
   orderId: string;
 };
@@ -52,7 +51,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
           <DialogTrigger asChild>
             <Button className="h-14 col-start-6">Create a Fulfillment</Button>
           </DialogTrigger>
-          <DialogContent>Hello</DialogContent>
+          {order && <CreateFulfillmentDialog order={order} />}
         </Dialog>
       </div>
       <div className="grid grid-cols-6 gap-3">

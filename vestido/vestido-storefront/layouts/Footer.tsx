@@ -115,12 +115,12 @@ const Footer = () => {
           <div className="flex flex-col w-full items-start  md:flex-row md:justify-center md:items-center bg-zinc-100 gap-4 pb-10">
             <Button className=" lg:flex gap-4 h-auto">
               <Image
-                src="/assets/gplay.png"
+                src="/assets/googleplay.png"
                 alt="G-Play"
                 width="25"
                 height="25"
               />
-              <div className="flex  flex-col items-start">
+              <div className="flex  flex-col items-start text-xs">
                 <div className="uppercase">get it on</div>
                 <div className="font-semibold">Google Play</div>
               </div>
@@ -132,7 +132,7 @@ const Footer = () => {
                 width="25"
                 height="25"
               />
-              <div className="flex text-xs md:text-base flex-col items-start">
+              <div className="flex text-xs flex-col items-start">
                 <div className=" uppercase ">Available on </div>
                 <div className="font-semibold">App Store</div>
               </div>
