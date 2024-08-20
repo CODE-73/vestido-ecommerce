@@ -24,6 +24,7 @@ export async function getOrder(orderId: string) {
       },
     },
   });
+
   if (order) {
     const images = order.orderItems.flatMap((orderItem) => [
       ...((orderItem.item.images ?? []) as ImageSchemaType[]),

@@ -47,7 +47,10 @@
         "libs/shadcn-ui/src/index.ts",
         "../../libs/shadcn-ui/src/index.ts"
       ],
-      "@vestido-ecommerce/shadcn-ui/*": ["libs/shadcn-ui/src/ui/*"],
+      "@vestido-ecommerce/shadcn-ui/*": [
+        "libs/shadcn-ui/src/ui/*",
+        "../../libs/shadcn-ui/src/ui/*"
+      ],
       "@vestido-ecommerce/shiprocket": [
         "libs/third-party/shiprocket/src/index.ts"
       ],

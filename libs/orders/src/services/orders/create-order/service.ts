@@ -47,5 +47,36 @@ export async function createOrder(_data: CreateOrderSchemaType) {
     },
   });
 
-  return newOrder;
+  let newPayment = null;
+  if (paymentType == 'CASH_ON_DELIVERY') {
+    newPayment = await prisma.payment.create({
+      data: {
+        order: {
+          connect: {
+            id: newOrder.id,
+          },
+        },
+        paymentGateway: 'Cash on Delivery',
+        paymentGatewayRef: 'Null',
+        moreDetails: 'Null',
+        currency: 'INR',
+        amount: itemsPrice + shippingCharges,
+        status: 'PENDING',
+      },
+    });
+  }
+
+  return {
+    order: newOrder,
+    payment: newPayment,
+  };
+  /**
+   * return {
+   *  order: newOrder,
+   *  paymentGateway: "",
+   *  paymentGatewayArgs: {
+   *     ...
+   *  }
+   * }
+   */
 }

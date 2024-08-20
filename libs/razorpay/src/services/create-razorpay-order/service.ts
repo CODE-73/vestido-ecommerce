@@ -7,13 +7,12 @@ import { CreateRPOrderSchema } from './zod';
 
 export async function createRazorpayOrder(data: CreateRPOrderRequest) {
   const razorpay = new Razorpay({
-    key_id: process.env['RAZORPAY_KEY_ID'] as string,
+    key_id: process.env['NEXT_PUBLIC_RAZORPAY_KEY_ID'] as string,
     key_secret: process.env['RAZORPAY_KEY_SECRET'] as string,
   });
 
   const prisma = getPrismaClient();
-
-  const validatedData = CreateRPOrderSchema.parse(data);
+  const validatedData = CreateRPOrderSchema.parse(data.razorpayData);
 
   const { amount, currency } = validatedData;
 
@@ -21,17 +20,29 @@ export async function createRazorpayOrder(data: CreateRPOrderRequest) {
     amount,
     currency,
   };
-
   const resp = await razorpay.orders.create(options);
-
-  await prisma.payment.update({
-    where: {
-      orderId: validatedData.orderId,
-    },
-    data: {
-      paymentGatewayRef: resp.id,
-    },
-  });
-
-  return resp.id;
+  if (resp.status == 'created') {
+    const newPayment = await prisma.payment.create({
+      data: {
+        order: {
+          connect: {
+            id: validatedData.orderId,
+          },
+        },
+        paymentGateway: 'Razorpay',
+        paymentGatewayRef: resp.id,
+        moreDetails: 'Null',
+        currency: resp.currency,
+        amount: validatedData.amount,
+        status: resp.status,
+      },
+    });
+    const response = {
+      razorpayOrderId: resp.id,
+      paymentId: newPayment.id,
+    };
+    return response;
+  } else {
+    throw new Error('Error Creating Razorpay Order');
+  }
 }
