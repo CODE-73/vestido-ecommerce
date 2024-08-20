@@ -175,7 +175,7 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
                   </div>
                 )}
 
-                <div className="self-start pt-[#1px] capitalize text-[#333333] text-md font-light md:mb-4">
+                <div className="self-start pt-[#2px] capitalize text-[#333333] text-md font-light md:mb-4 w-full truncate">
                   {item.title}
                 </div>
                 <div className="self-start md:hidden mb-4">

@@ -1,10 +1,11 @@
 import { FC } from 'react';
 
+import { useMediaQuery } from '@react-hook/media-query';
 import clsx from 'clsx';
 
 import { useItems } from '@vestido-ecommerce/items';
 
-import SpecialOfferCard from './TopProductCard';
+import TopProductCard from './TopProductCard';
 
 type SpecialOfferProps = {
   className?: string;
@@ -12,6 +13,7 @@ type SpecialOfferProps = {
 
 export const TopProducts: FC<SpecialOfferProps> = (props) => {
   const { data } = useItems();
+  const isMdAndAbove = useMediaQuery('(min-width: 768px)');
 
   return (
     <div
@@ -22,9 +24,13 @@ export const TopProducts: FC<SpecialOfferProps> = (props) => {
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
-        {data
-          ?.slice(0, 5)
-          .map((data, index) => <SpecialOfferCard key={index} data={data} />)}
+        {isMdAndAbove
+          ? data
+              ?.slice(0, 5)
+              .map((data, index) => <TopProductCard key={index} data={data} />)
+          : data
+              ?.slice(0, 6)
+              .map((data, index) => <TopProductCard key={index} data={data} />)}
       </div>
     </div>
   );

@@ -14,11 +14,11 @@ import { ImageSchemaType } from '@vestido-ecommerce/utils';
 import { AddToWishListButton } from '../SpecialOffer/AddToWishlistButton';
 import AddToCartButton from './AddToCartButton';
 
-interface SpecialOfferCardProps {
+interface TopProductCardProps {
   data: Item;
 }
 
-const SpecialOfferCard: React.FC<SpecialOfferCardProps> = ({ data: item }) => {
+const TopProductCard: React.FC<TopProductCardProps> = ({ data: item }) => {
   const { trigger: wishlistTrigger } = useAddToWishlist();
   const { trigger: removeWishlistTrigger } = useRemoveFromWishlist();
   const { data: wishlistData } = useWishlist();
@@ -65,11 +65,31 @@ const SpecialOfferCard: React.FC<SpecialOfferCardProps> = ({ data: item }) => {
         />
       </Link>
 
-      <div className="self-start pt-[#1px] capitalize text-[#333333] text-md font-thin">
+      <div className="self-start pt-[#1px] capitalize text-[#333333] text-md font-light w-full truncate">
         {item.title}
       </div>
-      <div className="hidden md:block">
-        {' '}
+      <div className="self-start md:hidden mb-4">
+        {item.discountedPrice ? (
+          <div>
+            <div className="text-black text-sm font-semibold">
+              ₹&nbsp;{item.discountedPrice.toFixed(2)}
+            </div>
+            {item.discountedPrice < item.price ? (
+              <div className="text-gray-500 line-through text-xs">
+                ₹&nbsp;{item.price.toFixed(2)}
+              </div>
+            ) : (
+              ''
+            )}
+          </div>
+        ) : (
+          <div className="text-black text-sm font-semibold">
+            ₹&nbsp;{item.price.toFixed(2)}
+          </div>
+        )}
+      </div>
+
+      <div className="hidden md:block w-full self-start mt-4">
         <AddToCartButton
           price={item.price}
           offerPrice={item.discountedPrice}
@@ -90,4 +110,4 @@ const SpecialOfferCard: React.FC<SpecialOfferCardProps> = ({ data: item }) => {
   );
 };
 
-export default SpecialOfferCard;
+export default TopProductCard;
