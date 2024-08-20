@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import { useMediaQuery } from '@react-hook/media-query';
 import { LuChevronUp } from 'react-icons/lu';
 
 import useIsMobile from '../../hooks/useIsMobile';
@@ -21,6 +22,7 @@ const BackToTopButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
 const HomePage: React.FC = () => {
   const [showBackToTop, setShowBackToTop] = React.useState(false);
   const isMobile = useIsMobile();
+  const isMdOrAbove = useMediaQuery('(min-width: 768px)');
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -53,9 +55,14 @@ const HomePage: React.FC = () => {
       <TopProducts className="pt-16 sm:pt-24 max-w-[100vw] overflow-hidden px-4 sm:px-0 md:px-4 lg:max-w-7xl lg:self-center" />
 
       <PopularCollection className="pt-16 px-1 sm:px-0" />
-      <div style={{ height: height, minHeight: height }}>
-        <HorizontalScrollCards className="w-full relative mt-20 px-1 sm:px-0" />
-      </div>
+      {/* <div style={{ height: height, minHeight: height }}> */}
+      {isMdOrAbove ? (
+        <div style={{ height: height, minHeight: height }}>
+          <HorizontalScrollCards className="w-full relative mt-20 px-1 sm:px-0 " />
+        </div>
+      ) : (
+        <HorizontalScrollCards className="w-full relative my-20 px-1 sm:px-0" />
+      )}
       {!isMobile && showBackToTop && <BackToTopButton onClick={scrollToTop} />}
     </div>
   );

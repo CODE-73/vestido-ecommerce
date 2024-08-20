@@ -36,7 +36,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ data }) => {
               sizes="(max-width: 640px) 50vw"
             />
           </div>
-          <div className="pt-2 capitalize text-center text-sm md:text-md group-hover:underline group-hover:underline-offset-4 leading-normal text-[#333333] group-hover:text-[#48CAB2] ">
+          <div className="pt-2 capitalize text-center text-xs md:text-base group-hover:underline group-hover:underline-offset-4 leading-normal text-[#333333] group-hover:text-[#48CAB2] ">
             {data.title}
           </div>
         </div>

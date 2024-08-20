@@ -24,17 +24,30 @@ const HorizontalScrollCard: React.FC<ScrollCardProps> = ({ data }) => {
           sizes="(max-width: 640px) 50vw"
         />
       </div>
-      <div className="w-full flex flex-col items-center">
-        <div className="uppercase text-md font-extrabold pt-6">
+      <div className="w-full flex flex-col max-w-full items-center">
+        <div
+          className="w-full uppercase truncate text-clip
+         font-bold pt-6"
+        >
           {data.subtitle1}
         </div>
 
-        <div className="capitalize font-bold text-4xl group-hover:underline group-hover:underline-offset-4 leading-normal main-title ">
+        <div className="hidden md:block capitalize font-bold text-4xl group-hover:underline group-hover:underline-offset-4 leading-normal main-title ">
           {data.mainTitle}
         </div>
 
-        <div className="font-extralight w-full">{data.subtitle2}</div>
-        <div className="sm:hidden group-hover:block -m-4">
+        <div
+          className="font-extralight w-full text-sm md:text-base text-ellipsis"
+          style={{
+            display: '-webkit-box',
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical',
+            whiteSpace: 'normal',
+          }}
+        >
+          {data.subtitle2}
+        </div>
+        <div className="sm:hidden group-hover:block ">
           <DiscoverButton />
         </div>
       </div>

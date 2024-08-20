@@ -85,22 +85,22 @@ export const PrimaryCarousel: React.FC = () => {
     <div className="">
       <Carousel
         plugins={[plugin.current]}
-        className="col-span-8 sm:col-start-3 sm:col-span-6 pt-2 pr-0 relative"
+        className=" pt-2 pr-0 relative"
         onMouseEnter={plugin.current.stop}
         onMouseLeave={plugin.current.reset}
       >
-        <CarouselContent>
+        <CarouselContent className="h-64">
           {carouselSlides.map((slide, index) => (
             <PrimaryCarouselItem data={slide} key={index} />
           ))}
         </CarouselContent>
-        <div className="absolute bottom-10 left-[45%]">
+        <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2">
           <CarouselDots>
             {({ scrollSnap, onClick, selectedIndex, index }) => (
               <button
-                className={clsx('rounded-none h-1', {
-                  'bg-[#333] w-8': selectedIndex === index,
-                  'w-3 bg-white': selectedIndex !== index,
+                className={clsx('rounded-full md:rounded-none h-1', {
+                  'bg-[#333] w-4 md:w-8': selectedIndex === index,
+                  'w-2 md:w-3 bg-white': selectedIndex !== index,
                 })}
                 key={scrollSnap}
                 onClick={() => onClick(index)}

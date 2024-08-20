@@ -24,15 +24,15 @@ const PrimaryCarouselItem: React.FC<PrimaryCarouselItemProps> = ({ data }) => {
     <CarouselItem>
       <div className="relative">
         <div
-          className={`flex flex-col gap-1 absolute top-1/3 ${data.textPosition} text-${data.textAlign} `}
+          className={`flex flex-col gap-1 absolute mt-3 md:mt-auto md:top-1/3 ${data.textPosition} text-${data.textAlign} `}
         >
           <div
-            className={`uppercase text-sm md:text-md font-extrabold text-${data.textColor}`}
+            className={`uppercase text-xs md:text-base font-extrabold text-${data.textColor}`}
           >
             {data.subtitle1}
           </div>
           <div
-            className={`capitalize font-bold text-xl md:text-5xl max-w-[500px] leading-normal text-${data.textColor}`}
+            className={`capitalize font-bold text-lg md:text-5xl max-w-[500px] leading-normal text-${data.textColor}`}
           >
             {data.mainTitle}
           </div>
@@ -45,7 +45,7 @@ const PrimaryCarouselItem: React.FC<PrimaryCarouselItemProps> = ({ data }) => {
         </div>
 
         <Image
-          className="min-h-[500px] md:min-auto overflow-hidden object-cover"
+          className="min-h-[300px] md:min-auto overflow-hidden object-cover"
           src={data.backgroundImage}
           alt="Your alt text"
         />

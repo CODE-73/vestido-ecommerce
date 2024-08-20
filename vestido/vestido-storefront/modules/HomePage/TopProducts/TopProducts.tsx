@@ -14,9 +14,11 @@ export const TopProducts: FC<SpecialOfferProps> = (props) => {
   const { data } = useItems();
 
   return (
-    <div className={`flex flex-col items-center ${clsx(props.className)}`}>
-      <div className="text-4xl tracking-wide text-[#333333] font-extrabold hover:text-[#48cab2] pb-12">
-        Top Products of this Week
+    <div
+      className={`flex flex-col items-center justify-center ${clsx(props.className)}`}
+    >
+      <div className="text-2xl md:text-4xl tracking-wide text-[#333333] font-bold hover:text-[#48cab2] pb-12">
+        Top Products of the Week
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
