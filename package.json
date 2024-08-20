@@ -7,6 +7,8 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.587.0",
     "@aws-sdk/s3-request-presigner": "^3.587.0",
+    "@capacitor/app": "^6.0.1",
+    "@capacitor/core": "^6.1.2",
     "@hookform/resolvers": "^3.3.4",
     "@prisma/client": "5.16.1",
     "@radix-ui/react-accessible-icon": "^1.0.3",
@@ -73,6 +75,9 @@
   "devDependencies": {
     "@babel/core": "^7.14.5",
     "@babel/preset-react": "^7.14.5",
+    "@capacitor/android": "^6.1.2",
+    "@capacitor/cli": "^6.1.2",
+    "@capacitor/ios": "^6.1.2",
     "@nx/eslint": "17.2.8",
     "@nx/eslint-plugin": "17.2.8",
     "@nx/jest": "17.2.8",

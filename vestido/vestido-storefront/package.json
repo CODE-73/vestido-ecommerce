@@ -1,0 +1,12 @@
+{
+  "name": "vestido-storefront",
+  "devDependencies": {
+    "@capacitor/android": "../../node_modules/@capacitor/android",
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/cli": "../../node_modules/@capacitor/cli",
+    "@capacitor/ios": "../../node_modules/@capacitor/ios"
+  },
+  "dependencies": {
+    "@capacitor/app": "../../node_modules/@capacitor/app"
+  }
+}
