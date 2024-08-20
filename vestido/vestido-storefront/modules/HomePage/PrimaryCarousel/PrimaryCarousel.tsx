@@ -94,7 +94,7 @@ export const PrimaryCarousel: React.FC = () => {
             <PrimaryCarouselItem data={slide} key={index} />
           ))}
         </CarouselContent>
-        <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2">
+        <div className="absolute bottom-2 md:bottom-10 left-1/2 transform -translate-x-1/2">
           <CarouselDots>
             {({ scrollSnap, onClick, selectedIndex, index }) => (
               <button
