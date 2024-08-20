@@ -10,10 +10,7 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": [
-      "es2020",
-      "dom"
-    ],
+    "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
@@ -50,17 +47,16 @@
         "libs/shadcn-ui/src/index.ts",
         "../../libs/shadcn-ui/src/index.ts"
       ],
-      "@vestido-ecommerce/shadcn-ui/*": [
-        "libs/shadcn-ui/src/ui/*"
+      "@vestido-ecommerce/shadcn-ui/*": ["libs/shadcn-ui/src/ui/*"],
+      "@vestido-ecommerce/shiprocket": [
+        "libs/third-party/shiprocket/src/index.ts"
       ],
       "@vestido-ecommerce/utils": [
         "libs/utils/src/index.ts",
         "../../libs/utils/src/index.ts"
-      ]
+      ],
+      "@third-party/shiprocket/*": ["libs/third-party/shiprocket/src/*"]
     }
   },
-  "exclude": [
-    "node_modules",
-    "tmp"
-  ]
+  "exclude": ["node_modules", "tmp"]
 }

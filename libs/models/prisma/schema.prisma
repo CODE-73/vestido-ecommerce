@@ -236,13 +236,19 @@ model Payment {
 }
 
 model Fulfillment {
-    id              String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    order           Order             @relation(fields: [orderId], references: [id])
-    orderId         String            @db.Uuid
-    status          String
-    tracking        String?
-    dateTime        DateTime          @default(now())
-    FulfillmentItem FulfillmentItem[]
+    id                  String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    order               Order             @relation(fields: [orderId], references: [id])
+    orderId             String            @db.Uuid
+    status              String
+    tracking            String?
+    dateTime            DateTime          @default(now())
+    shiprocket_order_id String?
+    shipment_id         String?
+    length              Float?
+    breadth             Float?
+    height              Float?
+    weight              Float?
+    FulfillmentItem     FulfillmentItem[]
 }
 
 model FulfillmentItem {
