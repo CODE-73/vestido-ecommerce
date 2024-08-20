@@ -1,7 +1,7 @@
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 
-import { LuShoppingBag } from 'react-icons/lu';
-
+import { GetOrderResponse } from '@vestido-ecommerce/orders';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
   DialogContent,
@@ -10,18 +10,15 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@vestido-ecommerce/shadcn-ui/dialog';
-import { ImageSchemaType } from '@vestido-ecommerce/utils';
 import {
   Table,
   TableBody,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from '@vestido-ecommerce/shadcn-ui/table';
-import { GetOrderResponse } from '@vestido-ecommerce/orders';
-import { useRouter } from 'next/router';
+import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 type CreateFulfillmentDialogProps = {
   order: GetOrderResponse['data'];

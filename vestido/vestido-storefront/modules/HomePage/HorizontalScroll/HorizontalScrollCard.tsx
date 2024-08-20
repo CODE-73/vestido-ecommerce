@@ -47,7 +47,7 @@ const HorizontalScrollCard: React.FC<ScrollCardProps> = ({ data }) => {
         >
           {data.subtitle2}
         </div>
-        <div className="sm:hidden group-hover:block ">
+        <div className="sm:hidden group-hover:block mx-1 ">
           <DiscoverButton />
         </div>
       </div>

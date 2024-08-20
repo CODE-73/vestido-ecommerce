@@ -89,7 +89,7 @@ export const PrimaryCarousel: React.FC = () => {
         onMouseEnter={plugin.current.stop}
         onMouseLeave={plugin.current.reset}
       >
-        <CarouselContent className="h-64">
+        <CarouselContent className="h-64 sm:h-auto">
           {carouselSlides.map((slide, index) => (
             <PrimaryCarouselItem data={slide} key={index} />
           ))}
