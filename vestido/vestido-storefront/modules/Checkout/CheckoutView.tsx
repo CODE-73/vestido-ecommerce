@@ -9,11 +9,12 @@ import { LuChevronRight } from 'react-icons/lu';
 import { z } from 'zod';
 
 import { useCart } from '@vestido-ecommerce/items';
+import { useCreateOrder, useShippingCharges } from '@vestido-ecommerce/orders';
 import {
-  // useAddresses,
-  useCreateOrder,
-  useShippingCharges,
-} from '@vestido-ecommerce/orders';
+  useCreatePayment,
+  useRazorpayCreateOrder,
+  useVerifyPayment,
+} from '@vestido-ecommerce/razorpay';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Dialog, DialogTrigger } from '@vestido-ecommerce/shadcn-ui/dialog';
 import { Form } from '@vestido-ecommerce/shadcn-ui/form';
@@ -22,6 +23,7 @@ import { ImageSchemaType } from '@vestido-ecommerce/utils';
 import AddAddressDialog from './AddAddressDialog';
 import { CustomerAddressElement } from './CustomerAddressElement';
 import { PaymentTypeElement } from './PaymentTypeElement';
+
 const OrderItemSchema = z.object({
   itemId: z.string().uuid(),
   price: z.coerce.number(),
@@ -34,6 +36,8 @@ const CreateOrderFormSchema = z.object({
   orderItems: z.array(OrderItemSchema),
   paymentType: z.enum(['ONLINE', 'CASH_ON_DELIVERY']),
 });
+
+// types.tsx
 
 export type CreateOrderForm = z.infer<typeof CreateOrderFormSchema>;
 const CheckoutView: React.FC = () => {
@@ -75,19 +79,84 @@ const CheckoutView: React.FC = () => {
 
   const shippingCharges = shipping?.data?.shippingCost ?? 0;
 
-  const { trigger } = useCreateOrder();
+  const { trigger: createOrderTrigger } = useCreateOrder();
+  const { trigger: createRazorpayOrderTrigger } = useRazorpayCreateOrder();
+  const { trigger: createPaymentTrigger } = useCreatePayment();
+  const { trigger: verifyPaymentTrigger } = useVerifyPayment();
 
   const totalPrice =
     cartItems?.data.reduce((total, item) => {
       return total + item.qty * item.item.price;
     }, 0) ?? 0;
 
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
   const handleSubmit = async (data: CreateOrderForm) => {
-    console.log('data is', data);
     try {
-      await trigger({
+      const createOrderResponse = await createOrderTrigger({
         ...data,
       });
+      if (!createOrderResponse.success) {
+        throw createOrderResponse.error;
+      }
+
+      console.log('Create Order Response: ', createOrderResponse);
+      const { order, payment } = createOrderResponse.data;
+
+      const orderId = order.id;
+      const paymentId = payment?.id ?? null;
+      console.log('orderId & PaymentId : ', orderId, paymentId);
+
+      const toPay = totalPrice + shippingCharges;
+      const amountInPaise = Math.round(toPay * 100);
+
+      if (paymentType == 'ONLINE') {
+        const razorpayData = {
+          orderId,
+          amount: amountInPaise,
+          currency: 'INR',
+        };
+
+        const razorpayOrderResp = await createRazorpayOrderTrigger({
+          razorpayData,
+        });
+
+        console.log('Razorpay Order Details:', razorpayOrderResp);
+        const paymentData = {
+          orderId: createOrderResponse.data?.order.id,
+          razorpayOrderId: razorpayOrderResp.razorpayOrderId,
+          amount: amountInPaise,
+          paymentId: razorpayOrderResp.paymentId,
+        };
+
+        const PaymentResponse = await createPaymentTrigger({
+          ...paymentData,
+        });
+
+        const verifyPaymentData = {
+          paymentId: razorpayOrderResp.paymentId,
+          order_id: PaymentResponse.razorpay_order_id,
+          payment_RP_id: PaymentResponse.razorpay_payment_id,
+          razorpay_signature: PaymentResponse.razorpay_signature,
+        };
+        const verifyPaymentRespone = await verifyPaymentTrigger({
+          ...verifyPaymentData,
+        });
+        if (verifyPaymentRespone.message) {
+          console.log('Payment Successfull');
+        } else {
+          console.log('Payment not success');
+        }
+      }
     } catch (e) {
       console.error('Error creating order:', e);
     }

@@ -2,13 +2,13 @@ import axios from 'axios'; // Import Axios
 
 import {
   CreateOrderRequest,
-  CreateOrderResponse,
+  CreateOrderSWRResponse,
 } from '../../../services/orders/create-order/types';
 
 export async function createNewOrder(
   args: CreateOrderRequest,
   authHeaders: Record<string, string>,
-): Promise<CreateOrderResponse> {
+): Promise<CreateOrderSWRResponse> {
   try {
     const r = await axios.post('/api/orders', args, {
       headers: {
@@ -16,7 +16,7 @@ export async function createNewOrder(
       },
     });
 
-    return r.data as CreateOrderResponse;
+    return r.data as CreateOrderSWRResponse;
   } catch (error) {
     console.error('Error placing order', error);
     throw new Error('Error placing order');

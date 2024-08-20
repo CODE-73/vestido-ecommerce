@@ -51,7 +51,8 @@
         "../../libs/shadcn-ui/src/index.ts"
       ],
       "@vestido-ecommerce/shadcn-ui/*": [
-        "libs/shadcn-ui/src/ui/*"
+        "libs/shadcn-ui/src/ui/*",
+        "../../libs/shadcn-ui/src/ui/*"
       ],
       "@vestido-ecommerce/utils": [
         "libs/utils/src/index.ts",

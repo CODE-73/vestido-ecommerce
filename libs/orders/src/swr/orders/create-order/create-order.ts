@@ -5,7 +5,7 @@ import { useClearCacheOnSuccess } from '@vestido-ecommerce/utils';
 
 import {
   CreateOrderRequest,
-  CreateOrderResponse,
+  CreateOrderSWRResponse,
 } from '../../../services/orders/create-order/types';
 import { CreateOrderSWRKeys } from '../keys';
 import { createNewOrder } from './service';
@@ -15,7 +15,7 @@ export const useCreateOrder = () => {
   const key = [CreateOrderSWRKeys.CREATE, CreateOrderSWRKeys.ORDER];
 
   return useSWRMutation<
-    CreateOrderResponse,
+    CreateOrderSWRResponse,
     Error,
     string[] | null,
     CreateOrderRequest
