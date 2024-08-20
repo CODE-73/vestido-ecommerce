@@ -8,6 +8,7 @@ export * from './cart/get-cart';
 export * from './cart/remove-from-cart';
 export * from './categories/create-category';
 export * from './categories/delete-category';
+export * from './categories/generate-search-terms';
 export * from './categories/get-category';
 export * from './categories/list-category';
 export * from './categories/update-category';
