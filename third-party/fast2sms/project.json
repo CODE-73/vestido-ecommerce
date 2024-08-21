@@ -1,0 +1,23 @@
+{
+  "name": "fast2sms",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "third-party/fast2sms/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/third-party/fast2sms",
+        "main": "third-party/fast2sms/src/index.ts",
+        "tsConfig": "third-party/fast2sms/tsconfig.lib.json",
+        "assets": ["third-party/fast2sms/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": []
+}
