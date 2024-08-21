@@ -27,7 +27,7 @@ const PrimaryCarouselItem: React.FC<PrimaryCarouselItemProps> = ({ data }) => {
           className={`flex flex-col gap-1 absolute mt-10 md:mt-auto md:top-1/3 ${data.textPosition} text-${data.textAlign} `}
         >
           <div
-            className={`uppercase text-xs md:text-base font-extrabold text-${data.textColor}`}
+            className={`uppercase text-xs md:text-base font-bold md:font-extrabold text-${data.textColor}`}
           >
             {data.subtitle1}
           </div>
@@ -36,7 +36,9 @@ const PrimaryCarouselItem: React.FC<PrimaryCarouselItemProps> = ({ data }) => {
           >
             {data.mainTitle}
           </div>
-          <div className={`font-extralight text-${data.textColor}`}>
+          <div
+            className={`text-xs font-light md:text-base md:font-extralight text-${data.textColor}`}
+          >
             {data.subtitle2}
           </div>
           <div>

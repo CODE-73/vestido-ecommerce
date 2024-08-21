@@ -6,6 +6,7 @@ import cardImage1 from '../../../assets/popular/brown.jpg';
 import cardImage2 from '../../../assets/popular/chair.jpg';
 import cardImage5 from '../../../assets/popular/floor.jpg';
 import cardImage3 from '../../../assets/popular/purple.jpg';
+import cardImage4 from '../../../assets/popular/shoe.jpg';
 import PopularCollectionCard, {
   PopularCollectionCardData,
 } from './PopularCollectionCard';
@@ -24,6 +25,11 @@ const cards: PopularCollectionCardData[] = [
   {
     cardImage: cardImage3,
     mainTitle: 'top trending',
+  },
+  {
+    cardImage: cardImage4,
+    mainTitle: 'the all-in-one',
+    textColor: '[#333333]',
   },
 
   {

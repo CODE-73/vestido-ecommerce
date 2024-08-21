@@ -1,6 +1,6 @@
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 
-import { useMediaQuery } from '@react-hook/media-query';
 import { LuChevronUp } from 'react-icons/lu';
 
 import useIsMobile from '../../hooks/useIsMobile';
@@ -20,11 +20,10 @@ const BackToTopButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
 );
 
 const HomePage: React.FC = () => {
-  const [showBackToTop, setShowBackToTop] = React.useState(false);
+  const [showBackToTop, setShowBackToTop] = useState(false);
   const isMobile = useIsMobile();
-  const isMdOrAbove = useMediaQuery('(min-width: 768px)');
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleScroll = () => {
       const scrollTop =
         window.pageYOffset || document.documentElement.scrollTop;
@@ -45,8 +44,6 @@ const HomePage: React.FC = () => {
     });
   };
 
-  const height = '700px';
-
   return (
     <div className="flex flex-col justify-center ">
       <div className="flex flex-col lg:flex-col-reverse justify-center">
@@ -55,14 +52,9 @@ const HomePage: React.FC = () => {
       <TopProducts className="pt-16 sm:pt-24 max-w-[100vw] overflow-hidden px-4 sm:px-0 md:px-4 lg:max-w-7xl lg:self-center" />
 
       <PopularCollection className="pt-16 px-1 sm:px-0" />
-      {/* <div style={{ height: height, minHeight: height }}> */}
-      {isMdOrAbove ? (
-        <div style={{ height: height, minHeight: height }}>
-          <HorizontalScrollCards className="w-full relative mt-20 px-1 sm:px-0 " />
-        </div>
-      ) : (
-        <HorizontalScrollCards className="w-full relative my-20 px-1 sm:px-0" />
-      )}
+
+      <HorizontalScrollCards className="w-full relative my-20 px-1 sm:px-0" />
+
       {!isMobile && showBackToTop && <BackToTopButton onClick={scrollToTop} />}
     </div>
   );

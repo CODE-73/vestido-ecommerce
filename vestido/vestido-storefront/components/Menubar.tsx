@@ -76,8 +76,8 @@ const HeaderMenubar: React.FC<NavMenuProps> = ({ isFixed }) => {
                         <Link href={`/${category.id}`}>{category.name}</Link>
                       </MenubarItem>
                     </AccordionTrigger>
-                    <AccordionContent>
-                      <ul className="text-stone-500 capitalize py-3 md:w-[200px] lg:w-[200px]">
+                    <AccordionContent className="pb-0">
+                      <ul className="text-stone-500 capitalize md:w-[200px] lg:w-[200px]">
                         {getSubcategories(category.id, ['MEN'])?.map(
                           (subcategory, subIndex) => (
                             <MenubarItem
