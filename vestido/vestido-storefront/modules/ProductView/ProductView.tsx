@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 
 import { Item } from '@prisma/client';
+import { useMediaQuery } from '@react-hook/media-query';
 import { LuCalendar, LuScaling, LuShoppingBag, LuTruck } from 'react-icons/lu';
 import Markdown from 'react-markdown';
 
@@ -38,7 +39,6 @@ import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import { AddToWishListButton } from '../HomePage/SpecialOffer/AddToWishlistButton';
 import ProductlistView from '../ProductListView/ProductListView';
-import { useMediaQuery } from '@react-hook/media-query';
 
 interface ProductViewProps {
   item: NonNullable<ItemDetailsResponse['data']>;
@@ -264,7 +264,7 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
         </BreadcrumbList>
       </Breadcrumb>
 
-      <div className="w-full flex flex-col md:flex-row py-5 sm:px-2 md:px-0 md:space-x-10 md:px-64">
+      <div className="w-full flex flex-col md:flex-row py-5 sm:px-2 md:px-0 md:space-x-10 md:px-10 lg:px-20 xl:px-64">
         <div className="w-full sm:flex hidden sm:block md:w-1/2 justify-start">
           <div
             className="relative basis-1/6 overflow-y-auto no-scrollbar lg:pl-10"
