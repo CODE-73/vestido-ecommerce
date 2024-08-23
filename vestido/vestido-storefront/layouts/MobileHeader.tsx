@@ -83,18 +83,15 @@ const MobileHeader: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="bg-white shadow py-4 px-6 md:px-10">
+    <header className="bg-white shadow py-4 px-2 md:px-10">
       <div className="flex justify-between items-center">
-        <button
-          className="text-white focus:outline-none md:hidden"
-          onClick={toggleDrawer}
-        >
+        <div className="text-white md:hidden" onClick={toggleDrawer}>
           {isDrawerOpen ? (
             <AiOutlineClose size={24} />
           ) : (
-            <LuAlignLeft color="black" />
+            <LuAlignLeft color="black" size={26} />
           )}
-        </button>
+        </div>
 
         <Link href="/">
           <Image
@@ -113,6 +110,7 @@ const MobileHeader: React.FC<HeaderProps> = ({
               className="absolute inset-0 w-full h-full px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none"
               placeholder="Search..."
             />
+            <AiOutlineClose size={24} onClick={toggleSearch} className="z-50" />
           </>
         )}
       </div>

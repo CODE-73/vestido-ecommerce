@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 
 import { Item } from '@prisma/client';
+import { useMediaQuery } from '@react-hook/media-query';
 import { LuCalendar, LuScaling, LuShoppingBag, LuTruck } from 'react-icons/lu';
 import Markdown from 'react-markdown';
 
@@ -237,6 +238,8 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
       }
     }
   };
+
+  const isMdAndAbove = useMediaQuery('(min-width:768px)');
   return (
     <>
       <Breadcrumb className="p-3">
@@ -261,7 +264,7 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
         </BreadcrumbList>
       </Breadcrumb>
 
-      <div className="w-full flex flex-col md:flex-row py-5 sm:px-2 md:px-0 md:space-x-10 md:px-64">
+      <div className="w-full flex flex-col md:flex-row py-5 sm:px-2 md:px-0 md:space-x-10 md:px-10 lg:px-20 xl:px-64">
         <div className="w-full sm:flex hidden sm:block md:w-1/2 justify-start">
           <div
             className="relative basis-1/6 overflow-y-auto no-scrollbar lg:pl-10"
@@ -391,11 +394,11 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
         </div>
         <div className="w-full  md:w-1/2">
           <div className="px-2 sm:px-auto">
-            <h1 className="text-3xl font-semibold mt-5 lg:mt-auto">
+            <h1 className="text-xl md:text-3xl font-semibold mt-2 md:mt-5 lg:mt-auto">
               {item?.title}
             </h1>
             <div className="flex flex-row items-center gap-1">
-              <div className="text-2xl font-semibold">
+              <div className="text-2xl text-gray-500 md:text-black  mt-5 md:mt-0 font-semibold">
                 ₹&nbsp;
                 {item?.discountedPrice && item?.discountedPrice > 0
                   ? item?.discountedPrice.toFixed(2)
@@ -491,22 +494,41 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
             </div>
           </div>
           <hr />
-          <div className="flex justify-between py-5">
-            <div className="flex flex-col  gap-1 items-center">
-              <LuScaling size={28} style={{ strokeWidth: 0.5 }} />
-              <div>Size Guide</div>
-            </div>
-            <div className="flex  flex-col  gap-1 items-center">
-              <LuCalendar size={28} style={{ strokeWidth: 0.5 }} />
-              <div>7 Days Easy Return</div>
-            </div>
-            <div className="flex  flex-col  gap-1 items-center">
-              <LuTruck size={30} style={{ strokeWidth: 0.5 }} />
-              <div>
-                Free Shipping in Kerala
-                <div className="text-[10px] text-center">(Prepaid)</div>
-              </div>
-            </div>
+          <div className="flex justify-between py-5 px-1 sm:px-0">
+            {isMdAndAbove ? (
+              <>
+                <div className="flex flex-col  gap-1 items-center">
+                  <LuScaling size={28} style={{ strokeWidth: 0.5 }} />
+                  <div>Size Guide</div>
+                </div>
+                <div className="flex  flex-col  gap-1 items-center">
+                  <LuCalendar size={28} style={{ strokeWidth: 0.5 }} />
+                  <div>7 Days Easy Return</div>
+                </div>
+                <div className="flex  flex-col  gap-1 items-center">
+                  <LuTruck size={30} style={{ strokeWidth: 0.5 }} />
+                  <div>
+                    Free Shipping in Kerala
+                    <div className="text-[10px] text-center">(Prepaid)</div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="flex flex-col  gap-1 items-center">
+                  <LuScaling size={24} />
+                  <div className="text-xs">Size Guide</div>
+                </div>
+                <div className="flex  flex-col  gap-1 items-center">
+                  <LuCalendar size={24} />
+                  <div className="text-xs">7 Days Easy Return</div>
+                </div>
+                <div className="flex  flex-col  gap-1 items-center">
+                  <LuTruck size={26} />
+                  <div className="text-xs ">Free Shipping in Kerala</div>
+                </div>
+              </>
+            )}
           </div>{' '}
           <hr />
           <div>

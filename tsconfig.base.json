@@ -23,6 +23,10 @@
         "libs/caching/src/index.ts",
         "../../libs/caching/src/index.ts"
       ],
+      "@vestido-ecommerce/fast2sms": [
+        "third-party/fast2sms/src/index.ts",
+        "../../third-party/fast2sms/src/index.ts"
+      ],
       "@vestido-ecommerce/items": [
         "libs/items/src/index.ts",
         "../../libs/items/src/index.ts"

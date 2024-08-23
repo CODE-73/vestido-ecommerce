@@ -1,17 +1,19 @@
 import * as React from 'react';
 import Link from 'next/link';
 
+import * as AccordionPrimitive from '@radix-ui/react-accordion';
+import * as MenubarPrimitive from '@radix-ui/react-menubar';
+import clsx from 'clsx';
+import { LuChevronDown } from 'react-icons/lu';
+
 import { Gender, useCategories } from '@vestido-ecommerce/items';
 import {
   Accordion,
   AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
 } from '@vestido-ecommerce/shadcn-ui/accordion';
 import {
   Menubar,
   MenubarContent,
-  MenubarItem,
   MenubarMenu,
   MenubarTrigger,
 } from '@vestido-ecommerce/shadcn-ui/menubar';
@@ -74,8 +76,8 @@ const HeaderMenubar: React.FC<NavMenuProps> = ({ isFixed }) => {
                         <Link href={`/${category.id}`}>{category.name}</Link>
                       </MenubarItem>
                     </AccordionTrigger>
-                    <AccordionContent>
-                      <ul className="text-stone-500 capitalize py-3 md:w-[200px] lg:w-[200px]">
+                    <AccordionContent className="pb-0">
+                      <ul className="text-stone-500 capitalize md:w-[200px] lg:w-[200px]">
                         {getSubcategories(category.id, ['MEN'])?.map(
                           (subcategory, subIndex) => (
                             <MenubarItem
@@ -160,15 +162,22 @@ const HeaderMenubar: React.FC<NavMenuProps> = ({ isFixed }) => {
             )
             .map((category, index) => (
               <div key={index}>
-                <Accordion type="single" collapsible className="w-full">
-                  <AccordionItem value="item-1">
-                    <AccordionTrigger>
-                      <MenubarItem className=" text-stone-500 capitalize hover:text-[#48cab2] px-2 cursor-pointer">
+                <Accordion
+                  type="single"
+                  collapsible
+                  className="w-full bg-blue-500"
+                >
+                  <AccordionItem
+                    value="item-1"
+                    className="py-0 bg-blue-400 border-none"
+                  >
+                    <AccordionTrigger className="py-0">
+                      <MenubarItem className=" text-stone-500 capitalize hover:text-green-300 hover:bg-transparent focus:bg-transparent focus:text-black px-2 cursor-pointer ">
                         <Link href={`/${category.id}`}>{category.name}</Link>
                       </MenubarItem>
                     </AccordionTrigger>
                     <AccordionContent>
-                      <ul className="text-stone-500 capitalize py-3 md:w-[200px] lg:w-[200px]">
+                      <ul className="text-stone-500 capitalize md:w-[200px] lg:w-[200px]">
                         {getSubcategories(category.id, ['MEN', 'WOMEN'])?.map(
                           (subcategory, subIndex) => (
                             <MenubarItem
@@ -194,18 +203,50 @@ const HeaderMenubar: React.FC<NavMenuProps> = ({ isFixed }) => {
   );
 };
 
-// export const NavigationMenuTrigger = React.forwardRef<
-//   React.ElementRef<typeof NavigationMenuPrimitive.Trigger>,
-//   React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Trigger>
-// >(({ className, children, ...props }, ref) => (
-//   <NavigationMenuPrimitive.Trigger
-//     ref={ref}
-//     className={clsx(navigationMenuTriggerStyle(), 'group', className)}
-//     {...props}
-//   >
-//     {children}
-//   </NavigationMenuPrimitive.Trigger>
-// ));
-// NavigationMenuTrigger.displayName = NavigationMenuPrimitive.Trigger.displayName;
+const AccordionTrigger = React.forwardRef<
+  React.ElementRef<typeof AccordionPrimitive.Trigger>,
+  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>
+>(({ className, children, ...props }, ref) => (
+  <AccordionPrimitive.Header className="flex">
+    <AccordionPrimitive.Trigger
+      ref={ref}
+      className={clsx(
+        'flex flex-1 items-center justify-between font-medium transition-all py-1 [&[data-state=open]>svg]:rotate-180 focus:bg-transparent',
+        className,
+      )}
+      {...props}
+    >
+      {children}
+      <LuChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200" />
+    </AccordionPrimitive.Trigger>
+  </AccordionPrimitive.Header>
+));
+AccordionTrigger.displayName = AccordionPrimitive.Trigger.displayName;
+
+const AccordionItem = React.forwardRef<
+  React.ElementRef<typeof AccordionPrimitive.Item>,
+  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item>
+>(({ className, ...props }, ref) => (
+  <AccordionPrimitive.Item ref={ref} className={clsx(className)} {...props} />
+));
+AccordionItem.displayName = 'AccordionItem';
+
+const MenubarItem = React.forwardRef<
+  React.ElementRef<typeof MenubarPrimitive.Item>,
+  React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Item> & {
+    inset?: boolean;
+  }
+>(({ className, inset, ...props }, ref) => (
+  <MenubarPrimitive.Item
+    ref={ref}
+    className={clsx(
+      'relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none  data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+      inset && 'pl-8',
+      className,
+    )}
+    {...props}
+  />
+));
+MenubarItem.displayName = MenubarPrimitive.Item.displayName;
 
 export default HeaderMenubar;

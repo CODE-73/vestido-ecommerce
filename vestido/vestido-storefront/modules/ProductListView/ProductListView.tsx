@@ -130,7 +130,7 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
             .map((item: Item, index: number) => (
               <div
                 key={index}
-                className="relative flex flex-col items-center group  mb-10 "
+                className="relative flex flex-col items-center group  mb-10 cursor-pointer "
               >
                 {item.discountPercent && item.discountPercent > 0 ? (
                   <Badge className="absolute top-2 left-2 rounded-none uppercase bg-red-500 hover:bg-red-400 cursor-auto">
@@ -175,7 +175,7 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
                   </div>
                 )}
 
-                <div className="self-start pt-[#1px] capitalize text-[#333333] text-md font-light md:mb-4">
+                <div className="self-start pt-[#2px] capitalize text-[#333333] text-md font-light md:mb-4 w-full truncate">
                   {item.title}
                 </div>
                 <div className="self-start md:hidden mb-4">

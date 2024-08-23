@@ -31,6 +31,7 @@ const cards: PopularCollectionCardData[] = [
     mainTitle: 'the all-in-one',
     textColor: '[#333333]',
   },
+
   {
     cardImage: cardImage5,
     mainTitle: 'new in',
@@ -43,14 +44,14 @@ type PopularCollectionProps = {
 
 export const PopularCollection: FC<PopularCollectionProps> = (props) => {
   return (
-    <div className={`flex flex-col items-center ${clsx(props.className)}`}>
-      <div className="text-4xl tracking-wide text-[#333333] font-extrabold">
+    <div
+      className={`flex flex-col items-center justify-center ${clsx(props.className)}`}
+    >
+      <div className="text-2xl md:text-4xl tracking-wide text-[#333333] font-bold">
         Popular Collection
       </div>
-      <div className="text-[#777777] pt-2 pb-10 text-lg">
-        Visit our shop to see amazing creations from our designers.
-      </div>
-      <div className="flex flex-col md:grid md:grid-cols-4 gap-3">
+
+      <div className="flex flex-col md:grid md:grid-cols-4 gap-3 mt-7 md:mt-12">
         {cards.map((card, index) => (
           <PopularCollectionCard key={index} data={card} />
         ))}

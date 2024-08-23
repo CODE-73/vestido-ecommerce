@@ -1,0 +1,3 @@
+- https://www.npmjs.com/package/@capacitor/assets/v/1.0.0-next.0
+- Copy the contents here to vestido/vestido-storefront/assets
+- Run npx capacitor-assets generate --verbose --android

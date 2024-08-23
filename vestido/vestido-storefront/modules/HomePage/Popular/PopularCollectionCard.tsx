@@ -14,9 +14,13 @@ const PopularCollectionCard: React.FC<PopularCollectionCardProps> = ({
   data,
 }) => {
   return (
-    <div className={`group relative overflow-hidden ${data.span}`}>
-      <div className="hover:scale-110 transition duration-500 cursor-pointer object-cover ">
-        <Image src={data.cardImage} alt="alt text" />
+    <div className={`group relative overflow-hidden ${data.span} w-full`}>
+      <div className="hover:scale-110 transition duration-500 cursor-pointer  w-full">
+        <Image
+          src={data.cardImage}
+          alt="alt text"
+          className="object-cover w-full"
+        />
       </div>
       <div className="absolute left-10 top-10 ">
         <div

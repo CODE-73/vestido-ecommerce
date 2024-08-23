@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Vestido Nation</string>
+    <string name="title_activity_main">Vestido Nation</string>
+    <string name="package_name">com.vestidonation.app</string>
+    <string name="custom_url_scheme">com.vestidonation.app</string>
+</resources>

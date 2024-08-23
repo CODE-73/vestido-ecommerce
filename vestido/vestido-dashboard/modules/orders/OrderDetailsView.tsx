@@ -6,17 +6,17 @@ import {
   LuMapPin,
   LuPhone,
   LuUser,
-  LuUserCircle,
-  LuWalletCards,
 } from 'react-icons/lu';
 
 import { useOrder } from '@vestido-ecommerce/orders';
+import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
 } from '@vestido-ecommerce/shadcn-ui/card';
+import { Dialog, DialogTrigger } from '@vestido-ecommerce/shadcn-ui/dialog';
 import {
   Table,
   TableBody,
@@ -28,13 +28,8 @@ import {
 } from '@vestido-ecommerce/shadcn-ui/table';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
+import { CreateFulfillmentDialog } from './CreateFulfillmentDialog';
 import { formattedDate, formattedTime } from './OrdersTable';
-import { Button } from '@vestido-ecommerce/shadcn-ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-} from '@vestido-ecommerce/shadcn-ui/dialog';
 type OrderDetailsProps = {
   orderId: string;
 };
@@ -52,7 +47,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
           <DialogTrigger asChild>
             <Button className="h-14 col-start-6">Create a Fulfillment</Button>
           </DialogTrigger>
-          <DialogContent>Hello</DialogContent>
+          {order && <CreateFulfillmentDialog order={order} />}
         </Dialog>
       </div>
       <div className="grid grid-cols-6 gap-3">

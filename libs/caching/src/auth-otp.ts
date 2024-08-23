@@ -1,10 +1,13 @@
 import { getRedisClient } from './client';
 
+const IS_DEVELOPMENT = process.env['NODE_ENV'] === 'development';
+
 export async function generateOTP(mobile: string) {
   let otp = await getOTP(mobile);
   if (!otp) {
-    otp = mobile.slice(-6);
-    // otp = Math.floor(100000 + Math.random() * 900000).toString();
+    otp = IS_DEVELOPMENT
+      ? mobile.slice(-6)
+      : Math.floor(100000 + Math.random() * 900000).toString();
   }
   await setOTP(mobile, otp);
   return otp;
