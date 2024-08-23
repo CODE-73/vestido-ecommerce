@@ -14,6 +14,15 @@ export async function createFulfillment(data: CreateFulfillmentSchemaType) {
       breadth: validatedData.breadth,
       height: validatedData.height,
       weight: validatedData.weight,
+      fulfillmentItems: {
+        createMany: {
+          data: validatedData.fulfillmentItems.map((i) => ({
+            orderItemId: i.orderItemId,
+            quantity: i.quantity,
+            status: 'DRAFT',
+          })),
+        },
+      },
     },
   });
 

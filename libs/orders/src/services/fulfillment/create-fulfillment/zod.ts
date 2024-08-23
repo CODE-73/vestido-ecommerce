@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
 export const FulfillmentItemSchema = z.object({
-  OrderitemId: z.string().uuid(),
-  qty: z.number().int(),
+  orderItemId: z.string().uuid(),
+  quantity: z.number().int(),
 });
 
 export const CreateFulfillmentSchema = z.object({
@@ -11,7 +11,7 @@ export const CreateFulfillmentSchema = z.object({
   breadth: z.number().optional(),
   height: z.number().optional(),
   weight: z.number().optional(),
-  //orderItems: z.array(FulfillmentItemSchema),
+  fulfillmentItems: z.array(FulfillmentItemSchema),
 });
 
 export type CreateFulfillmentSchemaType = z.infer<

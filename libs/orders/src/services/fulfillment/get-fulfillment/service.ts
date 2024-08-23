@@ -7,6 +7,9 @@ export async function getFulfillment(fulfillmentId: string) {
     where: {
       id: fulfillmentId,
     },
+    include: {
+      fulfillmentItems: true,
+    },
   });
 
   return fulfillment;
