@@ -58,7 +58,11 @@ const TopProductCard: React.FC<TopProductCardProps> = ({ data: item }) => {
         />
         <Image
           className="hidden group-hover:block"
-          src={((item?.images ?? []) as ImageSchemaType[])[0]?.url ?? ''}
+          src={
+            ((item?.images ?? []) as ImageSchemaType[])[1]?.url ??
+            ((item?.images ?? []) as ImageSchemaType[])[0]?.url ??
+            ''
+          }
           alt="alt text"
           width={430}
           height={551}
