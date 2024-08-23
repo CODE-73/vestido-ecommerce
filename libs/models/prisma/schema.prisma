@@ -155,6 +155,7 @@ model ItemAttributeValue {
     attributeId           String                  @db.Uuid
     value                 String
     VariantAttributeValue VariantAttributeValue[]
+    displayIndex          Int                     @default(0)
 }
 
 model Category {
