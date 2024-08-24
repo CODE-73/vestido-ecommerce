@@ -11,7 +11,7 @@ import {
   CarouselItem,
 } from '@vestido-ecommerce/shadcn-ui/carousel';
 
-import TopProductCard from './TopProductCard';
+import ProductTile from '../../ProductListView/ProductTile';
 import { TopProductsTabs } from './TopProductsTabs';
 
 type TopProductsProps = {
@@ -52,9 +52,7 @@ export const TopProducts: FC<TopProductsProps> = ({ className, items }) => {
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 md:gap-5 xl:gap-10 pt-3 md:pt-12">
               {getItemsByGender(['MEN'])
                 ?.slice(0, 6)
-                .map((item, index) => (
-                  <TopProductCard key={index} data={item} />
-                ))}
+                .map((item, index) => <ProductTile key={index} data={item} />)}
             </div>
           </CarouselItem>
           <CarouselItem>
@@ -62,18 +60,14 @@ export const TopProducts: FC<TopProductsProps> = ({ className, items }) => {
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 md:gap-5 xl:gap-10 pt-3 md:pt-12">
               {getItemsByGender(['WOMEN'])
                 ?.slice(0, 6)
-                .map((item, index) => (
-                  <TopProductCard key={index} data={item} />
-                ))}
+                .map((item, index) => <ProductTile key={index} data={item} />)}
             </div>
           </CarouselItem>
           <CarouselItem>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 md:gap-5 xl:gap-10 pt-3 md:pt-12">
               {getItemsByGender(['MEN', 'WOMEN'])
                 ?.slice(0, 6)
-                .map((item, index) => (
-                  <TopProductCard key={index} data={item} />
-                ))}
+                .map((item, index) => <ProductTile key={index} data={item} />)}
             </div>
           </CarouselItem>
         </CarouselContent>

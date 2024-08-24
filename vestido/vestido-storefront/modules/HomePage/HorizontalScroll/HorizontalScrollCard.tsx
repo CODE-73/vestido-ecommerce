@@ -4,7 +4,7 @@ import { useMediaQuery } from '@react-hook/media-query';
 
 import { CarouselItem } from '@vestido-ecommerce/shadcn-ui/carousel';
 
-import { DiscoverButton } from '../DiscoverButton';
+import { DiscoverButton } from '../Buttons/DiscoverButton';
 
 export type ScrollCardData = {
   cardImage: StaticImageData;

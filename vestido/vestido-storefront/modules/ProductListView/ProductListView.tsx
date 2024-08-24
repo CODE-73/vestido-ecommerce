@@ -1,18 +1,10 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
 
+// import Image from 'next/image';
 import { Item } from '@prisma/client';
 
-import {
-  Category,
-  useAddToWishlist,
-  useItems,
-  useRemoveFromWishlist,
-  useWishlist,
-} from '@vestido-ecommerce/items';
-import { Badge } from '@vestido-ecommerce/shadcn-ui/badge';
+import { useCategory, useItems } from '@vestido-ecommerce/items';
+// import { Badge } from '@vestido-ecommerce/shadcn-ui/badge';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -21,66 +13,34 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@vestido-ecommerce/shadcn-ui/breadcrumb';
-import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
-import { AddToWishListButton } from '../HomePage/SpecialOffer/AddToWishlistButton';
-import AddToCartButton from '../HomePage/TopProducts/AddToCartButton';
 import ProductFilter from './ProductFilter';
+// import { ImageSchemaType } from '@vestido-ecommerce/utils';
+// import { AddToWishListButton } from '../HomePage/SpecialOffer/AddToWishlistButton';
+// import AddToCartButton from '../HomePage/TopProducts/AddToCartButton';
+import ProductTile from './ProductTile';
 
 type ProductListViewProps = {
-  category: Category;
+  categoryId?: string;
   suggestedList?: boolean;
   // items: NonNullable<ListItemResponse>;
 };
 
-type WishlistStatus = {
-  [key: string]: boolean; // Key is item ID, value is wishlisted status
-};
-
-const ProductListView: React.FC<ProductListViewProps> = ({
-  category,
+const ProductlistView: React.FC<ProductListViewProps> = ({
+  categoryId,
   suggestedList,
 }) => {
-  const router = useRouter();
+  // const router = useRouter();
 
   const { data } = useItems();
-  const { trigger: wishlistTrigger } = useAddToWishlist();
-  const { trigger: removeWishlistTrigger } = useRemoveFromWishlist();
+  const { data: category } = useCategory(categoryId as string);
 
   const handleShowMoreClick = () => {
     // function
   };
-  const handleProductClick = (itemId: string) => {
-    router.push(`/products/${encodeURIComponent(itemId)}`);
-  };
-
-  const { data: wishlistData } = useWishlist();
-  const wishlist = wishlistData?.data;
-
-  const [wishlistedItems, setWishlistedItems] = useState<WishlistStatus>({});
-
-  useEffect(() => {
-    if (wishlist && data) {
-      const wishlistedState = data.reduce<Record<string, boolean>>(
-        (acc, item) => {
-          acc[item.id] = wishlist.some((x) => x.itemId === item.id);
-          return acc;
-        },
-        {},
-      );
-      setWishlistedItems(wishlistedState);
-    }
-  }, [wishlist, data]);
-
-  const handleAddToWishlist = (item: Item) => {
-    if (item) {
-      if (wishlistedItems[item.id]) {
-        removeWishlistTrigger({ itemId: item.id });
-      } else {
-        wishlistTrigger({ itemId: item.id });
-      }
-    }
-  };
+  // const handleProductClick = (itemId: string) => {
+  //   router.push(`/products/${encodeURIComponent(itemId)}`);
+  // };
 
   return (
     <div className="md:px-16">
@@ -93,11 +53,11 @@ const ProductListView: React.FC<ProductListViewProps> = ({
           <BreadcrumbItem>
             <BreadcrumbLink href="/products">Products</BreadcrumbLink>
           </BreadcrumbItem>
-          {category?.name && (
+          {category?.data.name && (
             <>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage>{category?.name}</BreadcrumbPage>
+                <BreadcrumbPage>{category?.data.name}</BreadcrumbPage>
               </BreadcrumbItem>
             </>
           )}
@@ -105,10 +65,10 @@ const ProductListView: React.FC<ProductListViewProps> = ({
       </Breadcrumb>
       <div
         className={`text-2xl lg:text-4xl  tracking-wide text-[#333333] text-center font-extrabold my-5 ${
-          !suggestedList && category?.name ? 'py-14' : 'py-5'
+          !suggestedList && category?.data.name ? 'py-14' : 'py-5'
         }`}
       >
-        {!suggestedList && (category?.name ?? 'All')}
+        {!suggestedList && (category?.data.name ?? 'All')}
       </div>
       <div className="flex">
         {!suggestedList && (
@@ -120,100 +80,102 @@ const ProductListView: React.FC<ProductListViewProps> = ({
           className={`${suggestedList ? '' : ' lg:basis-4/5'} grid grid-cols-2 gap-2 px-5 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 md:gap-5 xl:gap-10 md:px-0`}
         >
           {data
-            ?.filter((item) => !category?.id || item.categoryId === category.id)
+            ?.filter((item) => !categoryId || item.categoryId === categoryId)
             .map((item: Item, index: number) => (
-              <div
-                key={index}
-                className="relative flex flex-col items-center group  mb-10 cursor-pointer "
-              >
-                {item.discountPercent && item.discountPercent > 0 ? (
-                  <Badge className="absolute top-2 left-2 rounded-none uppercase bg-red-500 hover:bg-red-400 cursor-auto">
-                    sale&nbsp;{item.discountPercent}&nbsp;%
-                  </Badge>
-                ) : (
-                  ''
-                )}
+              <ProductTile data={item} key={index} />
 
-                {((item.images ?? []) as ImageSchemaType[]).length > 0 && (
-                  <div
-                    onClick={() => handleProductClick(item.id)}
-                    className="group w-full relative"
-                  >
-                    {' '}
-                    <div className="relative w-full pb-[130%]">
-                      <Image
-                        className="absolute inset-0 block group-hover:hidden object-cover"
-                        src={
-                          ((item.images ?? []) as ImageSchemaType[])[0]?.url ??
-                          ''
-                        }
-                        fill
-                        alt="alt text"
-                        style={{ objectFit: 'cover' }}
-                      />
-                      <Image
-                        className="absolute inset-0 group-hover:block hidden object-cover"
-                        fill
-                        style={{ objectFit: 'cover' }}
-                        src={
-                          ((item.images ?? []) as ImageSchemaType[])[1]?.url ??
-                          ((item.images ?? []) as ImageSchemaType[])[0]?.url ??
-                          ''
-                        }
-                        alt="alt text"
-                      />
-                    </div>
-                  </div>
-                )}
+              // <div
+              //   key={index}
+              //   className="relative flex flex-col items-center group  mb-10 cursor-pointer "
+              // >
+              //   {item.discountPercent && item.discountPercent > 0 ? (
+              //     <Badge className="absolute top-2 left-2 rounded-none uppercase bg-red-500 hover:bg-red-400 cursor-auto">
+              //       sale&nbsp;{item.discountPercent}&nbsp;%
+              //     </Badge>
+              //   ) : (
+              //     ''
+              //   )}
 
-                <div className="self-start pt-[#2px] capitalize text-[#333333] text-md font-light md:mb-4 w-full truncate">
-                  {item.title}
-                </div>
-                <div className="self-start md:hidden mb-4">
-                  {item.discountedPrice ? (
-                    <div className="flex items-center gap-2">
-                      <div className="text-black text-sm font-semibold">
-                        ₹&nbsp;{item.discountedPrice.toFixed(2)}
-                      </div>
-                      {item.discountedPrice < item.price ? (
-                        <div className="text-gray-500 line-through text-xs">
-                          ₹&nbsp;{item.price.toFixed(2)}
-                        </div>
-                      ) : (
-                        ''
-                      )}
-                    </div>
-                  ) : (
-                    <div className="text-black text-sm font-semibold">
-                      ₹&nbsp;{item.price.toFixed(2)}
-                    </div>
-                  )}
-                </div>
-                <div className="hidden md:block w-full self-start">
-                  <AddToCartButton
-                    price={item.price}
-                    offerPrice={item.discountedPrice}
-                    item={item}
-                  />
-                </div>
+              //   {((item.images ?? []) as ImageSchemaType[]).length > 0 && (
+              //     <div
+              //       onClick={() => handleProductClick(item.id)}
+              //       className="group w-full relative"
+              //     >
+              //       {' '}
+              //       <div className="relative w-full pb-[130%]">
+              //         <Image
+              //           className="absolute inset-0 block group-hover:hidden object-cover"
+              //           src={
+              //             ((item.images ?? []) as ImageSchemaType[])[0]?.url ??
+              //             ''
+              //           }
+              //           fill
+              //           alt="alt text"
+              //           style={{ objectFit: 'cover' }}
+              //         />
+              //         <Image
+              //           className="absolute inset-0 group-hover:block hidden object-cover"
+              //           fill
+              //           style={{ objectFit: 'cover' }}
+              //           src={
+              //             ((item.images ?? []) as ImageSchemaType[])[1]?.url ??
+              //             ((item.images ?? []) as ImageSchemaType[])[0]?.url ??
+              //             ''
+              //           }
+              //           alt="alt text"
+              //         />
+              //       </div>
+              //     </div>
+              //   )}
 
-                <div
-                  className={` flex flex-row justify-start ${
-                    wishlistedItems[item.id] ? 'flex' : 'sm:hidden'
-                  } sm:group-hover:flex sm:flex-col gap-3 absolute top-3 right-3 pt-2 `}
-                >
-                  <div
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleAddToWishlist(item);
-                    }}
-                  >
-                    <AddToWishListButton
-                      wishlisted={wishlistedItems[item.id]}
-                    />
-                  </div>
-                </div>
-              </div>
+              //   <div className="self-start pt-[#2px] capitalize text-[#333333] text-md font-light md:mb-4 w-full truncate">
+              //     {item.title}
+              //   </div>
+              //   <div className="self-start md:hidden mb-4">
+              //     {item.discountedPrice ? (
+              //       <div className="flex items-center gap-2">
+              //         <div className="text-black text-sm font-semibold">
+              //           ₹&nbsp;{item.discountedPrice.toFixed(2)}
+              //         </div>
+              //         {item.discountedPrice < item.price ? (
+              //           <div className="text-gray-500 line-through text-xs">
+              //             ₹&nbsp;{item.price.toFixed(2)}
+              //           </div>
+              //         ) : (
+              //           ''
+              //         )}
+              //       </div>
+              //     ) : (
+              //       <div className="text-black text-sm font-semibold">
+              //         ₹&nbsp;{item.price.toFixed(2)}
+              //       </div>
+              //     )}
+              //   </div>
+              //   <div className="hidden md:block w-full self-start">
+              //     <AddToCartButton
+              //       price={item.price}
+              //       offerPrice={item.discountedPrice}
+              //       item={item}
+              //     />
+              //   </div>
+
+              //   <div
+              //     className={` flex flex-row justify-start ${
+              //       wishlistedItems[item.id] ? 'flex' : 'sm:hidden'
+              //     } sm:group-hover:flex sm:flex-col gap-3 absolute top-3 right-3 pt-2 `}
+              //   >
+              //     <div
+              //       onClick={(e) => {
+              //         e.stopPropagation();
+              //         handleAddToWishlist(item);
+              //       }}
+              //     >
+              //       <AddToWishListButton
+              //         wishlisted={wishlistedItems[item.id]}
+              //       />
+              //     </div>
+              //   </div>
+              // </div>
             ))}
         </div>
       </div>
@@ -229,4 +191,4 @@ const ProductListView: React.FC<ProductListViewProps> = ({
   );
 };
 
-export default ProductListView;
+export default ProductlistView;

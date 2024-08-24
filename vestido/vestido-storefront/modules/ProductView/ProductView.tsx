@@ -37,7 +37,7 @@ import {
 } from '@vestido-ecommerce/shadcn-ui/carousel';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
-import { AddToWishListButton } from '../HomePage/SpecialOffer/AddToWishlistButton';
+import { AddToWishListButton } from '../HomePage/Buttons/AddToWishlistButton';
 import ProductListView from '../ProductListView/ProductListView';
 
 interface ProductViewProps {
