@@ -26,6 +26,7 @@ import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { CategoryElement } from '../../forms/category-combobox-element';
 import { InputElement } from '../../forms/input-element';
 import { SwitchElement } from '../../forms/switch-element';
+import { CategorySearchTermsInput } from './CategorySearchTermsInput';
 
 const CreateCategoryFormSchema = z.object({
   name: z.string(),
@@ -55,6 +56,7 @@ const CreateCategoryFormSchema = z.object({
     .default(['MEN', 'WOMEN'] satisfies Gender[]),
   slug: z.string().optional(),
   enabled: z.boolean().default(true),
+  searchTerms: z.array(z.string()).default([]),
 });
 
 export type CreateCategoryForm = z.infer<typeof CreateCategoryFormSchema>;
@@ -87,8 +89,13 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
     isNew ? null : categoryId,
   );
 
-  const { isDirty, isValid } = form.formState;
+  const { isDirty, isValid, errors } = form.formState;
   const isSubmitting = form.formState.isSubmitting;
+  console.info({
+    isDirty,
+    isValid,
+    errors,
+  });
 
   useEffect(() => {
     if (!isNew && category) {
@@ -203,6 +210,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
               placeholder="Select Parent Category"
               label="Parent Category"
             />
+            <CategorySearchTermsInput categoryId={categoryId} />
           </div>
         </div>
 

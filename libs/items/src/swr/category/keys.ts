@@ -1,14 +1,7 @@
-export enum CategoryUpsertSWRKeys {
+export enum CategorySWRKeys {
   CATEGORY = 'category',
+  GENERATE_SEARCH_TERMS = 'generate-search-terms',
   UPSERT = 'upsert',
-}
-
-export enum ListCategorySWRKeys {
-  CATEGORY = 'category',
   LIST = 'list',
-}
-
-export enum CategoryDetailsSWRKeys {
-  CATEGORY = 'category',
   DETAILS = 'details',
 }
