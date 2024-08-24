@@ -3,12 +3,18 @@ import { useEffect, useState } from 'react';
 
 import { LuChevronUp } from 'react-icons/lu';
 
+import { ListItemResponse } from '@vestido-ecommerce/items';
+
 import useIsMobile from '../../hooks/useIsMobile';
 import { CategoryCards } from './CategorySection/CategoryCards';
 import { HorizontalScrollCards } from './HorizontalScroll/HorizontalScrollCards';
 import { PopularCollection } from './Popular/PopularCollection';
 import { PrimaryCarousel } from './PrimaryCarousel/PrimaryCarousel';
 import { TopProducts } from './TopProducts/TopProducts';
+
+type HomePageProps = {
+  items: NonNullable<ListItemResponse>;
+};
 
 const BackToTopButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
   <button
@@ -19,7 +25,7 @@ const BackToTopButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
   </button>
 );
 
-const HomePage: React.FC = () => {
+const HomePage: React.FC<HomePageProps> = ({ items }) => {
   const [showBackToTop, setShowBackToTop] = useState(false);
   const isMobile = useIsMobile();
 
@@ -49,7 +55,10 @@ const HomePage: React.FC = () => {
       <div className="flex flex-col lg:flex-col-reverse justify-center">
         <CategoryCards /> <PrimaryCarousel />
       </div>
-      <TopProducts className="pt-16 sm:pt-24 max-w-[100vw] overflow-hidden px-2 sm:px-0 md:px-4 lg:max-w-7xl lg:self-center" />
+      <TopProducts
+        items={items}
+        className="pt-16 sm:pt-24 max-w-[100vw] overflow-hidden px-2 sm:px-0 md:px-4 lg:max-w-7xl lg:self-center"
+      />
 
       <PopularCollection className="pt-16 px-1 sm:px-0" />
 

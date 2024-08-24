@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react';
 
 import clsx from 'clsx';
 
-import { Gender, useItems } from '@vestido-ecommerce/items';
+import { Gender, ListItemResponse } from '@vestido-ecommerce/items';
 import {
   Tabs,
   TabsContent,
@@ -12,12 +12,13 @@ import {
 
 import TopProductCard from './TopProductCard';
 
-type SpecialOfferProps = {
+type TopProductsProps = {
   className?: string;
+  items: NonNullable<ListItemResponse>;
 };
 
-export const TopProducts: FC<SpecialOfferProps> = (props) => {
-  const { data } = useItems();
+export const TopProducts: FC<TopProductsProps> = ({ className, items }) => {
+  // const { data } = useItems();
 
   const [currentTab, setCurrentTab] = useState<'men' | 'women' | 'unisex'>(
     'men',
@@ -39,7 +40,7 @@ export const TopProducts: FC<SpecialOfferProps> = (props) => {
   }, [currentTab]);
 
   const getItemsByGender = (genders: Gender[]) => {
-    return data?.filter((item) =>
+    return items?.filter((item) =>
       genders.every((gender) => item.gender.includes(gender)),
     );
   };
@@ -48,7 +49,7 @@ export const TopProducts: FC<SpecialOfferProps> = (props) => {
 
   return (
     <div
-      className={`flex flex-col items-center justify-center ${clsx(props.className)}`}
+      className={`flex flex-col items-center justify-center ${clsx(className)}`}
     >
       <div className="text-2xl md:text-4xl tracking-wide text-[#333333] font-bold hover:text-[#48cab2] pb-6">
         Top Products of the Week
