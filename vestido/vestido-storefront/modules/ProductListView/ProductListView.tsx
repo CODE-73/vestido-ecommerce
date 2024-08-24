@@ -169,7 +169,7 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
                 </div>
                 <div className="self-start md:hidden mb-4">
                   {item.discountedPrice ? (
-                    <div>
+                    <div className="flex items-center gap-2">
                       <div className="text-black text-sm font-semibold">
                         ₹&nbsp;{item.discountedPrice.toFixed(2)}
                       </div>

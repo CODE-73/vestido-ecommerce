@@ -47,7 +47,7 @@ const TopProductCard: React.FC<TopProductCardProps> = ({ data: item }) => {
   };
 
   return (
-    <div className={`flex flex-col items-center group relative mb-10 `}>
+    <div className={`flex flex-col items-center group relative mb-4 `}>
       <Link href={`/products/${item.id}`}>
         <Image
           className="block group-hover:hidden"
@@ -74,7 +74,7 @@ const TopProductCard: React.FC<TopProductCardProps> = ({ data: item }) => {
       </div>
       <div className="self-start md:hidden mb-4">
         {item.discountedPrice ? (
-          <div>
+          <div className="flex gap-1 items-end">
             <div className="text-black text-sm font-semibold">
               ₹&nbsp;{item.discountedPrice.toFixed(2)}
             </div>

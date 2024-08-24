@@ -1,5 +1,7 @@
 import Image, { StaticImageData } from 'next/image';
 
+import { useMediaQuery } from '@react-hook/media-query';
+
 import { CarouselItem } from '@vestido-ecommerce/shadcn-ui/carousel';
 
 import { DiscoverButton } from '../DiscoverButton';
@@ -15,6 +17,7 @@ interface ScrollCardProps {
   data: ScrollCardData;
 }
 const HorizontalScrollCard: React.FC<ScrollCardProps> = ({ data }) => {
+  const SmallMobile = useMediaQuery('(max-width:400px)');
   return (
     <CarouselItem className="group basis-1/2 lg:basis-1/3 text-center transition duration-700 ease-in-out md:hover:-translate-y-16 text-[#333333]">
       <div className="flex flex-col">
@@ -47,8 +50,13 @@ const HorizontalScrollCard: React.FC<ScrollCardProps> = ({ data }) => {
         >
           {data.subtitle2}
         </div>
-        <div className="sm:hidden group-hover:block mx-1 ">
-          <DiscoverButton />
+
+        <div className="sm:hidden group-hover:block mx-1">
+          {SmallMobile ? (
+            <DiscoverButton className="w-4/5" />
+          ) : (
+            <DiscoverButton />
+          )}
         </div>
       </div>
     </CarouselItem>
