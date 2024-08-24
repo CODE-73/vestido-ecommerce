@@ -1,6 +1,5 @@
 import { FC } from 'react';
 
-import { useMediaQuery } from '@react-hook/media-query';
 import clsx from 'clsx';
 
 import {

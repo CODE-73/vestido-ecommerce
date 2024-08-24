@@ -23,12 +23,10 @@ export const TopProducts: FC<TopProductsProps> = ({ className, items }) => {
   const [currentTab, setCurrentTab] = useState<'men' | 'women' | 'unisex'>(
     'men',
   );
-  const [prevTab, setPrevTab] = useState<'men' | 'women' | 'unisex'>('men');
 
   // Automatically change tabs every 3 seconds
   useEffect(() => {
     const interval = setInterval(() => {
-      setPrevTab(currentTab);
       setCurrentTab((prevTab) => {
         if (prevTab === 'men') return 'women';
         if (prevTab === 'women') return 'unisex';
