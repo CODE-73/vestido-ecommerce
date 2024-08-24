@@ -18,7 +18,7 @@ export async function processPayment(data: verifyPaymentRequest) {
         paymentGatewayRef: order_id,
       },
       data: {
-        status: 'captured',
+        status: 'CAPTURED',
       },
     });
 
@@ -39,7 +39,7 @@ export async function processPayment(data: verifyPaymentRequest) {
             id: payment.orderId,
           },
           data: {
-            status: 'PAID',
+            orderPaymentStatus: 'CAPTURED',
           },
         });
       }),

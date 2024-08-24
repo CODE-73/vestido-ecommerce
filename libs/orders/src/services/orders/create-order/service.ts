@@ -27,7 +27,7 @@ export async function createOrder(_data: CreateOrderSchemaType) {
     data: {
       ...data,
       dateTime: new Date(),
-      status: 'PENDING',
+      orderStatus: 'PENDING',
       totalPrice: itemsPrice + shippingCharges,
       customer: {
         connect: {
@@ -56,7 +56,7 @@ export async function createOrder(_data: CreateOrderSchemaType) {
             id: newOrder.id,
           },
         },
-        paymentGateway: 'Cash on Delivery',
+        paymentGateway: 'CASH_ON_DELIVERY',
         paymentGatewayRef: 'Null',
         moreDetails: 'Null',
         currency: 'INR',
