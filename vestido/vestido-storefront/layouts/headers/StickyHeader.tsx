@@ -18,7 +18,10 @@ interface HeaderProps {
   cart_count: number | undefined;
   wishlist_count: number | undefined;
 }
-const FixedHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
+const StickyHeader: React.FC<HeaderProps> = ({
+  cart_count,
+  wishlist_count,
+}) => {
   const isMobile = useIsMobile();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
@@ -135,7 +138,7 @@ const FixedHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
   );
 };
 
-export default FixedHeader;
+export default StickyHeader;
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, ...props }, ref) => {

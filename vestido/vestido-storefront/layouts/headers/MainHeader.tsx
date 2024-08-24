@@ -15,8 +15,8 @@ interface HeaderProps {
 }
 const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
   return (
-    <div className="bg-[#1B2149] flex items-center  justify-between px-3">
-      <div className="flex">
+    <div className="bg-[#1B2149] flex items-center px-3">
+      <div className="flex flex-grow">
         <Link href="/" className="self-center">
           <span className="md:hidden">
             <Image
@@ -39,7 +39,7 @@ const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
           <Menubar isFixed={false} />
         </div>
       </div>
-      <div className=" relative hidden md:flex space-x-4 items-center justify-items-center content-center">
+      <div className=" relative hidden md:flex items-center justify-items-center content-center">
         <Input
           name="search-products"
           placeholder="Search Products..."
