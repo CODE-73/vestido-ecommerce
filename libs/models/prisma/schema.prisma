@@ -166,6 +166,9 @@ model Category {
     enabled     Boolean  @default(true)
     slug        String   @unique
 
+    // @unique is set in prisma seeds
+    searchTerms String[] @default([])
+
     parentCategoryId String?    @db.Uuid()
     parentCategory   Category?  @relation("ParentCategory", fields: [parentCategoryId], references: [id])
     subcategories    Category[] @relation("ParentCategory")
