@@ -11,7 +11,7 @@ import { z } from 'zod';
 import { useCart } from '@vestido-ecommerce/items';
 import { useCreateOrder, useShippingCharges } from '@vestido-ecommerce/orders';
 import {
-  useCreatePayment,
+  useLaunchRazorpay,
   useRazorpayCreateOrder,
   useVerifyPayment,
 } from '@vestido-ecommerce/razorpay';
@@ -81,7 +81,7 @@ const CheckoutView: React.FC = () => {
 
   const { trigger: createOrderTrigger } = useCreateOrder();
   const { trigger: createRazorpayOrderTrigger } = useRazorpayCreateOrder();
-  const { trigger: createPaymentTrigger } = useCreatePayment();
+  const { trigger: launchRazorpayTrigger } = useLaunchRazorpay();
   const { trigger: verifyPaymentTrigger } = useVerifyPayment();
 
   const totalPrice =
@@ -138,7 +138,7 @@ const CheckoutView: React.FC = () => {
           paymentId: razorpayOrderResp.paymentId,
         };
 
-        const PaymentResponse = await createPaymentTrigger({
+        const PaymentResponse = await launchRazorpayTrigger({
           ...paymentData,
         });
 
@@ -158,7 +158,7 @@ const CheckoutView: React.FC = () => {
         }
       }
     } catch (e) {
-      console.error('Error creating order:', e);
+      console.error('Error', e);
     }
   };
 

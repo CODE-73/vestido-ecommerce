@@ -29,7 +29,7 @@ export async function submitFulfillment(
         id: fulfillmentId,
       },
       data: {
-        status: 'STARTED',
+        status: 'AWAITING_PICKUP',
         length: validatedData.length,
         breadth: validatedData.breadth,
         height: validatedData.height,

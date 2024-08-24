@@ -19,7 +19,6 @@ export async function createFulfillment(data: CreateFulfillmentSchemaType) {
           data: validatedData.fulfillmentItems.map((i) => ({
             orderItemId: i.orderItemId,
             quantity: i.quantity,
-            status: 'DRAFT',
           })),
         },
       },
