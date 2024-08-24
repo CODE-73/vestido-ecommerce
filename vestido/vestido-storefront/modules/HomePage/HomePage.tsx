@@ -6,7 +6,7 @@ import { LuChevronUp } from 'react-icons/lu';
 import { ListItemResponse } from '@vestido-ecommerce/items';
 
 import useIsMobile from '../../hooks/useIsMobile';
-import AddOnHeader from '../../layouts/AddOnHeader';
+import AddOnHeader from '../../layouts/headers/SubHeader';
 import { CategoryCards } from './CategorySection/CategoryCards';
 import { HorizontalScrollCards } from './HorizontalScroll/HorizontalScrollCards';
 import { PopularCollection } from './Popular/PopularCollection';
