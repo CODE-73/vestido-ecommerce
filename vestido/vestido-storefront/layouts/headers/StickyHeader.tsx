@@ -2,13 +2,11 @@ import * as React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { clsx } from 'clsx';
-import { LuHeart, LuSearch, LuShoppingBag, LuUser2 } from 'react-icons/lu';
-
-import { InputProps } from '@vestido-ecommerce/shadcn-ui/input';
+import { LuHeart, LuShoppingBag, LuUser2 } from 'react-icons/lu';
 
 import NavigationMenu from '../../components/Menubar';
 import HeaderDropdown from './HeaderDropdown';
+import { HeaderSearchInput } from './HeaderSearchInput';
 
 const fixedHeight = '60px';
 
@@ -49,18 +47,7 @@ const StickyHeader: React.FC<HeaderProps> = ({
         </div>
 
         <div className="flex items-center">
-          <div className=" relative hidden md:flex space-x-4 items-center justify-items-center content-center">
-            <Input
-              name="search-products"
-              placeholder="Search Products..."
-              type="search"
-              className="rounded-none max-w-28 bg-transparent border-slate-300 placeholder:text-sm placeholder:text-stone-300"
-            />
-            <LuSearch
-              className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#48cab2]"
-              size={24}
-            />
-          </div>
+          <HeaderSearchInput />
           <div className="flex">
             <Link href="/user" className="text-black hover:text-[#48cab2] px-3">
               <LuUser2 size={24} />
@@ -89,20 +76,3 @@ const StickyHeader: React.FC<HeaderProps> = ({
 };
 
 export default StickyHeader;
-
-const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, ...props }, ref) => {
-    return (
-      <input
-        type={type}
-        className={clsx(
-          'flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:font-medium placeholder:text-black placeholder:text-2xl placeholder:font-semibold focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-none focus-visible:ring-offset-none disabled:cursor-not-allowed disabled:opacity-50',
-          className,
-        )}
-        ref={ref}
-        {...props}
-      />
-    );
-  },
-);
-Input.displayName = 'Input';

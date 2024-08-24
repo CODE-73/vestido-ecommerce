@@ -2,8 +2,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { AiOutlineClose } from 'react-icons/ai';
-import { AiOutlineMan, AiOutlineWoman } from 'react-icons/ai';
+import { AiOutlineClose, AiOutlineMan, AiOutlineWoman } from 'react-icons/ai';
 import {
   LuAlignLeft,
   LuChevronDown,
@@ -22,9 +21,9 @@ import {
 } from 'react-icons/lu';
 
 import { Gender, useCategories } from '@vestido-ecommerce/items';
-import { Input } from '@vestido-ecommerce/shadcn-ui/input';
 
 import { ListItem } from '../../components/Menubar';
+import { HeaderSearchInput } from './HeaderSearchInput';
 
 interface HeaderProps {
   cart_count: number | undefined;
@@ -101,16 +100,14 @@ const MobileHeader: React.FC<HeaderProps> = ({
           />
         </Link>
 
-        <LuSearch size={30} onClick={toggleSearch} className="z-50" />
-        {isSearchExpanded && (
-          <>
-            <Input
-              type="text"
-              className="absolute inset-0 w-full h-full px-4 py-2 border border-gray-300 rounded-l-md focus:outline-none"
-              placeholder="Search..."
-            />
-            <AiOutlineClose size={24} onClick={toggleSearch} className="z-50" />
-          </>
+        {isSearchExpanded ? (
+          <HeaderSearchInput
+            iconSize={32}
+            onCancelClick={toggleSearch}
+            containerClassName="absolute inset-0 w-full h-full p-2 border border-gray-300 rounded-l-md focus:outline-none bg-white"
+          />
+        ) : (
+          <LuSearch size={30} onClick={toggleSearch} className="z-50" />
         )}
       </div>
 

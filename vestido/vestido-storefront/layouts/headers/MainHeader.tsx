@@ -2,12 +2,11 @@ import * as React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { LuHeart, LuSearch, LuShoppingBag, LuUser2 } from 'react-icons/lu';
-
-import { Input } from '@vestido-ecommerce/shadcn-ui/input';
+import { LuHeart, LuShoppingBag, LuUser2 } from 'react-icons/lu';
 
 import Menubar from '../../components/Menubar';
 import HeaderDropdown from './HeaderDropdown';
+import { HeaderSearchInput } from './HeaderSearchInput';
 
 interface HeaderProps {
   cart_count: number | undefined;
@@ -39,18 +38,7 @@ const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
           <Menubar isFixed={false} />
         </div>
       </div>
-      <div className=" relative hidden md:flex items-center justify-items-center content-center">
-        <Input
-          name="search-products"
-          placeholder="Search Products..."
-          type="search"
-          className="rounded-none max-w-28 bg-transparent text-white border-slate-300"
-        />
-        <LuSearch
-          className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-[#48cab2]"
-          size={24}
-        />
-      </div>
+      <HeaderSearchInput className="text-white" />
       <div className="flex">
         <Link href="/user" className="text-white hover:text-[#48cab2] px-3">
           <LuUser2 size={24} />
