@@ -57,7 +57,7 @@ const PrivacyPolicy: React.FC = () => {
         You have the right to access, correct, or delete the personal
         information we hold about you. You may also withdraw your consent for us
         to use your information for marketing purposes at any time. For more
-        information or to exercise your rights, please contact us at{' '}
+        information or to exercise your rights, please contact us at
         <a
           href="mailto:support@vestidonation.com"
           className="text-blue-600 hover:underline"
@@ -80,7 +80,7 @@ const PrivacyPolicy: React.FC = () => {
       <p className=" mb-6">
         By using our website or services, you consent to the terms of this
         Privacy Policy. If you have any questions or concerns about our privacy
-        practices, please contact us at{' '}
+        practices, please contact us at
         <a
           href="mailto:support@vestidonation.com"
           className="text-blue-600 hover:underline"

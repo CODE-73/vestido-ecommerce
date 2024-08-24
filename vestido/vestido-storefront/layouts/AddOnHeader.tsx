@@ -60,7 +60,7 @@ const AddOnHeader = () => {
           className="hover:underline hover:text-[#333] transition duration-300"
         >
           Instagram
-        </Link>{' '}
+        </Link>
         <Link
           href="https://www.linkedin.com/company/vestidonation/"
           className="hover:underline hover:text-[#333] transition duration-300"

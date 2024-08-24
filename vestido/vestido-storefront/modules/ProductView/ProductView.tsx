@@ -443,7 +443,7 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
                     key={attributeId}
                     className="flex items-center gap-[1px]"
                   >
-                    {' '}
+
                     <div className="capitalize font-semibold">
                       {attributeMap[attributeId].name}:
                     </div>
@@ -465,9 +465,9 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
                           {value.value}
                         </div>
                       </div>
-                    ))}{' '}
+                    ))}
                   </div>
-                ))}{' '}
+                ))}
                 <hr />
               </div>
             </div>
@@ -529,7 +529,7 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
                 </div>
               </>
             )}
-          </div>{' '}
+          </div>
           <hr />
           <div>
             <Accordion className="px-2" type="single" collapsible>

@@ -20,13 +20,13 @@ const ContactUs: React.FC = () => {
         </p>
         <ul>
           <li>
-            <strong>Email:</strong>{' '}
+            <strong>Email:</strong>
             <a href="mailto:support@vestidonation.com">
               support@vestidonation.com
             </a>
           </li>
           <li>
-            <strong>Phone:</strong>{' '}
+            <strong>Phone:</strong>
             <a href="tel:+918848779394">+91 88487 7939</a>
           </li>
           <li>
@@ -44,11 +44,11 @@ const ContactUs: React.FC = () => {
         </p>
         <ul>
           <li>
-            <strong>Email:</strong>{' '}
+            <strong>Email:</strong>
             <a href="mailto:ceo@vestidonation.com">ceo@vestidonation.com</a>
           </li>
           <li>
-            <strong>Phone:</strong>{' '}
+            <strong>Phone:</strong>
             <a href="tel:+919020042199">+91 90200 42199</a>
           </li>
           <li>

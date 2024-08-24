@@ -66,12 +66,12 @@ const AuthView: React.FC = () => {
             />
           </div>
           <div className="text-7xl font-[200] z-10">
-            {' '}
+
             <div>Your Style.</div>
             <div>Your Story.</div>
           </div>
           <div className="max-w-xl mt-10 text-right text-lg z-10">
-            {' '}
+
             Every outfit tells a story — make yours unforgettable. <br />
             Dive into our collection and find the pieces that speak to you,
             <br /> from classic staples to the latest trends.
@@ -91,7 +91,7 @@ const AuthView: React.FC = () => {
               onSubmit={form.handleSubmit(onSubmit)}
               className="w-full md:w-1/2 space-y-6 bg-white z-10 p-10"
             >
-              {' '}
+
               <div className="font-semibold text-2xl">Login / Signup</div>
               <hr />
               <FormField
@@ -120,7 +120,7 @@ const AuthView: React.FC = () => {
           )}
           <div className="w-full">
             {otpSent && userExists && <LoginForm mobile={userMobile} />}
-          </div>{' '}
+          </div>
           <div className="w-full">
             {otpSent && userExists == false && (
               <SignupForm mobile={userMobile} />

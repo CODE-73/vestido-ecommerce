@@ -176,7 +176,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
         className="flex flex-col justify-center w-full text-lg  bg-slate-200 px-5 py-10"
       >
         <div className="text-2xl font-semibold capitalize flex justify-between">
-          {isNew ? 'Add New Product' : item?.title}{' '}
+          {isNew ? 'Add New Product' : item?.title}
           <div>
             <SwitchElement name="enabled" label="Enabled" />
           </div>

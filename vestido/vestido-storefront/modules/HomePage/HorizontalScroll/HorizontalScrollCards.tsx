@@ -79,7 +79,7 @@ export const HorizontalScrollCards: FC<HorizontalScrollCardsProps> = (
         </CarouselContent>
         <CarouselPrevious className="absolute left-2 sm:left-10" />
         <CarouselNext className="absolute right-2 sm:right-10" />
-      </Carousel>{' '}
+      </Carousel>
     </>
   );
 };

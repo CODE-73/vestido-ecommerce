@@ -197,7 +197,7 @@ const CheckoutView: React.FC = () => {
         </div>
       ) : (
         <div className="text-lg font-semibold pb-3 pl-3 md:pl-0">
-          Choose Delivery Address{' '}
+          Choose Delivery Address
         </div>
       )}
       <Form {...form}>

@@ -99,7 +99,7 @@ export const TopProducts: FC<TopProductsProps> = ({ className, items }) => {
                 ))}
             </div>
           </TabsContent>
-        </div>{' '}
+        </div>
         <div
           className={clsx(
             'tab-content  inset-0 transition-transform duration-500',

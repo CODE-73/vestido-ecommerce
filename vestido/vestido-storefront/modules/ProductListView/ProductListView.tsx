@@ -112,7 +112,7 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
         {!suggestedList && (category?.data.name ?? 'All')}
       </div>
       <div className="flex">
-        {' '}
+
         {!suggestedList && (
           <div className="basis-1/5 hidden lg:block">
             <ProductFilter />
@@ -213,7 +213,7 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
                 </div>
               </div>
             ))}
-        </div>{' '}
+        </div>
       </div>
       <div className="flex justify-center mt-8">
         <button

@@ -22,7 +22,7 @@ const ContactUs: React.FC = () => {
         </p>
         <ul className="space-y-2">
           <li>
-            Email:{' '}
+            Email:
             <a
               href="mailto:support@vestidonation.com"
               className="text-blue-600 hover:underline"
@@ -31,7 +31,7 @@ const ContactUs: React.FC = () => {
             </a>
           </li>
           <li>
-            Phone:{' '}
+            Phone:
             <a
               href="tel:+918848779394"
               className="text-blue-600 hover:underline"
@@ -54,7 +54,7 @@ const ContactUs: React.FC = () => {
         </p>
         <ul className="space-y-2">
           <li>
-            Email:{' '}
+            Email:
             <a
               href="mailto:ceo@vestidonation.com"
               className="text-blue-600 hover:underline"
@@ -63,7 +63,7 @@ const ContactUs: React.FC = () => {
             </a>
           </li>
           <li>
-            Phone:{' '}
+            Phone:
             <a
               href="tel:+919020042199"
               className="text-blue-600 hover:underline"

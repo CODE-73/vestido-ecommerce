@@ -83,7 +83,7 @@ const SignupForm: React.FC<Props> = ({ mobile }) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-full md:w-1/2 space-y-6 bg-white z-10 p-10"
         >
-          {' '}
+
           <div className="font-semibold text-2xl">Signup</div>
           <hr />
           <InputElement

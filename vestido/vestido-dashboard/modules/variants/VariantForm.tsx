@@ -166,7 +166,7 @@ const VariantForm: React.FC<VariantFormProps> = ({
           <hr className="border-t-1 border-slate-400 mb-4 w-full" />
           <div>
             <SwitchElement name="default" label="Default Variant" />
-          </div>{' '}
+          </div>
           <hr className="border-t-1 border-slate-400 my-4 w-full" />
           <div className="grid grid-cols-2 gap-5 lg:px-10 mb-10">
             <InputElement

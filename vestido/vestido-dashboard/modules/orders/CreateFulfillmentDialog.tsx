@@ -77,7 +77,7 @@ export const CreateFulfillmentDialog: React.FC<
                   </TableCell>
                   <TableCell className="font-semibold capitalize">
                     {orderItem.qty} {/* total qty - already fulfilled */}
-                  </TableCell>{' '}
+                  </TableCell>
                   <TableCell className="font-semibold capitalize">
                     {orderItem.qty}
                     {/* fulfilling qty */}
