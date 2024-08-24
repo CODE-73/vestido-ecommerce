@@ -2,12 +2,12 @@ import useSWRMutation from 'swr/mutation';
 
 import { useClearCacheOnSuccess } from '@vestido-ecommerce/utils';
 
-import { CategoryUpsertSWRKeys } from '../keys';
+import { CategorySWRKeys } from '../keys';
 import { upsertCategory } from './service';
 import { categoryUpsertRequest, categoryUpsertResponse } from './types';
 
 export const useCategoryUpsert = () => {
-  const key = [CategoryUpsertSWRKeys.CATEGORY, CategoryUpsertSWRKeys.UPSERT];
+  const key = [CategorySWRKeys.CATEGORY, CategorySWRKeys.UPSERT];
 
   return useSWRMutation<
     categoryUpsertResponse,
@@ -15,6 +15,6 @@ export const useCategoryUpsert = () => {
     string[] | null,
     categoryUpsertRequest
   >(key, (_, { arg }) => upsertCategory({ ...arg }), {
-    ...useClearCacheOnSuccess(CategoryUpsertSWRKeys.CATEGORY),
+    ...useClearCacheOnSuccess(CategorySWRKeys.CATEGORY),
   });
 };

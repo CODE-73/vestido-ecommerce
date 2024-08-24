@@ -23,15 +23,14 @@ import {
 } from '@vestido-ecommerce/shadcn-ui/breadcrumb';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
-// import useIsMobile from '../../hooks/useIsMobile';
 import { AddToWishListButton } from '../HomePage/SpecialOffer/AddToWishlistButton';
-// import { QuickViewButton } from '../HomePage/SpecialOffer/QuickViewButton';
 import AddToCartButton from '../HomePage/TopProducts/AddToCartButton';
 import ProductFilter from './ProductFilter';
 
 type ProductListViewProps = {
   categoryId?: string;
   suggestedList?: boolean;
+  // items: NonNullable<ListItemResponse>;
 };
 
 type WishlistStatus = {
@@ -42,7 +41,6 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
   categoryId,
   suggestedList,
 }) => {
-  // const isMobile = useIsMobile();
   const router = useRouter();
 
   const { data } = useItems();
@@ -59,8 +57,6 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
 
   const { data: wishlistData } = useWishlist();
   const wishlist = wishlistData?.data;
-
-  // const isWishlisted = wishlist?.some((x) => x.itemId == item?.id);
 
   const [wishlistedItems, setWishlistedItems] = useState<WishlistStatus>({});
 
@@ -145,13 +141,6 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
                     onClick={() => handleProductClick(item.id)}
                     className="group"
                   >
-                    {/* <Image
-                      className="block"
-                      src={((item.images ?? []) as ImageSchemaType[])[0].url!}
-                      alt="alt text"
-                      width={430}
-                      height={551}
-                    /> */}
                     <Image
                       className="block group-hover:hidden"
                       src={

@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 export const UpdateCategorySchema = z.object({
   name: z.string(),
-  description: z.string(),
+  description: z.string().default(''),
   parentCategoryId: z
     .string()
     .nullable()
@@ -21,6 +21,7 @@ export const UpdateCategorySchema = z.object({
     .default(['MEN', 'WOMEN'] satisfies Gender[]),
   slug: z.string().optional(),
   enabled: z.boolean().default(true),
+  searchTerms: z.array(z.string()).default([]),
 });
 
 export type UpdateCategorySchemaType = z.infer<typeof UpdateCategorySchema>;

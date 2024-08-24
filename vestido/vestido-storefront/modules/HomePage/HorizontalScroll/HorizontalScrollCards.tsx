@@ -1,6 +1,5 @@
 import { FC } from 'react';
 
-import { useMediaQuery } from '@react-hook/media-query';
 import clsx from 'clsx';
 
 import {
@@ -64,42 +63,23 @@ const cards: ScrollCardData[] = [
 export const HorizontalScrollCards: FC<HorizontalScrollCardsProps> = (
   props,
 ) => {
-  const isMdOrAbove = useMediaQuery('(min-width:768px)');
-  const height = '860px';
   return (
     <>
-      {isMdOrAbove ? (
-        <Carousel
-          opts={{
-            align: 'start',
-          }}
-          style={{ height: height, minHeight: height }}
-          className={clsx(props.className)}
-        >
-          <CarouselContent>
-            {cards.map((card, index) => (
-              <HorizontalScrollCard key={index} data={card} />
-            ))}
-          </CarouselContent>
-          <CarouselPrevious className="absolute left-2 sm:left-10" />
-          <CarouselNext className="absolute right-2 sm:right-10" />
-        </Carousel>
-      ) : (
-        <Carousel
-          opts={{
-            align: 'start',
-          }}
-          className={clsx(props.className)}
-        >
-          <CarouselContent>
-            {cards.map((card, index) => (
-              <HorizontalScrollCard key={index} data={card} />
-            ))}
-          </CarouselContent>
-          <CarouselPrevious className="absolute left-2 sm:left-10" />
-          <CarouselNext className="absolute right-2 sm:right-10" />
-        </Carousel>
-      )}{' '}
+      <Carousel
+        opts={{
+          align: 'start',
+        }}
+        // style={{ height: height, minHeight: height }}
+        className={`${clsx(props.className)} lg:h-[500px] lg:min-h-[500px] xl:h-[650px] xl:min-h-[650px] 2xl:h-[800px] 2xl:min-h-[800px]`}
+      >
+        <CarouselContent>
+          {cards.map((card, index) => (
+            <HorizontalScrollCard key={index} data={card} />
+          ))}
+        </CarouselContent>
+        <CarouselPrevious className="absolute left-2 sm:left-10" />
+        <CarouselNext className="absolute right-2 sm:right-10" />
+      </Carousel>{' '}
     </>
   );
 };
