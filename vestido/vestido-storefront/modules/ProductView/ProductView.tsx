@@ -38,7 +38,7 @@ import {
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import { AddToWishListButton } from '../HomePage/SpecialOffer/AddToWishlistButton';
-import ProductlistView from '../ProductListView/ProductListView';
+import ProductListView from '../ProductListView/ProductListView';
 
 interface ProductViewProps {
   item: NonNullable<ItemDetailsResponse['data']>;
@@ -547,7 +547,9 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
         <div className="text-center text-xl md:text-3xl font-semibold pt-10 sm:pt-16 -mb-10">
           You may also like
         </div>
-        <ProductlistView categoryId={item?.categoryId} suggestedList={true} />
+        {category && (
+          <ProductListView category={category.data} suggestedList={true} />
+        )}
       </div>
     </>
   );

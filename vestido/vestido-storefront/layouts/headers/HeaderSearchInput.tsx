@@ -26,12 +26,16 @@ export const HeaderSearchInput: FC<HeaderSearchInputProps> = ({
   const { data: categories, isLoading } = useCategories();
   const options = useMemo(
     () =>
-      categories?.data?.flatMap((category) =>
-        category.searchTerms.map((term) => ({
+      categories?.data?.flatMap((category) => [
+        {
+          label: category.name,
+          value: slugify(category.name),
+        },
+        ...category.searchTerms.map((term) => ({
           label: term,
           value: slugify(term),
         })),
-      ) ?? [],
+      ]) ?? [],
     [categories],
   );
 

@@ -6,8 +6,8 @@ import { useRouter } from 'next/router';
 import { Item } from '@prisma/client';
 
 import {
+  Category,
   useAddToWishlist,
-  useCategory,
   useItems,
   useRemoveFromWishlist,
   useWishlist,
@@ -28,7 +28,7 @@ import AddToCartButton from '../HomePage/TopProducts/AddToCartButton';
 import ProductFilter from './ProductFilter';
 
 type ProductListViewProps = {
-  categoryId?: string;
+  category: Category;
   suggestedList?: boolean;
   // items: NonNullable<ListItemResponse>;
 };
@@ -37,14 +37,13 @@ type WishlistStatus = {
   [key: string]: boolean; // Key is item ID, value is wishlisted status
 };
 
-const ProductlistView: React.FC<ProductListViewProps> = ({
-  categoryId,
+const ProductListView: React.FC<ProductListViewProps> = ({
+  category,
   suggestedList,
 }) => {
   const router = useRouter();
 
   const { data } = useItems();
-  const { data: category } = useCategory(categoryId as string);
   const { trigger: wishlistTrigger } = useAddToWishlist();
   const { trigger: removeWishlistTrigger } = useRemoveFromWishlist();
 
@@ -94,11 +93,11 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
           <BreadcrumbItem>
             <BreadcrumbLink href="/products">Products</BreadcrumbLink>
           </BreadcrumbItem>
-          {category?.data.name && (
+          {category?.name && (
             <>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage>{category?.data.name}</BreadcrumbPage>
+                <BreadcrumbPage>{category?.name}</BreadcrumbPage>
               </BreadcrumbItem>
             </>
           )}
@@ -106,10 +105,10 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
       </Breadcrumb>
       <div
         className={`text-2xl lg:text-4xl  tracking-wide text-[#333333] text-center font-extrabold my-5 ${
-          !suggestedList && category?.data.name ? 'py-14' : 'py-5'
+          !suggestedList && category?.name ? 'py-14' : 'py-5'
         }`}
       >
-        {!suggestedList && (category?.data.name ?? 'All')}
+        {!suggestedList && (category?.name ?? 'All')}
       </div>
       <div className="flex">
         {!suggestedList && (
@@ -121,7 +120,7 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
           className={`${suggestedList ? '' : ' lg:basis-4/5'} grid grid-cols-2 gap-2 px-5 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 md:gap-5 xl:gap-10 md:px-0`}
         >
           {data
-            ?.filter((item) => !categoryId || item.categoryId === categoryId)
+            ?.filter((item) => !category?.id || item.categoryId === category.id)
             .map((item: Item, index: number) => (
               <div
                 key={index}
@@ -230,4 +229,4 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
   );
 };
 
-export default ProductlistView;
+export default ProductListView;
