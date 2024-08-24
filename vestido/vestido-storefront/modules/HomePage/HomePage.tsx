@@ -56,7 +56,7 @@ const HomePage: React.FC<HomePageProps> = ({ items }) => {
       <div className="sm:hidden -mt-8  mb-4 shadow">
         <AddOnHeader />
       </div>
-      <div className="flex flex-col lg:flex-col-reverse justify-center">
+      <div className="flex flex-col lg:flex-col-reverse justify-center lg:mx-4">
         <CategoryCards /> <PrimaryCarousel />
       </div>
       <TopProducts
