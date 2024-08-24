@@ -153,7 +153,7 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
                         style={{ objectFit: 'cover' }}
                       />
                       <Image
-                        className="absolute inset-0 block group-hover:hidden object-cover"
+                        className="absolute inset-0 group-hover:block hidden object-cover"
                         fill
                         style={{ objectFit: 'cover' }}
                         src={
