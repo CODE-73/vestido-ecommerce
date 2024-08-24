@@ -92,7 +92,6 @@ const ProductsTable: React.FC<ProductTableProps> = ({ data }) => {
                     handleItemDelete(item.id);
                   }}
                 >
-
                   {isMutating ? 'Deleting...' : <LuTrash />}
                 </Button>
               </TableCell>

@@ -20,12 +20,11 @@ import {
   LuWrench,
   LuX,
 } from 'react-icons/lu';
-import {} from 'react-icons/lu';
 
 import { Gender, useCategories } from '@vestido-ecommerce/items';
 import { Input } from '@vestido-ecommerce/shadcn-ui/input';
 
-import { ListItem } from '../components/Menubar';
+import { ListItem } from '../../components/Menubar';
 
 interface HeaderProps {
   cart_count: number | undefined;

@@ -9,7 +9,7 @@ import {
   CarouselItem,
 } from '@vestido-ecommerce/shadcn-ui/carousel';
 
-const AddOnHeader = () => {
+const SubHeader = () => {
   const messages = [
     {
       description: 'standard shipping on orders $255',
@@ -77,4 +77,4 @@ const AddOnHeader = () => {
     </div>
   );
 };
-export default AddOnHeader;
+export default SubHeader;

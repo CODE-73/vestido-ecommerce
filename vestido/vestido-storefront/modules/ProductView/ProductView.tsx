@@ -443,7 +443,6 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
                     key={attributeId}
                     className="flex items-center gap-[1px]"
                   >
-
                     <div className="capitalize font-semibold">
                       {attributeMap[attributeId].name}:
                     </div>

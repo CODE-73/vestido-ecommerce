@@ -112,7 +112,6 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
         {!suggestedList && (category?.data.name ?? 'All')}
       </div>
       <div className="flex">
-
         {!suggestedList && (
           <div className="basis-1/5 hidden lg:block">
             <ProductFilter />

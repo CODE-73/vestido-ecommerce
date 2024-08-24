@@ -2,8 +2,8 @@ import React from 'react';
 import { useRouter } from 'next/router';
 
 import { ComponentWithChildrenProps } from '../types';
+import Header from './headers/Header';
 import Footer from './Footer';
-import Header from './Header';
 
 type LayoutProps = ComponentWithChildrenProps;
 

@@ -3,10 +3,10 @@ import { useInView } from 'react-intersection-observer';
 import { useCart, useWishlist } from '@vestido-ecommerce/items';
 import { em2px } from '@vestido-ecommerce/utils';
 
-import AddOnHeader from './AddOnHeader';
 import FixedHeader from './FixedHeader';
 import MainHeader from './MainHeader';
 import MobileHeader from './MobileHeader';
+import SubHeader from './SubHeader';
 
 const Header = () => {
   const { ref, inView } = useInView({
@@ -23,7 +23,7 @@ const Header = () => {
   return (
     <>
       <div className="hidden sm:block" ref={ref}>
-        <AddOnHeader />
+        <SubHeader />
         <hr />
         <MainHeader cart_count={cart_count} wishlist_count={wishlist_count} />
 

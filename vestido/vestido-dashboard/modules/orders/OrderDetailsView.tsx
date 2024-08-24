@@ -65,7 +65,6 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
             </div>
           </CardTitle>
           <CardContent className="gap-4 grid grid-cols-3 max-w-xl">
-
             <div className="">Order Status: </div>
             <div className="font-semibold col-span-2">{order?.status}</div>
             <div className="">Total Amount:</div>
@@ -109,7 +108,6 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
         <Card className="col-span-2">
           <CardHeader>
             <CardTitle className="text-xl">
-
               <div className="flex items-center gap-3">
                 <LuMapPin size={30} strokeWidth={0.6} />
                 Shipping Address
@@ -135,7 +133,6 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
         <Card className="col-span-2">
           <CardHeader>
             <CardTitle className="text-xl">
-
               <div className="flex items-center gap-3">
                 <LuCreditCard size={30} strokeWidth={0.6} />
                 Payment Details
@@ -144,7 +141,6 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
             <hr />
           </CardHeader>
           <CardContent className="gap-3 grid grid-cols-2">
-
             <div className="justify-self-end">Payment Status: </div>
             <div className="font-semibold">
               {/* {order?.payments.map((payment) => payment.status)} */}

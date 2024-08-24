@@ -6,7 +6,7 @@ import { LuHeart, LuSearch, LuShoppingBag, LuUser2 } from 'react-icons/lu';
 
 import { Input } from '@vestido-ecommerce/shadcn-ui/input';
 
-import Menubar from '../components/Menubar';
+import Menubar from '../../components/Menubar';
 import HeaderDropdown from './HeaderDropdown';
 
 interface HeaderProps {
