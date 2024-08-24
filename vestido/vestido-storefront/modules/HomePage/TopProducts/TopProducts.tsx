@@ -49,7 +49,7 @@ export const TopProducts: FC<TopProductsProps> = ({ className, items }) => {
         <TopProductsTabs />
         <CarouselContent>
           <CarouselItem>
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2 md:gap-5 xl:gap-10 pt-3 md:pt-12">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 md:gap-5 xl:gap-10 pt-3 md:pt-12">
               {getItemsByGender(['MEN'])
                 ?.slice(0, 6)
                 .map((item, index) => (
@@ -59,7 +59,7 @@ export const TopProducts: FC<TopProductsProps> = ({ className, items }) => {
           </CarouselItem>
           <CarouselItem>
             {' '}
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2 md:gap-5 xl:gap-10 pt-3 md:pt-12">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 md:gap-5 xl:gap-10 pt-3 md:pt-12">
               {getItemsByGender(['WOMEN'])
                 ?.slice(0, 6)
                 .map((item, index) => (
@@ -68,7 +68,7 @@ export const TopProducts: FC<TopProductsProps> = ({ className, items }) => {
             </div>
           </CarouselItem>
           <CarouselItem>
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2 md:gap-5 xl:gap-10 pt-3 md:pt-12">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 md:gap-5 xl:gap-10 pt-3 md:pt-12">
               {getItemsByGender(['MEN', 'WOMEN'])
                 ?.slice(0, 6)
                 .map((item, index) => (
