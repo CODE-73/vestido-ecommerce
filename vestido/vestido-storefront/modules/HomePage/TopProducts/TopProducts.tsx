@@ -91,7 +91,7 @@ export const TopProducts: FC<TopProductsProps> = ({ className, items }) => {
           )}
         >
           <TabsContent value="men">
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-5 xl:gap-10 pt-3 md:pt-12">
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2 md:gap-5 xl:gap-10 pt-3 md:pt-12">
               {getItemsByGender(['MEN'])
                 ?.slice(0, 6)
                 .map((item, index) => (
@@ -111,7 +111,7 @@ export const TopProducts: FC<TopProductsProps> = ({ className, items }) => {
           )}
         >
           <TabsContent value="women">
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-5 xl:gap-10 pt-3 md:pt-12">
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2 md:gap-5 xl:gap-10 pt-3 md:pt-12">
               {getItemsByGender(['WOMEN'])
                 ?.slice(0, 6)
                 .map((item, index) => (
@@ -131,7 +131,7 @@ export const TopProducts: FC<TopProductsProps> = ({ className, items }) => {
           )}
         >
           <TabsContent value="unisex">
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2 md:gap-5 xl:gap-10 pt-3 md:pt-12">
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2 md:gap-5 xl:gap-10 pt-3 md:pt-12">
               {getItemsByGender(['MEN', 'WOMEN'])
                 ?.slice(0, 6)
                 .map((item, index) => (

@@ -138,28 +138,32 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
                 {((item.images ?? []) as ImageSchemaType[]).length > 0 && (
                   <div
                     onClick={() => handleProductClick(item.id)}
-                    className="group"
+                    className="group w-full relative"
                   >
-                    <Image
-                      className="block group-hover:hidden"
-                      src={
-                        ((item.images ?? []) as ImageSchemaType[])[0]?.url ?? ''
-                      }
-                      alt="alt text"
-                      width={430}
-                      height={551}
-                    />
-                    <Image
-                      className="hidden group-hover:block"
-                      src={
-                        ((item.images ?? []) as ImageSchemaType[])[1]?.url ??
-                        ((item.images ?? []) as ImageSchemaType[])[0]?.url ??
-                        ''
-                      }
-                      alt="alt text"
-                      width={430}
-                      height={551}
-                    />
+                    {' '}
+                    <div className="relative w-full pb-[130%]">
+                      <Image
+                        className="absolute inset-0 block group-hover:hidden object-cover"
+                        src={
+                          ((item.images ?? []) as ImageSchemaType[])[0]?.url ??
+                          ''
+                        }
+                        fill
+                        alt="alt text"
+                        style={{ objectFit: 'cover' }}
+                      />
+                      <Image
+                        className="absolute inset-0 block group-hover:hidden object-cover"
+                        fill
+                        style={{ objectFit: 'cover' }}
+                        src={
+                          ((item.images ?? []) as ImageSchemaType[])[1]?.url ??
+                          ((item.images ?? []) as ImageSchemaType[])[0]?.url ??
+                          ''
+                        }
+                        alt="alt text"
+                      />
+                    </div>
                   </div>
                 )}
 
