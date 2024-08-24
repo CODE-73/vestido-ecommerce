@@ -1,10 +1,13 @@
-import { CSSProperties, FC } from 'react';
+import { FC, useMemo } from 'react';
+import { useRouter } from 'next/router';
 
 import clsx from 'clsx';
 import { LuSearch, LuX } from 'react-icons/lu';
 import { twMerge } from 'tailwind-merge';
 
-import { Input } from '@vestido-ecommerce/shadcn-ui/input';
+import { useCategories } from '@vestido-ecommerce/items';
+import { Combobox } from '@vestido-ecommerce/shadcn-ui/combobox';
+import { slugify } from '@vestido-ecommerce/utils';
 
 type HeaderSearchInputProps = {
   className?: string;
@@ -19,6 +22,23 @@ export const HeaderSearchInput: FC<HeaderSearchInputProps> = ({
   onCancelClick,
   iconSize = 24,
 }) => {
+  const router = useRouter();
+  const { data: categories, isLoading } = useCategories();
+  const options = useMemo(
+    () =>
+      categories?.data?.flatMap((category) =>
+        category.searchTerms.map((term) => ({
+          label: term,
+          value: slugify(term),
+        })),
+      ) ?? [],
+    [categories],
+  );
+
+  const onSelect = (value: string) => {
+    router.push(`/${encodeURIComponent(value)}`);
+  };
+
   return (
     <div
       className={twMerge(
@@ -29,18 +49,14 @@ export const HeaderSearchInput: FC<HeaderSearchInputProps> = ({
         ),
       )}
     >
-      <Input
-        name="search-products"
+      <Combobox
+        value={null}
+        disabled={isLoading}
+        options={options}
         placeholder="Search Products..."
-        type="search"
-        style={
-          {
-            // TODO: Change this to a tailwind class
-            '--tw-ring-inset': 0,
-          } as CSSProperties
-        }
+        onChange={onSelect}
         className={clsx(
-          'rounded-none max-w-28 bg-transparent',
+          'rounded-none max-w-28 bg-transparent hover:bg-transparent hover:text-auto',
           'border-none px-0',
           className,
         )}
