@@ -1,4 +1,4 @@
-import * as sharp from 'sharp';
+import { Image } from 'image-js';
 import { rgbaToThumbHash } from 'thumbhash';
 
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
@@ -24,23 +24,13 @@ export async function makeThumbHash({ fileUrl, file }: MakeThumbHashArgs) {
   }
 
   const buffer = Buffer.from(file);
-
-  // Cannot use @ts-expect-error as the error is flaky and not consistent
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore TODO: Type this better
-  const image = sharp.default(buffer);
-  const metadata = await image.metadata();
-
-  if (!metadata.width || !metadata.height) {
-    throw new Error('Invalid image');
+  let image = await Image.load(buffer);
+  if (!image.alpha) {
+    image = image.rgba8();
   }
+  const { width, height, data } = image;
 
-  const { data } = await image
-    .raw()
-    .ensureAlpha()
-    .toBuffer({ resolveWithObject: true });
-
-  const thumbHash = rgbaToThumbHash(metadata.width, metadata.height, data);
+  const thumbHash = rgbaToThumbHash(width, height, data);
   return Buffer.from(thumbHash).toString('base64');
 }
 
