@@ -49,11 +49,13 @@ export async function getStaticProps({
   return {
     props: {
       fallback: {
+        // useCategory()
         [unstable_serialize([
           CategorySWRKeys.CATEGORY,
           CategorySWRKeys.DETAILS,
           category.id,
         ])]: { data: category, success: true },
+        // useItems({ categoryId: category.id })
         [unstable_serialize([
           ListItemSWRKeys.ITEM,
           ListItemSWRKeys.LIST,

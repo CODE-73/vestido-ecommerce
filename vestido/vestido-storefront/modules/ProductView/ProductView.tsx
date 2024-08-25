@@ -7,8 +7,11 @@ import { LuCalendar, LuScaling, LuShoppingBag, LuTruck } from 'react-icons/lu';
 import Markdown from 'react-markdown';
 
 import { useAuth } from '@vestido-ecommerce/auth/client';
-import { type ItemDetailsResponse } from '@vestido-ecommerce/items';
-import { useAddToCart, useCategory } from '@vestido-ecommerce/items/client';
+import {
+  useAddToCart,
+  useCategory,
+  useItem,
+} from '@vestido-ecommerce/items/client';
 import {
   Accordion,
   AccordionContent,
@@ -35,17 +38,19 @@ import AddToWishListButton from '../ProductListView/AddToWishlistButton';
 import ProductListView from '../ProductListView/ProductListView';
 
 interface ProductViewProps {
-  item: NonNullable<ItemDetailsResponse['data']>;
+  itemId: string;
 }
 
-const ProductView: React.FC<ProductViewProps> = ({ item }) => {
+const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
   const { isAuthenticated, routeToLogin } = useAuth();
-  const { data: category } = useCategory(item.categoryId);
+
+  const { data: { data: item } = { data: null } } = useItem(itemId);
+  const { data: category } = useCategory(item?.categoryId);
   const itemCategory = category?.data.name;
 
   const [selectedImage, setSelectedImage] =
     React.useState<ImageSchemaType | null>(
-      (item.images as ImageSchemaType[])?.[0] ?? null,
+      (item?.images as ImageSchemaType[])?.[0] ?? null,
     );
 
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(
@@ -471,7 +476,7 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
               </Button>
             </div>
             <AddToWishListButton
-              itemId={item.id}
+              itemId={item?.id || ''}
               className="border border-2 border-[#48CAB2] font-medium text-xs  h-full self-center p-4"
             />
           </div>
