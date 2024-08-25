@@ -71,7 +71,7 @@ export async function getStaticPaths() {
 
   const slugs =
     categories?.flatMap((category) => [
-      slugify(category.name),
+      ...(category.slug ? [category.slug] : []),
       ...category.searchTerms.map((term) => slugify(term)),
     ]) ?? [];
 
