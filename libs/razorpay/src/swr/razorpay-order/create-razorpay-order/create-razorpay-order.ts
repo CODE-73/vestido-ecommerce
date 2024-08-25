@@ -8,8 +8,10 @@ import { CreateRPOrderSWRKeys } from '../key';
 import { createNewRazorpayOrder } from './service';
 
 export const useRazorpayCreateOrder = () => {
-  const { authHeaders } = useAuth();
-  const key = [CreateRPOrderSWRKeys.CREATE, CreateRPOrderSWRKeys.ORDER];
+  const { isAuthenticated, authHeaders } = useAuth();
+  const key = isAuthenticated
+    ? [CreateRPOrderSWRKeys.CREATE, CreateRPOrderSWRKeys.ORDER]
+    : null;
 
   return useSWRMutation<
     CreateRPOrderResponse,

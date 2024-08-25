@@ -7,8 +7,10 @@ import { ListAddressSWRKeys } from '../keys';
 import { getAddressList } from './service';
 
 export function useAddresses() {
-  const { authHeaders } = useAuth();
-  const key = [ListAddressSWRKeys.ADDRESS, ListAddressSWRKeys.LIST];
+  const { isAuthenticated, authHeaders } = useAuth();
+  const key = isAuthenticated
+    ? [ListAddressSWRKeys.ADDRESS, ListAddressSWRKeys.LIST]
+    : null;
 
   return useSWRImmutable<ListAddressResponse, Error>(
     key,

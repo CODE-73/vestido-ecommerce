@@ -8,15 +8,18 @@ import {
 import { useRouter } from 'next/router';
 
 type AuthContextValue = {
+  isAuthenticated: boolean;
+  loginRoute: string;
   token: string | null;
   setToken: (token: string) => void;
   authHeaders: Record<string, string>;
 };
 
-type AuthProvider = {
+type AuthProviderProps = {
   children: ReactNode;
   autoLoginRedirect?: boolean;
-  loginPage?: string;
+  loginRoute?: string;
+  fallback?: ReactNode;
 };
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -25,8 +28,9 @@ AuthContext.displayName = 'TokenContext';
 export const AuthProvider = ({
   children,
   autoLoginRedirect = true,
-  loginPage = '/auth/login',
-}: AuthProvider) => {
+  loginRoute: loginRoute = '/auth/login',
+  fallback,
+}: AuthProviderProps) => {
   const [token, setToken] = useState<string | null>(null);
   const [authLoaded, setAuthLoaded] = useState(false);
   const router = useRouter();
@@ -37,19 +41,20 @@ export const AuthProvider = ({
     if (token && token !== 'undefined') {
       setToken(token);
     } else if (autoLoginRedirect) {
-      router.push(loginPage); // Redirect to your login page
+      router.push(loginRoute); // Redirect to your login page
     }
     setAuthLoaded(true);
   }, []);
 
   if (!authLoaded) {
-    // TODO: Change this to <LoadingSpinner />
-    return null;
+    return fallback;
   }
 
   return (
     <AuthContext.Provider
       value={{
+        isAuthenticated: !!token,
+        loginRoute,
         token,
         setToken: (token: string) => {
           localStorage.setItem('token', token);

@@ -8,8 +8,8 @@ import { addCartItem } from './service';
 import { AddCartRequest, AddCartResponse } from './types';
 
 export const useAddToCart = () => {
-  const { authHeaders } = useAuth();
-  const key = [CartSWRKeys.CART];
+  const { isAuthenticated, authHeaders } = useAuth();
+  const key = isAuthenticated ? [CartSWRKeys.CART] : null;
 
   return useSWRMutation<
     AddCartResponse,

@@ -6,8 +6,10 @@ import { GetProfileSWRKeys } from '../keys';
 import { getCurrentProfile } from './service';
 
 export function useProfile() {
-  const { authHeaders } = useAuth();
-  const key = [GetProfileSWRKeys.PROFILE, GetProfileSWRKeys.DETAILS];
+  const { isAuthenticated, authHeaders } = useAuth();
+  const key = isAuthenticated
+    ? [GetProfileSWRKeys.PROFILE, GetProfileSWRKeys.DETAILS]
+    : null;
 
   return useSWRImmutable<GetProfileResponse, Error>(
     key,

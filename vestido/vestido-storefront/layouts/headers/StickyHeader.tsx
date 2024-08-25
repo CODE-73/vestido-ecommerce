@@ -4,6 +4,8 @@ import Link from 'next/link';
 
 import { LuHeart, LuShoppingBag, LuUser2 } from 'react-icons/lu';
 
+import { AuthenticatedLink } from '@vestido-ecommerce/auth/client';
+
 import NavigationMenu from '../../components/Menubar';
 import HeaderDropdown from './HeaderDropdown';
 import { HeaderSearchInput } from './HeaderSearchInput';
@@ -49,9 +51,12 @@ const StickyHeader: React.FC<HeaderProps> = ({
         <div className="flex items-center">
           <HeaderSearchInput />
           <div className="flex">
-            <Link href="/user" className="text-black hover:text-[#48cab2] px-3">
+            <AuthenticatedLink
+              href="/profile"
+              className="text-black hover:text-[#48cab2] px-3"
+            >
               <LuUser2 size={24} />
-            </Link>
+            </AuthenticatedLink>
             <Link
               href="/wishlist"
               className=" relative text-text-black hover:text-[#48cab2] "

@@ -11,8 +11,10 @@ import { CreateOrderSWRKeys } from '../keys';
 import { createNewOrder } from './service';
 
 export const useCreateOrder = () => {
-  const { authHeaders } = useAuth();
-  const key = [CreateOrderSWRKeys.CREATE, CreateOrderSWRKeys.ORDER];
+  const { isAuthenticated, authHeaders } = useAuth();
+  const key = isAuthenticated
+    ? [CreateOrderSWRKeys.CREATE, CreateOrderSWRKeys.ORDER]
+    : null;
 
   return useSWRMutation<
     CreateOrderSWRResponse,

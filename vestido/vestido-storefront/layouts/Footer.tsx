@@ -11,6 +11,7 @@ import {
   LuYoutube,
 } from 'react-icons/lu';
 
+import { AuthenticatedLink } from '@vestido-ecommerce/auth/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Input } from '@vestido-ecommerce/shadcn-ui/input';
 
@@ -68,7 +69,7 @@ const Footer = () => {
             activeSection={activeSection}
             setActiveSection={setActiveSection}
           >
-            <Link href="/user">My Account</Link>
+            <AuthenticatedLink href="/profile">My Account</AuthenticatedLink>
             <Link href="/cart">View Cart</Link>
             <Link href="/wishlist">Wishlist</Link>
           </CollapsableFooterSection>

@@ -7,8 +7,10 @@ import { ListOrderSWRKeys } from '../keys';
 import { getAdminOrderList } from './service';
 
 export function useAdminOrders() {
-  const { authHeaders } = useAuth();
-  const key = [ListOrderSWRKeys.ORDER, ListOrderSWRKeys.LIST];
+  const { isAuthenticated, authHeaders } = useAuth();
+  const key = isAuthenticated
+    ? [ListOrderSWRKeys.ORDER, ListOrderSWRKeys.LIST]
+    : null;
 
   return useSWRImmutable<ListAdminOrderResponse, Error>(
     key,

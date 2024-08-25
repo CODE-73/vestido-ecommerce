@@ -9,8 +9,8 @@ import { removeCartItem } from './service';
 import { RemoveFromCartSWRRequest } from './types';
 
 export const useRemoveFromCart = () => {
-  const { authHeaders } = useAuth();
-  const key = [CartSWRKeys.CART];
+  const { isAuthenticated, authHeaders } = useAuth();
+  const key = isAuthenticated ? [CartSWRKeys.CART] : null;
 
   return useSWRMutation<
     RemoveFromCartResponse,

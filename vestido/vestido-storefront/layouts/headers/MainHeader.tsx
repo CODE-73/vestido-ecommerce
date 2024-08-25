@@ -4,6 +4,8 @@ import Link from 'next/link';
 
 import { LuHeart, LuShoppingBag, LuUser2 } from 'react-icons/lu';
 
+import { AuthenticatedLink } from '@vestido-ecommerce/auth/client';
+
 import Menubar from '../../components/Menubar';
 import HeaderDropdown from './HeaderDropdown';
 import { HeaderSearchInput } from './HeaderSearchInput';
@@ -40,9 +42,12 @@ const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
       </div>
       <HeaderSearchInput className="text-white" />
       <div className="flex">
-        <Link href="/user" className="text-white hover:text-[#48cab2] px-3">
+        <AuthenticatedLink
+          href="/profile"
+          className="text-white hover:text-[#48cab2] px-3"
+        >
           <LuUser2 size={24} />
-        </Link>
+        </AuthenticatedLink>
 
         <Link
           href="/wishlist"

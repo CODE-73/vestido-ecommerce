@@ -9,8 +9,8 @@ import { removeFromWishList } from './service';
 import { RemoveFromWishListSwrRequest } from './types';
 
 export const useRemoveFromWishlist = () => {
-  const { authHeaders } = useAuth();
-  const key = [WishlistSWRKeys.WISHLIST];
+  const { isAuthenticated, authHeaders } = useAuth();
+  const key = isAuthenticated ? [WishlistSWRKeys.WISHLIST] : null;
 
   return useSWRMutation<
     RemoveFromWishlistResponse,

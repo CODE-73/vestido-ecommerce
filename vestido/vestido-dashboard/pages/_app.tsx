@@ -73,7 +73,7 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
       <Head>
         <title>Dashboard - VN</title>
       </Head>
-      <AuthProvider loginPage="/auth/login">
+      <AuthProvider loginRoute="/auth/login">
         {getLayout(<Component {...pageProps} />)}
       </AuthProvider>
       <Toaster />

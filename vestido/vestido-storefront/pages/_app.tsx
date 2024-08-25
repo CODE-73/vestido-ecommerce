@@ -5,6 +5,7 @@ import Head from 'next/head';
 
 import { AuthProvider } from '@vestido-ecommerce/auth/client';
 
+import BlockingSpinner from '../components/BlockingSpinner';
 import MainLayout from '../layouts/MainLayout';
 import { NextPageWithLayout } from './../types';
 
@@ -82,7 +83,11 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
       <Head>
         <title>Vestido Storefront</title>
       </Head>
-      <AuthProvider loginPage="/auth" autoLoginRedirect={false}>
+      <AuthProvider
+        loginRoute="/auth"
+        autoLoginRedirect={false}
+        fallback={<BlockingSpinner />}
+      >
         {getLayout(<Component {...pageProps} />)}
       </AuthProvider>
     </div>
