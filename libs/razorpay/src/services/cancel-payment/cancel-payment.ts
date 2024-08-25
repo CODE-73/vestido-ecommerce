@@ -27,6 +27,15 @@ export async function cancelPayment(paymentId: string) {
         orderPaymentStatus: 'FAILED',
       },
     });
+
+    await transaction.orderItem.updateMany({
+      where: {
+        orderId: payment.orderId,
+      },
+      data: {
+        status: 'CANCELLED',
+      },
+    });
     return payment;
   });
 }

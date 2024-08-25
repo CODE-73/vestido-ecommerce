@@ -68,6 +68,12 @@ export async function handleRazorpayWebhook(data: RazorpayWebhookSchemaType) {
               },
             });
             console.log('Orders updated to CONFIRMED.');
+            // Update the status of associated OrderItems to CONFIRMED
+            await transaction.orderItem.updateMany({
+              where: { orderId: { in: orderIds } },
+              data: { status: 'CONFIRMED' },
+            });
+            console.log('OrderItems updated to CONFIRMED.');
           }
         }
       });
@@ -125,6 +131,12 @@ export async function handleRazorpayWebhook(data: RazorpayWebhookSchemaType) {
               data: { orderPaymentStatus: 'FAILED', orderStatus: 'CANCELLED' },
             });
             console.log('Orders updated to CANCELLED.');
+
+            await transaction.orderItem.updateMany({
+              where: { orderId: { in: orderIds } },
+              data: { status: 'CANCELLED' },
+            });
+            console.log('OrderItems updated to CANCELLED.');
           }
         }
       });

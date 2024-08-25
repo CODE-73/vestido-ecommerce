@@ -39,7 +39,16 @@ export async function processPayment(data: verifyPaymentRequest) {
             id: payment.orderId,
           },
           data: {
+            orderStatus: 'CONFIRMED',
             orderPaymentStatus: 'CAPTURED',
+          },
+        });
+        await prisma.orderItem.updateMany({
+          where: {
+            orderId: payment.orderId,
+          },
+          data: {
+            status: 'CONFIRMED',
           },
         });
       }),
