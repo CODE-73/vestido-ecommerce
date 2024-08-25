@@ -90,7 +90,7 @@ const HeaderMenubar: React.FC<NavMenuProps> = ({ isFixed }) => {
                     )}
 
                     {getSubcategories(category.id, ['MEN'])!.length > 0 && (
-                      <AccordionContent>
+                      <AccordionContent className="-mb-5">
                         <ul className="text-stone-500 capitalize md:w-[200px] lg:w-[200px]">
                           {getSubcategories(category.id, ['MEN'])?.map(
                             (subcategory, subIndex) => (
@@ -149,7 +149,7 @@ const HeaderMenubar: React.FC<NavMenuProps> = ({ isFixed }) => {
                     )}
 
                     {getSubcategories(category.id, ['WOMEN'])!.length > 0 && (
-                      <AccordionContent>
+                      <AccordionContent className="-mb-5">
                         <ul className="text-stone-500 capitalize md:w-[200px] lg:w-[200px]">
                           {getSubcategories(category.id, ['WOMEN'])?.map(
                             (subcategory, subIndex) => (
@@ -215,7 +215,7 @@ const HeaderMenubar: React.FC<NavMenuProps> = ({ isFixed }) => {
 
                     {getSubcategories(category.id, ['MEN', 'WOMEN'])!.length >
                       0 && (
-                      <AccordionContent>
+                      <AccordionContent className="-mb-5">
                         <ul className="text-stone-500 capitalize md:w-[200px] lg:w-[200px]">
                           {getSubcategories(category.id, ['MEN', 'WOMEN'])?.map(
                             (subcategory, subIndex) => (

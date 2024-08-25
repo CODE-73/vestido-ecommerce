@@ -1,10 +1,12 @@
 import { FC } from 'react';
 import * as React from 'react';
+import Link from 'next/link';
 
 import clsx from 'clsx';
 import Autoplay from 'embla-carousel-autoplay';
 
 import { Gender, ListItemResponse } from '@vestido-ecommerce/items/client';
+import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
   Carousel,
   CarouselContent,
@@ -72,6 +74,12 @@ export const TopProducts: FC<TopProductsProps> = ({ className, items }) => {
           </CarouselItem>
         </CarouselContent>
       </Carousel>
+
+      <Link href="/">
+        <Button className="mt-6 h-12 rounded-none bg-white  text-black border border-black shadow uppercase hover:text-[#48cab2] font-semibold tracking-widest px-10">
+          View More
+        </Button>
+      </Link>
     </div>
   );
 };
