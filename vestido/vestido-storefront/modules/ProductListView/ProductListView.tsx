@@ -16,7 +16,7 @@ import ProductFilter from './ProductFilter';
 import ProductTile from './ProductTile';
 
 type ProductListViewProps = {
-  categoryId: string;
+  categoryId?: string;
   suggestedList?: boolean;
 };
 
