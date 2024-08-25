@@ -80,9 +80,9 @@ const SignupForm: React.FC<Props> = ({ mobile }) => {
       <div className="flex flex-col justify-center items-center">
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full md:w-1/2 space-y-6 bg-white z-10 p-10"
+          className="w-full xl:w-3/4 space-y-6 bg-white z-10 p-3 md:p-10 rounded-[3rem] md:rounded-none pt-10 md:pt-auto"
         >
-          <div className="font-semibold text-2xl">Signup</div>
+          <div className="font-semibold md:text-xl xl:text-2xl">Signup</div>
           <hr />
           <InputElement
             name="firstName"
@@ -110,7 +110,7 @@ const SignupForm: React.FC<Props> = ({ mobile }) => {
               { label: 'Male', value: 'MALE' },
               { label: 'Female', value: 'FEMALE' },
             ]}
-            wrapperClassName="flex space-x-12"
+            wrapperClassName="flex space-x-8"
           />
           <FormField
             control={form.control}
@@ -146,7 +146,7 @@ const SignupForm: React.FC<Props> = ({ mobile }) => {
           />
           <Button
             type="submit"
-            className="w-full h-14 uppercase tracking-widest rounded-none"
+            className="w-full h-10 md:h-14 uppercase tracking-widest rounded-none"
           >
             SignUp
           </Button>

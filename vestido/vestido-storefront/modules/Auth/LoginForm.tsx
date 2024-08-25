@@ -67,9 +67,9 @@ const LoginForm: React.FC<Props> = ({ mobile }) => {
       <div className="flex flex-col justify-center items-center">
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full md:w-1/2 space-y-6 bg-white z-10 p-10"
+          className="w-full xl:w-3/4 space-y-6 bg-transparent rounded-[3rem] md:rounded-none z-10 p-3 md:p-10 pt-10 md:pt-auto"
         >
-          <div className="font-semibold text-2xl">Login</div>
+          <div className="font-semibold md:text-xl xl:text-2xl">Login</div>
           <hr />
           <FormField
             control={form.control}
@@ -105,7 +105,7 @@ const LoginForm: React.FC<Props> = ({ mobile }) => {
           />
           <Button
             type="submit"
-            className="w-full h-14 uppercase tracking-widest rounded-none"
+            className="w-full h-10 md:h-14 uppercase tracking-widest rounded-none"
           >
             Login
           </Button>
