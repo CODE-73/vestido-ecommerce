@@ -9,11 +9,7 @@ export function useCategory(categoryId?: string | null) {
     ? [CategorySWRKeys.CATEGORY, CategorySWRKeys.DETAILS, categoryId]
     : null;
 
-  return useSWRImmutable<CategoryDetailsResponse, Error>(
-    key,
-    () => getCategoryDetails(categoryId as string),
-    {
-      keepPreviousData: true,
-    },
+  return useSWRImmutable<CategoryDetailsResponse, Error>(key, () =>
+    getCategoryDetails(categoryId as string),
   );
 }
