@@ -69,30 +69,41 @@ const HeaderMenubar: React.FC<NavMenuProps> = ({ isFixed }) => {
             ?.filter((category) => category.gender.includes('MEN'))
             .map((category, index) => (
               <div key={index}>
-                <Accordion type="single" collapsible className="w-full">
-                  <AccordionItem value="item-1">
-                    <AccordionTrigger>
-                      <MenubarItem className=" text-stone-500 capitalize hover:text-[#48cab2] px-2 cursor-pointer">
-                        <Link href={`/${category.id}`}>{category.name}</Link>
-                      </MenubarItem>
-                    </AccordionTrigger>
-                    <AccordionContent className="pb-0">
-                      <ul className="text-stone-500 capitalize md:w-[200px] lg:w-[200px]">
-                        {getSubcategories(category.id, ['MEN'])?.map(
-                          (subcategory, subIndex) => (
-                            <MenubarItem
-                              key={subIndex}
-                              className="hover:text-green-300"
-                            >
-                              <ListItem
-                                href={`/${subcategory.id}`}
-                                title={subcategory.name}
-                              />
-                            </MenubarItem>
-                          ),
-                        )}
-                      </ul>
-                    </AccordionContent>
+                <Accordion type="single" collapsible className="w-full ">
+                  <AccordionItem value="item-1" className="py-0  border-none">
+                    {getSubcategories(category.id, ['MEN'])!.length > 0 ? (
+                      <AccordionTrigger className="py-0">
+                        <MenubarItem className=" text-stone-500 capitalize hover:text-green-300 hover:bg-transparent focus:bg-transparent focus:text-black px-2 cursor-pointer ">
+                          <Link href={`/${category.id}`}>{category.name}</Link>
+                        </MenubarItem>
+                      </AccordionTrigger>
+                    ) : (
+                      <AccordionTriggerNoChevron className="py-0">
+                        <MenubarItem className=" text-stone-500 capitalize hover:text-green-300 hover:bg-transparent focus:bg-transparent focus:text-black px-2 cursor-pointer ">
+                          <Link href={`/${category.id}`}>{category.name}</Link>
+                        </MenubarItem>
+                      </AccordionTriggerNoChevron>
+                    )}
+
+                    {getSubcategories(category.id, ['MEN'])!.length > 0 && (
+                      <AccordionContent>
+                        <ul className="text-stone-500 capitalize md:w-[200px] lg:w-[200px]">
+                          {getSubcategories(category.id, ['MEN'])?.map(
+                            (subcategory, subIndex) => (
+                              <MenubarItem
+                                key={subIndex}
+                                className="hover:text-green-300"
+                              >
+                                <ListItem
+                                  href={`/${subcategory.id}`}
+                                  title={subcategory.name}
+                                />
+                              </MenubarItem>
+                            ),
+                          )}
+                        </ul>
+                      </AccordionContent>
+                    )}
                   </AccordionItem>
                 </Accordion>
               </div>
@@ -113,30 +124,41 @@ const HeaderMenubar: React.FC<NavMenuProps> = ({ isFixed }) => {
             ?.filter((category) => category.gender.includes('WOMEN'))
             .map((category, index) => (
               <div key={index}>
-                <Accordion type="single" collapsible className="w-full">
-                  <AccordionItem value="item-1">
-                    <AccordionTrigger>
-                      <MenubarItem className=" text-stone-500 capitalize hover:text-[#48cab2] px-2 cursor-pointer">
-                        <Link href={`/${category.id}`}>{category.name}</Link>
-                      </MenubarItem>
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      <ul className="text-stone-500 capitalize py-3 md:w-[200px] lg:w-[200px]">
-                        {getSubcategories(category.id, ['WOMEN'])?.map(
-                          (subcategory, subIndex) => (
-                            <MenubarItem
-                              key={subIndex}
-                              className="hover:text-green-300"
-                            >
-                              <ListItem
-                                href={`/${subcategory.id}`}
-                                title={subcategory.name}
-                              />
-                            </MenubarItem>
-                          ),
-                        )}
-                      </ul>
-                    </AccordionContent>
+                <Accordion type="single" collapsible className="w-full ">
+                  <AccordionItem value="item-1" className="py-0  border-none">
+                    {getSubcategories(category.id, ['WOMEN'])!.length > 0 ? (
+                      <AccordionTrigger className="py-0">
+                        <MenubarItem className=" text-stone-500 capitalize hover:text-green-300 hover:bg-transparent focus:bg-transparent focus:text-black px-2 cursor-pointer ">
+                          <Link href={`/${category.id}`}>{category.name}</Link>
+                        </MenubarItem>
+                      </AccordionTrigger>
+                    ) : (
+                      <AccordionTriggerNoChevron className="py-0">
+                        <MenubarItem className=" text-stone-500 capitalize hover:text-green-300 hover:bg-transparent focus:bg-transparent focus:text-black px-2 cursor-pointer ">
+                          <Link href={`/${category.id}`}>{category.name}</Link>
+                        </MenubarItem>
+                      </AccordionTriggerNoChevron>
+                    )}
+
+                    {getSubcategories(category.id, ['WOMEN'])!.length > 0 && (
+                      <AccordionContent>
+                        <ul className="text-stone-500 capitalize md:w-[200px] lg:w-[200px]">
+                          {getSubcategories(category.id, ['WOMEN'])?.map(
+                            (subcategory, subIndex) => (
+                              <MenubarItem
+                                key={subIndex}
+                                className="hover:text-green-300"
+                              >
+                                <ListItem
+                                  href={`/${subcategory.id}`}
+                                  title={subcategory.name}
+                                />
+                              </MenubarItem>
+                            ),
+                          )}
+                        </ul>
+                      </AccordionContent>
+                    )}
                   </AccordionItem>
                 </Accordion>
               </div>
@@ -162,37 +184,43 @@ const HeaderMenubar: React.FC<NavMenuProps> = ({ isFixed }) => {
             )
             .map((category, index) => (
               <div key={index}>
-                <Accordion
-                  type="single"
-                  collapsible
-                  className="w-full bg-blue-500"
-                >
-                  <AccordionItem
-                    value="item-1"
-                    className="py-0 bg-blue-400 border-none"
-                  >
-                    <AccordionTrigger className="py-0">
-                      <MenubarItem className=" text-stone-500 capitalize hover:text-green-300 hover:bg-transparent focus:bg-transparent focus:text-black px-2 cursor-pointer ">
-                        <Link href={`/${category.id}`}>{category.name}</Link>
-                      </MenubarItem>
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      <ul className="text-stone-500 capitalize md:w-[200px] lg:w-[200px]">
-                        {getSubcategories(category.id, ['MEN', 'WOMEN'])?.map(
-                          (subcategory, subIndex) => (
-                            <MenubarItem
-                              key={subIndex}
-                              className="hover:text-green-300"
-                            >
-                              <ListItem
-                                href={`/${subcategory.id}`}
-                                title={subcategory.name}
-                              />
-                            </MenubarItem>
-                          ),
-                        )}
-                      </ul>
-                    </AccordionContent>
+                <Accordion type="single" collapsible className="w-full ">
+                  <AccordionItem value="item-1" className="py-0  border-none">
+                    {getSubcategories(category.id, ['MEN', 'WOMEN'])!.length >
+                    0 ? (
+                      <AccordionTrigger className="py-0">
+                        <MenubarItem className=" text-stone-500 capitalize hover:text-green-300 hover:bg-transparent focus:bg-transparent focus:text-black px-2 cursor-pointer ">
+                          <Link href={`/${category.id}`}>{category.name}</Link>
+                        </MenubarItem>
+                      </AccordionTrigger>
+                    ) : (
+                      <AccordionTriggerNoChevron className="py-0">
+                        <MenubarItem className=" text-stone-500 capitalize hover:text-green-300 hover:bg-transparent focus:bg-transparent focus:text-black px-2 cursor-pointer ">
+                          <Link href={`/${category.id}`}>{category.name}</Link>
+                        </MenubarItem>
+                      </AccordionTriggerNoChevron>
+                    )}
+
+                    {getSubcategories(category.id, ['MEN', 'WOMEN'])!.length >
+                      0 && (
+                      <AccordionContent>
+                        <ul className="text-stone-500 capitalize md:w-[200px] lg:w-[200px]">
+                          {getSubcategories(category.id, ['MEN', 'WOMEN'])?.map(
+                            (subcategory, subIndex) => (
+                              <MenubarItem
+                                key={subIndex}
+                                className="hover:text-green-300"
+                              >
+                                <ListItem
+                                  href={`/${subcategory.id}`}
+                                  title={subcategory.name}
+                                />
+                              </MenubarItem>
+                            ),
+                          )}
+                        </ul>
+                      </AccordionContent>
+                    )}
                   </AccordionItem>
                 </Accordion>
               </div>
@@ -222,6 +250,25 @@ const AccordionTrigger = React.forwardRef<
   </AccordionPrimitive.Header>
 ));
 AccordionTrigger.displayName = AccordionPrimitive.Trigger.displayName;
+
+const AccordionTriggerNoChevron = React.forwardRef<
+  React.ElementRef<typeof AccordionPrimitive.Trigger>,
+  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>
+>(({ className, children, ...props }, ref) => (
+  <AccordionPrimitive.Header className="flex">
+    <AccordionPrimitive.Trigger
+      ref={ref}
+      className={clsx(
+        'flex flex-1 items-center justify-between font-medium transition-all py-1 [&[data-state=open]>svg]:rotate-180 focus:bg-transparent',
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </AccordionPrimitive.Trigger>
+  </AccordionPrimitive.Header>
+));
+AccordionTriggerNoChevron.displayName = AccordionPrimitive.Trigger.displayName;
 
 const AccordionItem = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Item>,
