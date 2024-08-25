@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 export const ImageSchema = z.object({
   blurHash: z.string().nullish(),
+  blurHashDataURL: z.string().nullish(),
   alt: z.string(),
   key: z.string().min(3),
   url: z.string().nullish(),

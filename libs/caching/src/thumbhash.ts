@@ -28,6 +28,14 @@ export async function makeThumbHash({ fileUrl, file }: MakeThumbHashArgs) {
   if (!image.alpha) {
     image = image.rgba8();
   }
+
+  // Resize to 100x100
+  image = image.resize({
+    height: 100,
+    width: 100,
+    preserveAspectRatio: true,
+  });
+
   const { width, height, data } = image;
 
   const thumbHash = rgbaToThumbHash(width, height, data);

@@ -1,3 +1,5 @@
+import { thumbHashToDataURL } from 'thumbhash';
+
 import { makeSignedUrl as _makeSignedUrl } from '@vestido-ecommerce/r2';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
@@ -33,6 +35,12 @@ export async function populateImageURLs(images: ImageSchemaType[]) {
   for (const img of images) {
     if (img.key in urlMap) {
       img.url = urlMap[img.key];
+    }
+
+    if (img.blurHash) {
+      img.blurHashDataURL = thumbHashToDataURL(
+        Buffer.from(img.blurHash, 'base64'),
+      );
     }
   }
 }

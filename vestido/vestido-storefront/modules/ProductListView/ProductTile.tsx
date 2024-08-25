@@ -66,6 +66,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ data: item }) => {
     }
   };
 
+  const images = (item.images ?? []) as ImageSchemaType[];
+
   return (
     <div className="relative flex flex-col items-center group  mb-10 cursor-pointer ">
       {item.discountPercent && item.discountPercent > 0 ? (
@@ -76,16 +78,16 @@ const ProductCard: React.FC<ProductCardProps> = ({ data: item }) => {
         ''
       )}
 
-      {((item.images ?? []) as ImageSchemaType[]).length > 0 && (
+      {images.length > 0 && (
         <div
           onClick={() => handleProductClick(item.id)}
           className="group w-full relative"
         >
-          {' '}
           <div className="relative w-full pb-[130%]">
             <Image
               className="absolute inset-0 block group-hover:hidden object-cover"
-              src={((item.images ?? []) as ImageSchemaType[])[0]?.url ?? ''}
+              src={images[0]?.url ?? ''}
+              blurDataURL={images[0]?.blurHashDataURL ?? undefined}
               fill
               alt="alt text"
               style={{ objectFit: 'cover' }}
@@ -94,11 +96,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ data: item }) => {
               className="absolute inset-0 group-hover:block hidden object-cover"
               fill
               style={{ objectFit: 'cover' }}
-              src={
-                ((item.images ?? []) as ImageSchemaType[])[1]?.url ??
-                ((item.images ?? []) as ImageSchemaType[])[0]?.url ??
-                ''
+              blurDataURL={
+                (images[1] ?? images[0])?.blurHashDataURL ?? undefined
               }
+              src={(images[1] ?? images[0])?.url ?? ''}
               alt="alt text"
             />
           </div>
