@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 import { LuShoppingBag } from 'react-icons/lu';
 
-import { useAddToCart, useItem } from '@vestido-ecommerce/items';
+import { useAddToCart, useItem } from '@vestido-ecommerce/items/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
   DialogContent,

@@ -1,5 +1,6 @@
 import { Gender } from '@prisma/client';
 
+import { addThumbhashToImages } from '@vestido-ecommerce/caching';
 import { getPrismaClient } from '@vestido-ecommerce/models';
 
 import { validateSlug } from '../../slug';
@@ -35,7 +36,8 @@ export async function updateItem(itemId: string, data: UpdateItemSchemaType) {
       );
     }
   }
-  // pass to prisma next
+
+  await addThumbhashToImages(validatedData.images);
 
   const updatedItem = await prisma.item.update({
     where: {
@@ -45,7 +47,6 @@ export async function updateItem(itemId: string, data: UpdateItemSchemaType) {
       ...validatedData,
     },
   });
-  // no try..catch here
 
   return updatedItem;
 }

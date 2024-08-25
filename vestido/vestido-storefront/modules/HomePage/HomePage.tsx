@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 import { LuChevronUp } from 'react-icons/lu';
 
-import { ListItemResponse } from '@vestido-ecommerce/items';
+import { ListItemResponse } from '@vestido-ecommerce/items/client';
 
 import useIsMobile from '../../hooks/useIsMobile';
 import AddOnHeader from '../../layouts/headers/SubHeader';

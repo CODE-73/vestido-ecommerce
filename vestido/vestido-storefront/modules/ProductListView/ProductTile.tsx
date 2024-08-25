@@ -9,7 +9,7 @@ import {
   useItems,
   useRemoveFromWishlist,
   useWishlist,
-} from '@vestido-ecommerce/items';
+} from '@vestido-ecommerce/items/client';
 import { Badge } from '@vestido-ecommerce/shadcn-ui/badge';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 

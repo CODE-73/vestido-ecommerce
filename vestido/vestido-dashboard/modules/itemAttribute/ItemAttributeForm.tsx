@@ -6,7 +6,10 @@ import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { LuChevronLeft, LuFileEdit, LuPlus, LuTrash } from 'react-icons/lu';
 import { z } from 'zod';
 
-import { useAttribute, useAttributeUpsert } from '@vestido-ecommerce/items';
+import {
+  useAttribute,
+  useAttributeUpsert,
+} from '@vestido-ecommerce/items/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Form } from '@vestido-ecommerce/shadcn-ui/form';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';

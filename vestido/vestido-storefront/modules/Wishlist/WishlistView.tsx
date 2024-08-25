@@ -4,7 +4,10 @@ import Link from 'next/link';
 
 import { LuShoppingBag, LuX } from 'react-icons/lu';
 
-import { useRemoveFromWishlist, useWishlist } from '@vestido-ecommerce/items';
+import {
+  useRemoveFromWishlist,
+  useWishlist,
+} from '@vestido-ecommerce/items/client';
 import {
   AlertDialog,
   AlertDialogAction,

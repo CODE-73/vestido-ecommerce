@@ -8,7 +8,7 @@ import {
   FieldValues,
 } from 'react-hook-form';
 
-import { useAttribute } from '@vestido-ecommerce/items';
+import { useAttribute } from '@vestido-ecommerce/items/client';
 import { Combobox } from '@vestido-ecommerce/shadcn-ui/combobox';
 import {
   FormDescription,

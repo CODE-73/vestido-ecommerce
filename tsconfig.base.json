@@ -22,6 +22,10 @@
         "libs/auth/src/index.ts",
         "../../libs/auth/src/index.ts"
       ],
+      "@vestido-ecommerce/auth/client": [
+        "libs/auth/src/client.ts",
+        "../../libs/auth/src/client.ts"
+      ],
       "@vestido-ecommerce/caching": [
         "libs/caching/src/index.ts",
         "../../libs/caching/src/index.ts"
@@ -34,6 +38,10 @@
         "libs/items/src/index.ts",
         "../../libs/items/src/index.ts"
       ],
+      "@vestido-ecommerce/items/client": [
+        "libs/items/src/client.ts",
+        "../../libs/items/src/client.ts"
+      ],
       "@vestido-ecommerce/models": [
         "libs/models/src/index.ts",
         "../../libs/models/src/index.ts"
@@ -41,6 +49,10 @@
       "@vestido-ecommerce/orders": [
         "libs/orders/src/index.ts",
         "../../libs/orders/src/index.ts"
+      ],
+      "@vestido-ecommerce/orders/client": [
+        "libs/orders/src/client.ts",
+        "../../libs/orders/src/client.ts"
       ],
       "@vestido-ecommerce/r2": [
         "libs/r2/src/index.ts",

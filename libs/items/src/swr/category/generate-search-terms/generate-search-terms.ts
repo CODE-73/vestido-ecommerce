@@ -1,6 +1,6 @@
 import useSWRMutation from 'swr/mutation';
 
-import { useAuth } from '@vestido-ecommerce/auth';
+import { useAuth } from '@vestido-ecommerce/auth/client';
 
 import { GenerateCategorySearchTermsResponse } from '../../../services/categories/generate-search-terms/types';
 import { CategorySWRKeys } from '../keys';

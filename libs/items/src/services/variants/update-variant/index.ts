@@ -1,3 +1,3 @@
-export * from './services';
+export * from './service';
 export * from './types';
 export * from './zod';

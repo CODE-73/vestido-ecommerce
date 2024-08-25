@@ -5,7 +5,7 @@ import { AddressType } from '@prisma/client';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { useAddress, useAddressUpsert } from '@vestido-ecommerce/orders';
+import { useAddress, useAddressUpsert } from '@vestido-ecommerce/orders/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
   DialogContent,

@@ -8,8 +8,11 @@ import { useForm } from 'react-hook-form';
 import { LuChevronRight } from 'react-icons/lu';
 import { z } from 'zod';
 
-import { useCart } from '@vestido-ecommerce/items';
-import { useCreateOrder, useShippingCharges } from '@vestido-ecommerce/orders';
+import { useCart } from '@vestido-ecommerce/items/client';
+import {
+  useCreateOrder,
+  useShippingCharges,
+} from '@vestido-ecommerce/orders/client';
 import {
   useCreatePayment,
   useRazorpayCreateOrder,

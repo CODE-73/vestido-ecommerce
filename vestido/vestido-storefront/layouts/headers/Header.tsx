@@ -1,6 +1,6 @@
 import { useInView } from 'react-intersection-observer';
 
-import { useCart, useWishlist } from '@vestido-ecommerce/items';
+import { useCart, useWishlist } from '@vestido-ecommerce/items/client';
 import { em2px } from '@vestido-ecommerce/utils';
 
 import MainHeader from './MainHeader';

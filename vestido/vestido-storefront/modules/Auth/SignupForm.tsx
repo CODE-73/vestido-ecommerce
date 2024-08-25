@@ -7,8 +7,7 @@ import { ProfileGender } from '@prisma/client';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { useSignup } from '@vestido-ecommerce/auth';
-import { useAuth } from '@vestido-ecommerce/auth';
+import { useAuth, useSignup } from '@vestido-ecommerce/auth/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
   Form,

@@ -7,14 +7,14 @@ import { useMediaQuery } from '@react-hook/media-query';
 import { LuCalendar, LuScaling, LuShoppingBag, LuTruck } from 'react-icons/lu';
 import Markdown from 'react-markdown';
 
+import { type ItemDetailsResponse } from '@vestido-ecommerce/items';
 import {
-  ItemDetailsResponse,
   useAddToCart,
   useAddToWishlist,
   useCategory,
   useRemoveFromWishlist,
   useWishlist,
-} from '@vestido-ecommerce/items';
+} from '@vestido-ecommerce/items/client';
 import {
   Accordion,
   AccordionContent,

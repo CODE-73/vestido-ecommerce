@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import { LuSearch, LuX } from 'react-icons/lu';
 import { twMerge } from 'tailwind-merge';
 
-import { useCategories } from '@vestido-ecommerce/items';
+import { useCategories } from '@vestido-ecommerce/items/client';
 import { Combobox } from '@vestido-ecommerce/shadcn-ui/combobox';
 import { slugify } from '@vestido-ecommerce/utils';
 

@@ -7,9 +7,11 @@ import { useForm } from 'react-hook-form';
 import { LuChevronLeft } from 'react-icons/lu';
 import * as z from 'zod';
 
-import { useCategoryUpsert } from '@vestido-ecommerce/items';
-import { useCategory } from '@vestido-ecommerce/items';
-import { Genders } from '@vestido-ecommerce/items';
+import {
+  Genders,
+  useCategory,
+  useCategoryUpsert,
+} from '@vestido-ecommerce/items/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Checkbox } from '@vestido-ecommerce/shadcn-ui/checkbox';
 import {

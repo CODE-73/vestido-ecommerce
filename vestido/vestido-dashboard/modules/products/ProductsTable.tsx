@@ -2,7 +2,10 @@ import { useRouter } from 'next/router';
 
 import { LuTrash } from 'react-icons/lu';
 
-import { ListItemResponse, useItemDelete } from '@vestido-ecommerce/items';
+import {
+  ListItemResponse,
+  useItemDelete,
+} from '@vestido-ecommerce/items/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
   Table,

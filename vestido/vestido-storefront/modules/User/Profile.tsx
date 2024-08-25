@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { useProfile } from '@vestido-ecommerce/auth';
+import { useProfile } from '@vestido-ecommerce/auth/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 
 const Profile: React.FC = () => {

@@ -7,7 +7,7 @@ import { FaRegHeart } from 'react-icons/fa';
 import { MdLocationOn } from 'react-icons/md';
 import { PiPackage } from 'react-icons/pi';
 
-import { useProfile } from '@vestido-ecommerce/auth';
+import { useProfile } from '@vestido-ecommerce/auth/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
   Tabs,

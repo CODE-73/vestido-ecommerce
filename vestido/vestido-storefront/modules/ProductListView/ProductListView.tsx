@@ -2,7 +2,8 @@ import * as React from 'react';
 
 import { Item } from '@prisma/client';
 
-import { Category, useItems } from '@vestido-ecommerce/items';
+import { type Category } from '@vestido-ecommerce/items';
+import { useItems } from '@vestido-ecommerce/items/client';
 import {
   Breadcrumb,
   BreadcrumbItem,

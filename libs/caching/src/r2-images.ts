@@ -1,4 +1,4 @@
-import { makeSignedUrl } from '@vestido-ecommerce/r2';
+import { makeSignedUrl as _makeSignedUrl } from '@vestido-ecommerce/r2';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import { getRedisClient } from './client';
@@ -6,6 +6,12 @@ import { getRedisClient } from './client';
 const SIGNED_URL_EXPRIY = 2 * 24 * 60 * 60; // 2 days // 48 hours
 const REDIS_KEY_EXPIRY = SIGNED_URL_EXPRIY - 3 * 60 * 60; // 45 hours
 
+/**
+ * Always overwrites existing urls
+ *
+ * @param images ImagesSchemaType[]
+ * @returns ImagesSchemaType[] populated with signed urls
+ */
 export async function populateImageURLs(images: ImageSchemaType[]) {
   if (!images || images.length === 0) {
     return;
@@ -17,7 +23,7 @@ export async function populateImageURLs(images: ImageSchemaType[]) {
 
   await Promise.all(
     imgKeys.map((x) =>
-      _makeSignedUrl(x).then((url) => {
+      makeSignedUrl(x).then((url) => {
         urlMap[x] = url;
         return url;
       }),
@@ -31,13 +37,19 @@ export async function populateImageURLs(images: ImageSchemaType[]) {
   }
 }
 
-async function _makeSignedUrl(key: string) {
+/**
+ * Generates a signed URL for the given R2 File Key and stores it in Redis
+ *
+ * @param key R2 File Key
+ * @returns Signed URL
+ */
+export async function makeSignedUrl(key: string) {
   const client = await getRedisClient();
   const imgKey = `img:${key}`;
 
   let url = await client.get(imgKey);
   if (!url) {
-    url = await makeSignedUrl({
+    url = await _makeSignedUrl({
       requestType: 'GET',
       key,
       expiresIn: SIGNED_URL_EXPRIY,

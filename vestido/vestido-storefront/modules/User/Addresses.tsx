@@ -1,7 +1,10 @@
 // import React, { useEffect, useState } from 'react';
 import { MdDeleteOutline, MdOutlineModeEditOutline } from 'react-icons/md';
 
-import { useAddressDelete, useAddresses } from '@vestido-ecommerce/orders';
+import {
+  useAddressDelete,
+  useAddresses,
+} from '@vestido-ecommerce/orders/client';
 import {
   AlertDialog,
   AlertDialogAction,

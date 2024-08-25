@@ -8,7 +8,7 @@ import {
   LuUser,
 } from 'react-icons/lu';
 
-import { useOrder } from '@vestido-ecommerce/orders';
+import { useOrder } from '@vestido-ecommerce/orders/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
   Card,

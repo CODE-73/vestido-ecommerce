@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Item } from '@prisma/client';
 import { LuShoppingBag } from 'react-icons/lu';
 
-import { useAddToCart, useItem } from '@vestido-ecommerce/items';
+import { useAddToCart, useItem } from '@vestido-ecommerce/items/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 interface AddToCartButtonProps {
   price: number;

@@ -1,6 +1,6 @@
 import useSWRImmutable from 'swr/immutable';
 
-import { useAuth } from '@vestido-ecommerce/auth';
+import { useAuth } from '@vestido-ecommerce/auth/client';
 
 import { ListAddressResponse } from '../../../services/address/list-address';
 import { ListAddressSWRKeys } from '../keys';

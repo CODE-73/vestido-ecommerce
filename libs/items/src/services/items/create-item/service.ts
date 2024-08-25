@@ -1,5 +1,6 @@
 import { Gender } from '@prisma/client';
 
+import { addThumbhashToImages } from '@vestido-ecommerce/caching';
 import { getPrismaClient } from '@vestido-ecommerce/models';
 
 import { validateSlug } from '../../slug';
@@ -35,7 +36,7 @@ export async function createItem(data: CreateItemSchemaType) {
     }
   }
 
-  // pass to prisma next
+  await addThumbhashToImages(validatedData.images);
 
   const newItem = await prisma.item.create({
     data: {
@@ -43,7 +44,6 @@ export async function createItem(data: CreateItemSchemaType) {
       slug: validatedData.slug ?? '',
     },
   });
-  // no try..catch here
 
   return newItem;
 }

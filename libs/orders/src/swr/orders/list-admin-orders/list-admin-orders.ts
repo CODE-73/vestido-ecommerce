@@ -1,6 +1,6 @@
 import useSWRImmutable from 'swr/immutable';
 
-import { useAuth } from '@vestido-ecommerce/auth';
+import { useAuth } from '@vestido-ecommerce/auth/client';
 
 import { ListAdminOrderResponse } from '../../../services/orders/list-admin-orders';
 import { ListOrderSWRKeys } from '../keys';

@@ -1,6 +1,6 @@
 import useSWRImmutable from 'swr/immutable';
 
-import { useAuth } from '@vestido-ecommerce/auth';
+import { useAuth } from '@vestido-ecommerce/auth/client';
 
 import {
   shippingChargesRequest,

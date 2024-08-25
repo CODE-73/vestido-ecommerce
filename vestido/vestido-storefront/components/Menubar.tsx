@@ -6,7 +6,7 @@ import * as MenubarPrimitive from '@radix-ui/react-menubar';
 import clsx from 'clsx';
 import { LuChevronDown } from 'react-icons/lu';
 
-import { Gender, useCategories } from '@vestido-ecommerce/items';
+import { Gender, useCategories } from '@vestido-ecommerce/items/client';
 import {
   Accordion,
   AccordionContent,

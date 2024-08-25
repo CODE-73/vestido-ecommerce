@@ -7,8 +7,11 @@ import { useFieldArray, useForm } from 'react-hook-form';
 import { LuChevronLeft, LuChevronRight, LuPlus } from 'react-icons/lu';
 import * as z from 'zod';
 
-import { useItem, useVariantUpsert } from '@vestido-ecommerce/items';
-import { useVariant } from '@vestido-ecommerce/items';
+import {
+  useItem,
+  useVariant,
+  useVariantUpsert,
+} from '@vestido-ecommerce/items/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Form } from '@vestido-ecommerce/shadcn-ui/form';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';

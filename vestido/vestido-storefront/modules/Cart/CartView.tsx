@@ -9,7 +9,7 @@ import {
   useAddToWishlist,
   useCart,
   useRemoveFromCart,
-} from '@vestido-ecommerce/items';
+} from '@vestido-ecommerce/items/client';
 import {
   AlertDialog,
   AlertDialogAction,

@@ -4,7 +4,7 @@ import * as React from 'react';
 import clsx from 'clsx';
 import Autoplay from 'embla-carousel-autoplay';
 
-import { Gender, ListItemResponse } from '@vestido-ecommerce/items';
+import { Gender, ListItemResponse } from '@vestido-ecommerce/items/client';
 import {
   Carousel,
   CarouselContent,

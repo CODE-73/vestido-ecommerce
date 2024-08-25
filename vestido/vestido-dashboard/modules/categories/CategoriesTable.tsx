@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 
 import { Category, Gender } from '@prisma/client';
 
-import { useCategory } from '@vestido-ecommerce/items';
+import { useCategory } from '@vestido-ecommerce/items/client';
 import {
   Table,
   TableBody,

@@ -3,7 +3,7 @@ import { AppProps } from 'next/app';
 import localFont from 'next/font/local';
 import Head from 'next/head';
 
-import { AuthProvider } from '@vestido-ecommerce/auth';
+import { AuthProvider } from '@vestido-ecommerce/auth/client';
 
 import MainLayout from '../layouts/MainLayout';
 import { NextPageWithLayout } from './../types';
