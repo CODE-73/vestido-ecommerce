@@ -24,7 +24,11 @@ export async function makeThumbHash({ fileUrl, file }: MakeThumbHashArgs) {
   }
 
   const buffer = Buffer.from(file);
-  const image = sharp(buffer);
+
+  // Cannot use @ts-expect-error as the error is flaky and not consistent
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore TODO: Type this better
+  const image = sharp.default(buffer);
   const metadata = await image.metadata();
 
   if (!metadata.width || !metadata.height) {
