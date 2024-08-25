@@ -17,11 +17,17 @@ export async function categoryDetails(categoryId: string) {
   } else {
     categoryId = slugify(categoryId);
 
-    return (await prisma.$queryRaw`
+    const categories = (await prisma.$queryRaw`
       SELECT * FROM "Category"
       WHERE "slug" = ${categoryId}
       OR ${categoryId} IN (SELECT UNNEST(slugify_array("searchTerms")))
       LIMIT 1
-    `) as unknown as Category | null;
+    `) as unknown as Category[] | null;
+
+    if (categories && categories.length > 0) {
+      return categories[0];
+    }
+
+    return null;
   }
 }

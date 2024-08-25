@@ -548,7 +548,7 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
           You may also like
         </div>
         {category && (
-          <ProductListView category={category.data} suggestedList={true} />
+          <ProductListView categoryId={category.data.id} suggestedList={true} />
         )}
       </div>
     </>

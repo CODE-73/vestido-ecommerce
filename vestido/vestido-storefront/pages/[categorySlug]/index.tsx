@@ -1,22 +1,34 @@
 import { FC } from 'react';
 
+import { SWRConfig, unstable_serialize } from 'swr';
+
 import {
-  Category,
   categoryDetails,
   listCategories,
+  listItem,
 } from '@vestido-ecommerce/items';
+import {
+  CategorySWRKeys,
+  ListItemSWRKeys,
+} from '@vestido-ecommerce/items/client';
 import { slugify } from '@vestido-ecommerce/utils';
 
 import ProductListView from '../../modules/ProductListView/ProductListView';
 
 type CategorizedProductlistProps = {
-  category: Category;
+  fallback: Record<string, unknown>;
+  categoryId: string;
 };
 
 const CategorizedProductlist: FC<CategorizedProductlistProps> = ({
-  category,
+  fallback,
+  categoryId,
 }) => {
-  return <ProductListView category={category} />;
+  return (
+    <SWRConfig value={{ fallback }}>
+      <ProductListView categoryId={categoryId} />;
+    </SWRConfig>
+  );
 };
 
 export async function getStaticProps({
@@ -32,9 +44,23 @@ export async function getStaticProps({
     };
   }
 
+  const items = await listItem({ categoryId: category.id });
+
   return {
     props: {
-      category: category,
+      fallback: {
+        [unstable_serialize([
+          CategorySWRKeys.CATEGORY,
+          CategorySWRKeys.DETAILS,
+          category.id,
+        ])]: { data: category, success: true },
+        [unstable_serialize([
+          ListItemSWRKeys.ITEM,
+          ListItemSWRKeys.LIST,
+          JSON.stringify({ categoryId: category.id }),
+        ])]: items,
+      },
+      categoryId: category.id,
     },
   };
 }

@@ -2,8 +2,7 @@ import * as React from 'react';
 
 import { Item } from '@prisma/client';
 
-import { type Category } from '@vestido-ecommerce/items';
-import { useItems } from '@vestido-ecommerce/items/client';
+import { useCategory, useItems } from '@vestido-ecommerce/items/client';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -17,15 +16,16 @@ import ProductFilter from './ProductFilter';
 import ProductTile from './ProductTile';
 
 type ProductListViewProps = {
-  category: Category;
+  categoryId: string;
   suggestedList?: boolean;
 };
 
 const ProductlistView: React.FC<ProductListViewProps> = ({
-  category,
+  categoryId,
   suggestedList,
 }) => {
-  const { data } = useItems();
+  const { data: { data: category } = { data: null } } = useCategory(categoryId);
+  const { data } = useItems({ categoryId });
 
   const handleShowMoreClick = () => {};
 
@@ -67,7 +67,7 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
           className={`${suggestedList ? '' : ' lg:basis-4/5'} grid grid-cols-2 gap-2 px-5 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 md:gap-5 xl:gap-10 md:px-0`}
         >
           {data
-            ?.filter((item) => !category.id || item.categoryId === category.id)
+            ?.filter((item) => !category?.id || item.categoryId === category.id)
             .map((item: Item, index: number) => (
               <ProductTile data={item} key={index} />
             ))}
