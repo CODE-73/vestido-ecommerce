@@ -11,6 +11,7 @@ import { CategoryCards } from './CategorySection/CategoryCards';
 import { HorizontalScrollCards } from './HorizontalScroll/HorizontalScrollCards';
 import { PopularCollection } from './Popular/PopularCollection';
 import { PrimaryCarousel } from './PrimaryCarousel/PrimaryCarousel';
+import { RandomProducts } from './TopProducts/RandomProductsSection';
 import { TopProducts } from './TopProducts/TopProducts';
 
 type HomePageProps = {
@@ -61,9 +62,13 @@ const HomePage: React.FC<HomePageProps> = ({ items }) => {
       </div>
       <TopProducts
         items={items}
-        className="pt-16 sm:pt-24 max-w-[100vw] overflow-hidden px-2 sm:px-0 md:px-4 lg:max-w-7xl lg:self-center"
+        className="pt-16 sm:pt-24 max-w-[100vw] overflow-hidden px-2 sm:px-0 md:px-4 lg:max-w-[100rem] lg:self-center"
       />
       <HorizontalScrollCards className="w-full relative my-20 px-1 sm:px-0" />{' '}
+      <RandomProducts
+        items={items}
+        className="max-w-[100vw] overflow-hidden px-2 sm:px-0 md:px-4 lg:max-w-[100rem] lg:self-center"
+      />
       <PopularCollection className="pt-16 px-1 sm:px-0" />
       {!isMobile && showBackToTop && <BackToTopButton onClick={scrollToTop} />}
     </div>

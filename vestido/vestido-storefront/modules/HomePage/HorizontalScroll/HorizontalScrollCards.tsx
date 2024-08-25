@@ -70,7 +70,7 @@ export const HorizontalScrollCards: FC<HorizontalScrollCardsProps> = (
           align: 'start',
         }}
         // style={{ height: height, minHeight: height }}
-        className={`${clsx(props.className)} lg:h-[500px] lg:min-h-[500px] xl:h-[650px] xl:min-h-[650px] 2xl:h-[800px] 2xl:min-h-[800px]`}
+        className={`${clsx(props.className)} lg:h-[500px] lg:min-h-[500px] xl:h-[650px] xl:min-h-[650px] 2xl:h-[700px] 2xl:min-h-[700px]`}
       >
         <CarouselContent>
           {cards.map((card, index) => (
