@@ -162,7 +162,7 @@ const MobileHeader: React.FC<HeaderProps> = ({
                       onClick={toggleDrawer}
                       className=" capitalize hover:text-[#48cab2] px-2 cursor-pointer"
                     >
-                      <Link href={`/${category.id}`}>{category.name}</Link>
+                      <Link href={`/${category.slug}`}>{category.name}</Link>
                     </div>
 
                     <ul className="capitalize py-3 md:w-[200px] lg:w-[200px]">
@@ -205,7 +205,7 @@ const MobileHeader: React.FC<HeaderProps> = ({
                       onClick={toggleDrawer}
                       className="capitalize hover:text-[#48cab2] px-2 cursor-pointer"
                     >
-                      <Link href={`/${category.id}`}>{category.name}</Link>
+                      <Link href={`/${category.slug}`}>{category.name}</Link>
                     </div>
 
                     <ul className=" capitalize py-3 md:w-[200px] lg:w-[200px]">
@@ -255,7 +255,7 @@ const MobileHeader: React.FC<HeaderProps> = ({
                       onClick={toggleDrawer}
                       className=" capitalize hover:text-[#48cab2] px-2 cursor-pointer"
                     >
-                      <Link href={`/${category.id}`}>{category.name}</Link>
+                      <Link href={`/${category.slug}`}>{category.name}</Link>
                     </div>
                     {getSubcategories(category.id, ['MEN', 'WOMEN']) && (
                       <ul className=" capitalize py-3 md:w-[200px] lg:w-[200px]">

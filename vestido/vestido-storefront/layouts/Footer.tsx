@@ -40,7 +40,7 @@ const Footer = () => {
           >
             {/* TODO: Add About Us */}
             <Link href="/">About Us</Link>
-            <Link href="/shipping-and-returns">Shipping and Returns</Link>
+            <Link href="/shipping-and-delivery">Shipping and Delivery</Link>
             <Link href="/contact-us">Contact Us</Link>
             {/* TODO: Add Maintenance */}
             <Link href="/">Maintenance</Link>

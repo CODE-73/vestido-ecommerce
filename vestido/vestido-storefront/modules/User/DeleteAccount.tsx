@@ -31,7 +31,7 @@ const DeleteAccount: React.FC = () => {
             deleted and will no longer be available to you. You cannot recover
             the same. However, you can always create a new account. By deleting
             your account, you acknowledge you have read our&nbsp;
-            <Link href="/privacy_policy" className="text-blue-600">
+            <Link href="/privacy-policy" className="text-blue-600">
               Privacy Policy
             </Link>
             .

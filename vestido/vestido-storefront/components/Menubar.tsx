@@ -74,13 +74,17 @@ const HeaderMenubar: React.FC<NavMenuProps> = ({ isFixed }) => {
                     {getSubcategories(category.id, ['MEN'])!.length > 0 ? (
                       <AccordionTrigger className="py-0">
                         <MenubarItem className=" text-stone-500 capitalize hover:text-green-300 hover:bg-transparent focus:bg-transparent focus:text-black px-2 cursor-pointer ">
-                          <Link href={`/${category.id}`}>{category.name}</Link>
+                          <Link href={`/${category.slug}`}>
+                            {category.name}
+                          </Link>
                         </MenubarItem>
                       </AccordionTrigger>
                     ) : (
                       <AccordionTriggerNoChevron className="py-0">
                         <MenubarItem className=" text-stone-500 capitalize hover:text-green-300 hover:bg-transparent focus:bg-transparent focus:text-black px-2 cursor-pointer ">
-                          <Link href={`/${category.id}`}>{category.name}</Link>
+                          <Link href={`/${category.slug}`}>
+                            {category.name}
+                          </Link>
                         </MenubarItem>
                       </AccordionTriggerNoChevron>
                     )}
@@ -95,7 +99,7 @@ const HeaderMenubar: React.FC<NavMenuProps> = ({ isFixed }) => {
                                 className="hover:text-green-300"
                               >
                                 <ListItem
-                                  href={`/${subcategory.id}`}
+                                  href={`/${subcategory.slug}`}
                                   title={subcategory.name}
                                 />
                               </MenubarItem>
@@ -129,13 +133,17 @@ const HeaderMenubar: React.FC<NavMenuProps> = ({ isFixed }) => {
                     {getSubcategories(category.id, ['WOMEN'])!.length > 0 ? (
                       <AccordionTrigger className="py-0">
                         <MenubarItem className=" text-stone-500 capitalize hover:text-green-300 hover:bg-transparent focus:bg-transparent focus:text-black px-2 cursor-pointer ">
-                          <Link href={`/${category.id}`}>{category.name}</Link>
+                          <Link href={`/${category.slug}`}>
+                            {category.name}
+                          </Link>
                         </MenubarItem>
                       </AccordionTrigger>
                     ) : (
                       <AccordionTriggerNoChevron className="py-0">
                         <MenubarItem className=" text-stone-500 capitalize hover:text-green-300 hover:bg-transparent focus:bg-transparent focus:text-black px-2 cursor-pointer ">
-                          <Link href={`/${category.id}`}>{category.name}</Link>
+                          <Link href={`/${category.slug}`}>
+                            {category.name}
+                          </Link>
                         </MenubarItem>
                       </AccordionTriggerNoChevron>
                     )}
@@ -150,7 +158,7 @@ const HeaderMenubar: React.FC<NavMenuProps> = ({ isFixed }) => {
                                 className="hover:text-green-300"
                               >
                                 <ListItem
-                                  href={`/${subcategory.id}`}
+                                  href={`/${subcategory.slug}`}
                                   title={subcategory.name}
                                 />
                               </MenubarItem>
@@ -190,13 +198,17 @@ const HeaderMenubar: React.FC<NavMenuProps> = ({ isFixed }) => {
                     0 ? (
                       <AccordionTrigger className="py-0">
                         <MenubarItem className=" text-stone-500 capitalize hover:text-green-300 hover:bg-transparent focus:bg-transparent focus:text-black px-2 cursor-pointer ">
-                          <Link href={`/${category.id}`}>{category.name}</Link>
+                          <Link href={`/${category.slug}`}>
+                            {category.name}
+                          </Link>
                         </MenubarItem>
                       </AccordionTrigger>
                     ) : (
                       <AccordionTriggerNoChevron className="py-0">
                         <MenubarItem className=" text-stone-500 capitalize hover:text-green-300 hover:bg-transparent focus:bg-transparent focus:text-black px-2 cursor-pointer ">
-                          <Link href={`/${category.id}`}>{category.name}</Link>
+                          <Link href={`/${category.slug}`}>
+                            {category.name}
+                          </Link>
                         </MenubarItem>
                       </AccordionTriggerNoChevron>
                     )}
@@ -212,7 +224,7 @@ const HeaderMenubar: React.FC<NavMenuProps> = ({ isFixed }) => {
                                 className="hover:text-green-300"
                               >
                                 <ListItem
-                                  href={`/${subcategory.id}`}
+                                  href={`/${subcategory.slug}`}
                                   title={subcategory.name}
                                 />
                               </MenubarItem>
