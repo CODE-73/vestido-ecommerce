@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { useAttributes } from '@vestido-ecommerce/items';
-import { useOrders } from '@vestido-ecommerce/orders';
+import { useAttributes } from '@vestido-ecommerce/items/client';
+import { useOrders } from '@vestido-ecommerce/orders/client';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 type OrdersViewProps = {

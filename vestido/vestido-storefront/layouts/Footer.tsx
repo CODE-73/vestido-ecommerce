@@ -38,11 +38,12 @@ const Footer = () => {
             activeSection={activeSection}
             setActiveSection={setActiveSection}
           >
-            <Link href="/about-us">About Us</Link>
-            <Link href="/shipping-and-returns">Shipping and Returns</Link>
+            {/* TODO: Add About Us */}
+            <Link href="/">About Us</Link>
+            <Link href="/shipping-and-delivery">Shipping and Delivery</Link>
             <Link href="/contact-us">Contact Us</Link>
-            <Link href="/404-Page">404 Page</Link>
-            <Link href="/maintenance">Maintenance</Link>
+            {/* TODO: Add Maintenance */}
+            <Link href="/">Maintenance</Link>
           </CollapsableFooterSection>
         </div>
         <div className="sm:col-span-4 xl:col-span-2">
@@ -52,9 +53,11 @@ const Footer = () => {
             activeSection={activeSection}
             setActiveSection={setActiveSection}
           >
-            <Link href="/faqs">FAQs</Link>
+            {/* TODO: Add FAQs */}
+            <Link href="/">FAQs</Link>
             <Link href="/privacy-policy">Privacy Policy</Link>
-            <Link href="/cookie-policy">Cookie Policy</Link>
+            {/* TODO: Add Cookie Policy */}
+            <Link href="/">Cookie Policy</Link>{' '}
             <Link href="/terms-and-conditions">Terms and Conditions</Link>
           </CollapsableFooterSection>
         </div>
@@ -65,8 +68,8 @@ const Footer = () => {
             activeSection={activeSection}
             setActiveSection={setActiveSection}
           >
-            <Link href="/my-account">My Account</Link>
-            <Link href="/view-cart">View Cart</Link>
+            <Link href="/user">My Account</Link>
+            <Link href="/cart">View Cart</Link>
             <Link href="/wishlist">Wishlist</Link>
           </CollapsableFooterSection>
         </div>

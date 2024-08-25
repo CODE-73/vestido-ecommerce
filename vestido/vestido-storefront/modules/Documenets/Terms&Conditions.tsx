@@ -82,7 +82,7 @@ const TermsAndConditions: React.FC = () => {
 
       <p className="text-base mt-4">
         If you have any questions or concerns about these Terms and Conditions,
-        please contact us at{' '}
+        please contact us at
         <a
           href="mailto:support@vestidonation.com"
           className="text-blue-600 hover:underline"

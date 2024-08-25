@@ -8,8 +8,11 @@ import { useForm } from 'react-hook-form';
 import { LuChevronRight } from 'react-icons/lu';
 import { z } from 'zod';
 
-import { useCart } from '@vestido-ecommerce/items';
-import { useCreateOrder, useShippingCharges } from '@vestido-ecommerce/orders';
+import { useCart } from '@vestido-ecommerce/items/client';
+import {
+  useCreateOrder,
+  useShippingCharges,
+} from '@vestido-ecommerce/orders/client';
 import {
   useLaunchRazorpay,
   useRazorpayCreateOrder,
@@ -197,7 +200,7 @@ const CheckoutView: React.FC = () => {
         </div>
       ) : (
         <div className="text-lg font-semibold pb-3 pl-3 md:pl-0">
-          Choose Delivery Address{' '}
+          Choose Delivery Address
         </div>
       )}
       <Form {...form}>

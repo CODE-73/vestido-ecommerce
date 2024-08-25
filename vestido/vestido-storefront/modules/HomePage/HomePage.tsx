@@ -3,13 +3,15 @@ import { useEffect, useState } from 'react';
 
 import { LuChevronUp } from 'react-icons/lu';
 
-import { ListItemResponse } from '@vestido-ecommerce/items';
+import { ListItemResponse } from '@vestido-ecommerce/items/client';
 
 import useIsMobile from '../../hooks/useIsMobile';
+import AddOnHeader from '../../layouts/headers/SubHeader';
 import { CategoryCards } from './CategorySection/CategoryCards';
 import { HorizontalScrollCards } from './HorizontalScroll/HorizontalScrollCards';
 import { PopularCollection } from './Popular/PopularCollection';
 import { PrimaryCarousel } from './PrimaryCarousel/PrimaryCarousel';
+import { RandomProducts } from './TopProducts/RandomProductsSection';
 import { TopProducts } from './TopProducts/TopProducts';
 
 type HomePageProps = {
@@ -52,18 +54,22 @@ const HomePage: React.FC<HomePageProps> = ({ items }) => {
 
   return (
     <div className="flex flex-col justify-center ">
-      <div className="flex flex-col lg:flex-col-reverse justify-center">
+      <div className="sm:hidden -mt-8  mb-4 shadow">
+        <AddOnHeader />
+      </div>
+      <div className="flex flex-col lg:flex-col-reverse justify-center lg:mx-4">
         <CategoryCards /> <PrimaryCarousel />
       </div>
       <TopProducts
         items={items}
-        className="pt-16 sm:pt-24 max-w-[100vw] overflow-hidden px-2 sm:px-0 md:px-4 lg:max-w-7xl lg:self-center"
+        className="pt-16 sm:pt-24 max-w-[100vw] overflow-hidden px-2 sm:px-0 md:px-4 lg:max-w-[100rem] lg:self-center"
       />
-
+      <HorizontalScrollCards className="w-full relative my-20 px-1 sm:px-0" />{' '}
+      <RandomProducts
+        items={items}
+        className="max-w-[100vw] overflow-hidden px-2 sm:px-0 md:px-4 lg:max-w-[100rem] lg:self-center"
+      />
       <PopularCollection className="pt-16 px-1 sm:px-0" />
-
-      <HorizontalScrollCards className="w-full relative my-20 px-1 sm:px-0" />
-
       {!isMobile && showBackToTop && <BackToTopButton onClick={scrollToTop} />}
     </div>
   );

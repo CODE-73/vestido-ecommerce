@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 
-import { ListAdminOrderResponse } from '@vestido-ecommerce/orders';
+import { type ListAdminOrderResponse } from '@vestido-ecommerce/orders';
 import {
   Table,
   TableBody,

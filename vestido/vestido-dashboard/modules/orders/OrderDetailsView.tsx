@@ -8,7 +8,7 @@ import {
   LuUser,
 } from 'react-icons/lu';
 
-import { useOrder } from '@vestido-ecommerce/orders';
+import { useOrder } from '@vestido-ecommerce/orders/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
   Card,
@@ -55,7 +55,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
           <CardTitle className="text-xl p-3 font-normal ">
             <div className="flex justify-between">
               <div>
-                <span className="text-base text-gray-500">Order ID: </span>{' '}
+                <span className="text-base text-gray-500">Order ID: </span>
                 {order?.id}
               </div>
               <div className="text-lg flex divide-x gap-5">
@@ -65,12 +65,11 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
             </div>
           </CardTitle>
           <CardContent className="gap-4 grid grid-cols-3 max-w-xl">
-            {' '}
-            <div className="">Order Status: </div>{' '}
+            <div className="">Order Status: </div>
             <div className="font-semibold col-span-2">{order?.status}</div>
-            <div className="">Total Amount:</div>{' '}
+            <div className="">Total Amount:</div>
             <div className="font-semibold col-span-2">{order?.totalPrice}</div>
-            <div className="">Amount Paid: </div>{' '}
+            <div className="">Amount Paid: </div>
             <div className="font-semibold col-span-2">
               {/* {order?.payments.map((payment) => payment.amount)} */}
               ₹1599.00
@@ -89,7 +88,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
               </div>
 
               <div className="col-span-5">
-                {order?.customer.firstName}&nbsp;{order?.customer.lastName}{' '}
+                {order?.customer.firstName}&nbsp;{order?.customer.lastName}
               </div>
               <div className="text-gray-500 text-sm col-span-5">Customer</div>
             </div>
@@ -109,7 +108,6 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
         <Card className="col-span-2">
           <CardHeader>
             <CardTitle className="text-xl">
-              {' '}
               <div className="flex items-center gap-3">
                 <LuMapPin size={30} strokeWidth={0.6} />
                 Shipping Address
@@ -135,7 +133,6 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
         <Card className="col-span-2">
           <CardHeader>
             <CardTitle className="text-xl">
-              {' '}
               <div className="flex items-center gap-3">
                 <LuCreditCard size={30} strokeWidth={0.6} />
                 Payment Details
@@ -144,18 +141,17 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
             <hr />
           </CardHeader>
           <CardContent className="gap-3 grid grid-cols-2">
-            {' '}
-            <div className="justify-self-end">Payment Status: </div>{' '}
+            <div className="justify-self-end">Payment Status: </div>
             <div className="font-semibold">
               {/* {order?.payments.map((payment) => payment.status)} */}
               PENDING
             </div>
-            <div className="justify-self-end">Gateway: </div>{' '}
+            <div className="justify-self-end">Gateway: </div>
             <div className="font-semibold">
               {/* {order?.payments.map((payment) => payment.paymentGateway)} */}
               Razorpay
             </div>
-            <div className="justify-self-end">Amount Paid: </div>{' '}
+            <div className="justify-self-end">Amount Paid: </div>
             <div className="font-semibold">
               {/* {order?.payments.map((payment) => payment.amount)} */}
               ₹1599.00
@@ -213,8 +209,8 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
           </Table>
         </div>
       </div>
-      {/* 
- 
+      {/*
+
 
        */}
     </div>

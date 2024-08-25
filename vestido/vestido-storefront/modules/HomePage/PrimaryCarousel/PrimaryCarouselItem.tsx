@@ -2,7 +2,7 @@ import Image, { StaticImageData } from 'next/image';
 
 import { CarouselItem } from '@vestido-ecommerce/shadcn-ui/carousel';
 
-import { DiscoverButton } from '../DiscoverButton';
+import { DiscoverButton } from '../Buttons/DiscoverButton';
 
 export type PrimaryCarouselItemData = {
   backgroundImage: StaticImageData;
@@ -47,7 +47,7 @@ const PrimaryCarouselItem: React.FC<PrimaryCarouselItemProps> = ({ data }) => {
         </div>
 
         <Image
-          className="min-h-[300px] md:min-auto overflow-hidden object-cover"
+          className="min-h-[300px] md:min-auto overflow-hidden object-cover lg:rounded-[25px] "
           src={data.backgroundImage}
           alt="Your alt text"
         />

@@ -7,10 +7,11 @@ import { useForm } from 'react-hook-form';
 import { LuChevronLeft } from 'react-icons/lu';
 import * as z from 'zod';
 
-import { useItemUpsert } from '@vestido-ecommerce/items';
-import { useItem } from '@vestido-ecommerce/items';
-import { Genders } from '@vestido-ecommerce/items';
-// import { useVariants } from '@vestido-ecommerce/items';
+import {
+  Genders,
+  useItem,
+  useItemUpsert,
+} from '@vestido-ecommerce/items/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Checkbox } from '@vestido-ecommerce/shadcn-ui/checkbox';
 import {
@@ -176,7 +177,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
         className="flex flex-col justify-center w-full text-lg  bg-slate-200 px-5 py-10"
       >
         <div className="text-2xl font-semibold capitalize flex justify-between">
-          {isNew ? 'Add New Product' : item?.title}{' '}
+          {isNew ? 'Add New Product' : item?.title}
           <div>
             <SwitchElement name="enabled" label="Enabled" />
           </div>

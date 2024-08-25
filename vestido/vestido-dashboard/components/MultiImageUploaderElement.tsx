@@ -8,11 +8,9 @@ import {
   LuChevronLeft,
   LuChevronRight,
   LuPlus,
-  LuTimer,
   LuTrash,
 } from 'react-icons/lu';
 
-import { useR2SignedURL } from '@vestido-ecommerce/r2';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
@@ -178,12 +176,6 @@ const ImageCardElement: React.FC<ImageCardElementProps> = ({
   onSelect,
   onDelete,
 }) => {
-  const { data: imgURL, isValidating: isLoading } = useR2SignedURL({
-    key: image?.key || '',
-    requestType: 'GET',
-    expiresIn: 3600,
-  });
-
   return (
     <div
       className={clsx(
@@ -204,17 +196,15 @@ const ImageCardElement: React.FC<ImageCardElementProps> = ({
       )}
 
       {image?.key ? (
-        imgURL ? (
+        image.url ? (
           <Image
-            src={imgURL}
+            src={image.url}
             alt={image.alt}
             sizes="80vw"
             width={0}
             height={0}
             className="h-40 w-32"
           />
-        ) : isLoading ? (
-          <LuTimer />
         ) : (
           <LuAlertTriangle />
         )

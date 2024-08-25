@@ -75,7 +75,6 @@ function Combobox({
   if (nullable) {
     options = [NullOption, ...options];
   }
-  console.info(options);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

@@ -9,7 +9,7 @@ import {
   CarouselItem,
 } from '@vestido-ecommerce/shadcn-ui/carousel';
 
-const AddOnHeader = () => {
+const SubHeader = () => {
   const messages = [
     {
       description: 'standard shipping on orders $255',
@@ -24,8 +24,8 @@ const AddOnHeader = () => {
   );
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 text-[#333] text-sm py-1 pt-2 justify-between">
-      <div className="flex text-gray-500">
+    <div className="grid grid-cols-1 sm:grid-cols-3 text-[#333] text-sm py-1 pt-2 justify-between px-2">
+      <div className="flex text-gray-500 hidden sm:flex">
         <div>Call Us:</div>
         <div className="font-extrabold">1–234–5678901</div>
       </div>
@@ -43,7 +43,7 @@ const AddOnHeader = () => {
           {messages.map((message, index) => (
             <div key={index} className="flex-shrink-0 w-full">
               <CarouselItem>
-                <div className="flex">
+                <div className="flex justify-center sm:justify-start">
                   {/* <div className="text-[#333] text-sm font-bold">
                     {message.title}&nbsp;
                   </div> */}
@@ -54,13 +54,13 @@ const AddOnHeader = () => {
           ))}
         </CarouselContent>
       </Carousel>
-      <div className="flex gap-3 text-gray-500 justify-end pb-2">
+      <div className="flex gap-3 text-gray-500 justify-end pb-2 hidden sm:flex">
         <Link
           href="https://www.instagram.com/vestido_nation/"
           className="hover:underline hover:text-[#333] transition duration-300"
         >
           Instagram
-        </Link>{' '}
+        </Link>
         <Link
           href="https://www.linkedin.com/company/vestidonation/"
           className="hover:underline hover:text-[#333] transition duration-300"
@@ -77,4 +77,4 @@ const AddOnHeader = () => {
     </div>
   );
 };
-export default AddOnHeader;
+export default SubHeader;

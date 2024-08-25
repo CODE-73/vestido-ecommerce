@@ -7,8 +7,7 @@ import { ProfileGender } from '@prisma/client';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { useSignup } from '@vestido-ecommerce/auth';
-import { useAuth } from '@vestido-ecommerce/auth';
+import { useAuth, useSignup } from '@vestido-ecommerce/auth/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
   Form,
@@ -83,7 +82,6 @@ const SignupForm: React.FC<Props> = ({ mobile }) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-full md:w-1/2 space-y-6 bg-white z-10 p-10"
         >
-          {' '}
           <div className="font-semibold text-2xl">Signup</div>
           <hr />
           <InputElement

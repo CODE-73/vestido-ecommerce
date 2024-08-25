@@ -7,14 +7,14 @@ import { useMediaQuery } from '@react-hook/media-query';
 import { LuCalendar, LuScaling, LuShoppingBag, LuTruck } from 'react-icons/lu';
 import Markdown from 'react-markdown';
 
+import { type ItemDetailsResponse } from '@vestido-ecommerce/items';
 import {
-  ItemDetailsResponse,
   useAddToCart,
   useAddToWishlist,
   useCategory,
   useRemoveFromWishlist,
   useWishlist,
-} from '@vestido-ecommerce/items';
+} from '@vestido-ecommerce/items/client';
 import {
   Accordion,
   AccordionContent,
@@ -37,8 +37,8 @@ import {
 } from '@vestido-ecommerce/shadcn-ui/carousel';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
-import { AddToWishListButton } from '../HomePage/SpecialOffer/AddToWishlistButton';
-import ProductlistView from '../ProductListView/ProductListView';
+import { AddToWishListButton } from '../HomePage/Buttons/AddToWishlistButton';
+import ProductListView from '../ProductListView/ProductListView';
 
 interface ProductViewProps {
   item: NonNullable<ItemDetailsResponse['data']>;
@@ -443,7 +443,6 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
                     key={attributeId}
                     className="flex items-center gap-[1px]"
                   >
-                    {' '}
                     <div className="capitalize font-semibold">
                       {attributeMap[attributeId].name}:
                     </div>
@@ -465,9 +464,9 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
                           {value.value}
                         </div>
                       </div>
-                    ))}{' '}
+                    ))}
                   </div>
-                ))}{' '}
+                ))}
                 <hr />
               </div>
             </div>
@@ -529,7 +528,7 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
                 </div>
               </>
             )}
-          </div>{' '}
+          </div>
           <hr />
           <div>
             <Accordion className="px-2" type="single" collapsible>
@@ -548,7 +547,9 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
         <div className="text-center text-xl md:text-3xl font-semibold pt-10 sm:pt-16 -mb-10">
           You may also like
         </div>
-        <ProductlistView categoryId={item?.categoryId} suggestedList={true} />
+        {category && (
+          <ProductListView categoryId={category.data.id} suggestedList={true} />
+        )}
       </div>
     </>
   );

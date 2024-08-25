@@ -2,7 +2,7 @@ import { AppProps } from 'next/app';
 import localFont from 'next/font/local';
 import Head from 'next/head';
 
-import { AuthProvider } from '@vestido-ecommerce/auth';
+import { AuthProvider } from '@vestido-ecommerce/auth/client';
 import { Toaster } from '@vestido-ecommerce/shadcn-ui/toaster';
 
 import AuthorizedLayout from '../layouts/authorized';

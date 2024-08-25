@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 
 import { AiOutlineSearch } from 'react-icons/ai';
 
-import { useItems } from '@vestido-ecommerce/items';
+import { useItems } from '@vestido-ecommerce/items/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Input } from '@vestido-ecommerce/shadcn-ui/input';
 

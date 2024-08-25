@@ -7,8 +7,11 @@ import { useFieldArray, useForm } from 'react-hook-form';
 import { LuChevronLeft, LuChevronRight, LuPlus } from 'react-icons/lu';
 import * as z from 'zod';
 
-import { useItem, useVariantUpsert } from '@vestido-ecommerce/items';
-import { useVariant } from '@vestido-ecommerce/items';
+import {
+  useItem,
+  useVariant,
+  useVariantUpsert,
+} from '@vestido-ecommerce/items/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Form } from '@vestido-ecommerce/shadcn-ui/form';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
@@ -166,7 +169,7 @@ const VariantForm: React.FC<VariantFormProps> = ({
           <hr className="border-t-1 border-slate-400 mb-4 w-full" />
           <div>
             <SwitchElement name="default" label="Default Variant" />
-          </div>{' '}
+          </div>
           <hr className="border-t-1 border-slate-400 my-4 w-full" />
           <div className="grid grid-cols-2 gap-5 lg:px-10 mb-10">
             <InputElement

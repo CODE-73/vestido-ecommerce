@@ -73,7 +73,7 @@ const TermsAndConditions: React.FC = () => {
       </ul>
       <p>
         If you have any questions or concerns about these Terms and Conditions,
-        please contact us at{' '}
+        please contact us at
         <a href="mailto:support@vestidonation.com">support@vestidonation.com</a>
         .
       </p>

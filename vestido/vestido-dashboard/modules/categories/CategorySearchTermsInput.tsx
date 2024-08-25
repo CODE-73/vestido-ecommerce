@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { LuBrainCircuit } from 'react-icons/lu';
 
-import { useCategorySearchTerms } from '@vestido-ecommerce/items';
+import { useCategorySearchTerms } from '@vestido-ecommerce/items/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
   FormDescription,

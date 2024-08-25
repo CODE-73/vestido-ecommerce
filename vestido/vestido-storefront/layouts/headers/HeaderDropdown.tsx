@@ -34,14 +34,12 @@ const HeaderDropdown: React.FC<DropdownProps> = ({ fixedHeader }) => {
           </div>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          {' '}
           <div className="hover:text-[#48CAB2] flex items-center gap-3">
             <LuTruck size={28} strokeWidth={1.3} />
             Shipping
           </div>
         </DropdownMenuItem>
         <DropdownMenuItem>
-          {' '}
           <div className="hover:text-[#48CAB2] flex items-center gap-3">
             <LuUndo2 size={28} strokeWidth={1.3} /> Return
           </div>

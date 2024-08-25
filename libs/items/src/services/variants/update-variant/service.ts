@@ -1,3 +1,4 @@
+import { addThumbhashToImages } from '@vestido-ecommerce/caching';
 import { getPrismaClient } from '@vestido-ecommerce/models';
 
 import { validateSlug } from '../../slug';
@@ -37,6 +38,8 @@ export async function updateVariant(
       },
     });
   }
+
+  await addThumbhashToImages(validatedData.images);
 
   await prisma.$transaction(async (prisma) => {
     // Update ItemVariants fields( except variantAttributeValues)

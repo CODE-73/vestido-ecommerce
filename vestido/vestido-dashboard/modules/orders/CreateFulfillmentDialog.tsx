@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-import { GetOrderResponse } from '@vestido-ecommerce/orders';
+import { type GetOrderResponse } from '@vestido-ecommerce/orders';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
   DialogContent,
@@ -77,7 +77,7 @@ export const CreateFulfillmentDialog: React.FC<
                   </TableCell>
                   <TableCell className="font-semibold capitalize">
                     {orderItem.qty} {/* total qty - already fulfilled */}
-                  </TableCell>{' '}
+                  </TableCell>
                   <TableCell className="font-semibold capitalize">
                     {orderItem.qty}
                     {/* fulfilling qty */}

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useAdminOrders } from '@vestido-ecommerce/orders';
+import { useAdminOrders } from '@vestido-ecommerce/orders/client';
 
 import OrdersTable from './OrdersTable';
 

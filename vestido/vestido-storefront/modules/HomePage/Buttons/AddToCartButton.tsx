@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Item } from '@prisma/client';
 import { LuShoppingBag } from 'react-icons/lu';
 
-import { useAddToCart, useItem } from '@vestido-ecommerce/items';
+import { useAddToCart, useItem } from '@vestido-ecommerce/items/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 interface AddToCartButtonProps {
   price: number;
@@ -62,7 +62,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
         {!hovered && (
           <div className="ml-4 font-semibold text-left flex-grow ">
             {offerPrice ? (
-              <div className="xl:flex items-baseline gap-1">
+              <div className="flex items-baseline gap-1">
                 <div className="text-black text-base">
                   ₹&nbsp;{offerPrice.toFixed(2)}
                 </div>

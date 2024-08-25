@@ -1,3 +1,4 @@
+import { addThumbhashToImages } from '@vestido-ecommerce/caching';
 import { getPrismaClient } from '@vestido-ecommerce/models';
 
 import { validateSlug } from '../../slug';
@@ -36,6 +37,8 @@ export async function createVariant(data: CreateVariantSchemaType) {
       },
     });
   }
+
+  await addThumbhashToImages(validatedData.images);
 
   const newVariant = await prisma.itemVariant.create({
     data: {
