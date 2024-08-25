@@ -43,18 +43,20 @@ export async function makeThumbHash({ fileUrl, file }: MakeThumbHashArgs) {
 }
 
 export async function addThumbhashToImages(images: ImageSchemaType[]) {
-  for (const img of images) {
-    if (img.blurHash) {
-      continue;
-    }
+  return await Promise.all(
+    images.map(async (img) => {
+      if (img.blurHash) {
+        return;
+      }
 
-    const url = img.url || (await makeSignedUrl(img.key));
-    if (!url) {
-      // Skip images that don't have a valid URL
-      continue;
-    }
+      const url = img.url || (await makeSignedUrl(img.key));
+      if (!url) {
+        // Skip images that don't have a valid URL
+        return;
+      }
 
-    const blurHash = await makeThumbHash({ fileUrl: url });
-    img.blurHash = blurHash;
-  }
+      const blurHash = await makeThumbHash({ fileUrl: url });
+      img.blurHash = blurHash;
+    }),
+  );
 }
