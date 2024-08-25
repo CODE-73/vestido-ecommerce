@@ -42,6 +42,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ data: item }) => {
               className="absolute inset-0 block group-hover:hidden object-cover"
               src={images[0]?.url ?? ''}
               blurDataURL={images[0]?.blurHashDataURL ?? undefined}
+              placeholder={images[0]?.blurHashDataURL ? 'blur' : undefined}
               fill
               alt="alt text"
               style={{ objectFit: 'cover' }}
@@ -50,10 +51,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ data: item }) => {
               className="absolute inset-0 group-hover:block hidden object-cover"
               fill
               style={{ objectFit: 'cover' }}
+              src={(images[1] ?? images[0])?.url ?? ''}
               blurDataURL={
                 (images[1] ?? images[0])?.blurHashDataURL ?? undefined
               }
-              src={(images[1] ?? images[0])?.url ?? ''}
+              placeholder={
+                (images[1] ?? images[0])?.blurHashDataURL ? 'blur' : undefined
+              }
               alt="alt text"
             />
           </div>

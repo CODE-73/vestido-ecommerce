@@ -43,9 +43,10 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
   const { data: category } = useCategory(item.categoryId);
   const itemCategory = category?.data.name;
 
-  const [selectedImage, setSelectedImage] = React.useState<string>(
-    ((item.images ?? []) as ImageSchemaType[])[0]?.url ?? '',
-  );
+  const [selectedImage, setSelectedImage] =
+    React.useState<ImageSchemaType | null>(
+      (item.images as ImageSchemaType[])?.[0] ?? null,
+    );
 
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(
     null,
@@ -66,13 +67,11 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
         item.variants.find((variant) => variant.default) || item.variants[0];
       setSelectedVariantId(defaultVar?.id ?? null);
       setSelectedImage(
-        ((defaultVar?.images ?? []) as ImageSchemaType[])[0]?.url || '',
+        ((defaultVar?.images ?? []) as ImageSchemaType[])[0] || null,
       );
     } else {
       setSelectedVariantId(null);
-      setSelectedImage(
-        ((item?.images ?? []) as ImageSchemaType[])[0]?.url ?? '',
-      );
+      setSelectedImage(((item?.images ?? []) as ImageSchemaType[])[0] ?? null);
     }
   }, [item]);
   interface AttributeValuesMap {
@@ -103,7 +102,7 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
     if (_v) {
       setSelectedVariantId(_v.id);
       setSelectedImage(
-        ((selectedVariant?.images ?? []) as ImageSchemaType[])[0]?.url || '',
+        ((selectedVariant?.images ?? []) as ImageSchemaType[])[0] || null,
       );
     }
   };
@@ -210,6 +209,10 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
     }
   };
 
+  const mainImage = selectedImage
+    ? selectedImage
+    : ((selectedVariant?.images ?? item?.images ?? []) as ImageSchemaType[])[0];
+
   const isMdAndAbove = useMediaQuery('(min-width:768px)');
   return (
     <>
@@ -261,11 +264,15 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
                         <div
                           key={index}
                           className=""
-                          onClick={() => setSelectedImage(image.url!)}
+                          onClick={() => setSelectedImage(image)}
                         >
                           <Image
                             className="outline outline-3 hover:outline-[#48CAB2] mb-3"
                             src={image.url ?? ''}
+                            placeholder={
+                              image.blurHashDataURL ? 'blur' : undefined
+                            }
+                            blurDataURL={image.blurHashDataURL ?? undefined}
                             alt="alt text"
                             fill
                           />
@@ -280,10 +287,14 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
                         <div
                           key={index}
                           className="basis-1/5 flex-none"
-                          onClick={() => setSelectedImage(image.url!)}
+                          onClick={() => setSelectedImage(image)}
                         >
                           <Image
                             className="outline outline-3 hover:outline-[#48CAB2] mb-3"
+                            placeholder={
+                              image.blurHashDataURL ? 'blur' : undefined
+                            }
+                            blurDataURL={image.blurHashDataURL ?? undefined}
                             src={image.url!}
                             alt="alt text"
                             width={100}
@@ -307,12 +318,9 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
             <Image
               // className="w-4/6 px-5 h-4/6"
               ref={mainImageRef}
-              src={
-                selectedImage
-                  ? selectedImage
-                  : (((selectedVariant?.images ?? []) as ImageSchemaType[])[0]
-                      ?.url ?? '')
-              }
+              src={mainImage?.url ?? ''}
+              placeholder={mainImage?.blurHashDataURL ? 'blur' : undefined}
+              blurDataURL={mainImage?.blurHashDataURL ?? undefined}
               alt="alt text"
               width={550}
               height={720}
@@ -330,6 +338,10 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
                       <CarouselItem key={index}>
                         <Image
                           src={image.url ?? ''}
+                          placeholder={
+                            image.blurHashDataURL ? 'blur' : undefined
+                          }
+                          blurDataURL={image.blurHashDataURL ?? undefined}
                           alt="alt text"
                           fill
                           width={550}
@@ -348,6 +360,10 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
                           <Image
                             className="outline outline-3 hover:outline-[#48CAB2] mb-3"
                             src={image.url!}
+                            placeholder={
+                              image.blurHashDataURL ? 'blur' : undefined
+                            }
+                            blurDataURL={image.blurHashDataURL ?? undefined}
                             alt="alt text"
                             width={550}
                             height={720}

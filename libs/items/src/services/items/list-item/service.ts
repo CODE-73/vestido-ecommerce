@@ -13,6 +13,11 @@ export async function listItem(_args: ListItemRequest) {
   const itemList = await prisma.item.findMany({
     where: {
       enabled: true,
+      ...(args?.categoryId
+        ? {
+            categoryId: args.categoryId,
+          }
+        : {}),
       ...(args?.q
         ? {
             OR: [
