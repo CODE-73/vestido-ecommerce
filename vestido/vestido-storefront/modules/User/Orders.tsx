@@ -12,7 +12,6 @@ type OrdersViewProps = {
 const OrdersView: React.FC<OrdersViewProps> = ({ profileId }) => {
   const { data } = useOrders();
   const orders = data?.data;
-  console.log('orderlist', data);
   const { data: attributeData } = useAttributes();
   const attributes = attributeData?.data;
 
@@ -32,7 +31,6 @@ const OrdersView: React.FC<OrdersViewProps> = ({ profileId }) => {
         {orders?.map((order, index) => (
           <div key={index} className="flex flex-col gap-3">
             {order.orderItems?.map((orderItem, itemIndex) => {
-              console.log('orderItem', orderItem);
               const variant = orderItem.item.variants.find(
                 (v) => v.id === orderItem.variantId,
               );
@@ -71,7 +69,6 @@ const OrdersView: React.FC<OrdersViewProps> = ({ profileId }) => {
                             const attributeValue = attrValue(
                               value.attributeValueId,
                             );
-                            console.log('attrvalue', attributeValue);
 
                             return (
                               <div

@@ -6,9 +6,9 @@ import { WishlistItemResponse } from '../../../services/wishlist/get-wishlist/ty
 import { WishlistSWRKeys } from '../keys';
 import { getWishlist } from './service';
 
-export function useWishlist(query?: string) {
+export function useWishlist() {
   const { isAuthenticated, authHeaders } = useAuth();
-  const key = isAuthenticated ? [(WishlistSWRKeys.WISHLIST, query)] : null;
+  const key = isAuthenticated ? [WishlistSWRKeys.WISHLIST] : null;
 
   return useSWRImmutable<WishlistItemResponse, Error>(
     key,

@@ -11,8 +11,9 @@ type AuthContextValue = {
   isAuthenticated: boolean;
   loginRoute: string;
   token: string | null;
-  setToken: (token: string) => void;
   authHeaders: Record<string, string>;
+  setToken: (token: string) => void;
+  routeToLogin: () => void;
 };
 
 type AuthProviderProps = {
@@ -56,12 +57,15 @@ export const AuthProvider = ({
         isAuthenticated: !!token,
         loginRoute,
         token,
+        authHeaders: {
+          Authorization: `Bearer ${token}`,
+        },
         setToken: (token: string) => {
           localStorage.setItem('token', token);
           setToken(token);
         },
-        authHeaders: {
-          Authorization: `Bearer ${token}`,
+        routeToLogin: () => {
+          router.push(loginRoute);
         },
       }}
     >

@@ -58,7 +58,6 @@ const CartView: React.FC = () => {
       qty: qty,
       variantId: variantId,
     });
-    console.log('parameters', itemId, qty, variantId);
   };
   const handleAddToWishlist = (itemId: string) => {
     wishlistTrigger({

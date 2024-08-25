@@ -2,19 +2,13 @@ import * as React from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 
-import { Item } from '@prisma/client';
 import { useMediaQuery } from '@react-hook/media-query';
 import { LuCalendar, LuScaling, LuShoppingBag, LuTruck } from 'react-icons/lu';
 import Markdown from 'react-markdown';
 
+import { useAuth } from '@vestido-ecommerce/auth/client';
 import { type ItemDetailsResponse } from '@vestido-ecommerce/items';
-import {
-  useAddToCart,
-  useAddToWishlist,
-  useCategory,
-  useRemoveFromWishlist,
-  useWishlist,
-} from '@vestido-ecommerce/items/client';
+import { useAddToCart, useCategory } from '@vestido-ecommerce/items/client';
 import {
   Accordion,
   AccordionContent,
@@ -37,7 +31,7 @@ import {
 } from '@vestido-ecommerce/shadcn-ui/carousel';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
-import { AddToWishListButton } from '../HomePage/Buttons/AddToWishlistButton';
+import AddToWishListButton from '../ProductListView/AddToWishlistButton';
 import ProductListView from '../ProductListView/ProductListView';
 
 interface ProductViewProps {
@@ -45,6 +39,7 @@ interface ProductViewProps {
 }
 
 const ProductView: React.FC<ProductViewProps> = ({ item }) => {
+  const { isAuthenticated, routeToLogin } = useAuth();
   const { data: category } = useCategory(item.categoryId);
   const itemCategory = category?.data.name;
 
@@ -121,8 +116,6 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
   // };
 
   const { trigger: cartTrigger } = useAddToCart();
-  const { trigger: wishlistTrigger } = useAddToWishlist();
-  const { trigger: removeWishlistTrigger } = useRemoveFromWishlist();
 
   const scrollRef = React.useRef<HTMLDivElement>(null);
   const mainImageRef = React.useRef<HTMLImageElement>(null);
@@ -202,40 +195,18 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
     }
   });
 
-  console.log('selectedVariantId now', selectedVariantId);
   const handleAddToCart = () => {
+    if (!isAuthenticated) {
+      routeToLogin();
+      return;
+    }
+
     if (item) {
       cartTrigger({
         itemId: item.id,
         qty: 1,
         variantId: selectedVariantId ?? null,
       });
-    }
-    console.log('handleAddToCart');
-  };
-
-  const { data: wishlistData } = useWishlist();
-  const wishlist = wishlistData?.data;
-  const [isWishlisted, setIsWishlisted] = useState(false);
-
-  useEffect(() => {
-    if (wishlist && item) {
-      const wishlisted = wishlist.some((x) => x.itemId === item.id);
-      setIsWishlisted(wishlisted);
-    }
-  }, [wishlist, item]);
-
-  const handleAddToWishlist = (item: Item) => {
-    if (item) {
-      if (isWishlisted) {
-        removeWishlistTrigger({
-          itemId: item.id,
-        });
-      } else {
-        wishlistTrigger({
-          itemId: item.id,
-        });
-      }
     }
   };
 
@@ -483,14 +454,10 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
                 ADD TO CART
               </Button>
             </div>
-            <div
-              onClick={() => {
-                handleAddToWishlist(item!);
-              }}
+            <AddToWishListButton
+              itemId={item.id}
               className="border border-2 border-[#48CAB2] font-medium text-xs  h-full self-center p-4"
-            >
-              <AddToWishListButton wishlisted={isWishlisted} />
-            </div>
+            />
           </div>
           <hr />
           <div className="flex justify-between py-5 px-1 sm:px-0">

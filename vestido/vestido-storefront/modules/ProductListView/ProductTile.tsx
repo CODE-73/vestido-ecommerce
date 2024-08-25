@@ -1,69 +1,23 @@
-import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import { Item } from '@prisma/client';
+import clsx from 'clsx';
 
-import {
-  useAddToWishlist,
-  useItems,
-  useRemoveFromWishlist,
-  useWishlist,
-} from '@vestido-ecommerce/items/client';
 import { Badge } from '@vestido-ecommerce/shadcn-ui/badge';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
-import AddToCartButton from '../HomePage/Buttons/AddToCartButton';
-import { AddToWishListButton } from '../HomePage/Buttons/AddToWishlistButton';
+import AddToCartButton from './AddToCartButton';
+import AddToWishListButton from './AddToWishlistButton';
 
 interface ProductCardProps {
   data: Item;
 }
 
-type WishlistStatus = {
-  [key: string]: boolean; // Key is item ID, value is wishlisted status
-};
-
 const ProductCard: React.FC<ProductCardProps> = ({ data: item }) => {
-  const { data } = useItems();
   const router = useRouter();
-
-  const { trigger: wishlistTrigger } = useAddToWishlist();
-  const { trigger: removeWishlistTrigger } = useRemoveFromWishlist();
-
-  // const handleShowMoreClick = () => {
-
-  // };
   const handleProductClick = (itemId: string) => {
     router.push(`/products/${encodeURIComponent(itemId)}`);
-  };
-
-  const { data: wishlistData } = useWishlist();
-  const wishlist = wishlistData?.data;
-
-  const [wishlistedItems, setWishlistedItems] = useState<WishlistStatus>({});
-
-  useEffect(() => {
-    if (wishlist && data) {
-      const wishlistedState = data.reduce<Record<string, boolean>>(
-        (acc, item) => {
-          acc[item.id] = wishlist.some((x) => x.itemId === item.id);
-          return acc;
-        },
-        {},
-      );
-      setWishlistedItems(wishlistedState);
-    }
-  }, [wishlist, data]);
-
-  const handleAddToWishlist = (item: Item) => {
-    if (item) {
-      if (wishlistedItems[item.id]) {
-        removeWishlistTrigger({ itemId: item.id });
-      } else {
-        wishlistTrigger({ itemId: item.id });
-      }
-    }
   };
 
   const images = (item.images ?? []) as ImageSchemaType[];
@@ -137,20 +91,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ data: item }) => {
         />
       </div>
 
-      <div
-        className={` flex flex-row justify-start ${
-          wishlistedItems[item.id] ? 'flex' : 'sm:hidden'
-        } sm:group-hover:flex sm:flex-col gap-3 absolute top-3 right-3 pt-2 `}
-      >
-        <div
-          onClick={(e) => {
-            e.stopPropagation();
-            handleAddToWishlist(item);
-          }}
-        >
-          <AddToWishListButton wishlisted={wishlistedItems[item.id]} />
-        </div>
-      </div>
+      <AddToWishListButton
+        className={clsx(
+          'flex flex-row justify-start',
+          'sm:group-hover:flex sm:flex-col gap-3 absolute top-3 right-3 pt-2',
+        )}
+        itemId={item.id}
+      />
     </div>
   );
 };
