@@ -39,9 +39,7 @@ export async function getStaticProps({
   const category = await categoryDetails(params.categorySlug);
 
   if (!category) {
-    return {
-      notFound: true,
-    };
+    return {};
   }
 
   const items = await listItem({ categoryId: category.id });
