@@ -11,6 +11,7 @@ import {
   Genders,
   useCategory,
   useCategoryUpsert,
+  useItems,
 } from '@vestido-ecommerce/items/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Checkbox } from '@vestido-ecommerce/shadcn-ui/checkbox';
@@ -28,6 +29,7 @@ import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { CategoryElement } from '../../forms/category-combobox-element';
 import { InputElement } from '../../forms/input-element';
 import { SwitchElement } from '../../forms/switch-element';
+import ProductsTable from '../products/ProductsTable';
 import { CategorySearchTermsInput } from './CategorySearchTermsInput';
 
 const CreateCategoryFormSchema = z.object({
@@ -72,6 +74,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
   // const { data: categories } = useCategories();
   const { toast } = useToast();
   const router = useRouter();
+  const { data } = useItems();
   // const [searchQuery, setSearchQuery] = useState('');
   const form = useForm<CreateCategoryForm>({
     resolver: zodResolver(CreateCategoryFormSchema),
@@ -133,7 +136,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
       </div>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="flex flex-col justify-center w-full text-lg mt-16 bg-slate-200 px-5 py-10"
+        className="flex flex-col justify-center w-full text-lg mt-16 bg-slate-200 px-5 py-10 mb-5"
       >
         <div className="text-2xl font-semibold capitalize flex justify-between">
           {isNew ? 'Add New Category' : category?.name}
@@ -222,6 +225,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
           </Button>
         </div>
       </form>
+      {!isNew && <ProductsTable data={data ?? []} categoryId={categoryId} />}
     </Form>
   );
 };
