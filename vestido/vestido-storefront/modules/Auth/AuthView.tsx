@@ -61,15 +61,25 @@ const AuthView: React.FC = () => {
       {isMdAndAbove ? (
         <div className="flex justify-center w-full h-screen items-center overflow-y-hidden">
           <div className="h-screen w-full bg-[#ddd4cd] basis-1/2 flex flex-col items-end justify-center p-10">
-            <div className="absolute left-10 top-10">
-              <Image
-                src="/assets/white-logo.png"
-                alt="Logo"
-                width="360"
-                height="70"
-              />
+            <div className="absolute top-3 left-3 xl:left-10 xl:top-10">
+              <div className=" xl:hidden">
+                <Image
+                  src="/assets/white-logo.png"
+                  alt="Logo"
+                  width={204}
+                  height={40}
+                />
+              </div>
+              <div className="hidden xl:block">
+                <Image
+                  src="/assets/white-logo.png"
+                  alt="Logo"
+                  width={360}
+                  height={70}
+                />
+              </div>
             </div>
-            <div className="text-2xl font-semibold lg:text-5xl xl:text-7xl lg:font-[200] z-10 text-right">
+            <div className="text-2xl font-semibold lg:text-4xl 2xl:text-7xl lg:font-[200] z-10 text-right">
               <div>Your Style.</div>
               <div>Your Statement.</div>
             </div>
@@ -91,9 +101,9 @@ const AuthView: React.FC = () => {
             {!otpSent && (
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="w-full md:w-1/2 space-y-6 bg-white z-10 p-10"
+                className="w-full md:w-[90%] xl:w-[80%] 2xl:w-1/2 space-y-6 bg-white z-10 p-10"
               >
-                <div className="font-semibold text-2xl">Login / Signup</div>
+                <div className="font-semibold xl:text-2xl">Login / Signup</div>
                 <hr />
                 <FormField
                   control={form.control}
@@ -120,11 +130,19 @@ const AuthView: React.FC = () => {
               </form>
             )}
             <div className="w-full">
-              {otpSent && userExists && <LoginForm mobile={userMobile} />}
+              {otpSent && userExists && (
+                <LoginForm
+                  mobile={userMobile}
+                  onBackClick={() => setOtpSent(false)}
+                />
+              )}
             </div>
             <div className="w-full">
               {otpSent && userExists == false && (
-                <SignupForm mobile={userMobile} />
+                <SignupForm
+                  mobile={userMobile}
+                  onBackClick={() => setOtpSent(false)}
+                />
               )}
             </div>
           </div>
@@ -149,13 +167,13 @@ const AuthView: React.FC = () => {
                 width="204"
                 height="40"
               />
-              <div className="p-1  pt-12 flex flex-col items-center text-lg font-semibold">
+              <div className="p-1  pt-12 flex flex-col items-center text-lg sm:text-xl">
                 <div>Your Style.</div>
                 <div>Your Statement.</div>
               </div>
             </div>{' '}
           </div>
-          <div className="rounded-t-[3rem] basis-3/4 bg-white z-10 sm:min-w-[500px]">
+          <div className="rounded-t-[3rem] basis-3/4 bg-white z-10 w-full max-w-[600px]">
             {!otpSent && (
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
@@ -188,11 +206,19 @@ const AuthView: React.FC = () => {
               </form>
             )}
             <div className="w-full">
-              {otpSent && userExists && <LoginForm mobile={userMobile} />}
+              {otpSent && userExists && (
+                <LoginForm
+                  onBackClick={() => setOtpSent(false)}
+                  mobile={userMobile}
+                />
+              )}
             </div>
             <div className="w-full">
               {otpSent && userExists == false && (
-                <SignupForm mobile={userMobile} />
+                <SignupForm
+                  mobile={userMobile}
+                  onBackClick={() => setOtpSent(false)}
+                />
               )}
             </div>
           </div>
