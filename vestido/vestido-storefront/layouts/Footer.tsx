@@ -4,14 +4,11 @@ import { LuFacebook, LuInstagram } from 'react-icons/lu';
 const Footer = () => {
   return (
     <div
-      className="bg-black flex justify-between items-center text-[#f5f5f5] py-7 font-light px-3 xl:px-32"
+      className="bg-black flex flex-col lg:flex-row gap-5 justify-between items-center text-[#f5f5f5] py-7 font-light px-3 xl:px-32"
       style={{
         boxShadow: '0 -20px 25px -5px rgba(55, 65, 81, 0.7)', // Mimicking shadow-lg shadow-gray-700/50
       }}
     >
-      <div className="text-xs">
-        Copyright @ Vestido Nation - All Rights Reserved.
-      </div>
       <div className="flex gap-3 ">
         {' '}
         <div className="rounded-full bg-white p-1">
@@ -33,6 +30,9 @@ const Footer = () => {
           <IoLogoAndroid size={28} />
           <IoLogoApple size={28} />
         </div>
+      </div>
+      <div className="text-xs lg:order-first">
+        Copyright @ Vestido Nation - All Rights Reserved.
       </div>
     </div>
   );
