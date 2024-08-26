@@ -30,7 +30,7 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
   const handleShowMoreClick = () => {};
 
   return (
-    <div className="md:px-16">
+    <div className="md:px-16 text-gray-300">
       <Breadcrumb className={`${suggestedList ? 'hidden' : ''}   p-3`}>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -44,14 +44,16 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
             <>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage>{category?.name}</BreadcrumbPage>
+                <BreadcrumbPage className="text-white">
+                  {category?.name}
+                </BreadcrumbPage>
               </BreadcrumbItem>
             </>
           )}
         </BreadcrumbList>
       </Breadcrumb>
       <div
-        className={`text-2xl lg:text-4xl  tracking-wide text-[#333333] text-center font-extrabold my-5 ${
+        className={`text-2xl lg:text-4xl  tracking-wide text-white text-center font-extrabold my-5 ${
           !suggestedList && category?.name ? 'py-14' : 'py-5'
         }`}
       >
@@ -73,7 +75,7 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
       </div>
       <div className="flex justify-center mt-8">
         <button
-          className="border border-gray-200 text-xs font-medium py-2 px-5  my-5 hover:border-black  transition-colors duration-100"
+          className="border border-gray-200 text-xs font-medium py-2 px-5  my-5 hover:border-black duration-100"
           onClick={handleShowMoreClick}
         >
           Show More

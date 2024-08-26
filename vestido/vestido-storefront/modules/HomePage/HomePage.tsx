@@ -6,7 +6,6 @@ import { LuChevronUp } from 'react-icons/lu';
 import { ListItemResponse } from '@vestido-ecommerce/items/client';
 
 import useIsMobile from '../../hooks/useIsMobile';
-import AddOnHeader from '../../layouts/headers/SubHeader';
 import { CategoryCards } from './CategorySection/CategoryCards';
 import { HorizontalScrollCards } from './HorizontalScroll/HorizontalScrollCards';
 import { PopularCollection } from './Popular/PopularCollection';
@@ -20,7 +19,7 @@ type HomePageProps = {
 
 const BackToTopButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
   <button
-    className="fixed bottom-8 right-8 bg-neutral-800 hover:bg-[#48CAB2] text-white px-4 py-4 shadow transition-colors duration-200"
+    className="fixed bottom-24 z-10 right-8 bg-neutral-800 hover:bg-[#48CAB2] text-white px-4 py-4 shadow transition-colors duration-200"
     onClick={onClick}
   >
     <LuChevronUp />
@@ -54,9 +53,9 @@ const HomePage: React.FC<HomePageProps> = ({ items }) => {
 
   return (
     <div className="flex flex-col justify-center bg-black pt-5 lg:pb-10">
-      <div className="sm:hidden -mt-8  mb-4 shadow">
+      {/* <div className="sm:hidden -mt-8  mb-4 shadow">
         <AddOnHeader />
-      </div>
+      </div> */}
       <div className="flex flex-col lg:flex-col-reverse justify-center lg:mx-4">
         <CategoryCards /> <PrimaryCarousel />
       </div>

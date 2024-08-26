@@ -64,17 +64,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ data: item }) => {
         </div>
       )}
 
-      <div className="self-start pt-[#2px] capitalize text-[#333333] text-md font-light md:mb-4 w-full truncate">
+      <div className="self-start pt-[#2px] capitalize text-white text-md font-light md:mb-4 w-full truncate">
         {item.title}
       </div>
       <div className="self-start md:hidden mb-4">
         {item.discountedPrice ? (
           <div className="flex items-center gap-2">
-            <div className="text-black text-sm font-semibold">
+            <div className="text-white text-sm font-semibold">
               ₹&nbsp;{item.discountedPrice.toFixed(2)}
             </div>
             {item.discountedPrice < item.price ? (
-              <div className="text-gray-500 line-through text-xs">
+              <div className="text-white line-through text-xs">
                 ₹&nbsp;{item.price.toFixed(2)}
               </div>
             ) : (
@@ -82,7 +82,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ data: item }) => {
             )}
           </div>
         ) : (
-          <div className="text-black text-sm font-semibold">
+          <div className="text-white text-sm font-semibold">
             ₹&nbsp;{item.price.toFixed(2)}
           </div>
         )}

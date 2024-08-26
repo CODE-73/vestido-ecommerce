@@ -44,7 +44,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   return (
     <>
       <Button
-        className="relative flex items-center transition-all justify-start duration-300 bg-white rounded-none hover:bg-[#48CAB2] w-full p-0"
+        className="relative flex items-center transition-all justify-start duration-300 bg-black rounded-none hover:bg-[#48CAB2] w-full p-0"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
         style={{ height: buttonHeight, minHeight: buttonHeight }}
@@ -64,10 +64,10 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
           )}
         </div>
         {!hovered && (
-          <div className="ml-4 font-semibold text-left flex-grow ">
+          <div className="ml-4 font-semibold text-left flex-grow text-white ">
             {offerPrice ? (
               <div className="flex items-baseline gap-1">
-                <div className="text-black text-base">
+                <div className="text-white text-base">
                   ₹&nbsp;{offerPrice.toFixed(2)}
                 </div>
                 {offerPrice < price ? (
@@ -79,7 +79,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
                 )}
               </div>
             ) : (
-              <div className="text-black text-base">
+              <div className="text-white text-base">
                 ₹&nbsp;{price.toFixed(2)}
               </div>
             )}

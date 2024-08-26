@@ -221,7 +221,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
   const isMdAndAbove = useMediaQuery('(min-width:768px)');
   return (
     <>
-      <Breadcrumb className="p-3">
+      <Breadcrumb className="p-3 text-gray-200">
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink href="/">Home</BreadcrumbLink>
@@ -238,12 +238,14 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>{item?.title}</BreadcrumbPage>
+            <BreadcrumbPage className="text-white">
+              {item?.title}
+            </BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
 
-      <div className="w-full flex flex-col md:flex-row py-5 sm:px-2 md:px-0 md:space-x-10 md:px-10 lg:px-20 xl:px-64">
+      <div className="w-full flex flex-col md:flex-row py-5 sm:px-2 md:px-0 md:space-x-10 md:px-10 lg:px-20 xl:px-64 text-white">
         <div className="w-full sm:flex hidden sm:block md:w-1/2 justify-start">
           <div
             className="relative basis-1/6 overflow-y-auto no-scrollbar lg:pl-10"
@@ -465,7 +467,12 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
 
             <hr />
           </div>
-          <div className="flex gap-2 mb-5 w-full fixed -bottom-5 w-full sm:static bg-white py-4 px-2 mx-0 z-50 sm:z-auto">
+          <div
+            className="flex gap-2 mb-5 w-full fixed -bottom-5 w-full sm:static bg-black  py-4 px-2 mx-0 z-50 sm:z-auto"
+            style={{
+              boxShadow: '0 -20px 25px -5px rgba(55, 65, 81, 0.3)', // Mimicking shadow-lg shadow-gray-700/50
+            }}
+          >
             <div className="flex bg-[#48CAB2] items-center gap-2 flex-1 justify-center text-white  ">
               <LuShoppingBag size={30} />
               <Button
@@ -501,20 +508,22 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
                 </div>
               </>
             ) : (
-              <>
-                <div className="flex flex-col  gap-1 items-center">
+              <div className="grid grid-cols-3">
+                <div className="flex flex-col  gap-1 items-center ">
                   <LuScaling size={24} />
                   <div className="text-xs">Size Guide</div>
                 </div>
-                <div className="flex  flex-col  gap-1 items-center">
+                <div className="flex  flex-col  justify-center gap-1 items-center ">
                   <LuCalendar size={24} />
-                  <div className="text-xs">7 Days Easy Return</div>
+                  <div className="text-xs text-center">7 Days Easy Return</div>
                 </div>
-                <div className="flex  flex-col  gap-1 items-center">
+                <div className="flex  flex-col  gap-1 items-center ">
                   <LuTruck size={26} />
-                  <div className="text-xs ">Free Shipping in Kerala</div>
+                  <div className="text-xs text-center">
+                    Free Shipping in Kerala
+                  </div>
                 </div>
-              </>
+              </div>
             )}
           </div>
           <hr />
@@ -523,7 +532,9 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
               <AccordionItem value="item-1">
                 <AccordionTrigger>Description</AccordionTrigger>
                 <AccordionContent>
-                  <Markdown className="prose">{item?.description}</Markdown>
+                  <Markdown className="prose text-white text-sm md:text-base">
+                    {item?.description}
+                  </Markdown>
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
@@ -532,7 +543,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
       </div>
 
       <div>
-        <div className="text-center text-xl md:text-3xl font-semibold pt-10 sm:pt-16 -mb-10">
+        <div className="text-center text-xl md:text-3xl font-semibold pt-10 sm:pt-16 -mb-10 text-white">
           You may also like
         </div>
         {category && (
