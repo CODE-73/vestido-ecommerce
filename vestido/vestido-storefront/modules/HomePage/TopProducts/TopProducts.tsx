@@ -36,7 +36,7 @@ export const TopProducts: FC<TopProductsProps> = ({ className, items }) => {
     <div
       className={`flex flex-col items-center justify-center ${clsx(className)}`}
     >
-      <div className="text-2xl md:text-4xl tracking-wide text-[#333333] font-bold hover:text-[#48cab2] pb-6">
+      <div className="text-2xl md:text-4xl tracking-wide text-[#333333] font-bold hover:text-[#48cab2] pb-6 text-white">
         Top Products of the Week
       </div>
 
@@ -76,7 +76,7 @@ export const TopProducts: FC<TopProductsProps> = ({ className, items }) => {
       </Carousel>
 
       <Link href="/">
-        <Button className="mt-6 h-12 rounded-none bg-white  text-black border border-black shadow uppercase hover:text-[#48cab2] font-semibold tracking-widest px-10">
+        <Button className="mt-6 h-12 rounded-none  bg-transparent text-white hover:bg-white border border-[#48cab2] shadow uppercase hover:text-[#48cab2] font-semibold tracking-widest px-10">
           View More
         </Button>
       </Link>

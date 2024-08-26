@@ -47,7 +47,7 @@ export const PopularCollection: FC<PopularCollectionProps> = (props) => {
     <div
       className={`flex flex-col items-center justify-center ${clsx(props.className)}`}
     >
-      <div className="text-2xl md:text-4xl tracking-wide text-[#333333] font-bold">
+      <div className="text-2xl md:text-4xl tracking-wide text-white font-bold">
         Popular Collection
       </div>
 

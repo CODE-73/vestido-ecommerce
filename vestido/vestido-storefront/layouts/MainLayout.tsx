@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { ComponentWithChildrenProps } from '../types';
 import Header from './headers/Header';
 import SubHeader from './headers/SubHeader';
+// import Footer from './Footer';
 import Footer from './Footer';
 
 type LayoutProps = ComponentWithChildrenProps;
@@ -25,7 +26,7 @@ const MainLayout: React.FC<LayoutProps> = ({ children }) => {
         </main>
       </div>
       {!hideFooter && (
-        <div className="w-full lg:mt-10">
+        <div className="w-full">
           <Footer />
         </div>
       )}

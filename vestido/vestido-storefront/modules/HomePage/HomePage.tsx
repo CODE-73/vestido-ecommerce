@@ -53,7 +53,7 @@ const HomePage: React.FC<HomePageProps> = ({ items }) => {
   };
 
   return (
-    <div className="flex flex-col justify-center bg-black">
+    <div className="flex flex-col justify-center bg-black pt-5 lg:pb-10">
       <div className="sm:hidden -mt-8  mb-4 shadow">
         <AddOnHeader />
       </div>
