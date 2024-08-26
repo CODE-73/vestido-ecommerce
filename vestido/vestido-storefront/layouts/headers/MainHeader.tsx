@@ -16,7 +16,8 @@ interface HeaderProps {
 }
 const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
   return (
-    <div className="bg-[#1B2149] flex items-center px-3">
+    <div className="bg-black flex items-center px-3 xl:px-32">
+      {/*bg-[#1B2149] */}
       <div className="flex flex-grow">
         <Link href="/" className="self-center">
           <span className="md:hidden">

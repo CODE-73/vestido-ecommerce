@@ -85,7 +85,7 @@ export const PrimaryCarousel: React.FC = () => {
     <div className="">
       <Carousel
         plugins={[plugin.current]}
-        className=" pt-2 pr-0 relative"
+        className=" pt-2 pr-0 relative bg-black"
         onMouseEnter={plugin.current.stop}
         onMouseLeave={plugin.current.reset}
       >

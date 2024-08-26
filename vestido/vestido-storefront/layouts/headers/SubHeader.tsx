@@ -24,7 +24,7 @@ const SubHeader = () => {
   );
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 text-[#333] text-sm py-1 pt-2 justify-between px-2">
+    <div className="grid grid-cols-1 sm:grid-cols-3 text-white bg-[#333] text-sm py-1 pt-2 justify-between px-2">
       <div className="flex text-gray-500 hidden sm:flex">
         <div>Call Us:</div>
         <div className="font-extrabold">1–234–5678901</div>
