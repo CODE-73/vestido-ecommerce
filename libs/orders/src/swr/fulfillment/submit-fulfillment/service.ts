@@ -1,12 +1,8 @@
-import {
-  UpdateFulfillmentRequest,
-  UpdateFulfillmentResponse,
-} from 'libs/orders/src/services/fulfillment/update-fulfillment/type';
-
+import { FulfillmentResponse } from 'libs/orders/src/services/fulfillment/update-fulfillment/type';
 export async function submitFulfillmentDetails(
   fulfillmentId: string,
   authHeaders: Record<string, string>,
-): Promise<UpdateFulfillmentResponse> {
+): Promise<FulfillmentResponse> {
   const r = await fetch(
     `/api/fulfillments/${encodeURIComponent(fulfillmentId)}/submit`,
     {
@@ -23,5 +19,5 @@ export async function submitFulfillmentDetails(
     throw new Error('Error submitting fulfillment');
   }
 
-  return (await r.json()) as UpdateFulfillmentResponse;
+  return (await r.json()) as FulfillmentResponse;
 }

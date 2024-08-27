@@ -28,29 +28,8 @@ export async function createFulfillment(data: CreateFulfillmentSchemaType) {
           },
         },
       },
-    });
-
-    // Extract orderItemIds from the fulfillmentItems
-    const orderItemIds = validatedData.items.map((item) => item.orderItemId);
-
-    // Update the corresponding OrderItem statuses to IN_PROGRESS for the specific orderItemIds
-    await prisma.orderItem.updateMany({
-      where: {
-        orderId: validatedData.orderId,
-        id: { in: orderItemIds },
-      },
-      data: {
-        status: 'IN_PROGRESS',
-      },
-    });
-
-    // Update the Order status to IN_PROGRESS
-    await prisma.order.update({
-      where: {
-        id: validatedData.orderId,
-      },
-      data: {
-        orderStatus: 'IN_PROGRESS',
+      include: {
+        fulfillmentItems: true, // Include the related fulfillment items
       },
     });
 

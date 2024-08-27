@@ -23,8 +23,8 @@ export async function updateFulfillment(
 
     // Extract fulfillmentItemIds from the request
     const incomingFulfillmentItemIds = incomingItems
-      .filter((item) => item.fulfillmentItemId)
-      .map((item) => item.fulfillmentItemId);
+      .filter((item) => item.id)
+      .map((item) => item.id);
 
     // Find existing FulfillmentItems for the given fulfillmentId
     const existingFulfillmentItems = await prisma.fulfillmentItem.findMany({
@@ -54,11 +54,11 @@ export async function updateFulfillment(
 
     // Upsert FulfillmentItems based on incoming request
     for (const item of validatedData.items) {
-      if (item.fulfillmentItemId) {
+      if (item.id) {
         // Update existing fulfillment item by fulfillmentItemId
         await prisma.fulfillmentItem.update({
           where: {
-            id: item.fulfillmentItemId,
+            id: item.id,
           },
           data: {
             quantity: item.quantity,
@@ -86,6 +86,9 @@ export async function updateFulfillment(
         breadth: validatedData.breadth,
         height: validatedData.height,
         weight: validatedData.weight,
+      },
+      include: {
+        fulfillmentItems: true, // Include the related fulfillment items
       },
     });
 

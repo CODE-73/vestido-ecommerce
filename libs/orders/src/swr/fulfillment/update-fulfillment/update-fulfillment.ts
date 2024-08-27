@@ -5,10 +5,8 @@ import { useClearCacheOnSuccess } from '@vestido-ecommerce/utils';
 
 import { UpdateFulfillmentSWRKeys } from '../keys';
 import { updateFulfillmentDetails } from './service';
-import {
-  UpdateFulfillmentRequest,
-  UpdateFulfillmentResponse,
-} from 'libs/orders/src/services/fulfillment/update-fulfillment/type';
+import { UpdateFulfillmentRequest } from 'libs/orders/src/services/fulfillment/update-fulfillment/type';
+import { FulfillmentResponse } from 'libs/orders/src/services/fulfillment/update-fulfillment/type';
 
 export const useUpdateFulfillment = () => {
   const { authHeaders } = useAuth();
@@ -18,7 +16,7 @@ export const useUpdateFulfillment = () => {
   ];
 
   return useSWRMutation<
-    UpdateFulfillmentResponse,
+    FulfillmentResponse,
     Error,
     string[] | null,
     UpdateFulfillmentRequest

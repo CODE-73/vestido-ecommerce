@@ -3,21 +3,22 @@ import useSWRMutation from 'swr/mutation';
 import { useAuth } from '@vestido-ecommerce/auth/client';
 import { useClearCacheOnSuccess } from '@vestido-ecommerce/utils';
 
-import { SubmitFulfillmentSWRKeys } from '../keys';
-import { submitFulfillmentDetails } from './service';
+import { DeleteFulfillmentSWRKeys } from '../keys';
+import { deleteFulfillmentDetails } from './service';
 import { FulfillmentResponse } from 'libs/orders/src/services/fulfillment/update-fulfillment/type';
-export const useSubmitFulfillment = () => {
+
+export const useDeleteFulfillment = () => {
   const { authHeaders } = useAuth();
   const key = [
-    SubmitFulfillmentSWRKeys.SUBMIT,
-    SubmitFulfillmentSWRKeys.FULFILLMENT,
+    DeleteFulfillmentSWRKeys.DELETE,
+    DeleteFulfillmentSWRKeys.FULFILLMENT,
   ];
 
   return useSWRMutation<FulfillmentResponse, Error, string[] | null, string>(
     key,
-    (_, { arg }) => submitFulfillmentDetails(arg, authHeaders),
+    (_, { arg }) => deleteFulfillmentDetails(arg, authHeaders),
     {
-      ...useClearCacheOnSuccess(SubmitFulfillmentSWRKeys.FULFILLMENT),
+      ...useClearCacheOnSuccess(DeleteFulfillmentSWRKeys.FULFILLMENT),
     },
   );
 };

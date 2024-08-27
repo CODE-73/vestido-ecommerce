@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const FulfillmentItemSchema = z.object({
-  fulfillmentItemId: z.string().optional(),
+  id: z.string().optional(),
   orderItemId: z.string().uuid(),
   quantity: z.number().int(),
 });

@@ -304,7 +304,7 @@ model FulfillmentItem {
     fulfillment   Fulfillment @relation(fields: [fulfillmentId], references: [id])
     fulfillmentId String      @db.Uuid
     orderItem     OrderItem   @relation(fields: [orderItemId], references: [id])
-    orderItemId   String      @unique @db.Uuid
+    orderItemId   String      @db.Uuid
     quantity      Int         @default(1)
 }
 

@@ -7,7 +7,7 @@ export type UpdateFulfillmentRequest = UpdateFulfillmentSchemaType & {
   fulfillmentId: string; // Add `fulfillmentId` as a required field
 };
 
-export type UpdateFulfillmentResponse = {
+export type FulfillmentResponse = {
   data: Fulfillment & {
     fulfillmentItems: FulfillmentItem[];
   };

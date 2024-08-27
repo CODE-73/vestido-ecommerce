@@ -1,12 +1,10 @@
-import {
-  CreateFulfillmentRequest,
-  CreateFulfillmentResponse,
-} from 'libs/orders/src/services/fulfillment/create-fulfillment';
+import { CreateFulfillmentRequest } from 'libs/orders/src/services/fulfillment/create-fulfillment';
+import { FulfillmentResponse } from 'libs/orders/src/services';
 
 export async function createNewFulfillment(
   args: CreateFulfillmentRequest,
   authHeaders: Record<string, string>,
-): Promise<CreateFulfillmentResponse> {
+): Promise<FulfillmentResponse> {
   const r = await fetch(
     `/api/orders/${encodeURIComponent(args.orderId)}/fulfillments`,
     {
@@ -24,5 +22,5 @@ export async function createNewFulfillment(
     throw new Error('Error creating fulfillment');
   }
 
-  return (await r.json()) as CreateFulfillmentResponse;
+  return (await r.json()) as FulfillmentResponse;
 }

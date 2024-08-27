@@ -1,12 +1,12 @@
 import {
   UpdateFulfillmentRequest,
-  UpdateFulfillmentResponse,
+  FulfillmentResponse,
 } from 'libs/orders/src/services/fulfillment/update-fulfillment/type';
 
 export async function updateFulfillmentDetails(
   args: UpdateFulfillmentRequest,
   authHeaders: Record<string, string>,
-): Promise<UpdateFulfillmentResponse> {
+): Promise<FulfillmentResponse> {
   const r = await fetch(
     `/api/fulfillments/${encodeURIComponent(args.fulfillmentId)}`,
     {
@@ -24,5 +24,5 @@ export async function updateFulfillmentDetails(
     throw new Error('Error updating fulfillment');
   }
 
-  return (await r.json()) as UpdateFulfillmentResponse;
+  return (await r.json()) as FulfillmentResponse;
 }

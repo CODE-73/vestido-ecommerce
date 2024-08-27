@@ -16,3 +16,13 @@ export enum SubmitFulfillmentSWRKeys {
   SUBMIT = 'submit',
   FULFILLMENT = 'fulfillment',
 }
+
+export enum DeleteFulfillmentSWRKeys {
+  DELETE = 'delete',
+  FULFILLMENT = 'fulfillment',
+}
+
+export enum CancelFulfillmentSWRKeys {
+  CANCEL = 'cancel',
+  FULFILLMENT = 'fulfillment',
+}

@@ -86,6 +86,9 @@ export async function submitFulfillment(fulfillmentId: string) {
       data: {
         status: 'AWAITING_PICKUP',
       },
+      include: {
+        fulfillmentItems: true, // Include the related fulfillment items
+      },
     });
 
     // Check if all OrderItems' statuses are IN_PROGRESS and update Order status
@@ -120,6 +123,39 @@ export async function submitFulfillment(fulfillmentId: string) {
         },
       });
     }
+
+    // Delete fulfillment items associated with the DRAFT fulfillments
+    const draftFulfillments = await prisma.fulfillment.findMany({
+      where: {
+        orderId: existingFulfillment.orderId,
+        status: 'DRAFT',
+        id: {
+          not: fulfillmentId, // Exclude the currently processed fulfillment
+        },
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    const draftFulfillmentIds = draftFulfillments.map((f) => f.id);
+
+    await prisma.fulfillmentItem.deleteMany({
+      where: {
+        fulfillmentId: {
+          in: draftFulfillmentIds,
+        },
+      },
+    });
+
+    // Delete the DRAFT fulfillments themselves
+    await prisma.fulfillment.deleteMany({
+      where: {
+        id: {
+          in: draftFulfillmentIds,
+        },
+      },
+    });
 
     return updatedFulfillment;
   });
