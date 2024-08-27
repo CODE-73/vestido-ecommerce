@@ -12,14 +12,9 @@ export function useItems(args?: ListItemRequest) {
     JSON.stringify(args ?? {}),
   ];
 
-  return useSWRImmutable<ListItemResponse, Error>(
-    key,
-    () =>
-      getItemList({
-        ...(args ?? {}),
-      }),
-    {
-      keepPreviousData: false,
-    },
+  return useSWRImmutable<ListItemResponse, Error>(key, () =>
+    getItemList({
+      ...(args ?? {}),
+    }),
   );
 }

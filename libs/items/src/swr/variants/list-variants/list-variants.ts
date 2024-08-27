@@ -9,11 +9,7 @@ export function useVariants(itemId: string, query?: string) {
     ? [VariantListSWRKeys.VARIANT, VariantListSWRKeys.LIST, query, itemId]
     : null;
 
-  return useSWRImmutable<VariantListResponse, Error>(
-    key,
-    () => getVariantsList(itemId, query!),
-    {
-      keepPreviousData: true,
-    },
+  return useSWRImmutable<VariantListResponse, Error>(key, () =>
+    getVariantsList(itemId, query!),
   );
 }

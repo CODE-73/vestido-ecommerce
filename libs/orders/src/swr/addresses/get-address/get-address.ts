@@ -9,11 +9,7 @@ export function useAddress(addressId?: string | null) {
     ? [GetAddressSWRKeys.ADDRESS, GetAddressSWRKeys.DETAILS, addressId]
     : null;
 
-  return useSWRImmutable<CustomerAddressResponse, Error>(
-    key,
-    () => getAddressDetails(addressId as string),
-    {
-      keepPreviousData: true,
-    },
+  return useSWRImmutable<CustomerAddressResponse, Error>(key, () =>
+    getAddressDetails(addressId as string),
   );
 }

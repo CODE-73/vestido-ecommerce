@@ -12,11 +12,7 @@ export function useAddresses() {
     ? [ListAddressSWRKeys.ADDRESS, ListAddressSWRKeys.LIST]
     : null;
 
-  return useSWRImmutable<ListAddressResponse, Error>(
-    key,
-    () => getAddressList(authHeaders),
-    {
-      keepPreviousData: true,
-    },
+  return useSWRImmutable<ListAddressResponse, Error>(key, () =>
+    getAddressList(authHeaders),
   );
 }

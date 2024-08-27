@@ -11,11 +11,7 @@ export function useProfile() {
     ? [GetProfileSWRKeys.PROFILE, GetProfileSWRKeys.DETAILS]
     : null;
 
-  return useSWRImmutable<GetProfileResponse, Error>(
-    key,
-    () => getCurrentProfile(authHeaders),
-    {
-      keepPreviousData: true,
-    },
+  return useSWRImmutable<GetProfileResponse, Error>(key, () =>
+    getCurrentProfile(authHeaders),
   );
 }
