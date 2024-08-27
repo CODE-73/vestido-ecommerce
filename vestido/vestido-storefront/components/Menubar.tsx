@@ -58,7 +58,7 @@ const HeaderMenubar: React.FC<NavMenuProps> = ({ isFixed }) => {
     <Menubar className="bg-transparent border-none">
       <MenubarMenu>
         <MenubarTrigger
-          className={`font-semibold h-6 text-sm lg:text-base bg-transparent hover:bg-transparent data-active:bg-transparent data-[state=open]:bg-transparent hover:text-[#48cab2] data-[state=open]:text-[#48cab2] rounded-none mx-3 focus:bg-transparent ${
+          className={`font-semibold h-6 text-sm  bg-transparent hover:bg-transparent data-active:bg-transparent data-[state=open]:bg-transparent hover:text-[#48cab2] data-[state=open]:text-[#48cab2] rounded-none mx-3 focus:bg-transparent ${
             isFixed ? '' : 'text-white focus:text-white '
           }`}
         >
@@ -117,7 +117,7 @@ const HeaderMenubar: React.FC<NavMenuProps> = ({ isFixed }) => {
 
       <MenubarMenu>
         <MenubarTrigger
-          className={`font-semibold h-6 text-sm lg:text-base bg-transparent hover:bg-transparent data-active:bg-transparent data-[state=open]:bg-transparent data-[state=open]:text-[#48cab2] hover:text-[#48cab2] rounded-none mx-3 focus:bg-transparent ${
+          className={`font-semibold h-6 text-sm bg-transparent hover:bg-transparent data-active:bg-transparent data-[state=open]:bg-transparent data-[state=open]:text-[#48cab2] hover:text-[#48cab2] rounded-none mx-3 focus:bg-transparent ${
             isFixed ? '' : 'text-white focus:text-white '
           }`}
         >
@@ -176,7 +176,7 @@ const HeaderMenubar: React.FC<NavMenuProps> = ({ isFixed }) => {
 
       <MenubarMenu>
         <MenubarTrigger
-          className={`font-semibold h-6 text-sm lg:text-base bg-transparent hover:bg-transparent data-active:bg-transparent data-[state=open]:bg-transparent data-[state=open]:text-[#48cab2] hover:text-[#48cab2] rounded-none mx-3 focus:bg-transparent ${
+          className={`font-semibold h-6 text-sm  bg-transparent hover:bg-transparent data-active:bg-transparent data-[state=open]:bg-transparent data-[state=open]:text-[#48cab2] hover:text-[#48cab2] rounded-none mx-3 focus:bg-transparent ${
             isFixed ? '' : 'text-white focus:text-white '
           }`}
         >

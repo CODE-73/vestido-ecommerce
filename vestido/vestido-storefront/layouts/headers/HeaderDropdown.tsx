@@ -16,15 +16,11 @@ import {
   DropdownMenuTrigger,
 } from '@vestido-ecommerce/shadcn-ui/dropdown-menu';
 
-interface DropdownProps {
-  fixedHeader: boolean;
-}
-
-const HeaderDropdown: React.FC<DropdownProps> = ({ fixedHeader }) => {
+const HeaderDropdown: React.FC = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <LuMailQuestion size={24} color={fixedHeader ? 'black' : 'white'} />
+        <LuMailQuestion size={20} color="white" />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="relative right-12">
         <DropdownMenuItem>
