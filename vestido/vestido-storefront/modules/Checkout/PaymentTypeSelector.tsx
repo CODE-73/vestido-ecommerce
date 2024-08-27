@@ -1,9 +1,8 @@
 import { Label } from '@radix-ui/react-label';
 
-import {
-  RadioGroup,
-  RadioGroupItem,
-} from '@vestido-ecommerce/shadcn-ui/radio-group';
+import { RadioGroup } from '@vestido-ecommerce/shadcn-ui/radio-group';
+
+import { RadioGroupItem } from './CustomerAddressSelector';
 
 interface PaymentTypeSelectorProps {
   value?: string;
@@ -16,15 +15,15 @@ const PaymentTypeSelector: React.FC<PaymentTypeSelectorProps> = ({
 }) => {
   return (
     <RadioGroup value={value} onValueChange={onChange}>
-      <div className="font-semibold space-y-4">
+      <div className="font-semibold space-y-4 text-white">
         <div>
-          <div className="border  space-x-3 w-full p-5 mb-5 shadow border-3 border-gray-300">
+          <div className="border  space-x-3 w-full p-5 mb-5 shadow border-3 border-gray-600 ">
             <RadioGroupItem value="ONLINE" />
             <Label>Pay Now ( Online Payment) </Label>
           </div>
         </div>
         <div>
-          <div className="border space-x-3  w-full p-5 mb-5 shadow border-3 border-gray-300">
+          <div className="border space-x-3  w-full p-5 mb-5 shadow border-3 border-gray-600">
             <RadioGroupItem value="CASH_ON_DELIVERY" />
             <Label>Cash on Delivery ( Cash, UPI) </Label>
           </div>

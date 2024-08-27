@@ -1,4 +1,9 @@
 // import React, { useEffect, useState } from 'react';
+import React from 'react';
+
+import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
+import clsx from 'clsx';
+import { LuCircle } from 'react-icons/lu';
 import { MdDeleteOutline, MdOutlineModeEditOutline } from 'react-icons/md';
 
 import {
@@ -19,7 +24,7 @@ import {
 import { Dialog, DialogTrigger } from '@vestido-ecommerce/shadcn-ui/dialog';
 import {
   RadioGroup,
-  RadioGroupItem,
+  // RadioGroupItem,
 } from '@vestido-ecommerce/shadcn-ui/radio-group';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 
@@ -62,7 +67,7 @@ const CustomerAddressSelector: React.FC<CustomerAddressSelectorProps> = ({
         .map((address, index) => (
           <div
             key={index}
-            className="border   w-full p-5 mb-5 shadow border-3 border-gray-300"
+            className="border text-white  w-full p-5 mb-5 shadow border-3 border-gray-600 md:rounded-lg"
           >
             <div className="font-semibold flex justify-between items-center">
               <div className="flex gap-2 items-center">
@@ -125,12 +130,12 @@ const CustomerAddressSelector: React.FC<CustomerAddressSelectorProps> = ({
                 </div>
               </div>
             </div>
-            <div className="text-sm w-1/2 text-wrap pt-4 text-gray-600">
+            <div className="text-sm w-1/2 text-wrap pt-4 text-neutral-200">
               {address.line1}, {address.line2}, {address.district},
               {address.state}, {address.pinCode}
             </div>
             <div className="pt-4 flex gap-2 font-semibold items-center">
-              <div className="text-sm text-gray-600">Mobile:</div>
+              <div className="text-sm text-neutral-300">Mobile:</div>
               <div> {address.mobile}</div>
             </div>
           </div>
@@ -138,5 +143,26 @@ const CustomerAddressSelector: React.FC<CustomerAddressSelectorProps> = ({
     </RadioGroup>
   );
 };
+
+export const RadioGroupItem = React.forwardRef<
+  React.ElementRef<typeof RadioGroupPrimitive.Item>,
+  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>
+>(({ className, ...props }, ref) => {
+  return (
+    <RadioGroupPrimitive.Item
+      ref={ref}
+      className={clsx(
+        'aspect-square h-4 w-4 rounded-full border border-white text-primary ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+        className,
+      )}
+      {...props}
+    >
+      <RadioGroupPrimitive.Indicator className="flex items-center justify-center">
+        <LuCircle className={`h-2.5 w-2.5 fill-current text-white`} />
+      </RadioGroupPrimitive.Indicator>
+    </RadioGroupPrimitive.Item>
+  );
+});
+RadioGroupItem.displayName = RadioGroupPrimitive.Item.displayName;
 
 export default CustomerAddressSelector;
