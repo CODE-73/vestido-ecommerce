@@ -305,8 +305,11 @@ const CartView: React.FC = () => {
           </div>
         </div>
       ) : (
-        <div className="min-h-[80%] w-full flex flex-col gap-5 items-center justify-center font-semibold text-lg">
+        <div className="min-h-[80%] w-full flex flex-col gap-5 items-center justify-center font-semibold text-l text-[#f5f5f5] lg:mt-10">
           Your cart is empty.
+          <div className="relative w-32 h-32 sm:w-42 sm:h-42 md:w-48 md:h-48 m-10">
+            <Image src="/assets/cartempty.png" alt="" fill />
+          </div>
           <div className="flex flex-col md:flex-row gap-3">
             <Link href="/wishlist">
               <Button className="flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 font-extrabold hover:text-black text-white justify-center">
