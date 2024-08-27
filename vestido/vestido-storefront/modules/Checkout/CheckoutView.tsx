@@ -65,8 +65,6 @@ const CheckoutView: React.FC = () => {
           variantId: cartItem.variantId ?? null,
         })),
       );
-      // form.setValue('addressId', sortedAddresses[0].id);
-      // form.setValue('addressId', addresses?.data?.find((x) => x.default)?.id!);
     }
   }, [cartItems?.data, form]);
 
@@ -168,44 +166,40 @@ const CheckoutView: React.FC = () => {
   return (
     <>
       {currentSession == 'Address' && (
-        <div className="text-lg tracking-wide text-gray-300 text-center font-semibold md:mt-12 md:mb-12 mt-32 mb-16 uppercase">
-          <span className="text-black">
-            <Link href="/cart">Cart ----- </Link>
-          </span>
-          <span className="text-[#48CAB2] text-2xl underline decoration-4 underline-offset-3">
-            Address
-          </span>
-          ----- Payment
+        <div className="text-xs md:text-lg tracking-wide text-gray-300 text-center font-semibold md:mt-12 md:mb-12 mt-32 mb-16 uppercase font flex items-center justify-center gap-2">
+          <Link href="/cart">Cart</Link>
+          <LuChevronRight />{' '}
+          <span className="text-[#48CAB2] text-2xl">Address</span>
+          <LuChevronRight /> Payment
         </div>
       )}
       {currentSession == 'Payment' && (
-        <div className="text-lg tracking-wide text-gray-300 text-center font-semibold md:mt-12 md:mb-12 mt-32 mb-16 uppercase">
-          <span className="text-black">
-            <Link href="/cart">Cart ----- </Link>
-          </span>
+        <div className="text-xs md:text-lg tracking-wide text-gray-300 text-center font-semibold md:mt-12 md:mb-12 mt-32 mb-16 uppercase flex items-center justify-center gap-2">
+          <Link href="/cart">Cart </Link>
+          <LuChevronRight />
+
           <span
             onClick={() => setCurrentSession('Address')}
-            className="text-black cursor-pointer"
+            className=" cursor-pointer"
           >
-            Address -----
+            Address
           </span>
-          <span className="text-[#48CAB2] text-2xl underline decoration-4 underline-offset-3">
-            Payment
-          </span>
+          <LuChevronRight />
+          <span className="text-[#48CAB2] text-2xl ">Payment</span>
         </div>
       )}
-      {currentSession == 'Payment' ? (
-        <div className="text-lg font-semibold pb-3 pl-3 md:pl-0">
-          Choose a Payment Method
-        </div>
-      ) : (
-        <div className="text-lg font-semibold pb-3 pl-3 md:pl-0">
-          Choose Delivery Address
-        </div>
-      )}
+
+      <div className="text-lg font-semibold pb-3 pl-3 md:pl-0 text-white">
+        {currentSession == 'Payment' ? (
+          <>Choose a Payment Method</>
+        ) : (
+          <>Choose Delivery Address</>
+        )}
+      </div>
+
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)}>
-          <div className=" flex flex-col items-center md:flex-row md:items-start items-start gap-2 md:divide-x">
+          <div className=" flex flex-col items-center md:flex-row md:items-start items-start gap-2 md:divide-x divide-gray-500">
             <div className="w-full md:w-auto px-3 md:px-0 md:basis-3/5">
               {currentSession == 'Address' ? (
                 <CustomerAddressElement name="addressId" />
@@ -224,7 +218,7 @@ const CheckoutView: React.FC = () => {
                 </Dialog>
               )}
             </div>
-            <div className="md:basis-2/5 overflow-auto  px-3 md:pl-5 md:sticky top-0 w-full">
+            <div className="md:basis-2/5 overflow-auto  px-3 md:pl-5 md:sticky top-0 w-full text-white">
               <div className="flex flex-col">
                 {cartItems?.data.map((cartItem, index) => (
                   <div key={index}>
@@ -252,7 +246,7 @@ const CheckoutView: React.FC = () => {
                   </div>
                 ))}
               </div>
-              <hr />
+              <hr className="border-gray-600" />
               <div className="flex justify-between pr-3 mt-3">
                 <div className="text-md ">Subtotal</div>
                 <div className=" text-lg">₹&nbsp;{totalPrice.toFixed(2)}</div>
@@ -263,7 +257,7 @@ const CheckoutView: React.FC = () => {
                   ₹&nbsp;{(shippingCharges as number).toFixed(2)}
                 </div>
               </div>
-              <hr />
+              <hr className="border-gray-600" />
               <div className="flex justify-between mt-3 pr-3 font-bold">
                 <div className="text-md ">Total</div>
                 <div className=" text-lg">

@@ -29,10 +29,7 @@ interface HeaderProps {
   cart_count: number | undefined;
   wishlist_count: number | undefined;
 }
-const MobileHeader: React.FC<HeaderProps> = ({
-  cart_count,
-  wishlist_count,
-}) => {
+const MobileHeader: React.FC<HeaderProps> = ({ cart_count }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [dropdownsOpen, setDropdownsOpen] = useState({
     men: false,

@@ -20,11 +20,7 @@ export function useShippingCharges(args: shippingChargesRequest) {
       ]
     : null;
 
-  return useSWRImmutable<shippingChargesResponse, Error>(
-    key,
-    () => getShipping(args, authHeaders),
-    {
-      keepPreviousData: true,
-    },
+  return useSWRImmutable<shippingChargesResponse, Error>(key, () =>
+    getShipping(args, authHeaders),
   );
 }

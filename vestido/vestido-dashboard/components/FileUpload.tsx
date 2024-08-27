@@ -50,7 +50,7 @@ const FileUpload: FC<FileUploadProps> = (props) => {
       return;
     }
 
-    const handleChange = (e: Event) => {
+    const handleChange = (_e: Event) => {
       const files = Array.from(_input.files ?? []);
       if (!files.length) {
         console.info('No File Selected');

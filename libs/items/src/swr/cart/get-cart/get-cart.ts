@@ -6,15 +6,11 @@ import { CartItemResponse } from '../../../services/cart/get-cart';
 import { CartSWRKeys } from '../keys';
 import { getCartItems } from './service';
 
-export function useCart(query?: string) {
+export function useCart() {
   const { isAuthenticated, authHeaders } = useAuth();
-  const key = isAuthenticated ? [(CartSWRKeys.CART, query)] : null;
+  const key = isAuthenticated ? [CartSWRKeys.CART] : null;
 
-  return useSWRImmutable<CartItemResponse, Error>(
-    key,
-    () => getCartItems(authHeaders),
-    {
-      keepPreviousData: true,
-    },
+  return useSWRImmutable<CartItemResponse, Error>(key, () =>
+    getCartItems(authHeaders),
   );
 }

@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { LuChevronLeft, LuMenu } from 'react-icons/lu';
 
 import { ComponentWithChildrenProps } from '../../types/component';
+import LogoutButton from './LogoutButton';
 import { navItems } from './nav-items';
 import Sidebar from './Sidebar';
 
@@ -22,7 +23,7 @@ const AuthorizedLayout: React.FC<AuthorizedLayoutProps> = ({ children }) => {
     <>
       <div className="h-screen bg-background flex flex-row">
         <div
-          className="h-screen hidden sm:block"
+          className="h-screen hidden sm:flex sm:flex-col"
           style={{
             width: '200px',
             zIndex: 20,
@@ -56,6 +57,7 @@ const AuthorizedLayout: React.FC<AuthorizedLayoutProps> = ({ children }) => {
           </div>
 
           <Sidebar items={navItems} />
+          <LogoutButton className="mt-auto" />
         </div>
 
         <div className="flex-1">

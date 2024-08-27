@@ -12,11 +12,7 @@ export function useOrders() {
     ? [ListOrderSWRKeys.ORDER, ListOrderSWRKeys.LIST]
     : null;
 
-  return useSWRImmutable<ListOrderResponse, Error>(
-    key,
-    () => getOrderList(authHeaders),
-    {
-      keepPreviousData: true,
-    },
+  return useSWRImmutable<ListOrderResponse, Error>(key, () =>
+    getOrderList(authHeaders),
   );
 }

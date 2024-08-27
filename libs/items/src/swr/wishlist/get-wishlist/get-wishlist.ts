@@ -10,11 +10,7 @@ export function useWishlist() {
   const { isAuthenticated, authHeaders } = useAuth();
   const key = isAuthenticated ? [WishlistSWRKeys.WISHLIST] : null;
 
-  return useSWRImmutable<WishlistItemResponse, Error>(
-    key,
-    () => getWishlist(authHeaders),
-    {
-      keepPreviousData: true,
-    },
+  return useSWRImmutable<WishlistItemResponse, Error>(key, () =>
+    getWishlist(authHeaders),
   );
 }

@@ -144,7 +144,7 @@ const ProfileView: React.FC = () => {
               </div>
             </TabsContent>
             <TabsContent value="orders">
-              <OrdersView profileId={currentUser?.id ?? ''} />
+              <OrdersView />
             </TabsContent>
             <TabsContent value="profile">
               <Profile />

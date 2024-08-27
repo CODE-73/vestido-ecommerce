@@ -19,11 +19,7 @@ const AllProductsPage: FC<AllProductsPageProps> = ({ fallback }) => {
   );
 };
 
-export async function getStaticProps({
-  params,
-}: {
-  params: { categorySlug: string };
-}) {
+export async function getStaticProps() {
   const items = await listItem({});
 
   return {

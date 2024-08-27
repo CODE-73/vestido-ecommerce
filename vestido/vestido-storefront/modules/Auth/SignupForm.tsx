@@ -58,7 +58,7 @@ const SignupForm: React.FC<Props> = ({ mobile, onBackClick }) => {
   });
 
   const { trigger } = useSignup();
-  const { setToken } = useAuth();
+  const { onLogin } = useAuth();
 
   async function onSubmit(data: z.infer<typeof SignUpSchema>) {
     try {
@@ -69,7 +69,7 @@ const SignupForm: React.FC<Props> = ({ mobile, onBackClick }) => {
         otp: data.otp,
       });
 
-      setToken(r.token);
+      onLogin(r.user, r.token);
 
       router.push('/');
     } catch (error) {

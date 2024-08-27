@@ -9,11 +9,7 @@ export function useOrder(orderId?: string | null) {
     ? [GetOrderSWRKeys.GET, GetOrderSWRKeys.ORDER, orderId]
     : null;
 
-  return useSWRImmutable<GetOrderResponse, Error>(
-    key,
-    () => getOrderDetails(orderId as string),
-    {
-      keepPreviousData: true,
-    },
+  return useSWRImmutable<GetOrderResponse, Error>(key, () =>
+    getOrderDetails(orderId as string),
   );
 }
