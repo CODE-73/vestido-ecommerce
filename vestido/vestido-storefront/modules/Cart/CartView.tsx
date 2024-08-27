@@ -2,7 +2,13 @@ import * as React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { LuChevronLeft, LuMinus, LuPlus, LuTrash2 } from 'react-icons/lu';
+import {
+  LuChevronLeft,
+  LuChevronRight,
+  LuMinus,
+  LuPlus,
+  LuTrash2,
+} from 'react-icons/lu';
 
 import {
   useAddToCart,
@@ -24,10 +30,10 @@ import {
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
-import useIsMobile from '../../../vestido-storefront/hooks/useIsMobile';
+// import useIsMobile from '../../../vestido-storefront/hooks/useIsMobile';
 
 const CartView: React.FC = () => {
-  const isMobile = useIsMobile();
+  // const isMobile = useIsMobile();
   const { data: cartItems } = useCart();
 
   const { trigger } = useRemoveFromCart();
@@ -76,25 +82,21 @@ const CartView: React.FC = () => {
   };
   return (
     <div>
-      <div className="text-lg tracking-wide text-gray-300 text-center font-semibold md:mt-12 md:mb-12 mt-32 mb-16 uppercase">
-        <span className="text-2xl text-[#48CAB2] underline decoration-4 underline-offset-3">
-          Cart
-        </span>
-        ----- Address ----- Payment
+      <div className="text-xs md:text-lg tracking-wide text-gray-300 justify-center font-semibold md:mt-12 md:mb-12 mt-32 mb-16 uppercase flex gap-2 items-center">
+        <span className="md:text-2xl text-[#48CAB2]">Cart</span>
+        <LuChevronRight /> Address <LuChevronRight /> Payment
       </div>
       {cartItems?.data.length && cartItems.data.length > 0 ? (
-        <div className="flex flex-col md:flex-row gap-5 divide-x">
-          <div className="md:basis-2/3 flex flex-col px-2 sm:px-0">
+        <div className="flex flex-col md:flex-row gap-5 md:gap-10 ">
+          <div className="hidden md:block md:basis-[15%] xl:basis-[24%]"></div>
+          <div className="md:grow flex flex-col ">
             {cartItems?.data.map((cartItem, index) => (
               <div key={index}>
-                <div>
-                  <div className="border-t border-gray-300 py-2"></div>
-                </div>
-                <div className="grid gap-2 grid-cols-9 items-center">
-                  <div className="col-span-1 flex justify-center cursor-pointer">
+                <div className="flex gap-2 lg:gap-4 items-center bg-neutral-800 border border-gray-600 mb-5 min-h-[170px]  md:rounded-lg  relative">
+                  <div className="absolute right-1 md:right-5 top-1 md:top-5">
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
-                        <LuTrash2 size={24} />
+                        <LuTrash2 color="rgb(161 161 170)" size={20} />
                       </AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
@@ -128,9 +130,11 @@ const CartView: React.FC = () => {
                       </AlertDialogContent>
                     </AlertDialog>
                   </div>
-                  <Link href={`/products/${cartItem.itemId}`}>
+                  <Link
+                    href={`/products/${cartItem.itemId}`}
+                    className="block basis-1/5 md:basis-1/4"
+                  >
                     <Image
-                      className="block col-span-2"
                       src={
                         ((cartItem.item.images ?? []) as ImageSchemaType[])[0]
                           .url!
@@ -139,102 +143,64 @@ const CartView: React.FC = () => {
                         ((cartItem.item.images ?? []) as ImageSchemaType[])[0]
                           .alt!
                       }
-                      width={200}
-                      height={260}
+                      width={150}
+                      height={195}
+                      className="pl-2 md:pl-0 md:rounded-l-lg"
                     />
                   </Link>
 
-                  {isMobile ? (
-                    <div className=" col-span-5 flex flex-col space-y-5 pl-8">
-                      <div className="truncate text-md md:text-xl font-semibold whitespace-nowrap">
-                        {cartItem.item.title}
+                  <div className="flex flex-col gap-1 lg:gap-3 md:self-start my-4">
+                    <div className="md:text-xl font-semibold text-white">
+                      {cartItem.item.title}
+                    </div>
+
+                    <div className="flex flex-row text-neutral-500 border border-neutral-500 rounded-full  w-[100px] items-center justify-between  px-2 ">
+                      <div
+                        className="text-zinc-300 cursor-pointer"
+                        onClick={() => {
+                          handleRemoveFromCart(
+                            cartItem.itemId,
+                            cartItem.variantId!,
+                            'decrement',
+                          );
+                        }}
+                      >
+                        <LuMinus />
                       </div>
-                      <div className="text-xl font-semibold text-[#48CAB2] flex ">
-                        ₹&nbsp;{cartItem.item.price.toFixed(2)}
-                      </div>
-                      <div className="flex flex-row bg-zinc-100 w-32 h-14 items-center justify-around ">
-                        <div
-                          className="text-zinc-300"
-                          onClick={() => {
-                            handleRemoveFromCart(
-                              cartItem.itemId,
-                              cartItem.variantId!,
-                              'decrement',
-                            );
-                          }}
-                        >
-                          <LuMinus />
-                        </div>
-                        <div className="font-semibold text-2xl">
-                          {cartItem.qty}
-                        </div>
-                        <div
-                          className="text-zinc-300"
-                          onClick={() => {
-                            handleAddToCart(
-                              cartItem.itemId,
-                              cartItem.qty,
-                              cartItem.variantId!,
-                            );
-                          }}
-                        >
-                          <LuPlus />
-                        </div>
+                      <div className="font-semibold ">{cartItem.qty}</div>
+                      <div
+                        className=" cursor-pointer"
+                        onClick={() => {
+                          handleAddToCart(
+                            cartItem.itemId,
+                            cartItem.qty + 1,
+                            cartItem.variantId!,
+                          );
+                        }}
+                      >
+                        <LuPlus />
                       </div>
                     </div>
-                  ) : (
-                    <>
-                      <div className="text-xl font-extrabold col-span-2">
-                        {cartItem.item.title}
-                      </div>
-
-                      <div className="flex flex-row bg-zinc-100 h-14 items-center justify-between col-span-1 px-2">
-                        <div
-                          className="text-zinc-300 cursor-pointer"
-                          onClick={() => {
-                            handleRemoveFromCart(
-                              cartItem.itemId,
-                              cartItem.variantId!,
-                              'decrement',
-                            );
-                          }}
-                        >
-                          <LuMinus />
+                    <div className="  text-[#48CAB2] col-span-3">
+                      {cartItem.item.discountedPrice ? (
+                        <div className="flex items-center gap-2">
+                          <div className="text-white text-sm font-semibold">
+                            ₹&nbsp;{cartItem.item.discountedPrice.toFixed(2)}
+                          </div>
+                          {cartItem.item.discountedPrice <
+                          cartItem.item.price ? (
+                            <div className="text-white line-through text-xs">
+                              ₹&nbsp;{cartItem.item.price.toFixed(2)}
+                            </div>
+                          ) : (
+                            ''
+                          )}
                         </div>
-                        <div className="font-semibold text-2xl">
-                          {cartItem.qty}
-                        </div>
-                        <div
-                          className="text-zinc-300 cursor-pointer"
-                          onClick={() => {
-                            handleAddToCart(
-                              cartItem.itemId,
-                              cartItem.qty + 1,
-                              cartItem.variantId!,
-                            );
-                          }}
-                        >
-                          <LuPlus />
-                        </div>
-                      </div>
-                      <div className="text-3xl font-semibold text-[#48CAB2] col-span-3 flex justify-end">
-                        ₹&nbsp;{cartItem.item.price.toFixed(2)}
-                      </div>
-                    </>
-                  )}
-
-                  {/* <div className="flex bg-zinc-100 px-4 h-12 items-center justify-around ">
-            <div
-              className="text-zinc-300 "
-              onClick={() => setQty(qty > 1 ? qty - 1 : 1)}
-            >
-              <LuMinus />
-            </div>
-            <div className="px-3 font-medium">{qty}</div>
-            <div className="text-zinc-300" onClick={() => setQty(qty + 1)}>
-              <LuPlus />
-            </div>
-          </div> */}
+                      ) : (
+                        <div> ₹&nbsp;{cartItem.item.price.toFixed(2)}</div>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </div>
             ))}
@@ -242,8 +208,8 @@ const CartView: React.FC = () => {
             <div className="flex flex-col lg:flex-row gap-3 lg:justify-between items-center">
               <Link href="/products">
                 <div className="flex items-center cursor-pointer">
-                  <LuChevronLeft />
-                  <div className="font-extrabold no-underline hover:underline">
+                  <LuChevronLeft color="white" size={24} />
+                  <div className="font-extrabold no-underline hover:underline text-white">
                     Continue Shopping
                   </div>
                 </div>
@@ -251,8 +217,8 @@ const CartView: React.FC = () => {
               <AlertDialog>
                 <AlertDialogTrigger asChild>
                   <div className="flex cursor-pointer">
-                    <LuTrash2 className="mr-3 " />
-                    <div className="mr-5 font-extrabold no-underline hover:underline">
+                    <LuTrash2 className="mr-3 " color="white" />
+                    <div className="mr-5 font-extrabold no-underline hover:underline text-white">
                       Clear Shopping Cart
                     </div>
                   </div>
@@ -293,7 +259,7 @@ const CartView: React.FC = () => {
                   Items Total: <div>₹&nbsp;{totalPrice.toFixed(2)}</div>
                 </div>
 
-                <div className="font-medium text-sm">
+                <div className="font-medium text-[8px] md:text-sm">
                   Shipping charges calculated at checkout (Free Shipping all
                   over Kerala)
                 </div>
