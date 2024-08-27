@@ -19,7 +19,7 @@ export function useItems(args?: ListItemRequest) {
         ...(args ?? {}),
       }),
     {
-      keepPreviousData: true,
+      keepPreviousData: false,
     },
   );
 }
