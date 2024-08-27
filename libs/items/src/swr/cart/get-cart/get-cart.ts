@@ -7,8 +7,8 @@ import { CartSWRKeys } from '../keys';
 import { getCartItems } from './service';
 
 export function useCart(query?: string) {
-  const { authHeaders } = useAuth();
-  const key = [CartSWRKeys.CART, query];
+  const { isAuthenticated, authHeaders } = useAuth();
+  const key = isAuthenticated ? [(CartSWRKeys.CART, query)] : null;
 
   return useSWRImmutable<CartItemResponse, Error>(
     key,

@@ -6,9 +6,17 @@ export async function getItemList(
 ): Promise<ListItemResponse> {
   let url = '/api/items';
 
-  if (args?.q) {
-    const encodedQuery = encodeURIComponent(args.q);
-    url += `?q=${encodedQuery}`;
+  if (args) {
+    const query = new URLSearchParams();
+    if (args.q) {
+      query.append('q', args.q);
+    }
+    if (args.categoryId) {
+      query.append('categoryId', args.categoryId);
+    }
+    if (query.toString()) {
+      url += `?${query.toString()}`;
+    }
   }
 
   const r = await fetch(url);

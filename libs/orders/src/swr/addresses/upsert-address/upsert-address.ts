@@ -8,8 +8,10 @@ import { upsertAddress } from './service';
 import { AddressUpsertRequest, AddressUpsertResponse } from './types';
 
 export const useAddressUpsert = () => {
-  const { authHeaders } = useAuth();
-  const key = [AddressUpsertSWRKeys.ADDRESS, AddressUpsertSWRKeys.UPSERT];
+  const { isAuthenticated, authHeaders } = useAuth();
+  const key = isAuthenticated
+    ? [AddressUpsertSWRKeys.ADDRESS, AddressUpsertSWRKeys.UPSERT]
+    : null;
 
   return useSWRMutation<
     AddressUpsertResponse,

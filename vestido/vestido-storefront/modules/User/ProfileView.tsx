@@ -47,7 +47,6 @@ const ProfileView: React.FC = () => {
   const { data } = useProfile();
   const currentUser = data?.data;
   const [selectedNav, setSelectedNav] = useState('overview');
-  console.log(selectedNav, 'selected');
 
   return (
     <>

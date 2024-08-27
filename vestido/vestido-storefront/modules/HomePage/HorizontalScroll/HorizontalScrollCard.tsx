@@ -19,7 +19,7 @@ interface ScrollCardProps {
 const HorizontalScrollCard: React.FC<ScrollCardProps> = ({ data }) => {
   const SmallMobile = useMediaQuery('(max-width:400px)');
   return (
-    <CarouselItem className="group basis-1/2 lg:basis-1/3 text-center transition duration-700 ease-in-out md:hover:-translate-y-16 text-[#333333]">
+    <CarouselItem className="group basis-1/2 lg:basis-1/3 text-center transition duration-700 ease-in-out md:hover:-translate-y-16 text-white">
       <div className="flex flex-col">
         <Image
           src={data.cardImage}

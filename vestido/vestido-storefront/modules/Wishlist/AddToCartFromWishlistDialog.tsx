@@ -100,10 +100,8 @@ export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({ itemId }) => {
     });
   });
 
-  console.log('selectedVariantId now', selectedVariantId);
   const handleAddToCart = () => {
     if (item) {
-      console.log(item);
       cartTrigger({
         itemId: item.id,
         qty: 1,
@@ -111,10 +109,7 @@ export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({ itemId }) => {
       });
     }
     setIsDialogOpen(false);
-    console.log('handleAddToCart');
   };
-
-  console.log('data', data);
 
   return (
     <>

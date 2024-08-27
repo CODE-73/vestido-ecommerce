@@ -58,7 +58,7 @@ export function RadioGroupElement<
             className={wrapperClassName}
           >
             {options.map((option, index) => (
-              <div key={index} className="flex items-center space-x-2">
+              <div key={index} className="flex items-center space-x-1">
                 <RadioGroupItem value={option.value} id={`radio-${index}`} />
                 {option.label && (
                   <FormLabel htmlFor={`radio-${index}`}>

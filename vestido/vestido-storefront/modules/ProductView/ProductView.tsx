@@ -2,18 +2,15 @@ import * as React from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 
-import { Item } from '@prisma/client';
 import { useMediaQuery } from '@react-hook/media-query';
 import { LuCalendar, LuScaling, LuShoppingBag, LuTruck } from 'react-icons/lu';
 import Markdown from 'react-markdown';
 
-import { type ItemDetailsResponse } from '@vestido-ecommerce/items';
+import { useAuth } from '@vestido-ecommerce/auth/client';
 import {
   useAddToCart,
-  useAddToWishlist,
   useCategory,
-  useRemoveFromWishlist,
-  useWishlist,
+  useItem,
 } from '@vestido-ecommerce/items/client';
 import {
   Accordion,
@@ -37,20 +34,24 @@ import {
 } from '@vestido-ecommerce/shadcn-ui/carousel';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
-import { AddToWishListButton } from '../HomePage/Buttons/AddToWishlistButton';
+import AddToWishListButton from '../ProductListView/AddToWishlistButton';
 import ProductListView from '../ProductListView/ProductListView';
 
 interface ProductViewProps {
-  item: NonNullable<ItemDetailsResponse['data']>;
+  itemId: string;
 }
 
-const ProductView: React.FC<ProductViewProps> = ({ item }) => {
-  const { data: category } = useCategory(item.categoryId);
+const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
+  const { isAuthenticated, routeToLogin } = useAuth();
+
+  const { data: { data: item } = { data: null } } = useItem(itemId);
+  const { data: category } = useCategory(item?.categoryId);
   const itemCategory = category?.data.name;
 
-  const [selectedImage, setSelectedImage] = React.useState<string>(
-    ((item.images ?? []) as ImageSchemaType[])[0]?.url ?? '',
-  );
+  const [selectedImage, setSelectedImage] =
+    React.useState<ImageSchemaType | null>(
+      (item?.images as ImageSchemaType[])?.[0] ?? null,
+    );
 
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(
     null,
@@ -71,13 +72,11 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
         item.variants.find((variant) => variant.default) || item.variants[0];
       setSelectedVariantId(defaultVar?.id ?? null);
       setSelectedImage(
-        ((defaultVar?.images ?? []) as ImageSchemaType[])[0]?.url || '',
+        ((defaultVar?.images ?? []) as ImageSchemaType[])[0] || null,
       );
     } else {
       setSelectedVariantId(null);
-      setSelectedImage(
-        ((item?.images ?? []) as ImageSchemaType[])[0]?.url ?? '',
-      );
+      setSelectedImage(((item?.images ?? []) as ImageSchemaType[])[0] ?? null);
     }
   }, [item]);
   interface AttributeValuesMap {
@@ -108,7 +107,7 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
     if (_v) {
       setSelectedVariantId(_v.id);
       setSelectedImage(
-        ((selectedVariant?.images ?? []) as ImageSchemaType[])[0]?.url || '',
+        ((selectedVariant?.images ?? []) as ImageSchemaType[])[0] || null,
       );
     }
   };
@@ -121,8 +120,6 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
   // };
 
   const { trigger: cartTrigger } = useAddToCart();
-  const { trigger: wishlistTrigger } = useAddToWishlist();
-  const { trigger: removeWishlistTrigger } = useRemoveFromWishlist();
 
   const scrollRef = React.useRef<HTMLDivElement>(null);
   const mainImageRef = React.useRef<HTMLImageElement>(null);
@@ -202,8 +199,12 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
     }
   });
 
-  console.log('selectedVariantId now', selectedVariantId);
   const handleAddToCart = () => {
+    if (!isAuthenticated) {
+      routeToLogin();
+      return;
+    }
+
     if (item) {
       cartTrigger({
         itemId: item.id,
@@ -211,38 +212,16 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
         variantId: selectedVariantId ?? null,
       });
     }
-    console.log('handleAddToCart');
   };
 
-  const { data: wishlistData } = useWishlist();
-  const wishlist = wishlistData?.data;
-  const [isWishlisted, setIsWishlisted] = useState(false);
-
-  useEffect(() => {
-    if (wishlist && item) {
-      const wishlisted = wishlist.some((x) => x.itemId === item.id);
-      setIsWishlisted(wishlisted);
-    }
-  }, [wishlist, item]);
-
-  const handleAddToWishlist = (item: Item) => {
-    if (item) {
-      if (isWishlisted) {
-        removeWishlistTrigger({
-          itemId: item.id,
-        });
-      } else {
-        wishlistTrigger({
-          itemId: item.id,
-        });
-      }
-    }
-  };
+  const mainImage = selectedImage
+    ? selectedImage
+    : ((selectedVariant?.images ?? item?.images ?? []) as ImageSchemaType[])[0];
 
   const isMdAndAbove = useMediaQuery('(min-width:768px)');
   return (
     <>
-      <Breadcrumb className="p-3">
+      <Breadcrumb className="p-3 text-gray-200">
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink href="/">Home</BreadcrumbLink>
@@ -259,12 +238,14 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>{item?.title}</BreadcrumbPage>
+            <BreadcrumbPage className="text-white">
+              {item?.title}
+            </BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
 
-      <div className="w-full flex flex-col md:flex-row py-5 sm:px-2 md:px-0 md:space-x-10 md:px-10 lg:px-20 xl:px-64">
+      <div className="w-full flex flex-col md:flex-row py-5 sm:px-2 md:px-0 md:space-x-10 md:px-10 lg:px-20 xl:px-64 text-white">
         <div className="w-full sm:flex hidden sm:block md:w-1/2 justify-start">
           <div
             className="relative basis-1/6 overflow-y-auto no-scrollbar lg:pl-10"
@@ -290,11 +271,15 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
                         <div
                           key={index}
                           className=""
-                          onClick={() => setSelectedImage(image.url!)}
+                          onClick={() => setSelectedImage(image)}
                         >
                           <Image
                             className="outline outline-3 hover:outline-[#48CAB2] mb-3"
                             src={image.url ?? ''}
+                            placeholder={
+                              image.blurHashDataURL ? 'blur' : undefined
+                            }
+                            blurDataURL={image.blurHashDataURL ?? undefined}
                             alt="alt text"
                             fill
                           />
@@ -309,10 +294,14 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
                         <div
                           key={index}
                           className="basis-1/5 flex-none"
-                          onClick={() => setSelectedImage(image.url!)}
+                          onClick={() => setSelectedImage(image)}
                         >
                           <Image
                             className="outline outline-3 hover:outline-[#48CAB2] mb-3"
+                            placeholder={
+                              image.blurHashDataURL ? 'blur' : undefined
+                            }
+                            blurDataURL={image.blurHashDataURL ?? undefined}
                             src={image.url!}
                             alt="alt text"
                             width={100}
@@ -336,12 +325,9 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
             <Image
               // className="w-4/6 px-5 h-4/6"
               ref={mainImageRef}
-              src={
-                selectedImage
-                  ? selectedImage
-                  : (((selectedVariant?.images ?? []) as ImageSchemaType[])[0]
-                      ?.url ?? '')
-              }
+              src={mainImage?.url ?? ''}
+              placeholder={mainImage?.blurHashDataURL ? 'blur' : undefined}
+              blurDataURL={mainImage?.blurHashDataURL ?? undefined}
               alt="alt text"
               width={550}
               height={720}
@@ -359,6 +345,10 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
                       <CarouselItem key={index}>
                         <Image
                           src={image.url ?? ''}
+                          placeholder={
+                            image.blurHashDataURL ? 'blur' : undefined
+                          }
+                          blurDataURL={image.blurHashDataURL ?? undefined}
                           alt="alt text"
                           fill
                           width={550}
@@ -377,6 +367,10 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
                           <Image
                             className="outline outline-3 hover:outline-[#48CAB2] mb-3"
                             src={image.url!}
+                            placeholder={
+                              image.blurHashDataURL ? 'blur' : undefined
+                            }
+                            blurDataURL={image.blurHashDataURL ?? undefined}
                             alt="alt text"
                             width={550}
                             height={720}
@@ -473,7 +467,12 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
 
             <hr />
           </div>
-          <div className="flex gap-2 mb-5 w-full fixed -bottom-5 w-full sm:static bg-white py-4 px-2 mx-0 z-50 sm:z-auto">
+          <div
+            className="flex gap-2 mb-5 w-full fixed -bottom-5 w-full sm:static bg-black  py-4 px-2 mx-0 z-50 sm:z-auto"
+            style={{
+              boxShadow: '0 -20px 25px -5px rgba(55, 65, 81, 0.3)', // Mimicking shadow-lg shadow-gray-700/50
+            }}
+          >
             <div className="flex bg-[#48CAB2] items-center gap-2 flex-1 justify-center text-white  ">
               <LuShoppingBag size={30} />
               <Button
@@ -483,14 +482,10 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
                 ADD TO CART
               </Button>
             </div>
-            <div
-              onClick={() => {
-                handleAddToWishlist(item!);
-              }}
+            <AddToWishListButton
+              itemId={item?.id || ''}
               className="border border-2 border-[#48CAB2] font-medium text-xs  h-full self-center p-4"
-            >
-              <AddToWishListButton wishlisted={isWishlisted} />
-            </div>
+            />
           </div>
           <hr />
           <div className="flex justify-between py-5 px-1 sm:px-0">
@@ -513,20 +508,22 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
                 </div>
               </>
             ) : (
-              <>
-                <div className="flex flex-col  gap-1 items-center">
+              <div className="grid grid-cols-3">
+                <div className="flex flex-col  gap-1 items-center ">
                   <LuScaling size={24} />
                   <div className="text-xs">Size Guide</div>
                 </div>
-                <div className="flex  flex-col  gap-1 items-center">
+                <div className="flex  flex-col  justify-center gap-1 items-center ">
                   <LuCalendar size={24} />
-                  <div className="text-xs">7 Days Easy Return</div>
+                  <div className="text-xs text-center">7 Days Easy Return</div>
                 </div>
-                <div className="flex  flex-col  gap-1 items-center">
+                <div className="flex  flex-col  gap-1 items-center ">
                   <LuTruck size={26} />
-                  <div className="text-xs ">Free Shipping in Kerala</div>
+                  <div className="text-xs text-center">
+                    Free Shipping in Kerala
+                  </div>
                 </div>
-              </>
+              </div>
             )}
           </div>
           <hr />
@@ -535,7 +532,9 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
               <AccordionItem value="item-1">
                 <AccordionTrigger>Description</AccordionTrigger>
                 <AccordionContent>
-                  <Markdown className="prose">{item?.description}</Markdown>
+                  <Markdown className="prose text-white text-sm md:text-base">
+                    {item?.description}
+                  </Markdown>
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
@@ -544,7 +543,7 @@ const ProductView: React.FC<ProductViewProps> = ({ item }) => {
       </div>
 
       <div>
-        <div className="text-center text-xl md:text-3xl font-semibold pt-10 sm:pt-16 -mb-10">
+        <div className="text-center text-xl md:text-3xl font-semibold pt-10 sm:pt-16 -mb-10 text-white">
           You may also like
         </div>
         {category && (
