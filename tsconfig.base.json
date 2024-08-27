@@ -54,6 +54,14 @@
         "libs/orders/src/client.ts",
         "../../libs/orders/src/client.ts"
       ],
+      "@vestido-ecommerce/posthog": [
+        "third-party/posthog/src/index.ts",
+        "../../third-party/posthog/src/index.ts"
+      ],
+      "@vestido-ecommerce/posthog/client": [
+        "third-party/posthog/src/client.ts",
+        "../../third-party/posthog/src/client.ts"
+      ],
       "@vestido-ecommerce/r2": [
         "libs/r2/src/index.ts",
         "../../libs/r2/src/index.ts"

@@ -7,12 +7,16 @@ import {
 } from 'react';
 import { useRouter } from 'next/router';
 
+import { type Profile } from '@prisma/client';
+import { usePostHog } from 'posthog-js/react';
+
 type AuthContextValue = {
   isAuthenticated: boolean;
   loginRoute: string;
   token: string | null;
+  profile: Profile | null;
   authHeaders: Record<string, string>;
-  setToken: (token: string) => void;
+  onLogin: (profile: Profile, token: string) => void;
   logout: () => void;
   routeToLogin: () => void;
 };
@@ -34,8 +38,10 @@ export const AuthProvider = ({
   fallback,
 }: AuthProviderProps) => {
   const [token, setToken] = useState<string | null>(null);
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [authLoaded, setAuthLoaded] = useState(false);
   const router = useRouter();
+  const posthog = usePostHog();
 
   // Read LS
   useEffect(() => {
@@ -58,19 +64,35 @@ export const AuthProvider = ({
         isAuthenticated: !!token,
         loginRoute,
         token,
+        profile,
         authHeaders: {
           Authorization: `Bearer ${token}`,
         },
-        setToken: (token: string) => {
+        onLogin: (profile: Profile, token: string) => {
           localStorage.setItem('token', token);
           setToken(token);
+          setProfile(profile);
+          posthog.capture('$logged_in', {
+            ...profile,
+          });
+          posthog.identify(profile.id, {
+            ...profile,
+          });
         },
         logout: () => {
           localStorage.removeItem('token');
           setToken(null);
+          setProfile(null);
+          posthog.capture('$logged_out', {
+            ...profile,
+          });
+          posthog.reset();
         },
         routeToLogin: () => {
           router.push(loginRoute);
+          posthog.capture('$auth_redirect', {
+            from: router.asPath,
+          });
         },
       }}
     >

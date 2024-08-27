@@ -38,7 +38,7 @@ const AuthView: React.FC = () => {
     },
   });
 
-  const { trigger } = useSendOTP();
+  const { trigger, isMutating } = useSendOTP();
 
   const [otpSent, setOtpSent] = useState(false);
   const [userExists, setUserExists] = useState(true);
@@ -123,6 +123,11 @@ const AuthView: React.FC = () => {
                 />
                 <Button
                   type="submit"
+                  disabled={
+                    isMutating ||
+                    form.formState.isSubmitting ||
+                    !form.formState.isValid
+                  }
                   className="w-full h-14 uppercase tracking-widest rounded-none"
                 >
                   Send OTP

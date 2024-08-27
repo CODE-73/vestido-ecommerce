@@ -45,7 +45,7 @@ const LoginForm: React.FC<Props> = ({ mobile }) => {
   });
 
   const { trigger } = useLogin();
-  const { setToken } = useAuth();
+  const { onLogin } = useAuth();
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
@@ -54,7 +54,7 @@ const LoginForm: React.FC<Props> = ({ mobile }) => {
         otp: data.otp,
       });
       if (r.success) {
-        setToken(r.token);
+        onLogin(r.user, r.token);
         router.push('/');
       } else {
         form.setError('otp', {

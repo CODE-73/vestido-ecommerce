@@ -1,0 +1,23 @@
+{
+  "name": "posthog",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "third-party/posthog/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/third-party/posthog",
+        "main": "third-party/posthog/src/index.ts",
+        "tsConfig": "third-party/posthog/tsconfig.lib.json",
+        "assets": ["third-party/posthog/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": []
+}

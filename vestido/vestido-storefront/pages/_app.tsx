@@ -4,6 +4,7 @@ import localFont from 'next/font/local';
 import Head from 'next/head';
 
 import { AuthProvider } from '@vestido-ecommerce/auth/client';
+import { PostHogProvider } from '@vestido-ecommerce/posthog/client';
 
 import BlockingSpinner from '../components/BlockingSpinner';
 import MainLayout from '../layouts/MainLayout';
@@ -76,21 +77,23 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
     Component.getLayout ?? ((page) => <MainLayout>{page}</MainLayout>);
 
   return (
-    <div
-      // className={poppins.className}
-      className={myFont.className}
-    >
-      <Head>
-        <title>Vestido Storefront</title>
-      </Head>
-      <AuthProvider
-        loginRoute="/auth"
-        autoLoginRedirect={false}
-        fallback={<BlockingSpinner />}
+    <PostHogProvider>
+      <div
+        // className={poppins.className}
+        className={myFont.className}
       >
-        {getLayout(<Component {...pageProps} />)}
-      </AuthProvider>
-    </div>
+        <Head>
+          <title>Vestido Storefront</title>
+        </Head>
+        <AuthProvider
+          loginRoute="/login"
+          autoLoginRedirect={false}
+          fallback={<BlockingSpinner />}
+        >
+          {getLayout(<Component {...pageProps} />)}
+        </AuthProvider>
+      </div>
+    </PostHogProvider>
   );
 }
 
