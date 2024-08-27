@@ -5,11 +5,7 @@ import { useAttributes } from '@vestido-ecommerce/items/client';
 import { useOrders } from '@vestido-ecommerce/orders/client';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
-type OrdersViewProps = {
-  profileId: string;
-};
-
-const OrdersView: React.FC<OrdersViewProps> = ({ profileId }) => {
+const OrdersView: React.FC = () => {
   const { data } = useOrders();
   const orders = data?.data;
   const { data: attributeData } = useAttributes();

@@ -309,7 +309,7 @@ const CarouselDots = React.forwardRef<
       selectedIndex: number;
     }) => React.ReactNode;
   }
->(({ className, children: childFn, ...props }, ref) => {
+>(({ className, children: childFn, ...props }, _ref) => {
   const { api } = useCarousel();
   const { scrollSnaps, onDotButtonClick, selectedIndex } = useDotButton(api);
 

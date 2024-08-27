@@ -41,6 +41,7 @@
     "@radix-ui/react-toggle-group": "^1.0.4",
     "@radix-ui/react-tooltip": "^1.0.6",
     "@react-hook/media-query": "^1.1.1",
+    "@sentry/nextjs": "^8.26.0",
     "@tailwindcss/typography": "^0.5.13",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",

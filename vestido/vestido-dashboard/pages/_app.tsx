@@ -8,6 +8,7 @@ import { Toaster } from '@vestido-ecommerce/shadcn-ui/toaster';
 
 import AuthorizedLayout from '../layouts/authorized';
 import { NextPageWithLayout } from '../types/layout';
+import SentryErrorBoundary from './sentry';
 
 import './styles.css';
 type AppPropsWithLayout = AppProps & {
@@ -70,17 +71,19 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
     ((page) => <AuthorizedLayout>{page}</AuthorizedLayout>);
 
   return (
-    <PostHogProvider>
-      <div className={myFont.className}>
-        <Head>
-          <title>Dashboard - VN</title>
-        </Head>
-        <AuthProvider loginRoute="/auth/login">
-          {getLayout(<Component {...pageProps} />)}
-        </AuthProvider>
-        <Toaster />
-      </div>
-    </PostHogProvider>
+    <SentryErrorBoundary>
+      <PostHogProvider>
+        <div className={myFont.className}>
+          <Head>
+            <title>Dashboard - VN</title>
+          </Head>
+          <AuthProvider loginRoute="/auth/login">
+            {getLayout(<Component {...pageProps} />)}
+          </AuthProvider>
+          <Toaster />
+        </div>
+      </PostHogProvider>
+    </SentryErrorBoundary>
   );
 }
 

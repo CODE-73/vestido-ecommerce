@@ -43,11 +43,7 @@ const cards: CategoryCardData[] = [
   },
 ];
 
-type CategoryCardProps = {
-  className?: string;
-};
-
-export const CategoryCards: FC<CategoryCardProps> = (props) => {
+export const CategoryCards: FC = () => {
   return (
     <div className="w-full lg:w-auto overflow-x-auto no-scrollbar sm:pt-4 lg:pt-10">
       <div className="flex space-x-4 lg:space-x-2 px-4 lg:justify-center">

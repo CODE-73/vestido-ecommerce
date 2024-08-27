@@ -50,7 +50,7 @@ function Combobox({
   onBlur,
   onSearch,
   nullable,
-  isLoading,
+  isLoading: _isLoading,
   multiple,
   values = [],
   className,
