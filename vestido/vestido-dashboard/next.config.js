@@ -3,6 +3,7 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { composePlugins, withNx } = require('@nx/next');
 const { withSentryConfig: _withSentryConfig } = require('@sentry/nextjs');
+const { version } = require('../../package.json');
 
 const R2_NEXT_IMAGE_HOSTNAME = process.env.R2_NEXT_IMAGE_HOSTNAME || '';
 
@@ -47,6 +48,9 @@ const nextConfig = {
       };
     }
     return config;
+  },
+  env: {
+    NEXT_PUBLIC_APP_VERSION: version,
   },
 };
 

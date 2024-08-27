@@ -3,7 +3,7 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { composePlugins, withNx } = require('@nx/next');
 const { withSentryConfig: _withSentryConfig } = require('@sentry/nextjs');
-
+const { version } = require('../../package.json');
 /**
  * @type {import('@nx/next/plugins/with-nx').WithNxOptions}
  **/
@@ -44,6 +44,9 @@ const nextConfig = {
     domains: [
       'vestido.45fff1c9b9ec39d339c480173cd09d22.r2.cloudflarestorage.com',
     ],
+  },
+  env: {
+    NEXT_PUBLIC_APP_VERSION: version,
   },
 };
 

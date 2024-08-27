@@ -1,5 +1,6 @@
 {
   "name": "vestido-storefront",
+  "version": "0.0.1",
   "devDependencies": {
     "@capacitor/android": "../../node_modules/@capacitor/android",
     "@capacitor/assets": "^3.0.5",
