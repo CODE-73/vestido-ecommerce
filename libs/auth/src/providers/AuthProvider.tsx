@@ -8,6 +8,7 @@ import {
 import { useRouter } from 'next/router';
 
 import { type Profile } from '@prisma/client';
+import * as Sentry from '@sentry/nextjs';
 import { usePostHog } from 'posthog-js/react';
 
 type AuthContextValue = {
@@ -78,6 +79,11 @@ export const AuthProvider = ({
           posthog.identify(profile.id, {
             ...profile,
           });
+          Sentry.setUser({
+            id: profile.id,
+            email: profile.email || profile.mobile || '',
+            username: `${profile.firstName} ${profile.lastName}`.trim(),
+          });
         },
         logout: () => {
           localStorage.removeItem('token');
@@ -87,6 +93,7 @@ export const AuthProvider = ({
             ...profile,
           });
           posthog.reset();
+          Sentry.setUser(null);
         },
         routeToLogin: () => {
           router.push(loginRoute);
