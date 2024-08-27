@@ -11,7 +11,7 @@ export const CreateFulfillmentSchema = z.object({
   breadth: z.number().optional(),
   height: z.number().optional(),
   weight: z.number().optional(),
-  fulfillmentItems: z.array(FulfillmentItemSchema),
+  items: z.array(FulfillmentItemSchema),
 });
 
 export type CreateFulfillmentSchemaType = z.infer<

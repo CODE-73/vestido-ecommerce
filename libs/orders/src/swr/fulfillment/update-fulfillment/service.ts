@@ -1,5 +1,3 @@
-import axios from 'axios'; // Import Axios
-
 import {
   UpdateFulfillmentRequest,
   UpdateFulfillmentResponse,
@@ -9,20 +7,22 @@ export async function updateFulfillmentDetails(
   args: UpdateFulfillmentRequest,
   authHeaders: Record<string, string>,
 ): Promise<UpdateFulfillmentResponse> {
-  try {
-    const r = await axios.put(
-      `/api/fulfillment/${encodeURIComponent(args.fulfillmentId)}`,
-      args,
-      {
-        headers: {
-          ...authHeaders,
-        },
+  const r = await fetch(
+    `/api/fulfillments/${encodeURIComponent(args.fulfillmentId)}`,
+    {
+      method: 'PUT',
+      headers: {
+        ...authHeaders,
+        'Content-Type': 'application/json',
       },
-    );
+      body: JSON.stringify(args),
+    },
+  );
 
-    return r.data as UpdateFulfillmentResponse;
-  } catch (error) {
-    console.error('Error updating fulfillment', error);
+  if (!r.ok) {
+    console.error('Error updating fulfillment', await r.text());
     throw new Error('Error updating fulfillment');
   }
+
+  return (await r.json()) as UpdateFulfillmentResponse;
 }

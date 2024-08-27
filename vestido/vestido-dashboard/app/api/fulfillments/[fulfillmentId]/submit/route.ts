@@ -18,7 +18,6 @@ export async function POST(
         },
       });
     }
-    const body = await request.json();
 
     const isFulfillmentExist = await getFulfillment(params.fulfillmentId);
 
@@ -33,7 +32,7 @@ export async function POST(
         },
       );
     }
-    const fulfillment = await submitFulfillment(params.fulfillmentId, body);
+    const fulfillment = await submitFulfillment(params.fulfillmentId);
     return new Response(JSON.stringify({ success: true, data: fulfillment }), {
       headers: {
         'Content-Type': 'application/json',

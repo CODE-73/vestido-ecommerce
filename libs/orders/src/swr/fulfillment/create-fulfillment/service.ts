@@ -1,5 +1,3 @@
-import axios from 'axios'; // Import Axios
-
 import {
   CreateFulfillmentRequest,
   CreateFulfillmentResponse,
@@ -9,20 +7,22 @@ export async function createNewFulfillment(
   args: CreateFulfillmentRequest,
   authHeaders: Record<string, string>,
 ): Promise<CreateFulfillmentResponse> {
-  try {
-    const r = await axios.post(
-      `/api/orders/${encodeURIComponent(args.orderId)}/fulfillment`,
-      args,
-      {
-        headers: {
-          ...authHeaders,
-        },
+  const r = await fetch(
+    `/api/orders/${encodeURIComponent(args.orderId)}/fulfillments`,
+    {
+      method: 'POST',
+      headers: {
+        ...authHeaders,
+        'Content-Type': 'application/json',
       },
-    );
+      body: JSON.stringify(args),
+    },
+  );
 
-    return r.data as CreateFulfillmentResponse;
-  } catch (error) {
-    console.error('Error creating fulfillment', error);
+  if (!r.ok) {
+    console.error('Error creating fulfillment', await r.text());
     throw new Error('Error creating fulfillment');
   }
+
+  return (await r.json()) as CreateFulfillmentResponse;
 }

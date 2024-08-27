@@ -3,7 +3,7 @@ import { FulfillmentDetailsResponse } from './../../../../../orders/src/services
 export async function getFulfillmentDetails(
   fulfillmentId: string,
 ): Promise<FulfillmentDetailsResponse> {
-  const url = `/api/items/${encodeURIComponent(fulfillmentId)}`;
+  const url = `/api/fulfillments/${encodeURIComponent(fulfillmentId)}`;
   const r = await fetch(url);
   if (!r.ok) {
     throw new Error('Error Fetching flfillment Details');

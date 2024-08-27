@@ -1,27 +1,27 @@
-import axios from 'axios'; // Import Axios
-
 import {
   UpdateFulfillmentRequest,
   UpdateFulfillmentResponse,
 } from 'libs/orders/src/services/fulfillment/update-fulfillment/type';
 
 export async function submitFulfillmentDetails(
-  args: UpdateFulfillmentRequest,
+  fulfillmentId: string,
   authHeaders: Record<string, string>,
 ): Promise<UpdateFulfillmentResponse> {
-  try {
-    const r = await axios.put(
-      `/api/fulfillment/${encodeURIComponent(args.fulfillmentId)}/submit`,
-      args,
-      {
-        headers: {
-          ...authHeaders,
-        },
+  const r = await fetch(
+    `/api/fulfillments/${encodeURIComponent(fulfillmentId)}/submit`,
+    {
+      method: 'POST',
+      headers: {
+        ...authHeaders,
+        'Content-Type': 'application/json',
       },
-    );
+    },
+  );
 
-    return r.data as UpdateFulfillmentResponse;
-  } catch (error) {
+  if (!r.ok) {
+    console.error('Error submitting fulfillment', await r.text());
     throw new Error('Error submitting fulfillment');
   }
+
+  return (await r.json()) as UpdateFulfillmentResponse;
 }

@@ -21,8 +21,8 @@ export const useSubmitFulfillment = () => {
     UpdateFulfillmentResponse,
     Error,
     string[] | null,
-    UpdateFulfillmentRequest
-  >(key, (_, { arg }) => submitFulfillmentDetails({ ...arg }, authHeaders), {
+    string
+  >(key, (_, { arg }) => submitFulfillmentDetails(arg, authHeaders), {
     ...useClearCacheOnSuccess(SubmitFulfillmentSWRKeys.FULFILLMENT),
   });
 };
