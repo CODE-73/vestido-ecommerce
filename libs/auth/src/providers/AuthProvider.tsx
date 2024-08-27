@@ -13,6 +13,7 @@ type AuthContextValue = {
   token: string | null;
   authHeaders: Record<string, string>;
   setToken: (token: string) => void;
+  logout: () => void;
   routeToLogin: () => void;
 };
 
@@ -45,7 +46,7 @@ export const AuthProvider = ({
       router.push(loginRoute); // Redirect to your login page
     }
     setAuthLoaded(true);
-  }, []);
+  }, [router.asPath]);
 
   if (!authLoaded) {
     return fallback;
@@ -63,6 +64,10 @@ export const AuthProvider = ({
         setToken: (token: string) => {
           localStorage.setItem('token', token);
           setToken(token);
+        },
+        logout: () => {
+          localStorage.removeItem('token');
+          setToken(null);
         },
         routeToLogin: () => {
           router.push(loginRoute);
