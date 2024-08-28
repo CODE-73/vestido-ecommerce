@@ -301,6 +301,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
         <hr className="border-t-1 border-slate-400 my-4 w-full" />
         <div className="text-lg font-semibold">Size Availability</div>
         <ProductSizeForm />
+        <hr className="border-t-1 border-slate-400 my-4 w-full" />
 
         <div className="text-lg font-semibold">Product Images</div>
         <MultiImageUploaderElement name="images" />
