@@ -9,8 +9,11 @@ const Profile: React.FC = () => {
 
   return (
     <div className="md:px-10 lg:px-32">
-      <div className="font-semibold text-lg py-4 ">Profile Details</div> <hr />
-      <div className="flex gap-3 my-4">
+      <div className="font-semibold text-lg py-4 hidden md:block">
+        Profile Details
+      </div>
+      <hr className="border-gray-600 " />
+      <div className="flex gap-3 my-4 ">
         <div className="basis-1/2 ">Full Name &nbsp;</div>
         <div className="uppercase basis-1/2">
           {currentUser?.firstName}&nbsp;{currentUser?.lastName}
