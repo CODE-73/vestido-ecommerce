@@ -33,6 +33,7 @@ import { RadioGroupElement } from '../../forms/radio-group-element';
 import { SwitchElement } from '../../forms/switch-element';
 import { TextAreaElement } from '../../forms/textarea-element';
 import VariantsTable from '../variants/VariantsTable';
+import ProductSizeForm from './ProductSizeForm';
 
 const CreateProductFormSchema = z.object({
   title: z
@@ -47,7 +48,7 @@ const CreateProductFormSchema = z.object({
     .min(2, { message: 'Please provide description for the product' }),
   categoryId: z.string().min(2, { message: 'You have to choose a category' }),
 
-  hasVariants: z.boolean().default(false),
+  hasVariants: z.boolean().default(true),
   stockStatus: z
     .nativeEnum(StockStatus)
     .default('AVAILABLE' satisfies StockStatus),
@@ -91,7 +92,7 @@ const defaultValues = {
   description: '',
   categoryId: '',
   gender: ['MEN', 'WOMEN'],
-  hasVariants: false,
+  hasVariants: true,
   stockStatus: 'AVAILABLE',
   images: [],
   discountPercent: 0,
@@ -287,7 +288,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
               />
             )}
           </div>
-          <div>
+          {/* TODO: hasVariants field is disabled for now. */}
+          <div className="hidden">
             <SwitchElement
               // disabled={!isNew && no_of_variants > 0}
               className="my-10"
@@ -296,7 +298,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
             />
           </div>
         </div>
-        <hr className="border-t-1 border-slate-400 mb-4 w-full" />
+        <hr className="border-t-1 border-slate-400 my-4 w-full" />
+        <div className="text-lg font-semibold">Size Availability</div>
+        <ProductSizeForm />
+
         <div className="text-lg font-semibold">Product Images</div>
         <MultiImageUploaderElement name="images" />
 

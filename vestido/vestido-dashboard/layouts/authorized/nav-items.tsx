@@ -27,12 +27,12 @@ export const navItems: NavigationItem[] = [
     href: '/products',
     // icon: <LuShoppingCart />,
   },
-  {
-    id: 'Item Attribute',
-    label: 'Item Attribute',
-    href: '/attributes',
-    // icon: <LuBook />,
-  },
+  // {
+  //   id: 'Item Attribute',
+  //   label: 'Item Attribute',
+  //   href: '/attributes',
+
+  // },
   {
     id: 'Orders',
     label: 'Orders',
