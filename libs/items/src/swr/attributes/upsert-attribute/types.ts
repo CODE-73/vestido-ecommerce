@@ -4,6 +4,6 @@ export type attributeUpsertRequest = Partial<ItemAttribute>;
 
 export type attributeUpsertResponse = {
   data: ItemAttribute & {
-    ItemAttributeValues: ItemAttributeValue[];
+    values: ItemAttributeValue[];
   };
 };

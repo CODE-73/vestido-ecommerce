@@ -7,7 +7,7 @@ export async function attributeDetails(attributeId: string) {
       id: attributeId,
     },
     include: {
-      ItemAttributeValues: true,
+      values: true,
     },
   });
   // no try..catch here

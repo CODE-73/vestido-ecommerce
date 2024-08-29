@@ -2,6 +2,7 @@ import React from 'react';
 
 import { useAttributes } from '@vestido-ecommerce/items/client';
 import { Card } from '@vestido-ecommerce/shadcn-ui/card';
+import { Label } from '@vestido-ecommerce/shadcn-ui/label';
 import {
   Select,
   SelectContent,
@@ -12,6 +13,7 @@ import {
   SelectValue,
 } from '@vestido-ecommerce/shadcn-ui/select';
 
+import { InputElement } from '../../forms/input-element';
 import { SwitchElement } from '../../forms/switch-element';
 
 const ProductSizeForm = () => {
@@ -31,21 +33,18 @@ const ProductSizeForm = () => {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 mt-3">
-      {sizeAttribute.ItemAttributeValues.map((size, index) => (
+      {sizeAttribute.values.map((size, index) => (
         <Card key={index} className="p-3">
           <div className="flex justify-between">
-            {' '}
             <div className="uppercase"> {size.value}</div>
-            <div>
-              <SwitchElement name="enabled" />
-            </div>
+            <SwitchElement name="enabled" />
           </div>
 
-          <div className="mt-4">
-            {' '}
+          <div className="flex flex-col gap-2 mt-4">
+            <Label>Stock</Label>
             <Select>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Stock Status" />
+              <SelectTrigger>
+                <SelectValue placeholder="Select Stock Status" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
@@ -56,6 +55,7 @@ const ProductSizeForm = () => {
                 </SelectGroup>
               </SelectContent>
             </Select>
+            <InputElement name="sku" placeholder="SKU" label="SKU" />
           </div>
         </Card>
       ))}

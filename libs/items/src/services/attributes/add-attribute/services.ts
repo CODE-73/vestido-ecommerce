@@ -11,7 +11,7 @@ export async function createAttribute(body: CreateAttributeSchemaType) {
     data: {
       name: validatedData.name,
       description: validatedData.description,
-      ItemAttributeValues: {
+      values: {
         createMany: {
           data: validatedData.itemAttributeValues ?? [],
         },

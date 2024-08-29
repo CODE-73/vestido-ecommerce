@@ -6,6 +6,6 @@ export type UpdateAttributeRequest = UpdateAttributeSchemaType;
 
 export type UpdateAttributeResponse = {
   data: ItemAttribute & {
-    ItemAttributeValues: ItemAttributeValue[];
+    values: ItemAttributeValue[];
   };
 };

@@ -16,7 +16,7 @@ const OrdersView: React.FC = () => {
   };
   const attrValue = (attributeValueId: string) => {
     return attributes
-      ?.flatMap((attribute) => attribute.ItemAttributeValues)
+      ?.flatMap((attribute) => attribute.values)
       .find((x) => x.id === attributeValueId);
   };
 

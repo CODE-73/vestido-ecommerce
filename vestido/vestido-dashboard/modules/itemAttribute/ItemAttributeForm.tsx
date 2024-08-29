@@ -73,7 +73,7 @@ const ItemAttributeForm: React.FC<ItemAttributeFormProps> = ({
       form.reset({
         name: itemAttribute.name,
         description: itemAttribute.description,
-        itemAttributeValues: itemAttribute.ItemAttributeValues,
+        itemAttributeValues: itemAttribute.values,
       });
     }
   }, [isNew, itemAttribute, form]);

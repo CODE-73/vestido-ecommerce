@@ -9,7 +9,7 @@ export async function listAttribute(_args: ListAttributesRequest) {
 
   const listAttribute = await prisma.itemAttribute.findMany({
     include: {
-      ItemAttributeValues: true,
+      values: true,
     },
     ...(args?.q
       ? {

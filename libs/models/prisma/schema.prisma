@@ -145,7 +145,7 @@ model ItemAttribute {
     id                    String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     name                  String
     description           String?
-    ItemAttributeValues   ItemAttributeValue[]
+    values   ItemAttributeValue[]
     VariantAttributeValue VariantAttributeValue[]
 }
 
