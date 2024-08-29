@@ -22,3 +22,7 @@ type IgnorePrismaBuiltins<S extends string> = string extends S
 
 // https://github.com/prisma/prisma/issues/11940#issuecomment-2093185294
 export type PrismaModelName = IgnorePrismaBuiltins<keyof PrismaClient & string>;
+
+export type PrismaTransactionalClient = Parameters<
+  Parameters<PrismaClient['$transaction']>[0]
+>[0];

@@ -1,4 +1,4 @@
-import { itemDetails } from '@vestido-ecommerce/items';
+import { getItemDetails } from '@vestido-ecommerce/items';
 
 export const dynamic = 'force-dynamic'; // static by default, unless reading the request
 
@@ -7,7 +7,7 @@ export async function GET(
   { params }: { params: { slug: string } },
 ) {
   try {
-    const item = await itemDetails(params.slug);
+    const item = await getItemDetails(params.slug);
 
     return new Response(
       JSON.stringify({

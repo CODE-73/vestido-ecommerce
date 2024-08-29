@@ -1,6 +1,10 @@
 import { ZodError } from 'zod';
 
-import { deleteItem, itemDetails, updateItem } from '@vestido-ecommerce/items';
+import {
+  deleteItem,
+  getItemDetails,
+  updateItem,
+} from '@vestido-ecommerce/items';
 
 export const dynamic = 'force-dynamic'; // static by default, unless reading the request
 
@@ -9,7 +13,7 @@ export async function GET(
   { params }: { params: { item_id: string } },
 ) {
   try {
-    const item = await itemDetails(params.item_id);
+    const item = await getItemDetails(params.item_id);
 
     return new Response(
       JSON.stringify({

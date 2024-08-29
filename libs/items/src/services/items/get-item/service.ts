@@ -1,9 +1,15 @@
 import { populateImageURLs } from '@vestido-ecommerce/caching';
-import { getPrismaClient } from '@vestido-ecommerce/models';
+import {
+  getPrismaClient,
+  PrismaTransactionalClient,
+} from '@vestido-ecommerce/models';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
-export async function itemDetails(itemId: string) {
-  const prisma = getPrismaClient();
+export async function getItemDetails(
+  itemId: string,
+  _prisma?: PrismaTransactionalClient,
+) {
+  const prisma = _prisma ?? getPrismaClient();
 
   const item = await prisma.item.findUnique({
     where: {

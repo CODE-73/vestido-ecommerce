@@ -1,16 +1,9 @@
-// import { Item, ItemVariant, VariantAttributeValue } from '@prisma/client';
-// import { ImageSchemaType } from '@vestido-ecommerce/utils';
-import { itemDetails } from './service';
+import { getItemDetails } from './service';
 
-// export type ItemDetailsResponse = {
-//   data: Item & {
-//     images: ImageSchemaType[];
-//     variants: (ItemVariant & {
-//       attributeValues: VariantAttributeValue[];
-//     })[];
-//   };
-// };
+export type ItemDetails = NonNullable<
+  Awaited<ReturnType<typeof getItemDetails>>
+>;
 
 export type ItemDetailsResponse = {
-  data: Awaited<ReturnType<typeof itemDetails>>;
+  data: ItemDetails | null;
 };

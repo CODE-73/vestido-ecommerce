@@ -1,6 +1,8 @@
 import { Item } from '@prisma/client';
 
-export type ItemUpsertRequest = Partial<Item>;
+import { ItemUpsertSchemaType } from '../../../services';
+
+export type ItemUpsertRequest = ItemUpsertSchemaType;
 
 export type ItemUpsertResponse = {
   data: Item;

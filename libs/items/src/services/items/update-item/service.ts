@@ -4,13 +4,15 @@ import { addThumbhashToImages } from '@vestido-ecommerce/caching';
 import { getPrismaClient } from '@vestido-ecommerce/models';
 
 import { validateSlug } from '../../slug';
-import { UpdateItemSchema, UpdateItemSchemaType } from './zod';
+import { getItemDetails } from '../get-item';
+import { upsertSizeVariants } from '../upsert-size-variants';
+import { ItemUpsertSchema, ItemUpsertSchemaType } from '../zod';
 
-export async function updateItem(itemId: string, data: UpdateItemSchemaType) {
+export async function updateItem(itemId: string, data: ItemUpsertSchemaType) {
   const prisma = getPrismaClient();
 
   // validate zod here
-  const validatedData = UpdateItemSchema.parse(data);
+  const validatedData = ItemUpsertSchema.parse(data);
   validatedData.slug = await validateSlug({
     id: itemId,
     generateFrom: validatedData.title,
@@ -37,16 +39,20 @@ export async function updateItem(itemId: string, data: UpdateItemSchemaType) {
     }
   }
 
-  await addThumbhashToImages(validatedData.images);
+  await addThumbhashToImages(validatedData.images ?? []);
 
-  const updatedItem = await prisma.item.update({
-    where: {
-      id: itemId,
-    },
-    data: {
-      ...validatedData,
-    },
+  const { variants, ...itemData } = validatedData;
+  await prisma.$transaction(async (prisma) => {
+    await prisma.item.update({
+      where: {
+        id: itemId,
+      },
+      data: {
+        ...itemData,
+      },
+    });
+    await upsertSizeVariants(prisma, itemId, variants ?? []);
   });
 
-  return updatedItem;
+  return await getItemDetails(itemId);
 }
