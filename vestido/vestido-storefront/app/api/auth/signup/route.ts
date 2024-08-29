@@ -25,7 +25,12 @@ export async function POST(request: Request) {
 
       if (isOtpVerfied) {
         const newUser = await signUp(body);
-        const token = await makeJWTToken(newUser.id);
+        const token = await makeJWTToken({
+          id: newUser.id,
+          fullName: `${newUser.firstName} ${newUser.lastName}`.trim(),
+          email: newUser.email,
+          mobile: newUser.mobile,
+        });
 
         return new Response(JSON.stringify({ success: true, newUser, token }), {
           headers: {
