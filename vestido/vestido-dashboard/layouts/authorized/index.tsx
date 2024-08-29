@@ -21,14 +21,13 @@ const AuthorizedLayout: React.FC<AuthorizedLayoutProps> = ({ children }) => {
   };
   return (
     <>
-      <div className="h-screen bg-background flex flex-row">
+      <div className="bg-background flex flex-row">
         <div
-          className="h-screen hidden sm:flex sm:flex-col"
+          className="hidden sm:flex sm:flex-col h-screen sticky top-0"
           style={{
             width: '200px',
             zIndex: 20,
             borderRight: '1px solid #E3E7F3',
-            //   backgroundColor: 'green',
           }}
         >
           <div className="flex w-full h-20 items-center px-4 my-5">
@@ -105,6 +104,7 @@ const AuthorizedLayout: React.FC<AuthorizedLayoutProps> = ({ children }) => {
                 </div>
               </Link>
             ))}
+            <LogoutButton />
           </div>
         )}
       </div>
