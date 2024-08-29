@@ -14,7 +14,12 @@ export async function POST(request: Request) {
     if (user && user.role === 'ADMIN') {
       const isOtpVerfied = await verifyOTP(body);
       if (isOtpVerfied) {
-        const token = await makeJWTToken(user.id);
+        const token = await makeJWTToken({
+          id: user.id,
+          fullName: `${user.firstName} ${user.lastName}`.trim(),
+          email: user.email,
+          mobile: user.mobile,
+        });
         return new Response(JSON.stringify({ success: true, user, token }), {
           headers: {
             'Content-Type': 'application.json',
