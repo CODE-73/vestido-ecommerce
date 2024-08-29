@@ -24,13 +24,12 @@ export async function verifyAuth(request: Request): Promise<VerifyResponse> {
       };
     }
 
-    const decodedToken = await verifyJWTToken(token as string);
+    const profile = await verifyJWTToken(token as string);
     return {
       authenticated: true,
       token,
-      // @ts-expect-error TODO: Type this better
-      profileId: JSON.parse(decodedToken).id,
-      data: decodedToken,
+      profileId: profile.id,
+      data: profile,
     };
   } catch (e) {
     return {
