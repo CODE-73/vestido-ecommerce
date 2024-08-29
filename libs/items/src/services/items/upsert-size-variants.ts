@@ -2,7 +2,7 @@ import {
   getPrismaClient,
   PrismaTransactionalClient,
 } from '@vestido-ecommerce/models';
-import { slugify } from '@vestido-ecommerce/utils';
+import { slugify, VestidoError } from '@vestido-ecommerce/utils';
 
 import { getItemDetails, ItemDetails } from './get-item';
 import { ItemVariantWithSize } from './zod';
@@ -17,7 +17,10 @@ export async function upsertSizeVariants(
   const sizeAttribute = await getSizeAttribute();
   const item = await getItemDetails(itemId, prisma);
   if (!item) {
-    throw new Error('Item does not exist');
+    throw new VestidoError({
+      message: `Cannot find expected item: ${itemId}`,
+      name: 'SystemErrorItemNotFound',
+    });
   }
 
   const existingVariants = item?.variants ?? [];
@@ -40,7 +43,10 @@ export async function upsertSizeVariants(
 
     // Existing Variant Logic.
     if (!existingVariantSizeMap[variant.id]) {
-      throw new Error('Existing Variant not found');
+      throw new VestidoError({
+        message: `Existing Variant not found: ${variant.id}`,
+        name: 'SystemErrorVariantNotFound',
+      });
     }
 
     // Has the Size changed?
@@ -50,7 +56,10 @@ export async function upsertSizeVariants(
       )?.attributeValues?.[0]?.id;
 
       if (!variantAttributeValueId) {
-        throw new Error('Variant Attribute Value does not exist / LogicError');
+        throw new VestidoError({
+          message: `Variant Attribute Value does not exist: ${variant.id}`,
+          name: 'SystemErrorVariantAttributeValueNotFound',
+        });
       }
 
       await prisma.variantAttributeValue.update({
@@ -128,7 +137,10 @@ async function getSizeAttribute() {
   `) as unknown as Array<{ id: string }>;
 
   if (!sizeAttributeIds || sizeAttributeIds.length === 0) {
-    throw new Error('Size Attribute does not exist');
+    throw new VestidoError({
+      message: 'Size Attribute does not exist',
+      name: 'SystemErrorSizeAttributeNotFound',
+    });
   }
 
   const sizeAttributeId = sizeAttributeIds[0].id;
@@ -141,7 +153,10 @@ async function getSizeAttribute() {
   `) as unknown as Array<{ id: string; value: string }>;
 
   if (!sizeAttribute || sizeAttribute.length === 0) {
-    throw new Error('Size Attribute does not exist');
+    throw new VestidoError({
+      message: 'Size Attribute Values not found',
+      name: 'SystemErrorSizeAttributeValuesNotFound',
+    });
   }
 
   return {
