@@ -1,89 +1,56 @@
-import { ZodError } from 'zod';
-
 import {
   makeJWTToken,
   signUp,
   verifyOTP,
   verifyUserExist,
 } from '@vestido-ecommerce/auth';
+import { apiRouteHandler, VestidoError } from '@vestido-ecommerce/utils';
 
-export async function POST(request: Request) {
-  try {
-    const body = await request.json();
-    const mobile = body.mobile;
-    const otp = body.otp;
+export const POST = apiRouteHandler(async ({ request }) => {
+  const body = await request.json();
+  const mobile = body.mobile;
+  const otp = body.otp;
 
-    const verifyOtpBody = {
-      mobile,
-      otp,
-    };
+  const verifyOtpBody = {
+    mobile,
+    otp,
+  };
 
-    const user = await verifyUserExist({ mobile: mobile });
-
-    if (!user) {
-      const isOtpVerfied = await verifyOTP(verifyOtpBody);
-
-      if (isOtpVerfied) {
-        const newUser = await signUp(body);
-        const token = await makeJWTToken({
-          id: newUser.id,
-          fullName: `${newUser.firstName} ${newUser.lastName}`.trim(),
-          email: newUser.email,
-          mobile: newUser.mobile,
-        });
-
-        return new Response(JSON.stringify({ success: true, newUser, token }), {
-          headers: {
-            'Content-Type': 'application.json',
-          },
-        });
-      } else {
-        return new Response(
-          JSON.stringify({
-            success: false,
-            message: 'OTP verification failed',
-          }),
-          {
-            headers: {
-              'Content-Type': 'application.json',
-            },
-          },
-        );
-      }
-    } else {
-      return new Response(
-        JSON.stringify({
-          success: false,
-          message: 'User already exist. Please proceed to login',
-        }),
-        {
-          headers: {
-            'Content-Type': 'application.json',
-          },
-        },
-      );
-    }
-  } catch (e) {
-    if (e instanceof ZodError) {
-      return new Response(JSON.stringify({ success: false, error: e }), {
-        status: 400,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    } else {
-      console.error('Unexpected Error', e);
-      return new Response(
-        JSON.stringify({
-          message: 'Unknown Error',
-        }),
-        {
-          status: 500,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      );
-    }
+  const existingUser = await verifyUserExist({ mobile: mobile });
+  if (existingUser) {
+    throw new VestidoError({
+      name: 'UserAlreadyExists',
+      message: 'User already exist. Please proceed to login',
+      httpStatus: 400,
+      context: {
+        mobile,
+      },
+    });
   }
-}
+
+  const isOtpVerfied = await verifyOTP(verifyOtpBody);
+  if (!isOtpVerfied) {
+    throw new VestidoError({
+      name: 'OTPVerificationFailed',
+      message: 'OTP verification failed',
+      httpStatus: 400,
+      context: {
+        mobile,
+        incomingOTP: otp,
+      },
+    });
+  }
+
+  const newUser = await signUp(body);
+  const token = await makeJWTToken({
+    id: newUser.id,
+    fullName: `${newUser.firstName} ${newUser.lastName}`.trim(),
+    email: newUser.email,
+    mobile: newUser.mobile,
+  });
+
+  return {
+    user: newUser,
+    token,
+  };
+});

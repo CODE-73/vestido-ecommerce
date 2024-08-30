@@ -78,6 +78,19 @@ export const authMiddleware: RouteHandlerMiddleware = async ({
   }
 };
 
+export function getAuthContext(): AuthResponse {
+  const ctx = authStorage.getStore();
+  if (!ctx) {
+    throw new VestidoError({
+      name: 'SystemErrorAuthContextNotFound',
+      message: 'Auth Context not found. Verify authMiddleware is used.',
+      httpStatus: 500,
+    });
+  }
+
+  return ctx;
+}
+
 function isJWTException(e: unknown): e is jwt.VerifyErrors {
   if (
     e instanceof jwt.JsonWebTokenError ||

@@ -1,3 +1,5 @@
+import { NextRequest } from 'next/server';
+
 import * as Sentry from '@sentry/nextjs';
 import { ZodError } from 'zod';
 import { fromError } from 'zod-validation-error';
@@ -8,7 +10,7 @@ export type RouteHandlerMiddlewareNext = () => Promise<
   Response | unknown | void
 >;
 export type RouteHandlerMiddleware = (params: {
-  request: Request;
+  request: NextRequest;
   next: RouteHandlerMiddlewareNext;
   params: Record<string, string>;
 }) => Promise<Response | unknown | void>;
@@ -16,7 +18,7 @@ export type RouteHandlerMiddleware = (params: {
 export const apiRouteHandler =
   (...middleware: RouteHandlerMiddleware[]) =>
   async (
-    request: Request,
+    request: NextRequest,
     params: { params: Record<string, string> },
   ): Promise<Response> => {
     let result;

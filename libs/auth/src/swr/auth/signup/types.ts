@@ -8,6 +8,8 @@ export type SignUpRequest = {
 
 export type SignUpResponse = {
   success: boolean;
-  user: Profile;
-  token: string;
+  data: {
+    user: Profile;
+    token: string;
+  };
 };

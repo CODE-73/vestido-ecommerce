@@ -54,7 +54,7 @@ const LoginForm: React.FC<Props> = ({ mobile }) => {
         otp: data.otp,
       });
       if (r.success) {
-        onLogin(r.user, r.token);
+        onLogin(r.data.user, r.data.token);
         router.push('/');
       } else {
         form.setError('otp', {

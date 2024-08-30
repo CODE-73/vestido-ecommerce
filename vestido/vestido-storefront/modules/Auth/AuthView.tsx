@@ -45,13 +45,13 @@ const AuthView: React.FC = () => {
   const [userMobile, setUserMobile] = useState('');
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    const response = await trigger({
+    const { data: { userExists } = { userExists: false } } = await trigger({
       mobile: data.mobile,
     });
     setOtpSent(true);
     setUserMobile(data.mobile);
-    if (response?.userExists !== undefined) {
-      setUserExists(response.userExists);
+    if (userExists !== undefined) {
+      setUserExists(userExists);
     }
   }
 

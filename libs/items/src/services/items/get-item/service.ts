@@ -3,7 +3,7 @@ import {
   getPrismaClient,
   PrismaTransactionalClient,
 } from '@vestido-ecommerce/models';
-import { ImageSchemaType } from '@vestido-ecommerce/utils';
+import { ImageSchemaType, VestidoError } from '@vestido-ecommerce/utils';
 
 export async function getItemDetails(
   itemId: string,
@@ -28,6 +28,17 @@ export async function getItemDetails(
       },
     },
   });
+
+  if (!item) {
+    throw new VestidoError({
+      name: 'ItemNotFound',
+      message: `Item ${itemId} not found`,
+      httpStatus: 404,
+      context: {
+        itemId,
+      },
+    });
+  }
 
   await populateImageURLs(item?.images as ImageSchemaType[]);
 

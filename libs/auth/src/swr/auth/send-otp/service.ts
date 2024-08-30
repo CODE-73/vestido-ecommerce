@@ -15,6 +15,5 @@ export async function sendOtp(args: SendOtpRequest): Promise<SendOtpResponse> {
   }
 
   const data = await r.json();
-  console.log('OTP sent successfully', data);
   return data as SendOtpResponse;
 }

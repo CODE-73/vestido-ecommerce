@@ -62,15 +62,16 @@ const SignupForm: React.FC<Props> = ({ mobile, onBackClick }) => {
 
   async function onSubmit(data: z.infer<typeof SignUpSchema>) {
     try {
-      const r = await trigger({
+      const {
+        data: { user, token },
+      } = await trigger({
         firstName: data.firstName,
         lastName: data.lastName,
         mobile: data.mobile,
         otp: data.otp,
       });
 
-      onLogin(r.user, r.token);
-
+      onLogin(user, token);
       router.push('/');
     } catch (error) {
       console.error('Login failed:', error);
