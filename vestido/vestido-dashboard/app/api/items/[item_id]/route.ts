@@ -8,34 +8,10 @@ import { apiRouteHandler } from '@vestido-ecommerce/utils';
 
 export const dynamic = 'force-dynamic'; // static by default, unless reading the request
 
-export async function GET(
-  request: Request,
-  { params }: { params: { item_id: string } },
-) {
-  try {
-    const item = await getItemDetails(params.item_id);
-
-    return new Response(
-      JSON.stringify({
-        success: true,
-        data: item,
-      }),
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-  } catch (e) {
-    console.error(e);
-    return new Response(JSON.stringify(e), {
-      status: 500,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  }
-}
+export const GET = apiRouteHandler(authMiddleware, async ({ params }) => {
+  const item = await getItemDetails(params.item_id);
+  return item;
+});
 
 export const PUT = apiRouteHandler(
   authMiddleware,
@@ -45,37 +21,7 @@ export const PUT = apiRouteHandler(
   },
 );
 
-export async function DELETE(
-  request: Request,
-  { params }: { params: { item_id: string } },
-) {
-  try {
-    await deleteItem(params.item_id);
-
-    return new Response(
-      JSON.stringify({
-        success: true,
-        deleted: params.item_id,
-      }),
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-  } catch (e) {
-    console.error(e);
-    return new Response(
-      JSON.stringify({
-        success: false,
-        error: e,
-      }),
-      {
-        status: 400,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-  }
-}
+export const DELETE = apiRouteHandler(authMiddleware, async ({ params }) => {
+  await deleteItem(params.item_id);
+  return params.item_id;
+});
