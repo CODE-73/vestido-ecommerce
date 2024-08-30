@@ -90,17 +90,12 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
   // const parentCategoryId = form.watch('parentCategoryId');
 
   const { trigger } = useCategoryUpsert();
-  const { data: { data: category } = { data: null } } = useCategory(
+  const { data: { data: category } = { data: null }, isLoading } = useCategory(
     isNew ? null : categoryId,
   );
 
-  const { isDirty, isValid, errors } = form.formState;
+  const { isDirty, isValid } = form.formState;
   const isSubmitting = form.formState.isSubmitting;
-  console.info({
-    isDirty,
-    isValid,
-    errors,
-  });
 
   useEffect(() => {
     if (!isNew && category) {
@@ -124,6 +119,14 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
       console.error('Error updating category:', e);
     }
   };
+
+  if ((!isNew && !category) || isLoading) {
+    return (
+      <div className="h-screen flex">
+        <span className="m-auto">Loading...</span>
+      </div>
+    );
+  }
 
   return (
     <Form {...form}>

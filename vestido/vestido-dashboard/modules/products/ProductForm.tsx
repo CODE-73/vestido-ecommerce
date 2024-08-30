@@ -97,7 +97,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
     }
   };
 
-  if (!item || isLoading) {
+  if ((!isNew && !item) || isLoading) {
     return (
       <div className="h-screen flex">
         <span className="m-auto">Loading...</span>

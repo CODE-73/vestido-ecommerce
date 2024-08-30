@@ -11,7 +11,7 @@ import CategoryTable from './CategoriesTable';
 
 const Categories: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const { data } = useCategories({ q: searchQuery });
+  const { data, isLoading } = useCategories({ q: searchQuery });
   const router = useRouter();
 
   const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,7 +52,13 @@ const Categories: React.FC = () => {
       </div>
 
       <div className="bg-white">
-        <CategoryTable data={data?.success ? data.data : []} />
+        {isLoading ? (
+          <div className="flex h-[60vh]">
+            <span className="m-auto">Loading...</span>
+          </div>
+        ) : (
+          <CategoryTable data={data?.success ? data.data : []} />
+        )}
       </div>
     </div>
   );
