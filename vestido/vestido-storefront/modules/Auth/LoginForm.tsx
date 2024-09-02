@@ -4,7 +4,6 @@ import { useRouter } from 'next/router';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { LuChevronLeft } from 'react-icons/lu';
 import { z } from 'zod';
 
 import { useLogin } from '@vestido-ecommerce/auth/client';
@@ -73,14 +72,11 @@ const LoginForm: React.FC<Props> = ({ mobile, onBackClick }) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-full max-w-[600px]  z-10 "
         >
-          <div className="flex items-center font-light hidden md:block">
-            <LuChevronLeft size={28} strokeWidth={0.5} />
-            Back
-          </div>
           <div className="bg-white space-y-6   rounded-[3rem] md:rounded-none p-3 md:p-10 pt-10 md:pt-auto">
             <div className="font-semibold md:text-xl xl:text-2xl">Login</div>
             <hr />
             <FormField
+              disabled
               control={form.control}
               name="mobile"
               render={({ field }) => (
@@ -122,7 +118,7 @@ const LoginForm: React.FC<Props> = ({ mobile, onBackClick }) => {
             <Button
               type="button"
               onClick={onBackClick}
-              className="w-full h-10 md:h-14 uppercase tracking-widest rounded-none bg-white border border-black text-black focus:text-white"
+              className="w-full h-10 md:h-14 uppercase tracking-widest rounded-none bg-white border border-black text-black hover:text-white focus:text-white"
             >
               Go Back
             </Button>

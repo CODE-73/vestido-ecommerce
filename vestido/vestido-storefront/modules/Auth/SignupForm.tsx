@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ProfileGender } from '@prisma/client';
 import { useForm } from 'react-hook-form';
-import { LuChevronLeft } from 'react-icons/lu';
 import { z } from 'zod';
 
 import { useAuth, useSignup } from '@vestido-ecommerce/auth/client';
@@ -85,13 +84,7 @@ const SignupForm: React.FC<Props> = ({ mobile, onBackClick }) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-full xl:w-3/4  z-10  max-w-[600px]  "
         >
-          {' '}
-          <div className="flex items-center font-light hidden md:block">
-            <LuChevronLeft size={28} strokeWidth={0.5} />
-            Back
-          </div>
           <div className="space-y-6 bg-white md:rounded-none  p-3 md:p-10 rounded-[3rem] pt-10 md:pt-auto">
-            {' '}
             <div className="font-semibold md:text-xl xl:text-2xl">Signup</div>
             <hr />
             <InputElement
@@ -123,6 +116,7 @@ const SignupForm: React.FC<Props> = ({ mobile, onBackClick }) => {
               wrapperClassName="flex space-x-8"
             />
             <FormField
+              disabled
               control={form.control}
               name="mobile"
               render={({ field }) => (
@@ -163,7 +157,7 @@ const SignupForm: React.FC<Props> = ({ mobile, onBackClick }) => {
             <Button
               type="button"
               onClick={onBackClick}
-              className="w-full h-10 md:h-14 uppercase tracking-widest rounded-none bg-white border border-black text-black focus:text-white"
+              className="w-full hover:text-white h-10 md:h-14 uppercase tracking-widest rounded-none bg-white border border-black text-black focus:text-white"
             >
               Go Back
             </Button>
