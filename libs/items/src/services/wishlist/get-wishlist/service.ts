@@ -29,6 +29,9 @@ export async function listWishlistItems(customerId: string) {
         },
       },
     },
+    orderBy: {
+      createdAt: 'asc',
+    },
   });
 
   await populateImageURLs(
