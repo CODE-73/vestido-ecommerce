@@ -14,3 +14,7 @@ export enum GetProfileSWRKeys {
   PROFILE = 'profile',
   DETAILS = 'details',
 }
+export enum UpdateProfileSWRKeys {
+  PROFILE = 'profile',
+  UPDATE = 'update',
+}
