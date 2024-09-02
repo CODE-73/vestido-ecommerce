@@ -88,7 +88,13 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
           : 'Product Updated Successfully',
       });
 
-      router.replace(`/products/${response.data.id}`);
+      if (isNew) {
+        router.replace(`/products/${response.data.id}`);
+      } else {
+        form.reset({
+          ...parseItemDetails(response.data),
+        });
+      }
     } catch (e) {
       console.error('Error updating item:', e);
       toast({
