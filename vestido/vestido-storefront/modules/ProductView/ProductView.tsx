@@ -532,7 +532,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
               <AccordionItem value="item-1" className="border-none">
                 <AccordionTrigger>Description</AccordionTrigger>
                 <AccordionContent>
-                  <Markdown className="prose text-white text-sm md:text-base">
+                  <Markdown className="prose prose-invert text-white text-sm md:text-base">
                     {item?.description}
                   </Markdown>
                 </AccordionContent>
