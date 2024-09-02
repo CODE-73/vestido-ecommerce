@@ -76,7 +76,6 @@ const LoginForm: React.FC<Props> = ({ mobile, onBackClick }) => {
             <div className="font-semibold md:text-xl xl:text-2xl">Login</div>
             <hr />
             <FormField
-              disabled
               control={form.control}
               name="mobile"
               render={({ field }) => (
@@ -84,6 +83,7 @@ const LoginForm: React.FC<Props> = ({ mobile, onBackClick }) => {
                   <FormLabel>Mobile</FormLabel>
                   <FormControl>
                     <Input
+                      disabled
                       className="h-12 rounded-none"
                       placeholder="mobile"
                       {...field}

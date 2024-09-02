@@ -116,7 +116,6 @@ const SignupForm: React.FC<Props> = ({ mobile, onBackClick }) => {
               wrapperClassName="flex space-x-8"
             />
             <FormField
-              disabled
               control={form.control}
               name="mobile"
               render={({ field }) => (
@@ -124,6 +123,7 @@ const SignupForm: React.FC<Props> = ({ mobile, onBackClick }) => {
                   <FormLabel>Mobile</FormLabel>
                   <FormControl>
                     <Input
+                      disabled
                       className="h-12 rounded-none"
                       placeholder="mobile"
                       {...field}
