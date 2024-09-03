@@ -1,9 +1,8 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
-import {
-  UpdateFulfillmentSchema,
-  UpdateFulfillmentSchemaType,
-} from '../update-fulfillment/zod';
-import { createShiprocketOrder } from './../../../../../third-party/shiprocket/src/services';
+import { createShiprocketOrder } from '@vestido-ecommerce/shiprocket';
+
+import { CreateAddressSchema } from '../../address/create-address/zod';
+import { submitFulfillmentSchema } from './zod';
 
 export async function submitFulfillment(fulfillmentId: string) {
   const prisma = getPrismaClient();
@@ -14,13 +13,14 @@ export async function submitFulfillment(fulfillmentId: string) {
       where: {
         id: fulfillmentId,
       },
-      select: {
-        status: true,
-        orderId: true, // Get the orderId associated with the fulfillment
+      include: {
         fulfillmentItems: {
-          select: {
-            orderItemId: true,
-            quantity: true,
+          include: {
+            orderItem: {
+              include: {
+                item: true,
+              },
+            },
           },
         },
       },
@@ -33,6 +33,9 @@ export async function submitFulfillment(fulfillmentId: string) {
     if (existingFulfillment.status !== 'DRAFT') {
       throw new Error('Fulfillment has already been submitted.');
     }
+
+    const validatedFulfillment =
+      submitFulfillmentSchema.parse(existingFulfillment);
 
     // Prepare the updates for OrderItems
     const updates = existingFulfillment.fulfillmentItems.map(async (item) => {
@@ -96,10 +99,13 @@ export async function submitFulfillment(fulfillmentId: string) {
       where: {
         id: existingFulfillment.orderId,
       },
-      select: {
+      include: {
+        customer: true,
+        shippingAddress: true,
+        payments: true,
         orderItems: {
-          select: {
-            status: true,
+          include: {
+            item: true,
           },
         },
       },
@@ -157,15 +163,70 @@ export async function submitFulfillment(fulfillmentId: string) {
       },
     });
 
+    const validatedAddress = CreateAddressSchema.parse(order.shippingAddress);
+
+    // Calculate the total item price of the fulfillment items
+    const fulfillmentItemTotal = existingFulfillment.fulfillmentItems.reduce(
+      (sum, item) => {
+        const pricePerUnit =
+          item.orderItem.item.discountedPrice ?? item.orderItem.item.price;
+        const totalPriceForItem = pricePerUnit * item.quantity;
+        return sum + totalPriceForItem;
+      },
+      0,
+    );
+
+    // Calculate the total item price of all items in the order
+    const orderItemTotal = order.orderItems.reduce((sum, item) => {
+      const pricePerUnit = item.item.discountedPrice ?? item.item.price;
+      const totalPriceForItem = pricePerUnit * item.qty;
+      return sum + totalPriceForItem;
+    }, 0);
+
+    // Calculate the ratio and the total amount for this fulfillment
+    const totalAmount =
+      (fulfillmentItemTotal / orderItemTotal) * order.totalPrice;
+
+    const fulfillmentItems = existingFulfillment.fulfillmentItems.map(
+      (item) => ({
+        name: item.orderItem.item.title,
+        sku: item.orderItem.item.sku,
+        units: item.quantity,
+        selling_price: item.orderItem.item.price,
+        discount: item.orderItem.item.discountedPrice,
+        tax: '',
+        hsn: '',
+      }),
+    );
+
+    const shiprocketData = {
+      fulfillmentId,
+      orderDate: order.dateTime,
+      pickupLocation: 'Home',
+      shippingIsBilling: true,
+      billing_customer_name: validatedAddress.firstName,
+      billing_last_name: validatedAddress.lastName,
+      billing_email: `${validatedAddress.mobile}@vestidonation.com`,
+      billing_phone: validatedAddress.mobile,
+      billing_address: validatedAddress.line1,
+      billing_address_2: validatedAddress.line2,
+      billing_city: validatedAddress.district,
+      billing_pincode: validatedAddress.pinCode,
+      billing_state: validatedAddress.state,
+      order_items: fulfillmentItems,
+      paymentMethod: 'Prepaid',
+      totalAmount: totalAmount,
+      length: validatedFulfillment.length,
+      breadth: validatedFulfillment.breadth,
+      height: validatedFulfillment.height,
+      weight: validatedFulfillment.weight,
+    };
+
+    const shiprocketOrder = await createShiprocketOrder(shiprocketData);
+    console.log('shiprocket order response: ', shiprocketOrder);
+
     return updatedFulfillment;
   });
-
-  // const shiprocketData = {
-  //   fulfillmentId,
-  // };
-  // const shiprocketOrder = await createShiprocketOrder(shiprocketData);
-
-  // console.log('shiprocket order response: ', shiprocketOrder);
 
   return result;
 }

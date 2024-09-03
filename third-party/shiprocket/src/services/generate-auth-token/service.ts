@@ -1,4 +1,4 @@
-import { getRedisClient } from './../../../../../caching/src/client';
+import { getRedisClient } from './../../../../../libs/caching/src/client';
 
 export async function generateToken() {
   const email = process.env['SHIPROCKET_API_EMAIL'] as any;

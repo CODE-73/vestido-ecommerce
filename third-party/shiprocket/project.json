@@ -1,0 +1,23 @@
+{
+  "name": "shiprocket",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "third-party/shiprocket/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/third-party/shiprocket",
+        "main": "third-party/shiprocket/src/index.ts",
+        "tsConfig": "third-party/shiprocket/tsconfig.lib.json",
+        "assets": ["third-party/shiprocket/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": []
+}

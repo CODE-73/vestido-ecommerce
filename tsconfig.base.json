@@ -76,13 +76,13 @@
         "../../libs/shadcn-ui/src/ui/*"
       ],
       "@vestido-ecommerce/shiprocket": [
-        "libs/third-party/shiprocket/src/index.ts"
+        "third-party/shiprocket/src/index.ts",
+        "../../third-party/shiprocket/src/index.ts"
       ],
       "@vestido-ecommerce/utils": [
         "libs/utils/src/index.ts",
         "../../libs/utils/src/index.ts"
-      ],
-      "@third-party/shiprocket/*": ["libs/third-party/shiprocket/src/*"]
+      ]
     }
   },
   "exclude": [
