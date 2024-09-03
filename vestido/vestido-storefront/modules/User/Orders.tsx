@@ -16,13 +16,15 @@ const OrdersView: React.FC = () => {
   };
   const attrValue = (attributeValueId: string) => {
     return attributes
-      ?.flatMap((attribute) => attribute.ItemAttributeValues)
+      ?.flatMap((attribute) => attribute.values)
       .find((x) => x.id === attributeValueId);
   };
 
   return (
-    <div>
-      <div className="font-semibold text-xl my-4">All Orders</div>
+    <div className="bg-black">
+      <div className="font-semibold text-xl my-4 hidden md:block">
+        All Orders
+      </div>
       <div className="flex flex-col gap-3">
         {orders?.map((order, index) => (
           <div key={index} className="flex flex-col gap-3">
@@ -31,12 +33,18 @@ const OrdersView: React.FC = () => {
                 (v) => v.id === orderItem.variantId,
               );
               return (
-                <div key={itemIndex} className="p-4 border border-2 gap-3">
-                  <div className="font-semibold text-xs lowercase">
+                <div
+                  key={itemIndex}
+                  className=" md:p-4 md:border md:border-2 gap-3"
+                >
+                  <div className="hidden md:block font-semibold text-xs uppercase">
                     {order.status}
                   </div>
                   <Link href={`/products/${orderItem.itemId}`}>
-                    <div className="p-4 border border-2 flex bg-stone-200 gap-3">
+                    <div className="md:hidden font-semibold text-[8px] uppercase">
+                      {order.status}
+                    </div>
+                    <div className="p-4 border border-2 border-gray-600 flex bg-neutral-600 gap-3">
                       <div className="relative h-24 w-20">
                         <Image
                           className="block col-span-2"

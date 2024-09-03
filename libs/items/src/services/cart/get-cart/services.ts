@@ -28,6 +28,9 @@ export async function listCartItems(customerId: string) {
         },
       },
     },
+    orderBy: {
+      createdAt: 'asc',
+    },
   });
 
   await populateImageURLs(

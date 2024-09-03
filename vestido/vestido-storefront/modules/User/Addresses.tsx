@@ -16,7 +16,6 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@vestido-ecommerce/shadcn-ui/alert-dialog';
-import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Dialog, DialogTrigger } from '@vestido-ecommerce/shadcn-ui/dialog';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 
@@ -46,11 +45,20 @@ const Addresses: React.FC = () => {
   };
   return (
     <div>
-      <div className="flex justify-between items-center my-5">
-        <div className="font-semibold text-lg">Saved Addresses</div>
-        <Button>Add New</Button>
+      <div className="flex justify-between w-full items-center my-1 md:my-5">
+        <div className="font-semibold md:text-lg ml-5 md:ml-0">
+          Saved Addresses
+        </div>
+        <Dialog>
+          <DialogTrigger asChild>
+            <div className="md:border font-semibold p-2  cursor-pointer   md:border-3 md:border-gray-600 ">
+              + Add
+            </div>
+          </DialogTrigger>
+          <AddAddressDialog isNew={true} addressId={null} />
+        </Dialog>
       </div>
-      <hr className="my-5" />
+      <hr className="mb-5" />
       {sortedAddresses
         .filter((address) => address.archived == false)
         .map((address, index) => (
@@ -111,13 +119,22 @@ const Addresses: React.FC = () => {
                 <div
                   className={`${
                     address.default
-                      ? 'px-3 rounded-full border border-4 text-blue-500 border-blue-500 align-middle'
+                      ? 'px-3 hidden md:block rounded-full border border-4 text-blue-500 border-blue-500 align-middle'
                       : 'hidden'
                   }`}
                 >
                   DEFAULT
                 </div>
               </div>
+            </div>
+            <div
+              className={`${
+                address.default
+                  ? 'px-3 max-w-[90px] rounded-full md:hidden border border-4 text-blue-500 border-blue-500 align-middle'
+                  : 'hidden'
+              }`}
+            >
+              DEFAULT
             </div>
             <div className="text-sm w-1/2 text-wrap pt-4 text-gray-600">
               {address.line1}, {address.line2}, {address.district},

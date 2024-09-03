@@ -4,6 +4,7 @@ export type SendOtpRequest = {
 
 export type SendOtpResponse = {
   success: boolean;
-  otp: string;
-  userExists: boolean;
+  data: {
+    userExists: boolean;
+  };
 };

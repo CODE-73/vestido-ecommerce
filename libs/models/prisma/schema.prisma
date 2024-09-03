@@ -180,7 +180,7 @@ model ItemAttribute {
     id                    String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     name                  String
     description           String?
-    ItemAttributeValues   ItemAttributeValue[]
+    values   ItemAttributeValue[]
     VariantAttributeValue VariantAttributeValue[]
 }
 
@@ -219,6 +219,9 @@ model WishlistItem {
     variantId  String?      @db.Uuid
     customer   Profile      @relation(fields: [customerId], references: [id])
     customerId String       @db.Uuid
+
+    createdAt DateTime? @default(now()) @db.Timestamptz(3)
+    updatedAt DateTime? @default(now()) @db.Timestamptz(3)
 }
 
 model CartItem {
@@ -230,6 +233,9 @@ model CartItem {
     qty        Int
     variant    ItemVariant? @relation(fields: [variantId], references: [id])
     variantId  String?      @db.Uuid
+
+    createdAt DateTime? @default(now()) @db.Timestamptz(3)
+    updatedAt DateTime? @default(now()) @db.Timestamptz(3)
 }
 
 model Order {

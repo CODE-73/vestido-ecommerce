@@ -11,7 +11,7 @@ import ProductsTable from './ProductsTable';
 
 const Products: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const { data } = useItems({ q: searchQuery });
+  const { data, isLoading } = useItems({ q: searchQuery });
   const router = useRouter();
 
   const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,7 +23,7 @@ const Products: React.FC = () => {
   };
 
   return (
-    <div className="container mx-auto py-10 bg-slate-200 mt-16">
+    <div className="container mx-auto py-10 bg-slate-200 mt-16 h-full">
       <div className="flex items-center py-5 gap-3 justify-between">
         <h1 className="text-lg font-semibold">Products List</h1>
         <div className=" flex gap-[5px] ">
@@ -52,7 +52,13 @@ const Products: React.FC = () => {
       </div>
 
       <div className="bg-white">
-        <ProductsTable data={data ?? []} />
+        {isLoading ? (
+          <div className="flex h-[60vh]">
+            <span className="m-auto">Loading...</span>
+          </div>
+        ) : (
+          <ProductsTable data={data ?? []} />
+        )}
       </div>
     </div>
   );

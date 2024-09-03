@@ -2,10 +2,8 @@ import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Gender, StockStatus } from '@prisma/client';
 import { useForm } from 'react-hook-form';
 import { LuChevronLeft } from 'react-icons/lu';
-import * as z from 'zod';
 
 import {
   Genders,
@@ -24,7 +22,6 @@ import {
   FormMessage,
 } from '@vestido-ecommerce/shadcn-ui/form';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
-import { ImageSchema, ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import MultiImageUploaderElement from '../../components/MultiImageUploaderElement';
 import { CategoryElement } from '../../forms/category-combobox-element';
@@ -32,74 +29,18 @@ import { InputElement } from '../../forms/input-element';
 import { RadioGroupElement } from '../../forms/radio-group-element';
 import { SwitchElement } from '../../forms/switch-element';
 import { TextAreaElement } from '../../forms/textarea-element';
-import VariantsTable from '../variants/VariantsTable';
-
-const CreateProductFormSchema = z.object({
-  title: z
-    .string()
-    .min(2, { message: 'Please provide a title for the product' }),
-
-  price: z.coerce
-    .number()
-    .min(0, { message: 'Price must be a positive number' }),
-  description: z
-    .string()
-    .min(2, { message: 'Please provide description for the product' }),
-  categoryId: z.string().min(2, { message: 'You have to choose a category' }),
-
-  hasVariants: z.boolean().default(false),
-  stockStatus: z
-    .nativeEnum(StockStatus)
-    .default('AVAILABLE' satisfies StockStatus),
-  images: z.array(ImageSchema).optional(),
-  gender: z
-    .array(z.nativeEnum(Gender))
-    .refine((value) => value.some((gender) => gender), {
-      message: 'You have to select at least one gender',
-    })
-    .default(['MEN', 'WOMEN'] satisfies Gender[]),
-  discountPercent: z.coerce
-    .number()
-    .max(100, { message: 'Percentage cannot be more than 100' })
-    .default(0)
-    .nullable()
-    .or(z.literal(null)),
-  discountedPrice: z.coerce
-    .number()
-    .min(0, { message: 'Discounted price must be a positive number' })
-    .nullable()
-    .or(z.literal(null)),
-  slug: z
-    .string()
-    .min(2, { message: 'slug is required' })
-    .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, { message: 'Invalid slug format' }),
-  // slug: z.string().optional(),
-  enabled: z.boolean().default(true),
-  sku: z.string().nullish(),
-});
-
-export type CreateProductForm = z.infer<typeof CreateProductFormSchema>;
+import ProductSizeForm from './ProductSizeForm';
+import {
+  CreateProductForm,
+  CreateProductFormDefaultValues as defaultValues,
+  CreateProductFormSchema,
+  parseItemDetails,
+} from './zod';
 
 type ProductFormProps = {
   itemId: string | null;
   isNew: boolean;
 };
-
-const defaultValues = {
-  title: '',
-  price: 0,
-  description: '',
-  categoryId: '',
-  gender: ['MEN', 'WOMEN'],
-  hasVariants: false,
-  stockStatus: 'AVAILABLE',
-  images: [],
-  discountPercent: 0,
-  discountedPrice: 0,
-  slug: '',
-  enabled: true,
-  sku: '',
-} satisfies CreateProductForm;
 
 const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
   const { toast } = useToast();
@@ -112,23 +53,13 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
     },
   });
   const { trigger } = useItemUpsert();
-  const { data: { data: item } = { data: null } } = useItem(
+  const { data: { data: item } = { data: null }, isLoading } = useItem(
     isNew ? null : itemId,
   );
 
-  // const { data: variants } = useVariants(itemId ?? '');
-  // const no_of_variants = variants?.data.length ?? 0;
-
   useEffect(() => {
     if (!isNew && item) {
-      form.reset({
-        ...{
-          ...defaultValues,
-          ...item,
-          images: (item.images as ImageSchemaType[]) ?? [],
-        },
-        categoryId: item.categoryId ?? '',
-      });
+      form.reset(parseItemDetails(item));
     }
   }, [isNew, item, form]);
 
@@ -141,11 +72,14 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
   }, [form, price, discountPercent]);
 
   const hasVariants = form.watch('hasVariants');
+  const { isSubmitting } = form.formState;
 
   const handleSubmit = async (data: CreateProductForm) => {
     try {
       const response = await trigger({
         ...data,
+        variants:
+          data.variants?.filter((x) => x.enabled || x.id || x.sku) ?? [],
         id: isNew ? undefined : (itemId as string),
       });
       toast({
@@ -154,7 +88,13 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
           : 'Product Updated Successfully',
       });
 
-      router.replace(`/products/${response.data.id}`);
+      if (isNew) {
+        router.replace(`/products/${response.data.id}`);
+      } else {
+        form.reset({
+          ...parseItemDetails(response.data),
+        });
+      }
     } catch (e) {
       console.error('Error updating item:', e);
       toast({
@@ -163,19 +103,36 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
     }
   };
 
+  if ((!isNew && !item) || isLoading) {
+    return (
+      <div className="h-screen flex">
+        <span className="m-auto">Loading...</span>
+      </div>
+    );
+  }
+
   return (
     <Form {...form}>
-      <div
-        onClick={() => router.back()}
-        className="flex gap-1 items-center mt-12 mb-4 ml-4 cursor-pointer"
-      >
-        <LuChevronLeft />
-        Back
-      </div>
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="flex flex-col justify-center w-full text-lg  bg-slate-200 px-5 py-10"
+        className="flex flex-col justify-center w-full text-lg  bg-slate-200 px-5"
       >
+        <div className="flex -mx-5 mb-5 py-4 px-4 bg-white">
+          <div
+            onClick={() => router.back()}
+            className="flex gap-1 items-center cursor-pointer"
+          >
+            <LuChevronLeft />
+            Back
+          </div>
+          <Button
+            className="ml-auto lg:px-5"
+            type="submit"
+            disabled={isSubmitting}
+          >
+            {isNew ? 'Create' : 'Update'}
+          </Button>
+        </div>
         <div className="text-2xl font-semibold capitalize flex justify-between">
           {isNew ? 'Add New Product' : item?.title}
           <div>
@@ -287,7 +244,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
               />
             )}
           </div>
-          <div>
+          {/* TODO: hasVariants field is disabled for now. */}
+          <div className="hidden">
             <SwitchElement
               // disabled={!isNew && no_of_variants > 0}
               className="my-10"
@@ -296,21 +254,20 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
             />
           </div>
         </div>
-        <hr className="border-t-1 border-slate-400 mb-4 w-full" />
+        {hasVariants && (
+          <>
+            <hr className="border-t-1 border-slate-400 my-4 w-full" />
+            <div className="text-lg font-semibold">Size Availability</div>
+            <ProductSizeForm />
+          </>
+        )}
+        <hr className="border-t-1 border-slate-400 my-4 w-full" />
+
         <div className="text-lg font-semibold">Product Images</div>
         <MultiImageUploaderElement name="images" />
-
-        <div className=" mt-3 gap-2">
-          <Button
-            className="lg:px-5"
-            type="submit"
-            // disabled={!isValid || !isDirty || isSubmitting}
-          >
-            {isNew ? 'Create' : 'Update'}
-          </Button>
-        </div>
       </form>
-      {hasVariants && <VariantsTable itemId={itemId as string} />}
+      {/* TODO: Uncomment this when full variants are implemented */}
+      {/* {hasVariants && <VariantsTable itemId={itemId as string} />} */}
     </Form>
   );
 };

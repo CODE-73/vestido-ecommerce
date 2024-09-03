@@ -1,9 +1,9 @@
 import { Item } from '@prisma/client';
 
-import { CreateItemSchemaType } from './zod';
+import { ItemUpsertSchemaType } from '../zod';
 
 export type CreateItemRequest = {
-  data: CreateItemSchemaType;
+  data: ItemUpsertSchemaType;
 };
 export type CreateItemResponse = {
   data: Item;

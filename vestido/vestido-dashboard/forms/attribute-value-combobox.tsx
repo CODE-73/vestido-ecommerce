@@ -38,15 +38,13 @@ export const AttributeValueCombobox: React.FC<AttributeValueComboboxProps> = ({
   const { data: attribute } = useAttribute(attributeId);
 
   // Doing the searchQuery filtration locally only because useAttribute returns ALL the attr-values
-  const attrValueList = (attribute?.data?.ItemAttributeValues ?? []).filter(
-    (x) => {
-      if (!searchQuery) {
-        return true;
-      }
+  const attrValueList = (attribute?.data?.values ?? []).filter((x) => {
+    if (!searchQuery) {
+      return true;
+    }
 
-      return x.value.toLowerCase().includes(searchQuery.toLowerCase());
-    },
-  );
+    return x.value.toLowerCase().includes(searchQuery.toLowerCase());
+  });
 
   return (
     <Combobox

@@ -7,8 +7,8 @@ import { LuHeart, LuShoppingBag, LuUser2 } from 'react-icons/lu';
 import { AuthenticatedLink } from '@vestido-ecommerce/auth/client';
 
 import Menubar from '../../components/Menubar';
+import LogoutButton from '../LogoutButton';
 import HeaderDropdown from './HeaderDropdown';
-// import { HeaderSearchInput } from './HeaderSearchInput';
 
 interface HeaderProps {
   cart_count: number | undefined;
@@ -69,6 +69,7 @@ const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
           </sup>
 
           <HeaderDropdown />
+          <LogoutButton className="text-white" />
         </div>
       </div>
     </div>

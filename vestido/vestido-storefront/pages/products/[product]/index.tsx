@@ -3,7 +3,7 @@ import { SWRConfig, unstable_serialize } from 'swr';
 
 import {
   categoryDetails,
-  itemDetails,
+  getItemDetails,
   listItem,
 } from '@vestido-ecommerce/items';
 import {
@@ -45,7 +45,7 @@ export async function getStaticProps({
   params: { product: string };
 }) {
   const itemId = params.product;
-  const item = await itemDetails(itemId);
+  const item = await getItemDetails(itemId);
   if (!item) {
     return {
       notFound: true,

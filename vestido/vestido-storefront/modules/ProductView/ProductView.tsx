@@ -431,7 +431,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
               </div>
 
               <div className="mt-5 flex flex-col gap-5">
-                <hr />
+                <hr className="border-gray-600" />
                 {Object.keys(attributeMap).map((attributeId) => (
                   <div
                     key={attributeId}
@@ -461,11 +461,11 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
                     ))}
                   </div>
                 ))}
-                <hr />
+                <hr className="border-gray-600" />
               </div>
             </div>
 
-            <hr />
+            <hr className="border-gray-600" />
           </div>
           <div
             className="flex gap-2 mb-5 w-full fixed -bottom-5 w-full sm:static bg-black  py-4 px-2 mx-0 z-50 sm:z-auto"
@@ -487,7 +487,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
               className="border border-2 border-[#48CAB2] font-medium text-xs  h-full self-center p-4"
             />
           </div>
-          <hr />
+          <hr className="border-gray-600" />
           <div className="flex justify-between py-5 px-1 sm:px-0">
             {isMdAndAbove ? (
               <>
@@ -526,18 +526,19 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
               </div>
             )}
           </div>
-          <hr />
+          <hr className="border-gray-600" />
           <div>
             <Accordion className="px-2" type="single" collapsible>
-              <AccordionItem value="item-1">
+              <AccordionItem value="item-1" className="border-none">
                 <AccordionTrigger>Description</AccordionTrigger>
                 <AccordionContent>
-                  <Markdown className="prose text-white text-sm md:text-base">
+                  <Markdown className="prose prose-invert text-white text-sm md:text-base">
                     {item?.description}
                   </Markdown>
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
+            <hr className="border-gray-600" />
           </div>
         </div>
       </div>

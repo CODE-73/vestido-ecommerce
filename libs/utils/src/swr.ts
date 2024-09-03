@@ -7,8 +7,15 @@ export function useClearCacheOnSuccess(...keyRoot: string[]) {
   return {
     onSuccess() {
       return mutate(
-        (key: string | string[]) =>
-          key instanceof Array && keyRoot.includes(key[0]),
+        (key: string | string[]) => {
+          const shouldMutate = key instanceof Array && keyRoot.includes(key[0]);
+          if (shouldMutate) {
+            // console.info('Clearing Cache on Success:', key);
+          }
+          return shouldMutate;
+        },
+        undefined,
+        true,
       );
     },
   };

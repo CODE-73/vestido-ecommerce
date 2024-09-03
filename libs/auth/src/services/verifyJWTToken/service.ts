@@ -1,7 +1,9 @@
 import * as jwt from 'jsonwebtoken';
 
+import { TokenPayload } from '../types';
+
 export async function verifyJWTToken(token: string) {
-  return new Promise((resolve, reject) => {
+  return new Promise<TokenPayload>((resolve, reject) => {
     jwt.verify(
       token,
       'SECRET',
@@ -9,13 +11,10 @@ export async function verifyJWTToken(token: string) {
         if (err) {
           reject(err);
         } else {
-          // If decoded is a string, it represents the decoded payload
-          // Otherwise, it represents the decoded payload as an object
           if (typeof decoded === 'string') {
-            resolve(decoded);
+            resolve(JSON.parse(decoded));
           } else {
-            // Convert the decoded object to a JSON string
-            resolve(JSON.stringify(decoded));
+            resolve(decoded as TokenPayload);
           }
         }
       },

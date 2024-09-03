@@ -4,13 +4,15 @@ import { addThumbhashToImages } from '@vestido-ecommerce/caching';
 import { getPrismaClient } from '@vestido-ecommerce/models';
 
 import { validateSlug } from '../../slug';
-import { CreateItemSchema, CreateItemSchemaType } from './zod';
+import { getItemDetails } from '../get-item';
+import { upsertSizeVariants } from '../upsert-size-variants';
+import { ItemUpsertSchema, ItemUpsertSchemaType } from '../zod';
 
-export async function createItem(data: CreateItemSchemaType) {
+export async function createItem(data: ItemUpsertSchemaType) {
   const prisma = getPrismaClient();
 
   // validate zod here
-  const validatedData = CreateItemSchema.parse(data);
+  const validatedData = ItemUpsertSchema.parse(data);
   validatedData.slug = await validateSlug({
     generateFrom: validatedData.title,
     slug: validatedData.slug,
@@ -36,14 +38,22 @@ export async function createItem(data: CreateItemSchemaType) {
     }
   }
 
-  await addThumbhashToImages(validatedData.images);
+  await addThumbhashToImages(validatedData.images ?? []);
 
-  const newItem = await prisma.item.create({
-    data: {
-      ...validatedData,
-      slug: validatedData.slug ?? '',
-    },
+  const { variants, ...itemData } = validatedData;
+  let newItemId = '';
+
+  await prisma.$transaction(async (prisma) => {
+    const newItem = await prisma.item.create({
+      data: {
+        ...itemData,
+        slug: validatedData.slug ?? '',
+      },
+    });
+    newItemId = newItem.id;
+
+    await upsertSizeVariants(prisma, newItemId, variants ?? []);
   });
 
-  return newItem;
+  return await getItemDetails(newItemId!);
 }

@@ -1,13 +1,11 @@
 import * as Sentry from '@sentry/nextjs';
 
-const SENTRY_DSN_PREFIX = process.env['NEXT_PUBLIC_SENTRY_DSN'] as string;
-const SENTRY_PROJECT_ID = process.env[
-  'NEXT_PUBLIC_SENTRY_PROJECT_ID'
-] as string;
+const SENTRY_DSN = process.env['NEXT_PUBLIC_SENTRY_DSN'] as string;
 
 export async function register() {
+  console.info('Sentry Registered:', SENTRY_DSN);
   Sentry.init({
-    dsn: `${SENTRY_DSN_PREFIX}/${SENTRY_PROJECT_ID}`,
+    dsn: SENTRY_DSN,
   });
 }
 

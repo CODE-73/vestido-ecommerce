@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import ContactUs from '../../modules/Documenets/ContactUs';
+import ContactUs from '../../modules/Documents/ContactUs';
 
 const ContactUsPage = () => {
   return <ContactUs />;

@@ -1,152 +1,47 @@
-import { ZodError } from 'zod';
-
+import { authMiddleware, getAuthContext } from '@vestido-ecommerce/auth';
 import {
   addToCart,
   listCartItems,
   removeFromCart,
 } from '@vestido-ecommerce/items';
-
-import { verifyAuth } from '../verify-auth';
+import { apiRouteHandler } from '@vestido-ecommerce/utils';
 
 export const dynamic = 'force-dynamic'; // static by default, unless reading the request
 
-export async function GET(request: Request) {
-  try {
-    const auth = await verifyAuth(request);
-    if (!auth.authenticated) {
-      return new Response(JSON.stringify({ error: auth.reason }), {
-        status: 401,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    }
-    const customerId = auth.profileId;
-    const cartItems = await listCartItems(customerId);
+export const GET = apiRouteHandler(authMiddleware, async () => {
+  const customerId = getAuthContext().profileId;
+  const cartItems = await listCartItems(customerId);
 
-    return new Response(JSON.stringify({ success: true, data: cartItems }), {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  } catch (e) {
-    return new Response(
-      JSON.stringify({
-        success: false,
-        error: e,
-      }),
-      {
-        status: 500,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-  }
-}
+  return cartItems;
+});
 
-export async function POST(request: Request) {
-  try {
-    const auth = await verifyAuth(request);
-    if (!auth.authenticated) {
-      return new Response(JSON.stringify({ error: auth.reason }), {
-        status: 401,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    }
+export const POST = apiRouteHandler(authMiddleware, async ({ request }) => {
+  const customerId = getAuthContext().profileId;
+  const body = await request.json();
+  const cartItems = await addToCart({
+    customerId,
+    itemId: body.itemId,
+    qty: body.qty,
+    variantId: body.variantId,
+  });
 
-    const body = await request.json();
-    const cartItems = await addToCart({
-      customerId: auth.profileId,
-      itemId: body.itemId,
-      qty: body.qty,
-      variantId: body.variantId,
-    });
+  return cartItems;
+});
 
-    return new Response(JSON.stringify({ success: true, data: cartItems }), {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  } catch (e) {
-    if (e instanceof ZodError) {
-      return new Response(JSON.stringify({ success: false, error: e }), {
-        status: 400,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    } else {
-      console.error('Unexpected Error', e);
-      return new Response(
-        JSON.stringify({
-          success: false,
-          message: 'Unknown Error',
-        }),
-        {
-          status: 500,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      );
-    }
-  }
-}
+export const DELETE = apiRouteHandler(authMiddleware, async ({ request }) => {
+  const customerId = getAuthContext().profileId;
+  const params = new URL(request.url).searchParams;
 
-export async function DELETE(request: Request) {
-  try {
-    const params = new URL(request.url).searchParams;
+  const body = {
+    itemId: params.get('itemId'),
+    customerId,
+    variantId: params.get('variantId'),
+    actionType: params.get('actionType'),
+  };
 
-    const auth = await verifyAuth(request);
-    if (!auth.authenticated) {
-      return new Response(JSON.stringify({ error: auth.reason }), {
-        status: 401,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    }
-    const customerId = auth.profileId;
-    const body = {
-      itemId: params.get('itemId'),
-      customerId,
-      variantId: params.get('variantId'),
-      actionType: params.get('actionType'),
-    };
+  await removeFromCart(body);
 
-    await removeFromCart(body);
+  const cartItems = await listCartItems(customerId);
 
-    const cartItems = await listCartItems(customerId);
-
-    return new Response(JSON.stringify({ success: true, cartItems }), {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  } catch (e) {
-    if (e instanceof ZodError) {
-      return new Response(JSON.stringify({ success: false, error: e }), {
-        status: 400,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    } else {
-      console.error('Unexpected Error', e);
-      return new Response(
-        JSON.stringify({
-          message: 'Unknown Error',
-        }),
-        {
-          status: 500,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      );
-    }
-  }
-}
+  return cartItems;
+});

@@ -1,12 +1,5 @@
-import { ItemVariant, VariantAttributeValue } from '@prisma/client';
-
-import { ImageSchemaType } from '@vestido-ecommerce/utils';
+import { ItemVariantWithAttributes } from '../types';
 
 export type ListVariantsResponse = {
-  data: Array<
-    ItemVariant & {
-      attributeValues: VariantAttributeValue[];
-      images: ImageSchemaType[];
-    }
-  >;
+  data: Array<ItemVariantWithAttributes>;
 };

@@ -3,7 +3,7 @@ import React from 'react';
 const PrivacyPolicy: React.FC = () => {
   return (
     <div className="container mx-auto px-4 py-8 text-stone-500">
-      <h1 className="text-2xl text-black font-semibold mb-6">Privacy Policy</h1>
+      <h1 className="text-2xl font-semibold mb-6">Privacy Policy</h1>
       <p className="mb-6 ">
         At Vestidonation, we are committed to protecting your privacy and
         ensuring the security of your personal information. This Privacy Policy
@@ -11,7 +11,7 @@ const PrivacyPolicy: React.FC = () => {
         website or interact with our services:
       </p>
 
-      <h2 className="text-lg text-black  font-semibold mb-4">
+      <h2 className="text-sm md:text-lg font-semibold mb-4">
         Information We Collect
       </h2>
       <p className=" mb-6">
@@ -22,7 +22,7 @@ const PrivacyPolicy: React.FC = () => {
         device information for analytics purposes.
       </p>
 
-      <h2 className="text-lg text-black  font-semibold mb-4">
+      <h2 className="text-sm md:text-lg font-semibold mb-4">
         How We Use Your Information
       </h2>
       <p className="mb-6">
@@ -33,7 +33,7 @@ const PrivacyPolicy: React.FC = () => {
         opt-out at any time.
       </p>
 
-      <h2 className="text-lg text-black  font-semibold mb-4">Data Security</h2>
+      <h2 className="text-sm md:text-lg font-semibold mb-4">Data Security</h2>
       <p className="mb-6">
         We implement industry-standard security measures to protect your
         personal information from unauthorized access, alteration, disclosure,
@@ -42,7 +42,7 @@ const PrivacyPolicy: React.FC = () => {
         personnel only.
       </p>
 
-      <h2 className="text-lg text-black  font-semibold mb-4">
+      <h2 className="text-sm md:text-lg font-semibold mb-4">
         Third-Party Disclosure
       </h2>
       <p className="mb-6">
@@ -52,7 +52,7 @@ const PrivacyPolicy: React.FC = () => {
         information to third parties for marketing purposes.
       </p>
 
-      <h2 className="text-lg text-black  font-semibold mb-4">Your Rights</h2>
+      <h2 className="text-sm md:text-lg font-semibold mb-4">Your Rights</h2>
       <p className="mb-6">
         You have the right to access, correct, or delete the personal
         information we hold about you. You may also withdraw your consent for us
@@ -67,7 +67,7 @@ const PrivacyPolicy: React.FC = () => {
         .
       </p>
 
-      <h2 className="text-lg text-black font-semibold mb-4">
+      <h2 className="text-sm md:text-lg font-semibold mb-4">
         Updates to this Policy
       </h2>
       <p className="mb-6">
@@ -77,7 +77,7 @@ const PrivacyPolicy: React.FC = () => {
         website.
       </p>
 
-      <p className=" mb-6">
+      <p className=" text-sm md:text-lg mb-6">
         By using our website or services, you consent to the terms of this
         Privacy Policy. If you have any questions or concerns about our privacy
         practices, please contact us at

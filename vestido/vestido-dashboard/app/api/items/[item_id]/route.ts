@@ -1,121 +1,27 @@
-import { ZodError } from 'zod';
-
-import { deleteItem, itemDetails, updateItem } from '@vestido-ecommerce/items';
+import { authMiddleware } from '@vestido-ecommerce/auth';
+import {
+  deleteItem,
+  getItemDetails,
+  updateItem,
+} from '@vestido-ecommerce/items';
+import { apiRouteHandler } from '@vestido-ecommerce/utils';
 
 export const dynamic = 'force-dynamic'; // static by default, unless reading the request
 
-export async function GET(
-  request: Request,
-  { params }: { params: { item_id: string } },
-) {
-  try {
-    const item = await itemDetails(params.item_id);
+export const GET = apiRouteHandler(authMiddleware, async ({ params }) => {
+  const item = await getItemDetails(params.item_id);
+  return item;
+});
 
-    return new Response(
-      JSON.stringify({
-        success: true,
-        data: item,
-      }),
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-  } catch (e) {
-    console.error(e);
-    return new Response(JSON.stringify(e), {
-      status: 500,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  }
-}
+export const PUT = apiRouteHandler(
+  authMiddleware,
+  async ({ request, params: { item_id } }) => {
+    const body = await request.json();
+    return await updateItem(item_id, body);
+  },
+);
 
-export async function PUT(
-  request: Request,
-  { params }: { params: { item_id: string } },
-) {
-  const body = await request.json();
-
-  try {
-    const r = await updateItem(params.item_id, body);
-
-    return new Response(
-      JSON.stringify({
-        success: true,
-        data: r,
-      }),
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-  } catch (e) {
-    if (e instanceof ZodError) {
-      return new Response(
-        JSON.stringify({
-          success: false,
-          error: e,
-        }),
-        {
-          status: 400,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      );
-    } else {
-      console.error('Unexpected Error', e);
-      return new Response(
-        JSON.stringify({
-          success: false,
-          message: 'Unknown Error',
-          error: e,
-        }),
-        {
-          status: 500,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      );
-    }
-  }
-}
-export async function DELETE(
-  request: Request,
-  { params }: { params: { item_id: string } },
-) {
-  try {
-    await deleteItem(params.item_id);
-
-    return new Response(
-      JSON.stringify({
-        success: true,
-        deleted: params.item_id,
-      }),
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-  } catch (e) {
-    console.error(e);
-    return new Response(
-      JSON.stringify({
-        success: false,
-        error: e,
-      }),
-      {
-        status: 400,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-  }
-}
+export const DELETE = apiRouteHandler(authMiddleware, async ({ params }) => {
+  await deleteItem(params.item_id);
+  return params.item_id;
+});

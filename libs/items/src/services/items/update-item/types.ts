@@ -1,9 +1,9 @@
 import { Item } from '@prisma/client';
 
-import { UpdateItemSchemaType } from './zod';
+import { ItemUpsertSchemaType } from '../zod';
 
 export type UpdateItemRequest = {
-  data: UpdateItemSchemaType;
+  data: ItemUpsertSchemaType;
 };
 export type UpdateItemResponse = {
   data: Item;

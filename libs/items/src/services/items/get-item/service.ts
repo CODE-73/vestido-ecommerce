@@ -1,9 +1,15 @@
 import { populateImageURLs } from '@vestido-ecommerce/caching';
-import { getPrismaClient } from '@vestido-ecommerce/models';
-import { ImageSchemaType } from '@vestido-ecommerce/utils';
+import {
+  getPrismaClient,
+  PrismaTransactionalClient,
+} from '@vestido-ecommerce/models';
+import { ImageSchemaType, VestidoError } from '@vestido-ecommerce/utils';
 
-export async function itemDetails(itemId: string) {
-  const prisma = getPrismaClient();
+export async function getItemDetails(
+  itemId: string,
+  _prisma?: PrismaTransactionalClient,
+) {
+  const prisma = _prisma ?? getPrismaClient();
 
   const item = await prisma.item.findUnique({
     where: {
@@ -22,6 +28,17 @@ export async function itemDetails(itemId: string) {
       },
     },
   });
+
+  if (!item) {
+    throw new VestidoError({
+      name: 'ItemNotFound',
+      message: `Item ${itemId} not found`,
+      httpStatus: 404,
+      context: {
+        itemId,
+      },
+    });
+  }
 
   await populateImageURLs(item?.images as ImageSchemaType[]);
 
