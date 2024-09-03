@@ -50,8 +50,6 @@ const EditProfileForm: React.FC = () => {
       email: profile?.email,
     },
   });
-  const { firstName } = form.getValues();
-  console.log('values', firstName);
   const { trigger } = useUpdateProfile();
   const handleSubmit = async (data: UpdateProfileForm) => {
     try {

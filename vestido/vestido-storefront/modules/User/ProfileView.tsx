@@ -20,7 +20,6 @@ import {
 
 import Addresses from './Addresses';
 import DeleteAccount from './DeleteAccount';
-import EditProfileForm from './EditProfileForm';
 import OrdersView from './Orders';
 import Profile from './Profile';
 
@@ -50,7 +49,6 @@ const ProfileView: React.FC = () => {
   const { data } = useProfile();
   const currentUser = data?.data;
   const [selectedNav, setSelectedNav] = useState<string>('');
-  const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const isSmallScreen = useMediaQuery('(max-width:768px');
   useEffect(() => {
@@ -143,43 +141,39 @@ const ProfileView: React.FC = () => {
               value="overview"
               className={`${isSmallScreen && selectedNav ? 'hidden' : ''}`}
             >
-              {isEditing ? (
-                <EditProfileForm />
-              ) : (
-                <div className="grid grid-cols-4 mt-3 gap-4 justify-center items-center">
-                  <div className="flex items-center justify-between col-span-4 border border-1 border-stone-300 shadow p-10">
-                    <div className="flex gap-2 items-center text-xl font-semibold">
-                      <div className="h-20 w-20 flex border border-1 justify-center items-center">
-                        <AiOutlineUser size={40} />
-                      </div>
-                      {currentUser?.email ??
-                        currentUser?.mobile ??
-                        currentUser?.firstName}
+              <div className="grid grid-cols-4 mt-3 gap-4 justify-center items-center">
+                <div className="flex items-center justify-between col-span-4 border border-1 border-stone-300 shadow p-10">
+                  <div className="flex gap-2 items-center text-xl font-semibold">
+                    <div className="h-20 w-20 flex border border-1 justify-center items-center">
+                      <AiOutlineUser size={40} />
                     </div>
-
-                    <Button
-                      onClick={() => setIsEditing(true)}
-                      className="bg-white text-black hover:bg-white hover:text-black"
-                    >
-                      Edit Profile
-                    </Button>
+                    {currentUser?.email ??
+                      currentUser?.mobile ??
+                      currentUser?.firstName}
                   </div>
-                  {nav_items.map((nav_item, index) => (
-                    <div
-                      key={index}
-                      className="cursor flex gap-2 justify-center items-center border border-2 hover:border-[#48CAB2] border-stone-300 shadow py-20 xl:py-24 text-xl font-semibold text-gray-500 hover:text-[#48CAB2] cursor-pointer"
-                      onClick={() => setSelectedNav(nav_item.value)}
-                    >
-                      {nav_item.icon} {nav_item.title}
-                    </div>
-                  ))}
-                  <Link href="/wishlist">
-                    <div className="cursor flex gap-2 justify-center items-center border border-2 hover:border-[#48CAB2] border-stone-300 shadow py-20 xl:py-24 text-xl font-semibold text-gray-500 hover:text-[#48CAB2] cursor-pointer">
-                      <FaRegHeart size={32} /> <div>Wishlist</div>
-                    </div>
-                  </Link>
+
+                  <Button
+                    onClick={() => setSelectedNav('profile')}
+                    className="bg-white text-black hover:bg-white hover:text-black"
+                  >
+                    Edit Profile
+                  </Button>
                 </div>
-              )}
+                {nav_items.map((nav_item, index) => (
+                  <div
+                    key={index}
+                    className="cursor flex gap-2 justify-center items-center border border-2 hover:border-[#48CAB2] border-stone-300 shadow py-20 xl:py-24 text-xl font-semibold text-gray-500 hover:text-[#48CAB2] cursor-pointer"
+                    onClick={() => setSelectedNav(nav_item.value)}
+                  >
+                    {nav_item.icon} {nav_item.title}
+                  </div>
+                ))}
+                <Link href="/wishlist">
+                  <div className="cursor flex gap-2 justify-center items-center border border-2 hover:border-[#48CAB2] border-stone-300 shadow py-20 xl:py-24 text-xl font-semibold text-gray-500 hover:text-[#48CAB2] cursor-pointer">
+                    <FaRegHeart size={32} /> <div>Wishlist</div>
+                  </div>
+                </Link>
+              </div>
             </TabsContent>
             <TabsContent value="orders" className="relative">
               {isSmallScreen && selectedNav && (
