@@ -1,134 +1,143 @@
 import React from 'react';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { ProfileGender } from '@prisma/client';
+import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
+import { useProfile, useUpdateProfile } from '@vestido-ecommerce/auth/client';
+import { Form } from '@vestido-ecommerce/shadcn-ui/form';
+import { Label } from '@vestido-ecommerce/shadcn-ui/label';
+import { RadioGroup } from '@vestido-ecommerce/shadcn-ui/radio-group';
+import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
+
 import { InputElement } from '../../forms/input-element';
+import { RadioGroupItem } from '../Checkout/CustomerAddressSelector';
 const indianMobileRegex = /^[6-9]\d{9}$/;
 
 const UpdateProfileSchema = z.object({
-  firstName: z.string().min(2, { message: 'Name  too short' }),
-  lastName: z.string().min(2, { message: 'Name  too short' }),
+  firstName: z.string().min(2, { message: 'Name  too short' }).nullish(),
+  lastName: z.string().min(2, { message: 'Name  too short' }).nullish(),
   mobile: z
     .string()
+    .min(1, 'Mobile is required')
     .regex(indianMobileRegex, 'Please enter a valid Indian mobile number'),
-  otp: z.string().refine((otp) => otp.length === 6, {
-    message: 'OTP must be exactly 6 digits long',
-    path: ['otp'],
-  }),
+
   gender: z.nativeEnum(ProfileGender).default('FEMALE' satisfies ProfileGender),
-  email: z.string().email({
-    message: 'Invalid email address',
-  }),
+  email: z
+    .string()
+    .email({
+      message: 'Invalid email address',
+    })
+    .nullish(),
 });
 
-const EditProfileForm = () => {
+export type UpdateProfileForm = z.infer<typeof UpdateProfileSchema>;
+
+const EditProfileForm: React.FC = () => {
+  const { data } = useProfile();
+  const profile = data?.data;
+  console.log('profile is', profile);
+  const { toast } = useToast();
+
+  const form = useForm<UpdateProfileForm>({
+    resolver: zodResolver(UpdateProfileSchema),
+    defaultValues: {
+      firstName: profile?.firstName,
+      lastName: profile?.lastName,
+      mobile: profile?.mobile ?? '',
+      gender: profile?.gender,
+      email: profile?.email,
+    },
+  });
+  const { firstName } = form.getValues();
+  console.log('values', firstName);
+  const { trigger } = useUpdateProfile();
+  const handleSubmit = async (data: UpdateProfileForm) => {
+    try {
+      await trigger({
+        firstName: data.firstName ?? '',
+        lastName: data.lastName ?? '',
+        gender: data.gender ?? '',
+        mobile: data.mobile ?? '',
+        email: data.email ?? '',
+      });
+      toast({
+        title: 'Profile Updated Successfully',
+      });
+    } catch (e) {
+      console.error('Error updating profilr:', e);
+    }
+  };
   return (
     <div className=" flex items-center justify-center">
       <div className="w-full p-6 rounded-lg shadow-lg">
         <h2 className="text-2xl text-white font-semibold mb-6">Edit Details</h2>
-
-        <form>
-          {/* Mobile Number */}
-          <div className="mb-4">
-            {/* <InputElement name="" label="Mobile" placeholder="Mobile Number" /> */}
-            <label
-              className="block text-sm font-medium text-white mb-2"
-              htmlFor="mobile"
-            >
-              Mobile Number*
-            </label>
-            <input
-              type="text"
-              id="mobile"
-              className="w-full px-4 py-2 text-gray-300 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#48cab2]"
-              placeholder="Enter your mobile number"
-            />
-          </div>
-
-          {/* First Name */}
-          <div className="mb-4">
-            <label
-              className="block text-sm font-medium text-white mb-2"
-              htmlFor="firstName"
-            >
-              First Name
-            </label>
-            <input
-              type="text"
-              id="firstName"
-              className="w-full px-4 py-2 text-gray-300 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#48cab2]"
-              placeholder="Enter your first name"
-            />
-          </div>
-
-          {/* Last Name */}
-          <div className="mb-4">
-            <label
-              className="block text-sm font-medium text-white mb-2"
-              htmlFor="lastName"
-            >
-              Last Name
-            </label>
-            <input
-              type="text"
-              id="lastName"
-              className="w-full px-4 py-2 text-gray-300 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#48cab2]"
-              placeholder="Enter your last name"
-            />
-          </div>
-
-          {/* Email */}
-          <div className="mb-4">
-            <label
-              className="block text-sm font-medium text-white mb-2"
-              htmlFor="email"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              className="w-full px-4 py-2 text-gray-300 bg-gray-800 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-[#48cab2]"
-              placeholder="Enter your email"
-            />
-          </div>
-
-          {/* Gender */}
-          <div className="mb-4">
-            <span className="block text-sm font-medium text-white mb-2">
-              Gender
-            </span>
-            <div className="flex space-x-4">
-              <label className="flex items-center text-white">
-                <input
-                  type="radio"
-                  name="gender"
-                  value="Male"
-                  className="form-radio h-4 w-4 text-pink-600 bg-gray-800 border-gray-700 focus:ring-[#48cab2]"
-                />
-                <span className="ml-2">Male</span>
-              </label>
-              <label className="flex items-center text-white">
-                <input
-                  type="radio"
-                  name="gender"
-                  value="Female"
-                  className="form-radio h-4 w-4 text-pink-600 bg-gray-800 border-gray-700 focus:ring-[#48cab2]"
-                />
-                <span className="ml-2">Female</span>
-              </label>
+        <Form {...form}>
+          {' '}
+          <form onSubmit={form.handleSubmit(handleSubmit)} className="">
+            {/* Mobile Number */}
+            <div className="mb-4">
+              <InputElement
+                name="mobile"
+                label="Mobile"
+                placeholder="Mobile Number"
+                className="bg-gray-400 text-black border border-gray-600 "
+              />
             </div>
-          </div>
 
-          {/* Save Button */}
-          <button
-            type="submit"
-            className="w-full bg-[#48cab2] text-white py-2 px-4 rounded-md hover:bg-[#48cab2] focus:outline-none focus:ring-2 focus:ring-[#48cab2]"
-          >
-            Save Details
-          </button>
-        </form>
+            {/* First Name */}
+            <div className="mb-4">
+              <InputElement
+                name="firstName"
+                label="First Name"
+                placeholder="First Name"
+                className="bg-gray-400 text-black border border-gray-600"
+              />
+              <InputElement
+                name="lastName"
+                label="last Name"
+                placeholder="last Name"
+                className="bg-gray-400 text-black border border-gray-600"
+              />
+            </div>
+
+            <div className="mb-4">
+              <InputElement
+                name="email"
+                label="Email"
+                placeholder="Email Address"
+                className="bg-gray-400 text-black border border-gray-600"
+              />
+            </div>
+
+            {/* Gender */}
+            <div className="mb-4">
+              <RadioGroup defaultValue={profile?.gender} className="flex gap-4">
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="MALE" id="r1" />
+                  <Label htmlFor="r1" className="text-white">
+                    Male
+                  </Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem value="FEMALE" id="r2" />
+                  <Label htmlFor="r2" className="text-white">
+                    Female
+                  </Label>
+                </div>
+              </RadioGroup>
+            </div>
+
+            {/* Save Button */}
+            <button
+              type="submit"
+              className="w-full bg-[#48cab2] text-white py-2 px-4 rounded-md hover:bg-[#48cab2] focus:outline-none focus:ring-2 focus:ring-[#48cab2]"
+            >
+              Save Details
+            </button>
+          </form>
+        </Form>
       </div>
     </div>
   );

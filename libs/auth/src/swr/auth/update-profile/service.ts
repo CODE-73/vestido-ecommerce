@@ -5,12 +5,14 @@ import {
 
 export async function updateProfile(
   args: UpdateProfileRequest,
+  authHeaders: Record<string, string>,
 ): Promise<UpdateProfileResponse> {
   const r = await fetch('/api/me', {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
+      ...authHeaders,
     },
     body: JSON.stringify(args),
   });

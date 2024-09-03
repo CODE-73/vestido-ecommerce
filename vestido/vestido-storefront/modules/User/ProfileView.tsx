@@ -31,7 +31,7 @@ const nav_items = [
     link: 'Orders & Returns',
     value: 'orders',
   },
-  { title: 'Wishlist', icon: <FaRegHeart size={32} />, value: '' },
+  // { title: 'Wishlist', icon: <FaRegHeart size={32} />, value: '' },
   {
     title: 'Addresses',
     icon: <MdLocationOn size={32} />,
@@ -173,6 +173,11 @@ const ProfileView: React.FC = () => {
                       {nav_item.icon} {nav_item.title}
                     </div>
                   ))}
+                  <Link href="/wishlist">
+                    <div className="cursor flex gap-2 justify-center items-center border border-2 hover:border-[#48CAB2] border-stone-300 shadow py-20 xl:py-24 text-xl font-semibold text-gray-500 hover:text-[#48CAB2] cursor-pointer">
+                      <FaRegHeart size={32} /> <div>Wishlist</div>
+                    </div>
+                  </Link>
                 </div>
               )}
             </TabsContent>
