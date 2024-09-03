@@ -94,6 +94,8 @@ const EditProfileForm: React.FC = () => {
                 placeholder="First Name"
                 className="bg-gray-400 text-black border border-gray-600"
               />
+            </div>
+            <div className="mb-4">
               <InputElement
                 name="lastName"
                 label="last Name"
