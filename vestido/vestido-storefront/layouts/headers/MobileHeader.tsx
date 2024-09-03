@@ -23,6 +23,7 @@ import {
 import { Gender, useCategories } from '@vestido-ecommerce/items/client';
 
 import { ListItem } from '../../components/Menubar';
+import LogoutButton from '../LogoutButton';
 import { HeaderSearchInput } from './HeaderSearchInput';
 
 interface HeaderProps {
@@ -336,6 +337,7 @@ const MobileHeader: React.FC<HeaderProps> = ({ cart_count }) => {
             <LuRuler size={28} strokeWidth={1.3} />
             Size Guide
           </div>
+          <LogoutButton className="mr-auto" />
         </div>
       </div>
     </header>
