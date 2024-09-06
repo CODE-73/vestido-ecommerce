@@ -125,13 +125,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
             <LuChevronLeft />
             Back
           </div>
-          <Button
-            className="ml-auto lg:px-5"
-            type="submit"
-            disabled={isSubmitting}
-          >
-            {isNew ? 'Create' : 'Update'}
-          </Button>
         </div>
         <div className="text-2xl font-semibold capitalize flex justify-between">
           {isNew ? 'Add New Product' : item?.title}
@@ -139,7 +132,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
             <SwitchElement name="enabled" label="Enabled" />
           </div>
         </div>
-        <div className="flex h-full flex-col flex-grow ps-2 pe-2">
+        <div className="flex h-full flex-col flex-grow ps-2 pe-2 pb-10">
           <hr className="border-t-1 border-slate-400 mb-4 w-full" />
           <div className="grid grid-cols-2 gap-5 lg:px-10">
             <InputElement name="title" placeholder="Title" label="Title" />
@@ -265,6 +258,13 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
 
         <div className="text-lg font-semibold">Product Images</div>
         <MultiImageUploaderElement name="images" />
+        <Button
+          className="lg:px-5 max-w-xs my-10"
+          type="submit"
+          disabled={isSubmitting}
+        >
+          {isNew ? 'Create' : 'Update'}
+        </Button>
       </form>
       {/* TODO: Uncomment this when full variants are implemented */}
       {/* {hasVariants && <VariantsTable itemId={itemId as string} />} */}
