@@ -10,7 +10,7 @@ export const DiscoverButton: React.FC<DiscoverButtonProps> = ({
 }) => {
   return (
     <Button
-      className={`mt-6 h-12 rounded-none hover:bg-black text-white bg-[#48CAB2] uppercase font-bold tracking-wide px-10 ${clsx(className)}`}
+      className={`mt-6 h-10 sm:h-12 rounded-none hover:bg-black text-white bg-[#48CAB2] uppercase font-bold tracking-wide px-10 ${clsx(className)}`}
     >
       discover now!
     </Button>

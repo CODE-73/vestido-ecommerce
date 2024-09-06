@@ -15,8 +15,10 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from '@vestido-ecommerce/shadcn-ui/form';
 import { Input } from '@vestido-ecommerce/shadcn-ui/input';
+import { VestidoError } from '@vestido-ecommerce/utils';
 
 type Props = {
   mobile: string;
@@ -55,10 +57,28 @@ const LoginForm: React.FC<Props> = ({ mobile, onBackClick }) => {
         otp: data.otp,
       });
 
-      onLogin(r.data.user, r.data.token);
-
-      router.push('/');
+      if (r.success) {
+        onLogin(r.data.user, r.data.token);
+        router.push('/');
+      }
     } catch (error) {
+      if (error instanceof VestidoError) {
+        if (error.name === 'OTPVerificationFailed') {
+          form.setError('otp', {
+            message: error.message || 'Invalid OTP. Please try again.',
+          });
+        } else {
+          form.setError('root', {
+            message: error.message,
+          });
+        }
+      } else {
+        // Fallback for unexpected errors
+        form.setError('otp', {
+          message: 'An unexpected error occurred',
+        });
+      }
+
       console.error('Login failed:', error);
     }
   }
@@ -105,6 +125,7 @@ const LoginForm: React.FC<Props> = ({ mobile, onBackClick }) => {
                       {...field}
                     />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
