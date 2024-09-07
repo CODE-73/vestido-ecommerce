@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
 
 import { CreateRPOrderRequest, CreateRPOrderResponse } from '../../../services';
 
@@ -6,20 +6,18 @@ export async function createNewRazorpayOrder(
   args: CreateRPOrderRequest,
   authHeaders: Record<string, string>,
 ): Promise<CreateRPOrderResponse> {
-  try {
-    const r = await axios.post(
-      `/api/orders/${args.razorpayData.orderId}/payments`,
-      args,
-      {
-        headers: {
-          ...authHeaders,
-        },
-      },
-    );
+  const r = await fetch(`/api/orders/${args.razorpayData.orderId}/payments`, {
+    method: 'POST',
+    headers: {
+      ...authHeaders,
+    },
+    body: JSON.stringify(args),
+  });
 
-    return r.data.data as CreateRPOrderResponse;
-  } catch (error) {
-    console.error('Error creating the order in Razorpay', error);
-    throw new Error('Error creating the order in Razorpay');
+  if (!r.ok) {
+    await handleVestidoErrorResponse(r);
   }
+
+  const data = await r.json();
+  return data.data as CreateRPOrderResponse;
 }

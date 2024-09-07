@@ -1,3 +1,5 @@
+import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
+
 import { FulfillmentResponse } from '../../../services';
 
 export async function deleteFulfillmentDetails(
@@ -16,8 +18,7 @@ export async function deleteFulfillmentDetails(
   );
 
   if (!r.ok) {
-    console.error('Error deleting fulfillment', await r.text());
-    throw new Error('Error deleting fulfillment');
+    await handleVestidoErrorResponse(r);
   }
 
   return (await r.json()) as FulfillmentResponse;

@@ -1,3 +1,5 @@
+import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
+
 import { FulfillmentResponse } from '../../../services';
 import { CreateFulfillmentRequest } from '../../../services/fulfillment/create-fulfillment';
 
@@ -18,8 +20,7 @@ export async function createNewFulfillment(
   );
 
   if (!r.ok) {
-    console.error('Error creating fulfillment', await r.text());
-    throw new Error('Error creating fulfillment');
+    await handleVestidoErrorResponse(r);
   }
 
   return (await r.json()) as FulfillmentResponse;

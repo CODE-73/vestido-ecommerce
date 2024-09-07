@@ -1,3 +1,5 @@
+import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
+
 import { ListCategoryRequest } from '../../../services/categories/list-category/types';
 import { ListCategoryResponse } from './types';
 
@@ -13,7 +15,7 @@ export async function getCategoriesList(
   const r = await fetch(url);
 
   if (!r.ok) {
-    throw new Error('Error Fetching List');
+    await handleVestidoErrorResponse(r);
   }
 
   const data = await r.json();

@@ -1,3 +1,5 @@
+import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
+
 import { CustomerAddressResponse } from '../../../services//address/get-address/types';
 
 export async function getAddressDetails(
@@ -6,7 +8,7 @@ export async function getAddressDetails(
   const url = `/api/addresses/${encodeURIComponent(addressId)}`;
   const r = await fetch(url);
   if (!r.ok) {
-    throw new Error('Error Fetching Address Details');
+    await handleVestidoErrorResponse(r);
   }
   const data = await r.json();
 

@@ -1,4 +1,4 @@
-import axios from 'axios'; // Import Axios
+import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
 
 import {
   CreateOrderRequest,
@@ -9,16 +9,19 @@ export async function createNewOrder(
   args: CreateOrderRequest,
   authHeaders: Record<string, string>,
 ): Promise<CreateOrderSWRResponse> {
-  try {
-    const r = await axios.post('/api/orders', args, {
-      headers: {
-        ...authHeaders,
-      },
-    });
+  const r = await fetch('/api/orders', {
+    method: 'POST',
+    headers: {
+      ...authHeaders,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(args),
+  });
 
-    return r.data as CreateOrderSWRResponse;
-  } catch (error) {
-    console.error('Error placing order', error);
-    throw new Error('Error placing order');
+  if (!r.ok) {
+    await handleVestidoErrorResponse(r);
   }
+
+  const data = await r.json();
+  return data as CreateOrderSWRResponse;
 }

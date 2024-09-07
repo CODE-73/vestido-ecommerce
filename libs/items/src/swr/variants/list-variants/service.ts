@@ -1,3 +1,5 @@
+import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
+
 import { VariantListResponse } from './types';
 
 export async function getVariantsList(
@@ -13,7 +15,7 @@ export async function getVariantsList(
   }
 
   if (!r.ok) {
-    throw new Error('Error Fetching List');
+    await handleVestidoErrorResponse(r);
   }
 
   const data = await r.json();

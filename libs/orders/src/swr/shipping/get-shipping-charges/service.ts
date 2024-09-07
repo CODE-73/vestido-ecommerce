@@ -1,4 +1,4 @@
-import axios from 'axios'; // Import Axios
+import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
 
 import {
   shippingChargesRequest,
@@ -9,16 +9,18 @@ export async function getShipping(
   args: shippingChargesRequest,
   authHeaders: Record<string, string>,
 ): Promise<shippingChargesResponse> {
-  try {
-    const r = await axios.post('/api/shipping/calculate', args, {
-      headers: {
-        ...authHeaders,
-      },
-    });
+  const r = await fetch('/api/shipping/calculate', {
+    method: 'POST',
+    headers: {
+      ...authHeaders,
+    },
+    body: JSON.stringify(args),
+  });
 
-    return r.data as shippingChargesResponse;
-  } catch (error) {
-    console.error('Error getting shipping charges', error);
-    throw new Error('Error getting shipping charges');
+  if (!r.ok) {
+    await handleVestidoErrorResponse(r);
   }
+
+  const data = await r.json();
+  return data as shippingChargesResponse;
 }

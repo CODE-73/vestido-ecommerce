@@ -1,3 +1,5 @@
+import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
+
 import { attributeUpsertRequest, attributeUpsertResponse } from './types';
 
 export async function upsertAttribute(
@@ -21,7 +23,7 @@ export async function upsertAttribute(
     body: JSON.stringify(args),
   });
   if (!r.ok) {
-    throw new Error('Error Upserting Attribute');
+    await handleVestidoErrorResponse(r);
   }
 
   const data = await r.json();

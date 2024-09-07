@@ -1,3 +1,5 @@
+import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
+
 import { DeleteAddressRequest, DeleteAddressResponse } from './types';
 
 export async function addressDelete(
@@ -12,7 +14,7 @@ export async function addressDelete(
     },
   });
   if (!r.ok) {
-    throw new Error('Error Deleting Address');
+    await handleVestidoErrorResponse(r);
   }
   return true as DeleteAddressResponse;
 }

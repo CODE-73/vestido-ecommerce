@@ -1,3 +1,5 @@
+import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
+
 import { categoryUpsertRequest, categoryUpsertResponse } from './types';
 
 export async function upsertCategory(
@@ -21,7 +23,7 @@ export async function upsertCategory(
     body: JSON.stringify(args),
   });
   if (!r.ok) {
-    throw new Error('Error Upserting Category');
+    await handleVestidoErrorResponse(r);
   }
 
   const data = await r.json();

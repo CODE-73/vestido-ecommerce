@@ -1,3 +1,5 @@
+import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
+
 import { attributeDetailsResponse } from './types';
 
 export async function getAttributeDetails(
@@ -6,7 +8,7 @@ export async function getAttributeDetails(
   const url = `/api/attributes/${encodeURIComponent(attributeId)}`;
   const r = await fetch(url);
   if (!r.ok) {
-    throw new Error('Error Fetching Atttribute Details');
+    await handleVestidoErrorResponse(r);
   }
   const data = await r.json();
 

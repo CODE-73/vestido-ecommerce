@@ -1,19 +1,20 @@
-import axios from 'axios'; // Import Axios
+import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
 
 import { CartItemResponse } from '../../../services/cart/get-cart/types';
 
 export async function getCartItems(
   authHeaders: Record<string, string>,
 ): Promise<CartItemResponse> {
-  try {
-    const r = await await axios.get('/api/cart', {
-      headers: {
-        ...authHeaders,
-      },
-    });
-    return r.data as CartItemResponse;
-  } catch (error) {
-    console.error('Error Fetching Cart:', error);
-    throw new Error('Error Fetching Cart');
+  const r = await fetch('/api/cart', {
+    headers: {
+      ...authHeaders,
+    },
+  });
+
+  if (!r.ok) {
+    await handleVestidoErrorResponse(r);
   }
+
+  const data = await r.json();
+  return data as CartItemResponse;
 }

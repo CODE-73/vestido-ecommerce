@@ -1,3 +1,5 @@
+import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
+
 import {
   FulfillmentResponse,
   UpdateFulfillmentRequest,
@@ -20,8 +22,7 @@ export async function updateFulfillmentDetails(
   );
 
   if (!r.ok) {
-    console.error('Error updating fulfillment', await r.text());
-    throw new Error('Error updating fulfillment');
+    await handleVestidoErrorResponse(r);
   }
 
   return (await r.json()) as FulfillmentResponse;

@@ -1,3 +1,5 @@
+import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
+
 import { ListAttributesRequest } from '../../../services/attributes/list-attributes/types';
 import { AttributeListResponse } from './types';
 
@@ -11,7 +13,7 @@ export async function getAttributesList(
   }
   const r = await fetch(url);
   if (!r.ok) {
-    throw new Error('Error Fetching List');
+    await handleVestidoErrorResponse(r);
   }
 
   const data = await r.json();

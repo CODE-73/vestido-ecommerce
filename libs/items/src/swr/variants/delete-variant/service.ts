@@ -1,3 +1,5 @@
+import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
+
 import { DeleteVariantRequest, DeleteVariantResponse } from './types';
 
 export async function deleteVariant(
@@ -15,7 +17,7 @@ export async function deleteVariant(
     },
   });
   if (!r.ok) {
-    throw new Error('Error Deleting Variant');
+    await handleVestidoErrorResponse(r);
   }
   return true as DeleteVariantResponse;
 }

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
 
 import { RemoveFromWishlistResponse } from '../../../services/wishlist/remove-from-wishlist';
 import { RemoveFromWishListSwrRequest } from './types';
@@ -7,17 +7,17 @@ export async function removeFromWishList(
   args: RemoveFromWishListSwrRequest,
   authHeaders: Record<string, string>,
 ): Promise<RemoveFromWishlistResponse> {
-  try {
-    const itemId = args.itemId;
+  const r = await fetch(`/api/wishlist?itemId=${args.itemId}`, {
+    method: 'DELETE',
+    headers: {
+      ...authHeaders,
+    },
+  });
 
-    const r = await axios.delete(`/api/wishlist?itemId=${itemId}`, {
-      headers: {
-        ...authHeaders,
-      },
-    });
-    return r.data as RemoveFromWishlistResponse;
-  } catch (error) {
-    console.error('Error Fetching wishlist:', error);
-    throw new Error('Error Fetching wishlist');
+  if (!r.ok) {
+    await handleVestidoErrorResponse(r);
   }
+
+  const data = await r.json();
+  return data as RemoveFromWishlistResponse;
 }

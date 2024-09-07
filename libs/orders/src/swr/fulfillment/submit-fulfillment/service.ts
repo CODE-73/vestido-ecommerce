@@ -1,3 +1,5 @@
+import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
+
 import { FulfillmentResponse } from '../../../services';
 
 export async function submitFulfillmentDetails(
@@ -16,8 +18,7 @@ export async function submitFulfillmentDetails(
   );
 
   if (!r.ok) {
-    console.error('Error submitting fulfillment', await r.text());
-    throw new Error('Error submitting fulfillment');
+    await handleVestidoErrorResponse(r);
   }
 
   return (await r.json()) as FulfillmentResponse;

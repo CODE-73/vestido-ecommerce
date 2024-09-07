@@ -1,3 +1,5 @@
+import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
+
 import { GenerateCategorySearchTermsResponse } from '../../../services/categories/generate-search-terms/types';
 
 export async function getCategorySearchTerms(
@@ -11,7 +13,7 @@ export async function getCategorySearchTerms(
     },
   });
   if (!r.ok) {
-    throw new Error('Error Fetching Category Details');
+    await handleVestidoErrorResponse(r);
   }
   const data = await r.json();
 

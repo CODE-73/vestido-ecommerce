@@ -1,3 +1,5 @@
+import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
+
 import { GetOrderResponse } from '../../../services/orders/get-order';
 
 export async function getOrderDetails(
@@ -6,7 +8,7 @@ export async function getOrderDetails(
   const url = `/api/orders/${encodeURIComponent(orderId)}`;
   const r = await fetch(url);
   if (!r.ok) {
-    throw new Error('Error Fetching Order Details');
+    await handleVestidoErrorResponse(r);
   }
   const data = await r.json();
 

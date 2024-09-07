@@ -1,3 +1,5 @@
+import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
+
 import { DeleteAttributeRequest, DeleteAttributeResponse } from './types';
 
 export async function deleteAttribute(
@@ -12,7 +14,7 @@ export async function deleteAttribute(
     },
   });
   if (!r.ok) {
-    throw new Error('Error Deleting Atttribute');
+    await handleVestidoErrorResponse(r);
   }
   return true as DeleteAttributeResponse;
 }

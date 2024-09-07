@@ -1,3 +1,5 @@
+import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
+
 import { variantUpsertRequest, variantUpsertResponse } from './types';
 
 export async function upsertVariant(
@@ -22,7 +24,7 @@ export async function upsertVariant(
     body: JSON.stringify(args),
   });
   if (!r.ok) {
-    throw new Error('Error Upserting Variant');
+    await handleVestidoErrorResponse(r);
   }
 
   const data = await r.json();

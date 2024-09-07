@@ -1,4 +1,4 @@
-import axios from 'axios'; // Import Axios
+import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
 
 import { AddressUpsertRequest, AddressUpsertResponse } from './types';
 
@@ -14,33 +14,19 @@ export async function upsertAddress(
     url = `/api/addresses/${encodeURIComponent(addressId)}`;
     method = 'PUT';
   }
-  // const r = await fetch(url, {
-  //   method: method,
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //     Accept: 'application/json',
-  //     ...authHeaders,
-  //   },
-  //   body: JSON.stringify(args),
-  // });
-  // if (!r.ok) {
-  //   throw new Error('Error Upserting Item');
-  // }
-
-  // const data = await r.json();
-  // return data as AddressUpsertResponse;
-
-  try {
-    const r = await axios(url, {
-      method: method,
-      headers: {
-        ...authHeaders,
-      },
-      data: args,
-    });
-    return r.data as AddressUpsertResponse;
-  } catch (error) {
-    console.error('Error adding address', error);
-    throw new Error('Error Adding Address');
+  const r = await fetch(url, {
+    method: method,
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      ...authHeaders,
+    },
+    body: JSON.stringify(args),
+  });
+  if (!r.ok) {
+    await handleVestidoErrorResponse(r);
   }
+
+  const data = await r.json();
+  return data as AddressUpsertResponse;
 }

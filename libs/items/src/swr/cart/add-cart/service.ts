@@ -1,4 +1,4 @@
-import axios from 'axios'; // Import Axios
+import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
 
 import { AddCartRequest, AddCartResponse } from './types';
 
@@ -6,16 +6,19 @@ export async function addCartItem(
   args: AddCartRequest,
   authHeaders: Record<string, string>,
 ): Promise<AddCartResponse> {
-  try {
-    const r = await axios.post('/api/cart', args, {
-      headers: {
-        ...authHeaders,
-      },
-    });
+  const r = await fetch('/api/cart', {
+    method: 'POST',
+    headers: {
+      ...authHeaders,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(args),
+  });
 
-    return r.data as AddCartResponse;
-  } catch (error) {
-    console.error('Error adding to cart', error);
-    throw new Error('Error adding to cart');
+  if (!r.ok) {
+    await handleVestidoErrorResponse(r);
   }
+
+  const data = await r.json();
+  return data as AddCartResponse;
 }

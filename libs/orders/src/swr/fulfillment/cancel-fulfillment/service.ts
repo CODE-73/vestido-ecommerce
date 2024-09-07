@@ -1,3 +1,5 @@
+import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
+
 import { FulfillmentResponse } from '../../../services';
 
 export async function updateFulfillmentCancelled(
@@ -16,8 +18,7 @@ export async function updateFulfillmentCancelled(
   );
 
   if (!r.ok) {
-    console.error('Error cancelling fulfillment', await r.text());
-    throw new Error('Error cancelling fulfillment');
+    await handleVestidoErrorResponse(r);
   }
 
   return (await r.json()) as FulfillmentResponse;

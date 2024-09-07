@@ -1,19 +1,20 @@
-import axios from 'axios';
+import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
 
 import { WishlistItemResponse } from '../../../services/wishlist/get-wishlist/types';
 
 export async function getWishlist(
   authHeaders: Record<string, string>,
 ): Promise<WishlistItemResponse> {
-  try {
-    const r = await axios.get('/api/wishlist', {
-      headers: {
-        ...authHeaders,
-      },
-    });
-    return r.data as WishlistItemResponse;
-  } catch (error) {
-    console.error('Error Fetching Wishlist:', error);
-    throw new Error('Error Fetching Wishlist');
+  const r = await fetch('/api/wishlist', {
+    headers: {
+      ...authHeaders,
+    },
+  });
+
+  if (!r.ok) {
+    await handleVestidoErrorResponse(r);
   }
+
+  const data = await r.json();
+  return data as WishlistItemResponse;
 }

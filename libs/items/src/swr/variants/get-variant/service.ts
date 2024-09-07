@@ -1,3 +1,5 @@
+import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
+
 import { variantDetailsResponse } from './types';
 
 export async function getVariantDetails(
@@ -7,7 +9,7 @@ export async function getVariantDetails(
   const url = `/api/items/${itemId}/variants/${encodeURIComponent(variantId)}`;
   const r = await fetch(url);
   if (!r.ok) {
-    throw new Error('Error Fetching Variant Details');
+    await handleVestidoErrorResponse(r);
   }
   const data = await r.json();
 
