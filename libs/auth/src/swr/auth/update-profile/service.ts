@@ -1,7 +1,7 @@
 import {
   UpdateProfileRequest,
   UpdateProfileResponse,
-} from 'libs/auth/src/services/updateProfile';
+} from '../../../services/updateProfile';
 
 export async function updateProfile(
   args: UpdateProfileRequest,
