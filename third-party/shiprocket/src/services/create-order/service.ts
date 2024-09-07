@@ -1,4 +1,4 @@
-//import { invokeShiprocketAPI } from '../invoke-shiprocket-api';
+// import { invokeShiprocketAPI } from '../invoke-shiprocket-api';
 import { CreateShiprocketOrderType } from './types';
 
 export async function createShiprocketOrder(data: CreateShiprocketOrderType) {
@@ -45,7 +45,7 @@ export async function createShiprocketOrder(data: CreateShiprocketOrderType) {
   console.log('Shiprocket Body :', body);
   // const response = await invokeShiprocketAPI('/orders/create/adhoc', {
   //   method: 'POST',
-  //   body: body,
+  //   body: { ...body },
   // });
 
   return body;
