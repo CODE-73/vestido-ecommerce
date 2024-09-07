@@ -42,17 +42,24 @@ export async function updateItem(itemId: string, data: ItemUpsertSchemaType) {
   await addThumbhashToImages(validatedData.images ?? []);
 
   const { variants, ...itemData } = validatedData;
-  await prisma.$transaction(async (prisma) => {
-    await prisma.item.update({
-      where: {
-        id: itemId,
-      },
-      data: {
-        ...itemData,
-      },
-    });
-    await upsertSizeVariants(prisma, itemId, variants ?? []);
-  });
+  await prisma.$transaction(
+    async (prisma) => {
+      await prisma.item.update({
+        where: {
+          id: itemId,
+        },
+        data: {
+          ...itemData,
+        },
+      });
+      await upsertSizeVariants(prisma, itemId, variants ?? []);
+    },
+    {
+      // Supabase is running on free tier (nano). So, we are setting a timeout of 30 seconds.
+      // https://www.prisma.io/docs/orm/prisma-client/queries/transactions#transaction-options
+      timeout: 30000,
+    },
+  );
 
   return await getItemDetails(itemId);
 }
