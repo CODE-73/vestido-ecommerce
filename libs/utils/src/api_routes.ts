@@ -76,7 +76,10 @@ export const apiRouteHandler =
           {
             success: false,
             message: e.message,
-            error: e,
+            error: {
+              ...e,
+              message: e.message,
+            },
           },
           { status: e.httpStatus },
         );

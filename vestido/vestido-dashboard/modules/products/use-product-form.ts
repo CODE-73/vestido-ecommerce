@@ -71,11 +71,21 @@ export const useProductForm = (
       }
     } catch (e) {
       if (e instanceof VestidoError) {
-        form.setError('root', { message: e.message });
-        toast({
-          title: isNew ? 'Error adding Product' : 'Error updating Product',
-          description: e.message,
-        });
+        if (e.name === 'ProductGenderNotSubsetOfCategoryGender') {
+          form.setError('root', {
+            message: e.message,
+          });
+          toast({
+            title: isNew ? 'Error adding Product' : 'Error updating Product',
+            description: e.message,
+          });
+        } else {
+          form.setError('root', { message: e.message });
+          toast({
+            title: isNew ? 'Error adding Product' : 'Error updating Product',
+            description: e.message,
+          });
+        }
       } else if (e instanceof ZodError) {
         for (const issue of e.issues) {
           form.setError(issue.path.join('.') as keyof CreateProductForm, {

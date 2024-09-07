@@ -482,6 +482,14 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
                 ADD TO CART
               </Button>
             </div>
+            <div className="flex bg-[#48CAB2] items-center gap-2 flex-1 justify-center text-white  ">
+              <Button
+                // onClick={() => handleAddToCart()}
+                className="text-xl font-semibold bg-transparent hover:bg-transparent"
+              >
+                BUY NOW
+              </Button>
+            </div>
             <AddToWishListButton
               itemId={item?.id || ''}
               className="border border-2 border-[#48CAB2] font-medium text-xs  h-full self-center p-4"

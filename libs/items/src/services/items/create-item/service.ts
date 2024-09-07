@@ -2,6 +2,7 @@ import { Gender } from '@prisma/client';
 
 import { addThumbhashToImages } from '@vestido-ecommerce/caching';
 import { getPrismaClient } from '@vestido-ecommerce/models';
+import { VestidoError } from '@vestido-ecommerce/utils';
 
 import { validateSlug } from '../../slug';
 import { getItemDetails } from '../get-item';
@@ -32,9 +33,22 @@ export async function createItem(data: ItemUpsertSchemaType) {
     );
 
     if (!isSubset) {
-      throw new Error(
-        "The genders of a product must be a subset of its category's genders.",
-      );
+      // throw new VestidoError(
+      //   "The genders of a product must be a subset of its category's genders.",
+      // );
+      throw new VestidoError({
+        name: 'ProductGenderNotSubsetOfCategoryGender',
+        message:
+          'The product should only have genders included in its category',
+        httpStatus: 404,
+        context: {
+          site: 'dashboard',
+          category: category,
+          categoryGenders: category?.gender as Gender[],
+          item: validatedData,
+          itemGenders: itemGenders,
+        },
+      });
     }
   }
 
