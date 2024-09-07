@@ -1,65 +1,20 @@
-import { ZodError } from 'zod';
-
+import { authMiddleware } from '@vestido-ecommerce/auth';
 import { cancelFulfillment, getFulfillment } from '@vestido-ecommerce/orders';
+import { apiRouteHandler, VestidoError } from '@vestido-ecommerce/utils';
 
-import { verifyAuth } from '../../../verify-auth';
+export const POST = apiRouteHandler(authMiddleware, async ({ params }) => {
+  const isFulfillmentExist = await getFulfillment(params.fulfillmentId);
 
-export async function POST(
-  request: Request,
-  { params }: { params: { fulfillmentId: string } },
-) {
-  try {
-    const auth = await verifyAuth(request);
-    if (!auth.authenticated) {
-      return new Response(JSON.stringify({ error: auth.reason }), {
-        status: 401,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    }
-
-    const isFulfillmentExist = await getFulfillment(params.fulfillmentId);
-
-    if (!isFulfillmentExist) {
-      return new Response(
-        JSON.stringify({ error: 'Fulfillment does not exist' }),
-        {
-          status: 404,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      );
-    }
-    const fulfillment = await cancelFulfillment(params.fulfillmentId);
-    return new Response(JSON.stringify({ success: true, data: fulfillment }), {
-      headers: {
-        'Content-Type': 'application/json',
+  if (!isFulfillmentExist) {
+    throw new VestidoError({
+      name: 'NotFoundError',
+      message: 'Fulfillment does not exist',
+      httpStatus: 404,
+      context: {
+        fulfillmentId: params.fulfillmentId,
       },
     });
-  } catch (e) {
-    if (e instanceof ZodError) {
-      return new Response(JSON.stringify(e), {
-        status: 400,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    } else {
-      console.error('Unexpected Error', e);
-      return new Response(
-        JSON.stringify({
-          success: false,
-          error: e instanceof Error ? e.message : 'Unknown error occurred',
-        }),
-        {
-          status: 500,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      );
-    }
   }
-}
+  const fulfillment = await cancelFulfillment(params.fulfillmentId);
+  return fulfillment;
+});

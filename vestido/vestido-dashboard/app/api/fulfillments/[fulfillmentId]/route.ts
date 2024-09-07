@@ -1,159 +1,51 @@
-import { ZodError } from 'zod';
-
+import { authMiddleware } from '@vestido-ecommerce/auth';
 import {
   deleteFulfillment,
   getFulfillment,
   updateFulfillment,
 } from '@vestido-ecommerce/orders';
+import { apiRouteHandler, VestidoError } from '@vestido-ecommerce/utils';
 
-import { verifyAuth } from '../../verify-auth';
+export const GET = apiRouteHandler(authMiddleware, async ({ params }) => {
+  const fulfillment = await getFulfillment(params.fulfillmentId);
+  return fulfillment;
+});
 
-export async function GET(
-  request: Request,
-  { params }: { params: { fulfillmentId: string } },
-) {
-  try {
-    const fulfillment = await getFulfillment(params.fulfillmentId);
-
-    return new Response(
-      JSON.stringify({
-        success: true,
-        data: fulfillment,
-      }),
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
-  } catch (e) {
-    console.error(e);
-    return new Response(JSON.stringify(e), {
-      status: 500,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  }
-}
-
-export async function PUT(
-  request: Request,
-  { params }: { params: { fulfillmentId: string } },
-) {
-  try {
-    const auth = await verifyAuth(request);
-    if (!auth.authenticated) {
-      return new Response(JSON.stringify({ error: auth.reason }), {
-        status: 401,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    }
+export const PUT = apiRouteHandler(
+  authMiddleware,
+  async ({ request, params }) => {
     const body = await request.json();
 
     const isFulfillmentExist = await getFulfillment(params.fulfillmentId);
-
     if (!isFulfillmentExist) {
-      return new Response(
-        JSON.stringify({ error: 'Fulfillment does not exist' }),
-        {
-          status: 404,
-          headers: {
-            'Content-Type': 'application/json',
-          },
+      throw new VestidoError({
+        name: 'NotFoundError',
+        message: 'Fulfillment does not exist',
+        httpStatus: 404,
+        context: {
+          fulfillmentId: params.fulfillmentId,
         },
-      );
+      });
     }
     const fulfillment = await updateFulfillment(params.fulfillmentId, body);
-    return new Response(JSON.stringify({ success: true, data: fulfillment }), {
-      headers: {
-        'Content-Type': 'application/json',
+    return fulfillment;
+  },
+);
+
+export const DELETE = apiRouteHandler(authMiddleware, async ({ params }) => {
+  const isFulfillmentExist = await getFulfillment(params.fulfillmentId);
+
+  if (!isFulfillmentExist) {
+    throw new VestidoError({
+      name: 'NotFoundError',
+      message: 'Fulfillment does not exist',
+      httpStatus: 404,
+      context: {
+        fulfillmentId: params.fulfillmentId,
       },
     });
-  } catch (e) {
-    if (e instanceof ZodError) {
-      return new Response(JSON.stringify(e), {
-        status: 400,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    } else {
-      console.error('Unexpected Error', e);
-      return new Response(
-        JSON.stringify({
-          success: false,
-          error: e instanceof Error ? e.message : 'Unknown error occurred',
-        }),
-        {
-          status: 500,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      );
-    }
   }
-}
 
-export async function DELETE(
-  request: Request,
-  { params }: { params: { fulfillmentId: string } },
-) {
-  try {
-    const auth = await verifyAuth(request);
-    if (!auth.authenticated) {
-      return new Response(JSON.stringify({ error: auth.reason }), {
-        status: 401,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    }
-
-    const isFulfillmentExist = await getFulfillment(params.fulfillmentId);
-
-    if (!isFulfillmentExist) {
-      return new Response(
-        JSON.stringify({ error: 'Fulfillment does not exist' }),
-        {
-          status: 404,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      );
-    }
-    const fulfillment = await deleteFulfillment(params.fulfillmentId);
-    return new Response(JSON.stringify({ success: true, data: fulfillment }), {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  } catch (e) {
-    if (e instanceof ZodError) {
-      return new Response(JSON.stringify(e), {
-        status: 400,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    } else {
-      console.error('Unexpected Error', e);
-      return new Response(
-        JSON.stringify({
-          success: false,
-          error: e instanceof Error ? e.message : 'Unknown error occurred',
-        }),
-        {
-          status: 500,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      );
-    }
-  }
-}
+  const fulfillment = await deleteFulfillment(params.fulfillmentId);
+  return fulfillment;
+});
