@@ -8,7 +8,7 @@ import { apiRouteHandler } from '@vestido-ecommerce/utils';
 
 export const dynamic = 'force-dynamic'; // static by default, unless reading the request
 
-export const GET = apiRouteHandler(async ({ params }) => {
+export const GET = apiRouteHandler(authMiddleware, async ({ params }) => {
   const address = await getAddress(params.slug);
   return address;
 });
