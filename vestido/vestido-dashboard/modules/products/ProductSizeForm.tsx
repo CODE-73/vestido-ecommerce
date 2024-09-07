@@ -33,21 +33,36 @@ const ProductSizeForm: FC<{ className?: string }> = ({ className }) => {
       return;
     }
 
+    const displayIdxMap = sizeAttribute.values.reduce(
+      (acc, curr) => {
+        acc[curr.id] = curr.displayIndex ?? 100;
+        return acc;
+      },
+      {} as Record<string, number>,
+    );
+
     const variants = form.getValues().variants ?? [];
-    const newVariants = sizeAttribute.values.map((size) => {
-      const existingVariant = variants.find(
-        (variant) => variant.itemAttributeValueId === size.id,
+    const newVariants = sizeAttribute.values
+      .map((size) => {
+        const existingVariant = variants.find(
+          (variant) => variant.itemAttributeValueId === size.id,
+        );
+        if (existingVariant) {
+          return existingVariant;
+        }
+        return {
+          itemAttributeValueId: size.id,
+          enabled: false,
+          sku: null,
+          stockStatus: 'AVAILABLE',
+        } satisfies ItemVariantWithSize;
+      })
+      .sort(
+        (a, b) =>
+          displayIdxMap[a.itemAttributeValueId] -
+          displayIdxMap[b.itemAttributeValueId],
       );
-      if (existingVariant) {
-        return existingVariant;
-      }
-      return {
-        itemAttributeValueId: size.id,
-        enabled: false,
-        sku: null,
-        stockStatus: 'AVAILABLE',
-      } satisfies ItemVariantWithSize;
-    });
+
     form.setValue('variants', newVariants, {
       shouldValidate: true,
     });

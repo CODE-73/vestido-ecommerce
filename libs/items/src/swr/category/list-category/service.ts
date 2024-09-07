@@ -5,6 +5,7 @@ import { ListCategoryResponse } from './types';
 
 export async function getCategoriesList(
   args: ListCategoryRequest,
+  headers?: Record<string, string>,
 ): Promise<ListCategoryResponse> {
   let url = '/api/categories';
 
@@ -12,7 +13,11 @@ export async function getCategoriesList(
     const encodedQuery = encodeURIComponent(args.q);
     url += `?q=${encodedQuery}`;
   }
-  const r = await fetch(url);
+  const r = await fetch(url, {
+    headers: {
+      ...headers,
+    },
+  });
 
   if (!r.ok) {
     await handleVestidoErrorResponse(r);

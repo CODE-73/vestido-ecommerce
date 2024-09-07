@@ -4,9 +4,14 @@ import { attributeDetailsResponse } from './types';
 
 export async function getAttributeDetails(
   attributeId: string,
+  headers?: Record<string, string>,
 ): Promise<attributeDetailsResponse> {
   const url = `/api/attributes/${encodeURIComponent(attributeId)}`;
-  const r = await fetch(url);
+  const r = await fetch(url, {
+    headers: {
+      ...headers,
+    },
+  });
   if (!r.ok) {
     await handleVestidoErrorResponse(r);
   }

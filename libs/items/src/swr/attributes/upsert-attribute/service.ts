@@ -4,6 +4,7 @@ import { attributeUpsertRequest, attributeUpsertResponse } from './types';
 
 export async function upsertAttribute(
   args: attributeUpsertRequest,
+  headers?: Record<string, string>,
 ): Promise<attributeUpsertResponse> {
   let url = '/api/attributes';
   let method = 'POST';
@@ -19,6 +20,7 @@ export async function upsertAttribute(
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
+      ...headers,
     },
     body: JSON.stringify(args),
   });

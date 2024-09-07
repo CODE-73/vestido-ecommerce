@@ -4,9 +4,14 @@ import { CategoryDetailsResponse } from '../../../services/categories/get-catego
 
 export async function getCategoryDetails(
   categoryId: string,
+  headers?: Record<string, string>,
 ): Promise<CategoryDetailsResponse> {
   const url = `/api/categories/${encodeURIComponent(categoryId)}`;
-  const r = await fetch(url);
+  const r = await fetch(url, {
+    headers: {
+      ...headers,
+    },
+  });
   if (!r.ok) {
     await handleVestidoErrorResponse(r);
   }

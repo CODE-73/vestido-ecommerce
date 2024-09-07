@@ -4,6 +4,7 @@ import { categoryUpsertRequest, categoryUpsertResponse } from './types';
 
 export async function upsertCategory(
   args: categoryUpsertRequest,
+  headers?: Record<string, string>,
 ): Promise<categoryUpsertResponse> {
   let url = '/api/categories';
   let method = 'POST';
@@ -19,6 +20,7 @@ export async function upsertCategory(
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
+      ...headers,
     },
     body: JSON.stringify(args),
   });

@@ -17,5 +17,5 @@ export async function getCategorySearchTerms(
   }
   const data = await r.json();
 
-  return data as GenerateCategorySearchTermsResponse;
+  return data.data as GenerateCategorySearchTermsResponse;
 }
