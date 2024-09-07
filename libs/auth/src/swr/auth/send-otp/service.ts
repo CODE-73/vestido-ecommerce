@@ -1,3 +1,5 @@
+import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
+
 import { SendOtpRequest, SendOtpResponse } from './types';
 
 export async function sendOtp(args: SendOtpRequest): Promise<SendOtpResponse> {
@@ -11,7 +13,7 @@ export async function sendOtp(args: SendOtpRequest): Promise<SendOtpResponse> {
   });
 
   if (!r.ok) {
-    throw new Error('Error sending OTP');
+    await handleVestidoErrorResponse(r);
   }
 
   const data = await r.json();

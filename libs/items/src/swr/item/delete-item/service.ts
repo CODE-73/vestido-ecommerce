@@ -1,3 +1,5 @@
+import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
+
 import { DeleteItemRequest, DeleteItemResponse } from './types';
 
 export async function itemDelete(
@@ -14,7 +16,7 @@ export async function itemDelete(
     },
   });
   if (!r.ok) {
-    throw new Error('Error Deleting Item');
+    await handleVestidoErrorResponse(r);
   }
   return true as DeleteItemResponse;
 }

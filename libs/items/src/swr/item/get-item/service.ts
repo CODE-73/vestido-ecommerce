@@ -1,3 +1,5 @@
+import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
+
 import { ItemDetailsResponse } from '../../../services/items/get-item/types';
 
 export async function getItemDetails(
@@ -11,7 +13,7 @@ export async function getItemDetails(
     },
   });
   if (!r.ok) {
-    throw new Error('Error Fetching Item Details');
+    await handleVestidoErrorResponse(r);
   }
   const data = await r.json();
 

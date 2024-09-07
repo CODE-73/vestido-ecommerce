@@ -1,3 +1,5 @@
+import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
+
 import {
   UpdateProfileRequest,
   UpdateProfileResponse,
@@ -18,7 +20,7 @@ export async function updateProfile(
   });
 
   if (!r.ok) {
-    throw new Error('Error updateing profile');
+    await handleVestidoErrorResponse(r);
   }
 
   const data = await r.json();
