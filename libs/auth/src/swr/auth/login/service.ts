@@ -1,4 +1,4 @@
-import { VestidoError } from '@vestido-ecommerce/utils';
+import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
 
 import { LoginRequest, LoginResponse } from './types';
 
@@ -13,12 +13,7 @@ export async function login(args: LoginRequest): Promise<LoginResponse> {
   });
 
   if (!r.ok) {
-    const d = await r.json();
-    if ('error' in d) {
-      throw new VestidoError(d.error);
-    } else {
-      throw new Error('Error logging in');
-    }
+    await handleVestidoErrorResponse(r);
   }
 
   const data = await r.json();
