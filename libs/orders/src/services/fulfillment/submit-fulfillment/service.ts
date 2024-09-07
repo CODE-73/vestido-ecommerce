@@ -128,40 +128,40 @@ export async function submitFulfillment(fulfillmentId: string) {
           orderStatus: 'IN_PROGRESS',
         },
       });
+
+      // Delete fulfillment items associated with the DRAFT fulfillments
+      const draftFulfillments = await prisma.fulfillment.findMany({
+        where: {
+          orderId: existingFulfillment.orderId,
+          status: 'DRAFT',
+          id: {
+            not: fulfillmentId, // Exclude the currently processed fulfillment
+          },
+        },
+        select: {
+          id: true,
+        },
+      });
+
+      const draftFulfillmentIds = draftFulfillments.map((f) => f.id);
+
+      await prisma.fulfillmentItem.deleteMany({
+        where: {
+          fulfillmentId: {
+            in: draftFulfillmentIds,
+          },
+        },
+      });
+
+      // Delete the DRAFT fulfillments themselves
+      await prisma.fulfillment.deleteMany({
+        where: {
+          id: {
+            in: draftFulfillmentIds,
+          },
+        },
+      });
     }
-
-    // Delete fulfillment items associated with the DRAFT fulfillments
-    const draftFulfillments = await prisma.fulfillment.findMany({
-      where: {
-        orderId: existingFulfillment.orderId,
-        status: 'DRAFT',
-        id: {
-          not: fulfillmentId, // Exclude the currently processed fulfillment
-        },
-      },
-      select: {
-        id: true,
-      },
-    });
-
-    const draftFulfillmentIds = draftFulfillments.map((f) => f.id);
-
-    await prisma.fulfillmentItem.deleteMany({
-      where: {
-        fulfillmentId: {
-          in: draftFulfillmentIds,
-        },
-      },
-    });
-
-    // Delete the DRAFT fulfillments themselves
-    await prisma.fulfillment.deleteMany({
-      where: {
-        id: {
-          in: draftFulfillmentIds,
-        },
-      },
-    });
 
     const validatedAddress = CreateAddressSchema.parse(order.shippingAddress);
 
@@ -190,7 +190,9 @@ export async function submitFulfillment(fulfillmentId: string) {
     const fulfillmentItems = existingFulfillment.fulfillmentItems.map(
       (item) => ({
         name: item.orderItem.item.title,
-        sku: item.orderItem.item.sku,
+        sku:
+          item.orderItem.item.sku ||
+          Math.floor(Math.random() * 1000000).toString(),
         units: item.quantity,
         selling_price: item.orderItem.item.price,
         discount: item.orderItem.item.discountedPrice,
@@ -224,6 +226,24 @@ export async function submitFulfillment(fulfillmentId: string) {
 
     const shiprocketOrder = await createShiprocketOrder(shiprocketData);
     console.log('shiprocket order response: ', shiprocketOrder);
+
+    // if (shiprocketOrder.status_code !== 1) {
+    //   throw new Error('Error in creating shiprocketOrder');
+    // }
+
+    // const shippingFulfillment = await prisma.fulfillment.update({
+    //   where: {
+    //     id: fulfillmentId,
+    //   },
+    //   data: {
+    //     shiprocket_order_id: shiprocketOrder.order_id,
+    //     shipment_id: shiprocketOrder.shipment_id,
+    //     tracking: shiprocketOrder.awb_code,
+    //   },
+    //   include: {
+    //     fulfillmentItems: true,
+    //   },
+    // });
 
     return updatedFulfillment;
   });
