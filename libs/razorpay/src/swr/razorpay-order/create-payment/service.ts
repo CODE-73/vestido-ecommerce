@@ -4,10 +4,11 @@ import {
   RazorpayResponse,
 } from './types';
 
-export async function createNewPayment(
+export async function createRazorpayPayment(
   args: CreatePaymentRequest,
+  authHeaders: Record<string, string>,
 ): Promise<RazorpayResponse> {
-  return new Promise<RazorpayResponse>((res) => {
+  return new Promise<RazorpayResponse>((res, rej) => {
     const options = {
       key: process.env['NEXT_PUBLIC_RAZORPAY_KEY_ID'] as string,
       amount: args.amount,
@@ -52,6 +53,18 @@ export async function createNewPayment(
       theme: {
         color: '#F37254',
       },
+      modal: {
+        ondismiss: async () => {
+          console.log('Payment modal closed by the user.');
+
+          await fetch(`/api/payments/${args.paymentId}`, {
+            method: 'PUT',
+            headers: {
+              ...authHeaders,
+            },
+          });
+        },
+      },
     };
     console.log('Options: ', options);
 
@@ -69,6 +82,7 @@ export async function createNewPayment(
         alert(response.error.reason);
         alert(response.error.metadata.order_id);
         alert(response.error.metadata.payment_id);
+        rej('Payment Failed' + response.error);
       },
     );
     rzp1.open();

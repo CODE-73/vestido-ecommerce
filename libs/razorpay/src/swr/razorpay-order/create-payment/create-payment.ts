@@ -1,12 +1,15 @@
 import useSWRMutation from 'swr/mutation';
 
+import { useAuth } from '@vestido-ecommerce/auth/client';
 import { useClearCacheOnSuccess } from '@vestido-ecommerce/utils';
 
 import { CreatePaymentKeys } from '../key';
-import { createNewPayment } from './service';
+import { createRazorpayPayment } from './service';
 import { CreatePaymentRequest, RazorpayResponse } from './types';
 
-export const useCreatePayment = () => {
+export const useLaunchRazorpay = () => {
+  const { authHeaders } = useAuth();
+
   const key = [CreatePaymentKeys.CREATE, CreatePaymentKeys.PAYMENT];
 
   return useSWRMutation<
@@ -14,7 +17,7 @@ export const useCreatePayment = () => {
     Error,
     string[] | null,
     CreatePaymentRequest
-  >(key, (_, { arg }) => createNewPayment({ ...arg }), {
+  >(key, (_, { arg }) => createRazorpayPayment({ ...arg }, authHeaders), {
     ...useClearCacheOnSuccess(CreatePaymentKeys.PAYMENT),
   });
 };

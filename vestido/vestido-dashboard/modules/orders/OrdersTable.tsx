@@ -64,7 +64,7 @@ const OrdersTable: React.FC<ProductTableProps> = ({ data }) => {
                 {order.customerId}
               </TableCell>
               <TableCell className="font-semibold capitalize">
-                {order.status}
+                {order.orderStatus}
               </TableCell>
               <TableCell> ₹&nbsp;{order.totalPrice.toFixed(2)}</TableCell>
               <TableCell>{formattedDate(new Date(order.dateTime))}</TableCell>

@@ -29,12 +29,12 @@ export async function createRazorpayOrder(data: CreateRPOrderRequest) {
             id: validatedData.orderId,
           },
         },
-        paymentGateway: 'Razorpay',
+        paymentGateway: 'RAZORPAY',
         paymentGatewayRef: resp.id,
         moreDetails: 'Null',
         currency: resp.currency,
-        amount: validatedData.amount,
-        status: resp.status,
+        amount: validatedData.amount / 100,
+        status: 'PENDING',
       },
     });
     const response = {

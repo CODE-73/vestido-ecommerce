@@ -38,11 +38,11 @@ const OrdersView: React.FC = () => {
                   className=" md:p-4 md:border md:border-2 gap-3"
                 >
                   <div className="hidden md:block font-semibold text-xs uppercase">
-                    {order.status}
+                    {order.orderStatus}
                   </div>
                   <Link href={`/products/${orderItem.itemId}`}>
                     <div className="md:hidden font-semibold text-[8px] uppercase">
-                      {order.status}
+                      {order.orderStatus}
                     </div>
                     <div className="p-4 border border-2 border-gray-600 flex bg-neutral-600 gap-3">
                       <div className="relative h-24 w-20">

@@ -6,6 +6,7 @@ datasource db {
     provider          = "postgresql"
     url               = env("DATABASE_URL")
     shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+    directUrl         = env("DATABASE_URL_DIRECT")
 }
 
 enum Role {
@@ -28,13 +29,48 @@ enum StockStatus {
 
 enum OrderStatus {
     PENDING
-    PAID
+    CONFIRMED
     CANCELLED
-    FULFILLMENT_IN_PROGRESS
-    FULFILLED
+    IN_PROGRESS
     COMPLETED
+}
+
+enum DeliveryStatus {
+    UNFULFILLED
+    IN_PROGRESS
+    COMPLETED
+}
+
+enum ReturnStatus {
+    RETURN_REQUESTED
+    RETURN_IN_PROGRESS
     PARTIALLY_RETURNED
     RETURNED
+}
+
+enum ExchangeStatus {
+    EXCHANGE_REQUESTED
+    EXCHANGE_IN_PROGRESS
+    PARTIALLY_EXCHANGED
+    EXCHANGED
+}
+
+enum OrderPaymentStatus {
+    PENDING
+    CAPTURED
+    FAILED
+    REFUNDED
+    PARTIALLY_REFUNDED
+}
+
+enum FulfillmentStatus {
+    DRAFT
+    AWAITING_PICKUP
+    IN_TRANSIT
+    OUT_FOR_DELIVERY
+    DELIVERED
+    CANCELLED
+    FAILED
 }
 
 enum AddressType {
@@ -204,30 +240,39 @@ model CartItem {
 }
 
 model Order {
-    id              String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    dateTime        DateTime        @default(now())
-    totalPrice      Float
-    status          OrderStatus     @default(PENDING)
-    customer        Profile         @relation(fields: [customerId], references: [id])
-    customerId      String          @db.Uuid
-    shippingAddress CustomerAddress @relation(fields: [addressId], references: [id])
-    addressId       String          @db.Uuid
-    orderItems      OrderItem[]
-    payments        Payment[]
-    fulfillment     Fulfillment[]
+    id                 String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    dateTime           DateTime           @default(now())
+    totalPrice         Float
+    orderStatus        OrderStatus        @default(PENDING)
+    deliveryStatus     DeliveryStatus     @default(UNFULFILLED)
+    returnStatus       ReturnStatus?
+    exchangeStatus     ExchangeStatus?
+    orderPaymentStatus OrderPaymentStatus @default(PENDING)
+    customer           Profile            @relation(fields: [customerId], references: [id])
+    customerId         String             @db.Uuid
+    shippingAddress    CustomerAddress    @relation(fields: [addressId], references: [id])
+    addressId          String             @db.Uuid
+    orderItems         OrderItem[]
+    payments           Payment[]
+    fulfillments       Fulfillment[]
 }
 
 model OrderItem {
-    id              String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    price           Float
-    qty             Int
-    order           Order            @relation(fields: [orderId], references: [id])
-    orderId         String           @db.Uuid
-    item            Item             @relation(fields: [itemId], references: [id])
-    itemId          String           @db.Uuid
-    variant         ItemVariant?     @relation(fields: [variantId], references: [id])
-    variantId       String?          @db.Uuid
-    FulfillmentItem FulfillmentItem?
+    id                String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    price             Float
+    qty               Int
+    order             Order             @relation(fields: [orderId], references: [id])
+    orderId           String            @db.Uuid
+    item              Item              @relation(fields: [itemId], references: [id])
+    itemId            String            @db.Uuid
+    variant           ItemVariant?      @relation(fields: [variantId], references: [id])
+    variantId         String?           @db.Uuid
+    status            OrderStatus       @default(PENDING)
+    deliveryStatus    DeliveryStatus    @default(UNFULFILLED)
+    returnStatus      ReturnStatus?
+    exchangeStatus    ExchangeStatus?
+    fulfilledQuantity Int?
+    fulfillmentItems  FulfillmentItem[]
 }
 
 model Payment {
@@ -242,17 +287,23 @@ model Payment {
 
     currency String
     amount   Float
-    status   String
+    status   OrderPaymentStatus @default(PENDING)
 }
 
 model Fulfillment {
-    id              String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    order           Order             @relation(fields: [orderId], references: [id])
-    orderId         String            @db.Uuid
-    status          String
-    tracking        String?
-    dateTime        DateTime          @default(now())
-    FulfillmentItem FulfillmentItem[]
+    id                  String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    order               Order             @relation(fields: [orderId], references: [id])
+    orderId             String            @db.Uuid
+    status              FulfillmentStatus @default(DRAFT)
+    tracking            String?
+    dateTime            DateTime          @default(now())
+    shiprocket_order_id String?
+    shipment_id         String?
+    length              Float?
+    breadth             Float?
+    height              Float?
+    weight              Float?
+    fulfillmentItems    FulfillmentItem[]
 }
 
 model FulfillmentItem {
@@ -260,9 +311,8 @@ model FulfillmentItem {
     fulfillment   Fulfillment @relation(fields: [fulfillmentId], references: [id])
     fulfillmentId String      @db.Uuid
     orderItem     OrderItem   @relation(fields: [orderItemId], references: [id])
-    orderItemId   String      @unique @db.Uuid
+    orderItemId   String      @db.Uuid
     quantity      Int         @default(1)
-    status        String
 }
 
 model ContactUs {
