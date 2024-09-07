@@ -6,6 +6,7 @@ import { LuShoppingBag } from 'react-icons/lu';
 import { useAuth } from '@vestido-ecommerce/auth/client';
 import { useAddToCart, useItem } from '@vestido-ecommerce/items/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
+
 interface AddToCartButtonProps {
   price: number;
   offerPrice: number | null;
@@ -20,23 +21,37 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   const { isAuthenticated, routeToLogin } = useAuth();
   const [hovered, setHovered] = useState(false);
   const [qty] = useState(1);
+  const [loading, setLoading] = useState(false); // State to show loading
+  // const [success, setSuccess] = useState(false);
   const { data } = useItem(item.id);
   const product = data?.data;
   const { trigger } = useAddToCart();
   const defaultVar = product?.variants.find((x) => x.default == true);
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (!isAuthenticated) {
       routeToLogin();
       return;
     }
 
     if (item) {
-      trigger({
-        itemId: item.id,
-        qty: qty,
-        variantId: defaultVar?.id ?? product?.variants?.[0]?.id ?? null,
-      });
+      setLoading(true); // Set loading to true when the process starts
+      // setSuccess(false);
+      // Reset success state when a new action starts
+
+      try {
+        await trigger({
+          itemId: item.id,
+          qty: qty,
+          variantId: defaultVar?.id ?? product?.variants?.[0]?.id ?? null,
+        });
+        // setSuccess(true);
+        // Show success state after adding
+      } catch (error) {
+        console.error('Failed to add item to cart', error);
+      } finally {
+        setLoading(false); // Stop loading after the action completes
+      }
     }
   };
 
@@ -49,6 +64,8 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
         onMouseLeave={() => setHovered(false)}
         style={{ height: buttonHeight, minHeight: buttonHeight }}
         onClick={() => handleAddToCart()}
+        // disabled={loading || (hovered && success)}
+        disabled={loading}
       >
         <div
           className={`flex items-center justify-start gap-3 transition-all duration-300 bg-[#48CAB2] p-2 ${
@@ -56,14 +73,32 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
           }`}
           style={{ height: '100%' }}
         >
-          <LuShoppingBag className="text-white" size={20} />
-          {hovered && (
+          {loading ? (
             <span className="ml-2 text-white text-lg font-semibold">
-              ADD TO CART
+              Adding...
             </span>
+          ) : (
+            // success ? (
+            //   <div className="flex items-center ">
+            //     <LuCheck className="text-white" size={20} />
+            //     {hovered && (
+            //       <span className="ml-2 text-white text-lg font-semibold">
+            //         Added
+            //       </span>
+            //     )}
+            //   </div>
+            // ) :
+            <>
+              <LuShoppingBag className="text-white" size={20} />
+              {hovered && (
+                <span className="ml-2 text-white text-lg font-semibold">
+                  ADD TO CART
+                </span>
+              )}
+            </>
           )}
         </div>
-        {!hovered && (
+        {!hovered && !loading && (
           <div className="ml-4 font-semibold text-left flex-grow text-white ">
             {offerPrice ? (
               <div className="flex items-baseline gap-1">

@@ -1,12 +1,12 @@
 import useSWRMutation from 'swr/mutation';
-import { useAuth } from '@vestido-ecommerce/auth/client';
 
-import { UpdateProfileSWRKeys } from '../keys';
-import { updateProfile } from './service';
+import { useAuth } from '../../../providers';
 import {
   UpdateProfileRequest,
   UpdateProfileResponse,
-} from 'libs/auth/src/services/updateProfile';
+} from '../../../services/updateProfile';
+import { UpdateProfileSWRKeys } from '../keys';
+import { updateProfile } from './service';
 
 export function useUpdateProfile() {
   const { isAuthenticated, authHeaders } = useAuth();
