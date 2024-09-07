@@ -15,9 +15,11 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from '@vestido-ecommerce/shadcn-ui/form';
 import { InputElement } from '@vestido-ecommerce/shadcn-ui/form/InputElement';
 import { Input } from '@vestido-ecommerce/shadcn-ui/input';
+import { VestidoError } from '@vestido-ecommerce/utils';
 
 import { RadioGroupElement } from '../../forms/radio-group-element';
 
@@ -73,6 +75,23 @@ const SignupForm: React.FC<Props> = ({ mobile, onBackClick }) => {
       onLogin(user, token);
       router.push('/');
     } catch (error) {
+      if (error instanceof VestidoError) {
+        if (error.name === 'OTPVerificationFailed') {
+          form.setError('otp', {
+            message: error.message || 'Invalid OTP. Please try again.',
+          });
+        } else {
+          form.setError('root', {
+            message: error.message,
+          });
+        }
+      } else {
+        // Fallback for unexpected errors
+        form.setError('otp', {
+          message: 'An unexpected error occurred',
+        });
+      }
+
       console.error('Login failed:', error);
     }
   }
@@ -145,6 +164,7 @@ const SignupForm: React.FC<Props> = ({ mobile, onBackClick }) => {
                       {...field}
                     />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />

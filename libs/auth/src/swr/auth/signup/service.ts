@@ -1,3 +1,5 @@
+import { VestidoError } from '@vestido-ecommerce/utils';
+
 import { SignUpRequest, SignUpResponse } from './types';
 
 export async function signup(args: SignUpRequest): Promise<SignUpResponse> {
@@ -11,7 +13,12 @@ export async function signup(args: SignUpRequest): Promise<SignUpResponse> {
   });
 
   if (!r.ok) {
-    throw new Error('Error signing up');
+    const d = await r.json();
+    if ('error' in d) {
+      throw new VestidoError(d.error);
+    } else {
+      throw new Error('Error signing up');
+    }
   }
 
   const data = await r.json();
