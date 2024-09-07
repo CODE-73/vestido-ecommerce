@@ -1,15 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useRouter } from 'next/router';
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
 import { LuChevronLeft } from 'react-icons/lu';
 
-import {
-  Genders,
-  useItem,
-  useItemUpsert,
-} from '@vestido-ecommerce/items/client';
+import { Genders, useItem } from '@vestido-ecommerce/items/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Checkbox } from '@vestido-ecommerce/shadcn-ui/checkbox';
 import {
@@ -21,7 +15,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@vestido-ecommerce/shadcn-ui/form';
-import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 
 import MultiImageUploaderElement from '../../components/MultiImageUploaderElement';
 import { CategoryElement } from '../../forms/category-combobox-element';
@@ -30,12 +23,7 @@ import { RadioGroupElement } from '../../forms/radio-group-element';
 import { SwitchElement } from '../../forms/switch-element';
 import { TextAreaElement } from '../../forms/textarea-element';
 import ProductSizeForm from './ProductSizeForm';
-import {
-  CreateProductForm,
-  CreateProductFormDefaultValues as defaultValues,
-  CreateProductFormSchema,
-  parseItemDetails,
-} from './zod';
+import { useProductForm } from './use-product-form';
 
 type ProductFormProps = {
   itemId: string | null;
@@ -43,65 +31,15 @@ type ProductFormProps = {
 };
 
 const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
-  const { toast } = useToast();
   const router = useRouter();
 
-  const form = useForm<CreateProductForm>({
-    resolver: zodResolver(CreateProductFormSchema),
-    defaultValues: {
-      ...defaultValues,
-    },
-  });
-  const { trigger } = useItemUpsert();
   const { data: { data: item } = { data: null }, isLoading } = useItem(
     isNew ? null : itemId,
   );
-
-  useEffect(() => {
-    if (!isNew && item) {
-      form.reset(parseItemDetails(item));
-    }
-  }, [isNew, item, form]);
-
-  const price = form.watch('price');
-  const discountPercent = form.watch('discountPercent');
-
-  useEffect(() => {
-    const discountedPrice = price - (price * (discountPercent ?? 0)) / 100;
-    form.setValue('discountedPrice', discountedPrice);
-  }, [form, price, discountPercent]);
+  const { form, handleSubmit } = useProductForm(isNew, itemId, item);
 
   const hasVariants = form.watch('hasVariants');
   const { isSubmitting } = form.formState;
-
-  const handleSubmit = async (data: CreateProductForm) => {
-    try {
-      const response = await trigger({
-        ...data,
-        variants:
-          data.variants?.filter((x) => x.enabled || x.id || x.sku) ?? [],
-        id: isNew ? undefined : (itemId as string),
-      });
-      toast({
-        title: isNew
-          ? 'Product Added Successfully'
-          : 'Product Updated Successfully',
-      });
-
-      if (isNew) {
-        router.replace(`/products/${response.data.id}`);
-      } else {
-        form.reset({
-          ...parseItemDetails(response.data),
-        });
-      }
-    } catch (e) {
-      console.error('Error updating item:', e);
-      toast({
-        title: isNew ? 'Error adding Product' : 'Error updating Product',
-      });
-    }
-  };
 
   if ((!isNew && !item) || isLoading) {
     return (
