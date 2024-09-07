@@ -1,7 +1,7 @@
 import {
-  UpdateFulfillmentRequest,
   FulfillmentResponse,
-} from 'libs/orders/src/services/fulfillment/update-fulfillment/type';
+  UpdateFulfillmentRequest,
+} from '../../../services/fulfillment/update-fulfillment/type';
 
 export async function updateFulfillmentDetails(
   args: UpdateFulfillmentRequest,

@@ -1,7 +1,8 @@
-import { getRedisClient } from './../../../../../libs/caching/src/client';
+import { getRedisClient } from '@vestido-ecommerce/caching';
+import { VestidoError } from '@vestido-ecommerce/utils';
 
 export async function generateToken() {
-  const email = process.env['SHIPROCKET_API_EMAIL'] as any;
+  const email = process.env['SHIPROCKET_API_EMAIL'] as string;
   let token = await getToken(email);
   if (!token) {
     const args = {
@@ -23,10 +24,22 @@ export async function generateToken() {
       token = data.token;
       console.log('Token:', token);
     } else {
-      console.error('Failed to authenticate with Shiprocket:', r.statusText);
+      throw new VestidoError({
+        name: 'ShiprocketAuthenticationError',
+        message: 'Failed to authenticate with Shiprocket',
+        httpStatus: 500,
+        context: {
+          status: r.status,
+          statusText: r.statusText,
+          body: await r.text(),
+          url: r.url,
+          headers: r.headers,
+        },
+      });
     }
   }
-  await setOTP(email, token as any);
+
+  await setOTP(email, token as string);
   return token;
 }
 
@@ -36,7 +49,7 @@ export async function getToken(email: string) {
 }
 
 function makeTokenKey(email: string) {
-  return `otp:${email}`;
+  return `shiprocket-otp:${email}`;
 }
 
 async function setOTP(email: string, token: string) {

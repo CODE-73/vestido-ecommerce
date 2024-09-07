@@ -1,4 +1,4 @@
-import { FulfillmentDetailsResponse } from './../../../../../orders/src/services/fulfillment/get-fulfillment/types';
+import { FulfillmentDetailsResponse } from '../../../services/fulfillment/get-fulfillment/types';
 
 export async function getFulfillmentDetails(
   fulfillmentId: string,

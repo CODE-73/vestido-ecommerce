@@ -66,7 +66,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
           </CardTitle>
           <CardContent className="gap-4 grid grid-cols-3 max-w-xl">
             <div className="">Order Status: </div>
-            <div className="font-semibold col-span-2">{order?.status}</div>
+            <div className="font-semibold col-span-2">{order?.orderStatus}</div>
             <div className="">Total Amount:</div>
             <div className="font-semibold col-span-2">{order?.totalPrice}</div>
             <div className="">Amount Paid: </div>

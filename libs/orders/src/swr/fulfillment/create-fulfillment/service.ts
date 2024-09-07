@@ -1,5 +1,5 @@
-import { CreateFulfillmentRequest } from 'libs/orders/src/services/fulfillment/create-fulfillment';
-import { FulfillmentResponse } from 'libs/orders/src/services';
+import { FulfillmentResponse } from '../../../services';
+import { CreateFulfillmentRequest } from '../../../services/fulfillment/create-fulfillment';
 
 export async function createNewFulfillment(
   args: CreateFulfillmentRequest,

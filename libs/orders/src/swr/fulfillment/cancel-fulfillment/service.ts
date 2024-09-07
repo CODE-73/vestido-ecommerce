@@ -1,4 +1,4 @@
-import { FulfillmentResponse } from 'libs/orders/src/services';
+import { FulfillmentResponse } from '../../../services';
 
 export async function updateFulfillmentCancelled(
   fulfillmentId: string,

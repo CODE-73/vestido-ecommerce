@@ -1,4 +1,5 @@
-import { FulfillmentResponse } from 'libs/orders/src/services/fulfillment/update-fulfillment/type';
+import { FulfillmentResponse } from '../../../services';
+
 export async function submitFulfillmentDetails(
   fulfillmentId: string,
   authHeaders: Record<string, string>,
