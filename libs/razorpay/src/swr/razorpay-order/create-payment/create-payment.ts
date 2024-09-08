@@ -8,7 +8,7 @@ import { createRazorpayPayment } from './service';
 import { CreatePaymentRequest, RazorpayResponse } from './types';
 
 export const useLaunchRazorpay = () => {
-  const { authHeaders, customer } = useAuth();
+  const { authHeaders, profile } = useAuth();
 
   const key = [CreatePaymentKeys.CREATE, CreatePaymentKeys.PAYMENT];
 
@@ -19,7 +19,7 @@ export const useLaunchRazorpay = () => {
     CreatePaymentRequest
   >(
     key,
-    (_, { arg }) => createRazorpayPayment({ ...arg, customer }, authHeaders),
+    (_, { arg }) => createRazorpayPayment({ ...arg }, authHeaders, profile),
     {
       ...useClearCacheOnSuccess(CreatePaymentKeys.PAYMENT),
     },
