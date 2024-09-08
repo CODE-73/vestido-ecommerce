@@ -181,7 +181,7 @@ model ItemAttribute {
     id                    String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     name                  String
     description           String?
-    values   ItemAttributeValue[]
+    values                ItemAttributeValue[]
     VariantAttributeValue VariantAttributeValue[]
 }
 
@@ -297,12 +297,13 @@ model Fulfillment {
     status              FulfillmentStatus @default(DRAFT)
     tracking            String?
     dateTime            DateTime          @default(now())
-    shiprocket_order_id String?
-    shipment_id         String?
+    shiprocket_order_id Int?
+    shipment_id         Int?
     length              Float?
     breadth             Float?
     height              Float?
     weight              Float?
+    price               Float?
     fulfillmentItems    FulfillmentItem[]
 }
 

@@ -81,19 +81,6 @@ export async function submitFulfillment(fulfillmentId: string) {
     // Execute the updates
     await Promise.all(updates);
 
-    // Update the Fulfillment status
-    const updatedFulfillment = await prisma.fulfillment.update({
-      where: {
-        id: fulfillmentId,
-      },
-      data: {
-        status: 'AWAITING_PICKUP',
-      },
-      include: {
-        fulfillmentItems: true, // Include the related fulfillment items
-      },
-    });
-
     // Check if all OrderItems' statuses are IN_PROGRESS and update Order status
     const order = await prisma.order.findUnique({
       where: {
@@ -114,6 +101,41 @@ export async function submitFulfillment(fulfillmentId: string) {
     if (!order) {
       throw new Error('Order not found.');
     }
+    // Calculate the total item price of the fulfillment items
+    const fulfillmentItemTotal = existingFulfillment.fulfillmentItems.reduce(
+      (sum, item) => {
+        const pricePerUnit =
+          item.orderItem.item.discountedPrice ?? item.orderItem.item.price;
+        const totalPriceForItem = pricePerUnit * item.quantity;
+        return sum + totalPriceForItem;
+      },
+      0,
+    );
+
+    // Calculate the total item price of all items in the order
+    const orderItemTotal = order.orderItems.reduce((sum, item) => {
+      const pricePerUnit = item.item.discountedPrice ?? item.item.price;
+      const totalPriceForItem = pricePerUnit * item.qty;
+      return sum + totalPriceForItem;
+    }, 0);
+
+    // Calculate the ratio and the total amount for this fulfillment
+    const totalAmount =
+      (fulfillmentItemTotal / orderItemTotal) * order.totalPrice;
+
+    // Update the Fulfillment status
+    await prisma.fulfillment.update({
+      where: {
+        id: fulfillmentId,
+      },
+      data: {
+        status: 'AWAITING_PICKUP',
+        price: totalAmount,
+      },
+      include: {
+        fulfillmentItems: true, // Include the related fulfillment items
+      },
+    });
 
     const allItemsInProgress = order.orderItems.every(
       (item) => item.status === 'IN_PROGRESS',
@@ -165,28 +187,6 @@ export async function submitFulfillment(fulfillmentId: string) {
 
     const validatedAddress = CreateAddressSchema.parse(order.shippingAddress);
 
-    // Calculate the total item price of the fulfillment items
-    const fulfillmentItemTotal = existingFulfillment.fulfillmentItems.reduce(
-      (sum, item) => {
-        const pricePerUnit =
-          item.orderItem.item.discountedPrice ?? item.orderItem.item.price;
-        const totalPriceForItem = pricePerUnit * item.quantity;
-        return sum + totalPriceForItem;
-      },
-      0,
-    );
-
-    // Calculate the total item price of all items in the order
-    const orderItemTotal = order.orderItems.reduce((sum, item) => {
-      const pricePerUnit = item.item.discountedPrice ?? item.item.price;
-      const totalPriceForItem = pricePerUnit * item.qty;
-      return sum + totalPriceForItem;
-    }, 0);
-
-    // Calculate the ratio and the total amount for this fulfillment
-    const totalAmount =
-      (fulfillmentItemTotal / orderItemTotal) * order.totalPrice;
-
     const fulfillmentItems = existingFulfillment.fulfillmentItems.map(
       (item) => ({
         name: item.orderItem.item.title,
@@ -200,6 +200,10 @@ export async function submitFulfillment(fulfillmentId: string) {
         hsn: '',
       }),
     );
+
+    const firstPaymentGateway = order.payments[0].paymentGateway;
+    const paymentMethod =
+      firstPaymentGateway === 'CASH_ON_DELIVERY' ? 'COD' : 'Prepaid';
 
     const shiprocketData = {
       fulfillmentId,
@@ -216,7 +220,7 @@ export async function submitFulfillment(fulfillmentId: string) {
       billing_pincode: validatedAddress.pinCode,
       billing_state: validatedAddress.state,
       order_items: fulfillmentItems,
-      paymentMethod: 'Prepaid',
+      paymentMethod: paymentMethod,
       totalAmount: totalAmount,
       length: validatedFulfillment.length,
       breadth: validatedFulfillment.breadth,
@@ -225,27 +229,26 @@ export async function submitFulfillment(fulfillmentId: string) {
     };
 
     const shiprocketOrder = await createShiprocketOrder(shiprocketData);
-    console.log('shiprocket order response: ', shiprocketOrder);
 
-    // if (shiprocketOrder.status_code !== 1) {
-    //   throw new Error('Error in creating shiprocketOrder');
-    // }
+    if (shiprocketOrder.status_code !== 1) {
+      throw new Error('Error in creating shiprocketOrder');
+    }
 
-    // const shippingFulfillment = await prisma.fulfillment.update({
-    //   where: {
-    //     id: fulfillmentId,
-    //   },
-    //   data: {
-    //     shiprocket_order_id: shiprocketOrder.order_id,
-    //     shipment_id: shiprocketOrder.shipment_id,
-    //     tracking: shiprocketOrder.awb_code,
-    //   },
-    //   include: {
-    //     fulfillmentItems: true,
-    //   },
-    // });
+    const shippingFulfillment = await prisma.fulfillment.update({
+      where: {
+        id: fulfillmentId,
+      },
+      data: {
+        shiprocket_order_id: shiprocketOrder.order_id,
+        shipment_id: shiprocketOrder.shipment_id,
+        tracking: shiprocketOrder.awb_code,
+      },
+      include: {
+        fulfillmentItems: true,
+      },
+    });
 
-    return updatedFulfillment;
+    return shippingFulfillment;
   });
 
   return result;
