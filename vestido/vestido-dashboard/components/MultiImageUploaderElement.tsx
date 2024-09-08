@@ -11,6 +11,7 @@ import {
   LuTrash,
 } from 'react-icons/lu';
 
+import { useR2SignedURL } from '@vestido-ecommerce/r2';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
@@ -176,6 +177,13 @@ const ImageCardElement: React.FC<ImageCardElementProps> = ({
   onSelect,
   onDelete,
 }) => {
+  // Load the image URL from R2 if it's not already loaded
+  const { data: imgURL } = useR2SignedURL({
+    key: image?.url ? null : image?.key || null,
+    requestType: 'GET',
+    expiresIn: 3600,
+  });
+
   return (
     <div
       className={clsx(
@@ -196,9 +204,9 @@ const ImageCardElement: React.FC<ImageCardElementProps> = ({
       )}
 
       {image?.key ? (
-        image.url ? (
+        image.url || imgURL ? (
           <Image
-            src={image.url}
+            src={image.url || imgURL || ''}
             alt={image.alt}
             sizes="80vw"
             width={0}

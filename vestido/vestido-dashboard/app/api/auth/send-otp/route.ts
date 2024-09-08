@@ -1,8 +1,27 @@
-import { sendOTP } from '@vestido-ecommerce/auth';
-import { apiRouteHandler } from '@vestido-ecommerce/utils';
+import {
+  sendOTP,
+  SendOtpSchema,
+  verifyUserExist,
+} from '@vestido-ecommerce/auth';
+import { apiRouteHandler, VestidoError } from '@vestido-ecommerce/utils';
 
 export const POST = apiRouteHandler(async ({ request }) => {
   const body = await request.json();
+
+  const { mobile } = SendOtpSchema.parse(body);
+  const user = await verifyUserExist({ mobile: mobile });
+
+  if (!user) {
+    throw new VestidoError({
+      name: 'UserNotFound',
+      message: 'User does not exist',
+      httpStatus: 404,
+      context: {
+        mobile: mobile,
+      },
+    });
+  }
+
   const r = await sendOTP(body);
 
   return {
