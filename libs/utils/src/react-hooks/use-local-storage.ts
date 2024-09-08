@@ -1,10 +1,12 @@
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+
+import { VestidoError } from '../errors';
 
 export function useLocalStorageState<T>(
   key: string,
   defaultValue: T,
 ): [T, Dispatch<SetStateAction<T>>, boolean] {
-  const isMounted = useRef(false);
+  const [isMounted, setMounted] = useState(false);
   const [value, setValue] = useState<T>(defaultValue);
 
   useEffect(() => {
@@ -14,20 +16,30 @@ export function useLocalStorageState<T>(
         setValue(JSON.parse(item));
       }
     } catch (e) {
-      console.log(e);
+      console.error(
+        new VestidoError({
+          name: 'useLocalStorageStateError',
+          message: 'Error parsing local storage',
+          context: {
+            key,
+            value: window.localStorage.getItem(key),
+            error: e,
+          },
+        }),
+      );
     }
     return () => {
-      isMounted.current = false;
+      setMounted(false);
     };
   }, [key]);
 
   useEffect(() => {
-    if (isMounted.current) {
+    if (isMounted) {
       window.localStorage.setItem(key, JSON.stringify(value));
     } else {
-      isMounted.current = true;
+      setMounted(true);
     }
   }, [key, value]);
 
-  return [value, setValue, isMounted.current];
+  return [value, setValue, isMounted];
 }
