@@ -1,4 +1,8 @@
-import { authMiddleware, getAuthContext } from '@vestido-ecommerce/auth';
+import {
+  authMiddleware,
+  getAuthContext,
+  roleMiddleware,
+} from '@vestido-ecommerce/auth';
 import {
   deleteAddress,
   getAddress,
@@ -8,13 +12,18 @@ import { apiRouteHandler } from '@vestido-ecommerce/utils';
 
 export const dynamic = 'force-dynamic'; // static by default, unless reading the request
 
-export const GET = apiRouteHandler(authMiddleware, async ({ params }) => {
-  const address = await getAddress(params.slug);
-  return address;
-});
+export const GET = apiRouteHandler(
+  authMiddleware,
+  roleMiddleware('CUSTOMER'),
+  async ({ params }) => {
+    const address = await getAddress(params.slug);
+    return address;
+  },
+);
 
 export const PUT = apiRouteHandler(
   authMiddleware,
+  roleMiddleware('CUSTOMER'),
   async ({ request, params }) => {
     const body = await request.json();
     const customerId = getAuthContext().profileId;
@@ -26,7 +35,11 @@ export const PUT = apiRouteHandler(
   },
 );
 
-export const DELETE = apiRouteHandler(authMiddleware, async ({ params }) => {
-  const deletedAddress = await deleteAddress(params.slug);
-  return deletedAddress;
-});
+export const DELETE = apiRouteHandler(
+  authMiddleware,
+  roleMiddleware('CUSTOMER'),
+  async ({ params }) => {
+    const deletedAddress = await deleteAddress(params.slug);
+    return deletedAddress;
+  },
+);
