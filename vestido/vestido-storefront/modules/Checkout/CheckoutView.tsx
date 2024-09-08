@@ -152,7 +152,7 @@ const CheckoutView: React.FC = () => {
         const verifyPaymentRespone = await verifyPaymentTrigger({
           ...verifyPaymentData,
         });
-        if (verifyPaymentRespone.message) {
+        if (verifyPaymentRespone.success) {
           console.log('Payment Successfull');
         } else {
           console.log('Payment not success');
