@@ -6,7 +6,7 @@ export async function verifyPayment(
   args: verifyPaymentRequest,
   authHeaders: Record<string, string>,
 ): Promise<verifyPaymentResponse> {
-  const r = await fetch(`/api/payments/${args.paymentId}`, {
+  const r = await fetch(`/api/payments/${args.paymentId}/verify`, {
     method: 'POST',
     headers: {
       ...authHeaders,
