@@ -5,6 +5,7 @@ import { ListItemResponse } from './types';
 
 export async function getItemList(
   args?: ListItemRequest,
+  headers?: Record<string, string>,
 ): Promise<ListItemResponse> {
   let url = '/api/items';
 
@@ -21,7 +22,11 @@ export async function getItemList(
     }
   }
 
-  const r = await fetch(url);
+  const r = await fetch(url, {
+    headers: {
+      ...headers,
+    },
+  });
 
   if (!r.ok) {
     await handleVestidoErrorResponse(r);

@@ -1,9 +1,10 @@
-import { authMiddleware } from '@vestido-ecommerce/auth';
+import { authMiddleware, roleMiddleware } from '@vestido-ecommerce/auth';
 import { createFulfillment, getOrder } from '@vestido-ecommerce/orders';
 import { apiRouteHandler } from '@vestido-ecommerce/utils';
 
 export const POST = apiRouteHandler(
   authMiddleware,
+  roleMiddleware('ADMIN'),
   async ({ request, params }) => {
     const body = await request.json();
     const isOrderExist = await getOrder(params.orderSlug);
