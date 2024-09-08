@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 export function useLocalStorageState<T>(
   key: string,
   defaultValue: T,
-): [T, Dispatch<SetStateAction<T>>] {
+): [T, Dispatch<SetStateAction<T>>, boolean] {
   const isMounted = useRef(false);
   const [value, setValue] = useState<T>(defaultValue);
 
@@ -29,5 +29,5 @@ export function useLocalStorageState<T>(
     }
   }, [key, value]);
 
-  return [value, setValue];
+  return [value, setValue, isMounted.current];
 }

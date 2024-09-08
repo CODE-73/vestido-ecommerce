@@ -44,20 +44,27 @@ export const AuthProvider = ({
   const posthog = usePostHog();
   const [authLoaded, setAuthLoaded] = useState(false);
 
-  const [token, setToken] = useLocalStorageState<string | null>('token', null);
+  const [token, setToken, tokenLoaded] = useLocalStorageState<string | null>(
+    'token',
+    null,
+  );
   const [profile, setProfile] = useLocalStorageState<Profile | null>(
     'profile',
     null,
   );
 
   useEffect(() => {
-    if (token && token !== 'undefined') {
+    if (!tokenLoaded) {
       return;
+    }
+
+    if (token && token !== 'undefined') {
+      // pass
     } else if (autoLoginRedirect) {
       router.push(loginRoute); // Redirect to your login page
     }
     setAuthLoaded(true);
-  }, [router.asPath, token]);
+  }, [router.asPath, token, tokenLoaded]);
 
   useEffect(() => {
     if (profile) {
