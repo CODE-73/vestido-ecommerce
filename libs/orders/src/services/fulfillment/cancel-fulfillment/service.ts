@@ -32,8 +32,14 @@ export async function cancelFulfillment(fulfillmentId: string) {
 
     if (fulfillmentToCancel.status !== 'AWAITING_PICKUP') {
       throw new VestidoError({
-        name: 'LogicalErrorFulfillmentAlreadyPickedup',
-        message: 'Fulfillment cannot be cancelled as it is already Pickedup.',
+        name: 'FulfillmentAlreadyPickedupError',
+        message:
+          'Fulfillment cannot be cancelled as it is already Pickedup or it is Draft.',
+        httpStatus: 400,
+        context: {
+          fulfillmentId: fulfillmentId,
+          fulfillmentStatus: fulfillmentToCancel.status,
+        },
       });
     }
 
@@ -62,8 +68,12 @@ export async function cancelFulfillment(fulfillmentId: string) {
 
       if (newFulfilledQuantity < 0) {
         throw new VestidoError({
-          name: 'LogicalErrorFulfillmentQuantity',
+          name: 'FulfillmentQuantityError',
           message: 'Fulfilled quantity cannot be negative.',
+          httpStatus: 400,
+          context: {
+            fulfillmentId: fulfillmentId,
+          },
         });
       }
 
@@ -134,9 +144,14 @@ export async function cancelFulfillment(fulfillmentId: string) {
 
     if (!cancelledFulfillment.shiprocket_order_id) {
       throw new VestidoError({
-        name: 'LogicalErrorFulfillmentCancel',
+        name: 'FulfillmentCancelFailed',
         message:
           'Fulfillment cannot be cancelled as Shiprocket Order not created on Fulfillment. Better Delete the Fulfillment',
+        httpStatus: 400,
+        context: {
+          fulfillmentId: fulfillmentId,
+          FulfillmentStatus: cancelledFulfillment.status,
+        },
       });
     }
 

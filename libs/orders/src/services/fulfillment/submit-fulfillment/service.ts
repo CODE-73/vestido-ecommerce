@@ -15,8 +15,13 @@ export async function submitFulfillment(fulfillmentId: string) {
 
     if (existingFulfillment.status !== 'DRAFT') {
       throw new VestidoError({
-        name: 'LogicalErrorFulfillmentSubmissionFailed',
-        message: `Fulfillment ${fulfillmentId} has already been submitted.`,
+        name: 'FulfillmentSubmissionFailed',
+        message: `Fulfillment has already been ${existingFulfillment.status}`,
+        httpStatus: 400,
+        context: {
+          fulfillmentId: fulfillmentId,
+          fulfillmentStatus: existingFulfillment.status,
+        },
       });
     }
 
@@ -49,8 +54,14 @@ export async function submitFulfillment(fulfillmentId: string) {
       if (newFulfilledQuantity > orderItem.qty) {
         // Quantity exceeds the OrderItem's quantity, do not update
         throw new VestidoError({
-          name: 'LogicalErrorFulfillmentSubmissionFailed',
+          name: 'FulfillmentQuantityError',
           message: 'Fulfilled quantity exceeds OrderItem quantity.',
+          httpStatus: 400,
+          context: {
+            fulfillmentId: fulfillmentId,
+            orderItemQuantity: orderItem.qty,
+            submittingQuantity: newFulfilledQuantity,
+          },
         });
       }
 
@@ -96,6 +107,7 @@ export async function submitFulfillment(fulfillmentId: string) {
         message: `Order ${order} not found.`,
       });
     }
+
     // Calculate the total item price of the fulfillment items
     const fulfillmentItemTotal = existingFulfillment.fulfillmentItems.reduce(
       (sum, item) => {
@@ -230,8 +242,8 @@ export async function submitFulfillment(fulfillmentId: string) {
         id: fulfillmentId,
       },
       data: {
-        shiprocket_order_id: shiprocketOrder.order_id,
-        shipment_id: shiprocketOrder.shipment_id,
+        shiprocket_order_id: String(shiprocketOrder.order_id),
+        shipment_id: String(shiprocketOrder.shipment_id),
         tracking: shiprocketOrder.awb_code,
       },
       include: {

@@ -297,8 +297,8 @@ model Fulfillment {
     status              FulfillmentStatus @default(DRAFT)
     tracking            String?
     dateTime            DateTime          @default(now())
-    shiprocket_order_id Int?
-    shipment_id         Int?
+    shiprocket_order_id String?
+    shipment_id         String?
     length              Float?
     breadth             Float?
     height              Float?

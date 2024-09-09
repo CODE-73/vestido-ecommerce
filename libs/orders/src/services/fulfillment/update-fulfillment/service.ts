@@ -96,8 +96,13 @@ export async function updateFulfillment(
     return updatedFulfillment;
   } else {
     throw new VestidoError({
-      name: 'LogicalErrorFulfillmentUpdateFailed',
-      message: `Fulfillment ${fulfillmentId} cannot be updated. Status is not DRAFT.`,
+      name: 'FulfillmentUpdateFailed',
+      message: 'Fulfillment cannot be updated. Status is not DRAFT.',
+      httpStatus: 400,
+      context: {
+        fulfillmentId: fulfillmentId,
+        FulfillmentStatus: existingFulfillment?.status,
+      },
     });
   }
 }

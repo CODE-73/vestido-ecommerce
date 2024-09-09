@@ -38,8 +38,14 @@ export async function deleteFulfillment(fulfillmentId: string) {
     return result;
   } else {
     throw new VestidoError({
-      name: 'LogicalErrorFulfillmentDeleteFailed',
-      message: `Fulfillment ${fulfillmentId} cannot be deleted as it is already submitted. It can only be cancelled`,
+      name: 'FulfillmentDeletionFailed',
+      message:
+        'Fulfillment cannot be deleted as it is already submitted. It can only be cancelled',
+      httpStatus: 400,
+      context: {
+        fulfillmentId: fulfillmentId,
+        fulfillmentStatus: existingFulfillment?.status,
+      },
     });
   }
 }

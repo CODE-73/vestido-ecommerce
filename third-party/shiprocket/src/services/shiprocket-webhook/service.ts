@@ -1,4 +1,5 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
+import { VestidoError } from '@vestido-ecommerce/utils';
 
 import { shiprocketWebhookRequest } from './types';
 
@@ -11,13 +12,16 @@ export async function handleShiprocketWebhook(data: shiprocketWebhookRequest) {
     '0578fe6ea8044445f48b3db8f6c90e12949bbb85fd403c275bb86409922a4c08';
 
   if (generatedSignature !== webhookSignature) {
-    throw new Error('Invalid Webhook token');
+    throw new VestidoError({
+      name: 'ShiprocketWebhookTokenError',
+      message: 'Invalid Webhook token',
+    });
   }
 
   const result = await prisma.$transaction(async (prisma) => {
     const fulfillmentDetails = await prisma.fulfillment.updateMany({
       where: {
-        shiprocket_order_id: data.sr_order_id,
+        shiprocket_order_id: String(data.sr_order_id),
       },
       data: {
         tracking: data.awb,

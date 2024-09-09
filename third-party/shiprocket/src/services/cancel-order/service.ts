@@ -2,7 +2,7 @@ import { VestidoError } from '@vestido-ecommerce/utils';
 
 import { invokeShiprocketAPI } from '../invoke-shiprocket-api';
 
-export async function cancelShiprocketOrder(data: number) {
+export async function cancelShiprocketOrder(data: string) {
   const body = {
     ids: [data],
   };
