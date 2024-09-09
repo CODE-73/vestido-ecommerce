@@ -1,5 +1,6 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
 import { cancelShiprocketOrder } from '@vestido-ecommerce/shiprocket';
+import { VestidoError } from '@vestido-ecommerce/utils';
 
 export async function cancelFulfillment(fulfillmentId: string) {
   const prisma = getPrismaClient();
@@ -23,13 +24,17 @@ export async function cancelFulfillment(fulfillmentId: string) {
     });
 
     if (!fulfillmentToCancel) {
-      throw new Error('Fulfillment not found.');
+      throw new VestidoError({
+        name: 'FulfillmentNotFound',
+        message: `Item ${fulfillmentId} not found`,
+      });
     }
 
     if (fulfillmentToCancel.status !== 'AWAITING_PICKUP') {
-      throw new Error(
-        'Fulfillment cannot be cancelled as it is already Pickedup.',
-      );
+      throw new VestidoError({
+        name: 'LogicalErrorFulfillmentAlreadyPickedup',
+        message: 'Fulfillment cannot be cancelled as it is already Pickedup.',
+      });
     }
 
     // Adjust the quantities and statuses of the associated OrderItems
@@ -46,14 +51,20 @@ export async function cancelFulfillment(fulfillmentId: string) {
       });
 
       if (!orderItem) {
-        throw new Error('OrderItem not found.');
+        throw new VestidoError({
+          name: 'SystemErrorOrderNotFound',
+          message: `OrderItem ${orderItem} not found`,
+        });
       }
 
       const newFulfilledQuantity =
         (orderItem.fulfilledQuantity || 0) - item.quantity;
 
       if (newFulfilledQuantity < 0) {
-        throw new Error('Fulfilled quantity cannot be negative.');
+        throw new VestidoError({
+          name: 'LogicalErrorFulfillmentQuantity',
+          message: 'Fulfilled quantity cannot be negative.',
+        });
       }
 
       const updatedOrderItem = await prisma.orderItem.update({
@@ -100,7 +111,10 @@ export async function cancelFulfillment(fulfillmentId: string) {
     });
 
     if (!order) {
-      throw new Error('Order not found.');
+      throw new VestidoError({
+        name: 'SystemErrorOrderNotFound',
+        message: `Order ${order} not found`,
+      });
     }
 
     const allItemsInProgress = order.orderItems.every(
@@ -119,9 +133,11 @@ export async function cancelFulfillment(fulfillmentId: string) {
     }
 
     if (!cancelledFulfillment.shiprocket_order_id) {
-      throw new Error(
-        'Fulfillment cannot be cancelled as Shiprocket Order not found on Fulfillment',
-      );
+      throw new VestidoError({
+        name: 'SystemErrorFulfillmentCancel',
+        message:
+          'Fulfillment cannot be cancelled as Shiprocket Order not found on Fulfillment.',
+      });
     }
 
     const cancelResponse = await cancelShiprocketOrder(
