@@ -10,8 +10,6 @@ import {
 } from '@vestido-ecommerce/items';
 import { apiRouteHandler } from '@vestido-ecommerce/utils';
 
-export const dynamic = 'force-dynamic'; // static by default, unless reading the request
-
 export const GET = apiRouteHandler(
   authMiddleware,
   roleMiddleware('CUSTOMER'),
@@ -42,7 +40,7 @@ export const DELETE = apiRouteHandler(
   roleMiddleware('CUSTOMER'),
   async ({ request }) => {
     const customerId = getAuthContext().profileId;
-    const params = new URL(request.url).searchParams;
+    const params = request.nextUrl.searchParams;
     const itemId = params.get('itemId') ?? '';
 
     const body = {

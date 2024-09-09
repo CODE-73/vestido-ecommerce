@@ -50,6 +50,12 @@ export const apiRouteHandler =
 
       result = await execMiddleware(0);
     } catch (e) {
+      if (process.env['NEXT_PHASE'] === 'phase-production-build') {
+        // Don't handle errors in production build
+        // https://github.com/vercel/next.js/discussions/48736#discussioncomment-5704784
+        throw e;
+      }
+
       if (e instanceof ZodError) {
         // User Validation Error
         const err = new VestidoError({
