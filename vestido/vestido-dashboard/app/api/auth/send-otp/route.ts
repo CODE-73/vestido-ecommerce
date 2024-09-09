@@ -11,7 +11,7 @@ export const POST = apiRouteHandler(async ({ request }) => {
   const { mobile } = SendOtpSchema.parse(body);
   const user = await verifyUserExist({ mobile: mobile });
 
-  if (!user) {
+  if (!user || user.role !== 'ADMIN') {
     throw new VestidoError({
       name: 'UserNotFound',
       message: 'User does not exist',
