@@ -4,9 +4,14 @@ import { FulfillmentDetailsResponse } from '../../../services/fulfillment/get-fu
 
 export async function getFulfillmentDetails(
   fulfillmentId: string,
+  headers?: Record<string, string>,
 ): Promise<FulfillmentDetailsResponse> {
   const url = `/api/fulfillments/${encodeURIComponent(fulfillmentId)}`;
-  const r = await fetch(url);
+  const r = await fetch(url, {
+    headers: {
+      ...headers,
+    },
+  });
   if (!r.ok) {
     await handleVestidoErrorResponse(r);
   }
