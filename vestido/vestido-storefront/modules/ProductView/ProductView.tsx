@@ -45,6 +45,13 @@ interface AttributeValuesMap {
   [key: string]: string;
 }
 
+type VariantAttributeMap = {
+  [key: string]: {
+    name: string;
+    values: { value: string; displayIdx: number; id: string }[];
+  };
+};
+
 const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
   const { isAuthenticated, routeToLogin } = useAuth();
 
@@ -120,31 +127,12 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
       );
     }
   };
-  //   const _v = item?.variants.find((x) => {
-  //     x.attribute
-  //   });
-  //   if (_v) {
-  //     setSelectedVariantId(_v.id);
-  //   }
-  // };
 
   const { trigger: cartTrigger } = useAddToCart();
 
-  const scrollRef = React.useRef<HTMLDivElement>(null);
   const mainImageRef = React.useRef<HTMLImageElement>(null);
   const carouselRef = React.useRef<HTMLDivElement>(null);
 
-  // const scrollUp = () => {
-  //   if (scrollRef.current) {
-  //     scrollRef.current.scrollBy({ top: -800, behavior: 'smooth' });
-  //   }
-  // };
-
-  // const scrollDown = () => {
-  //   if (scrollRef.current) {
-  //     scrollRef.current.scrollBy({ top: 800, behavior: 'smooth' });
-  //   }
-  // };
   useEffect(() => {
     const adjustCarouselHeight = () => {
       if (mainImageRef.current && carouselRef.current) {
@@ -160,53 +148,39 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
     };
   }, []);
 
-  const predefinedSizeOrder = [
-    'xs',
-    'sm',
-    'md',
-    'lg',
-    'xl',
-    '2xl',
-    '3xl',
-    '4xl',
-  ];
+  const attributeMap = useMemo(() => {
+    const attributeMap: VariantAttributeMap = {};
 
-  const attributeMap: {
-    [key: string]: { name: string; values: { value: string; id: string }[] };
-  } = {};
-
-  item?.variants.forEach((variant) => {
-    variant.attributeValues.forEach((attributeValue) => {
-      if (!attributeMap[attributeValue.attributeId]) {
-        attributeMap[attributeValue.attributeId] = {
-          name: attributeValue.attribute.name,
-          values: [],
-        };
-      }
-      if (
-        !attributeMap[attributeValue.attributeId].values.find(
-          (x) => x.id === attributeValue.attributeValue.id,
-        )
-      ) {
-        attributeMap[attributeValue.attributeId].values.push({
-          value: attributeValue.attributeValue.value,
-          id: attributeValue.attributeValue.id,
-        });
-      }
+    item?.variants.forEach((variant) => {
+      variant.attributeValues.forEach((attributeValue) => {
+        if (!attributeMap[attributeValue.attributeId]) {
+          attributeMap[attributeValue.attributeId] = {
+            name: attributeValue.attribute.name,
+            values: [],
+          };
+        }
+        if (
+          !attributeMap[attributeValue.attributeId].values.find(
+            (x) => x.id === attributeValue.attributeValue.id,
+          )
+        ) {
+          attributeMap[attributeValue.attributeId].values.push({
+            value: attributeValue.attributeValue.value,
+            displayIdx: attributeValue.attributeValue.displayIndex,
+            id: attributeValue.attributeValue.id,
+          });
+        }
+      });
     });
-  });
 
-  Object.keys(attributeMap).forEach((attributeId) => {
-    const attributeName = attributeMap[attributeId].name.toLowerCase();
-
-    if (attributeName === 'size' || attributeName === 'sizes') {
+    for (const attributeId in attributeMap) {
       attributeMap[attributeId].values.sort(
-        (a, b) =>
-          predefinedSizeOrder.indexOf(a.value.toLowerCase()) -
-          predefinedSizeOrder.indexOf(b.value.toLowerCase()),
+        (a, b) => a.displayIdx - b.displayIdx,
       );
     }
-  });
+
+    return attributeMap;
+  }, [item?.variants]);
 
   const handleAddToCart = () => {
     if (!isAuthenticated) {
@@ -262,14 +236,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
             className="relative basis-1/6 overflow-y-auto no-scrollbar lg:pl-10"
             ref={carouselRef}
           >
-            {/* <button
-            onClick={scrollUp}
-            className="absolute top-3 left-1/2 transform -translate-x-1/2 bg-white z-10 p-2 rounded-full shadow-md"
-          >
-            <LuChevronUp />
-          </button> */}
             <div
-              ref={scrollRef}
               className="overflow-y-auto overflow-x-hidden no-scrollbar flex flex-col "
               style={{ scrollbarWidth: 'none' }}
             >
@@ -293,16 +260,9 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
                 ))}
               </div>
             </div>
-            {/* <button
-            onClick={scrollDown}
-            className="absolute bottom-3 left-1/2 transform-translate-x-1/2 bg-white z-10 p-2 rounded-full shadow-md"
-          >
-            <LuChevronDown />
-          </button> */}
           </div>
           <div className="basis-5/6 text-right">
             <Image
-              // className="w-4/6 px-5 h-4/6"
               ref={mainImageRef}
               src={mainImage?.url ?? ''}
               placeholder={mainImage?.blurHashDataURL ? 'blur' : undefined}
@@ -332,8 +292,6 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            {/* <CarouselPrevious />
-          <CarouselNext /> */}
           </Carousel>
         </div>
         <div className="w-full  md:w-1/2">
