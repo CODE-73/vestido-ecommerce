@@ -5,6 +5,11 @@ import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import { makeSignedUrl } from './r2-images';
 
+/*
+ * Sharp is locked in at 0.32.6
+ * https://github.com/lovell/sharp/issues/3870#issuecomment-1877485796
+ */
+
 type MakeThumbHashArgs = {
   fileUrl?: string;
   file?: Blob | ArrayBuffer;
