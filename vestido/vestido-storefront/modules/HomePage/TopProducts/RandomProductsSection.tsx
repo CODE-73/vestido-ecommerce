@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import clsx from 'clsx';
 
-import { ListItemResponse } from '@vestido-ecommerce/items';
+import { type ListItemResponse } from '@vestido-ecommerce/items';
 
 import ProductTile from '../../ProductListView/ProductTile';
 
