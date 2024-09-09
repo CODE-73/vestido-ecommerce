@@ -10,7 +10,9 @@ import { CreatePaymentRequest, RazorpayResponse } from './types';
 export const useLaunchRazorpay = () => {
   const { authHeaders, profile } = useAuth();
 
-  const key = [CreatePaymentKeys.CREATE, CreatePaymentKeys.PAYMENT];
+  const key = profile
+    ? [CreatePaymentKeys.CREATE, CreatePaymentKeys.PAYMENT]
+    : null;
 
   return useSWRMutation<
     RazorpayResponse,
@@ -19,7 +21,7 @@ export const useLaunchRazorpay = () => {
     CreatePaymentRequest
   >(
     key,
-    (_, { arg }) => createRazorpayPayment({ ...arg }, authHeaders, profile),
+    (_, { arg }) => createRazorpayPayment({ ...arg }, authHeaders, profile!),
     {
       ...useClearCacheOnSuccess(CreatePaymentKeys.PAYMENT),
     },
