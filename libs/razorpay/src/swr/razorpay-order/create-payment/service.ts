@@ -58,8 +58,8 @@ export async function createRazorpayPayment(
         ondismiss: async () => {
           console.log('Payment modal closed by the user.');
 
-          await fetch(`/api/payments/${args.paymentId}`, {
-            method: 'PUT',
+          await fetch(`/api/payments/${args.paymentId}/cancel`, {
+            method: 'POST',
             headers: {
               ...authHeaders,
             },
