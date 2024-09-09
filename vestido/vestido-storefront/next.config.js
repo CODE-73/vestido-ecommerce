@@ -4,6 +4,9 @@
 const { composePlugins, withNx } = require('@nx/next');
 const { withSentryConfig: _withSentryConfig } = require('@sentry/nextjs');
 const { version } = require('../../package.json');
+
+const R2_NEXT_IMAGE_HOSTNAME = process.env.R2_NEXT_IMAGE_HOSTNAME || '';
+
 /**
  * @type {import('@nx/next/plugins/with-nx').WithNxOptions}
  **/
@@ -41,8 +44,11 @@ const nextConfig = {
   },
   images: {
     unoptimized: process.env.DISABLE_IMAGE_OPTIMIZATIONS === 'true',
-    domains: [
-      'vestido.45fff1c9b9ec39d339c480173cd09d22.r2.cloudflarestorage.com',
+    remotePatterns: [
+      {
+        hostname: R2_NEXT_IMAGE_HOSTNAME,
+        protocol: 'https',
+      },
     ],
   },
   env: {

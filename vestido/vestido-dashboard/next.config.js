@@ -24,6 +24,7 @@ const nextConfig = {
     remotePatterns: [
       {
         hostname: R2_NEXT_IMAGE_HOSTNAME,
+        protocol: 'https',
       },
     ],
   },

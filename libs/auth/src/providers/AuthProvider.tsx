@@ -11,6 +11,8 @@ import { type Profile } from '@prisma/client';
 import * as Sentry from '@sentry/nextjs';
 import { usePostHog } from 'posthog-js/react';
 
+import { useLocalStorageState } from '@vestido-ecommerce/utils';
+
 type AuthContextValue = {
   isAuthenticated: boolean;
   loginRoute: string;
@@ -38,22 +40,47 @@ export const AuthProvider = ({
   loginRoute: loginRoute = '/auth/login',
   fallback,
 }: AuthProviderProps) => {
-  const [token, setToken] = useState<string | null>(null);
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const [authLoaded, setAuthLoaded] = useState(false);
   const router = useRouter();
   const posthog = usePostHog();
+  const [authLoaded, setAuthLoaded] = useState(false);
 
-  // Read LS
+  const [token, setToken, tokenLoaded] = useLocalStorageState<string | null>(
+    'token',
+    null,
+  );
+  const [profile, setProfile] = useLocalStorageState<Profile | null>(
+    'profile',
+    null,
+  );
+
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    if (!tokenLoaded) {
+      return;
+    }
+
     if (token && token !== 'undefined') {
-      setToken(token);
+      // pass
     } else if (autoLoginRedirect) {
       router.push(loginRoute); // Redirect to your login page
     }
     setAuthLoaded(true);
-  }, [router.asPath]);
+  }, [router.asPath, token, tokenLoaded]);
+
+  useEffect(() => {
+    if (profile) {
+      posthog.identify(profile.id, {
+        ...profile,
+      });
+      Sentry.setUser({
+        id: profile.id,
+        email: profile.email || profile.mobile || '',
+        username: `${profile.firstName} ${profile.lastName}`.trim(),
+      });
+    } else {
+      Sentry.setUser(null);
+      posthog.reset();
+    }
+  }, [profile]);
 
   if (!authLoaded) {
     return fallback;
@@ -70,30 +97,18 @@ export const AuthProvider = ({
           Authorization: `Bearer ${token}`,
         },
         onLogin: (profile: Profile, token: string) => {
-          localStorage.setItem('token', token);
           setToken(token);
           setProfile(profile);
           posthog.capture('$logged_in', {
             ...profile,
           });
-          posthog.identify(profile.id, {
-            ...profile,
-          });
-          Sentry.setUser({
-            id: profile.id,
-            email: profile.email || profile.mobile || '',
-            username: `${profile.firstName} ${profile.lastName}`.trim(),
-          });
         },
         logout: () => {
-          localStorage.removeItem('token');
           setToken(null);
           setProfile(null);
           posthog.capture('$logged_out', {
             ...profile,
           });
-          posthog.reset();
-          Sentry.setUser(null);
         },
         routeToLogin: () => {
           router.push(loginRoute);

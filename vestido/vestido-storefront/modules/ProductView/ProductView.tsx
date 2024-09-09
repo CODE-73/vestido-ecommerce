@@ -41,6 +41,10 @@ interface ProductViewProps {
   itemId: string;
 }
 
+interface AttributeValuesMap {
+  [key: string]: string;
+}
+
 const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
   const { isAuthenticated, routeToLogin } = useAuth();
 
@@ -62,6 +66,14 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
     [item, selectedVariantId],
   );
 
+  const productImages = useMemo(
+    () => [
+      ...((selectedVariant?.images as ImageSchemaType[]) ?? []),
+      ...((item?.images as ImageSchemaType[]) ?? []),
+    ],
+    [item, selectedVariant],
+  );
+
   useEffect(() => {
     if (!item) {
       return;
@@ -79,9 +91,6 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
       setSelectedImage(((item?.images ?? []) as ImageSchemaType[])[0] ?? null);
     }
   }, [item]);
-  interface AttributeValuesMap {
-    [key: string]: string;
-  }
 
   const currentAttributeValues = useMemo<AttributeValuesMap>(() => {
     if (!selectedVariant) return {};
@@ -216,7 +225,9 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
 
   const mainImage = selectedImage
     ? selectedImage
-    : ((selectedVariant?.images ?? item?.images ?? []) as ImageSchemaType[])[0];
+    : (productImages.find((x) => x.default == true) ??
+      productImages.at(0) ??
+      null);
 
   const isMdAndAbove = useMediaQuery('(min-width:768px)');
   return (
@@ -262,56 +273,24 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
               className="overflow-y-auto overflow-x-hidden no-scrollbar flex flex-col "
               style={{ scrollbarWidth: 'none' }}
             >
-              <div className=" w-full px-2">
-                {((selectedVariant?.images ?? []) as ImageSchemaType[]).length >
-                1 ? (
-                  <>
-                    {((selectedVariant?.images ?? []) as ImageSchemaType[]).map(
-                      (image, index) => (
-                        <div
-                          key={index}
-                          className=""
-                          onClick={() => setSelectedImage(image)}
-                        >
-                          <Image
-                            className="outline outline-3 hover:outline-[#48CAB2] mb-3"
-                            src={image.url ?? ''}
-                            placeholder={
-                              image.blurHashDataURL ? 'blur' : undefined
-                            }
-                            blurDataURL={image.blurHashDataURL ?? undefined}
-                            alt="alt text"
-                            fill
-                          />
-                        </div>
-                      ),
-                    )}
-                  </>
-                ) : (
-                  <>
-                    {((item?.images ?? []) as ImageSchemaType[]).map(
-                      (image, index) => (
-                        <div
-                          key={index}
-                          className="basis-1/5 flex-none"
-                          onClick={() => setSelectedImage(image)}
-                        >
-                          <Image
-                            className="outline outline-3 hover:outline-[#48CAB2] mb-3"
-                            placeholder={
-                              image.blurHashDataURL ? 'blur' : undefined
-                            }
-                            blurDataURL={image.blurHashDataURL ?? undefined}
-                            src={image.url!}
-                            alt="alt text"
-                            width={100}
-                            height={150}
-                          />
-                        </div>
-                      ),
-                    )}
-                  </>
-                )}
+              <div className="w-full px-2">
+                {productImages.map((image, index) => (
+                  <div
+                    key={index}
+                    className="basis-1/5 flex-none"
+                    onClick={() => setSelectedImage(image)}
+                  >
+                    <Image
+                      className="outline outline-3 hover:outline-[#48CAB2] mb-3"
+                      placeholder={image.blurHashDataURL ? 'blur' : undefined}
+                      blurDataURL={image.blurHashDataURL ?? undefined}
+                      src={image.url!}
+                      alt="alt text"
+                      width={100}
+                      height={150}
+                    />
+                  </div>
+                ))}
               </div>
             </div>
             {/* <button
@@ -337,50 +316,21 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
         <div className="sm:hidden">
           <Carousel className=" w-full relative">
             <CarouselContent>
-              {((selectedVariant?.images ?? []) as ImageSchemaType[]).length >
-              1 ? (
-                <>
-                  {((selectedVariant?.images ?? []) as ImageSchemaType[]).map(
-                    (image, index) => (
-                      <CarouselItem key={index}>
-                        <Image
-                          src={image.url ?? ''}
-                          placeholder={
-                            image.blurHashDataURL ? 'blur' : undefined
-                          }
-                          blurDataURL={image.blurHashDataURL ?? undefined}
-                          alt="alt text"
-                          fill
-                          width={550}
-                          height={720}
-                        />
-                      </CarouselItem>
-                    ),
-                  )}
-                </>
-              ) : (
-                <>
-                  {((item?.images ?? []) as ImageSchemaType[]).map(
-                    (image, index) => (
-                      <CarouselItem key={index}>
-                        <div>
-                          <Image
-                            className="outline outline-3 hover:outline-[#48CAB2] mb-3"
-                            src={image.url!}
-                            placeholder={
-                              image.blurHashDataURL ? 'blur' : undefined
-                            }
-                            blurDataURL={image.blurHashDataURL ?? undefined}
-                            alt="alt text"
-                            width={550}
-                            height={720}
-                          />
-                        </div>
-                      </CarouselItem>
-                    ),
-                  )}
-                </>
-              )}
+              {productImages.map((image, index) => (
+                <CarouselItem key={index}>
+                  <div>
+                    <Image
+                      className="outline outline-3 hover:outline-[#48CAB2] mb-3"
+                      src={image.url!}
+                      placeholder={image.blurHashDataURL ? 'blur' : undefined}
+                      blurDataURL={image.blurHashDataURL ?? undefined}
+                      alt="alt text"
+                      width={550}
+                      height={720}
+                    />
+                  </div>
+                </CarouselItem>
+              ))}
             </CarouselContent>
             {/* <CarouselPrevious />
           <CarouselNext /> */}

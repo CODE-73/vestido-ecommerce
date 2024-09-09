@@ -19,6 +19,22 @@ if (typeof window !== 'undefined' && POSTHOG_KEY && POSTHOG_HOST) {
     loaded: (_posthog) => {
       // if (process.env.NODE_ENV === 'development') posthog.debug();
     },
+    enable_recording_console_log: true,
+    // The maximum amount of time a session can be inactive before it is split into a new session.
+    session_idle_timeout_seconds: 120,
+    session_recording: {
+      recordBody: true,
+      recordHeaders: true,
+      // https://posthog.com/docs/session-replay/privacy
+      maskAllInputs: false,
+      maskInputOptions: {
+        password: true,
+      },
+      // https://posthog.com/docs/session-replay/network-recording#how-to-register-a-callback-to-inspect-and-redact-each-network-request
+      maskCapturedNetworkRequestFn: function (request) {
+        return request;
+      },
+    },
   });
 }
 

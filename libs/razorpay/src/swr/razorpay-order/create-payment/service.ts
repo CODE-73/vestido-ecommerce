@@ -1,3 +1,5 @@
+import { Profile } from '@prisma/client';
+
 import {
   CreatePaymentRequest,
   RazorpayFailedPaymentResponse,
@@ -7,6 +9,7 @@ import {
 export async function createRazorpayPayment(
   args: CreatePaymentRequest,
   authHeaders: Record<string, string>,
+  profile: Profile,
 ): Promise<RazorpayResponse> {
   return new Promise<RazorpayResponse>((res, rej) => {
     const options = {
@@ -14,7 +17,7 @@ export async function createRazorpayPayment(
       amount: args.amount,
       currency: 'INR',
       name: 'Vestido Nation',
-      description: 'New Order',
+      description: 'Your style. Your Statement.',
       order_id: args.razorpayOrderId,
       handler: async (r: RazorpayResponse) => {
         res(r);
@@ -43,13 +46,11 @@ export async function createRazorpayPayment(
         // }
       },
       prefill: {
-        name: 'Customer Name',
-        email: 'customer@example.com',
-        contact: '8086960896',
+        name: `${profile.firstName} ${profile.lastName}`.trim(),
+        email: profile.email || `${profile.mobile}@vestidonation.com`,
+        contact: profile.mobile,
       },
-      notes: {
-        address: 'Customer Address',
-      },
+      notes: {},
       theme: {
         color: '#F37254',
       },
@@ -57,8 +58,8 @@ export async function createRazorpayPayment(
         ondismiss: async () => {
           console.log('Payment modal closed by the user.');
 
-          await fetch(`/api/payments/${args.paymentId}`, {
-            method: 'PUT',
+          await fetch(`/api/payments/${args.paymentId}/cancel`, {
+            method: 'POST',
             headers: {
               ...authHeaders,
             },

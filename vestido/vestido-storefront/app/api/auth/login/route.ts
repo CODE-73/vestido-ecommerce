@@ -52,6 +52,7 @@ export const POST = apiRouteHandler(async ({ request }) => {
     fullName: `${user.firstName} ${user.lastName}`.trim(),
     email: user.email,
     mobile: user.mobile,
+    role: user.role,
   });
 
   return {

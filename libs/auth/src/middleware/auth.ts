@@ -8,13 +8,14 @@ import {
   VestidoError,
 } from '@vestido-ecommerce/utils';
 
-import { verifyJWTToken } from './services';
+import { verifyJWTToken } from '../services';
+import { TokenPayload } from '../services/types';
 
 type AuthResponse = {
   authenticated: true;
   token: string;
   profileId: string;
-  data: unknown;
+  data: TokenPayload;
 };
 
 const authStorage = new AsyncLocalStorage<AuthResponse>();

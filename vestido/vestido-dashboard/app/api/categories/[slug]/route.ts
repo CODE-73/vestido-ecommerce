@@ -1,4 +1,4 @@
-import { authMiddleware } from '@vestido-ecommerce/auth';
+import { authMiddleware, roleMiddleware } from '@vestido-ecommerce/auth';
 import {
   categoryDetails,
   deleteCategory,
@@ -8,13 +8,18 @@ import { apiRouteHandler } from '@vestido-ecommerce/utils';
 
 export const dynamic = 'force-dynamic'; // static by default, unless reading the request
 
-export const GET = apiRouteHandler(authMiddleware, async ({ params }) => {
-  const category = await categoryDetails(params.slug);
-  return category;
-});
+export const GET = apiRouteHandler(
+  authMiddleware,
+  roleMiddleware('ADMIN'),
+  async ({ params }) => {
+    const category = await categoryDetails(params.slug);
+    return category;
+  },
+);
 
 export const PUT = apiRouteHandler(
   authMiddleware,
+  roleMiddleware('ADMIN'),
   async ({ request, params }) => {
     const data = await request.json();
     const r = await updateCategory(params.slug, data);
@@ -22,7 +27,11 @@ export const PUT = apiRouteHandler(
   },
 );
 
-export const DELETE = apiRouteHandler(authMiddleware, async ({ params }) => {
-  const deletedcategory = await deleteCategory(params.slug);
-  return deletedcategory;
-});
+export const DELETE = apiRouteHandler(
+  authMiddleware,
+  roleMiddleware('ADMIN'),
+  async ({ params }) => {
+    const deletedcategory = await deleteCategory(params.slug);
+    return deletedcategory;
+  },
+);
