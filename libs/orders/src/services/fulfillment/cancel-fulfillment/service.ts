@@ -25,7 +25,7 @@ export async function cancelFulfillment(fulfillmentId: string) {
 
     if (!fulfillmentToCancel) {
       throw new VestidoError({
-        name: 'FulfillmentNotFound',
+        name: 'SystemErrorFulfillmentNotFound',
         message: `Item ${fulfillmentId} not found`,
       });
     }
@@ -134,19 +134,13 @@ export async function cancelFulfillment(fulfillmentId: string) {
 
     if (!cancelledFulfillment.shiprocket_order_id) {
       throw new VestidoError({
-        name: 'SystemErrorFulfillmentCancel',
+        name: 'LogicalErrorFulfillmentCancel',
         message:
-          'Fulfillment cannot be cancelled as Shiprocket Order not found on Fulfillment.',
+          'Fulfillment cannot be cancelled as Shiprocket Order not created on Fulfillment. Better Delete the Fulfillment',
       });
     }
 
-    const cancelResponse = await cancelShiprocketOrder(
-      cancelledFulfillment.shiprocket_order_id,
-    );
-
-    if (cancelResponse.status_code !== 1) {
-      throw new Error('Error in cancelling Shiprocket Order');
-    }
+    await cancelShiprocketOrder(cancelledFulfillment.shiprocket_order_id);
 
     return cancelledFulfillment;
   });

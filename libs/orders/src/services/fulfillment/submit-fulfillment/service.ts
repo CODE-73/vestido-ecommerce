@@ -1,7 +1,9 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
 import { createShiprocketOrder } from '@vestido-ecommerce/shiprocket';
+import { VestidoError } from '@vestido-ecommerce/utils';
 
 import { CreateAddressSchema } from '../../address/create-address/zod';
+import { getFulfillment } from '../get-fulfillment';
 import { submitFulfillmentSchema } from './zod';
 
 export async function submitFulfillment(fulfillmentId: string) {
@@ -9,29 +11,13 @@ export async function submitFulfillment(fulfillmentId: string) {
 
   // Start a transaction
   const result = await prisma.$transaction(async (prisma) => {
-    const existingFulfillment = await prisma.fulfillment.findUnique({
-      where: {
-        id: fulfillmentId,
-      },
-      include: {
-        fulfillmentItems: {
-          include: {
-            orderItem: {
-              include: {
-                item: true,
-              },
-            },
-          },
-        },
-      },
-    });
-
-    if (!existingFulfillment) {
-      throw new Error('Fulfillment not found.');
-    }
+    const existingFulfillment = await getFulfillment(fulfillmentId);
 
     if (existingFulfillment.status !== 'DRAFT') {
-      throw new Error('Fulfillment has already been submitted.');
+      throw new VestidoError({
+        name: 'LogicalErrorFulfillmentSubmissionFailed',
+        message: `Fulfillment ${fulfillmentId} has already been submitted.`,
+      });
     }
 
     const validatedFulfillment =
@@ -51,7 +37,10 @@ export async function submitFulfillment(fulfillmentId: string) {
       });
 
       if (!orderItem) {
-        throw new Error('OrderItem not found.');
+        throw new VestidoError({
+          name: 'SystemErrorOrderItemNotFound',
+          message: `OrderItem ${orderItem} not found`,
+        });
       }
 
       const newFulfilledQuantity =
@@ -59,7 +48,10 @@ export async function submitFulfillment(fulfillmentId: string) {
 
       if (newFulfilledQuantity > orderItem.qty) {
         // Quantity exceeds the OrderItem's quantity, do not update
-        throw new Error('Fulfilled quantity exceeds OrderItem quantity.');
+        throw new VestidoError({
+          name: 'LogicalErrorFulfillmentSubmissionFailed',
+          message: 'Fulfilled quantity exceeds OrderItem quantity.',
+        });
       }
 
       const updatedOrderItem = await prisma.orderItem.update({
@@ -99,7 +91,10 @@ export async function submitFulfillment(fulfillmentId: string) {
     });
 
     if (!order) {
-      throw new Error('Order not found.');
+      throw new VestidoError({
+        name: 'SystemErrorOrderNotFound',
+        message: `Order ${order} not found.`,
+      });
     }
     // Calculate the total item price of the fulfillment items
     const fulfillmentItemTotal = existingFulfillment.fulfillmentItems.reduce(
@@ -229,10 +224,6 @@ export async function submitFulfillment(fulfillmentId: string) {
     };
 
     const shiprocketOrder = await createShiprocketOrder(shiprocketData);
-
-    if (shiprocketOrder.status_code !== 1) {
-      throw new Error('Error in creating shiprocketOrder');
-    }
 
     const shippingFulfillment = await prisma.fulfillment.update({
       where: {

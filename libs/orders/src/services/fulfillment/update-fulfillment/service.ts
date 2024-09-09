@@ -1,4 +1,5 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
+import { VestidoError } from '@vestido-ecommerce/utils';
 
 import { UpdateFulfillmentSchema, UpdateFulfillmentSchemaType } from './zod';
 
@@ -94,6 +95,9 @@ export async function updateFulfillment(
 
     return updatedFulfillment;
   } else {
-    throw new Error('Fulfillment cannot be updated. Status is not DRAFT.');
+    throw new VestidoError({
+      name: 'LogicalErrorFulfillmentUpdateFailed',
+      message: `Fulfillment ${fulfillmentId} cannot be updated. Status is not DRAFT.`,
+    });
   }
 }

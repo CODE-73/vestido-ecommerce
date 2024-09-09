@@ -1,3 +1,5 @@
+import { VestidoError } from '@vestido-ecommerce/utils';
+
 import { invokeShiprocketAPI } from '../invoke-shiprocket-api';
 import { CreateShiprocketOrderType } from './types';
 
@@ -42,10 +44,16 @@ export async function createShiprocketOrder(data: CreateShiprocketOrderType) {
     weight: data.weight,
   };
 
-  const response = await invokeShiprocketAPI('/orders/create/adhoc', {
-    method: 'POST',
-    body: { ...body },
-  });
-
-  return response;
+  try {
+    const response = await invokeShiprocketAPI('/orders/create/adhoc', {
+      method: 'POST',
+      body: { ...body },
+    });
+    return response;
+  } catch (e) {
+    if (e instanceof VestidoError) {
+      e.name = 'ShipRocketCreateOrderFailed';
+    }
+    throw e;
+  }
 }

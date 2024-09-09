@@ -1,3 +1,5 @@
+import { VestidoError } from '@vestido-ecommerce/utils';
+
 import { generateToken } from '../generate-auth-token';
 import { APIRequestOptions } from './types';
 
@@ -20,8 +22,16 @@ export async function invokeShiprocketAPI(
   });
 
   if (!response.ok) {
-    const errorResponse = await response.text();
-    throw new Error(`Request failed: ${errorResponse}`);
+    throw new VestidoError({
+      name: 'ShipRocketAPIInvokationFailed',
+      message: `Failed invoking ${endpoint}`,
+      httpStatus: 500,
+      context: {
+        endpoint,
+        reqBody: options.body,
+        response: await response.text(),
+      },
+    });
   }
 
   return response.json();
