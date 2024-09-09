@@ -2,8 +2,6 @@ import { authMiddleware, roleMiddleware } from '@vestido-ecommerce/auth';
 import { createVariant, listVariants } from '@vestido-ecommerce/items';
 import { apiRouteHandler } from '@vestido-ecommerce/utils';
 
-export const dynamic = 'force-dynamic'; // static by default, unless reading the request
-
 export const GET = apiRouteHandler(
   authMiddleware,
   roleMiddleware('ADMIN'),

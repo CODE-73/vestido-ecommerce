@@ -5,7 +5,7 @@ import {
   ItemUpsertSchema,
   ItemVariantWithAttributes,
   ItemVariantWithSize,
-} from '@vestido-ecommerce/items';
+} from '@vestido-ecommerce/items/client';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 export { type ItemVariantWithSize };

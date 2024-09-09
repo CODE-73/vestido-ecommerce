@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { ZodError } from 'zod';
 
-import { ItemDetails } from '@vestido-ecommerce/items';
+import { type ItemDetails } from '@vestido-ecommerce/items';
 import { useItemUpsert } from '@vestido-ecommerce/items/client';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { VestidoError } from '@vestido-ecommerce/utils';

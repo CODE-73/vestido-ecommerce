@@ -17,6 +17,6 @@ export const useAddToCart = () => {
     string[] | null,
     AddCartRequest
   >(key, (_, { arg }) => addCartItem({ ...arg }, authHeaders), {
-    ...useClearCacheOnSuccess(CartSWRKeys.CART),
+    ...useClearCacheOnSuccess(CartSWRKeys.CART, false),
   });
 };

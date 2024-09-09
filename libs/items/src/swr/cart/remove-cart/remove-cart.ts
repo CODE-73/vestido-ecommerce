@@ -18,6 +18,6 @@ export const useRemoveFromCart = () => {
     string[] | null,
     RemoveFromCartSWRRequest
   >(key, (_, { arg }) => removeCartItem({ ...arg }, authHeaders), {
-    ...useClearCacheOnSuccess(CartSWRKeys.CART),
+    ...useClearCacheOnSuccess(CartSWRKeys.CART, false),
   });
 };

@@ -30,10 +30,7 @@ import {
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
-// import useIsMobile from '../../../vestido-storefront/hooks/useIsMobile';
-
 const CartView: React.FC = () => {
-  // const isMobile = useIsMobile();
   const { data: cartItems } = useCart();
 
   const { trigger } = useRemoveFromCart();

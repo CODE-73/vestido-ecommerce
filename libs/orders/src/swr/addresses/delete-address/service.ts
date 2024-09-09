@@ -4,6 +4,7 @@ import { DeleteAddressRequest, DeleteAddressResponse } from './types';
 
 export async function addressDelete(
   args: DeleteAddressRequest,
+  headers?: Record<string, string>,
 ): Promise<DeleteAddressResponse> {
   const url = `/api/addresses/${encodeURIComponent(args.addressId)}`;
   const r = await fetch(url, {
@@ -11,6 +12,7 @@ export async function addressDelete(
     headers: {
       'Content-Type': 'application/json',
       Accept: 'application/json',
+      ...headers,
     },
   });
   if (!r.ok) {
