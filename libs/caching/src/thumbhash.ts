@@ -1,4 +1,4 @@
-import { Image } from 'image-js';
+import sharp from 'sharp';
 import { rgbaToThumbHash } from 'thumbhash';
 
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
@@ -24,19 +24,14 @@ export async function makeThumbHash({ fileUrl, file }: MakeThumbHashArgs) {
   }
 
   const buffer = Buffer.from(file);
-  let image = await Image.load(buffer);
-  if (!image.alpha) {
-    image = image.rgba8();
-  }
+  const image = sharp(buffer);
+  const { data, info } = await image
+    .resize(100, 100, { fit: 'inside' })
+    .ensureAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true });
 
-  // Resize to 100x100
-  image = image.resize({
-    height: 100,
-    width: 100,
-    preserveAspectRatio: true,
-  });
-
-  const { width, height, data } = image;
+  const { width, height } = info;
 
   const thumbHash = rgbaToThumbHash(width, height, data);
   return Buffer.from(thumbHash).toString('base64');
