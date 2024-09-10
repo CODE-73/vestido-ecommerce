@@ -54,7 +54,7 @@ const CategoryTable: React.FC<CategoryTableProps> = ({ data }) => {
             <TableRow
               key={category.id}
               onClick={() => handleRowClick(category.id)}
-              className="max-w-sm truncate cursor-pointer"
+              className={`${!category.enabled ? 'text-[#999]' : ''} max-w-sm truncate cursor-pointer`}
             >
               <TableCell className="font-semibold">{category.name}</TableCell>
               <TableCell>

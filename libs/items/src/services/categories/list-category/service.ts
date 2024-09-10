@@ -9,7 +9,7 @@ export async function listCategories(_args: ListCategoryRequest) {
 
   const categoriesList = await prisma.category.findMany({
     where: {
-      enabled: true,
+      enabled: args.enabled,
       ...(args?.q
         ? {
             OR: [
