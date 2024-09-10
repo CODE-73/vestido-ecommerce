@@ -39,7 +39,7 @@ const LoginView: React.FC = () => {
     },
   });
 
-  const { trigger } = useSendOTP();
+  const { trigger, isMutating } = useSendOTP();
   const { toast } = useToast();
 
   const [otpSent, setOtpSent] = useState(false);
@@ -105,7 +105,14 @@ const LoginView: React.FC = () => {
                   </FormItem>
                 )}
               />
-              <Button disabled={otpSent} type="submit">
+              <Button
+                disabled={
+                  isMutating ||
+                  form.formState.isSubmitting ||
+                  !form.formState.isValid
+                }
+                type="submit"
+              >
                 Send OTP
               </Button>
             </form>
