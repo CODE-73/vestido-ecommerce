@@ -66,7 +66,11 @@ const HeaderMenubar: React.FC<NavMenuProps> = ({ isFixed }) => {
         </MenubarTrigger>
         <MenubarContent className="w-[100px] ">
           {mainCategories
-            ?.filter((category) => category.gender.includes('MEN'))
+            ?.filter(
+              (category) =>
+                category.gender.includes('MEN') &&
+                !category.gender.includes('WOMEN'),
+            )
             .map((category, index) => (
               <div key={index}>
                 <Accordion type="single" collapsible className="w-full ">
@@ -125,7 +129,11 @@ const HeaderMenubar: React.FC<NavMenuProps> = ({ isFixed }) => {
         </MenubarTrigger>
         <MenubarContent className="w-[100px] ">
           {mainCategories
-            ?.filter((category) => category.gender.includes('WOMEN'))
+            ?.filter(
+              (category) =>
+                category.gender.includes('WOMEN') &&
+                !category.gender.includes('MEN'),
+            )
             .map((category, index) => (
               <div key={index}>
                 <Accordion type="single" collapsible className="w-full ">

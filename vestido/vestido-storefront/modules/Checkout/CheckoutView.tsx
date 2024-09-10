@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -21,7 +22,7 @@ import {
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Dialog, DialogTrigger } from '@vestido-ecommerce/shadcn-ui/dialog';
 import { Form } from '@vestido-ecommerce/shadcn-ui/form';
-import { ImageSchemaType } from '@vestido-ecommerce/utils';
+import { ImageSchemaType, VestidoError } from '@vestido-ecommerce/utils';
 
 import AddAddressDialog from './AddAddressDialog';
 import { CustomerAddressElement } from './CustomerAddressElement';
@@ -44,6 +45,7 @@ const CreateOrderFormSchema = z.object({
 
 export type CreateOrderForm = z.infer<typeof CreateOrderFormSchema>;
 const CheckoutView: React.FC = () => {
+  const router = useRouter();
   const { data: cartItems } = useCart();
   // const { data: addresses } = useAddresses();
 
@@ -152,12 +154,23 @@ const CheckoutView: React.FC = () => {
         const verifyPaymentRespone = await verifyPaymentTrigger({
           ...verifyPaymentData,
         });
-        if (verifyPaymentRespone.success) {
-          console.log('Payment Successfull');
-        } else {
-          console.log('Payment not success');
+        if (!verifyPaymentRespone.success) {
+          throw new VestidoError({
+            name: 'RazorpayVerificationError',
+            message: 'Razorpay Signature verification failed',
+            httpStatus: 400,
+            context: {
+              paymentId: razorpayOrderResp.paymentId,
+              order_id: PaymentResponse.razorpay_order_id,
+              payment_RP_id: PaymentResponse.razorpay_payment_id,
+              razorpay_signature: PaymentResponse.razorpay_signature,
+            },
+          });
         }
       }
+
+      // Redirect to order confirmation page
+      router.replace(`/order-confirmed?orderId=${orderId}`);
     } catch (e) {
       console.error('Error', e);
     }
