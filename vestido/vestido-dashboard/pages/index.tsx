@@ -1,18 +1,10 @@
-import WidgetCards from '../modules/widgets/WidgetCards';
-
-import styles from './index.module.scss';
-
 export function Index() {
-  /*
-   * Replace the elements below with your own.
-   *
-   * Note: The corresponding styles are in the ./index.scss file.
-   */
   return (
-    <div className={`${styles.page} lg:pt-32 bg-slate-300 h-screen`}>
-      <div className="wrapper">
-        <div className="container">
-          <WidgetCards />
+    <div className={`lg:pt-32 bg-slate-300 h-screen`}>
+      <div className="wrapper h-full w-full flex justify-center items-center">
+        <div className="container text-center  text-7xl font-bold text-[#999]">
+          {/* <WidgetCards /> */}
+          Analytics
         </div>
       </div>
     </div>
