@@ -158,7 +158,11 @@ const MobileHeader: React.FC<HeaderProps> = ({ cart_count }) => {
           {dropdownsOpen.men && (
             <>
               {mainCategories
-                ?.filter((category) => category.gender.includes('MEN'))
+                ?.filter(
+                  (category) =>
+                    category.gender.includes('MEN') &&
+                    !category.gender.includes('WOMEN'),
+                )
                 .map((category, index) => (
                   <div key={index}>
                     <div
@@ -201,7 +205,11 @@ const MobileHeader: React.FC<HeaderProps> = ({ cart_count }) => {
           {dropdownsOpen.women && (
             <>
               {mainCategories
-                ?.filter((category) => category.gender.includes('WOMEN'))
+                ?.filter(
+                  (category) =>
+                    category.gender.includes('WOMEN') &&
+                    !category.gender.includes('MEN'),
+                )
                 .map((category, index) => (
                   <div key={index}>
                     <div
