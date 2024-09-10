@@ -244,7 +244,9 @@ export async function submitFulfillment(fulfillmentId: string) {
       data: {
         shiprocket_order_id: String(shiprocketOrder.order_id),
         shipment_id: String(shiprocketOrder.shipment_id),
-        tracking: shiprocketOrder.awb_code,
+        tracking: shiprocketOrder.awb_code
+          ? String(shiprocketOrder.awb_code)
+          : null,
       },
       include: {
         fulfillmentItems: true,

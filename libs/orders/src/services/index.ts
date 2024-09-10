@@ -13,5 +13,6 @@ export * from './orders/create-order';
 export * from './orders/get-order';
 export * from './orders/list-admin-orders';
 export * from './orders/list-order';
+export * from './orders/track-order';
 export * from './payment/get-payment';
 export * from './shipping/get-shipping-charge';

@@ -13,6 +13,7 @@ export async function getOrder(orderId: string) {
       customer: true,
       shippingAddress: true,
       payments: true,
+      fulfillments: true,
       orderItems: {
         include: {
           item: {
