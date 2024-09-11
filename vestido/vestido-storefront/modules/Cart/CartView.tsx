@@ -93,115 +93,121 @@ const CartView: React.FC = () => {
                 null;
               return (
                 <div key={index}>
-                  <div className="flex gap-2 lg:gap-4 items-center bg-neutral-800 border border-gray-600 mb-5 min-h-[170px]  md:rounded-lg  relative">
-                    <div className="absolute right-1 md:right-5 top-1 md:top-5">
-                      <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                          <LuTrash2 color="rgb(161 161 170)" size={20} />
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                          <AlertDialogHeader>
-                            <AlertDialogTitle>
-                              Are you sure you want to delete this item from
-                              cart?
-                            </AlertDialogTitle>
-                            <AlertDialogDescription>
-                              You can move this to wishlist for future.
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <Link href={`/products/${cartItem.itemId}`}>
+                    <div className="flex gap-2 lg:gap-4 items-center bg-neutral-800 border border-gray-600 mb-5 min-h-[170px]  md:rounded-lg  relative">
+                      <div className="absolute right-1 md:right-5 top-1 md:top-5">
+                        <AlertDialog>
+                          <AlertDialogTrigger
+                            asChild
+                            className="cursor-pointer"
+                          >
+                            <LuTrash2 color="rgb(161 161 170)" size={20} />
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>
+                                Are you sure you want to delete this item from
+                                cart?
+                              </AlertDialogTitle>
+                              <AlertDialogDescription>
+                                You can move this to wishlist for future.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Cancel</AlertDialogCancel>
 
-                            <AlertDialogAction
-                              onClick={() =>
-                                handleRemoveFromCart(
-                                  cartItem.itemId,
-                                  cartItem.variantId!,
-                                  'full',
-                                )
-                              }
-                            >
-                              Remove
-                            </AlertDialogAction>
-                            <AlertDialogAction
-                              onClick={() =>
-                                handleAddToWishlist(cartItem.itemId)
-                              }
-                            >
-                              Move to wishlist
-                            </AlertDialogAction>
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialog>
-                    </div>
-                    <Link
-                      href={`/products/${cartItem.itemId}`}
-                      className="block basis-1/5 md:basis-1/4"
-                    >
-                      <Image
-                        src={img.url ?? ''}
-                        alt={img.alt ?? ''}
-                        width={150}
-                        height={195}
-                        placeholder={img.blurHashDataURL ? 'blur' : undefined}
-                        blurDataURL={img.blurHashDataURL ?? undefined}
-                        className="pl-2 md:pl-0 md:rounded-l-lg"
-                      />
-                    </Link>
-
-                    <div className="flex flex-col gap-1 lg:gap-3 md:self-start my-4">
-                      <div className="md:text-xl font-semibold text-white">
-                        {cartItem.item.title}
+                              <AlertDialogAction
+                                onClick={() =>
+                                  handleRemoveFromCart(
+                                    cartItem.itemId,
+                                    cartItem.variantId!,
+                                    'full',
+                                  )
+                                }
+                              >
+                                Remove
+                              </AlertDialogAction>
+                              <AlertDialogAction
+                                onClick={() =>
+                                  handleAddToWishlist(cartItem.itemId)
+                                }
+                              >
+                                Move to wishlist
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
                       </div>
+                      <Link
+                        href={`/products/${cartItem.itemId}`}
+                        className="block basis-1/5 md:basis-1/4"
+                      >
+                        <Image
+                          src={img.url ?? ''}
+                          alt={img.alt ?? ''}
+                          width={150}
+                          height={195}
+                          placeholder={img.blurHashDataURL ? 'blur' : undefined}
+                          blurDataURL={img.blurHashDataURL ?? undefined}
+                          className="pl-2 md:pl-0 md:rounded-l-lg"
+                        />
+                      </Link>
 
-                      <div className="flex flex-row text-neutral-500 border border-neutral-500 rounded-full  w-[100px] items-center justify-between  px-2 ">
-                        <div
-                          className="text-zinc-300 cursor-pointer"
-                          onClick={() => {
-                            handleRemoveFromCart(
-                              cartItem.itemId,
-                              cartItem.variantId!,
-                              'decrement',
-                            );
-                          }}
-                        >
-                          <LuMinus />
+                      <div className="flex flex-col gap-1 lg:gap-3 md:self-start my-4">
+                        <div className="md:text-xl font-semibold text-white">
+                          {cartItem.item.title}
                         </div>
-                        <div className="font-semibold ">{cartItem.qty}</div>
-                        <div
-                          className=" cursor-pointer"
-                          onClick={() => {
-                            handleAddToCart(
-                              cartItem.itemId,
-                              cartItem.qty + 1,
-                              cartItem.variantId!,
-                            );
-                          }}
-                        >
-                          <LuPlus />
-                        </div>
-                      </div>
-                      <div className="  text-[#48CAB2] col-span-3">
-                        {cartItem.item.discountedPrice ? (
-                          <div className="flex items-center gap-2">
-                            <div className="text-white text-sm font-semibold">
-                              ₹&nbsp;{cartItem.item.discountedPrice.toFixed(2)}
-                            </div>
-                            {cartItem.item.discountedPrice <
-                            cartItem.item.price ? (
-                              <div className="text-white line-through text-xs">
-                                ₹&nbsp;{cartItem.item.price.toFixed(2)}
-                              </div>
-                            ) : (
-                              ''
-                            )}
+
+                        <div className="flex flex-row text-neutral-500 border border-neutral-500 rounded-full  w-[100px] items-center justify-between  px-2 ">
+                          <div
+                            className="text-zinc-300 cursor-pointer"
+                            onClick={() => {
+                              handleRemoveFromCart(
+                                cartItem.itemId,
+                                cartItem.variantId!,
+                                'decrement',
+                              );
+                            }}
+                          >
+                            <LuMinus />
                           </div>
-                        ) : (
-                          <div> ₹&nbsp;{cartItem.item.price.toFixed(2)}</div>
-                        )}
+                          <div className="font-semibold ">{cartItem.qty}</div>
+                          <div
+                            className=" cursor-pointer"
+                            onClick={() => {
+                              handleAddToCart(
+                                cartItem.itemId,
+                                cartItem.qty + 1,
+                                cartItem.variantId!,
+                              );
+                            }}
+                          >
+                            <LuPlus />
+                          </div>
+                        </div>
+                        <div className="  text-[#48CAB2] col-span-3">
+                          {cartItem.item.discountedPrice ? (
+                            <div className="flex items-center gap-2">
+                              <div className="text-white text-sm font-semibold">
+                                ₹&nbsp;
+                                {cartItem.item.discountedPrice.toFixed(2)}
+                              </div>
+                              {cartItem.item.discountedPrice <
+                              cartItem.item.price ? (
+                                <div className="text-white line-through text-xs">
+                                  ₹&nbsp;{cartItem.item.price.toFixed(2)}
+                                </div>
+                              ) : (
+                                ''
+                              )}
+                            </div>
+                          ) : (
+                            <div> ₹&nbsp;{cartItem.item.price.toFixed(2)}</div>
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 </div>
               );
             })}
