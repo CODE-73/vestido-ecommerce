@@ -49,30 +49,37 @@ const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
           {/* <HeaderSearchInput className="text-white ml-2" /> */}
           <AuthenticatedLink
             href="/profile"
-            className="text-white hover:text-[#48cab2] px-3"
+            className="text-white hover:text-[#48cab2] px-2"
           >
             <LuUser2 size={20} />
           </AuthenticatedLink>
 
           <Link
             href="/wishlist"
-            className=" relative text-white hover:text-[#48cab2] "
+            className={`${wishlist_count && wishlist_count >= 1 ? '' : 'px-2'} relative text-white hover:text-[#48cab2] `}
           >
             <LuHeart size={20} />
           </Link>
-          <sup className="relative right-2  h-4 w-4 text-center rounded-full bg-[#48cab2] font-semibold text-xs">
-            {wishlist_count}
-          </sup>
-          <Link href="/cart" className="text-white  hover:text-[#48cab2]">
+          {wishlist_count && wishlist_count >= 1 && (
+            <sup className="relative right-2  h-4 w-4 text-center rounded-full bg-[#48cab2] font-semibold text-xs">
+              {wishlist_count}
+            </sup>
+          )}
+          <Link
+            href="/cart"
+            className={`${cart_count && cart_count >= 1 ? '' : 'px-2'} text-white  hover:text-[#48cab2]`}
+          >
             <LuShoppingBag size={20} />
           </Link>
-          <sup className="relative right-2  h-4 w-4 text-center rounded-full bg-[#48cab2] font-semibold text-xs">
-            {cart_count}
-          </sup>
+          {cart_count && cart_count >= 1 && (
+            <sup className="relative right-2  h-4 w-4 text-center rounded-full bg-[#48cab2] font-semibold text-xs">
+              {cart_count}
+            </sup>
+          )}
 
           <HeaderDropdown />
           {isAuthenticated ? (
-            <LogoutButton className="text-white" />
+            <LogoutButton className="text-white hover:text-[#48cab2] hover:bg-transparent" />
           ) : (
             <Link href="/login">
               <Button className="rounded-none h-10 bg-[#48cab2] ml-4">
