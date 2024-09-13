@@ -6,10 +6,10 @@ import SubHeader from './SubHeader';
 
 const Header = () => {
   const { data: cart } = useCart();
-  const cart_count = cart?.data.length;
+  const cart_count = cart?.data.length ?? 0;
 
   const { data: wishlist } = useWishlist();
-  const wishlist_count = wishlist?.data.length;
+  const wishlist_count = wishlist?.data.length ?? 0;
 
   return (
     <>
