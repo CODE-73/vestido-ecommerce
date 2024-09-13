@@ -14,15 +14,10 @@ import {
   useCreateOrder,
   useShippingCharges,
 } from '@vestido-ecommerce/orders/client';
-import {
-  useLaunchRazorpay,
-  useRazorpayCreateOrder,
-  useVerifyPayment,
-} from '@vestido-ecommerce/razorpay';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Dialog, DialogTrigger } from '@vestido-ecommerce/shadcn-ui/dialog';
 import { Form } from '@vestido-ecommerce/shadcn-ui/form';
-import { ImageSchemaType, VestidoError } from '@vestido-ecommerce/utils';
+import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import AddAddressDialog from './AddAddressDialog';
 import { CustomerAddressElement } from './CustomerAddressElement';
@@ -83,31 +78,18 @@ const CheckoutView: React.FC = () => {
   const shippingCharges = shipping?.data?.shippingCost ?? 0;
 
   const { trigger: createOrderTrigger } = useCreateOrder();
-  const { trigger: createRazorpayOrderTrigger } = useRazorpayCreateOrder();
-  const { trigger: launchRazorpayTrigger } = useLaunchRazorpay();
-  const { trigger: verifyPaymentTrigger } = useVerifyPayment();
 
   const totalPrice =
     cartItems?.data.reduce((total, item) => {
       return total + item.qty * item.item.price;
     }, 0) ?? 0;
 
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-    script.async = true;
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
-
   const handleSubmit = async (data: CreateOrderForm) => {
     try {
       const createOrderResponse = await createOrderTrigger({
         ...data,
       });
+
       if (!createOrderResponse.success) {
         throw createOrderResponse.error;
       }
@@ -119,58 +101,13 @@ const CheckoutView: React.FC = () => {
       const paymentId = payment?.id ?? null;
       console.log('orderId & PaymentId : ', orderId, paymentId);
 
-      const toPay = totalPrice + shippingCharges;
-      const amountInPaise = Math.round(toPay * 100);
+      // const toPay = totalPrice + shippingCharges;
+      // const amountInPaise = Math.round(toPay * 100);
 
       if (paymentType == 'ONLINE') {
-        const razorpayData = {
-          orderId,
-          amount: amountInPaise,
-          currency: 'INR',
-        };
-
-        const razorpayOrderResp = await createRazorpayOrderTrigger({
-          razorpayData,
-        });
-
-        console.log('Razorpay Order Details:', razorpayOrderResp);
-        const paymentData = {
-          orderId: createOrderResponse.data?.order.id,
-          razorpayOrderId: razorpayOrderResp.razorpayOrderId,
-          amount: amountInPaise,
-          paymentId: razorpayOrderResp.paymentId,
-        };
-
-        const PaymentResponse = await launchRazorpayTrigger({
-          ...paymentData,
-        });
-
-        const verifyPaymentData = {
-          paymentId: razorpayOrderResp.paymentId,
-          order_id: PaymentResponse.razorpay_order_id,
-          payment_RP_id: PaymentResponse.razorpay_payment_id,
-          razorpay_signature: PaymentResponse.razorpay_signature,
-        };
-        const verifyPaymentRespone = await verifyPaymentTrigger({
-          ...verifyPaymentData,
-        });
-        if (!verifyPaymentRespone.success) {
-          throw new VestidoError({
-            name: 'RazorpayVerificationError',
-            message: 'Razorpay Signature verification failed',
-            httpStatus: 400,
-            context: {
-              paymentId: razorpayOrderResp.paymentId,
-              order_id: PaymentResponse.razorpay_order_id,
-              payment_RP_id: PaymentResponse.razorpay_payment_id,
-              razorpay_signature: PaymentResponse.razorpay_signature,
-            },
-          });
-        }
+        // Redirect to payment processing page
+        router.replace(`/processing-payment?orderId=${orderId}`);
       }
-
-      // Redirect to order confirmation page
-      router.replace(`/order-confirmed?orderId=${orderId}`);
     } catch (e) {
       console.error('Error', e);
     }
