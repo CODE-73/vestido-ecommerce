@@ -119,41 +119,45 @@ const ProductViewVariants: FC<ProductViewVariantsProps> = ({
     <div className="mt-5 flex flex-col gap-5">
       <hr className="border-gray-600" />
       {Object.keys(attributeMap).map((attributeId) => (
-        <div key={attributeId} className="flex items-center gap-[1px]">
-          <div className="capitalize font-semibold">
+        <div key={attributeId} className="flex flex-col items-start gap-[1px]">
+          <div className="capitalize font-semibold text-md mx-2 my-1">
             {attributeMap[attributeId].name}:
           </div>
-          {attributeMap[attributeId].values.map((value, index) => {
-            const isSelected =
-              selectedVariant?.attributeValues.some(
-                (attrVal) =>
-                  attrVal.attributeId === attributeId &&
-                  attrVal.attributeValue.id === value.id,
-              ) || false;
+          <div className="flex flex-wrap gap-1">
+            {attributeMap[attributeId].values.map((value, index) => {
+              const isSelected =
+                selectedVariant?.attributeValues.some(
+                  (attrVal) =>
+                    attrVal.attributeId === attributeId &&
+                    attrVal.attributeValue.id === value.id,
+                ) || false;
 
-            return (
-              <div
-                key={index}
-                onClick={() =>
-                  value.enabled ? changeToVariant(attributeId, value.id) : null
-                }
-                className={clsx(
-                  `flex flex-col border border-2 rounded-3xl m-1`,
-                  {
-                    'cursor-pointer': value.enabled,
-                    'border-[#48CAB2] text-[#48CAB2]': isSelected,
-                    'border-zinc-100 hover:border-[#48CAB2] hover:text-[#48CAB2]':
-                      !isSelected && value.enabled,
-                    'opacity-50': !value.enabled,
-                  },
-                )}
-              >
-                <div className="text-sm font-semibold border border-1 border-stone-200 rounded-3xl py-2 px-4 ">
-                  {value.value}
+              return (
+                <div
+                  key={index}
+                  onClick={() =>
+                    value.enabled
+                      ? changeToVariant(attributeId, value.id)
+                      : null
+                  }
+                  className={clsx(
+                    `flex flex-col border border-2 rounded-3xl m-1`,
+                    {
+                      'cursor-pointer': value.enabled,
+                      'border-[#48CAB2] text-[#48CAB2]': isSelected,
+                      'border-zinc-100 hover:border-[#48CAB2] hover:text-[#48CAB2]':
+                        !isSelected && value.enabled,
+                      'opacity-50': !value.enabled,
+                    },
+                  )}
+                >
+                  <div className="text-sm font-semibold border border-1 border-stone-200 rounded-3xl py-2 px-4 ">
+                    {value.value}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       ))}
       <hr className="border-gray-600" />
