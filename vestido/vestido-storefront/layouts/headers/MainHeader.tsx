@@ -12,8 +12,8 @@ import LogoutButton from '../LogoutButton';
 import HeaderDropdown from './HeaderDropdown';
 
 interface HeaderProps {
-  cart_count: number | undefined;
-  wishlist_count: number | undefined;
+  cart_count: number;
+  wishlist_count: number;
 }
 const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
   const { isAuthenticated } = useAuth();
@@ -45,37 +45,37 @@ const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
           <Menubar isFixed={false} />
         </div>
 
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-3 pl-2">
           {/* <HeaderSearchInput className="text-white ml-2" /> */}
           <AuthenticatedLink
             href="/profile"
-            className="text-white hover:text-[#48cab2] px-2"
+            className="text-white hover:text-[#48cab2]"
           >
             <LuUser2 size={20} />
           </AuthenticatedLink>
 
           <Link
             href="/wishlist"
-            className={`${wishlist_count && wishlist_count >= 1 ? '' : 'px-2'} relative text-white hover:text-[#48cab2] `}
+            className={`relative text-white hover:text-[#48cab2] `}
           >
             <LuHeart size={20} />
+            {wishlist_count > 0 && (
+              <sup className="absolute -right-[8px] h-4 w-4 text-center rounded-full bg-[#48cab2] font-semibold text-xs">
+                {wishlist_count}
+              </sup>
+            )}
           </Link>
-          {wishlist_count && wishlist_count >= 1 && (
-            <sup className="relative right-2  h-4 w-4 text-center rounded-full bg-[#48cab2] font-semibold text-xs">
-              {wishlist_count}
-            </sup>
-          )}
           <Link
             href="/cart"
-            className={`${cart_count && cart_count >= 1 ? '' : 'px-2'} text-white  hover:text-[#48cab2]`}
+            className={`relative text-white hover:text-[#48cab2]`}
           >
             <LuShoppingBag size={20} />
+            {cart_count > 0 && (
+              <sup className="absolute -right-[8px]  h-4 w-4 text-center rounded-full bg-[#48cab2] font-semibold text-xs">
+                {cart_count}
+              </sup>
+            )}
           </Link>
-          {cart_count && cart_count >= 1 && (
-            <sup className="relative right-2  h-4 w-4 text-center rounded-full bg-[#48cab2] font-semibold text-xs">
-              {cart_count}
-            </sup>
-          )}
 
           <HeaderDropdown />
           {isAuthenticated ? (

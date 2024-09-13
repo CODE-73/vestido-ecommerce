@@ -24,7 +24,7 @@ const LogoutButton: FC<LogoutButtonProps> = ({ className }) => {
     <Button
       variant="ghost"
       onClick={handleLogout}
-      className={clsx('flex gap-2 p-2', className)}
+      className={clsx('flex gap-2 p-0', className)}
     >
       <IoLogOutOutline size={22} />{' '}
       <div className="sm:hidden uppercase"> Logout</div>

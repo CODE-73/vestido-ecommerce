@@ -27,8 +27,8 @@ import LogoutButton from '../LogoutButton';
 import { HeaderSearchInput } from './HeaderSearchInput';
 
 interface HeaderProps {
-  cart_count: number | undefined;
-  wishlist_count: number | undefined;
+  cart_count: number;
+  wishlist_count: number;
 }
 const MobileHeader: React.FC<HeaderProps> = ({ cart_count }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);

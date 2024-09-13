@@ -9,8 +9,8 @@ export const POST = apiRouteHandler(
     const body = await request.json();
     if (!body.paymentType || !body.shippingAddressId) {
       throw new VestidoError({
-        name: 'InvalidInputParameters',
-        message: 'Invalid input parameters',
+        name: 'CalculateShippingChargesMissingArgs',
+        message: 'Missing PaymentType and ShippingAddressID',
         httpStatus: 400,
         context: {
           paymentType: body.paymentType,
