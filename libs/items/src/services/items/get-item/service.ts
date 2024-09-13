@@ -25,6 +25,9 @@ export async function getItemDetails(
             },
           },
         },
+        where: {
+          enabled: true,
+        },
       },
     },
   });
