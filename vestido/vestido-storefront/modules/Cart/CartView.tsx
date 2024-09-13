@@ -96,7 +96,7 @@ const CartView: React.FC = () => {
                   <div className="flex gap-2 lg:gap-4 items-center bg-neutral-800 border border-gray-600 mb-5 min-h-[170px]  md:rounded-lg  relative">
                     <div className="absolute right-1 md:right-5 top-1 md:top-5">
                       <AlertDialog>
-                        <AlertDialogTrigger asChild>
+                        <AlertDialogTrigger asChild className="cursor-pointer">
                           <LuTrash2 color="rgb(161 161 170)" size={20} />
                         </AlertDialogTrigger>
                         <AlertDialogContent>
@@ -185,7 +185,8 @@ const CartView: React.FC = () => {
                         {cartItem.item.discountedPrice ? (
                           <div className="flex items-center gap-2">
                             <div className="text-white text-sm font-semibold">
-                              ₹&nbsp;{cartItem.item.discountedPrice.toFixed(2)}
+                              ₹&nbsp;
+                              {cartItem.item.discountedPrice.toFixed(2)}
                             </div>
                             {cartItem.item.discountedPrice <
                             cartItem.item.price ? (

@@ -6,6 +6,7 @@ import { Gender } from '@prisma/client';
 import { useForm } from 'react-hook-form';
 import { LuChevronLeft } from 'react-icons/lu';
 import * as z from 'zod';
+import { ZodError } from 'zod';
 
 import {
   Genders,
@@ -25,6 +26,7 @@ import {
   FormMessage,
 } from '@vestido-ecommerce/shadcn-ui/form';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
+import { VestidoError } from '@vestido-ecommerce/utils';
 
 import { CategoryElement } from '../../forms/category-combobox-element';
 import { InputElement } from '../../forms/input-element';
@@ -116,7 +118,25 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ categoryId, isNew }) => {
       });
       router.replace(`/categories/${response.data.id}`);
     } catch (e) {
-      console.error('Error updating category:', e);
+      if (e instanceof VestidoError) {
+        form.setError('root', { message: e.message });
+        toast({
+          title: isNew ? 'Error adding Category' : 'Error updating Category',
+          description: e.message,
+        });
+      } else if (e instanceof ZodError) {
+        for (const issue of e.issues) {
+          form.setError(issue.path.join('.') as keyof CreateCategoryForm, {
+            message: issue.message,
+          });
+          toast({
+            title: isNew ? 'Error adding Category' : 'Error updating Category',
+            description: issue.message,
+          });
+        }
+      } else {
+        console.error('Error updating category:', e);
+      }
     }
   };
 

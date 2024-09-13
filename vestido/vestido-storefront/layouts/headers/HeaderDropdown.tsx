@@ -19,7 +19,7 @@ import {
 const HeaderDropdown: React.FC = () => {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
+      <DropdownMenuTrigger className="px-2">
         <LuMailQuestion size={20} color="white" />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="relative right-12">

@@ -17,7 +17,7 @@ const LogoutButton: FC<LogoutButtonProps> = ({ className }) => {
 
   const handleLogout = () => {
     logout();
-    router.push('/login');
+    router.push('/');
   };
 
   return (
