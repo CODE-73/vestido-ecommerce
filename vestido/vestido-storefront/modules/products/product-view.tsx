@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { useMediaQuery } from '@react-hook/media-query';
 import { LuCalendar, LuScaling, LuShoppingBag, LuTruck } from 'react-icons/lu';
@@ -17,41 +17,25 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@vestido-ecommerce/shadcn-ui/accordion';
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@vestido-ecommerce/shadcn-ui/breadcrumb';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 
 import AddToWishListButton from '../ProductListView/AddToWishlistButton';
 import ProductListView from '../ProductListView/ProductListView';
+import ProductViewBreadcrumb from './poduct-view-breadcrumpts';
 import ProductViewImages from './product-view-images';
+import ProductViewVariants from './product-view-variants';
 
 interface ProductViewProps {
   itemId: string;
 }
 
-interface AttributeValuesMap {
-  [key: string]: string;
-}
-
-type VariantAttributeMap = {
-  [key: string]: {
-    name: string;
-    values: { value: string; displayIdx: number; id: string }[];
-  };
-};
-
 const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
   const { isAuthenticated, routeToLogin } = useAuth();
 
   const { data: { data: item } = { data: null } } = useItem(itemId);
-  const { data: category } = useCategory(item?.categoryId);
-  const itemCategory = category?.data.name;
+  const { data: { data: category } = { data: null } } = useCategory(
+    item?.categoryId,
+  );
 
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(
     null,
@@ -62,82 +46,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
     [item, selectedVariantId],
   );
 
-  useEffect(() => {
-    // Auto Choose the first variant if the item has variants
-    if (!item) {
-      return;
-    }
-
-    if (item.hasVariants) {
-      const defaultVar =
-        item.variants.find((variant) => variant.default) || item.variants[0];
-      setSelectedVariantId(defaultVar?.id ?? null);
-    } else {
-      setSelectedVariantId(null);
-    }
-  }, [item]);
-
-  const currentAttributeValues = useMemo<AttributeValuesMap>(() => {
-    if (!selectedVariant) return {};
-
-    return selectedVariant.attributeValues.reduce((acc, attributeValue) => {
-      acc[attributeValue.attribute.id] = attributeValue.attributeValue.id;
-      return acc;
-    }, {} as AttributeValuesMap);
-  }, [selectedVariant]);
-
-  const changeToVariant = (attributeId: string, valueId: string) => {
-    const values = {
-      ...currentAttributeValues,
-      [attributeId]: valueId,
-    };
-
-    const _v = item?.variants.find((x) =>
-      x.attributeValues.every(
-        (attrVal) => values[attrVal.attribute.id] === attrVal.attributeValue.id,
-      ),
-    );
-
-    if (_v) {
-      setSelectedVariantId(_v.id);
-    }
-  };
-
   const { trigger: cartTrigger } = useAddToCart();
-
-  const attributeMap = useMemo(() => {
-    const attributeMap: VariantAttributeMap = {};
-
-    item?.variants.forEach((variant) => {
-      variant.attributeValues.forEach((attributeValue) => {
-        if (!attributeMap[attributeValue.attributeId]) {
-          attributeMap[attributeValue.attributeId] = {
-            name: attributeValue.attribute.name,
-            values: [],
-          };
-        }
-        if (
-          !attributeMap[attributeValue.attributeId].values.find(
-            (x) => x.id === attributeValue.attributeValue.id,
-          )
-        ) {
-          attributeMap[attributeValue.attributeId].values.push({
-            value: attributeValue.attributeValue.value,
-            displayIdx: attributeValue.attributeValue.displayIndex,
-            id: attributeValue.attributeValue.id,
-          });
-        }
-      });
-    });
-
-    for (const attributeId in attributeMap) {
-      attributeMap[attributeId].values.sort(
-        (a, b) => a.displayIdx - b.displayIdx,
-      );
-    }
-
-    return attributeMap;
-  }, [item?.variants]);
 
   const handleAddToCart = () => {
     if (!isAuthenticated) {
@@ -156,36 +65,13 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
 
   const isMdAndAbove = useMediaQuery('(min-width:768px)');
 
-  if (!item) {
+  if (!item || !category) {
     return null;
   }
 
   return (
     <>
-      <Breadcrumb className="p-3 text-gray-200">
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink href="/">Home</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbLink href="/products">Products</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbLink href={`/${item?.categoryId}`}>
-              {itemCategory}
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage className="text-white">
-              {item?.title}
-            </BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
-
+      <ProductViewBreadcrumb item={item} category={category} />
       <div className="w-full flex flex-col md:flex-row py-5 sm:px-2 md:px-0 md:space-x-10 md:px-10 lg:px-20 xl:px-64 text-white">
         <ProductViewImages item={item} selectedVariantId={selectedVariantId} />
         <div className="w-full md:w-1/2">
@@ -219,7 +105,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
               <div className="flex gap-2">
                 <h1 className="font-extralight">Category</h1>
                 <h1 className="font-semibold no-underline hover:underline">
-                  {itemCategory}
+                  {category?.name}
                 </h1>
               </div>
 
@@ -232,39 +118,11 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
                 </h1>
               </div>
 
-              <div className="mt-5 flex flex-col gap-5">
-                <hr className="border-gray-600" />
-                {Object.keys(attributeMap).map((attributeId) => (
-                  <div
-                    key={attributeId}
-                    className="flex items-center gap-[1px]"
-                  >
-                    <div className="capitalize font-semibold">
-                      {attributeMap[attributeId].name}:
-                    </div>
-                    {attributeMap[attributeId].values.map((value, index) => (
-                      <div
-                        key={index}
-                        onClick={() => changeToVariant(attributeId, value.id)}
-                        className={`flex flex-col border border-2 rounded-3xl m-1 cursor-pointer ${
-                          selectedVariant?.attributeValues.some(
-                            (attrVal) =>
-                              attrVal.attributeId === attributeId &&
-                              attrVal.attributeValue.id === value.id,
-                          )
-                            ? 'border-[#48CAB2] text-[#48CAB2] '
-                            : 'border-zinc-100 hover:border-[#48CAB2] hover:text-[#48CAB2]'
-                        }`}
-                      >
-                        <div className="text-sm font-semibold border border-1 border-stone-200 rounded-3xl py-2 px-4 ">
-                          {value.value}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ))}
-                <hr className="border-gray-600" />
-              </div>
+              <ProductViewVariants
+                item={item}
+                selectedVariantId={selectedVariantId}
+                setSelectedVariantId={setSelectedVariantId}
+              />
             </div>
 
             <hr className="border-gray-600" />
@@ -358,7 +216,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
           You may also like
         </div>
         {category && (
-          <ProductListView categoryId={category.data.id} suggestedList={true} />
+          <ProductListView categoryId={category.id} suggestedList={true} />
         )}
       </div>
     </>

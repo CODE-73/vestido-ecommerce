@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { FC, useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
 
 import { ItemDetails } from '@vestido-ecommerce/items';
@@ -14,7 +14,7 @@ type ProductViewImagesProps = {
   selectedVariantId: string | null;
 };
 
-const ProductViewImages: React.FC<ProductViewImagesProps> = ({
+const ProductViewImages: FC<ProductViewImagesProps> = ({
   item,
   selectedVariantId,
 }) => {
