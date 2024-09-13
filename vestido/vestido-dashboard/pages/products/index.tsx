@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 
-import ProductsView from '../../modules/products/ProductsView';
+import ProductsListView from '../../modules/products/products-list';
 
-const ProductsListPage: NextPage = () => <ProductsView />;
+const ProductsListPage: NextPage = () => <ProductsListView />;
 
 export default ProductsListPage;
