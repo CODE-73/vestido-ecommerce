@@ -12,7 +12,7 @@ import {
   ListItemSWRKeys,
 } from '@vestido-ecommerce/items/client';
 
-import ProductView from '../../../modules/ProductView/ProductView';
+import ProductView from '../../../modules/products/product-view';
 
 type ItemDetailsPageProps = {
   fallback: Record<string, unknown>;
