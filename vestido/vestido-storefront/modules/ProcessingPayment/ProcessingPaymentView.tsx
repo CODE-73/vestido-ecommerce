@@ -1,5 +1,8 @@
 import { FC, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import Script from 'next/script';
+
+import { LuLoader2 } from 'react-icons/lu';
 
 import { useOrder } from '@vestido-ecommerce/orders/client';
 import {
@@ -15,6 +18,7 @@ type ProcessingPaymentPageProps = {
 
 const ProcessingPaymentView: FC<ProcessingPaymentPageProps> = ({ orderId }) => {
   const router = useRouter();
+  //  const [status, setStatus] = useState('processing');
   const { data: { data: order } = { data: null } } = useOrder(orderId);
 
   useEffect(() => {
@@ -27,17 +31,6 @@ const ProcessingPaymentView: FC<ProcessingPaymentPageProps> = ({ orderId }) => {
   const { trigger: createRazorpayOrderTrigger } = useRazorpayCreateOrder();
   const { trigger: launchRazorpayTrigger } = useLaunchRazorpay();
   const { trigger: verifyPaymentTrigger } = useVerifyPayment();
-
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-    script.async = true;
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
 
   useEffect(() => {
     const processPayment = async () => {
@@ -116,9 +109,20 @@ const ProcessingPaymentView: FC<ProcessingPaymentPageProps> = ({ orderId }) => {
   ]);
 
   return (
-    <div className="flex items-start justify-center h-screen bg-black">
-      <h1 className="text-white text-4xl mt-10">ProcessingPayment</h1>
-    </div>
+    <>
+      <Script src="https://checkout.razorpay.com/v1/checkout.js" />
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 text-white">
+        <div className="bg-gray-800 p-8 rounded-lg shadow-lg text-center">
+          <h1 className="text-3xl font-bold mb-6">Processing Your Payment</h1>
+          <div className="animate-pulse">
+            <LuLoader2 className="w-16 h-16 mx-auto mb-4 animate-spin text-blue-500" />
+            <p className="text-lg">
+              Please wait while we process your payment...
+            </p>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 
