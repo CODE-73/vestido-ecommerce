@@ -1,4 +1,5 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
+import { VestidoError } from '@vestido-ecommerce/utils';
 
 export async function deleteFulfillment(fulfillmentId: string) {
   const prisma = getPrismaClient();
@@ -36,8 +37,15 @@ export async function deleteFulfillment(fulfillmentId: string) {
 
     return result;
   } else {
-    throw new Error(
-      'Fulfillment cannot be deleted as it is already submitted. It can only be cancelled',
-    );
+    throw new VestidoError({
+      name: 'FulfillmentDeletionFailed',
+      message:
+        'Fulfillment cannot be deleted as it is already submitted. It can only be cancelled',
+      httpStatus: 400,
+      context: {
+        fulfillmentId: fulfillmentId,
+        fulfillmentStatus: existingFulfillment?.status,
+      },
+    });
   }
 }
