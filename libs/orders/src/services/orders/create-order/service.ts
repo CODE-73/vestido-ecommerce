@@ -64,6 +64,16 @@ export async function createOrder(_data: CreateOrderSchemaType) {
         status: 'PENDING',
       },
     });
+
+    // Clear Cart on Confirmation
+    await prisma.cartItem.deleteMany({
+      where: {
+        customerId: customerId,
+        itemId: {
+          in: data.orderItems.map((item) => item.itemId),
+        },
+      },
+    });
   }
 
   return {
