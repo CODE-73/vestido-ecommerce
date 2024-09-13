@@ -1,5 +1,7 @@
 import { Dispatch, FC, SetStateAction, useEffect, useMemo } from 'react';
 
+import clsx from 'clsx';
+
 import { ItemDetails } from '@vestido-ecommerce/items';
 
 type ProductViewVariantsProps = {
@@ -15,7 +17,12 @@ interface AttributeValuesMap {
 type VariantAttributeMap = {
   [key: string]: {
     name: string;
-    values: { value: string; displayIdx: number; id: string }[];
+    values: {
+      value: string;
+      displayIdx: number;
+      enabled: boolean;
+      id: string;
+    }[];
   };
 };
 
@@ -47,27 +54,31 @@ const ProductViewVariants: FC<ProductViewVariantsProps> = ({
   const attributeMap = useMemo(() => {
     const attributeMap: VariantAttributeMap = {};
 
-    item?.variants.forEach((variant) => {
-      variant.attributeValues.forEach((attributeValue) => {
-        if (!attributeMap[attributeValue.attributeId]) {
-          attributeMap[attributeValue.attributeId] = {
-            name: attributeValue.attribute.name,
-            values: [],
-          };
-        }
-        if (
-          !attributeMap[attributeValue.attributeId].values.find(
-            (x) => x.id === attributeValue.attributeValue.id,
-          )
-        ) {
-          attributeMap[attributeValue.attributeId].values.push({
-            value: attributeValue.attributeValue.value,
-            displayIdx: attributeValue.attributeValue.displayIndex,
-            id: attributeValue.attributeValue.id,
-          });
-        }
+    item?.variants
+      .filter((x) => x.enabled)
+      .forEach((variant) => {
+        variant.attributeValues.forEach((attributeValue) => {
+          if (!attributeMap[attributeValue.attributeId]) {
+            attributeMap[attributeValue.attributeId] = {
+              name: attributeValue.attribute.name,
+              values: [],
+            };
+          }
+          if (
+            !attributeMap[attributeValue.attributeId].values.find(
+              (x) => x.id === attributeValue.attributeValue.id,
+            )
+          ) {
+            attributeMap[attributeValue.attributeId].values.push({
+              value: attributeValue.attributeValue.value,
+              displayIdx: attributeValue.attributeValue.displayIndex,
+              id: attributeValue.attributeValue.id,
+              enabled:
+                variant.enabled && variant.stockStatus !== 'OUT_OF_STOCK',
+            });
+          }
+        });
       });
-    });
 
     for (const attributeId in attributeMap) {
       attributeMap[attributeId].values.sort(
@@ -112,25 +123,37 @@ const ProductViewVariants: FC<ProductViewVariantsProps> = ({
           <div className="capitalize font-semibold">
             {attributeMap[attributeId].name}:
           </div>
-          {attributeMap[attributeId].values.map((value, index) => (
-            <div
-              key={index}
-              onClick={() => changeToVariant(attributeId, value.id)}
-              className={`flex flex-col border border-2 rounded-3xl m-1 cursor-pointer ${
-                selectedVariant?.attributeValues.some(
-                  (attrVal) =>
-                    attrVal.attributeId === attributeId &&
-                    attrVal.attributeValue.id === value.id,
-                )
-                  ? 'border-[#48CAB2] text-[#48CAB2] '
-                  : 'border-zinc-100 hover:border-[#48CAB2] hover:text-[#48CAB2]'
-              }`}
-            >
-              <div className="text-sm font-semibold border border-1 border-stone-200 rounded-3xl py-2 px-4 ">
-                {value.value}
+          {attributeMap[attributeId].values.map((value, index) => {
+            const isSelected =
+              selectedVariant?.attributeValues.some(
+                (attrVal) =>
+                  attrVal.attributeId === attributeId &&
+                  attrVal.attributeValue.id === value.id,
+              ) || false;
+
+            return (
+              <div
+                key={index}
+                onClick={() =>
+                  value.enabled ? changeToVariant(attributeId, value.id) : null
+                }
+                className={clsx(
+                  `flex flex-col border border-2 rounded-3xl m-1`,
+                  {
+                    'cursor-pointer': value.enabled,
+                    'border-[#48CAB2] text-[#48CAB2]': isSelected,
+                    'border-zinc-100 hover:border-[#48CAB2] hover:text-[#48CAB2]':
+                      !isSelected && value.enabled,
+                    'opacity-50': !value.enabled,
+                  },
+                )}
+              >
+                <div className="text-sm font-semibold border border-1 border-stone-200 rounded-3xl py-2 px-4 ">
+                  {value.value}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       ))}
       <hr className="border-gray-600" />
