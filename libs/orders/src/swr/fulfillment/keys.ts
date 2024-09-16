@@ -26,3 +26,7 @@ export enum CancelFulfillmentSWRKeys {
   CANCEL = 'cancel',
   FULFILLMENT = 'fulfillment',
 }
+export enum ListFulfillmentSWRKeys {
+  LIST = 'list',
+  FULFILLMENT = 'fulfillment',
+}

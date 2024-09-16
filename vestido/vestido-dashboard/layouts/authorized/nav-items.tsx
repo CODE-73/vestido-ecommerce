@@ -40,6 +40,12 @@ export const navItems: NavigationItem[] = [
     // icon: <LuBook />,
   },
   {
+    id: 'fulfillments',
+    label: 'Fulfillments',
+    href: '/fulfillments',
+    // icon: <LuBook />,
+  },
+  {
     id: 'storefront',
     label: 'Storefront',
     href: '/storefront',
