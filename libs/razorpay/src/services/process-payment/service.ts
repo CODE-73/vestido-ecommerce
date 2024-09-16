@@ -34,7 +34,7 @@ export async function processPayment(data: verifyPaymentRequest) {
     // Update order status to 'PAID' for the fetched order IDs
     await Promise.all(
       updatedOrderIds.map(async (payment) => {
-        await prisma.order.update({
+        const order = await prisma.order.update({
           where: {
             id: payment.orderId,
           },
@@ -42,13 +42,27 @@ export async function processPayment(data: verifyPaymentRequest) {
             orderStatus: 'CONFIRMED',
             orderPaymentStatus: 'CAPTURED',
           },
+          select: {
+            customerId: true,
+            orderItems: true,
+          },
         });
+
         await prisma.orderItem.updateMany({
           where: {
             orderId: payment.orderId,
           },
           data: {
             status: 'CONFIRMED',
+          },
+        });
+
+        await prisma.cartItem.deleteMany({
+          where: {
+            customerId: order.customerId,
+            itemId: {
+              in: order.orderItems.map((item) => item.itemId),
+            },
           },
         });
       }),
