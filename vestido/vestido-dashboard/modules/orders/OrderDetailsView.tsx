@@ -76,7 +76,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
             </div>
           </CardContent>
         </Card>
-        <Card className="col-span-2">
+        <Card className="col-span-6 md:col-span-3 xl:col-span-2">
           <CardHeader>
             <CardTitle className="text-xl">Customer Details</CardTitle>
             <hr />
@@ -105,7 +105,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
             </div>
           </CardContent>
         </Card>
-        <Card className="col-span-2">
+        <Card className="col-span-6 md:col-span-3  xl:col-span-2">
           <CardHeader>
             <CardTitle className="text-xl">
               <div className="flex items-center gap-3">
@@ -130,7 +130,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
             </div>
           </CardContent>
         </Card>
-        <Card className="col-span-2">
+        <Card className="col-span-6 xl:col-span-2">
           <CardHeader>
             <CardTitle className="text-xl">
               <div className="flex items-center gap-3">
