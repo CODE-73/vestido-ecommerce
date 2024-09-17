@@ -1,11 +1,11 @@
 import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
 
-import { attributeDetailsResponse } from './types';
+import { GetAttributeResponse } from './types';
 
-export async function getAttributeDetails(
+export async function getAttribute(
   attributeId: string,
   headers?: Record<string, string>,
-): Promise<attributeDetailsResponse> {
+): Promise<GetAttributeResponse> {
   const url = `/api/attributes/${encodeURIComponent(attributeId)}`;
   const r = await fetch(url, {
     headers: {
@@ -17,5 +17,5 @@ export async function getAttributeDetails(
   }
   const data = await r.json();
 
-  return data as attributeDetailsResponse;
+  return data as GetAttributeResponse;
 }

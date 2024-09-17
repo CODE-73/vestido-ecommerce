@@ -1,7 +1,4 @@
-import { ItemAttribute, ItemAttributeValue } from '@prisma/client';
+import { getAttribute } from './service';
 
-export type AttributeDetailsResponse = {
-  data: ItemAttribute & {
-    values: ItemAttributeValue[];
-  };
-};
+// export type GetAttributeArgs = {};
+export type GetAttributeResult = Awaited<ReturnType<typeof getAttribute>>;

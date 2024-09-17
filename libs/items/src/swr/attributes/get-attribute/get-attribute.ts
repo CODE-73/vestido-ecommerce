@@ -2,9 +2,9 @@ import useSWRImmutable from 'swr/immutable';
 
 import { useAuth } from '@vestido-ecommerce/auth/client';
 
-import { AttributeDetailsResponse } from '../../../services/attributes/get-attribute/types';
 import { AttributeDetailsSWRKeys } from '../keys';
-import { getAttributeDetails } from './service';
+import { getAttribute } from './service';
+import { GetAttributeResponse } from './types';
 
 export function useAttribute(attributeId?: string | null) {
   const { authHeaders } = useAuth();
@@ -16,9 +16,9 @@ export function useAttribute(attributeId?: string | null) {
       ]
     : null;
 
-  return useSWRImmutable<AttributeDetailsResponse, Error>(
+  return useSWRImmutable<GetAttributeResponse, Error>(
     key,
-    () => getAttributeDetails(attributeId as string, authHeaders),
+    () => getAttribute(attributeId as string, authHeaders),
     {
       keepPreviousData: true,
     },
