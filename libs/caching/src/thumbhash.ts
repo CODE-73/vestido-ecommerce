@@ -1,9 +1,20 @@
-import { Image } from 'image-js';
+import sharp from 'sharp';
 import { rgbaToThumbHash } from 'thumbhash';
 
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import { makeSignedUrl } from './r2-images';
+
+/*
+ * Sharp is locked in at 0.30.4
+ * - https://github.com/vercel/vercel/issues/11052#issuecomment-1902268925
+ * - Vercel Test Suite
+ *   https://github.com/vercel/vercel/blob/main/packages/node/test/fixtures/30-sharp/package.json
+ * - NextJS Config Updates
+ *   - Add sharp to externals
+ *   - Mock child_process
+ *   These two changes can be seen at dashboard/next.config.js & storefront/next.config.js
+ */
 
 type MakeThumbHashArgs = {
   fileUrl?: string;
@@ -24,19 +35,14 @@ export async function makeThumbHash({ fileUrl, file }: MakeThumbHashArgs) {
   }
 
   const buffer = Buffer.from(file);
-  let image = await Image.load(buffer);
-  if (!image.alpha) {
-    image = image.rgba8();
-  }
+  const image = sharp(buffer);
+  const { data, info } = await image
+    .resize(100, 100, { fit: 'inside' })
+    .ensureAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true });
 
-  // Resize to 100x100
-  image = image.resize({
-    height: 100,
-    width: 100,
-    preserveAspectRatio: true,
-  });
-
-  const { width, height, data } = image;
+  const { width, height } = info;
 
   const thumbHash = rgbaToThumbHash(width, height, data);
   return Buffer.from(thumbHash).toString('base64');

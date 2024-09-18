@@ -29,10 +29,13 @@ const nextConfig = {
     ],
   },
   webpack: (config, { isServer }) => {
-    if (!isServer) {
+    if (isServer) {
+      config.externals.push('sharp');
+    } else {
       config.resolve = {
         ...config.resolve,
         fallback: {
+          ...config.resolve.fallback,
           // fixes proxy-agent dependencies
           net: false,
           dns: false,
@@ -45,6 +48,8 @@ const nextConfig = {
           events: false,
           // fixes sentry dependencies
           process: false,
+          // fixes sharp dependencies
+          child_process: false,
         },
       };
     }
