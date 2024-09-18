@@ -55,7 +55,6 @@ const ProductsTable: React.FC<FulfillmentTableProps> = ({
                 {fulfillment.orderId}
               </TableCell>
               <TableCell>
-                {' '}
                 {formattedDate(new Date(fulfillment.dateTime))}
               </TableCell>
               <TableCell>
