@@ -3,15 +3,16 @@ import { useRouter } from 'next/router';
 
 import { AiOutlineSearch } from 'react-icons/ai';
 
-import { useItems } from '@vestido-ecommerce/items/client';
+import { useFulfillments } from '@vestido-ecommerce/orders/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Input } from '@vestido-ecommerce/shadcn-ui/input';
 
-import ProductsTable from './ProductsTable';
+import FulfillmentsTable from './FulfillmentsTable';
 
-const Products: React.FC = () => {
+const FulfillmentsListView: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const { data, isLoading } = useItems({ q: searchQuery });
+  const { data, isLoading } = useFulfillments();
+  const fulfillments = data?.data;
   const router = useRouter();
 
   const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,18 +20,18 @@ const Products: React.FC = () => {
   };
 
   const handleButtonClick = () => {
-    router.push('/products/add-new');
+    router.push('/fulfillments/add-new');
   };
 
   return (
     <div className="container mx-auto py-10 bg-slate-200 mt-16 h-full">
       <div className="flex items-center py-5 gap-3 justify-between">
-        <h1 className="text-lg font-semibold">Products List</h1>
-        <div className=" flex gap-[5px] ">
-          <div className="relative">
+        <h1 className="text-lg font-semibold">Fulfillments List</h1>
+        <div className="flex gap-[5px] ">
+          <div className="relative min-w-[15em]">
             <Input
-              name="search-products"
-              placeholder="Search Products"
+              name="search-fulfillments"
+              placeholder="Search Fulfillments"
               type="search"
               value={searchQuery}
               onChange={handleSearchInputChange}
@@ -57,11 +58,11 @@ const Products: React.FC = () => {
             <span className="m-auto">Loading...</span>
           </div>
         ) : (
-          <ProductsTable data={data ?? []} />
+          <FulfillmentsTable data={fulfillments ?? []} />
         )}
       </div>
     </div>
   );
 };
 
-export default Products;
+export default FulfillmentsListView;

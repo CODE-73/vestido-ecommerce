@@ -181,7 +181,7 @@ model ItemAttribute {
     id                    String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     name                  String
     description           String?
-    values   ItemAttributeValue[]
+    values                ItemAttributeValue[]
     VariantAttributeValue VariantAttributeValue[]
 }
 
@@ -303,6 +303,7 @@ model Fulfillment {
     breadth             Float?
     height              Float?
     weight              Float?
+    price               Float?
     fulfillmentItems    FulfillmentItem[]
 }
 

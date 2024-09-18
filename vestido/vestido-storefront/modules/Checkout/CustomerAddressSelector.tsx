@@ -1,5 +1,5 @@
 // import React, { useEffect, useState } from 'react';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
 import clsx from 'clsx';
@@ -47,6 +47,14 @@ const CustomerAddressSelector: React.FC<CustomerAddressSelectorProps> = ({
   const sortedAddresses = [...(addresses?.data ?? [])].sort(
     (a, b) => (b.default ? 1 : 0) - (a.default ? 1 : 0),
   );
+
+  useEffect(() => {
+    if (value || !sortedAddresses.length) {
+      return;
+    }
+
+    onChange?.(sortedAddresses[0].id);
+  });
 
   const handleAddressDelete = async (addressId: string) => {
     try {

@@ -11,14 +11,15 @@ import { getShipping } from './service';
 
 export function useShippingCharges(args: shippingChargesRequest) {
   const { isAuthenticated, authHeaders } = useAuth();
-  const key = isAuthenticated
-    ? [
-        ShippingDetailsSWRKeys.SHIPPING,
-        ShippingDetailsSWRKeys.DETAILS,
-        args.paymentType,
-        args.shippingAddressId,
-      ]
-    : null;
+  const key =
+    isAuthenticated && args.shippingAddressId && args.paymentType
+      ? [
+          ShippingDetailsSWRKeys.SHIPPING,
+          ShippingDetailsSWRKeys.DETAILS,
+          args.paymentType,
+          args.shippingAddressId,
+        ]
+      : null;
 
   return useSWRImmutable<shippingChargesResponse, Error>(key, () =>
     getShipping(args, authHeaders),
