@@ -23,8 +23,8 @@ const ProductsTable: React.FC<FulfillmentTableProps> = ({
 }) => {
   const router = useRouter();
 
-  const handleRowClick = (fulfillment: string) => {
-    router.push(`/fulfillments/${encodeURIComponent(fulfillment)}`);
+  const handleRowClick = (fulfillmentId: string) => {
+    router.push(`/fulfillments/${encodeURIComponent(fulfillmentId)}`);
   };
 
   return (
