@@ -174,7 +174,7 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
               </div>
             </CardDescription>
           </CardHeader>
-          <CardContent className="grid gap-4 overflow-y-scroll">
+          <CardContent className="grid gap-4 max-h-[80%] overflow-y-scroll">
             {order?.fulfillments.map((fulfillment, index) => (
               <div
                 key={index}
