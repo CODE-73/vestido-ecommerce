@@ -10,6 +10,10 @@ import { makeSignedUrl } from './r2-images';
  * - https://github.com/vercel/vercel/issues/11052#issuecomment-1902268925
  * - Vercel Test Suite
  *   https://github.com/vercel/vercel/blob/main/packages/node/test/fixtures/30-sharp/package.json
+ * - NextJS Config Updates
+ *   - Add sharp to externals
+ *   - Mock child_process
+ *   These two changes can be seen at dashboard/next.config.js & storefront/next.config.js
  */
 
 type MakeThumbHashArgs = {
