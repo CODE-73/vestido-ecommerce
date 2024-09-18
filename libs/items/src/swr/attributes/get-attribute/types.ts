@@ -1,7 +1,5 @@
-import { ItemAttribute, ItemAttributeValue } from '@prisma/client';
+import { VestidoResponse } from '@vestido-ecommerce/utils';
 
-export type attributeDetailsResponse = {
-  data: ItemAttribute & {
-    values: ItemAttributeValue[];
-  };
-};
+import { type GetAttributeResult } from '../../../services/attributes/get-attribute/types';
+
+export type GetAttributeResponse = VestidoResponse<GetAttributeResult>;

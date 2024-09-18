@@ -1,4 +1,5 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
+
 import { ListFulfillmentRequest } from './types';
 
 export async function getFulfillmentList(_args: ListFulfillmentRequest) {

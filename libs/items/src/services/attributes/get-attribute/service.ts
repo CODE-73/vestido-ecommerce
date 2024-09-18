@@ -1,5 +1,6 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
-export async function attributeDetails(attributeId: string) {
+
+export async function getAttribute(attributeId: string) {
   const prisma = getPrismaClient();
 
   const attribute = await prisma.itemAttribute.findUnique({
@@ -10,7 +11,6 @@ export async function attributeDetails(attributeId: string) {
       values: true,
     },
   });
-  // no try..catch here
 
   return attribute;
 }
