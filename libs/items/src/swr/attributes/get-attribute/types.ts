@@ -1,4 +1,5 @@
 import { VestidoResponse } from '@vestido-ecommerce/utils';
-import { GetAttributeResult } from 'libs/items/src/services';
+
+import { type GetAttributeResult } from '../../../services/attributes/get-attribute/types';
 
 export type GetAttributeResponse = VestidoResponse<GetAttributeResult>;
