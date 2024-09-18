@@ -21,7 +21,9 @@ const nextConfig = {
     svgr: false,
   },
   webpack: (config, { isServer }) => {
-    if (!isServer) {
+    if (isServer) {
+      config.externals.push('sharp');
+    } else {
       config.resolve = {
         ...config.resolve,
         fallback: {
@@ -37,6 +39,8 @@ const nextConfig = {
           events: false,
           // fixes sentry dependencies
           process: false,
+          // fixes sharp dependencies
+          child_process: false,
         },
       };
     }
