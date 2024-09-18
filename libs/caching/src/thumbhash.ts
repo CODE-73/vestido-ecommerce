@@ -6,8 +6,10 @@ import { ImageSchemaType } from '@vestido-ecommerce/utils';
 import { makeSignedUrl } from './r2-images';
 
 /*
- * Sharp is locked in at 0.32.6
- * https://github.com/lovell/sharp/issues/3870#issuecomment-1877485796
+ * Sharp is locked in at 0.30.4
+ * - https://github.com/vercel/vercel/issues/11052#issuecomment-1902268925
+ * - Vercel Test Suite
+ *   https://github.com/vercel/vercel/blob/main/packages/node/test/fixtures/30-sharp/package.json
  */
 
 type MakeThumbHashArgs = {
