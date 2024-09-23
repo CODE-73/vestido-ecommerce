@@ -7,10 +7,11 @@ export const FulfillmentItemSchema = z.object({
 });
 
 export const UpdateFulfillmentSchema = z.object({
-  length: z.number().optional(),
-  breadth: z.number().optional(),
-  height: z.number().optional(),
-  weight: z.number().optional(),
+  id: z.string().optional(),
+  length: z.number().nullable(),
+  breadth: z.number().nullable(),
+  height: z.number().nullable(),
+  weight: z.number().nullable(),
   items: z.array(FulfillmentItemSchema),
 });
 

@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FulfillmentItem, FulfillmentStatus } from '@prisma/client';
-import { Controller, useFieldArray, useForm } from 'react-hook-form';
-import { LuChevronLeft, LuTrash } from 'react-icons/lu';
+import { useForm } from 'react-hook-form';
+import { LuChevronLeft } from 'react-icons/lu';
 import * as z from 'zod';
 import { ZodError } from 'zod';
 
@@ -13,19 +12,13 @@ import {
   useFulfillment,
   useUpdateFulfillment,
 } from '@vestido-ecommerce/orders/client';
+import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Form } from '@vestido-ecommerce/shadcn-ui/form';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@vestido-ecommerce/shadcn-ui/table';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
-import { ImageSchemaType, VestidoError } from '@vestido-ecommerce/utils';
+import { VestidoError } from '@vestido-ecommerce/utils';
 
-import { InputElement } from '../../forms/input-element';
+import BasicFulfillmentForm from './fulfillment-form-basic';
+import FulfillmentFormTable from './fulfillment-form-table';
 
 const FulfillmentItemSchema = z.object({
   orderItemId: z.string().uuid(),
@@ -34,15 +27,14 @@ const FulfillmentItemSchema = z.object({
 });
 
 const UpdateFulfillmentFormSchema = z.object({
-  fulfillmentId: z.string(),
-  orderId: z.string(),
+  id: z.string(),
   status: z
     .nativeEnum(FulfillmentStatus)
     .default('DRAFT' satisfies FulfillmentStatus),
-  length: z.coerce.number().optional(),
-  breadth: z.coerce.number().optional(),
-  height: z.coerce.number().optional(),
-  weight: z.coerce.number().optional(),
+  length: z.coerce.number().nullable(),
+  breadth: z.coerce.number().nullable(),
+  height: z.coerce.number().nullable(),
+  weight: z.coerce.number().nullable(),
   items: z.array(FulfillmentItemSchema),
 });
 
@@ -53,16 +45,16 @@ interface FulfillmentFormProps {
 }
 
 const FulfillmentForm: React.FC<FulfillmentFormProps> = ({ fulfillmentId }) => {
+  console.log('fulfillment is prop value', fulfillmentId);
   const { toast } = useToast();
   const router = useRouter();
 
   const orderId = useFulfillment(fulfillmentId).data?.data.orderId;
-  //   const order = useOrder(orderId);
 
   const form = useForm<UpdateFulfillmentForm>({
     resolver: zodResolver(UpdateFulfillmentFormSchema),
     defaultValues: {
-      orderId: orderId,
+      id: fulfillmentId,
       status: 'DRAFT',
       length: 0,
       breadth: 0,
@@ -76,62 +68,39 @@ const FulfillmentForm: React.FC<FulfillmentFormProps> = ({ fulfillmentId }) => {
 
   console.log('fulfillment is', fulfillment);
 
-  //   const { isDirty, isValid } = form.formState;
-  //   const isSubmitting = form.formState.isSubmitting;
+  const { isDirty, isValid, errors } = form.formState;
+  // const isSubmitting = form.formState.isSubmitting;
 
-  const { fields /*append, remove*/ } = useFieldArray({
-    control: form.control,
-    name: 'items',
-  });
+  console.info(
+    'FormState:',
+    structuredClone({
+      isDirty,
+      isValid,
+      errors,
+      values: form.getValues(),
+    }),
+  );
+
   useEffect(() => {
     const items = fulfillment?.fulfillmentItems.map((fulfillmentItem) => {
       return {
+        id: fulfillmentItem.id,
         fulfillmentId: fulfillmentItem.fulfillmentId,
         orderItemId: fulfillmentItem.orderItemId,
         quantity: fulfillmentItem.quantity,
-        id: fulfillmentItem.id,
       } satisfies FulfillmentItem;
     });
 
-    console.log('useffect items', items);
-    items &&
-      form.setValue('items', items, {
-        shouldValidate: true,
-      });
+    form.reset({
+      ...fulfillment,
+      items: items ?? [],
+    });
   }, [form, fulfillment]);
 
   const { trigger } = useUpdateFulfillment();
 
-  const getImage = (fulfillmentItemId: string) => {
-    const fulfillingItem = fulfillment?.fulfillmentItems.find(
-      (x) => x.id === fulfillmentItemId,
-    );
-    if (!fulfillmentItemId) {
-      return null;
-    }
-
-    const images = fulfillingItem?.orderItem.item.images as ImageSchemaType[];
-    if (!images || !images.length) {
-      return null;
-    }
-
-    return images.find((x) => x.default) ?? images[0];
-  };
-
-  console.log('get image', getImage('7269f24c-5651-4f87-bd18-314ca5b2f5b6'));
-
-  const getTitle = (fulfillmentItemId: string) => {
-    const fulfillingItem = fulfillment?.fulfillmentItems.find(
-      (x) => x.id === fulfillmentItemId,
-    );
-    if (!fulfillmentItemId) {
-      return null;
-    }
-
-    return fulfillingItem?.orderItem.item.title;
-  };
-  console.log('get title', getTitle('e1e2c462-9f95-479f-9baa-f2f8215c0db8'));
   const handleSubmit = async (data: UpdateFulfillmentForm) => {
+    console.log('handleSubmit');
     try {
       const response = await trigger({
         ...data,
@@ -163,14 +132,6 @@ const FulfillmentForm: React.FC<FulfillmentFormProps> = ({ fulfillmentId }) => {
     }
   };
 
-  //   if (!fulfillment || isLoading) {
-  //     return (
-  //       <div className="h-screen flex">
-  //         <span className="m-auto">Loading...</span>
-  //       </div>
-  //     );
-  //   }
-
   return (
     <Form {...form}>
       <div
@@ -189,89 +150,22 @@ const FulfillmentForm: React.FC<FulfillmentFormProps> = ({ fulfillmentId }) => {
         </div>
         <div className="flex h-full flex-col flex-grow ps-2 pe-2">
           <hr className="border-t-1 border-slate-400 mb-4 w-full" />
-          <div className="grid grid-cols-4 gap-5 lg:px-10">
-            <div className="col-start-1 col-end-3 ">
-              <InputElement
-                required
-                disabled
-                name="orderId"
-                placeholder={orderId}
-                label="Order Id"
-              />
-            </div>
-            <div className="col-start-1">
-              <InputElement
-                name="length"
-                placeholder="Length of package"
-                label="Length"
-              />
-            </div>
-            <InputElement
-              name="breadth"
-              placeholder="Breadth of package"
-              label="Breadth"
-            />
-            <InputElement
-              name="height"
-              placeholder="Height of package"
-              label="Height"
-            />
-            <InputElement
-              name="weight"
-              placeholder="Weight of package"
-              label="Weight"
-            />
-          </div>
+          <BasicFulfillmentForm />
           <hr />
-          <div className="text-xl mt-10">Fulfilling Items & Quantities</div>
-          <Table className="mt-10">
-            <TableHeader>
-              <TableRow>
-                <TableHead>Image</TableHead>
-                <TableHead>Item</TableHead>
-                <TableHead>Fulfilling Qty</TableHead>
-                <TableHead>Delete</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {fields.map((fItem, index) => {
-                console.log('fItem:', fItem);
-                return (
-                  <TableRow key={index} className="cursor-pointer">
-                    <TableCell>
-                      <Image
-                        className="w-10 h-12"
-                        src={getImage(fItem.id)?.key || ''}
-                        alt={getImage(fItem.id)?.alt || ''}
-                        width={50}
-                        height={70}
-                      />
-                    </TableCell>
-                    <TableCell className="font-semibold capitalize">
-                      {getTitle(fItem.id) || 'No Title Available'}
-                    </TableCell>
-
-                    <TableCell className="font-semibold capitalize">
-                      <Controller
-                        name={`items.${index}.quantity`}
-                        control={form.control}
-                        render={({ field }) => <InputElement {...field} />}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <LuTrash />
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
+          <FulfillmentFormTable
+            orderId={orderId ?? ''}
+            fulfillment={fulfillment}
+          />
         </div>
 
-        <div className="grid grid-cols-8 mt-3 text-right gap-2">
-          {/* <Button type="submit" disabled={!isValid || !isDirty || isSubmitting}>
-            {isNew ? 'Create' : 'Update'}
-          </Button> */}
+        <div className="grid grid-cols-3 md:grid-cols-8 mt-3 text-right gap-2">
+          <Button
+            type="submit"
+            // disabled={!isValid || !isDirty || isSubmitting}
+            className="col-span-2"
+          >
+            Update Fulfillment
+          </Button>
         </div>
       </form>
     </Form>
