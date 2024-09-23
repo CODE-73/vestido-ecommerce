@@ -6,7 +6,7 @@ import { ImageSchemaType } from '@vestido-ecommerce/utils';
 import { getRedisClient } from './client';
 
 const SIGNED_URL_EXPRIY = 2 * 24 * 60 * 60; // 2 days // 48 hours
-const REDIS_KEY_EXPIRY = SIGNED_URL_EXPRIY - 3 * 60 * 60; // 45 hours
+const REDIS_KEY_EXPIRY = SIGNED_URL_EXPRIY / 2;
 
 /**
  * Always overwrites existing urls
@@ -62,7 +62,7 @@ export async function makeSignedUrl(key: string) {
       key,
       expiresIn: SIGNED_URL_EXPRIY,
     });
-    await client.set(imgKey, url, { EX: REDIS_KEY_EXPIRY });
+    await client.setEx(imgKey, REDIS_KEY_EXPIRY, url);
   }
 
   return url;
