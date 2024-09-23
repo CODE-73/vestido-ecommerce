@@ -10,8 +10,20 @@ import { ZodError } from 'zod';
 
 import {
   useFulfillment,
+  useSubmitFulfillment,
   useUpdateFulfillment,
 } from '@vestido-ecommerce/orders/client';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@vestido-ecommerce/shadcn-ui/alert-dialog';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Form } from '@vestido-ecommerce/shadcn-ui/form';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
@@ -45,9 +57,9 @@ interface FulfillmentFormProps {
 }
 
 const FulfillmentForm: React.FC<FulfillmentFormProps> = ({ fulfillmentId }) => {
-  console.log('fulfillment is prop value', fulfillmentId);
   const { toast } = useToast();
   const router = useRouter();
+  const { trigger: submitTrigger } = useSubmitFulfillment();
 
   const orderId = useFulfillment(fulfillmentId).data?.data.orderId;
 
@@ -69,8 +81,7 @@ const FulfillmentForm: React.FC<FulfillmentFormProps> = ({ fulfillmentId }) => {
   console.log('fulfillment is', fulfillment);
 
   const { isDirty, isValid, errors } = form.formState;
-  // const isSubmitting = form.formState.isSubmitting;
-
+  const isSubmitting = form.formState.isSubmitting;
   console.info(
     'FormState:',
     structuredClone({
@@ -100,7 +111,6 @@ const FulfillmentForm: React.FC<FulfillmentFormProps> = ({ fulfillmentId }) => {
   const { trigger } = useUpdateFulfillment();
 
   const handleSubmit = async (data: UpdateFulfillmentForm) => {
-    console.log('handleSubmit');
     try {
       const response = await trigger({
         ...data,
@@ -129,6 +139,18 @@ const FulfillmentForm: React.FC<FulfillmentFormProps> = ({ fulfillmentId }) => {
       } else {
         console.error('Error updating fulfillment:', e);
       }
+    }
+  };
+
+  const handleSubmitFulfillment = async (fulfillmentId: string) => {
+    try {
+      // Trigger the fulfillment submission (no additional data needed)
+      await submitTrigger(fulfillmentId);
+      toast({
+        title: 'Fulfillment Submitted Successfully',
+      });
+    } catch (err) {
+      console.error('Error submitting fulfillment:', err);
     }
   };
 
@@ -161,11 +183,38 @@ const FulfillmentForm: React.FC<FulfillmentFormProps> = ({ fulfillmentId }) => {
         <div className="grid grid-cols-3 md:grid-cols-8 mt-3 text-right gap-2">
           <Button
             type="submit"
-            // disabled={!isValid || !isDirty || isSubmitting}
+            disabled={!isValid || isSubmitting || !isDirty}
             className="col-span-2"
           >
             Update Fulfillment
           </Button>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button type="button" disabled={isDirty} className="col-span-2">
+                Submit
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>
+                  Final Submit Fulfillment ??{' '}
+                </AlertDialogTitle>
+                <AlertDialogDescription>
+                  You are about to submit this fulfillment permanently. No
+                  further changes will be allowed. This will be forwarded to the
+                  delivery partner. Would you like to proceed
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={() => handleSubmitFulfillment(fulfillmentId ?? '')}
+                >
+                  Yes, Submit
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       </form>
     </Form>

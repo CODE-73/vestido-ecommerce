@@ -97,88 +97,10 @@ const FulfillmentFormTable: FC<FulfillmentFormTableProps> = ({
             <TableHead>Delete</TableHead>
           </TableRow>
         </TableHeader>
-        {/* <TableBody>
-          {fields.map((fItem, index) => {
-            console.log('fItem:', fItem);
-            return (
-              // @ts-expect-error keyName _id defined above
-              <TableRow key={fItem._id} className="cursor-pointer">
-                <TableCell>
-                  <Image
-                    className="w-10 h-12"
-                    src={getImage(fItem.id)?.url || ''}
-                    alt={getImage(fItem.id)?.alt || ''}
-                    width={50}
-                    height={70}
-                  />
-                </TableCell>
-                <TableCell className="font-semibold capitalize">
-                  {fItem.id ? (
-                    <span>{getTitle(fItem.id) || 'No Title Available'}</span>
-                  ) : (
-                    <Controller
-                      name={`items.${index}.orderItemId`}
-                      control={form.control}
-                      render={({ field }) => (
-                        <SelectElement
-                          {...field}
-                          options={availableOrderItems
-                            .filter(
-                              (item) =>
-                                !fields.some(
-                                  (existingItem) =>
-                                    existingItem.orderItemId === item.id,
-                                ),
-                            )
-                            .map((item) => ({
-                              title: titleFromOrderItemId(item.id) ?? '',
-                              id: item.id,
-                            }))}
-                          placeholder="Select an Item"
-                        />
-                      )}
-                    />
-                  )}
-                </TableCell>
 
-                <TableCell className="font-semibold capitalize">
-                  <Controller
-                    name={`items.${index}.quantity`}
-                    control={form.control}
-                    render={({ field }) => <InputElement {...field} />}
-                  />
-                </TableCell>
-                <TableCell>
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    onClick={() => remove(index)}
-                  >
-                    <LuTrash size={25} />
-                  </Button>
-                </TableCell>
-              </TableRow>
-            );
-          })}
-          <TableRow>
-            <Button
-              type="button"
-              onClick={() => {
-                append({
-                  orderItemId: '',
-                  quantity: 1,
-                });
-              }}
-              className=" bg-white opacity-75 border border-2 text-gray-300 border-dashed border-gray-300 hover:bg-white hover:opacity-100"
-              disabled={availableOrderItems.length === 0}
-            >
-              <LuPlus /> Add another Item in the order to this fulfillment
-            </Button>
-          </TableRow>
-        </TableBody> */}
         <TableBody>
           {fields.map((fItem, index) => {
-            console.log('fItem:', fItem);
+            // console.log('fItem:', fItem);
             const selectedOrderItemId = form.watch(
               `items.${index}.orderItemId`,
             );
