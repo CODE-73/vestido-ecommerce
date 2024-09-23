@@ -143,12 +143,12 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
               </Button>
             </div>
             <div className="flex bg-[#48CAB2] items-center gap-2 flex-1 justify-center text-white  ">
-              <Button
+              {/* <Button
                 // onClick={() => handleAddToCart()}
                 className="text-xl font-semibold bg-transparent hover:bg-transparent"
               >
                 BUY NOW
-              </Button>
+              </Button> */}
             </div>
             <AddToWishListButton
               itemId={item?.id || ''}
