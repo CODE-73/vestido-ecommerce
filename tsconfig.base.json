@@ -27,6 +27,7 @@
         "libs/caching/src/index.ts",
         "../../libs/caching/src/index.ts"
       ],
+      "@vestido-ecommerce/coupon": ["libs/coupon/src/index.ts"],
       "@vestido-ecommerce/fast2sms": [
         "third-party/fast2sms/src/index.ts",
         "../../third-party/fast2sms/src/index.ts"
@@ -85,8 +86,5 @@
       ]
     }
   },
-  "exclude": [
-    "node_modules",
-    "tmp"
-  ]
+  "exclude": ["node_modules", "tmp"]
 }

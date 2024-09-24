@@ -73,6 +73,11 @@ enum FulfillmentStatus {
     FAILED
 }
 
+enum DiscountType {
+    PERCENTAGE
+    AMOUNT
+}
+
 enum AddressType {
     HOME
     OFFICE
@@ -314,6 +319,25 @@ model FulfillmentItem {
     orderItem     OrderItem   @relation(fields: [orderItemId], references: [id])
     orderItemId   String      @db.Uuid
     quantity      Int         @default(1)
+}
+
+model Coupon {
+    id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    coupon      String
+    description String
+    fromDate    DateTime
+    toDate      DateTime
+    enabled     Boolean
+
+    // This will be switched with a CRON job running every 15min.
+    active Boolean // active = enabled + WITHIN(fromDate, toDate)
+
+    // Applying Coupon
+    discountType    DiscountType // Enum already exists
+    discountPercent Float        @default(0)
+    discountAmount  Float        @default(0)
+
+    @@index([coupon, active]) // Compound Index
 }
 
 model ContactUs {
