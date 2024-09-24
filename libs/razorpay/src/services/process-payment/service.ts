@@ -3,6 +3,7 @@ import { getPrismaClient } from '@vestido-ecommerce/models';
 import { generatePaymentSignature } from '../signature';
 import { verifyPaymentRequest } from './types';
 import { verifyRPSignSchema } from './zod';
+import { clearCartOnOrderCreation } from 'libs/items/src/services';
 
 export async function processPayment(data: verifyPaymentRequest) {
   const prisma = getPrismaClient();
@@ -57,14 +58,7 @@ export async function processPayment(data: verifyPaymentRequest) {
           },
         });
 
-        await prisma.cartItem.deleteMany({
-          where: {
-            customerId: order.customerId,
-            itemId: {
-              in: order.orderItems.map((item) => item.itemId),
-            },
-          },
-        });
+        await clearCartOnOrderCreation(payment.orderId);
       }),
     );
 

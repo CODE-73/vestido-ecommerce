@@ -4,6 +4,7 @@ export * from './attributes/get-attribute';
 export * from './attributes/list-attributes';
 export * from './attributes/update-attribute';
 export * from './cart/add-to-cart';
+export * from './cart/clearCartOnOrderCreation';
 export * from './cart/get-cart';
 export * from './cart/remove-from-cart';
 export * from './categories';
