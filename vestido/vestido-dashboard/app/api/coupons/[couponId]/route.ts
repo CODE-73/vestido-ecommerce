@@ -1,5 +1,5 @@
 import { authMiddleware, roleMiddleware } from '@vestido-ecommerce/auth';
-import { getCoupon, updateCoupon } from '@vestido-ecommerce/coupon';
+import { getCoupon, updateCoupon } from '@vestido-ecommerce/coupons';
 import { apiRouteHandler } from '@vestido-ecommerce/utils';
 import { VestidoError } from '@vestido-ecommerce/utils';
 

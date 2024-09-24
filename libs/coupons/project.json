@@ -1,7 +1,7 @@
 {
-  "name": "coupon",
+  "name": "coupons",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/coupon/src",
+  "sourceRoot": "libs/coupons/src",
   "projectType": "library",
   "targets": {
     "lint": {

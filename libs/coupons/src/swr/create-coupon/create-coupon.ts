@@ -4,13 +4,13 @@ import { useAuth } from '@vestido-ecommerce/auth/client';
 import { useClearCacheOnSuccess } from '@vestido-ecommerce/utils';
 
 import { CreateCouponArgs } from '../../services';
-import { CreateCouponSWRKeys } from '../keys';
+import { CouponSWRKeys } from '../keys';
 import { createCoupon } from './service';
 import { CreateCouponResponse } from './types';
 
 export const useCreateCoupon = () => {
   const { authHeaders } = useAuth();
-  const key = [CreateCouponSWRKeys.CREATE, CreateCouponSWRKeys.COUPON];
+  const key = [CouponSWRKeys.CREATE, CouponSWRKeys.COUPON];
 
   return useSWRMutation<
     CreateCouponResponse,
@@ -18,6 +18,6 @@ export const useCreateCoupon = () => {
     string[] | null,
     CreateCouponArgs
   >(key, (_, { arg }) => createCoupon({ ...arg }, authHeaders), {
-    ...useClearCacheOnSuccess(CreateCouponSWRKeys.COUPON),
+    ...useClearCacheOnSuccess(CouponSWRKeys.COUPON),
   });
 };
