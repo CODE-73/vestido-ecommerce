@@ -1,7 +1,8 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
-// import { VestidoError } from '@vestido-ecommerce/utils';
 
-export async function getFulfillmentList(args: ListFulfillmentRequest) {
+import { ListFulfillmentRequest } from './types';
+
+export async function getFulfillmentList(_args: ListFulfillmentRequest) {
   const prisma = getPrismaClient();
 
   const fulfillmentList = await prisma.fulfillment.findMany({
@@ -18,15 +19,5 @@ export async function getFulfillmentList(args: ListFulfillmentRequest) {
     },
   });
 
-  // if (!fulfillment) {
-  //   throw new VestidoError({
-  //     name: 'FulfillmentNotFound',
-  //     message: `Fulfillment ${fulfillmentId} not found`,
-  //     httpStatus: 404,
-  //     context: {
-  //       fulfillmentId,
-  //     },
-  //   });
-  // }
   return fulfillmentList;
 }

@@ -7,7 +7,6 @@ import { useFulfillments } from '@vestido-ecommerce/orders/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Input } from '@vestido-ecommerce/shadcn-ui/input';
 
-// import { CategoryCombobox } from '../../forms/category-combobox-element';
 import FulfillmentsTable from './FulfillmentsTable';
 
 const FulfillmentsListView: React.FC = () => {
@@ -29,7 +28,6 @@ const FulfillmentsListView: React.FC = () => {
       <div className="flex items-center py-5 gap-3 justify-between">
         <h1 className="text-lg font-semibold">Fulfillments List</h1>
         <div className="flex gap-[5px] ">
-          {/* <CategoryCombobox value={categoryId} onChange={setCategoryId} /> */}
           <div className="relative min-w-[15em]">
             <Input
               name="search-fulfillments"

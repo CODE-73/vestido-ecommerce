@@ -1,4 +1,7 @@
-import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
+import {
+  handleVestidoErrorResponse,
+  VestidoError,
+} from '@vestido-ecommerce/utils';
 
 import {
   FulfillmentResponse,
@@ -9,17 +12,24 @@ export async function updateFulfillmentDetails(
   args: UpdateFulfillmentRequest,
   authHeaders: Record<string, string>,
 ): Promise<FulfillmentResponse> {
-  const r = await fetch(
-    `/api/fulfillments/${encodeURIComponent(args.fulfillmentId)}`,
-    {
-      method: 'PUT',
-      headers: {
-        ...authHeaders,
-        'Content-Type': 'application/json',
+  if (!args.id) {
+    throw new VestidoError({
+      name: 'InvalidFulfillmentUpdateRequest',
+      message: 'Missing id in payload',
+      context: {
+        payload: args,
       },
-      body: JSON.stringify(args),
+    });
+  }
+
+  const r = await fetch(`/api/fulfillments/${encodeURIComponent(args.id)}`, {
+    method: 'PUT',
+    headers: {
+      ...authHeaders,
+      'Content-Type': 'application/json',
     },
-  );
+    body: JSON.stringify(args),
+  });
 
   if (!r.ok) {
     await handleVestidoErrorResponse(r);
