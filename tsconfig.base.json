@@ -5,6 +5,7 @@
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
+    "esModuleInterop": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
@@ -26,6 +27,10 @@
       "@vestido-ecommerce/caching": [
         "libs/caching/src/index.ts",
         "../../libs/caching/src/index.ts"
+      ],
+      "@vestido-ecommerce/coupons": [
+        "libs/coupons/src/index.ts",
+        "../../libs/coupons/src/index.ts"
       ],
       "@vestido-ecommerce/fast2sms": [
         "third-party/fast2sms/src/index.ts",
@@ -85,8 +90,5 @@
       ]
     }
   },
-  "exclude": [
-    "node_modules",
-    "tmp"
-  ]
+  "exclude": ["node_modules", "tmp"]
 }
