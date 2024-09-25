@@ -32,6 +32,10 @@
         "libs/coupons/src/index.ts",
         "../../libs/coupons/src/index.ts"
       ],
+      "@vestido-ecommerce/coupons/client": [
+        "libs/coupons/src/client.ts",
+        "../../libs/coupons/src/client.ts"
+      ],
       "@vestido-ecommerce/fast2sms": [
         "third-party/fast2sms/src/index.ts",
         "../../third-party/fast2sms/src/index.ts"
