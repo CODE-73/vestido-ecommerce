@@ -50,7 +50,7 @@ const ProductsTable: React.FC<ProductTableProps> = ({ data, categoryId }) => {
 
   return (
     <>
-      {productsInCategory && productsInCategory.length < 1 ? (
+      {data && categoryId && productsInCategory.length < 1 ? (
         <div className="w-full flex justify-center items-center my-10 font-semibold">
           There are no products in this category
         </div>
