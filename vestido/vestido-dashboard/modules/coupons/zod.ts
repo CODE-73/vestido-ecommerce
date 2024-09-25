@@ -12,8 +12,8 @@ export type CreateCouponForm = z.infer<typeof CreateCouponFormSchema>;
 export const CreateCouponFormDefaultValues = {
   coupon: '',
   description: '',
-  fromDate: new Date().toDateString(),
-  toDate: new Date().toDateString(),
+  fromDate: new Date().toISOString(),
+  toDate: new Date().toISOString(),
   enabled: true,
   discountType: 'PERCENTAGE',
   discountAmount: 0,

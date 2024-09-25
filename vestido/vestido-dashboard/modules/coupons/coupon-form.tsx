@@ -149,7 +149,7 @@ const CouponForm: React.FC<CouponFormProps> = ({ couponId, isNew }) => {
               control={form.control}
               name="fromDate"
               render={({ field }) => (
-                <FormItem className="flex flex-col">
+                <FormItem className="flex flex-col w-full">
                   <FormLabel>Start Date</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
@@ -177,20 +177,16 @@ const CouponForm: React.FC<CouponFormProps> = ({ couponId, isNew }) => {
                         // onSelect={field.onChange}
                         selected={new Date(field.value)}
                         onSelect={(date) => field.onChange(date?.toISOString())}
-                        disabled={(date: Date) =>
-                          date < new Date() || date < new Date('1900-01-01')
-                        }
+                        disabled={(date: Date) => date < new Date('1900-01-01')}
                         initialFocus
                       />
                     </PopoverContent>
                   </Popover>
-                  {/* <FormDescription>Coupon gets active from</FormDescription> */}
                   <FormMessage />
                 </FormItem>
               )}
             />
           </div>
-
           <div className="col-span-2 lg:col-span-1">
             <FormField
               control={form.control}
@@ -222,18 +218,13 @@ const CouponForm: React.FC<CouponFormProps> = ({ couponId, isNew }) => {
                         mode="single"
                         // selected={field.value}
                         // onSelect={field.onChange}
-                        selected={
-                          field.value ? new Date(field.value) : undefined
-                        } // Convert string to Date
-                        onSelect={(date) =>
-                          field.onChange(date ? date.toISOString() : '')
-                        } // Convert Date to string
+                        selected={new Date(field.value)}
+                        onSelect={(date) => field.onChange(date?.toISOString())}
                         disabled={(date: Date) => date < new Date('1900-01-01')}
                         initialFocus
                       />
                     </PopoverContent>
                   </Popover>
-                  {/* <FormDescription>Coupon gets active from</FormDescription> */}
                   <FormMessage />
                 </FormItem>
               )}
@@ -268,9 +259,7 @@ const CouponForm: React.FC<CouponFormProps> = ({ couponId, isNew }) => {
           />
         </div>
         <div className="grid grid-cols-8 mt-3 text-right gap-2">
-          <Button
-            type="submit" /* disabled={!isValid || !isDirty || isSubmitting} */
-          >
+          <Button type="submit" disabled={!isValid || !isDirty || isSubmitting}>
             {isNew ? 'Create' : 'Update'}
           </Button>
         </div>
