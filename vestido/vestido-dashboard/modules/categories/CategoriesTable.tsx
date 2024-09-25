@@ -97,7 +97,7 @@ const CategoryTable: React.FC<CategoryTableProps> = ({ data }) => {
               <TableCell className="text-right">
                 {getGenderString(category.gender)}
               </TableCell>
-              <TableCell>
+              <TableCell className="text-right">
                 <Button
                   className="bg-transparent text-black hover:text-white"
                   type="button"
