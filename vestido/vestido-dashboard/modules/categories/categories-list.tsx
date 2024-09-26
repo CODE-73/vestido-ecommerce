@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 
 import { AiOutlineSearch } from 'react-icons/ai';
 
-import { useCategories } from '@vestido-ecommerce/items/client';
+import { Gender, useCategories } from '@vestido-ecommerce/items/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Input } from '@vestido-ecommerce/shadcn-ui/input';
 import {
@@ -15,14 +15,13 @@ import {
 } from '@vestido-ecommerce/shadcn-ui/select';
 import { Switch } from '@vestido-ecommerce/shadcn-ui/switch';
 
-// import { SelectElement } from '../../forms/select-element';
-import { SwitchElement } from '../../forms/switch-element';
 import CategoryTable from './CategoriesTable';
 
 const Categories: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [enabled, setEnabled] = useState(true);
-  const [gender, setGender] = useState();
+  const [gender, setGender] = useState<Gender | null>(null);
+
   const { data, isLoading } = useCategories({
     q: searchQuery,
     enabled,
@@ -45,17 +44,19 @@ const Categories: React.FC = () => {
         <div className=" flex gap-[5px] ">
           <Switch
             name="enabled"
-            value={enabled ? 'true' : 'false'}
-            onChange={(e) => setEnabled(e.target.value)}
+            checked={enabled} // Bound to the `enabled` state
+            onCheckedChange={(checked) => setEnabled(checked)} // `checked` is true/false directly
           />
-          <Select value={gender} onChange={setGender}>
+          <Select
+            value={gender || undefined}
+            onValueChange={(g) => setGender(g ? (g as Gender) : null)}
+          >
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Gender" />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="MEN">MEN</SelectItem>
               <SelectItem value="WOMEN">WOMEN</SelectItem>
-              {/* <SelectItem value=>BOTH</SelectItem> */}
             </SelectContent>
           </Select>
 

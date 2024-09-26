@@ -24,9 +24,7 @@ export async function listCategories(_args: ListCategoryRequest) {
             enabled: args.enabled,
           }
         : { enabled: true }),
-      ...(args?.gender?.length
-        ? { gender: { hasEvery: args.gender } } // Use hasEvery to match every gender in the array
-        : {}),
+      ...(args?.gender ? { gender: { equals: [args.gender] } } : {}),
     },
   });
 

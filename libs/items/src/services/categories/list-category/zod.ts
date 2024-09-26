@@ -5,10 +5,7 @@ export const ListCategoryRequestSchema = z
   .object({
     q: z.string().nullish(),
     enabled: z.boolean().nullish(),
-    gender: z
-      .array(z.nativeEnum(Gender))
-      .refine((value) => value.some((gender) => gender))
-      .nullish(),
+    gender: z.nativeEnum(Gender).nullish(),
   })
   .nullish();
 
