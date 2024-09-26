@@ -3,11 +3,15 @@ import * as z from 'zod';
 import {
   CreateCouponSchema,
   GetCouponResult,
+  UpdateCouponSchema,
 } from '@vestido-ecommerce/coupons';
 
 export const CreateCouponFormSchema = CreateCouponSchema;
 
+export const UpdateCouponFormSchema = UpdateCouponSchema;
+
 export type CreateCouponForm = z.infer<typeof CreateCouponFormSchema>;
+export type UpdateCouponForm = z.infer<typeof UpdateCouponFormSchema>;
 
 export const CreateCouponFormDefaultValues = {
   coupon: '',
@@ -28,7 +32,8 @@ export function parseCouponDetails(coupon: GetCouponResult) {
   }
 
   return structuredClone({
-    ...CreateCouponFormDefaultValues,
     ...coupon,
-  } satisfies CreateCouponForm);
+    fromDate: new Date(coupon.fromDate).toISOString(),
+    toDate: new Date(coupon.toDate).toISOString(),
+  } satisfies UpdateCouponForm);
 }

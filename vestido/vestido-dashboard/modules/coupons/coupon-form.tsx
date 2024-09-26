@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import { LuCalendar, LuChevronLeft } from 'react-icons/lu';
 import { ZodError } from 'zod';
 
-import { useCoupon, useCreateCoupon } from '@vestido-ecommerce/coupons/client';
+import { useCoupon, useUpsertCoupon } from '@vestido-ecommerce/coupons/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Calendar } from '@vestido-ecommerce/shadcn-ui/calendar';
 import {
@@ -70,11 +70,15 @@ const CouponForm: React.FC<CouponFormProps> = ({ couponId, isNew }) => {
 
   useEffect(() => {
     if (!isNew && coupon) {
-      form.reset(parseCouponDetails(coupon));
+      form.reset({
+        ...coupon,
+        fromDate: new Date(coupon.fromDate).toISOString(),
+        toDate: new Date(coupon.toDate).toISOString(),
+      });
     }
   }, [isNew, coupon, form]);
 
-  const { trigger } = useCreateCoupon();
+  const { trigger } = useUpsertCoupon();
 
   const handleSubmit = async (data: CreateCouponForm) => {
     try {
@@ -82,9 +86,17 @@ const CouponForm: React.FC<CouponFormProps> = ({ couponId, isNew }) => {
         ...data,
       });
       toast({
-        title: 'Coupon created Successfully',
+        title: isNew
+          ? 'Coupon Added Successfully'
+          : 'Coupon Updated Successfully',
       });
-      router.replace(`/coupons/${response.data?.id}`);
+      if (isNew) {
+        router.replace(`/coupons/${response.data?.id}`);
+      } else {
+        form.reset({
+          ...parseCouponDetails(response.data ?? null),
+        });
+      }
     } catch (e) {
       if (e instanceof VestidoError) {
         form.setError('root', { message: e.message });
@@ -144,7 +156,7 @@ const CouponForm: React.FC<CouponFormProps> = ({ couponId, isNew }) => {
               placeholder="Description"
             />
           </div>
-          <div className="col-span-2 lg:col-span-1">
+          <div className="col-span-2 xl:col-span-1">
             <FormField
               control={form.control}
               name="fromDate"
@@ -173,8 +185,6 @@ const CouponForm: React.FC<CouponFormProps> = ({ couponId, isNew }) => {
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
                         mode="single"
-                        // selected={field.value}
-                        // onSelect={field.onChange}
                         selected={new Date(field.value)}
                         onSelect={(date) => field.onChange(date?.toISOString())}
                         disabled={(date: Date) => date < new Date('1900-01-01')}
@@ -187,7 +197,7 @@ const CouponForm: React.FC<CouponFormProps> = ({ couponId, isNew }) => {
               )}
             />
           </div>
-          <div className="col-span-2 lg:col-span-1">
+          <div className="col-span-2 xl:col-span-1">
             <FormField
               control={form.control}
               name="toDate"
@@ -216,8 +226,6 @@ const CouponForm: React.FC<CouponFormProps> = ({ couponId, isNew }) => {
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
                         mode="single"
-                        // selected={field.value}
-                        // onSelect={field.onChange}
                         selected={new Date(field.value)}
                         onSelect={(date) => field.onChange(date?.toISOString())}
                         disabled={(date: Date) => date < new Date('1900-01-01')}
