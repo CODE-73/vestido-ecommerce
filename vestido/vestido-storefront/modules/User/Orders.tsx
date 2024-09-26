@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import { useAttributes } from '@vestido-ecommerce/items/client';
 import { useOrders } from '@vestido-ecommerce/orders/client';
@@ -10,6 +11,7 @@ const OrdersView: React.FC = () => {
   const orders = data?.data;
   const { data: attributeData } = useAttributes();
   const attributes = attributeData?.data;
+  const router = useRouter();
 
   const attr = (attributeId: string) => {
     return attributes?.find((x) => x.id == attributeId);
@@ -20,6 +22,9 @@ const OrdersView: React.FC = () => {
       .find((x) => x.id === attributeValueId);
   };
 
+  const handleOrderClick = (orderId: string) => {
+    router.replace(`/orders/${orderId}`);
+  };
   return (
     <div className="bg-black">
       <div className="font-semibold text-xl my-4 hidden md:block">
@@ -27,16 +32,18 @@ const OrdersView: React.FC = () => {
       </div>
       <div className="flex flex-col gap-3">
         {orders?.map((order, index) => (
-          <div key={index} className="flex flex-col gap-3">
+          <div
+            key={index}
+            onClick={() => handleOrderClick(order.id)}
+            className="flex flex-col gap-3 bg-neutral-900 md:border md:border-2 gap-3"
+          >
+            <div className="font-semibold mt-8 mx-2">Order ID: {order.id}</div>
             {order.orderItems?.map((orderItem, itemIndex) => {
               const variant = orderItem.item.variants.find(
                 (v) => v.id === orderItem.variantId,
               );
               return (
-                <div
-                  key={itemIndex}
-                  className=" md:p-4 md:border md:border-2 gap-3"
-                >
+                <div key={itemIndex} className=" md:p-4 ">
                   <div className="hidden md:block font-semibold text-xs uppercase">
                     {order.orderStatus}
                   </div>
@@ -44,7 +51,7 @@ const OrdersView: React.FC = () => {
                     <div className="md:hidden font-semibold text-[8px] uppercase">
                       {order.orderStatus}
                     </div>
-                    <div className="p-4 border border-2 border-gray-600 flex bg-neutral-600 gap-3">
+                    <div className="p-4 border border-2 border-gray-600 flex bg-black gap-3">
                       <div className="relative h-24 w-20">
                         <Image
                           className="block col-span-2"
