@@ -31,10 +31,10 @@ import { InputElement } from '../../forms/input-element';
 import { RadioGroupElement } from '../../forms/radio-group-element';
 import { SwitchElement } from '../../forms/switch-element';
 import {
-  CreateCouponForm,
   CreateCouponFormDefaultValues as defaultValues,
-  CreateCouponFormSchema,
   parseCouponDetails,
+  UpsertCouponForm,
+  UpsertCouponFormSchema,
 } from './zod';
 
 type CouponFormProps = {
@@ -49,8 +49,8 @@ const CouponForm: React.FC<CouponFormProps> = ({ couponId, isNew }) => {
   const { data: { data: coupon } = { data: null } /*, isLoading */ } =
     useCoupon(isNew ? null : couponId);
 
-  const form = useForm<CreateCouponForm>({
-    resolver: zodResolver(CreateCouponFormSchema),
+  const form = useForm<UpsertCouponForm>({
+    resolver: zodResolver(UpsertCouponFormSchema),
     defaultValues: {
       ...defaultValues,
     },
@@ -80,10 +80,11 @@ const CouponForm: React.FC<CouponFormProps> = ({ couponId, isNew }) => {
 
   const { trigger } = useUpsertCoupon();
 
-  const handleSubmit = async (data: CreateCouponForm) => {
+  const handleSubmit = async (data: UpsertCouponForm) => {
     try {
       const response = await trigger({
         ...data,
+        id: data.id ?? '',
       });
       toast({
         title: isNew
@@ -106,7 +107,7 @@ const CouponForm: React.FC<CouponFormProps> = ({ couponId, isNew }) => {
         });
       } else if (e instanceof ZodError) {
         for (const issue of e.issues) {
-          form.setError(issue.path.join('.') as keyof CreateCouponForm, {
+          form.setError(issue.path.join('.') as keyof UpsertCouponForm, {
             message: issue.message,
           });
           toast({
