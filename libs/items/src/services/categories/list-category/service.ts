@@ -19,11 +19,13 @@ export async function listCategories(_args: ListCategoryRequest) {
             ],
           }
         : {}),
-      ...(args?.enabled
+
+      ...(args?.enabled !== undefined
         ? {
             enabled: args.enabled,
           }
         : { enabled: true }),
+
       ...(args?.gender ? { gender: { equals: [args.gender] } } : {}),
     },
   });

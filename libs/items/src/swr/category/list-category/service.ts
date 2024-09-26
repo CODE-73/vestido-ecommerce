@@ -7,17 +7,21 @@ export async function getCategoriesList(
   args: ListCategoryRequest,
   headers?: Record<string, string>,
 ): Promise<ListCategoryResponse> {
-  const url = '/api/categories';
+  let url = '/api/categories';
   if (args) {
     const query = new URLSearchParams();
     if (args.q) {
       query.append('q', args.q);
     }
-    if (args.enabled) {
+    if ('enabled' in args) {
       query.append('enabled', args.enabled ? 'true' : 'false');
     }
-    if (Array.isArray(args.gender) && args.gender.length > 0) {
-      query.append('gender', args.gender.join(',')); // Join array elements into a comma-separated string
+
+    if (args.gender) {
+      query.append('gender', args.gender); // Join array elements into a comma-separated string
+    }
+    if (query.toString()) {
+      url += `?${query.toString()}`;
     }
   }
 

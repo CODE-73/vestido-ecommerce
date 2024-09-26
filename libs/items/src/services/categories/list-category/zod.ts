@@ -4,7 +4,15 @@ import { z } from 'zod';
 export const ListCategoryRequestSchema = z
   .object({
     q: z.string().nullish(),
-    enabled: z.boolean().nullish(),
+    // enabled: z.boolean().nullish(),
+    enabled: z
+      .string()
+      .nullish()
+      .transform((val) => {
+        if (val === 'true') return true;
+        if (val === 'false') return false;
+        return undefined; // Return undefined if no value
+      }),
     gender: z.nativeEnum(Gender).nullish(),
   })
   .nullish();

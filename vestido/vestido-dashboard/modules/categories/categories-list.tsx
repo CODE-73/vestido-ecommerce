@@ -6,6 +6,7 @@ import { AiOutlineSearch } from 'react-icons/ai';
 import { Gender, useCategories } from '@vestido-ecommerce/items/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Input } from '@vestido-ecommerce/shadcn-ui/input';
+import { Label } from '@vestido-ecommerce/shadcn-ui/label';
 import {
   Select,
   SelectContent,
@@ -39,14 +40,17 @@ const Categories: React.FC = () => {
 
   return (
     <div className="container mx-auto py-10 bg-slate-200 mt-16">
-      <div className="flex items-center py-5 gap-3 justify-between">
-        <h1 className="text-lg font-semibold">Categories List</h1>
+      <div className="flex flex-col md:flex-row items-center py-5 gap-3 justify-between">
+        <h1 className="text-lg font-semibold ">Categories List</h1>
         <div className=" flex gap-[5px] ">
-          <Switch
-            name="enabled"
-            checked={enabled} // Bound to the `enabled` state
-            onCheckedChange={(checked) => setEnabled(checked)} // `checked` is true/false directly
-          />
+          <div className="flex items-center">
+            <Label>Enabled</Label>
+            <Switch
+              name="enabled"
+              checked={enabled}
+              onCheckedChange={(checked) => setEnabled(checked)}
+            />
+          </div>
           <Select
             value={gender || undefined}
             onValueChange={(g) => setGender(g ? (g as Gender) : null)}
