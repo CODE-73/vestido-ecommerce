@@ -6,12 +6,28 @@ import { AiOutlineSearch } from 'react-icons/ai';
 import { useCategories } from '@vestido-ecommerce/items/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Input } from '@vestido-ecommerce/shadcn-ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@vestido-ecommerce/shadcn-ui/select';
+import { Switch } from '@vestido-ecommerce/shadcn-ui/switch';
 
+// import { SelectElement } from '../../forms/select-element';
+import { SwitchElement } from '../../forms/switch-element';
 import CategoryTable from './CategoriesTable';
 
 const Categories: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const { data, isLoading } = useCategories({ q: searchQuery });
+  const [enabled, setEnabled] = useState(true);
+  const [gender, setGender] = useState();
+  const { data, isLoading } = useCategories({
+    q: searchQuery,
+    enabled,
+    gender,
+  });
   const router = useRouter();
 
   const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,6 +43,22 @@ const Categories: React.FC = () => {
       <div className="flex items-center py-5 gap-3 justify-between">
         <h1 className="text-lg font-semibold">Categories List</h1>
         <div className=" flex gap-[5px] ">
+          <Switch
+            name="enabled"
+            value={enabled ? 'true' : 'false'}
+            onChange={(e) => setEnabled(e.target.value)}
+          />
+          <Select value={gender} onChange={setGender}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Gender" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="MEN">MEN</SelectItem>
+              <SelectItem value="WOMEN">WOMEN</SelectItem>
+              {/* <SelectItem value=>BOTH</SelectItem> */}
+            </SelectContent>
+          </Select>
+
           <div className="relative">
             <Input
               name="search-categories"
