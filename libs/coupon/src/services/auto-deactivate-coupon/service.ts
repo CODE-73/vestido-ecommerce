@@ -18,8 +18,32 @@ export async function deactivateExpiredCoupons() {
   });
 }
 
-// Schedule the cron job to run daily at midnight
+export async function activateValidCoupons() {
+  const prisma = getPrismaClient();
+
+  await prisma.coupon.updateMany({
+    where: {
+      fromDate: {
+        lte: new Date(),
+      },
+      toDate: {
+        gte: new Date(),
+      },
+      enabled: true,
+      active: false,
+    },
+    data: {
+      active: true,
+    },
+  });
+}
+
 cron.schedule('0 0 * * *', async () => {
-  console.log('Running coupon deactivation cron job...');
+  //  console.log('Running coupon activation/deactivation cron job...');
+
+  // Deactivate expired coupons
   await deactivateExpiredCoupons();
+
+  // Activate valid coupons
+  await activateValidCoupons();
 });
