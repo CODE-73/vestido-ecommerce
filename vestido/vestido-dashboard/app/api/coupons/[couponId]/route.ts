@@ -1,5 +1,9 @@
 import { authMiddleware, roleMiddleware } from '@vestido-ecommerce/auth';
-import { getCoupon, updateCoupon } from '@vestido-ecommerce/coupons';
+import {
+  deleteCoupon,
+  getCoupon,
+  updateCoupon,
+} from '@vestido-ecommerce/coupons';
 import { apiRouteHandler } from '@vestido-ecommerce/utils';
 import { VestidoError } from '@vestido-ecommerce/utils';
 
@@ -31,5 +35,14 @@ export const PUT = apiRouteHandler(
     }
     const coupon = await updateCoupon(params.couponId, body);
     return coupon;
+  },
+);
+
+export const DELETE = apiRouteHandler(
+  authMiddleware,
+  roleMiddleware('ADMIN'),
+  async ({ params }) => {
+    const deletedcoupon = await deleteCoupon(params.couponId);
+    return deletedcoupon;
   },
 );
