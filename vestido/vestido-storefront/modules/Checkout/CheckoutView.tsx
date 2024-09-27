@@ -5,11 +5,12 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryState } from 'nuqs';
 import { useForm } from 'react-hook-form';
 import { LuChevronRight } from 'react-icons/lu';
 import { z } from 'zod';
 
-import { useCart } from '@vestido-ecommerce/items/client';
+import { useCart, useItem } from '@vestido-ecommerce/items/client';
 import {
   useCreateOrder,
   useShippingCharges,
@@ -41,10 +42,16 @@ const CreateOrderFormSchema = z.object({
 export type CreateOrderForm = z.infer<typeof CreateOrderFormSchema>;
 const CheckoutView: React.FC = () => {
   const router = useRouter();
-  const { data: cartItems } = useCart();
+  const { data: { data: cartItems } = { data: null } } = useCart();
   // const { data: addresses } = useAddresses();
 
   const [currentSession, setCurrentSession] = useState('Address');
+  const [buyNowItemId] = useQueryState('buyNowItemId');
+  const [buyNowVariantId] = useQueryState('buyNowVariantId');
+
+  const { data: { data: buyNowItem } = { data: null } } = useItem(buyNowItemId);
+
+  const checkoutItems = buyNowItem ? [{ item: buyNowItem }] : cartItems;
 
   const form = useForm<CreateOrderForm>({
     resolver: zodResolver(CreateOrderFormSchema),
@@ -52,10 +59,10 @@ const CheckoutView: React.FC = () => {
   });
 
   useEffect(() => {
-    if (cartItems?.data?.length) {
+    if (cartItems?.length) {
       form.setValue(
         'orderItems',
-        cartItems?.data.map((cartItem) => ({
+        cartItems?.map((cartItem) => ({
           itemId: cartItem.itemId,
           price: cartItem.item.price,
           qty: cartItem.qty,
@@ -63,7 +70,7 @@ const CheckoutView: React.FC = () => {
         })),
       );
     }
-  }, [cartItems?.data, form]);
+  }, [cartItems, form]);
 
   const [shippingAddressId, paymentType] = form.watch([
     'addressId',
@@ -79,15 +86,32 @@ const CheckoutView: React.FC = () => {
 
   const { trigger: createOrderTrigger } = useCreateOrder();
 
-  const totalPrice =
-    cartItems?.data.reduce((total, item) => {
-      return total + item.qty * item.item.price;
-    }, 0) ?? 0;
+  const totalPrice = buyNowItem
+    ? (checkoutItems?.reduce((total, item) => {
+        return total + item.item.price;
+      }, 0) ?? 0)
+    : (cartItems?.reduce((total, item) => {
+        return total + item.qty * item.item.price;
+      }, 0) ?? 0);
 
   const handleSubmit = async (data: CreateOrderForm) => {
+    const orderData = buyNowItem
+      ? {
+          addressId: data.addressId,
+          orderItems: [
+            {
+              itemId: buyNowItemId ?? '',
+              qty: 1,
+              price: buyNowItem.price,
+              variantId: buyNowVariantId ?? '',
+            },
+          ],
+          paymentType: data.paymentType,
+        }
+      : data;
     try {
       const createOrderResponse = await createOrderTrigger({
-        ...data,
+        ...orderData,
       });
 
       if (!createOrderResponse.success) {
@@ -103,6 +127,11 @@ const CheckoutView: React.FC = () => {
 
       // const toPay = totalPrice + shippingCharges;
       // const amountInPaise = Math.round(toPay * 100);
+
+      if (paymentType == 'CASH_ON_DELIVERY') {
+        // Redirect to payment processing page
+        router.replace(`/order-confirmed?orderId=${orderId}`);
+      }
 
       if (paymentType == 'ONLINE') {
         // Redirect to payment processing page
@@ -170,27 +199,31 @@ const CheckoutView: React.FC = () => {
             </div>
             <div className="md:basis-2/5 overflow-auto  px-3 md:pl-5 md:sticky top-0 w-full text-white">
               <div className="flex flex-col">
-                {cartItems?.data.map((cartItem, index) => (
+                {checkoutItems?.map((checkoutItem, index) => (
                   <div key={index}>
                     <div className="flex justify-between py-3 px-2 gap-2 items-center">
                       <Image
                         className="w-10 h-12 col-span-1 "
                         src={
-                          ((cartItem.item.images ?? []) as ImageSchemaType[])[0]
-                            .url!
+                          (
+                            (checkoutItem.item.images ??
+                              []) as ImageSchemaType[]
+                          )[0].url!
                         }
                         alt={
-                          ((cartItem.item.images ?? []) as ImageSchemaType[])[0]
-                            .alt!
+                          (
+                            (checkoutItem.item.images ??
+                              []) as ImageSchemaType[]
+                          )[0].alt!
                         }
                         width={50}
                         height={70}
                       />
                       <div className="text-sm col-span-3 text-left grow pl-5">
-                        {cartItem.item.title}
+                        {checkoutItem.item.title}
                       </div>
                       <div className="text-sm col-span-1 flex justify-center text-right">
-                        ₹&nbsp;{cartItem.item.price.toFixed(2)}
+                        ₹&nbsp;{checkoutItem.item.price.toFixed(2)}
                       </div>
                     </div>
                   </div>
@@ -199,7 +232,7 @@ const CheckoutView: React.FC = () => {
               <hr className="border-gray-600" />
               <div className="flex justify-between pr-3 mt-3">
                 <div className="text-md ">Subtotal</div>
-                <div className=" text-lg">₹&nbsp;{totalPrice.toFixed(2)}</div>
+                <div className=" text-lg">₹&nbsp;{totalPrice?.toFixed(2)}</div>
               </div>
               <div className="flex justify-between pr-3 mt-3">
                 <div className="text-md ">Shipping</div>

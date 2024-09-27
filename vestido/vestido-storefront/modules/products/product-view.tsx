@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useMemo, useState } from 'react';
+import { useRouter } from 'next/router';
 
 import { useMediaQuery } from '@react-hook/media-query';
 import { LuCalendar, LuScaling, LuShoppingBag, LuTruck } from 'react-icons/lu';
@@ -31,6 +32,7 @@ interface ProductViewProps {
 
 const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
   const { isAuthenticated, routeToLogin } = useAuth();
+  const router = useRouter();
 
   const { data: { data: item } = { data: null } } = useItem(itemId);
   const { data: { data: category } = { data: null } } = useCategory(
@@ -60,6 +62,18 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
         qty: 1,
         variantId: selectedVariantId ?? null,
       });
+    }
+  };
+  const handleBuyNow = () => {
+    if (!isAuthenticated) {
+      routeToLogin();
+      return;
+    }
+
+    if (item) {
+      router.replace(
+        `/checkout?buyNowItemId=${item.id}&buyNowVariantId=${selectedVariantId}`,
+      );
     }
   };
 
@@ -128,12 +142,12 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
             <hr className="border-gray-600" />
           </div>
           <div
-            className="flex gap-2 mb-5 w-full fixed -bottom-5 w-full sm:static bg-black  py-4 px-2 mx-0 z-50 sm:z-auto"
+            className="flex flex-wrap gap-2 mb-5 w-full fixed -bottom-5 w-full sm:static bg-black  py-4 px-2 mx-0 z-50 sm:z-auto"
             style={{
               boxShadow: '0 -20px 25px -5px rgba(55, 65, 81, 0.3)', // Mimicking shadow-lg shadow-gray-700/50
             }}
           >
-            <div className="flex bg-[#48CAB2] items-center gap-2 flex-1 justify-center text-white  ">
+            <div className="flex  bg-[#48CAB2] h-10 sm:h-auto items-center gap-2 flex-1 justify-center text-white  ">
               <LuShoppingBag size={30} />
               <Button
                 onClick={() => handleAddToCart()}
@@ -142,17 +156,17 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
                 ADD TO CART
               </Button>
             </div>
-            {/* <div className="flex bg-[#48CAB2] items-center gap-2 flex-1 justify-center text-white  ">
+            <div className="flex min-w-[320px] sm:min-w-auto order-last sm:order-none bg-[#48CAB2] h-10 sm:h-auto items-center gap-2 flex-1 justify-center text-white  ">
               <Button
-                // onClick={() => handleAddToCart()}
+                onClick={() => handleBuyNow()}
                 className="text-xl font-semibold bg-transparent hover:bg-transparent"
               >
                 BUY NOW
               </Button>
-            </div> */}
+            </div>
             <AddToWishListButton
               itemId={item?.id || ''}
-              className="border border-2 border-[#48CAB2] font-medium text-xs  h-full self-center p-4"
+              className="border sm:border-2 border-[#48CAB2] font-medium text-xs h-full self-center p-1 sm:p-4 "
             />
           </div>
           <hr className="border-gray-600" />
@@ -176,7 +190,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
                 </div>
               </>
             ) : (
-              <div className="grid grid-cols-3">
+              <div className="grid grid-cols-3 w-full">
                 <div className="flex flex-col  gap-1 items-center ">
                   <LuScaling size={24} />
                   <div className="text-xs">Size Guide</div>
