@@ -49,101 +49,114 @@ const ProductsTable: React.FC<ProductTableProps> = ({ data, categoryId }) => {
   };
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Title</TableHead>
-          <TableHead>Price</TableHead>
-          <TableHead>Category</TableHead>
-          <TableHead>Description</TableHead>
-          <TableHead>Has Variants</TableHead>
-          <TableHead>Variants Count</TableHead>
-          <TableHead className="text-right">Delete</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {data && categoryId
-          ? productsInCategory.map((item) => (
-              <TableRow
-                key={item.id}
-                onClick={() => handleRowClick(item.id)}
-                className="cursor-pointer"
-              >
-                <TableCell className="font-semibold capitalize">
-                  {item.title}
-                </TableCell>
-                <TableCell> ₹&nbsp;{item.price.toFixed(2)}</TableCell>
-                <TableCell>{item.category?.name}</TableCell>
-                <TableCell className="truncate max-w-xs">
-                  {item.description}
-                </TableCell>
-                <TableCell>{item.hasVariants ? 'Yes' : 'No'}</TableCell>
-                <TableCell
-                  className={`${
-                    item.hasVariants && item.variants.length < 1
-                      ? 'text-red-500 font-semibold'
-                      : ''
-                  } text-center`}
-                >
-                  {item.hasVariants ? `${item.variants.length}` : 'No variant'}
-                </TableCell>
-                <TableCell>
-                  <Button
-                    className="bg-transparent text-black hover:text-white"
-                    type="button"
-                    disabled={isMutating}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleItemDelete(item.id);
-                    }}
+    <>
+      {data && categoryId && productsInCategory.length < 1 ? (
+        <div className="w-full flex justify-center items-center my-10 font-semibold">
+          There are no products in this category
+        </div>
+      ) : (
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Title</TableHead>
+              <TableHead>Price</TableHead>
+              <TableHead>Category</TableHead>
+              <TableHead>Description</TableHead>
+              <TableHead>Has Variants</TableHead>
+              <TableHead>Variants Count</TableHead>
+              <TableHead className="text-right">Delete</TableHead>
+            </TableRow>
+          </TableHeader>
+
+          <TableBody>
+            {data && categoryId
+              ? productsInCategory.map((item) => (
+                  <TableRow
+                    key={item.id}
+                    onClick={() => handleRowClick(item.id)}
+                    className="cursor-pointer"
                   >
-                    {isMutating ? 'Deleting...' : <LuTrash />}
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))
-          : data.map((item) => (
-              <TableRow
-                key={item.id}
-                onClick={() => handleRowClick(item.id)}
-                className="cursor-pointer"
-              >
-                <TableCell className="font-semibold capitalize">
-                  {item.title}
-                </TableCell>
-                <TableCell> ₹&nbsp;{item.price.toFixed(2)}</TableCell>
-                <TableCell>{item.category?.name}</TableCell>
-                <TableCell className="truncate max-w-xs">
-                  {item.description}
-                </TableCell>
-                <TableCell>{item.hasVariants ? 'Yes' : 'No'}</TableCell>
-                <TableCell
-                  className={`${
-                    item.hasVariants && item.variants.length < 1
-                      ? 'text-red-500 font-semibold'
-                      : ''
-                  } text-center`}
-                >
-                  {item.hasVariants ? `${item.variants.length}` : 'No variant'}
-                </TableCell>
-                <TableCell>
-                  <Button
-                    className="bg-transparent text-black hover:text-white"
-                    type="button"
-                    disabled={isMutating}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleItemDelete(item.id);
-                    }}
+                    <TableCell className="font-semibold capitalize">
+                      {item.title}
+                    </TableCell>
+                    <TableCell> ₹&nbsp;{item.price.toFixed(2)}</TableCell>
+                    <TableCell>{item.category?.name}</TableCell>
+                    <TableCell className="truncate max-w-xs">
+                      {item.description}
+                    </TableCell>
+                    <TableCell>{item.hasVariants ? 'Yes' : 'No'}</TableCell>
+                    <TableCell
+                      className={`${
+                        item.hasVariants && item.variants.length < 1
+                          ? 'text-red-500 font-semibold'
+                          : ''
+                      } text-center`}
+                    >
+                      {item.hasVariants
+                        ? `${item.variants.length}`
+                        : 'No variant'}
+                    </TableCell>
+                    <TableCell>
+                      <Button
+                        className="bg-transparent text-black hover:text-white"
+                        type="button"
+                        disabled={isMutating}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleItemDelete(item.id);
+                        }}
+                      >
+                        {isMutating ? 'Deleting...' : <LuTrash />}
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))
+              : data.map((item) => (
+                  <TableRow
+                    key={item.id}
+                    onClick={() => handleRowClick(item.id)}
+                    className="cursor-pointer"
                   >
-                    {isMutating ? 'Deleting...' : <LuTrash />}
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-      </TableBody>
-      <TableFooter></TableFooter>
-    </Table>
+                    <TableCell className="font-semibold capitalize">
+                      {item.title}
+                    </TableCell>
+                    <TableCell> ₹&nbsp;{item.price.toFixed(2)}</TableCell>
+                    <TableCell>{item.category?.name}</TableCell>
+                    <TableCell className="truncate max-w-xs">
+                      {item.description}
+                    </TableCell>
+                    <TableCell>{item.hasVariants ? 'Yes' : 'No'}</TableCell>
+                    <TableCell
+                      className={`${
+                        item.hasVariants && item.variants.length < 1
+                          ? 'text-red-500 font-semibold'
+                          : ''
+                      } text-center`}
+                    >
+                      {item.hasVariants
+                        ? `${item.variants.length}`
+                        : 'No variant'}
+                    </TableCell>
+                    <TableCell>
+                      <Button
+                        className="bg-transparent text-black hover:text-white"
+                        type="button"
+                        disabled={isMutating}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleItemDelete(item.id);
+                        }}
+                      >
+                        {isMutating ? 'Deleting...' : <LuTrash />}
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+          </TableBody>
+          <TableFooter></TableFooter>
+        </Table>
+      )}
+    </>
   );
 };
 

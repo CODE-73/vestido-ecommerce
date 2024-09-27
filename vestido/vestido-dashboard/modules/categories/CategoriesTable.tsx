@@ -1,8 +1,13 @@
 import { useRouter } from 'next/router';
 
 import { Category, Gender } from '@prisma/client';
+import { LuTrash } from 'react-icons/lu';
 
-import { useCategory } from '@vestido-ecommerce/items/client';
+import {
+  useCategory,
+  useCategoryDelete,
+} from '@vestido-ecommerce/items/client';
+import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
   Table,
   TableBody,
@@ -11,6 +16,8 @@ import {
   TableHeader,
   TableRow,
 } from '@vestido-ecommerce/shadcn-ui/table';
+import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
+import { VestidoError } from '@vestido-ecommerce/utils';
 
 interface CategoryTableProps {
   data: Category[];
@@ -29,6 +36,9 @@ const ParentCategoryName: React.FC<{ parentId: string | null | undefined }> = ({
 
 const CategoryTable: React.FC<CategoryTableProps> = ({ data }) => {
   const router = useRouter();
+  const { toast } = useToast();
+  const { trigger: deleteCategory, isMutating: isDeleting } =
+    useCategoryDelete();
 
   const handleRowClick = (category: string) => {
     router.push(`/categories/${encodeURIComponent(category)}`);
@@ -36,6 +46,27 @@ const CategoryTable: React.FC<CategoryTableProps> = ({ data }) => {
 
   const getGenderString = (gender: Gender[]): string => {
     return gender.join(', ');
+  };
+
+  const handleCategoryDelete = async (categoryId: string) => {
+    try {
+      await deleteCategory({
+        categoryId: categoryId,
+      });
+    } catch (e) {
+      if (e instanceof VestidoError) {
+        toast({
+          title: e.name,
+          description: e.message,
+        });
+      } else {
+        console.error('Error deleting category:', e);
+        toast({
+          title: 'Error deleting Category',
+          description: 'Unknown Internal Error',
+        });
+      }
+    }
   };
 
   return (
@@ -46,6 +77,7 @@ const CategoryTable: React.FC<CategoryTableProps> = ({ data }) => {
           <TableHead>Parent Cateogry</TableHead>
           <TableHead>Description</TableHead>
           <TableHead className="text-right">Gender</TableHead>
+          <TableHead className="text-right">Delete</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -64,6 +96,19 @@ const CategoryTable: React.FC<CategoryTableProps> = ({ data }) => {
 
               <TableCell className="text-right">
                 {getGenderString(category.gender)}
+              </TableCell>
+              <TableCell className="text-right">
+                <Button
+                  className="bg-transparent text-black hover:text-white"
+                  type="button"
+                  disabled={isDeleting}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleCategoryDelete(category.id);
+                  }}
+                >
+                  {isDeleting ? 'Deleting...' : <LuTrash />}
+                </Button>
               </TableCell>
             </TableRow>
           ))}

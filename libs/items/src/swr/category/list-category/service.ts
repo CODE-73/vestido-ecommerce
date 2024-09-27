@@ -8,11 +8,23 @@ export async function getCategoriesList(
   headers?: Record<string, string>,
 ): Promise<ListCategoryResponse> {
   let url = '/api/categories';
+  if (args) {
+    const query = new URLSearchParams();
+    if (args.q) {
+      query.append('q', args.q);
+    }
+    if ('enabled' in args) {
+      query.append('enabled', args.enabled ? 'true' : 'false');
+    }
 
-  if (args.q) {
-    const encodedQuery = encodeURIComponent(args.q);
-    url += `?q=${encodedQuery}`;
+    if (args.gender) {
+      query.append('gender', args.gender); // Join array elements into a comma-separated string
+    }
+    if (query.toString()) {
+      url += `?${query.toString()}`;
+    }
   }
+
   const r = await fetch(url, {
     headers: {
       ...headers,

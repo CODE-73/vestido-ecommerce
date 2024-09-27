@@ -325,8 +325,8 @@ model Coupon {
     id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     coupon      String
     description String
-    fromDate    DateTime
-    toDate      DateTime
+    fromDate    DateTime @db.Timestamptz(3)
+    toDate      DateTime @db.Timestamptz(3)
     enabled     Boolean
 
     // This will be switched with a CRON job running every 15min.

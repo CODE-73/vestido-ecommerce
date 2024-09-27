@@ -18,7 +18,7 @@ interface FulfillmentTableProps {
   data: Fulfillment[];
 }
 
-const ProductsTable: React.FC<FulfillmentTableProps> = ({
+const FulfillmentsTable: React.FC<FulfillmentTableProps> = ({
   data: fulfillments,
 }) => {
   const router = useRouter();
@@ -78,4 +78,4 @@ const ProductsTable: React.FC<FulfillmentTableProps> = ({
   );
 };
 
-export default ProductsTable;
+export default FulfillmentsTable;

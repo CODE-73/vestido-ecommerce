@@ -1,5 +1,5 @@
 import { authMiddleware, roleMiddleware } from '@vestido-ecommerce/auth';
-import { createCoupon, getCouponsList } from '@vestido-ecommerce/coupon';
+import { createCoupon, getCouponsList } from '@vestido-ecommerce/coupons';
 import { apiRouteHandler } from '@vestido-ecommerce/utils';
 
 export const GET = apiRouteHandler(
@@ -18,7 +18,6 @@ export const POST = apiRouteHandler(
   roleMiddleware('ADMIN'),
   async ({ request }) => {
     const body = await request.json();
-    console.log(body);
     const newCoupon = await createCoupon(body);
 
     return newCoupon;

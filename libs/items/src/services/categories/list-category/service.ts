@@ -9,7 +9,7 @@ export async function listCategories(_args: ListCategoryRequest) {
 
   const categoriesList = await prisma.category.findMany({
     where: {
-      enabled: args.enabled,
+      // enabled: args.enabled,
       ...(args?.q
         ? {
             OR: [
@@ -19,6 +19,14 @@ export async function listCategories(_args: ListCategoryRequest) {
             ],
           }
         : {}),
+
+      ...(args?.enabled !== undefined
+        ? {
+            enabled: args.enabled,
+          }
+        : { enabled: true }),
+
+      ...(args?.gender ? { gender: { equals: [args.gender] } } : {}),
     },
   });
 

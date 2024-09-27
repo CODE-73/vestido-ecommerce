@@ -27,6 +27,11 @@ export const navItems: NavigationItem[] = [
     href: '/products',
     // icon: <LuShoppingCart />,
   },
+  {
+    id: 'coupons',
+    label: 'Coupons',
+    href: '/coupons',
+  },
   // {
   //   id: 'Item Attribute',
   //   label: 'Item Attribute',
@@ -45,10 +50,10 @@ export const navItems: NavigationItem[] = [
     href: '/fulfillments',
     // icon: <LuBook />,
   },
-  {
-    id: 'storefront',
-    label: 'Storefront',
-    href: '/storefront',
-    // icon: <LuBook />,
-  },
+  // {
+  //   id: 'storefront',
+  //   label: 'Storefront',
+  //   href: '/storefront',
+  //   // icon: <LuBook />,
+  // },
 ];
