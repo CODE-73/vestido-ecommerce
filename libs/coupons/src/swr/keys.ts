@@ -3,4 +3,5 @@ export enum CouponSWRKeys {
   DETAILS = 'details',
   LIST = 'list',
   UPSERT = 'upsert',
+  DELETE = 'delete',
 }
