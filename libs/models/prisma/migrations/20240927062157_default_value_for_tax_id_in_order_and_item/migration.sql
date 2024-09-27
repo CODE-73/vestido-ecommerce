@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "Item" ALTER COLUMN "taxId" DROP DEFAULT;
+
+-- AlterTable
+ALTER TABLE "Order" ALTER COLUMN "taxId" DROP DEFAULT;

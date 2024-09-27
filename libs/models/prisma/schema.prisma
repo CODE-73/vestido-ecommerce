@@ -145,6 +145,10 @@ model Item {
     category   Category    @relation(fields: [categoryId], references: [id])
     categoryId String      @db.Uuid
     OrderItem  OrderItem[]
+
+    tax    Tax     @relation(fields: [taxId], references: [id])
+    taxId  String  @db.Uuid
+    hasTax Boolean @default(false)
 }
 
 model ItemVariant {
@@ -244,6 +248,17 @@ model CartItem {
     updatedAt DateTime? @default(now()) @db.Timestamptz(3)
 }
 
+model Tax {
+    id          String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    title       String
+    rate        Float
+    description String?
+    active      Boolean @default(true)
+
+    Order Order[]
+    Item  Item[]
+}
+
 model Order {
     id                 String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     dateTime           DateTime           @default(now())
@@ -260,6 +275,10 @@ model Order {
     orderItems         OrderItem[]
     payments           Payment[]
     fulfillments       Fulfillment[]
+
+    tax    Tax     @relation(fields: [taxId], references: [id])
+    taxId  String  @db.Uuid
+    hasTax Boolean @default(false)
 }
 
 model OrderItem {
