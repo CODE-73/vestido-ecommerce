@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Image from 'next/image';
 
 import { Item } from '@prisma/client';
 import { LuShoppingBag } from 'react-icons/lu';
@@ -6,6 +7,9 @@ import { LuShoppingBag } from 'react-icons/lu';
 import { useAuth } from '@vestido-ecommerce/auth/client';
 import { useAddToCart, useItem } from '@vestido-ecommerce/items/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
+import { Toaster } from '@vestido-ecommerce/shadcn-ui/toaster';
+import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
+import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 interface AddToCartButtonProps {
   price: number;
@@ -19,6 +23,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   item,
 }) => {
   const { isAuthenticated, routeToLogin } = useAuth();
+  const { toast } = useToast();
   const [hovered, setHovered] = useState(false);
   const [qty] = useState(1);
   const [loading, setLoading] = useState(false); // State to show loading
@@ -38,6 +43,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
       setLoading(true); // Set loading to true when the process starts
       // setSuccess(false);
       // Reset success state when a new action starts
+      const images = (item.images ?? []) as ImageSchemaType[];
 
       try {
         await trigger({
@@ -45,8 +51,32 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
           qty: qty,
           variantId: defaultVar?.id ?? product?.variants?.[0]?.id ?? null,
         });
-        // setSuccess(true);
-        // Show success state after adding
+        // toast({
+        //   title: 'Item Added to Cart !',
+        //   description: `${item.title}, ${item.description}`,
+        // });
+
+        toast({
+          title: 'Item Added to Cart!',
+          description: (
+            <div className="flex items-center gap-3">
+              <Image
+                src={images[0]?.url ?? ''}
+                alt="Product Thumbnail"
+                className="rounded-full w-10 h-10"
+                width={10}
+                height={10}
+              />
+              <div>
+                <p className="font-semibold">Product Name</p>
+                <p className="text-sm text-gray-500">
+                  This is a short description of the product.
+                </p>
+              </div>
+            </div>
+          ),
+        });
+        console.log('passed toast');
       } catch (error) {
         console.error('Failed to add item to cart', error);
       } finally {
@@ -58,6 +88,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   const buttonHeight = '40px';
   return (
     <>
+      <Toaster />
       <Button
         className="relative flex items-center transition-all justify-start duration-300 bg-black rounded-none hover:bg-[#48CAB2] w-full p-0"
         onMouseEnter={() => setHovered(true)}
