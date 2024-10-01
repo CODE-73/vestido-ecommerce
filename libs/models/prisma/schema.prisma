@@ -260,6 +260,7 @@ model Order {
     orderItems         OrderItem[]
     payments           Payment[]
     fulfillments       Fulfillment[]
+    tax                String?
 }
 
 model OrderItem {
@@ -278,6 +279,7 @@ model OrderItem {
     exchangeStatus    ExchangeStatus?
     fulfilledQuantity Int?
     fulfillmentItems  FulfillmentItem[]
+    tax               String?
 }
 
 model Payment {
@@ -338,6 +340,14 @@ model Coupon {
     discountAmount  Float        @default(0)
 
     @@index([coupon, active]) // Compound Index
+}
+
+model Tax {
+    id          String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    title       String
+    rate        Float
+    description String?
+    active      Boolean @default(true)
 }
 
 model ContactUs {
