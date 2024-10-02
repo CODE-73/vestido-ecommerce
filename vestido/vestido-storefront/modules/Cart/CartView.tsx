@@ -8,6 +8,7 @@ import {
   LuMinus,
   LuPlus,
   LuTrash2,
+  LuX,
 } from 'react-icons/lu';
 
 import {
@@ -28,6 +29,8 @@ import {
   AlertDialogTrigger,
 } from '@vestido-ecommerce/shadcn-ui/alert-dialog';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
+import { Toaster } from '@vestido-ecommerce/shadcn-ui/toaster';
+import { toast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 const CartView: React.FC = () => {
@@ -37,6 +40,12 @@ const CartView: React.FC = () => {
 
   const { trigger: addCartTrigger } = useAddToCart();
   const { trigger: wishlistTrigger } = useAddToWishlist();
+
+  const removeItem = (itemId: string) => {
+    const removingItem = cartItems?.data.find((x) => x.itemId === itemId);
+    const images = (removingItem?.item.images ?? []) as ImageSchemaType[];
+    return { removingItem, images };
+  };
 
   const totalPrice =
     cartItems?.data.reduce((total, item) => {
@@ -53,6 +62,36 @@ const CartView: React.FC = () => {
       variantId: variantId,
       actionType: actionType,
     });
+    if (actionType === 'full') {
+      toast({
+        title: '',
+        description: (
+          <>
+            <div className="flex font-semibold text-xl items-center gap-2 mb-3">
+              <LuX className="text-red-500" strokeWidth={3} />
+              <span>Item removed from Cart!</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <Image
+                src={removeItem(itemId).images[0]?.url ?? ''}
+                alt="Product Thumbnail"
+                className="rounded-full w-10 h-10"
+                width={10}
+                height={10}
+              />
+              <div>
+                <p className="font-semibold">
+                  {removeItem(itemId).removingItem?.item.title}
+                </p>
+                <p className="text-sm text-gray-500 max-w-full truncate text-ellipsis overflow-hidden">
+                  {removeItem(itemId).removingItem?.item.description}
+                </p>
+              </div>
+            </div>
+          </>
+        ),
+      });
+    }
   };
 
   const handleAddToCart = (itemId: string, qty: number, variantId: string) => {
@@ -66,19 +105,29 @@ const CartView: React.FC = () => {
     wishlistTrigger({
       itemId: itemId,
     });
+    toast({
+      title: 'Moved to Wishlist',
+    });
   };
   const handleClearCart = () => {
     cartItems?.data.forEach((cartItem) => {
       handleRemoveFromCart(cartItem.itemId, cartItem.variantId!, 'full');
+    });
+    toast({
+      title: 'Cart Cleared !',
     });
   };
   const handleMoveAllToWishlist = () => {
     cartItems?.data.forEach((cartItem) => {
       handleAddToWishlist(cartItem.itemId);
     });
+    toast({
+      title: 'Moved all to wishlist',
+    });
   };
   return (
     <div>
+      <Toaster />
       <div className="text-xs md:text-lg tracking-wide text-gray-300 justify-center font-semibold md:mt-12 md:mb-12 mt-32 mb-16 uppercase flex gap-2 items-center">
         <span className="md:text-2xl text-[#48CAB2]">Cart</span>
         <LuChevronRight /> Address <LuChevronRight /> Payment
@@ -124,9 +173,14 @@ const CartView: React.FC = () => {
                               Remove
                             </AlertDialogAction>
                             <AlertDialogAction
-                              onClick={() =>
-                                handleAddToWishlist(cartItem.itemId)
-                              }
+                              onClick={() => {
+                                handleAddToWishlist(cartItem.itemId);
+                                handleRemoveFromCart(
+                                  cartItem.itemId,
+                                  cartItem.variantId ?? '',
+                                  'full',
+                                );
+                              }}
                             >
                               Move to wishlist
                             </AlertDialogAction>

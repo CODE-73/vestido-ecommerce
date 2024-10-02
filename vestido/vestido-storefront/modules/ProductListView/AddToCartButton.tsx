@@ -1,11 +1,15 @@
 import { useState } from 'react';
+import Image from 'next/image';
 
 import { Item } from '@prisma/client';
-import { LuShoppingBag } from 'react-icons/lu';
+import { LuCheckCircle, LuShoppingBag } from 'react-icons/lu';
 
 import { useAuth } from '@vestido-ecommerce/auth/client';
 import { useAddToCart, useItem } from '@vestido-ecommerce/items/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
+import { Toaster } from '@vestido-ecommerce/shadcn-ui/toaster';
+import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
+import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 interface AddToCartButtonProps {
   price: number;
@@ -26,6 +30,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   const { data } = useItem(item.id);
   const product = data?.data;
   const { trigger } = useAddToCart();
+  const { toast } = useToast();
   const defaultVar = product?.variants.find((x) => x.default == true);
 
   const handleAddToCart = async () => {
@@ -39,14 +44,43 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
       // setSuccess(false);
       // Reset success state when a new action starts
 
+      const images = (item.images ?? []) as ImageSchemaType[];
+
       try {
         await trigger({
           itemId: item.id,
           qty: qty,
           variantId: defaultVar?.id ?? product?.variants?.[0]?.id ?? null,
         });
-        // setSuccess(true);
-        // Show success state after adding
+
+        toast({
+          title: '',
+          description: (
+            <>
+              <div className="flex font-semibold text-xl items-center gap-2 mb-3">
+                <LuCheckCircle className="text-green-500" strokeWidth={3} />
+
+                <span>Item Added to Cart!</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Image
+                  src={images[0]?.url ?? ''}
+                  alt="Product Thumbnail"
+                  className="rounded-full w-10 h-10"
+                  width={10}
+                  height={10}
+                />
+                <div>
+                  <p className="font-semibold">{product?.title}</p>
+                  <p className="text-sm text-gray-500 max-w-full truncate">
+                    {product?.description}
+                  </p>
+                </div>
+              </div>
+            </>
+          ),
+        });
+        console.log('passed toast');
       } catch (error) {
         console.error('Failed to add item to cart', error);
       } finally {
@@ -58,6 +92,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   const buttonHeight = '40px';
   return (
     <>
+      <Toaster />
       <Button
         className="relative flex items-center transition-all justify-start duration-300 bg-black rounded-none hover:bg-[#48CAB2] w-full p-0"
         onMouseEnter={() => setHovered(true)}

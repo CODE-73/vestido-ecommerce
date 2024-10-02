@@ -20,6 +20,8 @@ import {
 } from '@vestido-ecommerce/shadcn-ui/alert-dialog';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Dialog, DialogTrigger } from '@vestido-ecommerce/shadcn-ui/dialog';
+import { Toaster } from '@vestido-ecommerce/shadcn-ui/toaster';
+import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import { AddToCartDialog } from './AddToCartFromWishlistDialog';
@@ -27,15 +29,51 @@ import { AddToCartDialog } from './AddToCartFromWishlistDialog';
 const WishlistView: React.FC = () => {
   const { data: wishlistItems } = useWishlist();
   const { trigger } = useRemoveFromWishlist();
+  const { toast } = useToast();
+
+  const removeItem = (itemId: string) => {
+    const removingItem = wishlistItems?.data.find((x) => x.itemId === itemId);
+    const images = (removingItem?.item.images ?? []) as ImageSchemaType[];
+    return { removingItem, images };
+  };
 
   const handleRemoveFromWishlist = (itemId: string) => {
     trigger({
       itemId: itemId,
     });
+    toast({
+      title: '',
+      description: (
+        <>
+          <div className="flex font-semibold text-xl items-center gap-2 mb-3">
+            <LuX className="text-red-500" strokeWidth={3} />{' '}
+            <span>Item removed from Wishlist</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <Image
+              src={removeItem(itemId).images[0]?.url ?? ''}
+              alt="Product Thumbnail"
+              className="rounded-full w-10 h-10"
+              width={10}
+              height={10}
+            />
+            <div>
+              <p className="font-semibold">
+                {removeItem(itemId).removingItem?.item.title}
+              </p>
+              <p className="text-sm text-gray-500 max-w-full truncate text-ellipsis overflow-hidden">
+                {removeItem(itemId).removingItem?.item.description}
+              </p>
+            </div>
+          </div>
+        </>
+      ),
+    });
   };
 
   return (
     <div className="md:px-16">
+      <Toaster />
       <div className="text-4xl flex items-center justify-center gap-3 tracking-wide text-white text-center font-extrabold my-5 lg:py-10">
         Wishlist
         <span className="font-normal text-lg">

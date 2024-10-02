@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 import { useMediaQuery } from '@react-hook/media-query';
-import { LuHeart, LuLoader } from 'react-icons/lu';
+import { LuHeart, LuLoader, LuX } from 'react-icons/lu';
 
 import { useAuth } from '@vestido-ecommerce/auth/client';
 import {
@@ -9,13 +10,15 @@ import {
   useRemoveFromWishlist,
   useWishlist,
 } from '@vestido-ecommerce/items/client';
+import { Toaster } from '@vestido-ecommerce/shadcn-ui/toaster';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@vestido-ecommerce/shadcn-ui/tooltip';
-
+import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
+import { ImageSchemaType } from '@vestido-ecommerce/utils';
 type WishlistbuttonProps = {
   className?: string;
   itemId: string;
@@ -36,6 +39,8 @@ const AddToWishListButton: React.FC<WishlistbuttonProps> = ({
   const { trigger: removeWishlistTrigger, isMutating: isRemoving } =
     useRemoveFromWishlist();
 
+  const { toast } = useToast();
+
   const [wishlisted, setWishlisted] = useState<boolean | null>(false);
 
   useEffect(() => {
@@ -44,6 +49,12 @@ const AddToWishListButton: React.FC<WishlistbuttonProps> = ({
         false,
     );
   }, [wishlist, itemId]);
+
+  const removeItem = (itemId: string) => {
+    const removingItem = wishlist?.data.find((x) => x.itemId === itemId);
+    const images = (removingItem?.item.images ?? []) as ImageSchemaType[];
+    return { removingItem, images };
+  };
 
   const onClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (isLoading) {
@@ -59,8 +70,39 @@ const AddToWishListButton: React.FC<WishlistbuttonProps> = ({
     setWishlisted(null);
     if (wishlisted) {
       removeWishlistTrigger({ itemId: itemId });
+      toast({
+        title: '',
+        description: (
+          <>
+            <div className="flex font-semibold text-xl items-center gap-2 mb-3">
+              <LuX className="text-red-500" strokeWidth={3} />{' '}
+              <span>Item removed from Wishlist</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <Image
+                src={removeItem(itemId).images[0]?.url ?? ''}
+                alt="Product Thumbnail"
+                className="rounded-full w-10 h-10"
+                width={10}
+                height={10}
+              />
+              <div>
+                <p className="font-semibold">
+                  {removeItem(itemId).removingItem?.item.title}
+                </p>
+                <p className="text-sm text-gray-500 max-w-full truncate text-ellipsis overflow-hidden">
+                  {removeItem(itemId).removingItem?.item.description}
+                </p>
+              </div>
+            </div>
+          </>
+        ),
+      });
     } else {
       wishlistTrigger({ itemId: itemId });
+      toast({
+        title: 'Added to Wishlist',
+      });
     }
   };
 
@@ -69,6 +111,7 @@ const AddToWishListButton: React.FC<WishlistbuttonProps> = ({
 
   return (
     <div onClick={onClick} className={className}>
+      <Toaster />
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger>
