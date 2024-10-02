@@ -145,6 +145,10 @@ model Item {
     category   Category    @relation(fields: [categoryId], references: [id])
     categoryId String      @db.Uuid
     OrderItem  OrderItem[]
+
+    taxTitle     String?
+    taxRate      Float?
+    taxInclusive Boolean?
 }
 
 model ItemVariant {
@@ -260,7 +264,9 @@ model Order {
     orderItems         OrderItem[]
     payments           Payment[]
     fulfillments       Fulfillment[]
-    tax                String?
+    taxTitle           String?
+    taxRate            Float?
+    taxInclusive       Boolean?
 }
 
 model OrderItem {
@@ -279,7 +285,9 @@ model OrderItem {
     exchangeStatus    ExchangeStatus?
     fulfilledQuantity Int?
     fulfillmentItems  FulfillmentItem[]
-    tax               String?
+    taxTitle          String?
+    taxRate           Float?
+    taxInclusive      Boolean?
 }
 
 model Payment {
