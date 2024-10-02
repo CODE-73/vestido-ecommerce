@@ -64,7 +64,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ data: item }) => {
         </div>
       )}
 
-      <div className="self-start pt-[#2px] capitalize text-white text-md font-light md:mb-4 w-full truncate">
+      <div className="self-start pt-[#2px] capitalize text-white text-xs md:text-base font-light md:mb-4 w-full truncate">
         {item.title}
       </div>
       <div className="self-start md:hidden mb-4">
