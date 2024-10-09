@@ -19,7 +19,6 @@ const cards: PopularCollectionCardData[] = [
   {
     cardImage: cardImage2,
     mainTitle: 'complete your look',
-    span: 'col-span-2 row-span-2',
   },
 
   {
@@ -53,7 +52,11 @@ export const PopularCollection: FC<PopularCollectionProps> = (props) => {
 
       <div className="flex flex-col md:grid md:grid-cols-4 gap-3 mt-7 md:mt-12">
         {cards.map((card, index) => (
-          <PopularCollectionCard key={index} data={card} />
+          <PopularCollectionCard
+            key={index}
+            data={card}
+            mainImage={index === 1}
+          />
         ))}
       </div>
     </div>
