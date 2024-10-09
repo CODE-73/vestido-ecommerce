@@ -355,7 +355,7 @@ model Tax {
     title       String
     rate        Float
     description String?
-    active      Boolean @default(true)
+    enabled     Boolean @default(true)
 }
 
 model ContactUs {
