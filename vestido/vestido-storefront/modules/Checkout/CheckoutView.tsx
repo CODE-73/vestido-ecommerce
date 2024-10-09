@@ -23,12 +23,28 @@ import AddAddressDialog from './AddAddressDialog';
 import { CustomerAddressElement } from './CustomerAddressElement';
 import { PaymentTypeElement } from './PaymentTypeElement';
 
-const OrderItemSchema = z.object({
-  itemId: z.string().uuid(),
-  price: z.coerce.number(),
-  qty: z.number().int(),
-  variantId: z.string().uuid().nullish(),
-});
+const OrderItemSchema = z
+  .object({
+    itemId: z.string().uuid(),
+    price: z.coerce.number(),
+    qty: z.number().int(),
+    variantId: z.string().uuid().nullish(),
+    taxTitle: z.string().nullish(),
+    taxRate: z.coerce.number().nullish(),
+    taxInclusive: z.boolean().default(false),
+  })
+  .refine(
+    (data) => {
+      if (data.taxInclusive) {
+        return data.taxTitle && data.taxRate;
+      }
+      return true;
+    },
+    {
+      message: 'Tax title and tax rate are required when tax is inclusive',
+      path: ['taxInclusive'],
+    },
+  );
 
 const CreateOrderFormSchema = z.object({
   addressId: z.string().uuid(),
@@ -60,6 +76,9 @@ const CheckoutView: React.FC = () => {
           price: cartItem.item.price,
           qty: cartItem.qty,
           variantId: cartItem.variantId ?? null,
+          taxTitle: cartItem.item.taxTitle ?? null, // Add taxTitle
+          taxRate: cartItem.item.taxRate ?? null, // Add taxRate
+          taxInclusive: cartItem.item.taxInclusive ?? false, // Add taxInclusive
         })),
       );
     }

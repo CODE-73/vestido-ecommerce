@@ -16,7 +16,7 @@ export async function calculateTotal(data: calculateTotalSchemaType) {
       return total + (item.qty ?? 1) * item.price;
     }, 0) ?? 0;
 
-  const totalPrice = shippingCharges + itemsPrice;
+  const grandPrice = shippingCharges + itemsPrice;
 
-  return totalPrice;
+  return grandPrice;
 }
