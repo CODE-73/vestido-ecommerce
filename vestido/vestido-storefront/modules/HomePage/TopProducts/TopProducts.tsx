@@ -75,7 +75,7 @@ export const TopProducts: FC<TopProductsProps> = ({ className, items }) => {
         </CarouselContent>
       </Carousel>
 
-      <Link href="/">
+      <Link href="/products">
         <Button className="mt-6 h-12 rounded-none  bg-transparent text-white hover:bg-white border border-[#48cab2] shadow uppercase hover:text-[#48cab2] font-semibold tracking-widest px-10">
           View More
         </Button>
