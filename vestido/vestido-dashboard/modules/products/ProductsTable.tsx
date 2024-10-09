@@ -67,91 +67,46 @@ const ProductsTable: React.FC<ProductTableProps> = ({ data, categoryId }) => {
               <TableHead className="text-right">Delete</TableHead>
             </TableRow>
           </TableHeader>
-
           <TableBody>
-            {data && categoryId
-              ? productsInCategory.map((item) => (
-                  <TableRow
-                    key={item.id}
-                    onClick={() => handleRowClick(item.id)}
-                    className="cursor-pointer"
+            {(data && categoryId ? productsInCategory : data).map((item) => (
+              <TableRow
+                key={item.id}
+                onClick={() => handleRowClick(item.id)}
+                className="cursor-pointer"
+              >
+                <TableCell className="font-semibold capitalize">
+                  {item.title}
+                </TableCell>
+                <TableCell>₹&nbsp;{item.price.toFixed(2)}</TableCell>
+                <TableCell>{item.category?.name}</TableCell>
+                <TableCell className="truncate max-w-xs">
+                  {item.description}
+                </TableCell>
+                <TableCell>{item.hasVariants ? 'Yes' : 'No'}</TableCell>
+                <TableCell
+                  className={`${
+                    item.hasVariants && item.variants.length < 1
+                      ? 'text-red-500 font-semibold'
+                      : ''
+                  } text-center`}
+                >
+                  {item.hasVariants ? `${item.variants.length}` : 'No variant'}
+                </TableCell>
+                <TableCell>
+                  <Button
+                    className="bg-transparent text-black hover:text-white"
+                    type="button"
+                    disabled={isMutating}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleItemDelete(item.id);
+                    }}
                   >
-                    <TableCell className="font-semibold capitalize">
-                      {item.title}
-                    </TableCell>
-                    <TableCell> ₹&nbsp;{item.price.toFixed(2)}</TableCell>
-                    <TableCell>{item.category?.name}</TableCell>
-                    <TableCell className="truncate max-w-xs">
-                      {item.description}
-                    </TableCell>
-                    <TableCell>{item.hasVariants ? 'Yes' : 'No'}</TableCell>
-                    <TableCell
-                      className={`${
-                        item.hasVariants && item.variants.length < 1
-                          ? 'text-red-500 font-semibold'
-                          : ''
-                      } text-center`}
-                    >
-                      {item.hasVariants
-                        ? `${item.variants.length}`
-                        : 'No variant'}
-                    </TableCell>
-                    <TableCell>
-                      <Button
-                        className="bg-transparent text-black hover:text-white"
-                        type="button"
-                        disabled={isMutating}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleItemDelete(item.id);
-                        }}
-                      >
-                        {isMutating ? 'Deleting...' : <LuTrash />}
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))
-              : data.map((item) => (
-                  <TableRow
-                    key={item.id}
-                    onClick={() => handleRowClick(item.id)}
-                    className="cursor-pointer"
-                  >
-                    <TableCell className="font-semibold capitalize">
-                      {item.title}
-                    </TableCell>
-                    <TableCell> ₹&nbsp;{item.price.toFixed(2)}</TableCell>
-                    <TableCell>{item.category?.name}</TableCell>
-                    <TableCell className="truncate max-w-xs">
-                      {item.description}
-                    </TableCell>
-                    <TableCell>{item.hasVariants ? 'Yes' : 'No'}</TableCell>
-                    <TableCell
-                      className={`${
-                        item.hasVariants && item.variants.length < 1
-                          ? 'text-red-500 font-semibold'
-                          : ''
-                      } text-center`}
-                    >
-                      {item.hasVariants
-                        ? `${item.variants.length}`
-                        : 'No variant'}
-                    </TableCell>
-                    <TableCell>
-                      <Button
-                        className="bg-transparent text-black hover:text-white"
-                        type="button"
-                        disabled={isMutating}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleItemDelete(item.id);
-                        }}
-                      >
-                        {isMutating ? 'Deleting...' : <LuTrash />}
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                    {isMutating ? 'Deleting...' : <LuTrash />}
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
           <TableFooter></TableFooter>
         </Table>
