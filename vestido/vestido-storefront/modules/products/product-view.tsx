@@ -25,6 +25,9 @@ import ProductListView from '../ProductListView/ProductListView';
 import ProductViewBreadcrumb from './poduct-view-breadcrumpts';
 import ProductViewImages from './product-view-images';
 import ProductViewVariants from './product-view-variants';
+import Image from 'next/image';
+import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
+import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 interface ProductViewProps {
   itemId: string;
@@ -33,6 +36,7 @@ interface ProductViewProps {
 const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
   const { isAuthenticated, routeToLogin } = useAuth();
   const router = useRouter();
+  const { toast } = useToast();
 
   const { data: { data: item } = { data: null } } = useItem(itemId);
   const { data: { data: category } = { data: null } } = useCategory(
@@ -48,6 +52,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
     [item, selectedVariantId],
   );
 
+  const images = (item?.images ?? []) as ImageSchemaType[];
   const { trigger: cartTrigger } = useAddToCart();
 
   const handleAddToCart = () => {
@@ -62,6 +67,26 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
         qty: 1,
         variantId: selectedVariantId ?? null,
       });
+      toast({
+        title: 'Item Added to Cart!',
+        description: (
+          <div className="flex items-center gap-3">
+            <Image
+              src={images[0]?.url ?? ''}
+              alt="Product Thumbnail"
+              className="rounded-full w-10 h-10"
+              width={10}
+              height={10}
+            />
+            <div>
+              <p className="font-semibold">Product Name</p>
+              <p className="text-sm text-gray-500">
+                This is a short description of the product.
+              </p>
+            </div>
+          </div>
+        ),
+      });
     }
   };
   const handleBuyNow = () => {
@@ -71,7 +96,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
     }
 
     if (item) {
-      router.replace(
+      router.push(
         `/checkout?buyNowItemId=${item.id}&buyNowVariantId=${selectedVariantId}`,
       );
     }
@@ -157,7 +182,6 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
               </Button>
             </div>
             <div className="flex flex-1 gap-2">
-              {' '}
               <div className="flex  order-last sm:order-none bg-[#48CAB2] h-10 sm:h-auto items-center gap-2 flex-1 justify-center text-white  ">
                 <Button
                   onClick={() => handleBuyNow()}

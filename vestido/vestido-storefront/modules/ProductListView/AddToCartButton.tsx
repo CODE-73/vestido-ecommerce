@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 
 import { Item } from '@prisma/client';
-import { LuShoppingBag } from 'react-icons/lu';
+import { LuShoppingBag, LuX } from 'react-icons/lu';
 
 import { useAuth } from '@vestido-ecommerce/auth/client';
 import { useAddToCart, useItem } from '@vestido-ecommerce/items/client';
@@ -76,83 +76,94 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
             </div>
           ),
         });
-        console.log('passed toast');
       } catch (error) {
         console.error('Failed to add item to cart', error);
+        toast({
+          title: 'Error Adding to Cart!',
+          description: (
+            <div className="flex items-center gap-3">
+              <LuX />
+
+              <div>
+                <p className="font-semibold text-red-500">Product Name</p>
+                <p className="text-sm text-red-500">
+                  This is a short description of the product.
+                </p>
+              </div>
+            </div>
+          ),
+        });
       } finally {
-        setLoading(false); // Stop loading after the action completes
+        setLoading(false);
       }
     }
   };
 
   const buttonHeight = '40px';
   return (
-    <>
-      <Toaster />
-      <Button
-        className="relative flex items-center transition-all justify-start duration-300 bg-black rounded-none hover:bg-[#48CAB2] w-full p-0"
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        style={{ height: buttonHeight, minHeight: buttonHeight }}
-        onClick={() => handleAddToCart()}
-        // disabled={loading || (hovered && success)}
-        disabled={loading}
+    <Button
+      className="relative flex items-center transition-all justify-start duration-300 bg-black rounded-none hover:bg-[#48CAB2] w-full p-0"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{ height: buttonHeight, minHeight: buttonHeight }}
+      onClick={() => handleAddToCart()}
+      // disabled={loading || (hovered && success)}
+      disabled={loading}
+    >
+      <div
+        className={`flex items-center justify-start gap-3 transition-all duration-300 bg-[#48CAB2] p-2 ${
+          hovered ? 'w-full' : ''
+        }`}
+        style={{ height: '100%' }}
       >
-        <div
-          className={`flex items-center justify-start gap-3 transition-all duration-300 bg-[#48CAB2] p-2 ${
-            hovered ? 'w-full' : ''
-          }`}
-          style={{ height: '100%' }}
-        >
-          {loading ? (
-            <span className="ml-2 text-white text-lg font-semibold">
-              Adding...
-            </span>
-          ) : (
-            // success ? (
-            //   <div className="flex items-center ">
-            //     <LuCheck className="text-white" size={20} />
-            //     {hovered && (
-            //       <span className="ml-2 text-white text-lg font-semibold">
-            //         Added
-            //       </span>
-            //     )}
-            //   </div>
-            // ) :
-            <>
-              <LuShoppingBag className="text-white" size={20} />
-              {hovered && (
-                <span className="ml-2 text-white text-lg font-semibold">
-                  ADD TO CART
-                </span>
+        {loading ? (
+          <span className="ml-2 text-white text-lg font-semibold">
+            Adding...
+          </span>
+        ) : (
+          // success ? (
+          //   <div className="flex items-center ">
+          //     <LuCheck className="text-white" size={20} />
+          //     {hovered && (
+          //       <span className="ml-2 text-white text-lg font-semibold">
+          //         Added
+          //       </span>
+          //     )}
+          //   </div>
+          // ) :
+          <>
+            <LuShoppingBag className="text-white" size={20} />
+            {hovered && (
+              <span className="ml-2 text-white text-lg font-semibold">
+                ADD TO CART
+              </span>
+            )}
+          </>
+        )}
+      </div>
+      {!hovered && !loading && (
+        <div className="ml-4 font-semibold text-left flex-grow text-white ">
+          {offerPrice ? (
+            <div className="flex items-baseline gap-1">
+              <div className="text-white text-base">
+                ₹&nbsp;{offerPrice.toFixed(2)}
+              </div>
+              {offerPrice < price ? (
+                <div className="text-gray-500 line-through text-xs">
+                  ₹&nbsp;{price.toFixed(2)}
+                </div>
+              ) : (
+                ''
               )}
-            </>
+            </div>
+          ) : (
+            <div className="text-white text-base">
+              ₹&nbsp;{price.toFixed(2)}
+            </div>
           )}
         </div>
-        {!hovered && !loading && (
-          <div className="ml-4 font-semibold text-left flex-grow text-white ">
-            {offerPrice ? (
-              <div className="flex items-baseline gap-1">
-                <div className="text-white text-base">
-                  ₹&nbsp;{offerPrice.toFixed(2)}
-                </div>
-                {offerPrice < price ? (
-                  <div className="text-gray-500 line-through text-xs">
-                    ₹&nbsp;{price.toFixed(2)}
-                  </div>
-                ) : (
-                  ''
-                )}
-              </div>
-            ) : (
-              <div className="text-white text-base">
-                ₹&nbsp;{price.toFixed(2)}
-              </div>
-            )}
-          </div>
-        )}
-      </Button>
-    </>
+      )}
+    </Button>
   );
 };
 

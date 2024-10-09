@@ -51,7 +51,9 @@ const CheckoutView: React.FC = () => {
 
   const { data: { data: buyNowItem } = { data: null } } = useItem(buyNowItemId);
 
-  const checkoutItems = buyNowItem ? [{ item: buyNowItem }] : cartItems;
+  const checkoutItems = buyNowItem
+    ? [{ item: buyNowItem, qty: 1, variantId: buyNowVariantId }]
+    : cartItems;
 
   const form = useForm<CreateOrderForm>({
     resolver: zodResolver(CreateOrderFormSchema),
@@ -59,18 +61,18 @@ const CheckoutView: React.FC = () => {
   });
 
   useEffect(() => {
-    if (cartItems?.length) {
+    if (checkoutItems?.length) {
       form.setValue(
         'orderItems',
-        cartItems?.map((cartItem) => ({
-          itemId: cartItem.itemId,
-          price: cartItem.item.price,
-          qty: cartItem.qty,
-          variantId: cartItem.variantId ?? null,
+        checkoutItems?.map((checkoutItem) => ({
+          itemId: checkoutItem.item.id,
+          price: checkoutItem.item.price,
+          qty: checkoutItem.qty,
+          variantId: checkoutItem.variantId,
         })),
       );
     }
-  }, [cartItems, form]);
+  }, [checkoutItems, form]);
 
   const [shippingAddressId, paymentType] = form.watch([
     'addressId',
@@ -86,32 +88,15 @@ const CheckoutView: React.FC = () => {
 
   const { trigger: createOrderTrigger } = useCreateOrder();
 
-  const totalPrice = buyNowItem
-    ? (checkoutItems?.reduce((total, item) => {
-        return total + item.item.price;
-      }, 0) ?? 0)
-    : (cartItems?.reduce((total, item) => {
-        return total + item.qty * item.item.price;
-      }, 0) ?? 0);
+  const totalPrice =
+    checkoutItems?.reduce((total, item) => {
+      return total + item.item.price;
+    }, 0) ?? 0;
 
   const handleSubmit = async (data: CreateOrderForm) => {
-    const orderData = buyNowItem
-      ? {
-          addressId: data.addressId,
-          orderItems: [
-            {
-              itemId: buyNowItemId ?? '',
-              qty: 1,
-              price: buyNowItem.price,
-              variantId: buyNowVariantId ?? '',
-            },
-          ],
-          paymentType: data.paymentType,
-        }
-      : data;
     try {
       const createOrderResponse = await createOrderTrigger({
-        ...orderData,
+        ...data,
       });
 
       if (!createOrderResponse.success) {
@@ -147,7 +132,7 @@ const CheckoutView: React.FC = () => {
       {currentSession == 'Address' && (
         <div className="text-xs md:text-lg tracking-wide text-gray-300 text-center font-semibold md:mt-12 md:mb-12 mt-32 mb-16 uppercase font flex items-center justify-center gap-2">
           <Link href="/cart">Cart</Link>
-          <LuChevronRight />{' '}
+          <LuChevronRight />
           <span className="text-[#48CAB2] text-2xl">Address</span>
           <LuChevronRight /> Payment
         </div>
