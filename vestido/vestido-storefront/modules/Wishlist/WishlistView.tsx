@@ -25,6 +25,7 @@ import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import { AddToCartDialog } from './AddToCartFromWishlistDialog';
+import { toastDescription } from './toastDescription';
 
 const WishlistView: React.FC = () => {
   const { data: wishlistItems } = useWishlist();
@@ -43,30 +44,12 @@ const WishlistView: React.FC = () => {
     });
     toast({
       title: '',
-      description: (
-        <>
-          <div className="flex font-semibold text-xl items-center gap-2 mb-3">
-            <LuX className="text-red-500" strokeWidth={3} />{' '}
-            <span>Item removed from Wishlist</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <Image
-              src={removeItem(itemId).images[0]?.url ?? ''}
-              alt="Product Thumbnail"
-              className="rounded-full w-10 h-10"
-              width={10}
-              height={10}
-            />
-            <div>
-              <p className="font-semibold">
-                {removeItem(itemId).removingItem?.item.title}
-              </p>
-              <p className="text-sm text-gray-500 max-w-full truncate text-ellipsis overflow-hidden">
-                {removeItem(itemId).removingItem?.item.description}
-              </p>
-            </div>
-          </div>
-        </>
+      description: toastDescription(
+        false,
+        removeItem(itemId).removingItem?.item.title,
+        removeItem(itemId).removingItem?.item.description,
+        'Item removed from Wishlist',
+        removeItem(itemId).images[0]?.url ?? '',
       ),
     });
   };

@@ -32,6 +32,7 @@ import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Toaster } from '@vestido-ecommerce/shadcn-ui/toaster';
 import { toast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
+import { toastDescription } from '../Wishlist/toastDescription';
 
 const CartView: React.FC = () => {
   const { data: cartItems } = useCart();
@@ -65,30 +66,12 @@ const CartView: React.FC = () => {
     if (actionType === 'full') {
       toast({
         title: '',
-        description: (
-          <>
-            <div className="flex font-semibold text-xl items-center gap-2 mb-3">
-              <LuX className="text-red-500" strokeWidth={3} />
-              <span>Item removed from Cart!</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <Image
-                src={removeItem(itemId).images[0]?.url ?? ''}
-                alt="Product Thumbnail"
-                className="rounded-full w-10 h-10"
-                width={10}
-                height={10}
-              />
-              <div>
-                <p className="font-semibold">
-                  {removeItem(itemId).removingItem?.item.title}
-                </p>
-                <p className="text-sm text-gray-500 max-w-full truncate text-ellipsis overflow-hidden">
-                  {removeItem(itemId).removingItem?.item.description}
-                </p>
-              </div>
-            </div>
-          </>
+        description: toastDescription(
+          false,
+          removeItem(itemId).removingItem?.item.title,
+          removeItem(itemId).removingItem?.item.description,
+          'Item removed from Cart!',
+          removeItem(itemId).images[0]?.url ?? '',
         ),
       });
     }
@@ -106,7 +89,14 @@ const CartView: React.FC = () => {
       itemId: itemId,
     });
     toast({
-      title: 'Moved to Wishlist',
+      title: '',
+      description: toastDescription(
+        true,
+        removeItem(itemId).removingItem?.item.title,
+        removeItem(itemId).removingItem?.item.description,
+        'Moved to Wishlist',
+        removeItem(itemId).images[0]?.url ?? '',
+      ),
     });
   };
   const handleClearCart = () => {
@@ -127,7 +117,6 @@ const CartView: React.FC = () => {
   };
   return (
     <div>
-      <Toaster />
       <div className="text-xs md:text-lg tracking-wide text-gray-300 justify-center font-semibold md:mt-12 md:mb-12 mt-32 mb-16 uppercase flex gap-2 items-center">
         <span className="md:text-2xl text-[#48CAB2]">Cart</span>
         <LuChevronRight /> Address <LuChevronRight /> Payment
@@ -174,12 +163,12 @@ const CartView: React.FC = () => {
                             </AlertDialogAction>
                             <AlertDialogAction
                               onClick={() => {
-                                handleAddToWishlist(cartItem.itemId);
                                 handleRemoveFromCart(
                                   cartItem.itemId,
                                   cartItem.variantId ?? '',
                                   'full',
                                 );
+                                handleAddToWishlist(cartItem.itemId);
                               }}
                             >
                               Move to wishlist

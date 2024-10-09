@@ -10,6 +10,7 @@ import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Toaster } from '@vestido-ecommerce/shadcn-ui/toaster';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
+import { toastDescription } from '../Wishlist/toastDescription';
 
 interface AddToCartButtonProps {
   price: number;
@@ -55,29 +56,12 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
 
         toast({
           title: '',
-          description: (
-            <>
-              <div className="flex font-semibold text-xl items-center gap-2 mb-3">
-                <LuCheckCircle className="text-green-500" strokeWidth={3} />
-
-                <span>Item Added to Cart!</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <Image
-                  src={images[0]?.url ?? ''}
-                  alt="Product Thumbnail"
-                  className="rounded-full w-10 h-10"
-                  width={10}
-                  height={10}
-                />
-                <div>
-                  <p className="font-semibold">{product?.title}</p>
-                  <p className="text-sm text-gray-500 max-w-full truncate">
-                    {product?.description}
-                  </p>
-                </div>
-              </div>
-            </>
+          description: toastDescription(
+            true,
+            product?.title,
+            product?.description,
+            'Item Added to Cart!',
+            images[0]?.url ?? '',
           ),
         });
         console.log('passed toast');
