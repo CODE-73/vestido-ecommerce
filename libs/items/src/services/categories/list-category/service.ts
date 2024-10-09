@@ -22,7 +22,7 @@ export async function listCategories(_args: ListCategoryRequest) {
 
       ...(args?.enabled !== undefined
         ? {
-            enabled: args.enabled,
+            enabled: args.enabled ?? false,
           }
         : { enabled: true }),
 

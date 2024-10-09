@@ -88,6 +88,14 @@
         "third-party/shiprocket/src/index.ts",
         "../../third-party/shiprocket/src/index.ts"
       ],
+      "@vestido-ecommerce/tax": [
+        "libs/tax/src/index.ts",
+        "../../libs/tax/src/index.ts"
+      ],
+      "@vestido-ecommerce/tax/client": [
+        "libs/tax/src/client.ts",
+        "../../libs/tax/src/client.ts"
+      ],
       "@vestido-ecommerce/utils": [
         "libs/utils/src/index.ts",
         "../../libs/utils/src/index.ts"
