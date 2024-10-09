@@ -5,7 +5,7 @@ export const UpdateTaxSchema = z.object({
   title: z.string(),
   rate: z.number(),
   description: z.string(),
-  active: z.boolean(),
+  enabled: z.boolean(),
 });
 
 export type UpdateTaxSchemaType = z.infer<typeof UpdateTaxSchema>;

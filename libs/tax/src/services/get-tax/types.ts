@@ -1,3 +1,3 @@
 import { getTax } from './service';
 
-export type getTaxResults = Awaited<ReturnType<typeof getTax>>;
+export type GetTaxResults = Awaited<ReturnType<typeof getTax>>;

@@ -15,7 +15,7 @@ export async function updateTax(taxId: string, data: UpdateTaxSchemaType) {
       title: validatedData.title,
       description: validatedData.description,
       rate: validatedData.rate,
-      active: validatedData.active,
+      enabled: validatedData.enabled,
     },
   });
   return updatedTax;

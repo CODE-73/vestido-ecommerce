@@ -1,5 +1,5 @@
 import { VestidoResponse } from '@vestido-ecommerce/utils';
 
-import { getTaxResults } from '../../services/get-tax/types';
+import { GetTaxResults } from '../../services/get-tax/types';
 
-export type GetTaxResponse = VestidoResponse<getTaxResults>;
+export type GetTaxResponse = VestidoResponse<GetTaxResults>;
