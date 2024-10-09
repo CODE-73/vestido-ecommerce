@@ -249,9 +249,14 @@ model CartItem {
 }
 
 model Order {
-    id                 String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    dateTime           DateTime           @default(now())
-    totalPrice         Float
+    id       String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    dateTime DateTime @default(now())
+
+    totalPrice   Float // total item price = SUM(item.rate * qty IF not item.taxInclusive ELSE taxSubtractedItemAmount)
+    totalTax     Float @default(0) // SUM(item.taxAmount)
+    totalCharges Float @default(0) // For now, only shipping charges.
+    grandTotal   Float @default(0) // SUM(totalPrice + totalTax + totalCharges)
+
     orderStatus        OrderStatus        @default(PENDING)
     deliveryStatus     DeliveryStatus     @default(UNFULFILLED)
     returnStatus       ReturnStatus?
@@ -264,9 +269,6 @@ model Order {
     orderItems         OrderItem[]
     payments           Payment[]
     fulfillments       Fulfillment[]
-    taxTitle           String?
-    taxRate            Float?
-    taxInclusive       Boolean?
 }
 
 model OrderItem {
@@ -288,6 +290,7 @@ model OrderItem {
     taxTitle          String?
     taxRate           Float?
     taxInclusive      Boolean?
+    taxAmount         Float             @default(0)
 }
 
 model Payment {
