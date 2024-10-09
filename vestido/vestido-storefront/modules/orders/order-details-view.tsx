@@ -21,14 +21,6 @@ type OrderDetailsProps = {
   orderId: string;
 };
 
-// export const formattedDate = (dateTime: Date) => {
-//   const day = String(dateTime.getDate()).padStart(2, '0'); // Get day and ensure two digits
-//   const month = String(dateTime.getMonth() + 1).padStart(2, '0'); // Get month and ensure two digits (months are zero-indexed in JS)
-//   const year = dateTime.getFullYear(); // Get the full year
-
-//   return `${day}/${month}/${year}`; // Format as dd/mm/yyyy
-// };
-
 const formattedDate = (date: Date) => {
   return date.toLocaleDateString('en-US', {
     year: 'numeric',
@@ -194,34 +186,34 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
                             className="w-10 h-12 justify-self-center"
                             src={
                               (
-                                (fulfillmentItem.orderItem.item.images ??
+                                (fulfillmentItem?.orderItem?.item.images ??
                                   []) as ImageSchemaType[]
-                              )[0].url!
+                              )[0]?.url ?? ''
                             }
                             alt={
                               (
-                                (fulfillmentItem.orderItem.item.images ??
+                                (fulfillmentItem?.orderItem?.item.images ??
                                   []) as ImageSchemaType[]
-                              )[0].alt!
+                              )[0]?.alt ?? ''
                             }
                             width={50}
                             height={70}
                           />
                           <div className="text-xs col-span-4 pl-1 ">
-                            {fulfillmentItem.orderItem.item.title}
+                            {fulfillmentItem?.orderItem?.item.title}
                           </div>
                           <div className="px-1 text-sm text-center justify-self-center">
-                            {fulfillmentItem.orderItem.qty}
+                            {fulfillmentItem?.orderItem?.qty}
                           </div>
                           <div className="text-sm pl-1 col-span-2 justify-self-center">
                             ₹&nbsp;
-                            {fulfillmentItem.orderItem.item.price.toFixed(2)}
+                            {fulfillmentItem?.orderItem?.item?.price.toFixed(2)}
                           </div>
                         </div>
                       ),
                     )}
                   </div>
-                </div>{' '}
+                </div>
               </div>
             ))}
           </CardContent>
@@ -230,51 +222,5 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
     </div>
   );
 };
-
-/*
-export default function Component() {
-  return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-background">
-      <Card className="w-full max-w-md p-6 md:p-8">
-        <CardHeader className="flex flex-col items-center gap-2">
-          <CircleCheckIcon className="text-green-500 w-12 h-12" />
-          <CardTitle className="text-2xl font-bold">Order Confirmed</CardTitle>
-          <CardDescription className="text-muted-foreground">
-            Thank you for your purchase!
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="grid gap-4">
-          <div className="grid gap-1">
-            <div className="text-muted-foreground">Order Number</div>
-            <div className="font-medium">OD-12345678</div>
-          </div>
-          <div className="grid gap-1">
-            <div className="text-muted-foreground">Total Amount</div>
-            <div className="font-medium">$149.99</div>
-          </div>
-          <div className="grid gap-1">
-            <div className="text-muted-foreground">Delivery Information</div>
-            <address className="not-italic">
-              <div>John Doe</div>
-              <div>123 Main St.</div>
-              <div>Anytown, CA 12345</div>
-            </address>
-          </div>
-        </CardContent>
-        <CardFooter className="flex flex-col gap-2 md:flex-row md:justify-between">
-          <Link href="#" className="w-full md:w-auto" prefetch={false}>
-            <Button variant="outline" className="w-full">
-              View Order Details
-            </Button>
-          </Link>
-          <Link href="#" className="w-full md:w-auto" prefetch={false}>
-            <Button className="w-full">Continue Shopping</Button>
-          </Link>
-        </CardFooter>
-      </Card>
-    </div>
-  );
-}
-*/
 
 export default OrderDetailsView;

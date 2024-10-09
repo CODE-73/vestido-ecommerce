@@ -10,8 +10,8 @@ export async function createCoupon(data: CreateCouponSchemaType) {
   // Calculate whether the coupon should be active
   const isActive =
     validatedData.enabled &&
-    validatedData.fromDate <= new Date() &&
-    validatedData.toDate >= new Date();
+    new Date(validatedData.fromDate) <= new Date() &&
+    new Date(validatedData.toDate) >= new Date();
 
   const coupon = await prisma.coupon.create({
     data: {

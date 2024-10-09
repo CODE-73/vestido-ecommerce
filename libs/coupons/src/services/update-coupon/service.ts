@@ -12,8 +12,8 @@ export async function updateCoupon(
 
   const isActive =
     validatedData.enabled &&
-    validatedData.fromDate <= new Date() &&
-    validatedData.toDate >= new Date();
+    new Date(validatedData.fromDate) <= new Date() &&
+    new Date(validatedData.toDate) >= new Date();
 
   const updatedCoupon = await prisma.coupon.update({
     where: {
