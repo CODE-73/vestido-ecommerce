@@ -76,6 +76,7 @@
         "libs/razorpay/src/index.ts",
         "../../libs/razorpay/src/index.ts"
       ],
+      "@vestido-ecommerce/settings": ["libs/settings/src/index.ts",  "../../libs/settings/src/index.ts"],
       "@vestido-ecommerce/shadcn-ui": [
         "libs/shadcn-ui/src/index.ts",
         "../../libs/shadcn-ui/src/index.ts"
@@ -96,6 +97,7 @@
         "libs/tax/src/client.ts",
         "../../libs/tax/src/client.ts"
       ],
+    
       "@vestido-ecommerce/utils": [
         "libs/utils/src/index.ts",
         "../../libs/utils/src/index.ts"
