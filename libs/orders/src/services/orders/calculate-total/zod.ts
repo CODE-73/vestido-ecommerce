@@ -2,11 +2,11 @@ import { z } from 'zod';
 
 import { OrderItemSchema } from '../create-order/zod';
 
-export const calculateTotalSchema = z.object({
+export const CalculateTotalSchema = z.object({
   addressId: z.string().uuid(),
   orderItems: z.array(OrderItemSchema),
   paymentType: z.enum(['ONLINE', 'CASH_ON_DELIVERY']),
   //  couponCode: z.string(),
 });
 
-export type CalculateTotalSchemaType = z.infer<typeof calculateTotalSchema>;
+export type CalculateTotalSchemaType = z.infer<typeof CalculateTotalSchema>;
