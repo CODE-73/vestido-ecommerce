@@ -67,6 +67,16 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
         console.log('passed toast');
       } catch (error) {
         console.error('Failed to add item to cart', error);
+        toast({
+          title: 'Error Adding to Cart!',
+          description: toastDescription(
+            false,
+            product?.title,
+            '',
+            '',
+            images[0]?.url ?? '',
+          ),
+        });
       } finally {
         setLoading(false); // Stop loading after the action completes
       }
