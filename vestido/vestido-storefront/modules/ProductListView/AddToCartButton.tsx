@@ -6,7 +6,6 @@ import { LuShoppingBag } from 'react-icons/lu';
 import { useAuth } from '@vestido-ecommerce/auth/client';
 import { useAddToCart, useItem } from '@vestido-ecommerce/items/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
-import { Toaster } from '@vestido-ecommerce/shadcn-ui/toaster';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
@@ -86,7 +85,6 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   const buttonHeight = '40px';
   return (
     <>
-      <Toaster />
       <Button
         className="relative flex items-center transition-all justify-start duration-300 bg-black rounded-none hover:bg-[#48CAB2] w-full p-0"
         onMouseEnter={() => setHovered(true)}

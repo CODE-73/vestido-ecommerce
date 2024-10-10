@@ -20,7 +20,6 @@ import {
 } from '@vestido-ecommerce/shadcn-ui/alert-dialog';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Dialog, DialogTrigger } from '@vestido-ecommerce/shadcn-ui/dialog';
-import { Toaster } from '@vestido-ecommerce/shadcn-ui/toaster';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
@@ -56,7 +55,6 @@ const WishlistView: React.FC = () => {
 
   return (
     <div className="md:px-16">
-      <Toaster />
       <div className="text-4xl flex items-center justify-center gap-3 tracking-wide text-white text-center font-extrabold my-5 lg:py-10">
         Wishlist
         <span className="font-normal text-lg">
