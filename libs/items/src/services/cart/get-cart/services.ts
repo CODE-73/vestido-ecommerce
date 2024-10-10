@@ -16,6 +16,9 @@ export async function listCartItems(customerId: string) {
           price: true,
           stockStatus: true,
           images: true,
+          taxInclusive: true,
+          taxRate: true,
+          taxTitle: true,
         },
       },
       variant: {
