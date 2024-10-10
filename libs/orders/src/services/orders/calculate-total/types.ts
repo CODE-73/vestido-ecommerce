@@ -1,3 +1,3 @@
-import { calculateTotalSchemaType } from './zod';
+import { CalculateTotalSchemaType } from './zod';
 
-export type CalculateTotalArgs = calculateTotalSchemaType;
+export type CalculateTotalArgs = CalculateTotalSchemaType;
