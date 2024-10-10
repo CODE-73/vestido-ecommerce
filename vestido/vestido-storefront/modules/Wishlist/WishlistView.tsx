@@ -20,17 +20,36 @@ import {
 } from '@vestido-ecommerce/shadcn-ui/alert-dialog';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Dialog, DialogTrigger } from '@vestido-ecommerce/shadcn-ui/dialog';
+import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
+import { ItemToastBody } from '../../components/item-toast-body';
 import { AddToCartDialog } from './AddToCartFromWishlistDialog';
 
 const WishlistView: React.FC = () => {
   const { data: wishlistItems } = useWishlist();
   const { trigger } = useRemoveFromWishlist();
+  const { toast } = useToast();
+
+  const removeItem = (itemId: string) => {
+    const removingItem = wishlistItems?.data.find((x) => x.itemId === itemId);
+    const images = (removingItem?.item.images ?? []) as ImageSchemaType[];
+    return { removingItem, images };
+  };
 
   const handleRemoveFromWishlist = (itemId: string) => {
     trigger({
       itemId: itemId,
+    });
+    toast({
+      title: '',
+      description: ItemToastBody(
+        false,
+        removeItem(itemId).removingItem?.item.title,
+        removeItem(itemId).removingItem?.item.description,
+        'Item removed from Wishlist',
+        removeItem(itemId).images[0]?.url ?? '',
+      ),
     });
   };
 

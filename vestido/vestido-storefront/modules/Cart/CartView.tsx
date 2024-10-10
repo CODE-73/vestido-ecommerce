@@ -28,7 +28,10 @@ import {
   AlertDialogTrigger,
 } from '@vestido-ecommerce/shadcn-ui/alert-dialog';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
+import { toast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
+
+import { ItemToastBody } from '../../components/item-toast-body';
 
 const CartView: React.FC = () => {
   const { data: cartItems } = useCart();
@@ -37,6 +40,12 @@ const CartView: React.FC = () => {
 
   const { trigger: addCartTrigger } = useAddToCart();
   const { trigger: wishlistTrigger } = useAddToWishlist();
+
+  const removeItem = (itemId: string) => {
+    const removingItem = cartItems?.data.find((x) => x.itemId === itemId);
+    const images = (removingItem?.item.images ?? []) as ImageSchemaType[];
+    return { removingItem, images };
+  };
 
   const totalPrice =
     cartItems?.data.reduce((total, item) => {
@@ -53,6 +62,18 @@ const CartView: React.FC = () => {
       variantId: variantId,
       actionType: actionType,
     });
+    if (actionType === 'full') {
+      toast({
+        title: '',
+        description: ItemToastBody(
+          false,
+          removeItem(itemId).removingItem?.item.title,
+          removeItem(itemId).removingItem?.item.description,
+          'Item removed from Cart!',
+          removeItem(itemId).images[0]?.url ?? '',
+        ),
+      });
+    }
   };
 
   const handleAddToCart = (itemId: string, qty: number, variantId: string) => {
@@ -66,15 +87,31 @@ const CartView: React.FC = () => {
     wishlistTrigger({
       itemId: itemId,
     });
+    toast({
+      title: '',
+      description: ItemToastBody(
+        true,
+        removeItem(itemId).removingItem?.item.title,
+        removeItem(itemId).removingItem?.item.description,
+        'Moved to Wishlist',
+        removeItem(itemId).images[0]?.url ?? '',
+      ),
+    });
   };
   const handleClearCart = () => {
     cartItems?.data.forEach((cartItem) => {
       handleRemoveFromCart(cartItem.itemId, cartItem.variantId!, 'full');
     });
+    toast({
+      title: 'Cart Cleared !',
+    });
   };
   const handleMoveAllToWishlist = () => {
     cartItems?.data.forEach((cartItem) => {
       handleAddToWishlist(cartItem.itemId);
+    });
+    toast({
+      title: 'Moved all to wishlist',
     });
   };
   return (
@@ -124,9 +161,14 @@ const CartView: React.FC = () => {
                               Remove
                             </AlertDialogAction>
                             <AlertDialogAction
-                              onClick={() =>
-                                handleAddToWishlist(cartItem.itemId)
-                              }
+                              onClick={() => {
+                                handleRemoveFromCart(
+                                  cartItem.itemId,
+                                  cartItem.variantId ?? '',
+                                  'full',
+                                );
+                                handleAddToWishlist(cartItem.itemId);
+                              }}
                             >
                               Move to wishlist
                             </AlertDialogAction>
