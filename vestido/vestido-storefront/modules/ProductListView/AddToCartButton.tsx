@@ -55,44 +55,8 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
         //   title: 'Item Added to Cart !',
         //   description: `${item.title}, ${item.description}`,
         // });
-
-        toast({
-          title: 'Item Added to Cart!',
-          description: (
-            <div className="flex items-center gap-3">
-              <Image
-                src={images[0]?.url ?? ''}
-                alt="Product Thumbnail"
-                className="rounded-full w-10 h-10"
-                width={10}
-                height={10}
-              />
-              <div>
-                <p className="font-semibold">Product Name</p>
-                <p className="text-sm text-gray-500">
-                  This is a short description of the product.
-                </p>
-              </div>
-            </div>
-          ),
-        });
       } catch (error) {
         console.error('Failed to add item to cart', error);
-        toast({
-          title: 'Error Adding to Cart!',
-          description: (
-            <div className="flex items-center gap-3">
-              <LuX />
-
-              <div>
-                <p className="font-semibold text-red-500">Product Name</p>
-                <p className="text-sm text-red-500">
-                  This is a short description of the product.
-                </p>
-              </div>
-            </div>
-          ),
-        });
       } finally {
         setLoading(false);
       }
