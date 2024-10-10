@@ -58,9 +58,9 @@ export const ItemUpsertSchema = z
     sku: z.string().nullish(),
     // Temporary Size only Variants
     variants: z.array(ItemVariantWithSizeSchema).optional(),
-    taxTitle: z.string().optional(),
-    taxRate: z.coerce.number().optional(),
-    taxInclusive: z.boolean().default(false),
+    taxTitle: z.string().nullable(),
+    taxRate: z.coerce.number().nullable(),
+    taxInclusive: z.boolean().nullable(),
   })
   .refine(
     (data) => {
