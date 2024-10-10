@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import Image from 'next/image';
 
 import { Item } from '@prisma/client';
-import { LuCheckCircle, LuShoppingBag } from 'react-icons/lu';
+import { LuShoppingBag } from 'react-icons/lu';
 
 import { useAuth } from '@vestido-ecommerce/auth/client';
 import { useAddToCart, useItem } from '@vestido-ecommerce/items/client';
@@ -10,7 +9,8 @@ import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Toaster } from '@vestido-ecommerce/shadcn-ui/toaster';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
-import { toastDescription } from '../Wishlist/toastDescription';
+
+import { ItemToastBody } from '../../components/item-toast-body';
 
 interface AddToCartButtonProps {
   price: number;
@@ -56,7 +56,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
 
         toast({
           title: '',
-          description: toastDescription(
+          description: ItemToastBody(
             true,
             product?.title,
             product?.description,

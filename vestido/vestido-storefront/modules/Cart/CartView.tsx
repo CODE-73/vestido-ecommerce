@@ -8,7 +8,6 @@ import {
   LuMinus,
   LuPlus,
   LuTrash2,
-  LuX,
 } from 'react-icons/lu';
 
 import {
@@ -29,10 +28,10 @@ import {
   AlertDialogTrigger,
 } from '@vestido-ecommerce/shadcn-ui/alert-dialog';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
-import { Toaster } from '@vestido-ecommerce/shadcn-ui/toaster';
 import { toast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
-import { toastDescription } from '../Wishlist/toastDescription';
+
+import { ItemToastBody } from '../../components/item-toast-body';
 
 const CartView: React.FC = () => {
   const { data: cartItems } = useCart();
@@ -66,7 +65,7 @@ const CartView: React.FC = () => {
     if (actionType === 'full') {
       toast({
         title: '',
-        description: toastDescription(
+        description: ItemToastBody(
           false,
           removeItem(itemId).removingItem?.item.title,
           removeItem(itemId).removingItem?.item.description,
@@ -90,7 +89,7 @@ const CartView: React.FC = () => {
     });
     toast({
       title: '',
-      description: toastDescription(
+      description: ItemToastBody(
         true,
         removeItem(itemId).removingItem?.item.title,
         removeItem(itemId).removingItem?.item.description,

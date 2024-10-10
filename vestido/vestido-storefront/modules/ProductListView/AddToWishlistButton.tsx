@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
-import Image from 'next/image';
 
 import { useMediaQuery } from '@react-hook/media-query';
-import { LuHeart, LuLoader, LuX } from 'react-icons/lu';
+import { LuHeart, LuLoader } from 'react-icons/lu';
 
 import { useAuth } from '@vestido-ecommerce/auth/client';
 import {
@@ -10,7 +9,6 @@ import {
   useRemoveFromWishlist,
   useWishlist,
 } from '@vestido-ecommerce/items/client';
-import { Toaster } from '@vestido-ecommerce/shadcn-ui/toaster';
 import {
   Tooltip,
   TooltipContent,
@@ -19,7 +17,8 @@ import {
 } from '@vestido-ecommerce/shadcn-ui/tooltip';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
-import { toastDescription } from '../Wishlist/toastDescription';
+
+import { ItemToastBody } from '../../components/item-toast-body';
 
 type WishlistbuttonProps = {
   className?: string;
@@ -76,7 +75,7 @@ const AddToWishListButton: React.FC<WishlistbuttonProps> = ({
 
       toast({
         title: '',
-        description: toastDescription(
+        description: ItemToastBody(
           false,
           _removingItem?.title,
           _removingItem?.description,

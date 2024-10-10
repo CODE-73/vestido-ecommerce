@@ -1,9 +1,8 @@
-import { ImageSchemaType } from '@vestido-ecommerce/utils';
 import Image from 'next/image';
-import { LuCheckCircle, LuX } from 'react-icons/lu';
-import * as React from 'react';
 
-export const toastDescription = (
+import { LuCheckCircle, LuX } from 'react-icons/lu';
+
+export const ItemToastBody = (
   tick: boolean,
   title?: string,
   description?: string,

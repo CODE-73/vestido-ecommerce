@@ -15,9 +15,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@vestido-ecommerce/shadcn-ui/dialog';
-import { ImageSchemaType } from '@vestido-ecommerce/utils';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
-import { toastDescription } from './toastDescription';
+import { ImageSchemaType } from '@vestido-ecommerce/utils';
+
+import { ItemToastBody } from '../../components/item-toast-body';
 
 type AddToCartDialogProps = {
   itemId: string;
@@ -124,7 +125,7 @@ export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({ itemId }) => {
         variantId: selectedVariantId ?? null,
       });
       toast({
-        description: toastDescription(
+        description: ItemToastBody(
           true,
           item.title,
           item.description,

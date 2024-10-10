@@ -24,8 +24,8 @@ import { Toaster } from '@vestido-ecommerce/shadcn-ui/toaster';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
+import { ItemToastBody } from '../../components/item-toast-body';
 import { AddToCartDialog } from './AddToCartFromWishlistDialog';
-import { toastDescription } from './toastDescription';
 
 const WishlistView: React.FC = () => {
   const { data: wishlistItems } = useWishlist();
@@ -44,7 +44,7 @@ const WishlistView: React.FC = () => {
     });
     toast({
       title: '',
-      description: toastDescription(
+      description: ItemToastBody(
         false,
         removeItem(itemId).removingItem?.item.title,
         removeItem(itemId).removingItem?.item.description,
