@@ -9,4 +9,4 @@ export const calculateTotalSchema = z.object({
   //  couponCode: z.string(),
 });
 
-export type calculateTotalSchemaType = z.infer<typeof calculateTotalSchema>;
+export type CalculateTotalSchemaType = z.infer<typeof calculateTotalSchema>;

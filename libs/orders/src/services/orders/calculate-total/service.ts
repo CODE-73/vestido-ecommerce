@@ -1,8 +1,8 @@
 import { calculateShippingCharges } from '../../shipping/get-shipping-charge';
-import { calculateTotalSchema, calculateTotalSchemaType } from './zod';
+import { CalculateTotalSchema, CalculateTotalSchemaType } from './zod';
 
-export async function calculateTotal(data: calculateTotalSchemaType) {
-  const validatedData = calculateTotalSchema.parse(data);
+export async function calculateTotal(data: CalculateTotalSchemaType) {
+  const validatedData = CalculateTotalSchema.parse(data);
 
   const shipping = await calculateShippingCharges({
     paymentType: validatedData.paymentType,
