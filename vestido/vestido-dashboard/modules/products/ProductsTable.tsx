@@ -6,6 +6,17 @@ import {
   ListItemResponse,
   useItemDelete,
 } from '@vestido-ecommerce/items/client';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@vestido-ecommerce/shadcn-ui/alert-dialog';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
   Table,
@@ -31,6 +42,7 @@ const ProductsTable: React.FC<ProductTableProps> = ({ data, categoryId }) => {
 
   const handleRowClick = (product: string) => {
     router.push(`/products/${encodeURIComponent(product)}`);
+    console.log('row click');
   };
 
   const { trigger, isMutating } = useItemDelete();
@@ -93,17 +105,42 @@ const ProductsTable: React.FC<ProductTableProps> = ({ data, categoryId }) => {
                   {item.hasVariants ? `${item.variants.length}` : 'No variant'}
                 </TableCell>
                 <TableCell>
-                  <Button
-                    className="bg-transparent text-black hover:text-white"
-                    type="button"
-                    disabled={isMutating}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleItemDelete(item.id);
-                    }}
-                  >
-                    {isMutating ? 'Deleting...' : <LuTrash />}
-                  </Button>
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button
+                        className="bg-transparent text-black hover:text-white"
+                        type="button"
+                        disabled={isMutating}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                      >
+                        <LuTrash />
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          Are you sure you want to delete this product?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This cannot be undone.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+
+                        <AlertDialogAction
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleItemDelete(item.id);
+                          }}
+                        >
+                          Delete
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 </TableCell>
               </TableRow>
             ))}
