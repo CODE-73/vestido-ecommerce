@@ -11,7 +11,7 @@ import BlockingSpinner from '../components/BlockingSpinner';
 import MainLayout from '../layouts/MainLayout';
 import { NextPageWithLayout } from './../types';
 import SentryErrorBoundary from './sentry';
-import { Toaster } from '@vestido-ecommerce/shadcn-ui/toaster';
+
 import './styles.css';
 
 type AppPropsWithLayout = AppProps & {

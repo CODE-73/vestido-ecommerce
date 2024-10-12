@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useMemo, useState } from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import { useMediaQuery } from '@react-hook/media-query';
@@ -19,15 +20,14 @@ import {
   AccordionTrigger,
 } from '@vestido-ecommerce/shadcn-ui/accordion';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
+import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
+import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import AddToWishListButton from '../ProductListView/AddToWishlistButton';
 import ProductListView from '../ProductListView/ProductListView';
 import ProductViewBreadcrumb from './poduct-view-breadcrumpts';
 import ProductViewImages from './product-view-images';
 import ProductViewVariants from './product-view-variants';
-import Image from 'next/image';
-import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
-import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 interface ProductViewProps {
   itemId: string;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -51,9 +51,13 @@ const CheckoutView: React.FC = () => {
 
   const { data: { data: buyNowItem } = { data: null } } = useItem(buyNowItemId);
 
-  const checkoutItems = buyNowItem
-    ? [{ item: buyNowItem, qty: 1, variantId: buyNowVariantId }]
-    : cartItems;
+  const checkoutItems = useMemo(
+    () =>
+      buyNowItem
+        ? [{ item: buyNowItem, qty: 1, variantId: buyNowVariantId }]
+        : cartItems,
+    [cartItems, buyNowItem, buyNowVariantId],
+  );
 
   const form = useForm<CreateOrderForm>({
     resolver: zodResolver(CreateOrderFormSchema),
