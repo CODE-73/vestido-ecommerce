@@ -3,7 +3,11 @@ import Image from 'next/image';
 
 import { LuShoppingBag } from 'react-icons/lu';
 
-import { useAddToCart, useItem } from '@vestido-ecommerce/items/client';
+import {
+  useAddToCart,
+  useItem,
+  useRemoveFromWishlist,
+} from '@vestido-ecommerce/items/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
   DialogContent,
@@ -11,19 +15,24 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@vestido-ecommerce/shadcn-ui/dialog';
+import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
+
+import { ItemToastBody } from '../../components/item-toast-body';
 
 type AddToCartDialogProps = {
   itemId: string;
 };
 export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({ itemId }) => {
   const { data } = useItem(itemId);
+  const { trigger: wishlistTrigger } = useRemoveFromWishlist();
 
   const [isDialogOpen, setIsDialogOpen] = useState(true);
   const item = data?.data;
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(
     null,
   );
+  const { toast } = useToast();
 
   const selectedVariant = useMemo(
     () => item?.variants?.find((x) => x.id === selectedVariantId) ?? null,
@@ -100,12 +109,29 @@ export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({ itemId }) => {
     });
   });
 
+  const images = item?.images as ImageSchemaType[];
+
+  const handleRemoveFromWishlist = (itemId: string) => {
+    wishlistTrigger({
+      itemId: itemId,
+    });
+  };
+
   const handleAddToCart = () => {
     if (item) {
       cartTrigger({
         itemId: item.id,
         qty: 1,
         variantId: selectedVariantId ?? null,
+      });
+      toast({
+        description: ItemToastBody(
+          true,
+          item.title,
+          item.description,
+          'Moved to Cart!',
+          images[0].url ?? '',
+        ),
       });
     }
     setIsDialogOpen(false);
@@ -180,7 +206,10 @@ export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({ itemId }) => {
 
           <DialogFooter>
             <Button
-              onClick={() => handleAddToCart()}
+              onClick={() => {
+                handleRemoveFromWishlist(itemId);
+                handleAddToCart();
+              }}
               className="bg-[#48CAB2] w-full flex gap-3 text-lg my-1 text-white px-2 py-6 font-bold hover:bg-[#48CAB2] rounded-none"
             >
               <LuShoppingBag color="#fff" size={24} />

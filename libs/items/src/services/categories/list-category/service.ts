@@ -26,7 +26,7 @@ export async function listCategories(_args: ListCategoryRequest) {
           }
         : { enabled: true }),
 
-      ...(args?.gender ? { gender: { equals: [args.gender] } } : {}),
+      ...(args?.gender ? { gender: { has: args.gender } } : {}),
     },
   });
 

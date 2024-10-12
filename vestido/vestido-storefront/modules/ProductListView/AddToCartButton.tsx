@@ -1,15 +1,15 @@
 import { useState } from 'react';
-import Image from 'next/image';
 
 import { Item } from '@prisma/client';
-import { LuShoppingBag, LuX } from 'react-icons/lu';
+import { LuShoppingBag } from 'react-icons/lu';
 
 import { useAuth } from '@vestido-ecommerce/auth/client';
 import { useAddToCart, useItem } from '@vestido-ecommerce/items/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
-import { Toaster } from '@vestido-ecommerce/shadcn-ui/toaster';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
+
+import { ItemToastBody } from '../../components/item-toast-body';
 
 interface AddToCartButtonProps {
   price: number;
@@ -31,6 +31,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   const { data } = useItem(item.id);
   const product = data?.data;
   const { trigger } = useAddToCart();
+
   const defaultVar = product?.variants.find((x) => x.default == true);
 
   const handleAddToCart = async () => {
@@ -51,12 +52,30 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
           qty: qty,
           variantId: defaultVar?.id ?? product?.variants?.[0]?.id ?? null,
         });
-        // toast({
-        //   title: 'Item Added to Cart !',
-        //   description: `${item.title}, ${item.description}`,
-        // });
+
+        toast({
+          title: '',
+          description: ItemToastBody(
+            true,
+            product?.title,
+            product?.description,
+            'Item Added to Cart!',
+            images[0]?.url ?? '',
+          ),
+        });
+        console.log('passed toast');
       } catch (error) {
         console.error('Failed to add item to cart', error);
+        toast({
+          title: 'Error Adding to Cart!',
+          description: ItemToastBody(
+            false,
+            product?.title,
+            '',
+            '',
+            images[0]?.url ?? '',
+          ),
+        });
       } finally {
         setLoading(false);
       }

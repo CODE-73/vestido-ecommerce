@@ -5,6 +5,7 @@ import Head from 'next/head';
 
 import { AuthProvider } from '@vestido-ecommerce/auth/client';
 import { PostHogProvider } from '@vestido-ecommerce/posthog/client';
+import { Toaster } from '@vestido-ecommerce/shadcn-ui/toaster';
 
 import BlockingSpinner from '../components/BlockingSpinner';
 import MainLayout from '../layouts/MainLayout';
