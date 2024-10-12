@@ -90,7 +90,6 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
       onMouseLeave={() => setHovered(false)}
       style={{ height: buttonHeight, minHeight: buttonHeight }}
       onClick={() => handleAddToCart()}
-      // disabled={loading || (hovered && success)}
       disabled={loading}
     >
       <div
@@ -104,16 +103,6 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
             Adding...
           </span>
         ) : (
-          // success ? (
-          //   <div className="flex items-center ">
-          //     <LuCheck className="text-white" size={20} />
-          //     {hovered && (
-          //       <span className="ml-2 text-white text-lg font-semibold">
-          //         Added
-          //       </span>
-          //     )}
-          //   </div>
-          // ) :
           <>
             <LuShoppingBag className="text-white" size={20} />
             {hovered && (

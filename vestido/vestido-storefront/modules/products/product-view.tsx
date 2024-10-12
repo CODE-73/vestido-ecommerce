@@ -20,7 +20,6 @@ import {
 } from '@vestido-ecommerce/shadcn-ui/accordion';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
-import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import AddToWishListButton from '../ProductListView/AddToWishlistButton';
 import ProductListView from '../ProductListView/ProductListView';
@@ -51,7 +50,6 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
     [item, selectedVariantId],
   );
 
-  const images = (item?.images ?? []) as ImageSchemaType[];
   const { trigger: cartTrigger } = useAddToCart();
 
   const handleAddToCart = () => {
