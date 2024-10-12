@@ -23,6 +23,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   item,
 }) => {
   const { isAuthenticated, routeToLogin } = useAuth();
+  const { toast } = useToast();
   const [hovered, setHovered] = useState(false);
   const [qty] = useState(1);
   const [loading, setLoading] = useState(false); // State to show loading
@@ -30,7 +31,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   const { data } = useItem(item.id);
   const product = data?.data;
   const { trigger } = useAddToCart();
-  const { toast } = useToast();
+
   const defaultVar = product?.variants.find((x) => x.default == true);
 
   const handleAddToCart = async () => {
@@ -43,7 +44,6 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
       setLoading(true); // Set loading to true when the process starts
       // setSuccess(false);
       // Reset success state when a new action starts
-
       const images = (item.images ?? []) as ImageSchemaType[];
 
       try {
@@ -77,78 +77,65 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
           ),
         });
       } finally {
-        setLoading(false); // Stop loading after the action completes
+        setLoading(false);
       }
     }
   };
 
   const buttonHeight = '40px';
   return (
-    <>
-      <Button
-        className="relative flex items-center transition-all justify-start duration-300 bg-black rounded-none hover:bg-[#48CAB2] w-full p-0"
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        style={{ height: buttonHeight, minHeight: buttonHeight }}
-        onClick={() => handleAddToCart()}
-        // disabled={loading || (hovered && success)}
-        disabled={loading}
+    <Button
+      className="relative flex items-center transition-all justify-start duration-300 bg-black rounded-none hover:bg-[#48CAB2] w-full p-0"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{ height: buttonHeight, minHeight: buttonHeight }}
+      onClick={() => handleAddToCart()}
+      disabled={loading}
+    >
+      <div
+        className={`flex items-center justify-start gap-3 transition-all duration-300 bg-[#48CAB2] p-2 ${
+          hovered ? 'w-full' : ''
+        }`}
+        style={{ height: '100%' }}
       >
-        <div
-          className={`flex items-center justify-start gap-3 transition-all duration-300 bg-[#48CAB2] p-2 ${
-            hovered ? 'w-full' : ''
-          }`}
-          style={{ height: '100%' }}
-        >
-          {loading ? (
-            <span className="ml-2 text-white text-lg font-semibold">
-              Adding...
-            </span>
-          ) : (
-            // success ? (
-            //   <div className="flex items-center ">
-            //     <LuCheck className="text-white" size={20} />
-            //     {hovered && (
-            //       <span className="ml-2 text-white text-lg font-semibold">
-            //         Added
-            //       </span>
-            //     )}
-            //   </div>
-            // ) :
-            <>
-              <LuShoppingBag className="text-white" size={20} />
-              {hovered && (
-                <span className="ml-2 text-white text-lg font-semibold">
-                  ADD TO CART
-                </span>
+        {loading ? (
+          <span className="ml-2 text-white text-lg font-semibold">
+            Adding...
+          </span>
+        ) : (
+          <>
+            <LuShoppingBag className="text-white" size={20} />
+            {hovered && (
+              <span className="ml-2 text-white text-lg font-semibold">
+                ADD TO CART
+              </span>
+            )}
+          </>
+        )}
+      </div>
+      {!hovered && !loading && (
+        <div className="ml-4 font-semibold text-left flex-grow text-white ">
+          {offerPrice ? (
+            <div className="flex items-baseline gap-1">
+              <div className="text-white text-base">
+                ₹&nbsp;{offerPrice.toFixed(2)}
+              </div>
+              {offerPrice < price ? (
+                <div className="text-gray-500 line-through text-xs">
+                  ₹&nbsp;{price.toFixed(2)}
+                </div>
+              ) : (
+                ''
               )}
-            </>
+            </div>
+          ) : (
+            <div className="text-white text-base">
+              ₹&nbsp;{price.toFixed(2)}
+            </div>
           )}
         </div>
-        {!hovered && !loading && (
-          <div className="ml-4 font-semibold text-left flex-grow text-white ">
-            {offerPrice ? (
-              <div className="flex items-baseline gap-1">
-                <div className="text-white text-base">
-                  ₹&nbsp;{offerPrice.toFixed(2)}
-                </div>
-                {offerPrice < price ? (
-                  <div className="text-gray-500 line-through text-xs">
-                    ₹&nbsp;{price.toFixed(2)}
-                  </div>
-                ) : (
-                  ''
-                )}
-              </div>
-            ) : (
-              <div className="text-white text-base">
-                ₹&nbsp;{price.toFixed(2)}
-              </div>
-            )}
-          </div>
-        )}
-      </Button>
-    </>
+      )}
+    </Button>
   );
 };
 

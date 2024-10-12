@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useMemo, useState } from 'react';
+import { useRouter } from 'next/router';
 
 import { useMediaQuery } from '@react-hook/media-query';
 import { LuCalendar, LuScaling, LuShoppingBag, LuTruck } from 'react-icons/lu';
@@ -18,6 +19,7 @@ import {
   AccordionTrigger,
 } from '@vestido-ecommerce/shadcn-ui/accordion';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
+import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 
 import AddToWishListButton from '../ProductListView/AddToWishlistButton';
 import ProductListView from '../ProductListView/ProductListView';
@@ -31,6 +33,8 @@ interface ProductViewProps {
 
 const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
   const { isAuthenticated, routeToLogin } = useAuth();
+  const router = useRouter();
+  const { toast } = useToast();
 
   const { data: { data: item } = { data: null } } = useItem(itemId);
   const { data: { data: category } = { data: null } } = useCategory(
@@ -60,6 +64,21 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
         qty: 1,
         variantId: selectedVariantId ?? null,
       });
+      toast({
+        title: 'Item Added to Cart!',
+      });
+    }
+  };
+  const handleBuyNow = () => {
+    if (!isAuthenticated) {
+      routeToLogin();
+      return;
+    }
+
+    if (item) {
+      router.push(
+        `/checkout?buyNowItemId=${item.id}&buyNowVariantId=${selectedVariantId}`,
+      );
     }
   };
 
@@ -128,32 +147,34 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
             <hr className="border-gray-600" />
           </div>
           <div
-            className="flex gap-2 mb-5 w-full fixed -bottom-5 w-full sm:static bg-black  py-4 px-2 mx-0 z-50 sm:z-auto"
+            className="flex flex-col sm:flex-row md:flex-col 2xl:flex-row gap-2 mb-5 w-full fixed -bottom-5 w-full sm:static bg-black  py-4 px-2 mx-0 z-50 sm:z-auto"
             style={{
               boxShadow: '0 -20px 25px -5px rgba(55, 65, 81, 0.3)', // Mimicking shadow-lg shadow-gray-700/50
             }}
           >
-            <div className="flex bg-[#48CAB2] items-center gap-2 flex-1 justify-center text-white  ">
+            <div className="flex  bg-[#48CAB2] h-10 sm:h-auto items-center gap-2 flex-1 justify-center text-white  ">
               <LuShoppingBag size={30} />
               <Button
                 onClick={() => handleAddToCart()}
-                className="text-xl font-semibold bg-transparent hover:bg-transparent"
+                className="text-xl font-semibold bg-transparent hover:bg-transparent h-10 sm:h-auto"
               >
                 ADD TO CART
               </Button>
             </div>
-            {/* <div className="flex bg-[#48CAB2] items-center gap-2 flex-1 justify-center text-white  ">
-              <Button
-                // onClick={() => handleAddToCart()}
-                className="text-xl font-semibold bg-transparent hover:bg-transparent"
-              >
-                BUY NOW
-              </Button>
-            </div> */}
-            <AddToWishListButton
-              itemId={item?.id || ''}
-              className="border border-2 border-[#48CAB2] font-medium text-xs  h-full self-center p-4"
-            />
+            <div className="flex flex-1 gap-2">
+              <div className="flex  order-last sm:order-none bg-[#48CAB2] h-10 sm:h-auto items-center gap-2 flex-1 justify-center text-white  ">
+                <Button
+                  onClick={() => handleBuyNow()}
+                  className="text-xl font-semibold bg-transparent hover:bg-transparent h-10 sm:h-auto"
+                >
+                  BUY NOW
+                </Button>
+              </div>
+              <AddToWishListButton
+                itemId={item?.id || ''}
+                className="border sm:border-2 border-[#48CAB2] font-medium text-xs h-full self-center p-1 sm:p-4  md:p-1 2xl:p-4 "
+              />
+            </div>
           </div>
           <hr className="border-gray-600" />
           <div className="flex justify-between py-5 px-1 sm:px-0">
@@ -176,7 +197,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
                 </div>
               </>
             ) : (
-              <div className="grid grid-cols-3">
+              <div className="grid grid-cols-3 w-full">
                 <div className="flex flex-col  gap-1 items-center ">
                   <LuScaling size={24} />
                   <div className="text-xs">Size Guide</div>
