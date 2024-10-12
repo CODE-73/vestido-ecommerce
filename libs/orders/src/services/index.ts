@@ -10,6 +10,7 @@ export * from './fulfillment/get-fulfillment';
 export * from './fulfillment/list-fulfillment';
 export * from './fulfillment/submit-fulfillment';
 export * from './fulfillment/update-fulfillment';
+export * from './orders/calculate-total';
 export * from './orders/create-order';
 export * from './orders/get-order';
 export * from './orders/list-admin-orders';
