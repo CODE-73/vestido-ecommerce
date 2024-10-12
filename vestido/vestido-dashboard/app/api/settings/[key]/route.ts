@@ -7,7 +7,6 @@ export const GET = apiRouteHandler(
   roleMiddleware('ADMIN'),
   async ({ params }) => {
     const settings = await getSettings(params.key);
-    console.log('settings', settings);
     return settings;
   },
 );
