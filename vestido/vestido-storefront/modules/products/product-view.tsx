@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useMemo, useState } from 'react';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import { useMediaQuery } from '@react-hook/media-query';
@@ -69,23 +68,6 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
       });
       toast({
         title: 'Item Added to Cart!',
-        description: (
-          <div className="flex items-center gap-3">
-            <Image
-              src={images[0]?.url ?? ''}
-              alt="Product Thumbnail"
-              className="rounded-full w-10 h-10"
-              width={10}
-              height={10}
-            />
-            <div>
-              <p className="font-semibold">Product Name</p>
-              <p className="text-sm text-gray-500">
-                This is a short description of the product.
-              </p>
-            </div>
-          </div>
-        ),
       });
     }
   };
