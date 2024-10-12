@@ -1,6 +1,6 @@
 import { authMiddleware, roleMiddleware } from '@vestido-ecommerce/auth';
 import { getSettings, updateSettings } from '@vestido-ecommerce/settings';
-import { apiRouteHandler, VestidoError } from '@vestido-ecommerce/utils';
+import { apiRouteHandler } from '@vestido-ecommerce/utils';
 
 export const GET = apiRouteHandler(
   authMiddleware,

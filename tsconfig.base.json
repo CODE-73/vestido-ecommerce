@@ -76,7 +76,14 @@
         "libs/razorpay/src/index.ts",
         "../../libs/razorpay/src/index.ts"
       ],
-      "@vestido-ecommerce/settings": ["libs/settings/src/index.ts",  "../../libs/settings/src/index.ts"],
+      "@vestido-ecommerce/settings": [
+        "libs/settings/src/index.ts",
+        "../../libs/settings/src/index.ts"
+      ],
+      "@vestido-ecommerce/settings/client": [
+        "libs/settings/src/client.ts",
+        "../../libs/settings/src/client.ts"
+      ],
       "@vestido-ecommerce/shadcn-ui": [
         "libs/shadcn-ui/src/index.ts",
         "../../libs/shadcn-ui/src/index.ts"
