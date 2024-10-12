@@ -3,6 +3,7 @@ import { getPrismaClient } from '@vestido-ecommerce/models';
 import { generatePaymentSignature } from '../signature';
 import { verifyPaymentRequest } from './types';
 import { verifyRPSignSchema } from './zod';
+import { clearCartOnOrderCreation } from 'libs/items/src/services';
 
 export async function processPayment(data: verifyPaymentRequest) {
   const prisma = getPrismaClient();
@@ -34,7 +35,7 @@ export async function processPayment(data: verifyPaymentRequest) {
     // Update order status to 'PAID' for the fetched order IDs
     await Promise.all(
       updatedOrderIds.map(async (payment) => {
-        await prisma.order.update({
+        const order = await prisma.order.update({
           where: {
             id: payment.orderId,
           },
@@ -42,7 +43,12 @@ export async function processPayment(data: verifyPaymentRequest) {
             orderStatus: 'CONFIRMED',
             orderPaymentStatus: 'CAPTURED',
           },
+          select: {
+            customerId: true,
+            orderItems: true,
+          },
         });
+
         await prisma.orderItem.updateMany({
           where: {
             orderId: payment.orderId,
@@ -51,6 +57,8 @@ export async function processPayment(data: verifyPaymentRequest) {
             status: 'CONFIRMED',
           },
         });
+
+        await clearCartOnOrderCreation(payment.orderId);
       }),
     );
 
