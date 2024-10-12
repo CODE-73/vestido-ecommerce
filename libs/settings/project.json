@@ -1,0 +1,23 @@
+{
+  "name": "settings",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/settings/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/settings",
+        "main": "libs/settings/src/index.ts",
+        "tsConfig": "libs/settings/tsconfig.lib.json",
+        "assets": ["libs/settings/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": []
+}
