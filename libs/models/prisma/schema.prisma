@@ -381,3 +381,8 @@ model PrismaSeed {
 
     @@map("_prisma_seeds")
 }
+
+model Settings {
+    key   String @unique
+    value Json   @default("{}")
+}

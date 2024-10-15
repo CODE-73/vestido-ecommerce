@@ -104,7 +104,7 @@ const ProductsTable: React.FC<ProductTableProps> = ({ data, categoryId }) => {
                 >
                   {item.hasVariants ? `${item.variants.length}` : 'No variant'}
                 </TableCell>
-                <TableCell>
+                <TableCell onClick={(e) => e.stopPropagation()}>
                   <AlertDialog>
                     <AlertDialogTrigger asChild>
                       <Button
@@ -128,11 +128,12 @@ const ProductsTable: React.FC<ProductTableProps> = ({ data, categoryId }) => {
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogCancel type="button">
+                          Cancel
+                        </AlertDialogCancel>
 
                         <AlertDialogAction
-                          onClick={(e) => {
-                            e.stopPropagation();
+                          onClick={() => {
                             handleItemDelete(item.id);
                           }}
                         >
