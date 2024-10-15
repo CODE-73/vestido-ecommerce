@@ -22,6 +22,7 @@ import { InputElement } from '../../forms/input-element';
 import { RadioGroupElement } from '../../forms/radio-group-element';
 import { SwitchElement } from '../../forms/switch-element';
 import { TextAreaElement } from '../../forms/textarea-element';
+import ProductFormTaxItem from './product-form-tax-item';
 import ProductSizeForm from './ProductSizeForm';
 import { useProductForm } from './use-product-form';
 
@@ -108,6 +109,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
               label="Description"
             />
           </div>
+
+          <ProductFormTaxItem />
           <div className="grid grid-cols-2 gap-5 lg:px-10 mt-10">
             <FormField
               control={form.control}
