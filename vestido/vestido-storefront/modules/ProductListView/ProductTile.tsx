@@ -32,37 +32,35 @@ const ProductCard: React.FC<ProductCardProps> = ({ data: item }) => {
         ''
       )}
 
-      {images.length > 0 && (
-        <div
-          onClick={() => handleProductClick(item.id)}
-          className="group w-full relative"
-        >
-          <div className="relative w-full pb-[130%]">
-            <Image
-              className="absolute inset-0 block group-hover:hidden object-cover"
-              src={images[0]?.url ?? ''}
-              blurDataURL={images[0]?.blurHashDataURL ?? undefined}
-              placeholder={images[0]?.blurHashDataURL ? 'blur' : undefined}
-              fill
-              alt="alt text"
-              style={{ objectFit: 'cover' }}
-            />
-            <Image
-              className="absolute inset-0 group-hover:block hidden object-cover"
-              fill
-              style={{ objectFit: 'cover' }}
-              src={(images[1] ?? images[0])?.url ?? ''}
-              blurDataURL={
-                (images[1] ?? images[0])?.blurHashDataURL ?? undefined
-              }
-              placeholder={
-                (images[1] ?? images[0])?.blurHashDataURL ? 'blur' : undefined
-              }
-              alt="alt text"
-            />
-          </div>
+      <div
+        onClick={() => handleProductClick(item.id)}
+        className="group w-full relative"
+      >
+        <div className="relative w-full pb-[130%]">
+          <Image
+            className="absolute inset-0 block group-hover:hidden object-cover"
+            src={images[0]?.url ?? '/assets/no-image-fallback.png'}
+            blurDataURL={images[0]?.blurHashDataURL ?? undefined}
+            placeholder={images[0]?.blurHashDataURL ? 'blur' : undefined}
+            fill
+            alt="alt text"
+            style={{ objectFit: 'cover' }}
+          />
+          <Image
+            className="absolute inset-0 group-hover:block hidden object-cover"
+            fill
+            style={{ objectFit: 'cover' }}
+            src={
+              (images[1] ?? images[0])?.url ?? '/assets/no-image-fallback.png'
+            }
+            blurDataURL={(images[1] ?? images[0])?.blurHashDataURL ?? undefined}
+            placeholder={
+              (images[1] ?? images[0])?.blurHashDataURL ? 'blur' : undefined
+            }
+            alt="alt text"
+          />
         </div>
-      )}
+      </div>
 
       <div className="self-start pt-[#2px] capitalize text-white text-xs md:text-base font-light md:mb-4 w-full truncate">
         {item.title}
