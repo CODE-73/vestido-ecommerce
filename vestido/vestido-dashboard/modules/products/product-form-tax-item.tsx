@@ -13,8 +13,6 @@ const ProductFormTaxItem: FC = () => {
   const form = useFormContext<CreateProductForm>();
   const { data: { data: taxes } = { data: null } } = useTaxes();
 
-  console.log(form.getValues());
-
   const handleTaxSelection = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedTaxTitle = event.target.value;
     const selectedTax = taxes?.find((tax) => tax.title === selectedTaxTitle);
