@@ -12,8 +12,8 @@ import { z } from 'zod';
 
 import { useCart, useItem } from '@vestido-ecommerce/items/client';
 import {
+  useCalculateTotal,
   useCreateOrder,
-  useShippingCharges,
 } from '@vestido-ecommerce/orders/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Dialog, DialogTrigger } from '@vestido-ecommerce/shadcn-ui/dialog';
@@ -24,12 +24,28 @@ import AddAddressDialog from './AddAddressDialog';
 import { CustomerAddressElement } from './CustomerAddressElement';
 import { PaymentTypeElement } from './PaymentTypeElement';
 
-const OrderItemSchema = z.object({
-  itemId: z.string().uuid(),
-  price: z.coerce.number(),
-  qty: z.number().int(),
-  variantId: z.string().uuid().nullish(),
-});
+const OrderItemSchema = z
+  .object({
+    itemId: z.string().uuid(),
+    price: z.coerce.number(),
+    qty: z.number().int(),
+    variantId: z.string().uuid().nullish(),
+    taxTitle: z.string().nullish(),
+    taxRate: z.coerce.number().nullish(),
+    taxInclusive: z.boolean().default(false),
+  })
+  .refine(
+    (data) => {
+      if (data.taxInclusive) {
+        return data.taxTitle && data.taxRate;
+      }
+      return true;
+    },
+    {
+      message: 'Tax title and tax rate are required when tax is inclusive',
+      path: ['taxInclusive'],
+    },
+  );
 
 const CreateOrderFormSchema = z.object({
   addressId: z.string().uuid(),
@@ -54,14 +70,23 @@ const CheckoutView: React.FC = () => {
   const checkoutItems = useMemo(
     () =>
       buyNowItem
-        ? [{ item: buyNowItem, qty: 1, variantId: buyNowVariantId }]
+        ? [
+            {
+              item: buyNowItem,
+              itemId: buyNowItem.id,
+              qty: 1,
+              variantId: buyNowVariantId,
+            },
+          ]
         : cartItems,
     [cartItems, buyNowItem, buyNowVariantId],
   );
 
   const form = useForm<CreateOrderForm>({
     resolver: zodResolver(CreateOrderFormSchema),
-    defaultValues: {},
+    defaultValues: {
+      paymentType: 'ONLINE',
+    },
   });
 
   useEffect(() => {
@@ -73,6 +98,9 @@ const CheckoutView: React.FC = () => {
           price: checkoutItem.item.price,
           qty: checkoutItem.qty,
           variantId: checkoutItem.variantId,
+          taxTitle: checkoutItem.item.taxTitle ?? null, // Add taxTitle
+          taxRate: checkoutItem.item.taxRate ?? null, // Add taxRate
+          taxInclusive: checkoutItem.item.taxInclusive ?? false, // Add taxInclusive
         })),
       );
     }
@@ -83,19 +111,29 @@ const CheckoutView: React.FC = () => {
     'paymentType',
   ]);
 
-  const { data: shipping } = useShippingCharges({
-    shippingAddressId,
-    paymentType,
-  });
-
-  const shippingCharges = shipping?.data?.shippingCost ?? 0;
-
   const { trigger: createOrderTrigger } = useCreateOrder();
 
-  const totalPrice =
-    checkoutItems?.reduce((total, item) => {
-      return total + item.item.price;
-    }, 0) ?? 0;
+  const mappedOrderItems = checkoutItems
+    ? checkoutItems.map((checkoutItem) => ({
+        itemId: checkoutItem.itemId,
+        price: checkoutItem.item.price, // Get price from the item object
+        qty: checkoutItem.qty,
+        variantId: checkoutItem.variantId || null, // Handle optional variantId
+        taxTitle: checkoutItem.item.taxTitle || null, // Get taxTitle from the item object
+        taxRate: checkoutItem.item.taxRate || null, // Get taxRate from the item object
+        taxInclusive: checkoutItem.item.taxInclusive ?? false, // Get taxInclusive from the item object, default to false if null
+      }))
+    : [];
+
+  const { data: totals } = useCalculateTotal({
+    addressId: shippingAddressId,
+    orderItems: mappedOrderItems,
+    paymentType: paymentType,
+  });
+
+  const shippingCharges = totals?.data?.shippingCharges ?? 0;
+
+  const totalPrice = totals?.data?.itemsPrice ?? 0;
 
   const handleSubmit = async (data: CreateOrderForm) => {
     try {
