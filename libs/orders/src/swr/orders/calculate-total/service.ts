@@ -1,5 +1,6 @@
 import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
-import { CalculateTotalArgs } from 'libs/orders/src/services';
+
+import { CalculateTotalArgs } from '../../../services';
 import { CalculateTotalResponse } from './types';
 
 export async function calculateTotal(
