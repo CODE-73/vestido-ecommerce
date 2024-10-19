@@ -57,6 +57,9 @@ export const ItemUpsertSchema = z.object({
   sku: z.string().nullish(),
   // Temporary Size only Variants
   variants: z.array(ItemVariantWithSizeSchema).optional(),
+  taxTitle: z.string().nullable().default(null),
+  taxRate: z.coerce.number().nullable().default(null),
+  taxInclusive: z.boolean().nullish().default(true),
 });
 
 export type ItemUpsertSchemaType = z.infer<typeof ItemUpsertSchema>;
