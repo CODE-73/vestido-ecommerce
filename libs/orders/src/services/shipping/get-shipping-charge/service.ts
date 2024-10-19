@@ -35,7 +35,6 @@ export async function calculateShippingCharges(
   } else if (data.paymentType === 'CASH_ON_DELIVERY') {
     shippingCost = 49.0;
   }
-  console.log(shippingCost, 'shippingcost');
 
   const estimatedDelivery = new Date();
   estimatedDelivery.setDate(estimatedDelivery.getDate() + 7); // 7 days delivery

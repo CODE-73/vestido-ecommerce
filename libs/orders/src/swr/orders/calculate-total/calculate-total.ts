@@ -1,23 +1,25 @@
-import useSWRMutation from 'swr/mutation';
+import useSWRImmutable from 'swr/immutable';
 
 import { useAuth } from '@vestido-ecommerce/auth/client';
-import { useClearCacheOnSuccess } from '@vestido-ecommerce/utils';
 
-import { CalculateTotalArgs } from '../../../services/orders/calculate-total';
 import { CalculateTotalSWRKeys } from '../keys';
 import { calculateTotal } from './service';
+import { CalculateTotalRequest, CalculateTotalResponse } from './types';
 
-export const useCalculateTotal = () => {
+export function useCalculateTotal(args: CalculateTotalRequest) {
   const { isAuthenticated, authHeaders } = useAuth();
-  const key = isAuthenticated
-    ? [CalculateTotalSWRKeys.CALCULATE, CalculateTotalSWRKeys.ORDER]
-    : null;
+  const key =
+    isAuthenticated && args.addressId && args.orderItems && args.paymentType
+      ? [
+          CalculateTotalSWRKeys.CALCULATE,
+          CalculateTotalSWRKeys.ORDER,
+          args.addressId,
+          args.orderItems,
+          args.paymentType,
+        ]
+      : null;
 
-  return useSWRMutation<string, Error, string[] | null, CalculateTotalArgs>(
-    key,
-    (_, { arg }) => calculateTotal({ ...arg }, authHeaders),
-    {
-      ...useClearCacheOnSuccess(CalculateTotalSWRKeys.ORDER),
-    },
+  return useSWRImmutable<CalculateTotalResponse, Error>(key, () =>
+    calculateTotal(args, authHeaders),
   );
-};
+}

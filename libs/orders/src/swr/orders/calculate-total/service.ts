@@ -1,10 +1,11 @@
 import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
 import { CalculateTotalArgs } from 'libs/orders/src/services';
+import { CalculateTotalResponse } from './types';
 
 export async function calculateTotal(
   args: CalculateTotalArgs,
   authHeaders: Record<string, string>,
-): Promise<string> {
+): Promise<CalculateTotalResponse> {
   const r = await fetch('/api/orders/calculate', {
     method: 'POST',
     headers: {

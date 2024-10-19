@@ -7,7 +7,6 @@ export const POST = apiRouteHandler(
   roleMiddleware('CUSTOMER'),
   async ({ request }) => {
     const body = await request.json();
-
     const totalPrice = await calculateTotal(body);
 
     return totalPrice;

@@ -17,26 +17,8 @@ export async function createOrder(_data: CreateOrderSchemaType) {
     paymentType,
   };
 
-  const { shippingCharges, itemsPrice } = await calculateTotal(calculateData);
-
-  // Calculate item prices and taxes
-  const itemsWithTax = data.orderItems?.map((item) => {
-    const itemTotal = (item.qty ?? 1) * item.price;
-    let taxAmount = 0;
-
-    if (item.taxInclusive && item.taxRate) {
-      taxAmount = (item.taxRate * itemTotal) / 100;
-    }
-
-    return {
-      ...item,
-      taxAmount,
-    };
-  });
-
-  const totalTax = itemsWithTax?.reduce((total, item) => {
-    return total + item.taxAmount;
-  }, 0);
+  const { shippingCharges, itemsPrice, totalTax, itemsWithTax } =
+    await calculateTotal(calculateData);
 
   const newOrder = await prisma.order.create({
     data: {
