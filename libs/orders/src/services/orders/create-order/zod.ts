@@ -15,6 +15,7 @@ export const CreateOrderSchema = z.object({
   customerId: z.string().uuid(),
   orderItems: z.array(OrderItemSchema),
   paymentType: z.enum(['ONLINE', 'CASH_ON_DELIVERY']),
+  couponCode: z.string(),
 });
 
 export type CreateOrderSchemaType = z.infer<typeof CreateOrderSchema>;

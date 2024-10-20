@@ -51,6 +51,7 @@ const CreateOrderFormSchema = z.object({
   addressId: z.string().uuid(),
   orderItems: z.array(OrderItemSchema),
   paymentType: z.enum(['ONLINE', 'CASH_ON_DELIVERY']),
+  couponCode: z.string(),
 });
 
 // types.tsx
@@ -86,6 +87,7 @@ const CheckoutView: React.FC = () => {
     resolver: zodResolver(CreateOrderFormSchema),
     defaultValues: {
       paymentType: 'ONLINE',
+      couponCode: 'SUMMER2024',
     },
   });
 
@@ -129,8 +131,8 @@ const CheckoutView: React.FC = () => {
     addressId: shippingAddressId,
     orderItems: mappedOrderItems,
     paymentType: paymentType,
+    couponCode: 'SUMMER2024',
   });
-
   const shippingCharges = totals?.data?.shippingCharges ?? 0;
 
   const totalPrice = totals?.data?.itemsPrice ?? 0;

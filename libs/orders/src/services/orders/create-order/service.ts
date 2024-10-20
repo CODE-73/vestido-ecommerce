@@ -6,15 +6,23 @@ import { CreateOrderSchema, CreateOrderSchemaType } from './zod';
 export async function createOrder(_data: CreateOrderSchemaType) {
   const prisma = getPrismaClient();
 
-  const { addressId, customerId, paymentType, ...data } =
+  const { addressId, customerId, paymentType, couponCode, ...data } =
     CreateOrderSchema.parse(_data);
 
-  const { shippingCharges, itemsPrice, totalTax, itemsWithTax } =
-    await calculateTotal({
-      addressId: addressId,
-      orderItems: _data.orderItems,
-      paymentType,
-    });
+  const {
+    shippingCharges,
+    itemsPrice,
+    totalTax,
+    //    subTotal,
+    //    discount,
+    //    grandTotal,
+    itemsWithTax,
+  } = await calculateTotal({
+    addressId: addressId,
+    orderItems: _data.orderItems,
+    paymentType,
+    couponCode,
+  });
 
   const newOrder = await prisma.order.create({
     data: {
