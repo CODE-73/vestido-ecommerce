@@ -31,11 +31,11 @@ const PrimaryCarouselItem: React.FC<PrimaryCarouselItemProps> = ({ data }) => {
           >
             {data.subtitle1}
           </div>
-          <div
-            className={`capitalize font-bold text-lg md:text-5xl max-w-[500px] leading-normal text-${data.textColor}`}
+          <h1
+            className={`capitalize text-lg md:text-5xl max-w-[500px] leading-normal text-${data.textColor}`}
           >
             {data.mainTitle}
-          </div>
+          </h1>
           <div
             className={`text-xs font-light md:text-base md:font-extralight text-${data.textColor}`}
           >

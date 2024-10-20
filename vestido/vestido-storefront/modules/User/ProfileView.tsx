@@ -62,10 +62,10 @@ const ProfileView: React.FC = () => {
   return (
     <>
       <div className="2xl:px-72 my-20 text-white px-3 ">
-        <div className="font-semibold md:text-lg">Account</div>
-        <div className="uppercase md:text-lg my-1 md:my-4">
+        <h4 className="md:text-lg">Account</h4>
+        <h3 className="uppercase md:text-lg my-1 md:my-4">
           {currentUser?.firstName}&nbsp; {currentUser?.lastName}
-        </div>
+        </h3>
         <hr className="border-gray-600" />
         <hr className="border-gray-600 md:hidden relative" />
 
