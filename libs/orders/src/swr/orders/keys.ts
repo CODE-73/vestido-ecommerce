@@ -11,3 +11,8 @@ export enum GetOrderSWRKeys {
   GET = 'get',
   ORDER = 'order',
 }
+
+export enum CalculateTotalSWRKeys {
+  CALCULATE = 'calculate',
+  ORDER = 'order',
+}
