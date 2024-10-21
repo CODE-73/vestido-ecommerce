@@ -46,9 +46,9 @@ export const PopularCollection: FC<PopularCollectionProps> = (props) => {
     <div
       className={`flex flex-col items-center justify-center ${clsx(props.className)}`}
     >
-      <div className="text-2xl md:text-4xl tracking-wide text-white font-bold">
+      <h3 className="text-2xl md:text-4xl tracking-wide text-white">
         Popular Collection
-      </div>
+      </h3>
 
       <div className="flex flex-col md:grid md:grid-cols-4 gap-3 mt-7 md:mt-12">
         {cards.map((card, index) => (
