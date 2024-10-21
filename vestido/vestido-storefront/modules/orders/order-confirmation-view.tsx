@@ -50,7 +50,7 @@ const OrderConfirmationView: FC<OrderConfirmationProps> = ({ orderId }) => {
           <div className="grid gap-1">
             <div className="text-muted-foreground">Total Amount</div>
             <div className="font-medium">
-              INR {order?.totalPrice.toFixed(2)}
+              INR {order?.grandTotal.toFixed(2)}
             </div>
           </div>
           <div className="grid gap-1">

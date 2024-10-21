@@ -96,7 +96,7 @@ const CheckoutView: React.FC = () => {
       form.setValue(
         'orderItems',
         checkoutItems?.map((checkoutItem) => ({
-          itemId: checkoutItem.item.id,
+          itemId: checkoutItem.itemId,
           price: checkoutItem.item.price,
           qty: checkoutItem.qty,
           variantId: checkoutItem.variantId,

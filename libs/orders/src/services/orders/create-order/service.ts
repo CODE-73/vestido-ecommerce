@@ -9,13 +9,14 @@ export async function createOrder(_data: CreateOrderSchemaType) {
   const { addressId, customerId, paymentType, couponCode, ...data } =
     CreateOrderSchema.parse(_data);
 
+  console.log('data: ', _data);
+
   const {
     shippingCharges,
     itemsPrice,
     totalTax,
-    //    subTotal,
-    //    discount,
-    //    grandTotal,
+    discount,
+    grandTotal,
     itemsWithTax,
   } = await calculateTotal({
     addressId: addressId,
@@ -32,7 +33,8 @@ export async function createOrder(_data: CreateOrderSchemaType) {
       totalPrice: itemsPrice - totalTax,
       totalTax: totalTax,
       totalCharges: shippingCharges,
-      grandTotal: itemsPrice + shippingCharges,
+      discount: discount,
+      grandTotal: grandTotal,
       customer: {
         connect: {
           id: customerId,
@@ -73,7 +75,7 @@ export async function createOrder(_data: CreateOrderSchemaType) {
         paymentGatewayRef: 'Null',
         moreDetails: 'Null',
         currency: 'INR',
-        amount: itemsPrice + shippingCharges,
+        amount: grandTotal,
         status: 'PENDING',
       },
     });

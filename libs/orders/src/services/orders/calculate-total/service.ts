@@ -35,7 +35,7 @@ export async function calculateTotal(data: CalculateTotalSchemaType) {
   });
 
   const totalTax = itemsWithTax?.reduce((total, item) => {
-    return total + item.taxAmount;
+    return total + item.taxAmount * item.qty;
   }, 0);
 
   const subTotal = itemsPrice - totalTax;
@@ -57,14 +57,13 @@ export async function calculateTotal(data: CalculateTotalSchemaType) {
   if (coupon.discountType == 'PERCENTAGE') {
     discount = (subTotal * coupon.discountPercent) / 100;
   }
-
+  //  const totalCharges = shippingCharges;
   const grandTotal = subTotal - discount + totalTax + shippingCharges;
 
   const calculatedData = {
     shippingCharges,
     itemsPrice,
     totalTax,
-    subTotal,
     discount,
     grandTotal,
     itemsWithTax,
