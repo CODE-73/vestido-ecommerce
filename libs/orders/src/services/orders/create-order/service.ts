@@ -6,15 +6,24 @@ import { CreateOrderSchema, CreateOrderSchemaType } from './zod';
 export async function createOrder(_data: CreateOrderSchemaType) {
   const prisma = getPrismaClient();
 
-  const { addressId, customerId, paymentType, ...data } =
+  const { addressId, customerId, paymentType, couponCode, ...data } =
     CreateOrderSchema.parse(_data);
 
-  const { shippingCharges, itemsPrice, totalTax, itemsWithTax } =
-    await calculateTotal({
-      addressId: addressId,
-      orderItems: _data.orderItems,
-      paymentType,
-    });
+  console.log('data: ', _data);
+
+  const {
+    shippingCharges,
+    itemsPrice,
+    totalTax,
+    discount,
+    grandTotal,
+    itemsWithTax,
+  } = await calculateTotal({
+    addressId: addressId,
+    orderItems: _data.orderItems,
+    paymentType,
+    couponCode,
+  });
 
   const newOrder = await prisma.order.create({
     data: {
@@ -24,7 +33,9 @@ export async function createOrder(_data: CreateOrderSchemaType) {
       totalPrice: itemsPrice - totalTax,
       totalTax: totalTax,
       totalCharges: shippingCharges,
-      grandTotal: itemsPrice + shippingCharges,
+      discount: discount,
+      grandTotal: grandTotal,
+      coupon: couponCode,
       customer: {
         connect: {
           id: customerId,
@@ -65,7 +76,7 @@ export async function createOrder(_data: CreateOrderSchemaType) {
         paymentGatewayRef: 'Null',
         moreDetails: 'Null',
         currency: 'INR',
-        amount: itemsPrice + shippingCharges,
+        amount: grandTotal,
         status: 'PENDING',
       },
     });

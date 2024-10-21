@@ -255,8 +255,10 @@ model Order {
     totalPrice   Float // total item price = SUM(item.rate * qty IF not item.taxInclusive ELSE taxSubtractedItemAmount)
     totalTax     Float @default(0) // SUM(item.taxAmount)
     totalCharges Float @default(0) // For now, only shipping charges.
-    grandTotal   Float @default(0) // SUM(totalPrice + totalTax + totalCharges)
+    discount     Float @default(0)
+    grandTotal   Float @default(0) // SUM(subTotal - discount + totalTax + shippingCharges)
 
+    coupon             String?
     orderStatus        OrderStatus        @default(PENDING)
     deliveryStatus     DeliveryStatus     @default(UNFULFILLED)
     returnStatus       ReturnStatus?

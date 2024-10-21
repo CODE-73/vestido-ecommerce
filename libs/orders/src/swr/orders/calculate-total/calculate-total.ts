@@ -16,6 +16,7 @@ export function useCalculateTotal(args: CalculateTotalRequest) {
           args.addressId,
           args.orderItems,
           args.paymentType,
+          args.couponCode,
         ]
       : null;
 
