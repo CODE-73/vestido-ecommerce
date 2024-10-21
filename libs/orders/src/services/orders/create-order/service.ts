@@ -35,6 +35,7 @@ export async function createOrder(_data: CreateOrderSchemaType) {
       totalCharges: shippingCharges,
       discount: discount,
       grandTotal: grandTotal,
+      coupon: couponCode,
       customer: {
         connect: {
           id: customerId,
