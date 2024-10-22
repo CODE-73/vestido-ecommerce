@@ -6,8 +6,6 @@ import ItemImage from './item-image';
 export const ItemToastBody = (
   tick: boolean,
   item: Item,
-  title?: string,
-  description?: string,
   message?: string,
 ): JSX.Element => {
   return (
@@ -29,9 +27,9 @@ export const ItemToastBody = (
           className="rounded-full w-10 h-10"
         />
         <div>
-          <p className="font-semibold">{title ?? ''}</p>
+          <p className="font-semibold">{item.title ?? ''}</p>
           <p className="text-sm text-gray-500 max-w-full truncate text-ellipsis overflow-hidden">
-            {description ?? ''}
+            {item.description ?? ''}
           </p>
         </div>
       </div>

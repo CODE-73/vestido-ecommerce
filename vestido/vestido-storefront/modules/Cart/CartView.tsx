@@ -73,8 +73,6 @@ const CartView: React.FC = () => {
           description: ItemToastBody(
             false,
             removedItem.item,
-            removedItem.item.title,
-            removedItem.item.description,
             'Item removed from Cart!',
           ),
         });
@@ -102,13 +100,7 @@ const CartView: React.FC = () => {
     } else {
       toast({
         title: '',
-        description: ItemToastBody(
-          true,
-          removedItem.item,
-          removedItem.item.title,
-          removedItem.item.description,
-          'Moved to Wishlist',
-        ),
+        description: ItemToastBody(true, removedItem.item, 'Moved to Wishlist'),
       });
     }
   };

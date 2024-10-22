@@ -52,8 +52,6 @@ const WishlistView: React.FC = () => {
         description: ItemToastBody(
           false,
           removedItem.item,
-          removedItem.item.title,
-          removedItem.item.description,
           'Item removed from Wishlist',
         ),
       });

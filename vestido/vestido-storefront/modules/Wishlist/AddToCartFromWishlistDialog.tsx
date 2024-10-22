@@ -123,13 +123,7 @@ export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({ itemId }) => {
         variantId: selectedVariantId ?? null,
       });
       toast({
-        description: ItemToastBody(
-          true,
-          item,
-          item.title,
-          item.description,
-          'Moved to Cart!',
-        ),
+        description: ItemToastBody(true, item, 'Moved to Cart!'),
       });
     }
     setIsDialogOpen(false);

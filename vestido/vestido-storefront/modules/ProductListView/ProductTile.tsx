@@ -44,7 +44,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ data: item }) => {
             item={item}
             style={{ objectFit: 'cover' }}
             className="absolute inset-0 group-hover:block hidden object-cover"
-            useSecondImage
+            imageIdx={1}
             fill
           />
         </div>

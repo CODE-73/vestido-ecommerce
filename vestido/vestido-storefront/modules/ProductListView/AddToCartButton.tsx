@@ -53,20 +53,14 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
 
         toast({
           title: '',
-          description: ItemToastBody(
-            true,
-            item,
-            product?.title,
-            product?.description,
-            'Item Added to Cart!',
-          ),
+          description: ItemToastBody(true, item, 'Item Added to Cart!'),
         });
         console.log('passed toast');
       } catch (error) {
         console.error('Failed to add item to cart', error);
         toast({
           title: 'Error Adding to Cart!',
-          description: ItemToastBody(false, item, product?.title, '', ''),
+          description: ItemToastBody(false, item, ''),
         });
       } finally {
         setLoading(false);

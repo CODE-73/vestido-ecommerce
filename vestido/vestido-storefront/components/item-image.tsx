@@ -10,8 +10,8 @@ type ItemImageProps = {
   height?: number;
   className?: string;
   style?: React.CSSProperties;
-  useSecondImage?: boolean;
   fill?: boolean;
+  imageIdx?: number;
 };
 
 const ItemImage: React.FC<ItemImageProps> = ({
@@ -21,10 +21,10 @@ const ItemImage: React.FC<ItemImageProps> = ({
   className,
   style,
   fill,
-  useSecondImage = false,
+  imageIdx = 0,
 }) => {
   const images = (item?.images ?? []) as ImageSchemaType[];
-  const image = useSecondImage ? (images[1] ?? images[0]) : images[0];
+  const image = images[imageIdx] ?? images[0];
 
   return (
     <Image
