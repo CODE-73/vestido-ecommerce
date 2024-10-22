@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { SettingsKeys } from '../swr';
+import { SettingsKeys } from '../keys';
 import { useSettings } from '../swr/get-settings';
 
 const attributeSchema = z.record(z.string(), z.object({ title: z.string() }));
