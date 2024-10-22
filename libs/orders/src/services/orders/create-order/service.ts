@@ -9,8 +9,6 @@ export async function createOrder(_data: CreateOrderSchemaType) {
   const { addressId, customerId, paymentType, couponCode, ...data } =
     CreateOrderSchema.parse(_data);
 
-  console.log('data: ', _data);
-
   const {
     shippingCharges,
     itemsPrice,

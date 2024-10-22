@@ -131,11 +131,10 @@ const CheckoutView: React.FC = () => {
     orderItems: mappedOrderItems,
     paymentType: paymentType,
   });
+
   const shippingCharges = totals?.data?.shippingCharges ?? 0;
 
   const totalPrice = totals?.data?.itemsPrice ?? 0;
-
-  console.log(form.formState.errors);
 
   const handleSubmit = async (data: CreateOrderForm) => {
     try {
