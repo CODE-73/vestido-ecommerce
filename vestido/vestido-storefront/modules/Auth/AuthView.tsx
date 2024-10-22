@@ -80,8 +80,8 @@ const AuthView: React.FC = () => {
               </div>
             </div>
             <div className="text-2xl font-semibold lg:text-4xl 2xl:text-7xl lg:font-[200] z-10 text-right">
-              <div>Your Style.</div>
-              <div>Your Statement.</div>
+              <h3 className="font-light">Your Style.</h3>
+              <h3 className="font-light">Your Statement.</h3>
             </div>
             <div className="max-w-xl mt-10 text-right  xl:text-lg z-10 ">
               Every outfit tells a story — make yours unforgettable. <br />
@@ -103,7 +103,7 @@ const AuthView: React.FC = () => {
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="w-full md:w-[90%] xl:w-[80%] 2xl:w-1/2 space-y-6 bg-white z-10 p-10"
               >
-                <div className="font-semibold xl:text-2xl">Login / Signup</div>
+                <h4 className="xl:text-2xl">Login / Signup</h4>
                 <hr />
                 <FormField
                   control={form.control}

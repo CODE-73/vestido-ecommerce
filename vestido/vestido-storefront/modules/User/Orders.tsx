@@ -27,9 +27,7 @@ const OrdersView: React.FC = () => {
   };
   return (
     <div className="bg-black">
-      <div className="font-semibold text-xl my-4 hidden md:block">
-        All Orders
-      </div>
+      <h5 className="font-light text-xl my-4 hidden md:block">All Orders</h5>
       <div className="flex flex-col gap-3">
         {orders?.map((order, index) => (
           <div

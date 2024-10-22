@@ -35,9 +35,9 @@ const HorizontalScrollCard: React.FC<ScrollCardProps> = ({ data }) => {
           {data.subtitle1}
         </div>
 
-        <div className="hidden md:block capitalize font-bold text-4xl group-hover:underline group-hover:underline-offset-4 leading-normal main-title ">
+        <h4 className="hidden md:block capitalize text-4xl group-hover:underline group-hover:underline-offset-4 leading-normal main-title ">
           {data.mainTitle}
-        </div>
+        </h4>
 
         <div
           className="font-extralight w-full text-sm md:text-base text-ellipsis"
