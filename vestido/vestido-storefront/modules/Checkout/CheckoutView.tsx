@@ -51,6 +51,7 @@ const CreateOrderFormSchema = z.object({
   addressId: z.string().uuid(),
   orderItems: z.array(OrderItemSchema),
   paymentType: z.enum(['ONLINE', 'CASH_ON_DELIVERY']),
+  couponCode: z.string().nullish(),
 });
 
 // types.tsx
@@ -94,7 +95,7 @@ const CheckoutView: React.FC = () => {
       form.setValue(
         'orderItems',
         checkoutItems?.map((checkoutItem) => ({
-          itemId: checkoutItem.item.id,
+          itemId: checkoutItem.itemId,
           price: checkoutItem.item.price,
           qty: checkoutItem.qty,
           variantId: checkoutItem.variantId,

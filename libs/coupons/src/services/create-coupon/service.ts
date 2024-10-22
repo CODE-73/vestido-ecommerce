@@ -1,4 +1,5 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
+import { VestidoError } from '@vestido-ecommerce/utils';
 
 import { CreateCouponSchema, CreateCouponSchemaType } from './zod';
 
@@ -12,6 +13,21 @@ export async function createCoupon(data: CreateCouponSchemaType) {
     validatedData.enabled &&
     new Date(validatedData.fromDate) <= new Date() &&
     new Date(validatedData.toDate) >= new Date();
+
+  // Check if an active coupon with the same code already exists
+  const existingActiveCoupon = await prisma.coupon.findFirst({
+    where: {
+      coupon: validatedData.coupon,
+      active: true,
+    },
+  });
+
+  if (existingActiveCoupon && isActive) {
+    throw new VestidoError({
+      name: 'ErrorActiveCouponAlreadyExist',
+      message: `CouponCode ${validatedData.coupon} is already exist and active`,
+    });
+  }
 
   const coupon = await prisma.coupon.create({
     data: {

@@ -1,3 +1,6 @@
+import { getCouponByCode } from '@vestido-ecommerce/coupons';
+import { VestidoError } from '@vestido-ecommerce/utils';
+
 import { calculateShippingCharges } from '../../shipping/get-shipping-charge';
 import { CalculateTotalSchema, CalculateTotalSchemaType } from './zod';
 
@@ -10,6 +13,7 @@ export async function calculateTotal(data: CalculateTotalSchemaType) {
   });
   const shippingCharges = shipping.shippingCost ?? 0;
 
+  //Qty*price to show in Storefront
   const itemsPrice =
     validatedData.orderItems?.reduce((total, item) => {
       return total + (item.qty ?? 1) * item.price;
@@ -31,13 +35,42 @@ export async function calculateTotal(data: CalculateTotalSchemaType) {
   });
 
   const totalTax = itemsWithTax?.reduce((total, item) => {
-    return total + item.taxAmount;
+    return total + item.taxAmount * item.qty;
   }, 0);
+
+  const subTotal = itemsPrice - totalTax;
+
+  let discount = 0;
+  let coupon;
+
+  //apply coupon on subTotal
+  if (validatedData.couponCode) {
+    coupon = await getCouponByCode(validatedData.couponCode);
+
+    if (!coupon) {
+      throw new VestidoError({
+        name: 'ErrorCouponNotFound',
+        message: `CouponCode ${validatedData.couponCode} not found`,
+      });
+    }
+
+    if (coupon.discountType == 'AMOUNT') {
+      discount = coupon.discountAmount;
+    }
+    if (coupon.discountType == 'PERCENTAGE') {
+      discount = (subTotal * coupon.discountPercent) / 100;
+    }
+  }
+
+  //  const totalCharges = shippingCharges;
+  const grandTotal = subTotal - discount + totalTax + shippingCharges;
 
   const calculatedData = {
     shippingCharges,
     itemsPrice,
     totalTax,
+    discount,
+    grandTotal,
     itemsWithTax,
   };
   return calculatedData;
