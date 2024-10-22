@@ -1,13 +1,14 @@
-import Image from 'next/image';
-
+import { Item } from '@prisma/client';
 import { LuCheckCircle, LuX } from 'react-icons/lu';
+
+import ItemImage from './item-image';
 
 export const ItemToastBody = (
   tick: boolean,
+  item: Item,
   title?: string,
   description?: string,
   message?: string,
-  imageSrc?: string,
 ): JSX.Element => {
   return (
     <>
@@ -21,12 +22,11 @@ export const ItemToastBody = (
         <span>{message ?? ''}</span>
       </div>
       <div className="flex items-center gap-3">
-        <Image
-          src={imageSrc ?? ''}
-          alt="Product Thumbnail"
-          className="rounded-full w-10 h-10"
+        <ItemImage
+          item={item}
           width={10}
           height={10}
+          className="rounded-full w-10 h-10"
         />
         <div>
           <p className="font-semibold">{title ?? ''}</p>

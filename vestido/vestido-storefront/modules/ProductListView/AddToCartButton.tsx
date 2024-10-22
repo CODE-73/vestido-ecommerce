@@ -7,7 +7,6 @@ import { useAuth } from '@vestido-ecommerce/auth/client';
 import { useAddToCart, useItem } from '@vestido-ecommerce/items/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
-import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import { ItemToastBody } from '../../components/item-toast-body';
 
@@ -44,7 +43,6 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
       setLoading(true); // Set loading to true when the process starts
       // setSuccess(false);
       // Reset success state when a new action starts
-      const images = (item.images ?? []) as ImageSchemaType[];
 
       try {
         await trigger({
@@ -57,10 +55,10 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
           title: '',
           description: ItemToastBody(
             true,
+            item,
             product?.title,
             product?.description,
             'Item Added to Cart!',
-            images[0]?.url ?? '',
           ),
         });
         console.log('passed toast');
@@ -68,13 +66,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
         console.error('Failed to add item to cart', error);
         toast({
           title: 'Error Adding to Cart!',
-          description: ItemToastBody(
-            false,
-            product?.title,
-            '',
-            '',
-            images[0]?.url ?? '',
-          ),
+          description: ItemToastBody(false, item, product?.title, '', ''),
         });
       } finally {
         setLoading(false);
