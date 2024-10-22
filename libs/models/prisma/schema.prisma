@@ -252,13 +252,13 @@ model Order {
     id       String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     dateTime DateTime @default(now())
 
-    totalPrice   Float // total item price = SUM(item.rate * qty IF not item.taxInclusive ELSE taxSubtractedItemAmount)
-    totalTax     Float @default(0) // SUM(item.taxAmount)
-    totalCharges Float @default(0) // For now, only shipping charges.
-    discount     Float @default(0)
-    grandTotal   Float @default(0) // SUM(subTotal - discount + totalTax + shippingCharges)
+    totalPrice    Float // total item price = SUM(item.rate * qty IF not item.taxInclusive ELSE taxSubtractedItemAmount)
+    totalTax      Float @default(0) // SUM(item.taxAmount)
+    totalCharges  Float @default(0) // For now, only shipping charges.
+    totalDiscount Float @default(0)
+    grandTotal    Float @default(0) // SUM(subTotal - discount + totalTax + shippingCharges)
 
-    coupon             String?
+    couponCode         String?
     orderStatus        OrderStatus        @default(PENDING)
     deliveryStatus     DeliveryStatus     @default(UNFULFILLED)
     returnStatus       ReturnStatus?

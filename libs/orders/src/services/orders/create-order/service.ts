@@ -33,9 +33,9 @@ export async function createOrder(_data: CreateOrderSchemaType) {
       totalPrice: itemsPrice - totalTax,
       totalTax: totalTax,
       totalCharges: shippingCharges,
-      discount: discount,
+      totalDiscount: discount,
       grandTotal: grandTotal,
-      coupon: couponCode,
+      couponCode: couponCode,
       customer: {
         connect: {
           id: customerId,

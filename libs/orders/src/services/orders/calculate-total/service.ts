@@ -39,24 +39,29 @@ export async function calculateTotal(data: CalculateTotalSchemaType) {
   }, 0);
 
   const subTotal = itemsPrice - totalTax;
+
   let discount = 0;
+  let coupon;
 
   //apply coupon on subTotal
-  const coupon = await getCouponByCode(validatedData.couponCode);
+  if (validatedData.couponCode) {
+    coupon = await getCouponByCode(validatedData.couponCode);
 
-  if (!coupon) {
-    throw new VestidoError({
-      name: 'ErrorCouponNotFound',
-      message: `CouponCode ${validatedData.couponCode} not found`,
-    });
+    if (!coupon) {
+      throw new VestidoError({
+        name: 'ErrorCouponNotFound',
+        message: `CouponCode ${validatedData.couponCode} not found`,
+      });
+    }
+
+    if (coupon.discountType == 'AMOUNT') {
+      discount = coupon.discountAmount;
+    }
+    if (coupon.discountType == 'PERCENTAGE') {
+      discount = (subTotal * coupon.discountPercent) / 100;
+    }
   }
 
-  if (coupon.discountType == 'AMOUNT') {
-    discount = coupon.discountAmount;
-  }
-  if (coupon.discountType == 'PERCENTAGE') {
-    discount = (subTotal * coupon.discountPercent) / 100;
-  }
   //  const totalCharges = shippingCharges;
   const grandTotal = subTotal - discount + totalTax + shippingCharges;
 
