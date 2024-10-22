@@ -27,30 +27,35 @@ import { ItemToastBody } from '../../components/item-toast-body';
 import { AddToCartDialog } from './AddToCartFromWishlistDialog';
 
 const WishlistView: React.FC = () => {
-  const { data: wishlistItems } = useWishlist();
+  const { data: { data: wishlistItems } = { data: [] } } = useWishlist();
+
   const { trigger } = useRemoveFromWishlist();
   const { toast } = useToast();
 
   const removeItem = (itemId: string) => {
-    const removingItem = wishlistItems?.data.find((x) => x.itemId === itemId);
-    const images = (removingItem?.item.images ?? []) as ImageSchemaType[];
-    return { removingItem, images };
+    return wishlistItems.find((x) => x.itemId === itemId);
   };
 
   const handleRemoveFromWishlist = (itemId: string) => {
+    const removedItem = removeItem(itemId);
     trigger({
       itemId: itemId,
     });
-    toast({
-      title: '',
-      description: ItemToastBody(
-        false,
-        removeItem(itemId).removingItem?.item.title,
-        removeItem(itemId).removingItem?.item.description,
-        'Item removed from Wishlist',
-        removeItem(itemId).images[0]?.url ?? '',
-      ),
-    });
+    if (!removedItem) {
+      toast({
+        title: 'Error',
+        description: 'Item not found in the wishlist!',
+      });
+    } else {
+      toast({
+        title: '',
+        description: ItemToastBody(
+          false,
+          removedItem.item,
+          'Item removed from Wishlist',
+        ),
+      });
+    }
   };
 
   return (
@@ -58,12 +63,12 @@ const WishlistView: React.FC = () => {
       <div className="text-4xl flex items-center justify-center gap-3 tracking-wide text-white text-center font-extrabold my-5 lg:py-10">
         Wishlist
         <span className="font-normal text-lg">
-          ({`${wishlistItems?.data?.length ?? 0}`} items)
+          ({`${wishlistItems.length ?? 0}`} items)
         </span>
       </div>
-      {wishlistItems?.data.length && wishlistItems.data.length > 0 ? (
+      {wishlistItems.length && wishlistItems.length > 0 ? (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-10">
-          {wishlistItems?.data.map((wishlistItem, index) => {
+          {wishlistItems.map((wishlistItem, index) => {
             const img =
               ((wishlistItem.item.images ?? []) as ImageSchemaType[])?.[0] ||
               null;

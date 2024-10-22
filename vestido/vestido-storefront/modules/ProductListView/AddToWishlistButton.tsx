@@ -16,7 +16,6 @@ import {
   TooltipTrigger,
 } from '@vestido-ecommerce/shadcn-ui/tooltip';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
-import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import { ItemToastBody } from '../../components/item-toast-body';
 
@@ -52,9 +51,7 @@ const AddToWishListButton: React.FC<WishlistbuttonProps> = ({
   }, [wishlist, itemId]);
 
   const removeItem = (itemId: string) => {
-    const removingItem = wishlist?.data.find((x) => x.itemId === itemId);
-    const images = (removingItem?.item.images ?? []) as ImageSchemaType[];
-    return { removingItem, images };
+    return wishlist?.data.find((x) => x.itemId === itemId);
   };
 
   const onClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -71,18 +68,22 @@ const AddToWishListButton: React.FC<WishlistbuttonProps> = ({
     setWishlisted(null);
     if (wishlisted) {
       removeWishlistTrigger({ itemId: itemId });
-      const _removingItem = removeItem(itemId).removingItem?.item;
-
-      toast({
-        title: '',
-        description: ItemToastBody(
-          false,
-          _removingItem?.title,
-          _removingItem?.description,
-          'Item removed from Wishlist',
-          removeItem(itemId).images[0]?.url ?? '',
-        ),
-      });
+      const removedItem = removeItem(itemId);
+      if (!removedItem) {
+        toast({
+          title: 'Error',
+          description: 'Item not found in the cart!',
+        });
+      } else {
+        toast({
+          title: '',
+          description: ItemToastBody(
+            false,
+            removedItem.item,
+            'Item removed from Wishlist',
+          ),
+        });
+      }
     } else {
       wishlistTrigger({ itemId: itemId });
       toast({

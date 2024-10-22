@@ -1,12 +1,11 @@
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 
 import { Item } from '@prisma/client';
 import clsx from 'clsx';
 
 import { Badge } from '@vestido-ecommerce/shadcn-ui/badge';
-import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
+import ItemImage from '../../components/item-image';
 import AddToCartButton from './AddToCartButton';
 import AddToWishListButton from './AddToWishlistButton';
 
@@ -20,8 +19,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ data: item }) => {
     router.push(`/products/${encodeURIComponent(itemId)}`);
   };
 
-  const images = (item.images ?? []) as ImageSchemaType[];
-
   return (
     <div className="relative flex flex-col items-center group  mb-10 cursor-pointer ">
       {item.discountPercent && item.discountPercent > 0 ? (
@@ -32,37 +29,26 @@ const ProductCard: React.FC<ProductCardProps> = ({ data: item }) => {
         ''
       )}
 
-      {images.length > 0 && (
-        <div
-          onClick={() => handleProductClick(item.id)}
-          className="group w-full relative"
-        >
-          <div className="relative w-full pb-[130%]">
-            <Image
-              className="absolute inset-0 block group-hover:hidden object-cover"
-              src={images[0]?.url ?? ''}
-              blurDataURL={images[0]?.blurHashDataURL ?? undefined}
-              placeholder={images[0]?.blurHashDataURL ? 'blur' : undefined}
-              fill
-              alt="alt text"
-              style={{ objectFit: 'cover' }}
-            />
-            <Image
-              className="absolute inset-0 group-hover:block hidden object-cover"
-              fill
-              style={{ objectFit: 'cover' }}
-              src={(images[1] ?? images[0])?.url ?? ''}
-              blurDataURL={
-                (images[1] ?? images[0])?.blurHashDataURL ?? undefined
-              }
-              placeholder={
-                (images[1] ?? images[0])?.blurHashDataURL ? 'blur' : undefined
-              }
-              alt="alt text"
-            />
-          </div>
+      <div
+        onClick={() => handleProductClick(item.id)}
+        className="group w-full relative"
+      >
+        <div className="relative w-full pb-[130%]">
+          <ItemImage
+            item={item}
+            style={{ objectFit: 'cover' }}
+            className="absolute inset-0 block group-hover:hidden object-cover"
+            fill
+          />
+          <ItemImage
+            item={item}
+            style={{ objectFit: 'cover' }}
+            className="absolute inset-0 group-hover:block hidden object-cover"
+            imageIdx={1}
+            fill
+          />
         </div>
-      )}
+      </div>
 
       <div className="self-start pt-[#2px] capitalize text-white text-xs md:text-base font-light md:mb-4 w-full truncate">
         {item.title}

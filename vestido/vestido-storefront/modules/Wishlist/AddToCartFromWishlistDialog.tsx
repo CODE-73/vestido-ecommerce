@@ -109,8 +109,6 @@ export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({ itemId }) => {
     });
   });
 
-  const images = item?.images as ImageSchemaType[];
-
   const handleRemoveFromWishlist = (itemId: string) => {
     wishlistTrigger({
       itemId: itemId,
@@ -125,13 +123,7 @@ export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({ itemId }) => {
         variantId: selectedVariantId ?? null,
       });
       toast({
-        description: ItemToastBody(
-          true,
-          item.title,
-          item.description,
-          'Moved to Cart!',
-          images[0].url ?? '',
-        ),
+        description: ItemToastBody(true, item, 'Moved to Cart!'),
       });
     }
     setIsDialogOpen(false);

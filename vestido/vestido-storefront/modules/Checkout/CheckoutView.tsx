@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useEffect, useMemo, useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -18,8 +17,8 @@ import {
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Dialog, DialogTrigger } from '@vestido-ecommerce/shadcn-ui/dialog';
 import { Form } from '@vestido-ecommerce/shadcn-ui/form';
-import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
+import ItemImage from '../../components/item-image';
 import AddAddressDialog from './AddAddressDialog';
 import { CustomerAddressElement } from './CustomerAddressElement';
 import { PaymentTypeElement } from './PaymentTypeElement';
@@ -60,7 +59,6 @@ export type CreateOrderForm = z.infer<typeof CreateOrderFormSchema>;
 const CheckoutView: React.FC = () => {
   const router = useRouter();
   const { data: { data: cartItems } = { data: null } } = useCart();
-  // const { data: addresses } = useAddresses();
 
   const [currentSession, setCurrentSession] = useState('Address');
   const [buyNowItemId] = useQueryState('buyNowItemId');
@@ -230,22 +228,11 @@ const CheckoutView: React.FC = () => {
                 {checkoutItems?.map((checkoutItem, index) => (
                   <div key={index}>
                     <div className="flex justify-between py-3 px-2 gap-2 items-center">
-                      <Image
-                        className="w-10 h-12 col-span-1 "
-                        src={
-                          (
-                            (checkoutItem.item.images ??
-                              []) as ImageSchemaType[]
-                          )[0].url!
-                        }
-                        alt={
-                          (
-                            (checkoutItem.item.images ??
-                              []) as ImageSchemaType[]
-                          )[0].alt!
-                        }
+                      <ItemImage
+                        item={checkoutItem.item}
                         width={50}
                         height={70}
+                        className="w-10 h-12 col-span-1"
                       />
                       <div className="text-sm col-span-3 text-left grow pl-5">
                         {checkoutItem.item.title}
