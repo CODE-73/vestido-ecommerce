@@ -28,6 +28,14 @@ import {
   AlertDialogTrigger,
 } from '@vestido-ecommerce/shadcn-ui/alert-dialog';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@vestido-ecommerce/shadcn-ui/table';
 import { toast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 
 import ItemImage from '../../components/item-image';
@@ -127,8 +135,8 @@ const CartView: React.FC = () => {
         <LuChevronRight /> Address <LuChevronRight /> Payment
       </div>
       {cartItems.length && cartItems.length > 0 ? (
-        <div className="flex flex-col md:flex-row gap-5 md:gap-10 ">
-          <div className="hidden md:block md:basis-[15%] xl:basis-[24%]"></div>
+        <div className="flex flex-col xl:flex-row gap-5 md:gap-10 ">
+          <div className="hidden xl:block xl:basis-[24%]"></div>
           <div className="md:grow flex flex-col ">
             {cartItems.map((cartItem, index) => {
               return (
@@ -296,22 +304,60 @@ const CartView: React.FC = () => {
             </div>
           </div>
 
-          <div className="md:basis-1/3 flex flex-col">
-            <div className="bg-gray-100 p-10 min-h-[275px] relative flex flex-col justify-between">
+          <div className="md:basis-1/3 overflow-auto  px-3 md:pl-5 md:sticky top-0 w-full text-white">
+            <div className="flex flex-col">
               <div>
-                <div className="flex items-center text-neutral-800 justify-center pb-3 font-semibold text-xl justify-between ">
-                  Items Total: <div>₹&nbsp;{totalPrice.toFixed(2)}</div>
-                </div>
+                <Table>
+                  <TableHeader>
+                    <TableRow className="border-none hover:bg-transparent">
+                      <TableHead>Item</TableHead>
+                      <TableHead>Qty</TableHead>
+                      <TableHead className="text-right">Amount</TableHead>
+                    </TableRow>
+                  </TableHeader>
 
-                <div className="font-medium text-[8px] md:text-sm">
-                  Shipping charges calculated at checkout (Free Shipping all
-                  over Kerala)
-                </div>
+                  <TableBody>
+                    {cartItems?.map((cartItem, index) => {
+                      const itemAmount = (
+                        cartItem.item.price * cartItem.qty
+                      ).toFixed(2);
+                      return (
+                        <TableRow
+                          key={index}
+                          className="border-none hover:bg-transparent"
+                        >
+                          <TableCell>{cartItem.item.title}</TableCell>
+                          <TableCell>{cartItem.qty}</TableCell>
+                          <TableCell className="text-right">
+                            ₹&nbsp;{itemAmount}
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                    <TableRow className="text-black">
+                      <hr className="border-gray-600" />
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>Subtotal</TableCell>
+                      <TableCell></TableCell>
+                      <TableCell className="text-right">
+                        ₹&nbsp;{totalPrice?.toFixed(2)}
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
               </div>
-              <Button className="flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 font-extrabold hover:text-black text-white justify-center">
-                <Link href="/checkout">PROCEED TO CHECKOUT</Link>
-              </Button>
             </div>
+
+            <hr className="border-gray-600" />
+            <div className="text-[14px]">
+              Shipping Charges and coupon codes if any will be applied at
+              checkout. (Free Shipping all over Kerala)
+            </div>
+
+            <Button className="flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 font-extrabold hover:text-black text-white justify-center mt-6 mb-1">
+              <Link href="/checkout">PROCEED TO CHECKOUT</Link>
+            </Button>
           </div>
         </div>
       ) : (
