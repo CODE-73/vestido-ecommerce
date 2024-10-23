@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { LuChevronLeft } from 'react-icons/lu';
 
 import { Genders, useItem } from '@vestido-ecommerce/items/client';
+import { useVestidoSizeChart } from '@vestido-ecommerce/settings/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Checkbox } from '@vestido-ecommerce/shadcn-ui/checkbox';
 import {
@@ -20,6 +21,7 @@ import MultiImageUploaderElement from '../../components/MultiImageUploaderElemen
 import { CategoryElement } from '../../forms/category-combobox-element';
 import { InputElement } from '../../forms/input-element';
 import { RadioGroupElement } from '../../forms/radio-group-element';
+import { SelectElement } from '../../forms/select-element';
 import { SwitchElement } from '../../forms/switch-element';
 import { TextAreaElement } from '../../forms/textarea-element';
 import ProductFormTaxItem from './product-form-tax-item';
@@ -37,6 +39,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
   const { data: { data: item } = { data: null }, isLoading } = useItem(
     isNew ? null : itemId,
   );
+
+  const sizeCharts = useVestidoSizeChart();
+  const sizeChartTitles = sizeCharts ? Object.keys(sizeCharts) : [];
+  console.log(sizeChartTitles);
   const { form, handleSubmit } = useProductForm(isNew, itemId, item);
 
   const hasVariants = form.watch('hasVariants');
@@ -111,6 +117,20 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
           </div>
 
           <ProductFormTaxItem />
+
+          {sizeCharts && (
+            <div className="grid grid-cols-2 gap-5 lg:px-10 mt-3">
+              <SelectElement
+                name="sizeChart"
+                options={sizeChartTitles.map((key) => ({
+                  title: sizeCharts[key].meta.title,
+                  id: key,
+                }))}
+                placeholder="Select Size Chart to Show"
+                label="Size Chart"
+              />
+            </div>
+          )}
           <div className="grid grid-cols-2 gap-5 lg:px-10 mt-10">
             <FormField
               control={form.control}
@@ -178,6 +198,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
               />
             )}
           </div>
+
           {/* TODO: hasVariants field is disabled for now. */}
           <div className="hidden">
             <SwitchElement
