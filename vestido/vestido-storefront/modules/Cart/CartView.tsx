@@ -28,14 +28,6 @@ import {
   AlertDialogTrigger,
 } from '@vestido-ecommerce/shadcn-ui/alert-dialog';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@vestido-ecommerce/shadcn-ui/table';
 import { toast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 
 import ItemImage from '../../components/item-image';
@@ -306,51 +298,18 @@ const CartView: React.FC = () => {
 
           <div className="md:basis-1/3 overflow-auto  px-3 md:pl-5 md:sticky top-0 w-full text-white">
             <div className="flex flex-col">
-              <div>
-                <Table>
-                  <TableHeader>
-                    <TableRow className="border-none hover:bg-transparent">
-                      <TableHead>Item</TableHead>
-                      <TableHead>Qty</TableHead>
-                      <TableHead className="text-right">Amount</TableHead>
-                    </TableRow>
-                  </TableHeader>
+              <hr className="border-gray-600" />
+              <div className="flex justify-between my-5">
+                <div>Items Subtotal</div>
 
-                  <TableBody>
-                    {cartItems?.map((cartItem, index) => {
-                      const itemAmount = (
-                        cartItem.item.price * cartItem.qty
-                      ).toFixed(2);
-                      return (
-                        <TableRow
-                          key={index}
-                          className="border-none hover:bg-transparent"
-                        >
-                          <TableCell>{cartItem.item.title}</TableCell>
-                          <TableCell>{cartItem.qty}</TableCell>
-                          <TableCell className="text-right">
-                            ₹&nbsp;{itemAmount}
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                    <TableRow className="text-black">
-                      <hr className="border-gray-600" />
-                    </TableRow>
-                    <TableRow>
-                      <TableCell>Subtotal</TableCell>
-                      <TableCell></TableCell>
-                      <TableCell className="text-right">
-                        ₹&nbsp;{totalPrice?.toFixed(2)}
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
+                <div className="text-right text-xl font-semibold">
+                  ₹&nbsp;{totalPrice?.toFixed(2)}
+                </div>
               </div>
             </div>
 
             <hr className="border-gray-600" />
-            <div className="text-[14px]">
+            <div className="text-[14px] mt-2">
               Shipping Charges and coupon codes if any will be applied at
               checkout. (Free Shipping all over Kerala)
             </div>

@@ -17,6 +17,7 @@ import {
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Dialog, DialogTrigger } from '@vestido-ecommerce/shadcn-ui/dialog';
 import { Form } from '@vestido-ecommerce/shadcn-ui/form';
+import { Input } from '@vestido-ecommerce/shadcn-ui/input';
 import {
   Table,
   TableBody,
@@ -27,7 +28,6 @@ import {
 } from '@vestido-ecommerce/shadcn-ui/table';
 
 import ItemImage from '../../components/item-image';
-import { InputElement } from '../../forms/input-element';
 import AddAddressDialog from './AddAddressDialog';
 import { CustomerAddressElement } from './CustomerAddressElement';
 import { PaymentTypeElement } from './PaymentTypeElement';
@@ -121,7 +121,6 @@ const CheckoutView: React.FC = () => {
     form.setValue('couponCode', couponCode);
   };
 
-  console.log('couponcode:', form.getValues('couponCode'));
   const [shippingAddressId, paymentType] = form.watch([
     'addressId',
     'paymentType',
@@ -246,44 +245,37 @@ const CheckoutView: React.FC = () => {
                   <TableRow className="border-none hover:bg-transparent">
                     <TableHead>Image</TableHead>
                     <TableHead>Item</TableHead>
-                    <TableHead>Qty</TableHead>
-                    <TableHead className="text-right">Amount</TableHead>
+                    <TableHead className="text-center">Qty</TableHead>
                   </TableRow>
                 </TableHeader>
 
                 <TableBody>
-                  {checkoutItems?.map((checkoutItem, index) => {
-                    const itemAmount = (
-                      checkoutItem.item.price * checkoutItem.qty
-                    ).toFixed(2);
-                    return (
-                      <TableRow
-                        key={index}
-                        className="border-none hover:bg-transparent"
-                      >
-                        <TableCell>
-                          <ItemImage
-                            item={checkoutItem.item}
-                            width={50}
-                            height={70}
-                            className="w-10 h-12 col-span-1"
-                          />
-                        </TableCell>
-                        <TableCell>{checkoutItem.item.title}</TableCell>
-                        <TableCell>{checkoutItem.qty}</TableCell>
-                        <TableCell className="text-right">
-                          ₹&nbsp;{itemAmount}
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
+                  {checkoutItems?.map((checkoutItem, index) => (
+                    <TableRow
+                      key={index}
+                      className="border-none hover:bg-transparent"
+                    >
+                      <TableCell>
+                        <ItemImage
+                          item={checkoutItem.item}
+                          width={50}
+                          height={70}
+                          className="w-10 h-12 col-span-1"
+                        />
+                      </TableCell>
+                      <TableCell>{checkoutItem.item.title}</TableCell>
+                      <TableCell className="text-center">
+                        {checkoutItem.qty}
+                      </TableCell>
+                    </TableRow>
+                  ))}
                 </TableBody>
               </Table>
               <hr className="border-gray-600" />
               <div className="flex gap-10 my-3">
-                <InputElement
+                <Input
                   name="couponCode"
-                  inputRef={couponInputRef}
+                  ref={couponInputRef}
                   placeholder="Enter Coupon Code"
                   className="bg-gray-700 focus-visible:ring-0 border-none focus-visible:ring-offset-0 ring-offset-black"
                 />
