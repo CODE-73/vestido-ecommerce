@@ -22,22 +22,25 @@ const ProductFormTaxItem: FC = () => {
     }
   };
   return (
-    <div>
+    <div className="grid grid-cols-3 gap-5 lg:px-10 mt-10 items-center">
       {taxes && (
         <>
           <SelectElement
             options={taxes.map((tax) => ({ title: tax.title, id: tax.title }))}
             placeholder="Select Tax"
+            label="Tax Details"
             {...form.register('taxTitle', {
               onChange: (event) => {
                 handleTaxSelection(event);
               },
             })}
           />
-          <InputElement name="taxRate" readOnly />
+          <InputElement label="Tax Rate" name="taxRate" readOnly />
         </>
       )}
-      <CheckBoxElement name="taxInclusive" label="Tax Inclusive" />
+      <div className="self-center mt-3">
+        <CheckBoxElement name="taxInclusive" label="Tax Inclusive" />
+      </div>
     </div>
   );
 };

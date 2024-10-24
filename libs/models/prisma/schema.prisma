@@ -149,6 +149,8 @@ model Item {
     taxTitle     String?
     taxRate      Float?
     taxInclusive Boolean?
+
+    sizeChart String?
 }
 
 model ItemVariant {

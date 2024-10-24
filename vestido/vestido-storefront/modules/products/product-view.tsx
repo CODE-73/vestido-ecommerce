@@ -2,7 +2,6 @@ import * as React from 'react';
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 
-import { useMediaQuery } from '@react-hook/media-query';
 import { LuCalendar, LuScaling, LuShoppingBag, LuTruck } from 'react-icons/lu';
 import Markdown from 'react-markdown';
 
@@ -12,6 +11,7 @@ import {
   useCategory,
   useItem,
 } from '@vestido-ecommerce/items/client';
+import { useVestidoSizeChart } from '@vestido-ecommerce/settings/client';
 import {
   Accordion,
   AccordionContent,
@@ -19,6 +19,11 @@ import {
   AccordionTrigger,
 } from '@vestido-ecommerce/shadcn-ui/accordion';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+} from '@vestido-ecommerce/shadcn-ui/dialog';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 
 import AddToWishListButton from '../ProductListView/AddToWishlistButton';
@@ -26,6 +31,7 @@ import ProductListView from '../ProductListView/ProductListView';
 import ProductViewBreadcrumb from './poduct-view-breadcrumpts';
 import ProductViewImages from './product-view-images';
 import ProductViewVariants from './product-view-variants';
+import SizeChartTable from './size-chart-table';
 
 interface ProductViewProps {
   itemId: string;
@@ -35,8 +41,17 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
   const { isAuthenticated, routeToLogin } = useAuth();
   const router = useRouter();
   const { toast } = useToast();
+  const sizeCharts = useVestidoSizeChart();
 
   const { data: { data: item } = { data: null } } = useItem(itemId);
+
+  const sizeChartValue = useMemo(() => {
+    const sizeChartId = sizeCharts
+      ? Object.keys(sizeCharts).find((x) => x === item?.sizeChart)
+      : undefined;
+    return sizeCharts && sizeChartId ? sizeCharts[sizeChartId] : undefined;
+  }, [sizeCharts, item?.sizeChart]);
+
   const { data: { data: category } = { data: null } } = useCategory(
     item?.categoryId,
   );
@@ -81,8 +96,6 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
       );
     }
   };
-
-  const isMdAndAbove = useMediaQuery('(min-width:768px)');
 
   if (!item || !category) {
     return null;
@@ -178,42 +191,36 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
           </div>
           <hr className="border-gray-600" />
           <div className="flex justify-between py-5 px-1 sm:px-0">
-            {isMdAndAbove ? (
-              <>
-                <div className="flex flex-col  gap-1 items-center">
-                  <LuScaling size={28} style={{ strokeWidth: 0.5 }} />
-                  <div>Size Guide</div>
-                </div>
-                <div className="flex  flex-col  gap-1 items-center">
-                  <LuCalendar size={28} style={{ strokeWidth: 0.5 }} />
-                  <div>7 Days Easy Return</div>
-                </div>
-                <div className="flex  flex-col  gap-1 items-center">
-                  <LuTruck size={30} style={{ strokeWidth: 0.5 }} />
-                  <div>
-                    Free Shipping in Kerala
-                    <div className="text-[10px] text-center">(Prepaid)</div>
+            <div className="grid grid-cols-3 w-full">
+              <Dialog>
+                <DialogTrigger asChild>
+                  <div className="flex flex-col  gap-1 items-center ">
+                    <LuScaling size={24} />
+                    <div className="text-xs">Size Guide</div>
                   </div>
-                </div>
-              </>
-            ) : (
-              <div className="grid grid-cols-3 w-full">
-                <div className="flex flex-col  gap-1 items-center ">
-                  <LuScaling size={24} />
-                  <div className="text-xs">Size Guide</div>
-                </div>
-                <div className="flex  flex-col  justify-center gap-1 items-center ">
-                  <LuCalendar size={24} />
-                  <div className="text-xs text-center">7 Days Easy Return</div>
-                </div>
-                <div className="flex  flex-col  gap-1 items-center ">
-                  <LuTruck size={26} />
-                  <div className="text-xs text-center">
-                    Free Shipping in Kerala
-                  </div>
+                </DialogTrigger>
+                <DialogContent>
+                  {sizeChartValue ? (
+                    <SizeChartTable
+                      meta={sizeChartValue.meta}
+                      data={sizeChartValue.data}
+                    />
+                  ) : (
+                    <div>Size Chart Not Available.</div>
+                  )}
+                </DialogContent>
+              </Dialog>
+              <div className="flex  flex-col  justify-center gap-1 items-center ">
+                <LuCalendar size={24} />
+                <div className="text-xs text-center">7 Days Easy Return</div>
+              </div>
+              <div className="flex  flex-col  gap-1 items-center ">
+                <LuTruck size={26} />
+                <div className="text-xs text-center">
+                  Free Shipping in Kerala
                 </div>
               </div>
-            )}
+            </div>
           </div>
           <hr className="border-gray-600" />
           <div>
