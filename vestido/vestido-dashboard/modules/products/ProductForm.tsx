@@ -41,8 +41,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
   );
 
   const sizeCharts = useVestidoSizeChart();
-  const sizeChartTitles = sizeCharts ? Object.keys(sizeCharts) : [];
-  console.log(sizeChartTitles);
+  const sizeChartIds = sizeCharts ? Object.keys(sizeCharts) : [];
+
   const { form, handleSubmit } = useProductForm(isNew, itemId, item);
 
   const hasVariants = form.watch('hasVariants');
@@ -122,7 +122,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
             <div className="grid grid-cols-2 gap-5 lg:px-10 mt-3">
               <SelectElement
                 name="sizeChart"
-                options={sizeChartTitles.map((key) => ({
+                options={sizeChartIds.map((key) => ({
                   title: sizeCharts[key].meta.title,
                   id: key,
                 }))}
