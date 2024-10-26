@@ -1,4 +1,4 @@
-import useSWRImmutable from 'swr/dist/immutable';
+import useSWRImmutable from 'swr/immutable';
 
 import { useAuth } from '@vestido-ecommerce/auth/client';
 

@@ -15,6 +15,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@vestido-ecommerce/shadcn-ui/tooltip';
+import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
+
+import { ItemToastBody } from '../../components/item-toast-body';
 
 type WishlistbuttonProps = {
   className?: string;
@@ -36,6 +39,8 @@ const AddToWishListButton: React.FC<WishlistbuttonProps> = ({
   const { trigger: removeWishlistTrigger, isMutating: isRemoving } =
     useRemoveFromWishlist();
 
+  const { toast } = useToast();
+
   const [wishlisted, setWishlisted] = useState<boolean | null>(false);
 
   useEffect(() => {
@@ -44,6 +49,10 @@ const AddToWishListButton: React.FC<WishlistbuttonProps> = ({
         false,
     );
   }, [wishlist, itemId]);
+
+  const removeItem = (itemId: string) => {
+    return wishlist?.data.find((x) => x.itemId === itemId);
+  };
 
   const onClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (isLoading) {
@@ -59,8 +68,27 @@ const AddToWishListButton: React.FC<WishlistbuttonProps> = ({
     setWishlisted(null);
     if (wishlisted) {
       removeWishlistTrigger({ itemId: itemId });
+      const removedItem = removeItem(itemId);
+      if (!removedItem) {
+        toast({
+          title: 'Error',
+          description: 'Item not found in the cart!',
+        });
+      } else {
+        toast({
+          title: '',
+          description: ItemToastBody(
+            false,
+            removedItem.item,
+            'Item removed from Wishlist',
+          ),
+        });
+      }
     } else {
       wishlistTrigger({ itemId: itemId });
+      toast({
+        title: 'Added to Wishlist',
+      });
     }
   };
 

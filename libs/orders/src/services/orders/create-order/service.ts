@@ -1,35 +1,40 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
 
-import { calculateShippingCharges } from '../../shipping/get-shipping-charge';
+import { calculateTotal } from '../calculate-total';
 import { CreateOrderSchema, CreateOrderSchemaType } from './zod';
 import { clearCartOnOrderCreation } from 'libs/items/src/services';
 
 export async function createOrder(_data: CreateOrderSchemaType) {
   const prisma = getPrismaClient();
 
-  // validate zod here
-  const { addressId, customerId, paymentType, ...data } =
+  const { addressId, customerId, paymentType, couponCode, ...data } =
     CreateOrderSchema.parse(_data);
-  // pass to prisma next
 
-  const shipping = await calculateShippingCharges({
-    paymentType: paymentType,
-    shippingAddressId: addressId,
+  const {
+    shippingCharges,
+    itemsPrice,
+    totalTax,
+    discount,
+    grandTotal,
+    itemsWithTax,
+  } = await calculateTotal({
+    addressId: addressId,
+    orderItems: _data.orderItems,
+    paymentType,
+    couponCode,
   });
-
-  const shippingCharges = shipping.shippingCost ?? 0;
-
-  const itemsPrice =
-    data.orderItems?.reduce((total, item) => {
-      return total + (item.qty ?? 1) * item.price;
-    }, 0) ?? 0;
 
   const newOrder = await prisma.order.create({
     data: {
       ...data,
       dateTime: new Date(),
       orderStatus: 'PENDING',
-      totalPrice: itemsPrice + shippingCharges,
+      totalPrice: itemsPrice - totalTax,
+      totalTax: totalTax,
+      totalCharges: shippingCharges,
+      totalDiscount: discount,
+      grandTotal: grandTotal,
+      couponCode: couponCode,
       customer: {
         connect: {
           id: customerId,
@@ -42,7 +47,16 @@ export async function createOrder(_data: CreateOrderSchemaType) {
       },
       orderItems: {
         createMany: {
-          data: data.orderItems,
+          data: itemsWithTax.map((item) => ({
+            itemId: item.itemId,
+            price: item.price,
+            qty: item.qty,
+            variantId: item.variantId,
+            taxTitle: item.taxTitle,
+            taxRate: item.taxRate,
+            taxInclusive: item.taxInclusive,
+            taxAmount: item.taxAmount, // Added taxAmount here
+          })),
         },
       },
     },
@@ -61,7 +75,7 @@ export async function createOrder(_data: CreateOrderSchemaType) {
         paymentGatewayRef: 'Null',
         moreDetails: 'Null',
         currency: 'INR',
-        amount: itemsPrice + shippingCharges,
+        amount: grandTotal,
         status: 'PENDING',
       },
     });

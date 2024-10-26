@@ -28,18 +28,25 @@ import {
   AlertDialogTrigger,
 } from '@vestido-ecommerce/shadcn-ui/alert-dialog';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
-import { ImageSchemaType } from '@vestido-ecommerce/utils';
+import { toast } from '@vestido-ecommerce/shadcn-ui/use-toast';
+
+import ItemImage from '../../components/item-image';
+import { ItemToastBody } from '../../components/item-toast-body';
 
 const CartView: React.FC = () => {
-  const { data: cartItems } = useCart();
+  const { data: { data: cartItems } = { data: [] } } = useCart();
 
   const { trigger } = useRemoveFromCart();
 
   const { trigger: addCartTrigger } = useAddToCart();
   const { trigger: wishlistTrigger } = useAddToWishlist();
 
+  const removeItem = (itemId: string) => {
+    return cartItems.find((x) => x.itemId === itemId);
+  };
+
   const totalPrice =
-    cartItems?.data.reduce((total, item) => {
+    cartItems.reduce((total, item) => {
       return total + item.qty * item.item.price;
     }, 0) ?? 0;
 
@@ -53,6 +60,24 @@ const CartView: React.FC = () => {
       variantId: variantId,
       actionType: actionType,
     });
+    if (actionType === 'full') {
+      const removedItem = removeItem(itemId);
+      if (!removedItem) {
+        toast({
+          title: 'Error',
+          description: 'Item not found in the cart!',
+        });
+      } else {
+        toast({
+          title: '',
+          description: ItemToastBody(
+            false,
+            removedItem.item,
+            'Item removed from Cart!',
+          ),
+        });
+      }
+    }
   };
 
   const handleAddToCart = (itemId: string, qty: number, variantId: string) => {
@@ -66,15 +91,33 @@ const CartView: React.FC = () => {
     wishlistTrigger({
       itemId: itemId,
     });
+    const removedItem = removeItem(itemId);
+    if (!removedItem) {
+      toast({
+        title: 'Error',
+        description: 'Item not found in the cart!',
+      });
+    } else {
+      toast({
+        title: '',
+        description: ItemToastBody(true, removedItem.item, 'Moved to Wishlist'),
+      });
+    }
   };
   const handleClearCart = () => {
-    cartItems?.data.forEach((cartItem) => {
+    cartItems.forEach((cartItem) => {
       handleRemoveFromCart(cartItem.itemId, cartItem.variantId!, 'full');
+    });
+    toast({
+      title: 'Cart Cleared !',
     });
   };
   const handleMoveAllToWishlist = () => {
-    cartItems?.data.forEach((cartItem) => {
+    cartItems.forEach((cartItem) => {
       handleAddToWishlist(cartItem.itemId);
+    });
+    toast({
+      title: 'Moved all to wishlist',
     });
   };
   return (
@@ -83,14 +126,11 @@ const CartView: React.FC = () => {
         <span className="md:text-2xl text-[#48CAB2]">Cart</span>
         <LuChevronRight /> Address <LuChevronRight /> Payment
       </div>
-      {cartItems?.data.length && cartItems.data.length > 0 ? (
+      {cartItems.length && cartItems.length > 0 ? (
         <div className="flex flex-col md:flex-row gap-5 md:gap-10 ">
           <div className="hidden md:block md:basis-[15%] xl:basis-[24%]"></div>
           <div className="md:grow flex flex-col ">
-            {cartItems?.data.map((cartItem, index) => {
-              const img =
-                ((cartItem.item.images ?? []) as ImageSchemaType[])?.[0] ||
-                null;
+            {cartItems.map((cartItem, index) => {
               return (
                 <div key={index}>
                   <div className="flex gap-2 lg:gap-4 items-center bg-neutral-800 border border-gray-600 mb-5 min-h-[170px]  md:rounded-lg  relative">
@@ -124,9 +164,14 @@ const CartView: React.FC = () => {
                               Remove
                             </AlertDialogAction>
                             <AlertDialogAction
-                              onClick={() =>
-                                handleAddToWishlist(cartItem.itemId)
-                              }
+                              onClick={() => {
+                                handleRemoveFromCart(
+                                  cartItem.itemId,
+                                  cartItem.variantId ?? '',
+                                  'full',
+                                );
+                                handleAddToWishlist(cartItem.itemId);
+                              }}
                             >
                               Move to wishlist
                             </AlertDialogAction>
@@ -138,13 +183,10 @@ const CartView: React.FC = () => {
                       href={`/products/${cartItem.itemId}`}
                       className="block basis-1/5 md:basis-1/4"
                     >
-                      <Image
-                        src={img.url ?? ''}
-                        alt={img.alt ?? ''}
+                      <ItemImage
+                        item={cartItem.item}
                         width={150}
                         height={195}
-                        placeholder={img.blurHashDataURL ? 'blur' : undefined}
-                        blurDataURL={img.blurHashDataURL ?? undefined}
                         className="pl-2 md:pl-0 md:rounded-l-lg"
                       />
                     </Link>

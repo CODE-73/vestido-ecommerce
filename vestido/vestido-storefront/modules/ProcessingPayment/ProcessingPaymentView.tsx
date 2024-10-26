@@ -42,7 +42,7 @@ const ProcessingPaymentView: FC<ProcessingPaymentPageProps> = ({ orderId }) => {
           });
         }
 
-        const amountInPaise = Math.round(order.totalPrice * 100);
+        const amountInPaise = Math.round(order.grandTotal * 100);
         const razorpayData = {
           orderId,
           amount: amountInPaise,
