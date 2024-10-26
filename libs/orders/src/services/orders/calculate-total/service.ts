@@ -21,11 +21,10 @@ export async function calculateTotal(data: CalculateTotalSchemaType) {
 
   // Calculate item prices and taxes
   const itemsWithTax = data.orderItems?.map((item) => {
-    const itemTotal = (item.qty ?? 1) * item.price;
     let taxAmount = 0;
 
     if (item.taxInclusive && item.taxRate) {
-      taxAmount = (item.taxRate * itemTotal) / 100;
+      taxAmount = (item.taxRate * item.price) / 100; // tax per item irrespective of qty
     }
 
     return {
@@ -35,7 +34,7 @@ export async function calculateTotal(data: CalculateTotalSchemaType) {
   });
 
   const totalTax = itemsWithTax?.reduce((total, item) => {
-    return total + item.taxAmount * item.qty;
+    return total + item.taxAmount * (item.qty ?? 1);
   }, 0);
 
   const subTotal = itemsPrice - totalTax;
