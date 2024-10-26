@@ -4,7 +4,7 @@ import { apiRouteHandler } from '@vestido-ecommerce/utils';
 
 export const GET = apiRouteHandler(
   authMiddleware,
-  roleMiddleware('ADMIN'),
+  roleMiddleware('CUSTOMER'),
   async ({ params }) => {
     const coupon = await getCouponByCode(params.couponCode);
     return coupon;
