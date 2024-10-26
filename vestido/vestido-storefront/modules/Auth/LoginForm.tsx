@@ -93,7 +93,7 @@ const LoginForm: React.FC<Props> = ({ mobile, onBackClick }) => {
           className="w-full max-w-[600px]  z-10 "
         >
           <div className="bg-white space-y-6   rounded-[3rem] md:rounded-none p-3 md:p-10 pt-10 md:pt-auto">
-            <div className="font-semibold md:text-xl xl:text-2xl">Login</div>
+            <h4 className="font-semibold md:text-xl xl:text-2xl">Login</h4>
             <hr />
             <FormField
               control={form.control}

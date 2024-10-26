@@ -252,11 +252,13 @@ model Order {
     id       String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     dateTime DateTime @default(now())
 
-    totalPrice   Float // total item price = SUM(item.rate * qty IF not item.taxInclusive ELSE taxSubtractedItemAmount)
-    totalTax     Float @default(0) // SUM(item.taxAmount)
-    totalCharges Float @default(0) // For now, only shipping charges.
-    grandTotal   Float @default(0) // SUM(totalPrice + totalTax + totalCharges)
+    totalPrice    Float // total item price = SUM(item.rate * qty IF not item.taxInclusive ELSE taxSubtractedItemAmount)
+    totalTax      Float @default(0) // SUM(item.taxAmount)
+    totalCharges  Float @default(0) // For now, only shipping charges.
+    totalDiscount Float @default(0)
+    grandTotal    Float @default(0) // SUM(subTotal - discount + totalTax + shippingCharges)
 
+    couponCode         String?
     orderStatus        OrderStatus        @default(PENDING)
     deliveryStatus     DeliveryStatus     @default(UNFULFILLED)
     returnStatus       ReturnStatus?
@@ -380,4 +382,9 @@ model PrismaSeed {
     seed_name String @unique
 
     @@map("_prisma_seeds")
+}
+
+model Settings {
+    key   String @unique
+    value Json   @default("{}")
 }

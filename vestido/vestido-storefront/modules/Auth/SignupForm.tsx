@@ -104,7 +104,7 @@ const SignupForm: React.FC<Props> = ({ mobile, onBackClick }) => {
           className="w-full xl:w-3/4  z-10  max-w-[600px]  "
         >
           <div className="space-y-6 bg-white md:rounded-none  p-3 md:p-10 rounded-[3rem] pt-10 md:pt-auto">
-            <div className="font-semibold md:text-xl xl:text-2xl">Signup</div>
+            <h4 className="font-semibold md:text-xl xl:text-2xl">Signup</h4>
             <hr />
             <InputElement
               name="firstName"

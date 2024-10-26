@@ -1,5 +1,4 @@
 import { FC, useEffect } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -13,8 +12,8 @@ import {
   CardHeader,
   CardTitle,
 } from '@vestido-ecommerce/shadcn-ui/card';
-import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
+import ItemImage from '../../components/item-image';
 import ShipmentStatus from './shipment-status';
 
 type OrderDetailsProps = {
@@ -71,7 +70,7 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
           <CardDescription className="text-muted-foreground">
             <div className="flex gap-1">
               <div className="text-muted-foreground hidden md:block">
-                Order Number:{' '}
+                Order Number:
               </div>
               <div className="font-medium">{order?.id}</div>
             </div>
@@ -95,17 +94,11 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
           <div className="flex flex-col  divide-y">
             {order?.orderItems.map((orderItem, index) => (
               <div key={index} className="py-3 grid grid-cols-8 divide-x">
-                {' '}
-                <Image
-                  className="w-10 h-12 justify-self-center"
-                  src={
-                    ((orderItem.item.images ?? []) as ImageSchemaType[])[0].url!
-                  }
-                  alt={
-                    ((orderItem.item.images ?? []) as ImageSchemaType[])[0].alt!
-                  }
+                <ItemImage
+                  item={orderItem.item}
                   width={50}
                   height={70}
+                  className="w-10 h-12 justify-self-center"
                 />
                 <div className="text-xs col-span-4 pl-1 ">
                   {orderItem.item.title}
@@ -182,22 +175,11 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
                           key={index}
                           className="py-3 grid grid-cols-8 divide-x"
                         >
-                          <Image
-                            className="w-10 h-12 justify-self-center"
-                            src={
-                              (
-                                (fulfillmentItem?.orderItem?.item.images ??
-                                  []) as ImageSchemaType[]
-                              )[0]?.url ?? ''
-                            }
-                            alt={
-                              (
-                                (fulfillmentItem?.orderItem?.item.images ??
-                                  []) as ImageSchemaType[]
-                              )[0]?.alt ?? ''
-                            }
+                          <ItemImage
+                            item={fulfillmentItem?.orderItem?.item}
                             width={50}
                             height={70}
+                            className="w-10 h-12 justify-self-center"
                           />
                           <div className="text-xs col-span-4 pl-1 ">
                             {fulfillmentItem?.orderItem?.item.title}

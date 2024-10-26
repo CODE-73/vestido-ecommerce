@@ -24,9 +24,9 @@ export const RandomProducts: FC<RandomProductsProps> = ({
     <div
       className={`flex flex-col items-center justify-center ${clsx(className)}`}
     >
-      <div className="text-2xl md:text-4xl tracking-wide text-white font-semibold hover:text-[#48cab2] pb-6">
+      <h3 className="text-2xl md:text-4xl tracking-wide text-white hover:text-[#48cab2] pb-6">
         Our Bestsellers
-      </div>
+      </h3>
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 md:gap-5 xl:gap-10 pt-3 md:pt-12">
         {shuffledItems.map((item, index) => (

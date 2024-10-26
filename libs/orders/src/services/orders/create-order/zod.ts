@@ -5,6 +5,9 @@ export const OrderItemSchema = z.object({
   price: z.coerce.number(),
   qty: z.number().int(),
   variantId: z.string().uuid().nullish(),
+  taxTitle: z.string().nullish(),
+  taxRate: z.coerce.number().nullish(),
+  taxInclusive: z.boolean().nullish(),
 });
 
 export const CreateOrderSchema = z.object({
@@ -12,6 +15,7 @@ export const CreateOrderSchema = z.object({
   customerId: z.string().uuid(),
   orderItems: z.array(OrderItemSchema),
   paymentType: z.enum(['ONLINE', 'CASH_ON_DELIVERY']),
+  couponCode: z.string().nullish(),
 });
 
 export type CreateOrderSchemaType = z.infer<typeof CreateOrderSchema>;

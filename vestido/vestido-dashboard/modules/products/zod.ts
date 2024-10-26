@@ -29,6 +29,9 @@ export const CreateProductFormDefaultValues = {
   enabled: true,
   sku: '',
   variants: [],
+  taxTitle: '',
+  taxRate: 0,
+  taxInclusive: true,
 } satisfies CreateProductForm;
 
 export function parseItemDetails(item: ItemDetailsResponse['data']) {
