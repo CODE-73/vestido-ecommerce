@@ -140,15 +140,16 @@ const CheckoutView: React.FC = () => {
       }))
     : [];
 
-  const { data: totals } = useCalculateTotal({
+  const { data: { data: totals } = { data: null } } = useCalculateTotal({
     addressId: shippingAddressId,
     orderItems: mappedOrderItems,
     paymentType: paymentType,
+    couponCode: form.watch('couponCode'),
   });
 
-  const shippingCharges = totals?.data?.shippingCharges ?? 0;
+  const shippingCharges = totals?.shippingCharges ?? 0;
 
-  const totalPrice = totals?.data?.itemsPrice ?? 0;
+  const totalPrice = totals?.itemsPrice ?? 0;
 
   const handleSubmit = async (data: CreateOrderForm) => {
     try {
@@ -272,19 +273,25 @@ const CheckoutView: React.FC = () => {
                 </TableBody>
               </Table>
               <hr className="border-gray-600" />
-              <div className="flex gap-10 my-3">
+              <div className="grid grid-cols-4 gap-2 my-3">
                 <Input
                   name="couponCode"
                   ref={couponInputRef}
                   placeholder="Enter Coupon Code"
-                  className="bg-gray-700 focus-visible:ring-0 border-none focus-visible:ring-offset-0 ring-offset-black"
+                  className="bg-gray-700 col-span-3 focus-visible:ring-0 border-none focus-visible:ring-offset-0 ring-offset-black"
                 />
                 <Button
                   onClick={handleApplyCoupon}
-                  className=" uppercase bg-gray-700"
+                  type="button"
+                  className="uppercase bg-gray-700"
                 >
                   APPLY
                 </Button>
+                {totals?.invalidCoupon ? (
+                  <div className="col-span-4 text-center text-red-500 w-full">
+                    Invalid Coupon
+                  </div>
+                ) : null}
               </div>
               <hr className="border-gray-600" />
               <div className="flex justify-between pr-3 mt-3">
