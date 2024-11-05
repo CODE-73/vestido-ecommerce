@@ -1,5 +1,4 @@
 import { getCouponByCode } from '@vestido-ecommerce/coupons';
-import { VestidoError } from '@vestido-ecommerce/utils';
 
 import { calculateShippingCharges } from '../../shipping/get-shipping-charge';
 import { CalculateTotalSchema, CalculateTotalSchemaType } from './zod';
@@ -41,23 +40,21 @@ export async function calculateTotal(data: CalculateTotalSchemaType) {
 
   let discount = 0;
   let coupon;
+  let invalidCoupon = false;
 
   //apply coupon on subTotal
   if (validatedData.couponCode) {
     coupon = await getCouponByCode(validatedData.couponCode);
 
     if (!coupon) {
-      throw new VestidoError({
-        name: 'ErrorCouponNotFound',
-        message: `CouponCode ${validatedData.couponCode} not found`,
-      });
-    }
-
-    if (coupon.discountType == 'AMOUNT') {
-      discount = coupon.discountAmount;
-    }
-    if (coupon.discountType == 'PERCENTAGE') {
-      discount = (subTotal * coupon.discountPercent) / 100;
+      invalidCoupon = true;
+    } else {
+      if (coupon.discountType == 'AMOUNT') {
+        discount = coupon.discountAmount;
+      }
+      if (coupon.discountType == 'PERCENTAGE') {
+        discount = (subTotal * coupon.discountPercent) / 100;
+      }
     }
   }
 
@@ -71,6 +68,7 @@ export async function calculateTotal(data: CalculateTotalSchemaType) {
     discount,
     grandTotal,
     itemsWithTax,
+    invalidCoupon,
   };
   return calculatedData;
 }
