@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -17,6 +17,15 @@ import {
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Dialog, DialogTrigger } from '@vestido-ecommerce/shadcn-ui/dialog';
 import { Form } from '@vestido-ecommerce/shadcn-ui/form';
+import { Input } from '@vestido-ecommerce/shadcn-ui/input';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@vestido-ecommerce/shadcn-ui/table';
 
 import ItemImage from '../../components/item-image';
 import AddAddressDialog from './AddAddressDialog';
@@ -105,6 +114,13 @@ const CheckoutView: React.FC = () => {
     }
   }, [checkoutItems, form]);
 
+  const couponInputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleApplyCoupon = () => {
+    const couponCode = couponInputRef.current?.value || '';
+    form.setValue('couponCode', couponCode);
+  };
+
   const [shippingAddressId, paymentType] = form.watch([
     'addressId',
     'paymentType',
@@ -124,15 +140,16 @@ const CheckoutView: React.FC = () => {
       }))
     : [];
 
-  const { data: totals } = useCalculateTotal({
+  const { data: { data: totals } = { data: null } } = useCalculateTotal({
     addressId: shippingAddressId,
     orderItems: mappedOrderItems,
     paymentType: paymentType,
+    couponCode: form.watch('couponCode'),
   });
 
-  const shippingCharges = totals?.data?.shippingCharges ?? 0;
+  const shippingCharges = totals?.shippingCharges ?? 0;
 
-  const totalPrice = totals?.data?.itemsPrice ?? 0;
+  const totalPrice = totals?.itemsPrice ?? 0;
 
   const handleSubmit = async (data: CreateOrderForm) => {
     try {
@@ -224,25 +241,57 @@ const CheckoutView: React.FC = () => {
               )}
             </div>
             <div className="md:basis-2/5 overflow-auto  px-3 md:pl-5 md:sticky top-0 w-full text-white">
-              <div className="flex flex-col">
-                {checkoutItems?.map((checkoutItem, index) => (
-                  <div key={index}>
-                    <div className="flex justify-between py-3 px-2 gap-2 items-center">
-                      <ItemImage
-                        item={checkoutItem.item}
-                        width={50}
-                        height={70}
-                        className="w-10 h-12 col-span-1"
-                      />
-                      <div className="text-sm col-span-3 text-left grow pl-5">
-                        {checkoutItem.item.title}
-                      </div>
-                      <div className="text-sm col-span-1 flex justify-center text-right">
-                        ₹&nbsp;{checkoutItem.item.price.toFixed(2)}
-                      </div>
-                    </div>
+              <Table>
+                <TableHeader>
+                  <TableRow className="border-none hover:bg-transparent">
+                    <TableHead>Image</TableHead>
+                    <TableHead>Item</TableHead>
+                    <TableHead className="text-center">Qty</TableHead>
+                  </TableRow>
+                </TableHeader>
+
+                <TableBody>
+                  {checkoutItems?.map((checkoutItem, index) => (
+                    <TableRow
+                      key={index}
+                      className="border-none hover:bg-transparent"
+                    >
+                      <TableCell>
+                        <ItemImage
+                          item={checkoutItem.item}
+                          width={50}
+                          height={70}
+                          className="w-10 h-12 col-span-1"
+                        />
+                      </TableCell>
+                      <TableCell>{checkoutItem.item.title}</TableCell>
+                      <TableCell className="text-center">
+                        {checkoutItem.qty}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+              <hr className="border-gray-600" />
+              <div className="grid grid-cols-4 gap-2 my-3">
+                <Input
+                  name="couponCode"
+                  ref={couponInputRef}
+                  placeholder="Enter Coupon Code"
+                  className="bg-gray-700 col-span-3 focus-visible:ring-0 border-none focus-visible:ring-offset-0 ring-offset-black"
+                />
+                <Button
+                  onClick={handleApplyCoupon}
+                  type="button"
+                  className="uppercase bg-gray-700"
+                >
+                  APPLY
+                </Button>
+                {totals?.invalidCoupon ? (
+                  <div className="col-span-4 text-center text-red-500 w-full">
+                    Invalid Coupon
                   </div>
-                ))}
+                ) : null}
               </div>
               <hr className="border-gray-600" />
               <div className="flex justify-between pr-3 mt-3">

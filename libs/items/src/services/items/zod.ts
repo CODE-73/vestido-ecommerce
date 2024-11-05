@@ -61,6 +61,7 @@ export const ItemUpsertSchema = z
     taxTitle: z.string().nullable().default(null),
     taxRate: z.coerce.number().nullable().default(null),
     taxInclusive: z.boolean().nullish().default(true),
+    sizeChart: z.string().nullable().default(''),
   })
   .refine(
     (data) => {
