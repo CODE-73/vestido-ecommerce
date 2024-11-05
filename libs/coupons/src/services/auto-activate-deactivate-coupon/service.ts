@@ -1,5 +1,3 @@
-import cron from 'node-cron';
-
 import { getPrismaClient } from '@vestido-ecommerce/models';
 
 export async function deactivateExpiredCoupons() {
@@ -37,13 +35,3 @@ export async function activateValidCoupons() {
     },
   });
 }
-
-cron.schedule('0 0 * * *', async () => {
-  //  console.log('Running coupon activation/deactivation cron job...');
-
-  // Deactivate expired coupons
-  await deactivateExpiredCoupons();
-
-  // Activate valid coupons
-  await activateValidCoupons();
-});
