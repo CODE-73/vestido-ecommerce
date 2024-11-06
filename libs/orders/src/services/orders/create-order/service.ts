@@ -1,3 +1,4 @@
+import { clearCartOnOrderCreation } from '@vestido-ecommerce/items';
 import { getPrismaClient } from '@vestido-ecommerce/models';
 
 import { calculateTotal } from '../calculate-total';
@@ -80,14 +81,7 @@ export async function createOrder(_data: CreateOrderSchemaType) {
     });
 
     // Clear Cart on Confirmation
-    await prisma.cartItem.deleteMany({
-      where: {
-        customerId: customerId,
-        itemId: {
-          in: data.orderItems.map((item) => item.itemId),
-        },
-      },
-    });
+    await clearCartOnOrderCreation(newOrder.id);
   }
 
   return {

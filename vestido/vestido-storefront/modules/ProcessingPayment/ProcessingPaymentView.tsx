@@ -9,7 +9,7 @@ import {
   useLaunchRazorpay,
   useRazorpayCreateOrder,
   useVerifyPayment,
-} from '@vestido-ecommerce/razorpay';
+} from '@vestido-ecommerce/razorpay/client';
 import { VestidoError } from '@vestido-ecommerce/utils';
 
 type ProcessingPaymentPageProps = {
