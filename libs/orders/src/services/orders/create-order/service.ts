@@ -1,8 +1,8 @@
+import { clearCartOnOrderCreation } from '@vestido-ecommerce/items';
 import { getPrismaClient } from '@vestido-ecommerce/models';
 
 import { calculateTotal } from '../calculate-total';
 import { CreateOrderSchema, CreateOrderSchemaType } from './zod';
-import { clearCartOnOrderCreation } from 'libs/items/src/services';
 
 export async function createOrder(_data: CreateOrderSchemaType) {
   const prisma = getPrismaClient();

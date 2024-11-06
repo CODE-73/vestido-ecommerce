@@ -76,6 +76,10 @@
         "third-party/razorpay/src/index.ts",
         "../../third-party/razorpay/src/index.ts"
       ],
+      "@vestido-ecommerce/razorpay/client": [
+        "third-party/razorpay/src/client.ts",
+        "../../third-party/razorpay/src/client.ts"
+      ],
       "@vestido-ecommerce/settings": [
         "libs/settings/src/index.ts",
         "../../libs/settings/src/index.ts"
