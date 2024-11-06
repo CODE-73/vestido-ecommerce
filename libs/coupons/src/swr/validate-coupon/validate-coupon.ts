@@ -2,14 +2,14 @@ import useSWRImmutable from 'swr/immutable';
 
 import { useAuth } from '@vestido-ecommerce/auth/client';
 
-import { GetCouponSWRKeys } from '../keys';
+import { CouponSWRKeys } from '../keys';
 import { validateCoupon } from './service';
 import { ValidateCouponResponse } from './types';
 
 export function useValidateCoupon(coupon?: string | null) {
   const { authHeaders } = useAuth();
   const key = coupon
-    ? [GetCouponSWRKeys.COUPON, GetCouponSWRKeys.DETAILS, coupon]
+    ? [CouponSWRKeys.COUPON, CouponSWRKeys.DETAILS, coupon]
     : null;
 
   return useSWRImmutable<ValidateCouponResponse, Error>(
