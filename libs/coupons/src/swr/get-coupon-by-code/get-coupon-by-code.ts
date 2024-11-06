@@ -6,7 +6,7 @@ import { CouponSWRKeys } from '../keys';
 import { getCouponByCode } from './service';
 import { GetCouponByCodeResponse } from './types';
 
-export function useCoupon(couponCode?: string | null) {
+export function useCouponCode(couponCode?: string | null) {
   const { authHeaders } = useAuth();
   const key = couponCode
     ? [CouponSWRKeys.COUPON, CouponSWRKeys.DETAILS, couponCode]
