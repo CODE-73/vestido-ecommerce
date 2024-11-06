@@ -1,3 +1,4 @@
+import { clearCartOnOrderCreation } from '@vestido-ecommerce/items';
 import { getPrismaClient } from '@vestido-ecommerce/models';
 
 import { generatePaymentSignature } from '../signature';
@@ -42,7 +43,12 @@ export async function processPayment(data: verifyPaymentRequest) {
             orderStatus: 'CONFIRMED',
             orderPaymentStatus: 'CAPTURED',
           },
+          select: {
+            customerId: true,
+            orderItems: true,
+          },
         });
+
         await prisma.orderItem.updateMany({
           where: {
             orderId: payment.orderId,
@@ -51,6 +57,8 @@ export async function processPayment(data: verifyPaymentRequest) {
             status: 'CONFIRMED',
           },
         });
+
+        await clearCartOnOrderCreation(payment.orderId);
       }),
     );
 
