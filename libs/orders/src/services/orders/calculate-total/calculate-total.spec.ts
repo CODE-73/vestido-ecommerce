@@ -1,5 +1,4 @@
 import { getCouponByCode } from '@vestido-ecommerce/coupons';
-import { VestidoError } from '@vestido-ecommerce/utils';
 
 import { calculateShippingCharges } from '../../shipping/get-shipping-charge';
 import { calculateTotal } from './service';
@@ -47,6 +46,7 @@ describe('calculateTotal Unit Test', () => {
       totalTax: 0,
       discount: 0,
       grandTotal: 4648,
+      invalidCoupon: false,
       itemsWithTax: [
         {
           itemId: '3f8d6bc5-1643-4028-bc67-0df63d8c2807',
@@ -98,6 +98,7 @@ describe('calculateTotal Unit Test', () => {
       totalTax: 99.9,
       discount: 0,
       grandTotal: 3946,
+      invalidCoupon: false,
       itemsWithTax: [
         {
           itemId: '717f22a5-6f32-48fb-ab78-5d9833b11ece',
@@ -149,6 +150,7 @@ describe('calculateTotal Unit Test', () => {
       totalTax: 199.9,
       discount: 0,
       grandTotal: 3047,
+      invalidCoupon: false,
       itemsWithTax: [
         {
           itemId: '717f22a5-6f32-48fb-ab78-5d9833b11ece',
@@ -198,6 +200,7 @@ describe('calculateTotal Unit Test', () => {
       itemsPrice: 1998,
       totalTax: 99.9,
       discount: 200,
+      invalidCoupon: false,
       grandTotal: 1847,
       itemsWithTax: [
         {
@@ -247,6 +250,7 @@ describe('calculateTotal Unit Test', () => {
       itemsPrice: 2999,
       totalTax: 0,
       discount: 299.9,
+      invalidCoupon: false,
       grandTotal: 2748.1,
       itemsWithTax: [
         {
@@ -304,6 +308,7 @@ describe('calculateTotal Unit Test', () => {
       itemsPrice: 2998,
       totalTax: 199.9,
       discount: 279.81,
+      invalidCoupon: false,
       grandTotal: 2767.19,
       itemsWithTax: [
         {
@@ -326,7 +331,7 @@ describe('calculateTotal Unit Test', () => {
     });
   });
 
-  it('should throw error for invalid coupon code', async () => {
+  it('should return invalidCoupon: true for invalid coupon code', async () => {
     const testData = {
       orderItems: [
         {
@@ -351,10 +356,10 @@ describe('calculateTotal Unit Test', () => {
 
     (getCouponByCode as jest.Mock).mockResolvedValue(null);
 
-    await expect(calculateTotal(testData)).rejects.toThrow(VestidoError);
-    await expect(calculateTotal(testData)).rejects.toMatchObject({
-      name: 'ErrorCouponNotFound',
-    });
+    const result = await calculateTotal(testData);
+
+    expect(result.invalidCoupon).toEqual(true);
+    expect(result.discount).toEqual(0);
   });
 
   it('should handle zero shipping cost', async () => {
