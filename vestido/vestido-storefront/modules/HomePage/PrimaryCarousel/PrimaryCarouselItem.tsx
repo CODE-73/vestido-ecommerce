@@ -45,12 +45,14 @@ const PrimaryCarouselItem: React.FC<PrimaryCarouselItemProps> = ({ data }) => {
             <DiscoverButton />
           </div>
         </div>
-
-        <Image
-          className="min-h-[300px] md:min-auto overflow-hidden object-cover lg:rounded-[25px] w-screen"
-          src={data.backgroundImage}
-          alt="Your alt text"
-        />
+        <div className="min-h-[300px] md:min-auto overflow-hidden w-screen lg:rounded-[25px]">
+          <Image
+            className="object-cover"
+            src={data.backgroundImage}
+            alt="Your alt text"
+            fill
+          />
+        </div>
       </div>
     </CarouselItem>
   );
