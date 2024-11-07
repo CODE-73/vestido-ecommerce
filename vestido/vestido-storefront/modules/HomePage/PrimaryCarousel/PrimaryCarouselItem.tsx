@@ -2,7 +2,7 @@ import Image, { StaticImageData } from 'next/image';
 
 import { CarouselItem } from '@vestido-ecommerce/shadcn-ui/carousel';
 
-import { DiscoverButton } from '../Buttons/DiscoverButton';
+// import { DiscoverButton } from '../Buttons/DiscoverButton';
 
 export type PrimaryCarouselItemData = {
   backgroundImage: StaticImageData;
@@ -23,7 +23,8 @@ const PrimaryCarouselItem: React.FC<PrimaryCarouselItemProps> = ({ data }) => {
   return (
     <CarouselItem>
       <div className="relative">
-        <div
+        <div>Hello</div>
+        {/* <div
           className={`flex flex-col gap-1 absolute mt-10 md:mt-auto md:top-1/3 ${data.textPosition} text-${data.textAlign} `}
         >
           <div
@@ -44,7 +45,7 @@ const PrimaryCarouselItem: React.FC<PrimaryCarouselItemProps> = ({ data }) => {
           <div>
             <DiscoverButton />
           </div>
-        </div>
+        </div> */}
         <div className="min-h-[300px] md:min-h-[500px] overflow-hidden w-screen">
           <Image
             className="object-cover lg:rounded-[25px]"
