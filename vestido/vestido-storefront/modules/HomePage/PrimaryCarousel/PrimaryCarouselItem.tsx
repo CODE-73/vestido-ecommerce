@@ -21,8 +21,8 @@ interface PrimaryCarouselItemProps {
 }
 const PrimaryCarouselItem: React.FC<PrimaryCarouselItemProps> = ({ data }) => {
   return (
-    <CarouselItem>
-      <div className="relative w-full">
+    <CarouselItem className="w-full">
+      <div className="relative">
         <div>Hello</div>
         {/* <div
           className={`flex flex-col gap-1 absolute mt-10 md:mt-auto md:top-1/3 ${data.textPosition} text-${data.textAlign} `}
