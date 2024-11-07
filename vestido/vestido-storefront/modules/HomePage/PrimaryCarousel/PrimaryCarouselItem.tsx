@@ -2,7 +2,7 @@ import Image, { StaticImageData } from 'next/image';
 
 import { CarouselItem } from '@vestido-ecommerce/shadcn-ui/carousel';
 
-// import { DiscoverButton } from '../Buttons/DiscoverButton';
+import { DiscoverButton } from '../Buttons/DiscoverButton';
 
 export type PrimaryCarouselItemData = {
   backgroundImage: StaticImageData;
@@ -23,8 +23,15 @@ const PrimaryCarouselItem: React.FC<PrimaryCarouselItemProps> = ({ data }) => {
   return (
     <CarouselItem className="w-full">
       <div className="relative">
-        <div>Hello</div>
-        {/* <div
+        <div className="min-h-[300px] md:min-h-[500px] xl:min-h-[600px] overflow-hidden w-full">
+          <Image
+            className="object-cover lg:rounded-[25px]"
+            src={data.backgroundImage}
+            alt="Your alt text"
+            fill
+          />
+        </div>{' '}
+        <div
           className={`flex flex-col gap-1 absolute mt-10 md:mt-auto md:top-1/3 ${data.textPosition} text-${data.textAlign} `}
         >
           <div
@@ -45,20 +52,7 @@ const PrimaryCarouselItem: React.FC<PrimaryCarouselItemProps> = ({ data }) => {
           <div>
             <DiscoverButton />
           </div>
-        </div> */}
-        <div className="min-h-[300px] md:min-h-[500px] xl:min-h-[600px] overflow-hidden w-full">
-          <Image
-            className="object-cover lg:rounded-[25px]"
-            src={data.backgroundImage}
-            alt="Your alt text"
-            fill
-          />
         </div>
-        {/* <Image
-          className="min-h-[300px] md:min-h-auto overflow-hidden object-cover lg:rounded-[25px] "
-          src={data.backgroundImage}
-          alt="Your alt text"
-        /> */}
       </div>
     </CarouselItem>
   );
