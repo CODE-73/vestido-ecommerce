@@ -30,9 +30,9 @@ const PrimaryCarouselItem: React.FC<PrimaryCarouselItemProps> = ({ data }) => {
             alt="Your alt text"
             fill
           />
-        </div>{' '}
+        </div>
         <div
-          className={`flex flex-col gap-1 absolute mt-10 md:mt-auto md:top-1/3 ${data.textPosition} text-${data.textAlign} `}
+          className={`flex flex-col gap-1 absolute mt-10 md:mt-auto md:top-1/3 ${data.textPosition} text-${data.textAlign} z-20`}
         >
           <div
             className={`uppercase text-xs md:text-base font-bold md:font-extrabold text-${data.textColor}`}
