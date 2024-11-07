@@ -47,7 +47,7 @@ const PrimaryCarouselItem: React.FC<PrimaryCarouselItemProps> = ({ data }) => {
         </div>
 
         <Image
-          className="min-h-[300px] md:min-auto overflow-hidden object-cover lg:rounded-[25px] "
+          className="min-h-[300px] md:min-auto overflow-hidden object-cover lg:rounded-[25px] w-screen"
           src={data.backgroundImage}
           alt="Your alt text"
         />
