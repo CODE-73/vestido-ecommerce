@@ -80,17 +80,16 @@
 }
 
 html, body {
-  /* "scroll overshoot" or "bounce" area */
+  /* Set the background color */
   background-color: black;
-}
 
-/* styles/scrollbar.css */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-.no-scrollbar {
+  /* Hide scrollbars across browsers */
   -ms-overflow-style: none; /* Internet Explorer 10+ */
   scrollbar-width: none; /* Firefox */
 }
+
+html::-webkit-scrollbar, body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Edge */
+}
+
 
