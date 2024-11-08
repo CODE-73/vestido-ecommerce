@@ -49,7 +49,7 @@ export const TopProducts: FC<TopProductsProps> = ({ className, items }) => {
         onMouseLeave={plugin.current.reset}
       >
         <TopProductsTabs />
-        <CarouselContent>
+        <CarouselContent className="bg-red-300">
           <CarouselItem>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 md:gap-5 xl:gap-10 pt-3 md:pt-12">
               {getItemsByGender(['MEN'])
