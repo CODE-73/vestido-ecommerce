@@ -47,7 +47,6 @@ export const TopProducts: FC<TopProductsProps> = ({ className, items }) => {
         }}
         onMouseEnter={plugin.current.stop}
         onMouseLeave={plugin.current.reset}
-        className="bg-red-300"
       >
         <TopProductsTabs />
         <CarouselContent>
@@ -66,13 +65,13 @@ export const TopProducts: FC<TopProductsProps> = ({ className, items }) => {
                 .map((item, index) => <ProductTile key={index} data={item} />)}
             </div>
           </CarouselItem>
-          {/* <CarouselItem>
+          <CarouselItem>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 md:gap-5 xl:gap-10 pt-3 md:pt-12">
               {getItemsByGender(['MEN', 'WOMEN'])
                 ?.slice(0, 6)
                 .map((item, index) => <ProductTile key={index} data={item} />)}
             </div>
-          </CarouselItem> */}
+          </CarouselItem>
         </CarouselContent>
       </Carousel>
 
