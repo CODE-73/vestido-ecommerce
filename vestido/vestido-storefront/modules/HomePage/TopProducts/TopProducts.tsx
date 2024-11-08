@@ -47,7 +47,6 @@ export const TopProducts: FC<TopProductsProps> = ({ className, items }) => {
         }}
         onMouseEnter={plugin.current.stop}
         onMouseLeave={plugin.current.reset}
-        className="bg-red-300"
       >
         <TopProductsTabs />
         <CarouselContent>

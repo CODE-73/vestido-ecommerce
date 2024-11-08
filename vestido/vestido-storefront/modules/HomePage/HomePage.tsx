@@ -61,7 +61,7 @@ const HomePage: React.FC<HomePageProps> = ({ items }) => {
       </div>
       <TopProducts
         items={items}
-        className="pt-16 sm:pt-24 max-w-[100vw]  px-2 sm:px-0 md:px-4 lg:max-w-[100rem] lg:self-center"
+        className="pt-16 sm:pt-24 max-w-[100vw] overflow-hidden px-2 sm:px-0 md:px-4 lg:max-w-[100rem] lg:self-center"
       />
       <HorizontalScrollCards className="w-full relative my-20 px-1 sm:px-0" />{' '}
       <RandomProducts
