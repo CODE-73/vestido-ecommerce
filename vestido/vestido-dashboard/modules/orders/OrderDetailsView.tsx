@@ -26,7 +26,7 @@ import {
   TableHeader,
   TableRow,
 } from '@vestido-ecommerce/shadcn-ui/table';
-import { ImageSchemaType } from '@vestido-ecommerce/utils';
+import { formatINR, ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import { CreateFulfillmentDialog } from './CreateFulfillmentDialog';
 import { formattedDate, formattedTime } from './OrdersTable';
@@ -194,7 +194,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
                   <TableCell className="font-semibold capitalize">
                     {orderItem.qty}
                   </TableCell>
-                  <TableCell> ₹&nbsp;{orderItem.price.toFixed(2)}</TableCell>
+                  <TableCell>{formatINR(orderItem.price)}</TableCell>
                   <TableCell>
                     {
                       orderItem.item.variants.find(

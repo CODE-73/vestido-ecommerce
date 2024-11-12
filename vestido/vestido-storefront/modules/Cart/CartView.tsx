@@ -228,20 +228,19 @@ const CartView: React.FC = () => {
                         {cartItem.item.discountedPrice ? (
                           <div className="flex items-center gap-2">
                             <div className="text-white text-sm font-semibold">
-                              ₹&nbsp;
-                              {cartItem.item.discountedPrice.toFixed(2)}
+                              {formatINR(cartItem.item.discountedPrice)}
                             </div>
                             {cartItem.item.discountedPrice <
                             cartItem.item.price ? (
                               <div className="text-white line-through text-xs">
-                                ₹&nbsp;{cartItem.item.price.toFixed(2)}
+                                {formatINR(cartItem.item.price)}
                               </div>
                             ) : (
                               ''
                             )}
                           </div>
                         ) : (
-                          <div> ₹&nbsp;{cartItem.item.price.toFixed(2)}</div>
+                          <div> {formatINR(cartItem.item.price)}</div>
                         )}
                       </div>
                     </div>

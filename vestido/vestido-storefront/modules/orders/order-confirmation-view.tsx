@@ -12,6 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@vestido-ecommerce/shadcn-ui/card';
+import { formatINR } from '@vestido-ecommerce/utils';
 
 type OrderConfirmationProps = {
   orderId: string;
@@ -50,7 +51,7 @@ const OrderConfirmationView: FC<OrderConfirmationProps> = ({ orderId }) => {
           <div className="grid gap-1">
             <div className="text-muted-foreground">Total Amount</div>
             <div className="font-medium">
-              INR {order?.grandTotal.toFixed(2)}
+              {formatINR(order?.grandTotal as number)}
             </div>
           </div>
           <div className="grid gap-1">

@@ -11,6 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from '@vestido-ecommerce/shadcn-ui/table';
+import { formatINR } from '@vestido-ecommerce/utils';
 
 interface VariantProps {
   itemId: string;
@@ -68,7 +69,7 @@ const VariantsTable: React.FC<VariantProps> = ({ itemId }) => {
                   <TableCell className="font-medium">
                     {itemVariant.title}
                   </TableCell>
-                  <TableCell> ₹&nbsp;{itemVariant.price.toFixed(2)}</TableCell>
+                  <TableCell> {formatINR(itemVariant.price)}</TableCell>
                   <TableCell className="text-right">
                     {/* {itemVariant.images[0]} */}no.ofimages
                   </TableCell>

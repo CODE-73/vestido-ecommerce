@@ -7,6 +7,7 @@ import { useAuth } from '@vestido-ecommerce/auth/client';
 import { useAddToCart, useItem } from '@vestido-ecommerce/items/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
+import { formatINR } from '@vestido-ecommerce/utils';
 
 import { ItemToastBody } from '../../components/item-toast-body';
 
@@ -104,20 +105,18 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
           {offerPrice ? (
             <div className="flex items-baseline gap-1">
               <div className="text-white text-base">
-                ₹&nbsp;{offerPrice.toFixed(2)}
+                {formatINR(offerPrice)}
               </div>
               {offerPrice < price ? (
                 <div className="text-gray-500 line-through text-xs">
-                  ₹&nbsp;{price.toFixed(2)}
+                  {formatINR(price)}
                 </div>
               ) : (
                 ''
               )}
             </div>
           ) : (
-            <div className="text-white text-base">
-              ₹&nbsp;{price.toFixed(2)}
-            </div>
+            <div className="text-white text-base">{formatINR(price)}</div>
           )}
         </div>
       )}

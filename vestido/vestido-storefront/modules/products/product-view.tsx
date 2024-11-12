@@ -25,6 +25,7 @@ import {
   DialogTrigger,
 } from '@vestido-ecommerce/shadcn-ui/dialog';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
+import { formatINR } from '@vestido-ecommerce/utils';
 
 import AddToWishListButton from '../ProductListView/AddToWishlistButton';
 import ProductListView from '../ProductListView/ProductListView';
@@ -112,30 +113,42 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
               {item?.title}
             </h1>
             <div className="flex flex-row items-center gap-1">
-              <div className="text-2xl text-gray-500 md:text-black mt-5 md:mt-0 font-semibold">
-                ₹&nbsp;
-                {item?.discountedPrice && item?.discountedPrice > 0
-                  ? item?.discountedPrice.toFixed(2)
-                  : item?.price.toFixed(2)}
+              <div className="text-2xl text-gray-500  mt-5 md:mt-0 font-semibold">
+                {item?.discountedPrice && item?.discountedPrice < item.price ? (
+                  <div className="flex flex-col md:flex-row gap-2 md:gap-4 md:items-center">
+                    <div className="text-white">
+                      {formatINR(item?.discountedPrice)}
+                    </div>
+                    <div className="flex flex-col md:flex-row gap-2 md:gap-[0.5] md:items-center">
+                      <div className="font-light text-lg line-through">
+                        {formatINR(item?.price)}
+                      </div>
+                      <div className="text-xs text-[#66CDAA] md:mt-1">
+                        ({formatINR(item.price - item.discountedPrice)}
+                        &nbsp; OFF)
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div>{formatINR(item?.price)}</div>
+                )}
               </div>
             </div>
+            {item.taxInclusive && <div>inclusive of all taxes</div>}
 
             <div className="text-sm mt-4">
-              <div className="flex">
-                <h1 className="font-extralight">Availability:&nbsp; </h1>
-                <h1
-                  className={`font-semibold ${item?.stockStatus == 'LIMITED_STOCK' ? 'text-yellow-400' : item?.stockStatus === 'OUT_OF_STOCK' ? 'text-red-400' : 'text-green-500'}`}
-                >
-                  {item?.stockStatus === 'LIMITED_STOCK'
-                    ? 'Limited Stock'
-                    : item?.stockStatus === 'OUT_OF_STOCK'
-                      ? 'Out of Stock'
-                      : 'Available'}
-                </h1>
-              </div>
+              <h1
+                className={`font-semibold sm:mb-2 ${item?.stockStatus == 'LIMITED_STOCK' ? 'text-yellow-400' : item?.stockStatus === 'OUT_OF_STOCK' ? 'text-red-400' : 'text-[#48CAB2]'}`}
+              >
+                {item?.stockStatus === 'LIMITED_STOCK'
+                  ? 'Limited Stock'
+                  : item?.stockStatus === 'OUT_OF_STOCK'
+                    ? 'Out of Stock'
+                    : 'Available'}
+              </h1>
 
               <div className="flex gap-2">
-                <h1 className="font-extralight">Category</h1>
+                <h1 className="font-extralight">Category:&nbsp;</h1>
                 <h1 className="font-semibold no-underline hover:underline">
                   {category?.name}
                 </h1>

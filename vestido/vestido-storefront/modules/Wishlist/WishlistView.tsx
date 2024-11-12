@@ -21,7 +21,7 @@ import {
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Dialog, DialogTrigger } from '@vestido-ecommerce/shadcn-ui/dialog';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
-import { ImageSchemaType } from '@vestido-ecommerce/utils';
+import { formatINR, ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import { ItemToastBody } from '../../components/item-toast-body';
 import { AddToCartDialog } from './AddToCartFromWishlistDialog';
@@ -124,9 +124,10 @@ const WishlistView: React.FC = () => {
                 <>
                   <div className="flex text-lg justify-between w-full pt-1">
                     <div>
-                      ₹&nbsp;
-                      {wishlistItem.item.discountedPrice?.toFixed(2) ??
-                        wishlistItem.item.price?.toFixed(2)}
+                      {formatINR(
+                        wishlistItem.item.discountedPrice ??
+                          wishlistItem.item.price,
+                      )}
                     </div>
                   </div>
 
