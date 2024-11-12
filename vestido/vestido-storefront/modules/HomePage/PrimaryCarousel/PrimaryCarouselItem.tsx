@@ -10,7 +10,6 @@ export type PrimaryCarouselItemData = {
   subtitle1: string;
   subtitle2: string;
   buttonText: string;
-  buttonLink: string;
   textAlign: string;
   textColor: string;
   textPosition: string;
@@ -21,8 +20,33 @@ interface PrimaryCarouselItemProps {
 }
 const PrimaryCarouselItem: React.FC<PrimaryCarouselItemProps> = ({ data }) => {
   return (
-    <CarouselItem className="w-full relative">
-      <div className="min-h-[300px] md:min-h-[500px] xl:min-h-[600px] overflow-hidden w-full">
+    // <CarouselItem className="w-full relative">
+    //   <div className="min-h-[300px] md:min-h-[500px] xl:min-h-[600px] overflow-hidden w-full">
+    <CarouselItem>
+      <div className="relative">
+        <div
+          className={`flex flex-col gap-1 absolute mt-10 md:mt-auto md:top-1/3 ${data.textPosition}-6 text-${data.textAlign} `}
+        >
+          <div
+            className={`uppercase text-xs md:text-base font-bold md:font-extrabold text-${data.textColor}`}
+          >
+            {data.subtitle1}
+          </div>
+          <h1
+            className={`capitalize text-lg md:text-5xl max-w-[500px] leading-normal text-${data.textColor}`}
+          >
+            {data.mainTitle}
+          </h1>
+          <div
+            className={`text-xs font-light md:text-base md:font-extralight text-${data.textColor}`}
+          >
+            {data.subtitle2}
+          </div>
+          <div>
+            <DiscoverButton />
+          </div>
+        </div>
+
         <Image
           className="object-cover lg:rounded-[25px]"
           src={data.backgroundImage}
