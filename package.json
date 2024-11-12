@@ -47,6 +47,7 @@
     "clsx": "^2.1.0",
     "cmdk": "^0.2.1",
     "crypto-js": "^4.2.0",
+    "currency.js": "^2.0.4",
     "embla-carousel-autoplay": "^8.0.0-rc22",
     "embla-carousel-react": "^8.0.0-rc22",
     "event-iterator": "^2.0.0",

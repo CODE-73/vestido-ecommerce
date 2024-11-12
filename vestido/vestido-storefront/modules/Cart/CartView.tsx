@@ -29,6 +29,7 @@ import {
 } from '@vestido-ecommerce/shadcn-ui/alert-dialog';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { toast } from '@vestido-ecommerce/shadcn-ui/use-toast';
+import { formatINR } from '@vestido-ecommerce/utils';
 
 import ItemImage from '../../components/item-image';
 import { ItemToastBody } from '../../components/item-toast-body';
@@ -303,7 +304,7 @@ const CartView: React.FC = () => {
                 <div>Items Subtotal</div>
 
                 <div className="text-right text-xl font-semibold">
-                  ₹&nbsp;{totalPrice?.toFixed(2)}
+                  {formatINR(totalPrice)}
                 </div>
               </div>
             </div>
