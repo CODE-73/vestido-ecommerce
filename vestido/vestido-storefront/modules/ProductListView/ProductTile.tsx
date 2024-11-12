@@ -4,6 +4,7 @@ import { Item } from '@prisma/client';
 import clsx from 'clsx';
 
 import { Badge } from '@vestido-ecommerce/shadcn-ui/badge';
+import { formatINR } from '@vestido-ecommerce/utils';
 
 import ItemImage from '../../components/item-image';
 import AddToCartButton from './AddToCartButton';
@@ -57,11 +58,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ data: item }) => {
         {item.discountedPrice ? (
           <div className="flex items-center gap-2">
             <div className="text-white text-sm font-semibold">
-              ₹&nbsp;{item.discountedPrice.toFixed(2)}
+              {formatINR(item.discountedPrice)}
             </div>
             {item.discountedPrice < item.price ? (
               <div className="text-white line-through text-xs">
-                ₹&nbsp;{item.price.toFixed(2)}
+                {formatINR(item.price)}
               </div>
             ) : (
               ''
@@ -69,7 +70,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ data: item }) => {
           </div>
         ) : (
           <div className="text-white text-sm font-semibold">
-            ₹&nbsp;{item.price.toFixed(2)}
+            {formatINR(item.price)}
           </div>
         )}
       </div>

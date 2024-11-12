@@ -10,6 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from '@vestido-ecommerce/shadcn-ui/table';
+import { formatINR } from '@vestido-ecommerce/utils';
 // import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 
 interface ProductTableProps {
@@ -66,7 +67,7 @@ const OrdersTable: React.FC<ProductTableProps> = ({ data }) => {
               <TableCell className="font-semibold capitalize">
                 {order.orderStatus}
               </TableCell>
-              <TableCell> ₹&nbsp;{order.totalPrice.toFixed(2)}</TableCell>
+              <TableCell> {formatINR(order.totalPrice)}</TableCell>
               <TableCell>{formattedDate(new Date(order.dateTime))}</TableCell>
               <TableCell>{formattedTime(new Date(order.dateTime))}</TableCell>
             </TableRow>

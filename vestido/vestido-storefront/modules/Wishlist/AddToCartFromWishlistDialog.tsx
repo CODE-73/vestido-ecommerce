@@ -16,7 +16,7 @@ import {
   DialogTitle,
 } from '@vestido-ecommerce/shadcn-ui/dialog';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
-import { ImageSchemaType } from '@vestido-ecommerce/utils';
+import { formatINR, ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import { ItemToastBody } from '../../components/item-toast-body';
 
@@ -148,14 +148,15 @@ export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({ itemId }) => {
                 <div className="flex flex-col gap-4 ">
                   <div className="font-normal">{item?.title}</div>
                   <div className="flex">
-                    ₹&nbsp;
-                    {item?.discountedPrice?.toFixed(2) ??
-                      item?.price.toFixed(2)}
+                    {formatINR(
+                      item?.discountedPrice ?? (item?.price as number),
+                    )}
+
                     {item?.discountedPrice &&
                       item?.discountedPrice < item?.price &&
                       item?.discountedPrice > 0 && (
                         <div className="font-normal line-through text-sm">
-                          ₹&nbsp;{item.price.toFixed(2)}
+                          {formatINR(item.price)}
                         </div>
                       )}
                   </div>

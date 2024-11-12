@@ -229,9 +229,11 @@ const CheckoutView: React.FC = () => {
               {currentSession == 'Address' && (
                 <Dialog>
                   <DialogTrigger asChild>
-                    <div className="border font-semibold w-full p-5 mb-10 cursor-pointer  border-dashed text-[#48CAB2] border-3 border-gray-300">
-                      + Add New Address
-                    </div>
+                    <Button>
+                      <div className="border font-semibold w-full p-5 mb-10 cursor-pointer  border-dashed text-[#48CAB2] border-3 border-gray-300">
+                        + Add New Address
+                      </div>
+                    </Button>
                   </DialogTrigger>
                   <AddAddressDialog isNew={true} addressId={null} />
                 </Dialog>
@@ -342,8 +344,9 @@ const CheckoutView: React.FC = () => {
                   onClick={() => setCurrentSession('Payment')}
                   className="disabled:bg-gray-300 uppercase flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 text-md font-extrabold hover:text-black text-white justify-center mt-5"
                 >
-                  <div className="flex">
-                    CHOOSE PAYMENT METHOD <LuChevronRight />
+                  <div className="flex items-center gap-2">
+                    CHOOSE PAYMENT METHOD{' '}
+                    <LuChevronRight strokeWidth={2} size={24} />
                   </div>
                 </Button>
               )}

@@ -25,6 +25,7 @@ import {
   DialogTrigger,
 } from '@vestido-ecommerce/shadcn-ui/dialog';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
+import { formatINR } from '@vestido-ecommerce/utils';
 
 import AddToWishListButton from '../ProductListView/AddToWishlistButton';
 import ProductListView from '../ProductListView/ProductListView';
@@ -116,20 +117,20 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
                 {item?.discountedPrice && item?.discountedPrice < item.price ? (
                   <div className="flex flex-col md:flex-row gap-2 md:gap-4 md:items-center">
                     <div className="text-white">
-                      ₹&nbsp;{item?.discountedPrice.toFixed(2)}
+                      {formatINR(item?.discountedPrice)}
                     </div>
                     <div className="flex flex-col md:flex-row gap-2 md:gap-[0.5] md:items-center">
                       <div className="font-light text-lg line-through">
-                        ₹&nbsp;{item?.price.toFixed(2)}
+                        {formatINR(item?.price)}
                       </div>
                       <div className="text-xs text-[#66CDAA] md:mt-1">
-                        (₹&nbsp;{(item.price - item.discountedPrice).toFixed(2)}
+                        ({formatINR(item.price - item.discountedPrice)}
                         &nbsp; OFF)
                       </div>
                     </div>
                   </div>
                 ) : (
-                  <div>₹&nbsp;{item?.price.toFixed(2)}</div>
+                  <div>{formatINR(item?.price)}</div>
                 )}
               </div>
             </div>

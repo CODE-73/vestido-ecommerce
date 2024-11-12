@@ -12,6 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@vestido-ecommerce/shadcn-ui/card';
+import { formatINR } from '@vestido-ecommerce/utils';
 
 import ItemImage from '../../components/item-image';
 import ShipmentStatus from './shipment-status';
@@ -107,7 +108,7 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
                   {orderItem.qty}
                 </div>
                 <div className="text-sm pl-1 col-span-2 justify-self-center">
-                  ₹&nbsp;{orderItem.item.price.toFixed(2)}
+                  {formatINR(orderItem.item.price)}
                 </div>
               </div>
             ))}
@@ -116,7 +117,7 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
           <div className="grid gap-1">
             <div className="text-muted-foreground">Total Amount</div>
             <div className="font-medium">
-              INR {order?.totalPrice.toFixed(2)}
+              {formatINR(order?.totalPrice as number)}
             </div>
           </div>
           <div className="grid gap-1">
@@ -188,8 +189,7 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
                             {fulfillmentItem?.orderItem?.qty}
                           </div>
                           <div className="text-sm pl-1 col-span-2 justify-self-center">
-                            ₹&nbsp;
-                            {fulfillmentItem?.orderItem?.item?.price.toFixed(2)}
+                            {formatINR(fulfillmentItem?.orderItem?.item?.price)}
                           </div>
                         </div>
                       ),

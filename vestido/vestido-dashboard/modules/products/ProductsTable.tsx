@@ -28,6 +28,7 @@ import {
   TableRow,
 } from '@vestido-ecommerce/shadcn-ui/table';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
+import { formatINR } from '@vestido-ecommerce/utils';
 
 interface ProductTableProps {
   data: ListItemResponse;
@@ -89,7 +90,7 @@ const ProductsTable: React.FC<ProductTableProps> = ({ data, categoryId }) => {
                 <TableCell className="font-semibold capitalize">
                   {item.title}
                 </TableCell>
-                <TableCell>₹&nbsp;{item.price.toFixed(2)}</TableCell>
+                <TableCell>{formatINR(item.price)}</TableCell>
                 <TableCell>{item.category?.name}</TableCell>
                 <TableCell className="truncate max-w-xs">
                   {item.description}
