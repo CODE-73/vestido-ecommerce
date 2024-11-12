@@ -26,6 +26,7 @@ import {
   TableHeader,
   TableRow,
 } from '@vestido-ecommerce/shadcn-ui/table';
+import { formatINR } from '@vestido-ecommerce/utils';
 
 import ItemImage from '../../components/item-image';
 import AddAddressDialog from './AddAddressDialog';
@@ -146,10 +147,6 @@ const CheckoutView: React.FC = () => {
     paymentType: paymentType,
     couponCode: form.watch('couponCode'),
   });
-
-  const shippingCharges = totals?.shippingCharges ?? 0;
-
-  const totalPrice = totals?.itemsPrice ?? 0;
 
   const handleSubmit = async (data: CreateOrderForm) => {
     try {
@@ -295,21 +292,47 @@ const CheckoutView: React.FC = () => {
               </div>
               <hr className="border-gray-600" />
               <div className="flex justify-between pr-3 mt-3">
-                <div className="text-md ">Subtotal</div>
-                <div className=" text-lg">₹&nbsp;{totalPrice?.toFixed(2)}</div>
+                <div className="text-md">Subtotal</div>
+                {totals ? (
+                  <div className="text-lg">{formatINR(totals.itemsPrice)}</div>
+                ) : (
+                  <div className="text-lg">
+                    <div className="animate-pulse bg-gray-200 h-6 w-20 rounded"></div>
+                  </div>
+                )}
               </div>
               <div className="flex justify-between pr-3 mt-3">
-                <div className="text-md ">Shipping</div>
-                <div className=" text-lg">
-                  ₹&nbsp;{(shippingCharges as number).toFixed(2)}
-                </div>
+                <div className="text-md">Discount</div>
+                {totals ? (
+                  <div className="text-lg">{formatINR(totals.discount)}</div>
+                ) : (
+                  <div className="text-lg">
+                    <div className="animate-pulse bg-gray-200 h-6 w-20 rounded"></div>
+                  </div>
+                )}
+              </div>
+              <div className="flex justify-between pr-3 mt-3">
+                <div className="text-md">Shipping</div>
+                {totals ? (
+                  <div className="text-lg">
+                    {formatINR(totals.shippingCharges)}
+                  </div>
+                ) : (
+                  <div className="text-lg">
+                    <div className="animate-pulse bg-gray-200 h-6 w-20 rounded"></div>
+                  </div>
+                )}
               </div>
               <hr className="border-gray-600" />
               <div className="flex justify-between mt-3 pr-3 font-bold">
-                <div className="text-md ">Total</div>
-                <div className=" text-lg">
-                  ₹&nbsp;{(totalPrice + (shippingCharges as number)).toFixed(2)}
-                </div>
+                <div className="text-md ">Grand Total</div>
+                {totals ? (
+                  <div className="text-lg">{formatINR(totals.grandTotal)}</div>
+                ) : (
+                  <div className="text-lg">
+                    <div className="animate-pulse bg-gray-200 h-6 w-20 rounded"></div>
+                  </div>
+                )}
               </div>
 
               {currentSession == 'Address' && (
