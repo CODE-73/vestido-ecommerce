@@ -148,6 +148,8 @@ const CheckoutView: React.FC = () => {
     couponCode: form.watch('couponCode'),
   });
 
+  const isSubmitting = form.formState.isSubmitting;
+
   const handleSubmit = async (data: CreateOrderForm) => {
     try {
       const createOrderResponse = await createOrderTrigger({
@@ -351,6 +353,7 @@ const CheckoutView: React.FC = () => {
               {currentSession == 'Payment' && (
                 <Button
                   type="submit"
+                  disabled={isSubmitting}
                   className="disabled:bg-gray-300 uppercase flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 text-md font-extrabold hover:text-black text-white justify-center mt-5"
                 >
                   <div>PROCEED TO PAYMENT</div>
