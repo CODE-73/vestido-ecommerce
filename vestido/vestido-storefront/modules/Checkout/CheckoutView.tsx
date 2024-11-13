@@ -229,11 +229,9 @@ const CheckoutView: React.FC = () => {
               {currentSession == 'Address' && (
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button>
-                      <div className="border font-semibold w-full p-5 mb-10 cursor-pointer  border-dashed text-[#48CAB2] border-3 border-gray-300">
-                        + Add New Address
-                      </div>
-                    </Button>
+                    <div className="border font-semibold w-full p-5 mb-10 cursor-pointer  border-dashed text-[#48CAB2] border-3 border-gray-300">
+                      + Add New Address
+                    </div>
                   </DialogTrigger>
                   <AddAddressDialog isNew={true} addressId={null} />
                 </Dialog>
