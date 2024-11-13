@@ -48,7 +48,7 @@ const CartView: React.FC = () => {
 
   const totalPrice =
     cartItems.reduce((total, item) => {
-      return total + item.qty * item.item.price;
+      return total + item.qty * (item.item.discountedPrice ?? item.item.price);
     }, 0) ?? 0;
 
   const handleRemoveFromCart = (
@@ -132,6 +132,7 @@ const CartView: React.FC = () => {
           <div className="hidden xl:block xl:basis-[24%]"></div>
           <div className="md:grow flex flex-col ">
             {cartItems.map((cartItem, index) => {
+              console.log(cartItem);
               return (
                 <div key={index}>
                   <div className="flex gap-2 lg:gap-4 items-center bg-neutral-800 border border-gray-600 mb-5 min-h-[170px]  md:rounded-lg  relative">
@@ -313,10 +314,11 @@ const CartView: React.FC = () => {
               Shipping Charges and coupon codes if any will be applied at
               checkout. (Free Shipping all over Kerala)
             </div>
-
-            <Button className="flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 font-extrabold hover:text-black text-white justify-center mt-6 mb-1">
-              <Link href="/checkout">PROCEED TO CHECKOUT</Link>
-            </Button>
+            <Link href="/checkout">
+              <Button className="flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 font-extrabold hover:text-black text-white justify-center mt-6 mb-1">
+                PROCEED TO CHECKOUT
+              </Button>
+            </Link>
           </div>
         </div>
       ) : (
