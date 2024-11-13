@@ -48,7 +48,7 @@ const CartView: React.FC = () => {
 
   const totalPrice =
     cartItems.reduce((total, item) => {
-      return total + item.qty * item.item.price;
+      return total + item.qty * (item.item.discountedPrice ?? item.item.price);
     }, 0) ?? 0;
 
   const handleRemoveFromCart = (
@@ -314,9 +314,11 @@ const CartView: React.FC = () => {
               checkout. (Free Shipping all over Kerala)
             </div>
 
-            <Button className="flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 font-extrabold hover:text-black text-white justify-center mt-6 mb-1">
-              <Link href="/checkout">PROCEED TO CHECKOUT</Link>
-            </Button>
+            <Link href="/checkout">
+              <Button className="flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 font-extrabold hover:text-black text-white justify-center mt-6 mb-1">
+                PROCEED TO CHECKOUT
+              </Button>
+            </Link>
           </div>
         </div>
       ) : (
