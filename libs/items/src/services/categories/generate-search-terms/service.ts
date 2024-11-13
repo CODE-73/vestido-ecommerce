@@ -1,4 +1,5 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
+import { VestidoError } from '@vestido-ecommerce/utils';
 
 import { categoryDetails } from '../get-category';
 import { Category, GenerateCategorySearchTermsResponse } from './types';
@@ -8,7 +9,14 @@ const OPENAI_API_KEY = process.env['OPENAI_API_KEY'];
 export async function generateCategorySearchTerms(categoryId: string) {
   const category = await categoryDetails(categoryId);
   if (!category) {
-    throw new Error('Category does not exist');
+    throw new VestidoError({
+      name: 'CategoryNotFound',
+      message: 'Category does not exist',
+      httpStatus: 404,
+      context: {
+        categoryId,
+      },
+    });
   }
 
   const parentCategories = await getParentCategories(categoryId);
@@ -80,7 +88,14 @@ FROM
 
 async function invokeOpenAI(prompt: string): Promise<string> {
   if (!OPENAI_API_KEY) {
-    throw new Error('OpenAI API key is missing.');
+    throw new VestidoError({
+      name: 'OpenAIAPIKeyMissing',
+      message: 'OpenAI API key is missing.',
+      httpStatus: 500,
+      context: {
+        prompt,
+      },
+    });
   }
 
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -107,8 +122,17 @@ async function invokeOpenAI(prompt: string): Promise<string> {
   });
 
   if (!response.ok) {
-    console.error(await response.text());
-    throw new Error(`OpenAI API request failed with status ${response.status}`);
+    const responseText = await response.text();
+    throw new VestidoError({
+      name: 'OpenAIAPIRequestFailed',
+      message: `OpenAI API request failed with status ${response.status}`,
+      httpStatus: 500,
+      context: {
+        responseText,
+        responseStatus: response.status,
+        prompt,
+      },
+    });
   }
 
   const data = await response.json();

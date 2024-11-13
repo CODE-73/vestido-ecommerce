@@ -19,8 +19,20 @@ export const POST = apiRouteHandler(
         },
       });
     }
-    const rpOrderId = await createRazorpayOrder(body);
 
-    return rpOrderId;
+    try {
+      const rpOrderId = await createRazorpayOrder(body);
+      return rpOrderId;
+    } catch (e) {
+      throw new VestidoError({
+        name: 'RazorpayCreateOrderFailed',
+        message: 'Razorpay create order failed',
+        httpStatus: 500,
+        context: {
+          orderId: params.orderId,
+          error: e,
+        },
+      });
+    }
   },
 );
