@@ -2,8 +2,9 @@ import {
   getPrismaClient,
   PrismaTransactionalClient,
 } from '@vestido-ecommerce/models';
-import { slugify, VestidoError } from '@vestido-ecommerce/utils';
+import { VestidoError } from '@vestido-ecommerce/utils';
 
+import { validateSlug } from '../slug';
 import { getItemDetails, ItemDetails } from './get-item';
 import { ItemVariantWithSize } from './zod';
 
@@ -78,7 +79,7 @@ export async function upsertSizeVariants(
         id: variant.id,
       },
       data: {
-        ...getDefaultVariantFields(item, variant, sizeAttribute),
+        ...(await getDefaultVariantFields(item, variant, sizeAttribute)),
       },
     });
   }
@@ -95,7 +96,7 @@ async function createItemVariant(
 ) {
   const itemVariant = await prisma.itemVariant.create({
     data: {
-      ...getDefaultVariantFields(item, variant, sizeAttribute),
+      ...(await getDefaultVariantFields(item, variant, sizeAttribute)),
       itemId: item.id,
     },
   });
@@ -112,7 +113,7 @@ async function createItemVariant(
 /**
  * Given ItemDetails & ItemVariantWithSize, returns the common fields on ItemVariant table
  */
-function getDefaultVariantFields(
+async function getDefaultVariantFields(
   item: ItemDetails,
   variant: ItemVariantWithSize,
   { sizeLabels }: SizeAttribute,
@@ -123,7 +124,11 @@ function getDefaultVariantFields(
     sku: variant.sku,
     enabled: variant.enabled,
     title: item.title,
-    slug: slugify(`${item.slug}-${sizeLabels[variant.itemAttributeValueId]}`),
+    slug: await validateSlug({
+      id: variant?.id,
+      generateFrom: `${item.slug}-${sizeLabels[variant.itemAttributeValueId]}`,
+      tableName: 'itemVariant',
+    }),
   };
 }
 

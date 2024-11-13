@@ -2,7 +2,7 @@ import {
   getPrismaClient,
   type PrismaModelName,
 } from '@vestido-ecommerce/models';
-import { VestidoError } from '@vestido-ecommerce/utils';
+import { slugify, VestidoError } from '@vestido-ecommerce/utils';
 
 type ValidateSlugArgs = {
   id?: string;
@@ -20,7 +20,7 @@ export async function validateSlug({
   const prisma = getPrismaClient();
 
   if (!incoming || typeof incoming !== 'string' || incoming.length === 0) {
-    incoming = generateSlug(generateFrom);
+    incoming = slugify(generateFrom);
   }
 
   for (let i = 0; i < 10; i++) {
@@ -46,11 +46,4 @@ export async function validateSlug({
       attemptedSlug: incoming,
     },
   });
-}
-
-function generateSlug(str: string) {
-  return str
-    .toLowerCase()
-    .replace(/ /g, '-')
-    .replace(/[^a-z0-9-]/g, '');
 }
