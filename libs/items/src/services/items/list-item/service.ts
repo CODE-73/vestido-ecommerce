@@ -12,7 +12,12 @@ export async function listItem(_args: ListItemRequest) {
 
   const itemList = await prisma.item.findMany({
     where: {
-      enabled: true,
+      ...(args?.enabled !== undefined
+        ? {
+            enabled: args.enabled ?? false,
+          }
+        : {}),
+
       ...(args?.categoryId
         ? {
             categoryId: args.categoryId,
@@ -33,7 +38,8 @@ export async function listItem(_args: ListItemRequest) {
       category: true,
       variants: {
         where: {
-          enabled: true,
+          // We will always fetch disabled variants as well.
+          // enabled: true,
         },
       },
     },

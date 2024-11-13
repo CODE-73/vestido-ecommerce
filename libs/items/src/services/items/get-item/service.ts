@@ -26,7 +26,8 @@ export async function getItemDetails(
           },
         },
         where: {
-          enabled: true,
+          // We will always fetch disabled variants as well.
+          // enabled: true,
         },
       },
     },
