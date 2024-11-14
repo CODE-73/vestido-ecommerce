@@ -35,7 +35,8 @@ import ItemImage from '../../components/item-image';
 import { ItemToastBody } from '../../components/item-toast-body';
 
 const CartView: React.FC = () => {
-  const { data: { data: cartItems } = { data: [] } } = useCart();
+  const router = useRouter();
+  const { data: { data: cartItems } = { data: [] }, isLoading } = useCart();
 
   const { trigger } = useRemoveFromCart();
 
@@ -127,7 +128,27 @@ const CartView: React.FC = () => {
         <span className="md:text-2xl text-[#48CAB2]">Cart</span>
         <LuChevronRight /> Address <LuChevronRight /> Payment
       </div>
-      {cartItems.length && cartItems.length > 0 ? (
+      {isLoading ? (
+        <div className="flex flex-col xl:flex-row gap-5 md:gap-10">
+          <div className="hidden xl:block xl:basis-[24%]"></div>
+          <div className="md:grow flex flex-col">
+            {Array.from({ length: 3 }).map((_, index) => (
+              <div
+                key={index}
+                className="flex gap-2 lg:gap-4 items-center bg-neutral-800 border border-gray-600 mb-5 min-h-[170px] md:rounded-lg p-4 animate-pulse"
+              >
+                <div className="bg-gray-700 basis-1/5 md:basis-1/4 rounded-lg h-[195px] w-[150px]"></div>
+                <div className="flex flex-col gap-3 md:self-start my-4 w-full">
+                  <div className="h-6 w-3/4 bg-gray-700 rounded"></div>
+                  <div className="h-4 w-1/2 bg-gray-700 rounded"></div>
+                  <div className="h-8 w-1/4 bg-[#48CAB2] rounded"></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : cartItems.length && cartItems.length > 0 ? (
+        // Existing cartItems check and rendering code goes here...
         <div className="flex flex-col xl:flex-row gap-5 md:gap-10 ">
           <div className="hidden xl:block xl:basis-[24%]"></div>
           <div className="md:grow flex flex-col ">
