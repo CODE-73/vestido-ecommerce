@@ -104,11 +104,11 @@ const CheckoutView: React.FC = () => {
         'orderItems',
         checkoutItems?.map((checkoutItem) => ({
           itemId: checkoutItem.itemId,
-          price: checkoutItem.item.discountedPrice ?? checkoutItem.item.price,
+          price: checkoutItem.item.discountedPrice || checkoutItem.item.price,
           qty: checkoutItem.qty,
           variantId: checkoutItem.variantId,
-          taxTitle: checkoutItem.item.taxTitle ?? null, // Add taxTitle
-          taxRate: checkoutItem.item.taxRate ?? null, // Add taxRate
+          taxTitle: checkoutItem.item.taxTitle || null, // Add taxTitle
+          taxRate: checkoutItem.item.taxRate || null, // Add taxRate
           taxInclusive: checkoutItem.item.taxInclusive ?? false, // Add taxInclusive
         })),
       );
@@ -132,7 +132,7 @@ const CheckoutView: React.FC = () => {
   const mappedOrderItems = checkoutItems
     ? checkoutItems.map((checkoutItem) => ({
         itemId: checkoutItem.itemId,
-        price: checkoutItem.item.discountedPrice ?? checkoutItem.item.price, // Get price from the item object
+        price: checkoutItem.item.discountedPrice || checkoutItem.item.price, // Get price from the item object
         qty: checkoutItem.qty,
         variantId: checkoutItem.variantId || null, // Handle optional variantId
         taxTitle: checkoutItem.item.taxTitle || null, // Get taxTitle from the item object
