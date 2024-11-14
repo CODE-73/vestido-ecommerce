@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import {
   LuChevronLeft,
@@ -35,6 +36,7 @@ import ItemImage from '../../components/item-image';
 import { ItemToastBody } from '../../components/item-toast-body';
 
 const CartView: React.FC = () => {
+  const router = useRouter();
   const { data: { data: cartItems } = { data: [] } } = useCart();
 
   const { trigger } = useRemoveFromCart();
@@ -48,7 +50,7 @@ const CartView: React.FC = () => {
 
   const totalPrice =
     cartItems.reduce((total, item) => {
-      return total + item.qty * item.item.price;
+      return total + item.qty * (item.item.discountedPrice || item.item.price);
     }, 0) ?? 0;
 
   const handleRemoveFromCart = (
@@ -314,8 +316,11 @@ const CartView: React.FC = () => {
               checkout. (Free Shipping all over Kerala)
             </div>
 
-            <Button className="flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 font-extrabold hover:text-black text-white justify-center mt-6 mb-1">
-              <Link href="/checkout">PROCEED TO CHECKOUT</Link>
+            <Button
+              onClick={() => router.push('/checkout')}
+              className="flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 font-extrabold hover:text-black text-white justify-center mt-6 mb-1"
+            >
+              PROCEED TO CHECKOUT
             </Button>
           </div>
         </div>

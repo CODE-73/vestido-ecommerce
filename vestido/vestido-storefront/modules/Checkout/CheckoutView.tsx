@@ -104,11 +104,11 @@ const CheckoutView: React.FC = () => {
         'orderItems',
         checkoutItems?.map((checkoutItem) => ({
           itemId: checkoutItem.itemId,
-          price: checkoutItem.item.price,
+          price: checkoutItem.item.discountedPrice || checkoutItem.item.price,
           qty: checkoutItem.qty,
           variantId: checkoutItem.variantId,
-          taxTitle: checkoutItem.item.taxTitle ?? null, // Add taxTitle
-          taxRate: checkoutItem.item.taxRate ?? null, // Add taxRate
+          taxTitle: checkoutItem.item.taxTitle || null, // Add taxTitle
+          taxRate: checkoutItem.item.taxRate || null, // Add taxRate
           taxInclusive: checkoutItem.item.taxInclusive ?? false, // Add taxInclusive
         })),
       );
@@ -132,7 +132,7 @@ const CheckoutView: React.FC = () => {
   const mappedOrderItems = checkoutItems
     ? checkoutItems.map((checkoutItem) => ({
         itemId: checkoutItem.itemId,
-        price: checkoutItem.item.price, // Get price from the item object
+        price: checkoutItem.item.discountedPrice || checkoutItem.item.price, // Get price from the item object
         qty: checkoutItem.qty,
         variantId: checkoutItem.variantId || null, // Handle optional variantId
         taxTitle: checkoutItem.item.taxTitle || null, // Get taxTitle from the item object
@@ -147,6 +147,8 @@ const CheckoutView: React.FC = () => {
     paymentType: paymentType,
     couponCode: form.watch('couponCode'),
   });
+
+  const isSubmitting = form.formState.isSubmitting;
 
   const handleSubmit = async (data: CreateOrderForm) => {
     try {
@@ -351,6 +353,7 @@ const CheckoutView: React.FC = () => {
               {currentSession == 'Payment' && (
                 <Button
                   type="submit"
+                  disabled={isSubmitting}
                   className="disabled:bg-gray-300 uppercase flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 text-md font-extrabold hover:text-black text-white justify-center mt-5"
                 >
                   <div>PROCEED TO PAYMENT</div>

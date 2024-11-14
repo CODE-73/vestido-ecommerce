@@ -108,7 +108,7 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
                   {orderItem.qty}
                 </div>
                 <div className="text-sm pl-1 col-span-2 justify-self-center">
-                  {formatINR(orderItem.item.price)}
+                  {formatINR(orderItem.price)}
                 </div>
               </div>
             ))}
@@ -117,7 +117,7 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
           <div className="grid gap-1">
             <div className="text-muted-foreground">Total Amount</div>
             <div className="font-medium">
-              {formatINR(order?.totalPrice as number)}
+              {formatINR(order?.grandTotal as number)}
             </div>
           </div>
           <div className="grid gap-1">
@@ -189,7 +189,7 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
                             {fulfillmentItem?.orderItem?.qty}
                           </div>
                           <div className="text-sm pl-1 col-span-2 justify-self-center">
-                            {formatINR(fulfillmentItem?.orderItem?.item?.price)}
+                            {formatINR(fulfillmentItem?.orderItem?.price)}
                           </div>
                         </div>
                       ),

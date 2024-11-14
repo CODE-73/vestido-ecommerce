@@ -28,9 +28,6 @@ export const ItemToastBody = (
         />
         <div>
           <p className="font-semibold">{item.title ?? ''}</p>
-          <p className="text-sm text-gray-500 max-w-full truncate text-ellipsis overflow-hidden">
-            {item.description ?? ''}
-          </p>
         </div>
       </div>
     </>
