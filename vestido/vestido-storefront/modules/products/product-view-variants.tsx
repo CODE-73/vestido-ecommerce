@@ -141,10 +141,10 @@ const ProductViewVariants: FC<ProductViewVariantsProps> = ({
                       : null
                   }
                   className={clsx(
-                    `flex flex-col border border-2 rounded-3xl m-1`,
+                    `flex flex-col border border-2 rounded-3xl m-1 uppercase`,
                     {
                       'cursor-pointer': value.enabled,
-                      'border-[#48CAB2] text-[#48CAB2]': isSelected,
+                      'bg-white text-black': isSelected,
                       'border-zinc-100 hover:border-[#48CAB2] hover:text-[#48CAB2]':
                         !isSelected && value.enabled,
                       'opacity-50': !value.enabled,
