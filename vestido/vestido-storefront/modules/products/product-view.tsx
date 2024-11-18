@@ -173,32 +173,28 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
             <hr className="border-gray-600" />
           </div>
           <div
-            className="flex flex-col sm:flex-row md:flex-col 2xl:flex-row gap-2 mb-5 w-full fixed -bottom-5 w-full sm:static bg-black  py-4 px-2 mx-0 z-50 sm:z-auto"
+            className="flex gap-2 mb-5 w-full fixed -bottom-6 w-full sm:static bg-black  py-4 px-2 mx-0 z-50 sm:z-auto "
             style={{
               boxShadow: '0 -20px 25px -5px rgba(55, 65, 81, 0.3)', // Mimicking shadow-lg shadow-gray-700/50
             }}
           >
-            <div className="flex  bg-[#48CAB2] h-10 sm:h-auto items-center gap-2 flex-1 justify-center text-white  ">
-              <LuShoppingBag size={30} />
+            <Button
+              onClick={() => handleAddToCart()}
+              className="text-sm md:text-xl font-semibold bg-transparent hover:bg-transparent h-10 sm:h-auto flex gap-1 border border-white"
+            >
+              <LuShoppingBag className="h-4 w-4 md:h-8 md:w-8" />
+              <div>ADD TO CART</div>
+            </Button>
+            <div className="flex flex-1 gap-2 justify-between">
               <Button
-                onClick={() => handleAddToCart()}
-                className="text-xl font-semibold bg-transparent hover:bg-transparent h-10 sm:h-auto"
+                onClick={() => handleBuyNow()}
+                className="text-sm md:text-xl text-black bg-[#f8f8f8] font-semibold h-10 sm:h-auto flex-1"
               >
-                ADD TO CART
+                BUY NOW
               </Button>
-            </div>
-            <div className="flex flex-1 gap-2">
-              <div className="flex  order-last sm:order-none bg-[#48CAB2] h-10 sm:h-auto items-center gap-2 flex-1 justify-center text-white  ">
-                <Button
-                  onClick={() => handleBuyNow()}
-                  className="text-xl font-semibold bg-transparent hover:bg-transparent h-10 sm:h-auto"
-                >
-                  BUY NOW
-                </Button>
-              </div>
               <AddToWishListButton
                 itemId={item?.id || ''}
-                className="border sm:border-2 border-[#48CAB2] font-medium text-xs h-full self-center p-1 sm:p-4  md:p-1 2xl:p-4 "
+                className="border sm:border-2 rounded-lg font-medium text-xs h-full self-center p-1 sm:p-4  md:p-1 2xl:p-4 "
               />
             </div>
           </div>
