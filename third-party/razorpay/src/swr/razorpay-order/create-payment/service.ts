@@ -58,14 +58,14 @@ export async function createRazorpayPayment(
         ondismiss: async () => {
           console.log('Payment modal closed by the user.');
 
-          window.location.href = '/checkout'; // Redirect to checkout page
-
           await fetch(`/api/payments/${args.paymentId}/cancel`, {
             method: 'POST',
             headers: {
               ...authHeaders,
             },
           });
+
+          window.location.href = '/checkout'; // Redirect to checkout page
         },
       },
     };
