@@ -72,7 +72,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   const buttonHeight = '40px';
   return (
     <Button
-      className="relative flex items-center transition-all justify-start duration-300 bg-black rounded-none hover:bg-[#48CAB2] w-full p-0"
+      className="relative flex items-center transition-all justify-start duration-300 bg-black hover:bg-white w-full p-0 "
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{ height: buttonHeight, minHeight: buttonHeight }}
@@ -80,7 +80,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
       disabled={loading}
     >
       <div
-        className={`flex items-center justify-start gap-3 transition-all duration-300 bg-[#48CAB2] p-2 ${
+        className={`flex items-center justify-start gap-3 transition-all duration-300 bg-white p-2 rounded-lg ${
           hovered ? 'w-full' : ''
         }`}
         style={{ height: '100%' }}
@@ -91,9 +91,9 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
           </span>
         ) : (
           <>
-            <LuShoppingBag className="text-white" size={20} />
+            <LuShoppingBag className="text-black" size={20} />
             {hovered && (
-              <span className="ml-2 text-white text-lg font-semibold">
+              <span className="ml-2 text-black  font-semibold">
                 ADD TO CART
               </span>
             )}
