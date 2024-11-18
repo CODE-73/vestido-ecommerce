@@ -1,10 +1,13 @@
 import { FC, useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
 
+import clsx from 'clsx';
+
 import { ItemDetails } from '@vestido-ecommerce/items';
 import {
   Carousel,
   CarouselContent,
+  CarouselDots,
   CarouselItem,
 } from '@vestido-ecommerce/shadcn-ui/carousel';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
@@ -132,12 +135,28 @@ const ProductViewImages: FC<ProductViewImagesProps> = ({
                     blurDataURL={image.blurHashDataURL ?? undefined}
                     alt="alt text"
                     width={550}
-                    height={720}
+                    height={680}
                   />
                 </div>
               </CarouselItem>
             ))}
           </CarouselContent>
+          <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 pb-3 ">
+            <CarouselDots>
+              {({ scrollSnap, onClick, selectedIndex, index }) => (
+                <button
+                  className={clsx('rounded-full  h-1', {
+                    ' w-2 h-2 bg-white  border border-white':
+                      selectedIndex === index,
+                    'w-2 h-2   border  border border-white':
+                      selectedIndex !== index,
+                  })}
+                  key={scrollSnap}
+                  onClick={() => onClick(index)}
+                ></button>
+              )}
+            </CarouselDots>
+          </div>
         </Carousel>
       </div>
     </>

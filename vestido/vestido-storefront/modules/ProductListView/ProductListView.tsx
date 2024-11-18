@@ -69,7 +69,6 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
 
         {items && items.length > 0 ? (
           <>
-            {' '}
             <div
               className={`${suggestedList ? 'xl:px-32 xl:grid-cols-6' : ' lg:basis-4/5 xl:grid-cols-5'} grid grid-cols-2 gap-2 px-5 md:grid-cols-3 lg:grid-cols-4  md:gap-5 xl:gap-10 md:px-0`}
             >
@@ -81,7 +80,6 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
         ) : (
           <div className="absolute left-[50%] transform -translate-x-1/2 flex flex-col items-center">
             <div>
-              {' '}
               We are updating this category with brand new products to suit your
               style!
             </div>
