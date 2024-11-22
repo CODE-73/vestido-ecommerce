@@ -79,7 +79,7 @@ const ProfileView: React.FC = () => {
               <TabsList className="flex flex-col bg-transparent justify-start items-start text-white text-sm md:text-base">
                 {!isSmallScreen && (
                   <TabsTrigger
-                    className="bg-transparent data-[state=active]:border-none  data-[state=active]:bg-transparent text-sm md:text-lg data-[state=active]:text-[#48cab2] my-4 px-0"
+                    className="bg-transparent data-[state=active]:border-none  data-[state=active]:bg-transparent text-sm md:text-lg data-[state=active]:text-[#48cab2]  px-0"
                     value="overview"
                   >
                     Overview
@@ -87,55 +87,49 @@ const ProfileView: React.FC = () => {
                 )}
 
                 <TabsTrigger
-                  className="bg-transparent border-none data-[state=active]:border-none data-[state=active]:text-[#48cab2] data-[state=active]:bg-transparent text-sm md:text-lg data-[state=active]:text-[#48cab2] mt-4 mb-1 px-0"
+                  className="bg-transparent border-none data-[state=active]:border-none data-[state=active]:text-[#48cab2] data-[state=active]:bg-transparent text-sm md:text-lg data-[state=active]:text-[#48cab2] px-0"
                   value="orders"
                 >
                   Orders & Returns
                 </TabsTrigger>
 
                 <TabsTrigger
-                  className="bg-transparent border-none data-[state=active]:border-none data-[state=active]:text-[#48cab2] data-[state=active]:bg-transparent text-sm md:text-lg data-[state=active]:text-[#48cab2] mt-4 mb-1 px-0"
+                  className="bg-transparent border-none data-[state=active]:border-none data-[state=active]:text-[#48cab2] data-[state=active]:bg-transparent text-sm md:text-lg data-[state=active]:text-[#48cab2]  px-0"
                   value="profile"
                 >
                   Profile
                 </TabsTrigger>
                 <TabsTrigger
-                  className="bg-transparent border-none data-[state=active]:border-none data-[state=active]:text-[#48cab2] data-[state=active]:bg-transparent text-sm md:text-lg data-[state=active]:text-[#48cab2] my-1 px-0"
+                  className="bg-transparent border-none data-[state=active]:border-none data-[state=active]:text-[#48cab2] data-[state=active]:bg-transparent text-sm md:text-lg data-[state=active]:text-[#48cab2] px-0"
                   value="addresses"
                 >
                   Addresses
                 </TabsTrigger>
                 <TabsTrigger
-                  className="bg-transparent border-none data-[state=active]:border-none data-[state=active]:text-[#48cab2] data-[state=active]:bg-transparent text-sm md:text-lg data-[state=active]:text-[#48cab2] my-1 px-0"
+                  className="bg-transparent border-none data-[state=active]:border-none data-[state=active]:text-[#48cab2] data-[state=active]:bg-transparent text-sm md:text-lg data-[state=active]:text-[#48cab2] px-0"
                   value="delete"
                 >
                   Delete Account
                 </TabsTrigger>
-
-                <ul>
-                  <li className="my-4">
-                    <Link
-                      href="/terms-and-conditions"
-                      className="text-sm md:text-lg hover:text-[#48cab2]"
-                    >
-                      Terms of Use
-                    </Link>
-                  </li>
-                  <li className="mb-4">
-                    <Link
-                      href="/privacy-policy"
-                      className=" text-sm md:text-lg hover:text-[#48cab2]"
-                    >
-                      Privacy Policy
-                    </Link>
-                  </li>
-                </ul>
+                <div className="flex flex-col">
+                  <Link
+                    href="/terms-and-conditions"
+                    className="text-sm md:text-lg hover:text-[#48cab2] relative top-2"
+                  >
+                    Terms of Use
+                  </Link>
+                  <Link
+                    href="/privacy-policy"
+                    className=" text-sm md:text-lg hover:text-[#48cab2] mt-4"
+                  >
+                    Privacy Policy
+                  </Link>
+                </div>
               </TabsList>
             </div>
           ) : null}
 
           <div className={`w-full md:basis-4/5 px-1 md:px-4 `}>
-            {' '}
             {/*${isSmallScreen && selectedNav ? '' : 'hidden'}*/}
             <TabsContent
               value="overview"
@@ -182,7 +176,7 @@ const ProfileView: React.FC = () => {
                     className="bg-transparent text-white p-0 flex items-center"
                     onClick={() => setSelectedNav('')}
                   >
-                    <LuChevronLeft size={24} />{' '}
+                    <LuChevronLeft size={24} />
                     <div className="font-semibold my-4 md:hidden">
                       All Orders
                     </div>
@@ -199,7 +193,7 @@ const ProfileView: React.FC = () => {
                     className="bg-transparent text-white h-10 p-0 flex items-center"
                     onClick={() => setSelectedNav('')}
                   >
-                    <LuChevronLeft size={24} />{' '}
+                    <LuChevronLeft size={24} />
                     <div className="font-semibold text-xs md:text-lg my-4 md:hidden">
                       Profile Details
                     </div>
@@ -215,7 +209,7 @@ const ProfileView: React.FC = () => {
                     className="bg-transparent text-white p-0 absolute -top-0.5 left-0"
                     onClick={() => setSelectedNav('')}
                   >
-                    <LuChevronLeft size={24} />{' '}
+                    <LuChevronLeft size={24} />
                   </Button>
                 </>
               )}
@@ -228,7 +222,7 @@ const ProfileView: React.FC = () => {
                     className="bg-transparent text-white p-0 flex items-center"
                     onClick={() => setSelectedNav('')}
                   >
-                    <LuChevronLeft size={24} />{' '}
+                    <LuChevronLeft size={24} />
                     <div className="font-semibold text-lg my-4 md:hidden">
                       Delete Account
                     </div>

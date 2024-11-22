@@ -160,7 +160,7 @@ const ProductViewVariants: FC<ProductViewVariantsProps> = ({
           </div>
         </div>
       ))}
-      <hr className="border-gray-600" />
+      <hr className="border-gray-600 md:hidden" />
     </div>
   );
 };
