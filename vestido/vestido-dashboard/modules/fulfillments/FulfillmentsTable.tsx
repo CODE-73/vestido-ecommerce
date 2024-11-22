@@ -31,6 +31,7 @@ const FulfillmentsTable: React.FC<FulfillmentTableProps> = ({
     <Table>
       <TableHeader>
         <TableRow>
+          <TableHead>Fulfillment ID</TableHead>
           <TableHead>Order ID</TableHead>
           <TableHead>Date</TableHead>
           <TableHead>Time</TableHead>
@@ -51,6 +52,9 @@ const FulfillmentsTable: React.FC<FulfillmentTableProps> = ({
               onClick={() => handleRowClick(fulfillment.id)}
               className="cursor-pointer"
             >
+              <TableCell className="font-semibold capitalize">
+                {fulfillment.id}
+              </TableCell>
               <TableCell className="font-semibold capitalize">
                 {fulfillment.orderId}
               </TableCell>

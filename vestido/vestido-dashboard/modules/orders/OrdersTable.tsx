@@ -46,6 +46,7 @@ const OrdersTable: React.FC<ProductTableProps> = ({ data }) => {
     <Table>
       <TableHeader>
         <TableRow>
+          <TableHead>Order ID</TableHead>
           <TableHead>Customer ID</TableHead>
           <TableHead>Status</TableHead>
           <TableHead>Price</TableHead>
@@ -61,6 +62,9 @@ const OrdersTable: React.FC<ProductTableProps> = ({ data }) => {
               onClick={() => handleRowClick(order.id)}
               className="cursor-pointer"
             >
+              <TableCell className="font-semibold capitalize">
+                {order.id}
+              </TableCell>
               <TableCell className="font-semibold capitalize">
                 {order.customerId}
               </TableCell>
