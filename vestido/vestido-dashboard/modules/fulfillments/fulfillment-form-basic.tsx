@@ -27,6 +27,11 @@ const BasicFulfillmentForm: FC = () => {
         placeholder="Weight of package"
         label="Weight"
       />
+      <InputElement
+        name="description"
+        placeholder="Add a note on Fulfillment"
+        label="Note"
+      />
     </div>
   );
 };

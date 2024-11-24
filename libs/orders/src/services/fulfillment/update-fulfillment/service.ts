@@ -87,6 +87,7 @@ export async function updateFulfillment(
         breadth: validatedData.breadth,
         height: validatedData.height,
         weight: validatedData.weight,
+        description: validatedData.description,
       },
       include: {
         fulfillmentItems: true, // Include the related fulfillment items
