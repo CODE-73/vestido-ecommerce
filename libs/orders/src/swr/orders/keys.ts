@@ -16,3 +16,8 @@ export enum CalculateTotalSWRKeys {
   CALCULATE = 'calculate',
   ORDER = 'order',
 }
+
+export enum TrackOrderSWRKeys {
+  TRACK = 'track',
+  ORDER = 'order',
+}
