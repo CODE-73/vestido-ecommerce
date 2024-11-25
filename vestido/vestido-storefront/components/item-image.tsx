@@ -28,7 +28,8 @@ const ItemImage: React.FC<ItemImageProps> = ({
 
   return (
     <Image
-      src={image?.url ?? '/assets/no-image-fallback.png'}
+      // src={image?.url ?? '/assets/no-image-fallback.png'}
+      src={image?.url ?? '/assets/fallback-image.png'}
       alt={image?.alt ?? 'alt'}
       width={width}
       height={height}
