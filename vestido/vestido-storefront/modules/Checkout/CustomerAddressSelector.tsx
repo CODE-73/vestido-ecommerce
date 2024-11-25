@@ -83,7 +83,7 @@ const CustomerAddressSelector: React.FC<CustomerAddressSelectorProps> = ({
                 <div>
                   {address.firstName} {address.lastName}
                 </div>
-                <div className="text-[#48CAB2] rounded-xl border border-1 border-[#48CAB2] text-[10px] px-2 flex items-center">
+                <div className="text-black rounded-xl bg-white text-[10px] px-2 flex items-center">
                   {address.addressType}
                 </div>
               </div>
@@ -93,7 +93,7 @@ const CustomerAddressSelector: React.FC<CustomerAddressSelectorProps> = ({
                     <DialogTrigger asChild>
                       <MdOutlineModeEditOutline
                         size={24}
-                        className="hover:text-[#48CAB2] cursor-pointer"
+                        className="hover:text-gray-400 cursor-pointer"
                       />
                     </DialogTrigger>
                     <AddAddressDialog isNew={false} addressId={address.id} />
@@ -104,7 +104,7 @@ const CustomerAddressSelector: React.FC<CustomerAddressSelectorProps> = ({
                   <AlertDialogTrigger asChild>
                     <MdDeleteOutline
                       size={24}
-                      className="hover:text-[#48CAB2] cursor-pointer"
+                      className="hover:text-gray-400 cursor-pointer"
                     />
                   </AlertDialogTrigger>
                   <AlertDialogContent>
@@ -130,7 +130,7 @@ const CustomerAddressSelector: React.FC<CustomerAddressSelectorProps> = ({
                 <div
                   className={`${
                     address.default
-                      ? 'bg-[#48CAB2] px-3 py-2 rounded-lg text-white'
+                      ? 'bg-white px-3 py-1 rounded-full text-black text-xs'
                       : 'hidden'
                   }`}
                 >

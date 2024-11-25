@@ -133,13 +133,10 @@ const MobileHeader: React.FC<HeaderProps> = ({ cart_count }) => {
           </div>
           <hr />
           <Link href="/cart">
-            <div
-              onClick={toggleDrawer}
-              className="hover:text-[#48CAB2] flex items-center gap-3"
-            >
+            <div onClick={toggleDrawer} className=" flex items-center gap-3">
               <LuShoppingBag size={28} strokeWidth={1.3} />
               View your cart
-              <div className="text-white h-5 w-5 text-center rounded-full bg-[#48cab2] font-semibold text-sm">
+              <div className="text-white h-5 w-5 text-center rounded-full bg-black font-semibold text-sm">
                 {cart_count ?? 0}
               </div>
             </div>
@@ -167,7 +164,7 @@ const MobileHeader: React.FC<HeaderProps> = ({ cart_count }) => {
                   <div key={index}>
                     <div
                       onClick={toggleDrawer}
-                      className=" capitalize hover:text-[#48cab2] px-2 cursor-pointer"
+                      className=" capitalize px-2 cursor-pointer"
                     >
                       <Link href={`/${category.slug}`}>{category.name}</Link>
                     </div>
@@ -175,11 +172,7 @@ const MobileHeader: React.FC<HeaderProps> = ({ cart_count }) => {
                     <ul className="capitalize py-3 md:w-[200px] lg:w-[200px]">
                       {getSubcategories(category.id, ['MEN'])?.map(
                         (subcategory, subIndex) => (
-                          <div
-                            key={subIndex}
-                            onClick={toggleDrawer}
-                            className="hover:text-green-300"
-                          >
+                          <div key={subIndex} onClick={toggleDrawer}>
                             <ListItem
                               href={`/${subcategory.id}`}
                               title={subcategory.name}
@@ -214,7 +207,7 @@ const MobileHeader: React.FC<HeaderProps> = ({ cart_count }) => {
                   <div key={index}>
                     <div
                       onClick={toggleDrawer}
-                      className="capitalize hover:text-[#48cab2] px-2 cursor-pointer"
+                      className="capitalize  px-2 cursor-pointer"
                     >
                       <Link href={`/${category.slug}`}>{category.name}</Link>
                     </div>
@@ -264,7 +257,7 @@ const MobileHeader: React.FC<HeaderProps> = ({ cart_count }) => {
                   <div key={index}>
                     <div
                       onClick={toggleDrawer}
-                      className=" capitalize hover:text-[#48cab2] px-2 cursor-pointer"
+                      className=" capitalize px-2 cursor-pointer"
                     >
                       <Link href={`/${category.slug}`}>{category.name}</Link>
                     </div>
@@ -292,56 +285,32 @@ const MobileHeader: React.FC<HeaderProps> = ({ cart_count }) => {
           )}
 
           <hr />
-          <div
-            onClick={toggleDrawer}
-            className="hover:text-[#48CAB2] flex items-center gap-3"
-          >
+          <div onClick={toggleDrawer} className=" flex items-center gap-3">
             <LuStore size={28} strokeWidth={1.3} />
             About Us
           </div>
-          <div
-            onClick={toggleDrawer}
-            className="hover:text-[#48CAB2] flex items-center gap-3"
-          >
+          <div onClick={toggleDrawer} className=" flex items-center gap-3">
             <LuTruck size={28} strokeWidth={1.3} />
             Shipping
           </div>
-          <div
-            onClick={toggleDrawer}
-            className="hover:text-[#48CAB2] flex items-center gap-3"
-          >
+          <div onClick={toggleDrawer} className=" flex items-center gap-3">
             <LuUndo2 size={28} strokeWidth={1.3} /> Return
           </div>
-          <div
-            onClick={toggleDrawer}
-            className="hover:text-[#48CAB2] flex items-center gap-3"
-          >
+          <div onClick={toggleDrawer} className=" flex items-center gap-3">
             <LuMailQuestion size={28} strokeWidth={1.3} /> FAQs
           </div>
-          <div
-            onClick={toggleDrawer}
-            className="hover:text-[#48CAB2] flex items-center gap-3"
-          >
+          <div onClick={toggleDrawer} className=" flex items-center gap-3">
             <LuHeadphones size={28} strokeWidth={1.3} />
             Contact Us
           </div>
-          <div
-            onClick={toggleDrawer}
-            className="hover:text-[#48CAB2] flex items-center gap-3"
-          >
+          <div onClick={toggleDrawer} className=" flex items-center gap-3">
             <LuWrench size={28} strokeWidth={1.3} /> Maintenance
           </div>
-          <div
-            onClick={toggleDrawer}
-            className="hover:text-[#48CAB2] flex items-center gap-3"
-          >
+          <div onClick={toggleDrawer} className=" flex items-center gap-3">
             <LuSettings2 size={28} strokeWidth={1.3} />
             Settings
           </div>
-          <div
-            onClick={toggleDrawer}
-            className="hover:text-[#48CAB2] flex items-center gap-3"
-          >
+          <div onClick={toggleDrawer} className=" flex items-center gap-3">
             <LuRuler size={28} strokeWidth={1.3} />
             Size Guide
           </div>

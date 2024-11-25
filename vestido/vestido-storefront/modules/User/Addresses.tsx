@@ -72,7 +72,7 @@ const Addresses: React.FC = () => {
                 <div>
                   {address.firstName} {address.lastName}
                 </div>
-                <div className="text-[#48CAB2] rounded-xl border border-1 border-[#48CAB2] text-[10px] px-2 flex items-center">
+                <div className="text-black rounded-xl bg-white text-[10px] px-2 flex items-center">
                   {address.addressType}
                 </div>
               </div>
@@ -82,7 +82,7 @@ const Addresses: React.FC = () => {
                     <DialogTrigger asChild>
                       <MdOutlineModeEditOutline
                         size={24}
-                        className="hover:text-[#48CAB2] cursor-pointer"
+                        className="hover:text-gray-300 cursor-pointer"
                       />
                     </DialogTrigger>
                     <AddAddressDialog isNew={false} addressId={address.id} />
@@ -93,7 +93,7 @@ const Addresses: React.FC = () => {
                   <AlertDialogTrigger asChild>
                     <MdDeleteOutline
                       size={24}
-                      className="hover:text-[#48CAB2] cursor-pointer"
+                      className="hover:text-gray-300 cursor-pointer"
                     />
                   </AlertDialogTrigger>
                   <AlertDialogContent>
@@ -119,7 +119,7 @@ const Addresses: React.FC = () => {
                 <div
                   className={`${
                     address.default
-                      ? 'px-3 hidden md:block rounded-full border border-4 text-blue-500 border-blue-500 align-middle'
+                      ? 'bg-white px-3 py-1 rounded-full text-black text-xs'
                       : 'hidden'
                   }`}
                 >

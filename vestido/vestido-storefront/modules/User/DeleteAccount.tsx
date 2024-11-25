@@ -77,10 +77,10 @@ const DeleteAccount: React.FC = () => {
         </label>
       </div>
       <div className="flex space-x-4">
-        <Button className="w-1/2  h-12 text-xs md:text-lg rounded-none uppercase border border-4 border-[#48cab2] opacity-70 text-[#48cab2] bg-transparent hover:bg-transparent">
+        <Button className="w-1/2  h-12 text-xs md:text-lg rounded-none uppercase border border-4 border-white opacity-70  bg-transparent hover:bg-transparent">
           Delete Anyway
         </Button>
-        <Button className="w-1/2 bg-[#48cab2] h-12 text-xs md:text-lg text-white uppercase rounded-none">
+        <Button className="w-1/2 bg-white h-12 text-xs md:text-lg text-black hover:bg-gray-300 uppercase rounded-none">
           Keep Account
         </Button>
       </div>

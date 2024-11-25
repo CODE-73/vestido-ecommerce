@@ -132,7 +132,7 @@ const EditProfileForm: React.FC = () => {
             {/* Save Button */}
             <button
               type="submit"
-              className="w-full bg-[#48cab2] text-white py-2 px-4 rounded-md hover:bg-[#48cab2] focus:outline-none focus:ring-2 focus:ring-[#48cab2]"
+              className="w-full bg-white text-black py-2 px-4 rounded-md hover:bg-white focus:outline-none focus:ring-2 focus:ring-white"
             >
               Save Details
             </button>

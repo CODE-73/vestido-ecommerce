@@ -176,14 +176,14 @@ export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({ itemId }) => {
                       <div
                         key={index}
                         onClick={() => changeToVariant(attributeId, value.id)}
-                        className={`flex flex-col border border-2 rounded-3xl m-1 cursor-pointer ${
+                        className={`flex flex-col  rounded-3xl m-1 cursor-pointer ${
                           selectedVariant?.attributeValues.some(
                             (attrVal) =>
                               attrVal.attributeId === attributeId &&
                               attrVal.attributeValue.id === value.id,
                           )
-                            ? 'border-[#48CAB2] text-[#48CAB2] '
-                            : 'border-zinc-100 hover:border-[#48CAB2] hover:text-[#48CAB2]'
+                            ? 'bg-black text-white border-0'
+                            : 'border border-2 border-zinc-300 hover:border-black '
                         }`}
                       >
                         <div className="text-sm font-semibold border border-1 border-stone-200 rounded-3xl py-2 px-4 ">
@@ -203,7 +203,7 @@ export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({ itemId }) => {
                 handleRemoveFromWishlist(itemId);
                 handleAddToCart();
               }}
-              className="bg-[#48CAB2] w-full flex gap-3 text-lg my-1 text-white px-2 py-6 font-bold hover:bg-[#48CAB2] rounded-none"
+              className="bg-black w-full flex gap-3 text-lg my-1 text-white px-2 py-6 font-bold hover:bg-black rounded-none"
             >
               <LuShoppingBag color="#fff" size={24} />
               <div> Add to Cart</div>
