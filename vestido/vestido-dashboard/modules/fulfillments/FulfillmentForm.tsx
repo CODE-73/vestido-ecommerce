@@ -47,6 +47,7 @@ const UpdateFulfillmentFormSchema = z.object({
   breadth: z.coerce.number().nullable(),
   height: z.coerce.number().nullable(),
   weight: z.coerce.number().nullable(),
+  description: z.string().nullable(),
   items: z.array(FulfillmentItemSchema),
 });
 
@@ -72,6 +73,7 @@ const FulfillmentForm: React.FC<FulfillmentFormProps> = ({ fulfillmentId }) => {
       breadth: 0,
       height: 0,
       weight: 0,
+      description: null,
     },
   });
 

@@ -104,13 +104,13 @@ const AddToWishListButton: React.FC<WishlistbuttonProps> = ({
               <LuLoader
                 strokeWidth={1.3}
                 size={32}
-                className="text-gray-600 hover:text-[#48CAB2]"
+                className="text-gray-600 "
               />
             ) : isMdAndAbove ? (
               <LuHeart
                 strokeWidth={1.3}
                 size={32}
-                className="text-gray-600 hover:text-[#48CAB2]"
+                className="text-gray-600 "
                 style={{
                   fill: wishlisted ? 'red' : 'none',
                   color: wishlisted ? 'red' : '',
@@ -120,7 +120,7 @@ const AddToWishListButton: React.FC<WishlistbuttonProps> = ({
               <LuHeart
                 strokeWidth={1.3}
                 size={24}
-                className="text-gray-600 hover:text-[#48CAB2]"
+                className="text-gray-600 "
                 style={{
                   fill: wishlisted ? 'red' : 'none',
                   color: wishlisted ? 'red' : '',

@@ -49,29 +49,29 @@ const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
           {/* <HeaderSearchInput className="text-white ml-2" /> */}
           <AuthenticatedLink
             href="/profile"
-            className="text-white hover:text-[#48cab2]"
+            className="text-white hover:text-gray-400"
           >
             <LuUser2 size={20} />
           </AuthenticatedLink>
 
           <Link
             href="/wishlist"
-            className={`relative text-white hover:text-[#48cab2] `}
+            className={`relative text-white hover:text-gray-400 `}
           >
             <LuHeart size={20} />
             {wishlist_count > 0 && (
-              <sup className="absolute -right-[8px] h-4 w-4 text-center rounded-full bg-[#48cab2] font-semibold text-xs">
+              <sup className="absolute -right-[8px] h-4 w-4 text-center rounded-full bg-white text-black font-semibold text-xs">
                 {wishlist_count}
               </sup>
             )}
           </Link>
           <Link
             href="/cart"
-            className={`relative text-white hover:text-[#48cab2]`}
+            className={`relative text-white hover:text-gray-400`}
           >
             <LuShoppingBag size={20} />
             {cart_count > 0 && (
-              <sup className="absolute -right-[8px]  h-4 w-4 text-center rounded-full bg-[#48cab2] font-semibold text-xs">
+              <sup className="absolute -right-[8px]  h-4 w-4 text-center rounded-full bg-white text-black font-semibold text-xs">
                 {cart_count}
               </sup>
             )}
@@ -79,10 +79,10 @@ const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
 
           <HeaderDropdown />
           {isAuthenticated ? (
-            <LogoutButton className="text-white hover:text-[#48cab2] hover:bg-transparent" />
+            <LogoutButton className="text-white hover:text-gray-400 hover:bg-transparent" />
           ) : (
             <Link href="/login">
-              <Button className="rounded-none h-10 bg-[#48cab2] ml-4">
+              <Button className="rounded-none h-10 bg-white text-black ml-4">
                 Login/Signup
               </Button>
             </Link>

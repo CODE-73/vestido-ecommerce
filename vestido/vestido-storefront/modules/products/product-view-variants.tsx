@@ -145,8 +145,7 @@ const ProductViewVariants: FC<ProductViewVariantsProps> = ({
                     {
                       'cursor-pointer': value.enabled,
                       'bg-white text-black': isSelected,
-                      'border-zinc-100 hover:border-[#48CAB2] hover:text-[#48CAB2]':
-                        !isSelected && value.enabled,
+                      'border-zinc-100 ': !isSelected && value.enabled,
                       'opacity-50': !value.enabled,
                     },
                   )}

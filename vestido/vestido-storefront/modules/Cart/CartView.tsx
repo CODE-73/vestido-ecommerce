@@ -126,7 +126,7 @@ const CartView: React.FC = () => {
   return (
     <div>
       <div className="text-xs md:text-lg tracking-wide text-gray-300 justify-center font-semibold md:mt-12 md:mb-12 mt-32 mb-16 uppercase flex gap-2 items-center">
-        <span className="md:text-2xl text-[#48CAB2]">Cart</span>
+        <span className="md:text-2xl text-gray-600">Cart</span>
         <LuChevronRight /> Address <LuChevronRight /> Payment
       </div>
       {cartItems.length && cartItems.length > 0 ? (
@@ -226,7 +226,7 @@ const CartView: React.FC = () => {
                           <LuPlus />
                         </div>
                       </div>
-                      <div className="  text-[#48CAB2] col-span-3">
+                      <div className="  col-span-3">
                         {cartItem.item.discountedPrice ? (
                           <div className="flex items-center gap-2">
                             <div className="text-white text-sm font-semibold">
@@ -318,7 +318,7 @@ const CartView: React.FC = () => {
 
             <Button
               onClick={() => router.push('/checkout')}
-              className="flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 font-extrabold hover:text-black text-white justify-center mt-6 mb-1"
+              className="flex tracking-wide  w-full h-14  font-extrabold bg-white  text-black hover:bg-neutral-900 hover:border hover:border-white hover:text-white  justify-center mt-6 mb-1"
             >
               PROCEED TO CHECKOUT
             </Button>
@@ -332,12 +332,12 @@ const CartView: React.FC = () => {
           </div>
           <div className="flex flex-col md:flex-row gap-3">
             <Link href="/wishlist">
-              <Button className="flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 font-extrabold hover:text-black text-white justify-center">
+              <Button className="flex tracking-wide bg-white w-full h-14 hover:bg-gray-400 font-extrabold text-black hover:text-white justify-center">
                 Add from Wishlist
               </Button>
             </Link>
             <Link href="/products">
-              <Button className="flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 font-extrabold hover:text-black text-white justify-center">
+              <Button className="flex tracking-wide bg-white w-full h-14 hover:bg-gray-400 font-extrabold text-black hover:text-white justify-center">
                 Continue Shopping
               </Button>
             </Link>

@@ -97,7 +97,7 @@ const ProductViewImages: FC<ProductViewImagesProps> = ({
                   onClick={() => setSelectedImage(image)}
                 >
                   <Image
-                    className="outline outline-3 hover:outline-[#48CAB2] mb-3"
+                    className="outline outline-3 hover:outline-gray-300 mb-3"
                     placeholder={image.blurHashDataURL ? 'blur' : undefined}
                     blurDataURL={image.blurHashDataURL ?? undefined}
                     src={image.url!}
@@ -129,7 +129,7 @@ const ProductViewImages: FC<ProductViewImagesProps> = ({
               <CarouselItem key={index}>
                 <div>
                   <Image
-                    className="outline outline-3 hover:outline-[#48CAB2] mb-3"
+                    className="outline outline-3 hover:outline-gray-300 mb-3"
                     src={image.url!}
                     placeholder={image.blurHashDataURL ? 'blur' : undefined}
                     blurDataURL={image.blurHashDataURL ?? undefined}

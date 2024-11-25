@@ -133,8 +133,8 @@ const WishlistView: React.FC = () => {
 
                   <Dialog>
                     <DialogTrigger asChild>
-                      <div className={`p-2 bg-[#48CAB2] w-full`}>
-                        <Button className="bg-[#48CAB2] w-full flex gap-3 h-[30px] text-lg mb-1 text-white p-2 uppercase font-semibold tracking-wide hover:bg-transparent">
+                      <div className={`p-2 bg-white w-full`}>
+                        <Button className="bg-white w-full flex gap-3 h-[30px] text-lg mb-1 text-white p-2 uppercase font-semibold tracking-wide hover:bg-transparent">
                           <LuShoppingBag color="#fff" size={24} />
                           <div> Add to Cart</div>
                         </Button>
@@ -155,12 +155,12 @@ const WishlistView: React.FC = () => {
           </div>
           <div className="flex flex-col md:flex-row gap-3">
             <Link href="/cart">
-              <Button className="flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 font-extrabold hover:text-black text-white justify-center">
+              <Button className="flex tracking-wide bg-white w-full h-14 hover:bg-gray-400 font-extrabold text-black  justify-center">
                 Go to Cart
               </Button>
             </Link>
             <Link href="/products">
-              <Button className="flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 font-extrabold hover:text-black text-white justify-center">
+              <Button className="flex tracking-wide bg-black w-full h-14 hover:bg-gray-400 font-extrabold text-black justify-center">
                 Continue Shopping
               </Button>
             </Link>

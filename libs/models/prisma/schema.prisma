@@ -253,6 +253,7 @@ model CartItem {
 model Order {
     id       String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     dateTime DateTime @default(now())
+    order_no BigInt   @default(autoincrement())
 
     totalPrice    Float // total item price = SUM(item.rate * qty IF not item.taxInclusive ELSE taxSubtractedItemAmount)
     totalTax      Float @default(0) // SUM(item.taxAmount)
@@ -265,6 +266,7 @@ model Order {
     deliveryStatus     DeliveryStatus     @default(UNFULFILLED)
     returnStatus       ReturnStatus?
     exchangeStatus     ExchangeStatus?
+    description        String?
     orderPaymentStatus OrderPaymentStatus @default(PENDING)
     customer           Profile            @relation(fields: [customerId], references: [id])
     customerId         String             @db.Uuid
@@ -314,6 +316,7 @@ model Payment {
 
 model Fulfillment {
     id                  String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    fulfillment_no      BigInt            @default(autoincrement())
     order               Order             @relation(fields: [orderId], references: [id])
     orderId             String            @db.Uuid
     status              FulfillmentStatus @default(DRAFT)
@@ -326,6 +329,7 @@ model Fulfillment {
     height              Float?
     weight              Float?
     price               Float?
+    description         String?
     fulfillmentItems    FulfillmentItem[]
 }
 
