@@ -46,7 +46,7 @@ const OrdersTable: React.FC<ProductTableProps> = ({ data }) => {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Order ID</TableHead>
+          <TableHead>Order Number</TableHead>
           <TableHead>Customer ID</TableHead>
           <TableHead>Status</TableHead>
           <TableHead>Price</TableHead>
@@ -63,7 +63,7 @@ const OrdersTable: React.FC<ProductTableProps> = ({ data }) => {
               className="cursor-pointer"
             >
               <TableCell className="font-semibold capitalize">
-                {order.id}
+                {order.order_no.toString()}
               </TableCell>
               <TableCell className="font-semibold capitalize">
                 {order.customerId}

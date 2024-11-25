@@ -31,7 +31,7 @@ const FulfillmentsTable: React.FC<FulfillmentTableProps> = ({
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Fulfillment ID</TableHead>
+          <TableHead>Fulfillment No.</TableHead>
           <TableHead>Order ID</TableHead>
           <TableHead>Date</TableHead>
           <TableHead>Time</TableHead>
@@ -53,7 +53,7 @@ const FulfillmentsTable: React.FC<FulfillmentTableProps> = ({
               className="cursor-pointer"
             >
               <TableCell className="font-semibold capitalize">
-                {fulfillment.id}
+                {fulfillment.fulfillment_no.toString()}
               </TableCell>
               <TableCell className="font-semibold capitalize">
                 {fulfillment.orderId}
