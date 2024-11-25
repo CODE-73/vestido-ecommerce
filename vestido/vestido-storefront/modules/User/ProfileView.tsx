@@ -100,7 +100,6 @@ const ProfileView: React.FC = () => {
           ) : null}
 
           <div className={`w-full md:basis-4/5 px-1 md:px-4 `}>
-            {' '}
             {/*${isSmallScreen && selectedNav ? '' : 'hidden'}*/}
             <TabsContent value="orders" className="relative">
               {isSmallScreen && selectedNav && (
@@ -109,8 +108,8 @@ const ProfileView: React.FC = () => {
                     className="bg-transparent text-white p-0 flex items-center"
                     onClick={() => setSelectedNav('')}
                   >
-                    <LuChevronLeft size={24} />{' '}
-                    <div className="font-semibold my-4 md:hidden ">
+                    <LuChevronLeft size={24} />
+                    <div className="font-semibold my-4 md:hidden">
                       All Orders
                     </div>
                   </Button>
@@ -126,7 +125,7 @@ const ProfileView: React.FC = () => {
                     className="bg-transparent text-white h-10 p-0 flex items-center"
                     onClick={() => setSelectedNav('')}
                   >
-                    <LuChevronLeft size={24} />{' '}
+                    <LuChevronLeft size={24} />
                     <div className="font-semibold text-xs md:text-lg my-4 md:hidden">
                       Profile Details
                     </div>
@@ -142,7 +141,7 @@ const ProfileView: React.FC = () => {
                     className="bg-transparent text-white p-0 absolute -top-0.5 left-0"
                     onClick={() => setSelectedNav('')}
                   >
-                    <LuChevronLeft size={24} />{' '}
+                    <LuChevronLeft size={24} />
                   </Button>
                 </>
               )}
@@ -155,7 +154,7 @@ const ProfileView: React.FC = () => {
                     className="bg-transparent text-white p-0 flex items-center"
                     onClick={() => setSelectedNav('')}
                   >
-                    <LuChevronLeft size={24} />{' '}
+                    <LuChevronLeft size={24} />
                     <div className="font-semibold text-lg my-4 md:hidden">
                       Delete Account
                     </div>

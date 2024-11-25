@@ -169,11 +169,9 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
                 setSelectedVariantId={setSelectedVariantId}
               />
             </div>
-
-            <hr className="border-gray-600" />
           </div>
           <div
-            className="flex gap-2 mb-5 w-full fixed -bottom-6 w-full sm:static bg-black  py-2 px-2 mx-0 z-50 sm:z-auto "
+            className="flex gap-2 mb-5 md:mb-0 md:my-5 w-full fixed -bottom-6 w-full sm:static bg-black  py-2 px-2 mx-0 z-50 sm:z-auto "
             style={{
               boxShadow: '0 -20px 25px -5px rgba(55, 65, 81, 0.3)', // Mimicking shadow-lg shadow-gray-700/50
             }}
@@ -197,7 +195,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
               className="border sm:border-2 rounded-lg font-medium text-xs h-full self-center p-1 sm:p-4  md:p-1 2xl:p-4 "
             />
           </div>
-          <hr className="border-gray-600" />
+
           <div className="flex justify-between py-5 px-1 sm:px-0">
             <div className="grid grid-cols-3 w-full">
               <Dialog>

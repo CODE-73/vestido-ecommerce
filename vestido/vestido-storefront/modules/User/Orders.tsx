@@ -1,105 +1,88 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { cva } from 'class-variance-authority';
 
-import { useAttributes } from '@vestido-ecommerce/items/client';
 import { useOrders } from '@vestido-ecommerce/orders/client';
-import { ImageSchemaType } from '@vestido-ecommerce/utils';
+import { formatINR } from '@vestido-ecommerce/utils';
+
+import { checkReturnEligibility } from './check-return-eligibility';
+import OrderIteminOrderList from './order-item';
 
 const OrdersView: React.FC = () => {
   const { data } = useOrders();
   const orders = data?.data;
-  const { data: attributeData } = useAttributes();
-  const attributes = attributeData?.data;
-  const router = useRouter();
 
-  const attr = (attributeId: string) => {
-    return attributes?.find((x) => x.id == attributeId);
-  };
-  const attrValue = (attributeValueId: string) => {
-    return attributes
-      ?.flatMap((attribute) => attribute.values)
-      .find((x) => x.id === attributeValueId);
-  };
-
-  const handleOrderClick = (orderId: string) => {
-    router.replace(`/orders/${orderId}`);
-  };
+  const orderStatusClasses = cva(
+    'font-semibold text-xs uppercase py-1 rounded-full',
+    {
+      variants: {
+        status: {
+          PENDING: 'text-orange-600',
+          CONFIRMED: 'text-yellow-600 ',
+          CANCELLED: 'text-red-600',
+          IN_PROGRESS: 'text-blue-600',
+          COMPLETED: 'text-green-600 ',
+        },
+      },
+      defaultVariants: {
+        status: 'PENDING',
+      },
+    },
+  );
   return (
     <div className="bg-black">
       <h5 className="font-light text-xl my-4 hidden md:block">All Orders</h5>
-      <div className="flex flex-col gap-3">
-        {orders?.map((order, index) => (
-          <div
-            key={index}
-            onClick={() => handleOrderClick(order.id)}
-            className="flex flex-col gap-3 bg-neutral-900 md:border md:border-2 gap-3"
-          >
-            <div className="font-semibold mt-8 mx-2">Order ID: {order.id}</div>
-            {order.orderItems?.map((orderItem, itemIndex) => {
-              const variant = orderItem.item.variants.find(
-                (v) => v.id === orderItem.variantId,
-              );
-              return (
-                <div key={itemIndex} className=" md:p-4 ">
-                  <div className="hidden md:block font-semibold text-xs uppercase">
-                    {order.orderStatus}
+      <div className="flex flex-col gap-5">
+        {orders?.map((order, index) => {
+          const { canBeReturned, returnDeadline } = checkReturnEligibility(
+            order.dateTime,
+          );
+          console.log('fn', canBeReturned, returnDeadline);
+          return (
+            <div
+              key={index}
+              className="flex flex-col gap-3 bg-neutral-900  p-2 rounded-lg"
+              style={{
+                boxShadow: '0 -20px 25px -5px rgba(55, 65, 81, 0.3)', // Mimicking shadow-lg shadow-gray-700/50
+              }}
+            >
+              <div className="font-semibold my-2 mx-2 grid grid-cols-8 ">
+                <div className="col-span-5 flex flex-col">
+                  <div>
+                    <span className="text-sm font-normal">Order ID:&nbsp;</span>
+                    {order.id}
                   </div>
-                  <Link href={`/products/${orderItem.itemId}`}>
-                    <div className="md:hidden font-semibold text-[8px] uppercase">
-                      {order.orderStatus}
-                    </div>
-                    <div className="p-4 border border-2 border-gray-600 flex bg-black gap-3">
-                      <div className="relative h-24 w-20">
-                        <Image
-                          className="block col-span-2"
-                          src={
-                            (
-                              (orderItem.item.images ?? []) as ImageSchemaType[]
-                            )[0]?.url ?? ''
-                          }
-                          alt={
-                            (
-                              (orderItem.item.images ?? []) as ImageSchemaType[]
-                            )[0]?.alt ?? ''
-                          }
-                          fill
-                        />
-                      </div>
-                      <div>
-                        <div className="font-semibold">
-                          {orderItem.item.title}
-                        </div>
-                        {/* <div>{orderItem.variantId}</div> */}
-
-                        <div className=" mt-2">
-                          {variant?.attributeValues?.map((value, index) => {
-                            const attribute = attr(value.attributeId);
-                            const attributeValue = attrValue(
-                              value.attributeValueId,
-                            );
-
-                            return (
-                              <div
-                                key={index}
-                                className="flex gap-2 capitalize text-sm"
-                              >
-                                <div>{attribute?.name}&nbsp;:</div>
-                                <div className="uppercase">
-                                  {attributeValue?.value}
-                                </div>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
+                  <div>
+                    <span className="text-sm font-normal">
+                      Order Total Price:&nbsp;
+                    </span>
+                    {formatINR(order.totalPrice)}
+                  </div>
                 </div>
-              );
-            })}
-          </div>
-        ))}
+                <div
+                  className={`hidden md:block text-xs uppercase col-span-3 justify-self-end  ${orderStatusClasses(
+                    { status: order.orderStatus },
+                  )}`}
+                >
+                  {order.orderStatus}
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-2">
+                {order?.orderItems.map((orderItem, index) => (
+                  <OrderIteminOrderList key={index} orderItem={orderItem} />
+                ))}
+              </div>
+              {canBeReturned ? (
+                <div className="text-xs text-gray-400">
+                  Can be returned until {returnDeadline}
+                </div>
+              ) : (
+                <div className="text-xs text-gray-400">
+                  Return Window closed on {returnDeadline}
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
