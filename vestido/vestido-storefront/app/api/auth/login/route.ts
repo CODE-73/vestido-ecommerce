@@ -22,18 +22,6 @@ export const POST = apiRouteHandler(async ({ request }) => {
     });
   }
 
-  if (user.role !== 'CUSTOMER') {
-    throw new VestidoError({
-      name: 'NonCustomerUserStorefrontLogin',
-      message: 'Non Customer User Storefront Login is not allowed',
-      httpStatus: 400,
-      context: {
-        user: user.id,
-        role: user.role,
-      },
-    });
-  }
-
   const isOtpVerfied = await verifyOTP(body);
   if (!isOtpVerfied) {
     throw new VestidoError({
