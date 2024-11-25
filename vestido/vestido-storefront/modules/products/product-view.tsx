@@ -123,7 +123,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
                       <div className="font-light text-lg line-through">
                         {formatINR(item?.price)}
                       </div>
-                      <div className="text-xs text-[#66CDAA] md:mt-1">
+                      <div className="text-xs text-red-400 md:mt-1">
                         ({formatINR(item.price - item.discountedPrice)}
                         &nbsp; OFF)
                       </div>
@@ -138,7 +138,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
 
             <div className="text-sm mt-4">
               <h1
-                className={`font-semibold sm:mb-2 ${item?.stockStatus == 'LIMITED_STOCK' ? 'text-yellow-400' : item?.stockStatus === 'OUT_OF_STOCK' ? 'text-red-400' : 'text-[#48CAB2]'}`}
+                className={`font-semibold sm:mb-2 ${item?.stockStatus == 'LIMITED_STOCK' ? 'text-red-400' : item?.stockStatus === 'OUT_OF_STOCK' ? 'text-white' : 'text-[#48CAB2]'}`}
               >
                 {item?.stockStatus === 'LIMITED_STOCK'
                   ? 'Limited Stock'

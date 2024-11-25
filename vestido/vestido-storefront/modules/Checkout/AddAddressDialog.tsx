@@ -159,7 +159,7 @@ const AddAddressDialog: React.FC<AddressFormProps> = ({ addressId, isNew }) => {
                     e.preventDefault();
                     form.handleSubmit(handleSubmit)();
                   }}
-                  className="flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 font-extrabold hover:text-black text-white justify-center"
+                  className="flex tracking-wide bg-black w-full h-14 hover:bg-gray-400 font-extrabold hover:text-black text-white justify-center"
                 >
                   {isNew ? 'ADD ADDRESS' : 'UPDATE'}
                 </Button>

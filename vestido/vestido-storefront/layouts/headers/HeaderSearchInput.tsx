@@ -71,16 +71,13 @@ export const HeaderSearchInput: FC<HeaderSearchInputProps> = ({
       />
       {onCancelClick && (
         <div
-          className="text-slate-400 hover:text-[#48cab2]"
+          className="text-slate-400 hover:text-black"
           onClick={onCancelClick}
         >
           <LuX size={iconSize} />
         </div>
       )}
-      <LuSearch
-        className="text-slate-400 hover:text-[#48cab2]"
-        size={iconSize}
-      />
+      <LuSearch className="text-slate-400 hover:text-black" size={iconSize} />
     </div>
   );
 };

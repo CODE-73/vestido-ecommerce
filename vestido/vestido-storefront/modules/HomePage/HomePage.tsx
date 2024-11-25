@@ -19,7 +19,7 @@ type HomePageProps = {
 
 const BackToTopButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
   <button
-    className="fixed bottom-24 z-10 right-8 bg-neutral-500 hover:bg-[#48CAB2] text-white px-4 py-4 shadow transition-colors duration-200"
+    className="fixed bottom-24 z-10 right-8 bg-neutral-500  text-white px-4 py-4 shadow transition-colors duration-200"
     onClick={onClick}
   >
     <LuChevronUp />
