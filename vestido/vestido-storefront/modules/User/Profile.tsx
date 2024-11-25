@@ -41,7 +41,7 @@ const Profile: React.FC = () => {
           </div>
           <Button
             onClick={() => setIsEditing(true)}
-            className="w-full uppercase h-14 bg-white text-lg"
+            className="w-full uppercase h-14 bg-white text-lg text-black hover:bg-gray-300"
           >
             Edit Profile
           </Button>

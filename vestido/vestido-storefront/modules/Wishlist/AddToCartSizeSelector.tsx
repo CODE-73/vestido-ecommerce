@@ -3,6 +3,7 @@ import Image from 'next/image';
 
 import { LuShoppingBag } from 'react-icons/lu';
 
+import { useAuth } from '@vestido-ecommerce/auth/client';
 import {
   useAddToCart,
   useItem,
@@ -26,8 +27,12 @@ type AddToCartDialogProps = {
 export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({ itemId }) => {
   const { data } = useItem(itemId);
   const { trigger: wishlistTrigger } = useRemoveFromWishlist();
+  const { isAuthenticated, routeToLogin } = useAuth();
+
+  const [qty] = useState(1);
 
   const [isDialogOpen, setIsDialogOpen] = useState(true);
+  const [loading, setLoading] = useState(false);
   const item = data?.data;
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(
     null,
@@ -115,16 +120,31 @@ export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({ itemId }) => {
     });
   };
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
+    if (!isAuthenticated) {
+      routeToLogin();
+      return;
+    }
     if (item) {
-      cartTrigger({
-        itemId: item.id,
-        qty: 1,
-        variantId: selectedVariantId ?? null,
-      });
-      toast({
-        description: ItemToastBody(true, item, 'Moved to Cart!'),
-      });
+      setLoading(true);
+      try {
+        await cartTrigger({
+          itemId: item.id,
+          qty: qty,
+          variantId: selectedVariantId ?? null,
+        });
+        toast({
+          description: ItemToastBody(true, item, 'Item Added to Cart!'),
+        });
+      } catch (error) {
+        console.error('Failed to add item to cart', error);
+        toast({
+          title: 'Error Adding to Cart!',
+          description: ItemToastBody(false, item, ''),
+        });
+      } finally {
+        setLoading(false);
+      }
     }
     setIsDialogOpen(false);
   };
@@ -199,6 +219,7 @@ export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({ itemId }) => {
 
           <DialogFooter>
             <Button
+              disabled={loading}
               onClick={() => {
                 handleRemoveFromWishlist(itemId);
                 handleAddToCart();
@@ -206,7 +227,7 @@ export const AddToCartDialog: React.FC<AddToCartDialogProps> = ({ itemId }) => {
               className="bg-black w-full flex gap-3 text-lg my-1 text-white px-2 py-6 font-bold hover:bg-black rounded-none"
             >
               <LuShoppingBag color="#fff" size={24} />
-              <div> Add to Cart</div>
+              {loading ? <div>Adding ...</div> : <div> Add to Cart</div>}
             </Button>
           </DialogFooter>
         </DialogContent>
