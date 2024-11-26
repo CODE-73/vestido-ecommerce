@@ -1,5 +1,7 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
+import { VestidoError } from '@vestido-ecommerce/utils';
 
+import { getOrder } from '../../orders/get-order';
 import { CreateFulfillmentSchema, CreateFulfillmentSchemaType } from './zod';
 
 export async function createFulfillment(data: CreateFulfillmentSchemaType) {
@@ -7,6 +9,17 @@ export async function createFulfillment(data: CreateFulfillmentSchemaType) {
 
   // Validate the input data
   const validatedData = CreateFulfillmentSchema.parse(data);
+
+  const order = await getOrder(validatedData.orderId);
+  if (order?.orderStatus !== 'CONFIRMED') {
+    {
+      throw new VestidoError({
+        name: 'OrderNotInConfirmedState',
+        message: `Order is not in Confirmed Status. ${validatedData.orderId} is in ${order?.orderStatus} status`,
+        httpStatus: 401,
+      });
+    }
+  }
 
   // Execute the operations within a transaction
   const result = await prisma.$transaction(async (prisma) => {
