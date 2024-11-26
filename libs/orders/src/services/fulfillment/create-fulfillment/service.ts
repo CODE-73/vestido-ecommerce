@@ -11,14 +11,15 @@ export async function createFulfillment(data: CreateFulfillmentSchemaType) {
   const validatedData = CreateFulfillmentSchema.parse(data);
 
   const order = await getOrder(validatedData.orderId);
-  if (order?.orderStatus !== 'CONFIRMED') {
-    {
-      throw new VestidoError({
-        name: 'OrderNotInConfirmedState',
-        message: `Order is not in Confirmed Status. ${validatedData.orderId} is in ${order?.orderStatus} status`,
-        httpStatus: 401,
-      });
-    }
+  if (
+    order?.orderStatus !== 'CONFIRMED' &&
+    order?.orderStatus !== 'IN_PROGRESS'
+  ) {
+    throw new VestidoError({
+      name: 'OrderNotInConfirmedState',
+      message: `Order is not in Confirmed Status. ${validatedData.orderId} is in ${order?.orderStatus} status`,
+      httpStatus: 401,
+    });
   }
 
   // Execute the operations within a transaction
