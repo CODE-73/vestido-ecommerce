@@ -24,7 +24,7 @@ import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { formatINR, ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import { ItemToastBody } from '../../components/item-toast-body';
-import { AddToCartDialog } from './AddToCartFromWishlistDialog';
+import { AddToCartDialog } from './AddToCartSizeSelector';
 
 const WishlistView: React.FC = () => {
   const { data: { data: wishlistItems } = { data: [] } } = useWishlist();

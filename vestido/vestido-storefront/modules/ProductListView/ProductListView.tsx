@@ -62,7 +62,7 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
       </div>
       <div className="flex relative">
         {!suggestedList && (
-          <div className="basis-1/5 hidden lg:block">
+          <div className="basis-1/5 hidden invisible lg:block">
             <ProductFilter />
           </div>
         )}

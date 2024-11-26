@@ -6,11 +6,7 @@ import { LuCalendar, LuScaling, LuShoppingBag, LuTruck } from 'react-icons/lu';
 import Markdown from 'react-markdown';
 
 import { useAuth } from '@vestido-ecommerce/auth/client';
-import {
-  useAddToCart,
-  useCategory,
-  useItem,
-} from '@vestido-ecommerce/items/client';
+import { useCategory, useItem } from '@vestido-ecommerce/items/client';
 import { useVestidoSizeChart } from '@vestido-ecommerce/settings/client';
 import {
   Accordion,
@@ -24,11 +20,11 @@ import {
   DialogContent,
   DialogTrigger,
 } from '@vestido-ecommerce/shadcn-ui/dialog';
-import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { formatINR } from '@vestido-ecommerce/utils';
 
 import AddToWishListButton from '../ProductListView/AddToWishlistButton';
 import ProductListView from '../ProductListView/ProductListView';
+import { AddToCartDialog } from '../Wishlist/AddToCartSizeSelector';
 import ProductViewBreadcrumb from './poduct-view-breadcrumpts';
 import ProductViewImages from './product-view-images';
 import ProductViewVariants from './product-view-variants';
@@ -41,7 +37,6 @@ interface ProductViewProps {
 const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
   const { isAuthenticated, routeToLogin } = useAuth();
   const router = useRouter();
-  const { toast } = useToast();
   const sizeCharts = useVestidoSizeChart();
 
   const { data: { data: item } = { data: null } } = useItem(itemId);
@@ -65,26 +60,6 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
     () => item?.variants?.find((x) => x.id === selectedVariantId) ?? null,
     [item, selectedVariantId],
   );
-
-  const { trigger: cartTrigger } = useAddToCart();
-
-  const handleAddToCart = () => {
-    if (!isAuthenticated) {
-      routeToLogin();
-      return;
-    }
-
-    if (item) {
-      cartTrigger({
-        itemId: item.id,
-        qty: 1,
-        variantId: selectedVariantId ?? null,
-      });
-      toast({
-        title: 'Item Added to Cart!',
-      });
-    }
-  };
   const handleBuyNow = () => {
     if (!isAuthenticated) {
       routeToLogin();
@@ -156,7 +131,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
 
               <div className="flex gap-2">
                 <h1 className="font-extralight">SKU: </h1>
-                <h1 className="font-semibold no-underline hover:underline">
+                <h1 className="font-semibold no-underline hover:underline text-gray-300">
                   {item?.variants?.length && item?.variants?.length > 0
                     ? selectedVariant?.sku
                     : item?.sku}
@@ -176,17 +151,19 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
               boxShadow: '0 -20px 25px -5px rgba(55, 65, 81, 0.3)', // Mimicking shadow-lg shadow-gray-700/50
             }}
           >
-            <Button
-              onClick={() => handleAddToCart()}
-              className="text-sm md:text-xl font-semibold bg-transparent hover:bg-transparent h-10 sm:h-auto flex gap-1 border border-white  flex-1"
-            >
-              <LuShoppingBag className="h-4 w-4 md:h-8 md:w-8" />
-              <div>ADD TO CART</div>
-            </Button>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button className="text-sm md:text-xl font-semibold bg-transparent hover:bg-transparent h-10 sm:h-auto flex gap-1 border border-white  flex-1">
+                  <LuShoppingBag className="h-4 w-4 md:h-8 md:w-8" />
+                  <div>ADD TO CART</div>
+                </Button>
+              </DialogTrigger>
+              <AddToCartDialog itemId={itemId} />
+            </Dialog>
 
             <Button
               onClick={() => handleBuyNow()}
-              className="text-sm md:text-xl text-black bg-[#f8f8f8] font-semibold h-10 sm:h-auto flex-1"
+              className="text-sm md:text-xl text-black bg-[#f8f8f8] font-semibold h-10 sm:h-auto flex-1 hover:bg-white"
             >
               BUY NOW
             </Button>
