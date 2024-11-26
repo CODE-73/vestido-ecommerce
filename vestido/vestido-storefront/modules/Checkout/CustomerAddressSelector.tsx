@@ -58,8 +58,6 @@ const CustomerAddressSelector: React.FC<CustomerAddressSelectorProps> = ({
     onChange?.(selectedId);
   };
 
-  console.log(sortedAddresses);
-
   const handleAddressDelete = async (addressId: string) => {
     try {
       await trigger({
