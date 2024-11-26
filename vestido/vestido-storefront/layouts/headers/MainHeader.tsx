@@ -82,7 +82,7 @@ const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
             <LogoutButton className="text-white hover:text-gray-400 hover:bg-transparent" />
           ) : (
             <Link href="/login">
-              <Button className="rounded-none h-10 bg-white text-black ml-4">
+              <Button className="rounded-none h-10 bg-white text-black ml-4 hover:bg-white">
                 Login/Signup
               </Button>
             </Link>

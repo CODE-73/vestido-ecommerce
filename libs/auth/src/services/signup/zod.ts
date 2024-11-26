@@ -1,3 +1,4 @@
+import { ProfileGender } from '@prisma/client';
 import { z } from 'zod';
 
 const indianMobileRegex = /^[6-9]\d{9}$/;
@@ -12,6 +13,7 @@ export const SignUpSchema = z.object({
     message: 'OTP must be exactly 6 digits long',
     path: ['otp'],
   }),
+  gender: z.nativeEnum(ProfileGender).default('FEMALE' satisfies ProfileGender),
 });
 
 export type SignUpSchemaType = z.infer<typeof SignUpSchema>;
