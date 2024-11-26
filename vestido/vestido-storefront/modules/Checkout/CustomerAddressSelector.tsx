@@ -1,5 +1,4 @@
-// import React, { useEffect, useState } from 'react';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
 import clsx from 'clsx';
@@ -22,10 +21,7 @@ import {
   AlertDialogTrigger,
 } from '@vestido-ecommerce/shadcn-ui/alert-dialog';
 import { Dialog, DialogTrigger } from '@vestido-ecommerce/shadcn-ui/dialog';
-import {
-  RadioGroup,
-  // RadioGroupItem,
-} from '@vestido-ecommerce/shadcn-ui/radio-group';
+import { RadioGroup } from '@vestido-ecommerce/shadcn-ui/radio-group';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 
 import AddAddressDialog from './AddAddressDialog';
@@ -47,14 +43,22 @@ const CustomerAddressSelector: React.FC<CustomerAddressSelectorProps> = ({
   const sortedAddresses = [...(addresses?.data ?? [])].sort(
     (a, b) => (b.default ? 1 : 0) - (a.default ? 1 : 0),
   );
+  const [userHasInteracted, setUserHasInteracted] = useState(false);
 
+  // Automatically select the default address if the user hasn't interacted
   useEffect(() => {
-    if (value || !sortedAddresses.length) {
-      return;
+    if (!userHasInteracted && sortedAddresses.length > 0) {
+      onChange?.(sortedAddresses[0].id);
     }
+  }, [sortedAddresses, userHasInteracted, onChange]);
 
-    onChange?.(sortedAddresses[0].id);
-  });
+  // Handle manual selection by the user
+  const handleSelectionChange = (selectedId: string) => {
+    setUserHasInteracted(true); // Mark as user-interacted
+    onChange?.(selectedId);
+  };
+
+  console.log(sortedAddresses);
 
   const handleAddressDelete = async (addressId: string) => {
     try {
@@ -69,7 +73,7 @@ const CustomerAddressSelector: React.FC<CustomerAddressSelectorProps> = ({
     }
   };
   return (
-    <RadioGroup value={value} onValueChange={onChange}>
+    <RadioGroup value={value} onValueChange={handleSelectionChange}>
       {sortedAddresses
         .filter((address) => address.archived == false)
         .map((address, index) => (
