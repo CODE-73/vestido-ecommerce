@@ -28,7 +28,11 @@ export async function createOrder(_data: CreateOrderSchemaType) {
     data: {
       ...data,
       dateTime: new Date(),
-      orderStatus: 'PENDING',
+      /**
+       * For Cash on Delivery, the order status is set to CONFIRMED immediately.
+       * We are anticipating an error from the payment gateway, hence setting the order status to PENDING.
+       */
+      orderStatus: paymentType == 'CASH_ON_DELIVERY' ? 'CONFIRMED' : 'PENDING',
       totalPrice: itemsPrice - totalTax,
       totalTax: totalTax,
       totalCharges: shippingCharges,

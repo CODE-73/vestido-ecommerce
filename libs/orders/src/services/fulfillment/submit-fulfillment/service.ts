@@ -140,6 +140,7 @@ export async function submitFulfillment(fulfillmentId: string) {
       },
     });
 
+    // TODO: Change Order Status to 'IN_PROGRESS' when atleast one Fulfillment is Submitted
     const allItemsInProgress = order.orderItems.every(
       (item) => item.status === 'IN_PROGRESS',
     );
