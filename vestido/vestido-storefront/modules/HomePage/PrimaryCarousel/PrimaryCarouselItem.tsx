@@ -22,9 +22,9 @@ interface PrimaryCarouselItemProps {
 const PrimaryCarouselItem: React.FC<PrimaryCarouselItemProps> = ({ data }) => {
   return (
     <CarouselItem className="w-full relative">
-      <div className="min-h-[300px] md:min-h-[500px] xl:min-h-[600px] overflow-hidden w-full">
+      <div className="min-h-[300px] md:min-h-[500px] xl:min-h-[600px] w-full">
         <Image
-          className="object-cover lg:rounded-[25px]"
+          className="object-cover"
           src={data.backgroundImage}
           alt="Your alt text"
           fill
