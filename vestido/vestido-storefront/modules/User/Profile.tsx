@@ -37,7 +37,7 @@ const Profile: React.FC = () => {
           </div>
           <div className="flex gap-3 my-4">
             <div className="basis-1/2">Gender&nbsp;</div>
-            <div className="basis-1/2">MALE</div>
+            <div className="basis-1/2">{currentUser?.gender}</div>
           </div>
           <Button
             onClick={() => setIsEditing(true)}
