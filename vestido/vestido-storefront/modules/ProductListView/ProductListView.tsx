@@ -76,6 +76,14 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
                 <ProductTile data={item} key={item.id} />
               ))}
             </div>
+            <div className="flex justify-center mt-8">
+              <button
+                className="border border-gray-200 text-xs font-medium py-2 px-5  my-5 hover:border-black duration-100"
+                onClick={handleShowMoreClick}
+              >
+                Show More
+              </button>
+            </div>
           </>
         ) : (
           <div className="absolute left-[50%] transform -translate-x-1/2 flex flex-col items-center">
@@ -83,19 +91,11 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
               We are updating this category with brand new products to suit your
               style!
             </div>
-            <div className="relative w-20 h-20 sm:w-32 sm:h-32 mt-32">
+            <div className="relative w-20 h-20 sm:w-24 sm:h-24 mt-32">
               <Image src="/assets/noitems.png" alt="" fill />
             </div>
           </div>
         )}
-      </div>
-      <div className="flex justify-center mt-8">
-        <button
-          className="border border-gray-200 text-xs font-medium py-2 px-5  my-5 hover:border-black duration-100"
-          onClick={handleShowMoreClick}
-        >
-          Show More
-        </button>
       </div>
     </div>
   );
