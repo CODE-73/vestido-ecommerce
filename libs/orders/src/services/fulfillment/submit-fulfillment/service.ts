@@ -234,6 +234,14 @@ export async function submitFulfillment(fulfillmentId: string) {
 
     const shiprocketOrder = await createShiprocketOrder(shiprocketData);
 
+    await prisma.fulfillmentLog.create({
+      data: {
+        fullfillmentId: fulfillmentId,
+        logType: 'SHIPROCKET_CREATE_ORDER_RESPONSE',
+        rawData: shiprocketOrder,
+      },
+    });
+
     const shippingFulfillment = await prisma.fulfillment.update({
       where: {
         id: fulfillmentId,

@@ -19,6 +19,14 @@ export async function handleShiprocketWebhook(data: shiprocketWebhookRequest) {
   }
 
   const result = await prisma.$transaction(async (prisma) => {
+    await prisma.fulfillmentLog.create({
+      data: {
+        fullfillmentId: data.order_id,
+        logType: 'SHIPROCKET_WEBHOOK',
+        rawData: data,
+      },
+    });
+
     const fulfillmentDetails = await prisma.fulfillment.updateMany({
       where: {
         shiprocket_order_id: String(data.sr_order_id),
