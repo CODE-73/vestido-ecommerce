@@ -6,7 +6,11 @@ import { LuCalendar, LuScaling, LuShoppingBag, LuTruck } from 'react-icons/lu';
 import Markdown from 'react-markdown';
 
 import { useAuth } from '@vestido-ecommerce/auth/client';
-import { useCategory, useItem } from '@vestido-ecommerce/items/client';
+import {
+  useAddToCart,
+  useCategory,
+  useItem,
+} from '@vestido-ecommerce/items/client';
 import { useVestidoSizeChart } from '@vestido-ecommerce/settings/client';
 import {
   Accordion,
@@ -20,11 +24,12 @@ import {
   DialogContent,
   DialogTrigger,
 } from '@vestido-ecommerce/shadcn-ui/dialog';
+import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { formatINR } from '@vestido-ecommerce/utils';
 
 import AddToWishListButton from '../ProductListView/AddToWishlistButton';
 import ProductListView from '../ProductListView/ProductListView';
-import { AddToCartDialog } from '../Wishlist/AddToCartSizeSelector';
+import { SizeSelectorDialog } from '../Wishlist/size-selector';
 import ProductViewBreadcrumb from './poduct-view-breadcrumpts';
 import ProductViewImages from './product-view-images';
 import ProductViewVariants from './product-view-variants';
@@ -37,6 +42,7 @@ interface ProductViewProps {
 const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
   const { isAuthenticated, routeToLogin } = useAuth();
   const router = useRouter();
+  const { toast } = useToast();
   const sizeCharts = useVestidoSizeChart();
 
   const { data: { data: item } = { data: null } } = useItem(itemId);
@@ -60,7 +66,27 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
     () => item?.variants?.find((x) => x.id === selectedVariantId) ?? null,
     [item, selectedVariantId],
   );
-  const handleBuyNow = () => {
+
+  const { trigger: cartTrigger } = useAddToCart();
+
+  const handleAddToCart = (selectedVariantId: string | null) => {
+    if (!isAuthenticated) {
+      routeToLogin();
+      return;
+    }
+
+    if (item) {
+      cartTrigger({
+        itemId: item.id,
+        qty: 1,
+        variantId: selectedVariantId ?? null,
+      });
+      toast({
+        title: 'Item Added to Cart!',
+      });
+    }
+  };
+  const handleBuyNow = (selectedVariantId: string | null) => {
     if (!isAuthenticated) {
       routeToLogin();
       return;
@@ -151,22 +177,43 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
               boxShadow: '0 -20px 25px -5px rgba(55, 65, 81, 0.3)', // Mimicking shadow-lg shadow-gray-700/50
             }}
           >
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button className="text-sm md:text-xl font-semibold bg-transparent hover:bg-transparent h-10 sm:h-auto flex gap-1 border border-white  flex-1">
-                  <LuShoppingBag className="h-4 w-4 md:h-8 md:w-8" />
-                  <div>ADD TO CART</div>
-                </Button>
-              </DialogTrigger>
-              <AddToCartDialog itemId={itemId} />
-            </Dialog>
+            <SizeSelectorDialog
+              itemId={item.id}
+              onSizeSelect={(variantId) => {
+                if (!variantId) {
+                  toast({
+                    title: 'Error',
+                    description: 'Please select a valid size.',
+                  });
+                  return;
+                }
 
-            <Button
-              onClick={() => handleBuyNow()}
-              className="text-sm md:text-xl text-black bg-[#f8f8f8] font-semibold h-10 sm:h-auto flex-1 hover:bg-white"
+                handleAddToCart(variantId);
+              }}
             >
-              BUY NOW
-            </Button>
+              <Button className="text-sm md:text-xl font-semibold bg-transparent hover:bg-transparent h-10 sm:h-auto flex gap-1 border border-white  flex-1">
+                <LuShoppingBag className="h-4 w-4 md:h-8 md:w-8" />
+                <div>ADD TO CART</div>
+              </Button>
+            </SizeSelectorDialog>
+
+            <SizeSelectorDialog
+              itemId={item.id}
+              onSizeSelect={(variantId) => {
+                if (!variantId) {
+                  toast({
+                    title: 'Error',
+                    description: 'Please select a valid size.',
+                  });
+                  return;
+                }
+                handleBuyNow(variantId);
+              }}
+            >
+              <Button className="text-sm md:text-xl text-black bg-[#f8f8f8] font-semibold h-10 sm:h-auto flex-1 hover:bg-white">
+                BUY NOW
+              </Button>
+            </SizeSelectorDialog>
             <AddToWishListButton
               itemId={item?.id || ''}
               className="border sm:border-2 rounded-lg font-medium text-xs h-full self-center p-1 sm:p-4  md:p-1 2xl:p-4 "
