@@ -1,15 +1,14 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
 
-import { CancelOrderSchemaType } from './zod';
+import { CancelOrderSchema, CancelOrderSchemaType } from './zod';
 
 export async function cancelOrder(
-  data: CancelOrderSchemaType,
+  data: CancelOrderSchemaType | unknown,
 ): Promise<boolean> {
   const prisma = getPrismaClient();
 
   try {
-    // Validate and extract the input data
-    const { orderId, reason, remarks } = data;
+    const { orderId, reason, remarks } = CancelOrderSchema.parse(data);
 
     // Check if the order has any submitted fulfillments
     const hasSubmittedFulfillments = await prisma.fulfillment.findFirst({

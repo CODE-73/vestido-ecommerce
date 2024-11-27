@@ -25,3 +25,8 @@ export enum TrackOrderSWRKeys {
   TRACK = 'track',
   ORDER = 'order',
 }
+
+export enum CancelOrderSWRKeys {
+  CANCEL = 'cancel',
+  ORDER = 'order',
+}
