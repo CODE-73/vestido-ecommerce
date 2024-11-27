@@ -1,37 +1,44 @@
+import { Item } from '@prisma/client';
+
 import { useSizeAttribute } from '@vestido-ecommerce/items/client';
-import { type ListOrderResponse } from '@vestido-ecommerce/orders/client';
 import { formatINR } from '@vestido-ecommerce/utils';
 
 import ItemImage from '../../components/item-image';
 
 type orderItemProps = {
-  orderItem: ListOrderResponse['data'][number]['orderItems'][number];
+  // orderItem: ListOrderResponse['data'][number]['orderItems'][number];
+  orderitem_itemid: string;
+  orderitem_variantid: string;
+  orderitem_item: Item;
+  orderitem_qty: number;
 };
 
-const OrderIteminOrderList: React.FC<orderItemProps> = ({ orderItem }) => {
-  console.info({
-    ...orderItem,
-  });
+const OrderIteminOrderList: React.FC<orderItemProps> = ({
+  orderitem_itemid,
+  orderitem_variantid,
+  orderitem_item,
+  orderitem_qty,
+}) => {
   const { variantSize } = useSizeAttribute(
-    orderItem.itemId,
-    orderItem.variantId,
+    orderitem_itemid,
+    orderitem_variantid,
   );
-  console.log('variantsize', variantSize);
+
   return (
     <div className="py-3 flex gap-4 bg-black rounded-lg">
       <ItemImage
-        item={orderItem.item}
+        item={orderitem_item}
         width={60}
         height={90}
         className=" justify-self-center rounded-lg ml-4"
       />
       <div className="flex flex-col">
         <div className=" pl-1 text-sm font-semibold ">
-          {orderItem.item.title}
+          {orderitem_item.title}
         </div>
         <div className="px-1 text-sm flex gap-4">
           <div>Qty:</div>
-          {orderItem.qty}
+          {orderitem_qty}
         </div>
         <div className="px-1 text-sm flex gap-4">
           <div>Size:</div>
@@ -40,7 +47,7 @@ const OrderIteminOrderList: React.FC<orderItemProps> = ({ orderItem }) => {
         <div className="px-1 text-sm flex gap-4">
           <div>Price:</div>
           <div className="uppercase font-semibold">
-            {formatINR(orderItem.item.price)}
+            {formatINR(orderitem_item.price)}
           </div>
         </div>
       </div>
