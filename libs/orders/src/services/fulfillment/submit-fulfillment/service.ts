@@ -3,6 +3,7 @@ import { createShiprocketOrder } from '@vestido-ecommerce/shiprocket';
 import { VestidoError } from '@vestido-ecommerce/utils';
 
 import { CreateAddressSchema } from '../../address/create-address/zod';
+import { getOrder } from '../../orders/get-order';
 import { getFulfillment } from '../get-fulfillment';
 
 export async function submitFulfillment(fulfillmentId: string) {
@@ -11,6 +12,18 @@ export async function submitFulfillment(fulfillmentId: string) {
   // Start a transaction
   const result = await prisma.$transaction(async (prisma) => {
     const existingFulfillment = await getFulfillment(fulfillmentId);
+
+    const orderOfFulfillment = await getOrder(existingFulfillment.orderId);
+    if (
+      orderOfFulfillment?.orderStatus !== 'CONFIRMED' &&
+      orderOfFulfillment?.orderStatus !== 'IN_PROGRESS'
+    ) {
+      throw new VestidoError({
+        name: 'OrderNotInConfirmedState',
+        message: `Order is not in CONFIRMED/IN_PROGRESS Status. ${existingFulfillment.orderId} is in ${orderOfFulfillment?.orderStatus} status`,
+        httpStatus: 401,
+      });
+    }
 
     if (existingFulfillment.status !== 'DRAFT') {
       throw new VestidoError({

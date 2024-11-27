@@ -17,7 +17,7 @@ export async function createFulfillment(data: CreateFulfillmentSchemaType) {
   ) {
     throw new VestidoError({
       name: 'OrderNotInConfirmedState',
-      message: `Order is not in Confirmed Status. ${validatedData.orderId} is in ${order?.orderStatus} status`,
+      message: `Order is not in CONFIRMED/IN_PROGRESS Status. ${validatedData.orderId} is in ${order?.orderStatus} status`,
       httpStatus: 401,
     });
   }

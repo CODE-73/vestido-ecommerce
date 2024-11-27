@@ -45,7 +45,7 @@ const FulfillmentsTable: React.FC<FulfillmentTableProps> = ({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {fulfillments &&
+        {fulfillments.length > 0 ? (
           fulfillments.map((fulfillment) => (
             <TableRow
               key={fulfillment.id}
@@ -75,7 +75,12 @@ const FulfillmentsTable: React.FC<FulfillmentTableProps> = ({
               <TableCell>{fulfillment.shiprocket_order_id}</TableCell>
               <TableCell>{fulfillment.status}</TableCell>
             </TableRow>
-          ))}
+          ))
+        ) : (
+          <TableRow className="text-center">
+            <TableCell colSpan={10}>No fulfillments made yet.</TableCell>
+          </TableRow>
+        )}
       </TableBody>
       <TableFooter></TableFooter>
     </Table>
