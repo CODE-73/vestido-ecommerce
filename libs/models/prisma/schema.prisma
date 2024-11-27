@@ -280,6 +280,7 @@ model Order {
     orderItems         OrderItem[]
     payments           Payment[]
     fulfillments       Fulfillment[]
+    logs               OrderLog[]
 }
 
 model OrderItem {
@@ -302,6 +303,14 @@ model OrderItem {
     taxRate           Float?
     taxInclusive      Boolean?
     taxAmount         Float             @default(0)
+}
+
+model OrderLog {
+    id      String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    orderId String @db.Uuid
+    order   Order  @relation(fields: [orderId], references: [id])
+    logType String
+    rawData Json
 }
 
 model Payment {
