@@ -3,6 +3,7 @@ import { createShiprocketOrder } from '@vestido-ecommerce/shiprocket';
 import { VestidoError } from '@vestido-ecommerce/utils';
 
 import { CreateAddressSchema } from '../../address/create-address/zod';
+import { getOrder } from '../../orders/get-order';
 import { getFulfillment } from '../get-fulfillment';
 
 export async function submitFulfillment(fulfillmentId: string) {
@@ -11,6 +12,18 @@ export async function submitFulfillment(fulfillmentId: string) {
   // Start a transaction
   const result = await prisma.$transaction(async (prisma) => {
     const existingFulfillment = await getFulfillment(fulfillmentId);
+
+    const orderOfFulfillment = await getOrder(existingFulfillment.orderId);
+    if (
+      orderOfFulfillment?.orderStatus !== 'CONFIRMED' &&
+      orderOfFulfillment?.orderStatus !== 'IN_PROGRESS'
+    ) {
+      throw new VestidoError({
+        name: 'OrderNotInConfirmedState',
+        message: `Order is not in CONFIRMED/IN_PROGRESS Status. ${existingFulfillment.orderId} is in ${orderOfFulfillment?.orderStatus} status`,
+        httpStatus: 401,
+      });
+    }
 
     if (existingFulfillment.status !== 'DRAFT') {
       throw new VestidoError({
@@ -67,10 +80,7 @@ export async function submitFulfillment(fulfillmentId: string) {
         },
         data: {
           fulfilledQuantity: newFulfilledQuantity,
-          status:
-            newFulfilledQuantity === orderItem.qty
-              ? 'IN_PROGRESS'
-              : orderItem.status,
+          status: 'IN_PROGRESS',
         },
       });
 
@@ -140,12 +150,12 @@ export async function submitFulfillment(fulfillmentId: string) {
       },
     });
 
-    // TODO: Change Order Status to 'IN_PROGRESS' when atleast one Fulfillment is Submitted
-    const allItemsInProgress = order.orderItems.every(
+    // Change Order Status to 'IN_PROGRESS' when atleast one Fulfillment is Submitted
+    const atLeastOneItemInProgress = order.orderItems.some(
       (item) => item.status === 'IN_PROGRESS',
     );
 
-    if (allItemsInProgress) {
+    if (atLeastOneItemInProgress) {
       await prisma.order.update({
         where: {
           id: existingFulfillment.orderId,
@@ -154,7 +164,15 @@ export async function submitFulfillment(fulfillmentId: string) {
           orderStatus: 'IN_PROGRESS',
         },
       });
+    }
 
+    // Check if all OrderItems are fully fulfilled (all items have fulfilledQuantity equal to qty)
+    const allItemsFulfilled = order.orderItems.every((item) => {
+      return item.fulfilledQuantity === item.qty;
+    });
+
+    // If all items are fulfilled, delete remaining DRAFT fulfillments
+    if (allItemsFulfilled) {
       // Delete fulfillment items associated with the DRAFT fulfillments
       const draftFulfillments = await prisma.fulfillment.findMany({
         where: {
