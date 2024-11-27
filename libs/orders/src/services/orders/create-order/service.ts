@@ -60,6 +60,7 @@ export async function createOrder(_data: CreateOrderSchemaType) {
             taxRate: item.taxRate,
             taxInclusive: item.taxInclusive,
             taxAmount: item.taxAmount, // Added taxAmount here
+            status: paymentType == 'CASH_ON_DELIVERY' ? 'CONFIRMED' : 'PENDING',
           })),
         },
       },
