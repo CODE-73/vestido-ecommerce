@@ -7,13 +7,13 @@ import {
   CreateOrderRequest,
   CreateOrderSWRResponse,
 } from '../../../services/orders/create-order/types';
-import { CreateOrderSWRKeys } from '../keys';
+import { OrderSWRKeys } from '../keys';
 import { createNewOrder } from './service';
 
 export const useCreateOrder = () => {
   const { isAuthenticated, authHeaders } = useAuth();
   const key = isAuthenticated
-    ? [CreateOrderSWRKeys.CREATE, CreateOrderSWRKeys.ORDER]
+    ? [OrderSWRKeys.CREATE, OrderSWRKeys.ORDER]
     : null;
 
   return useSWRMutation<
@@ -22,6 +22,6 @@ export const useCreateOrder = () => {
     string[] | null,
     CreateOrderRequest
   >(key, (_, { arg }) => createNewOrder({ ...arg }, authHeaders), {
-    ...useClearCacheOnSuccess(CreateOrderSWRKeys.ORDER),
+    ...useClearCacheOnSuccess(OrderSWRKeys.ORDER),
   });
 };
