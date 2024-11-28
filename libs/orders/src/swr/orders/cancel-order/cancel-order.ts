@@ -3,25 +3,22 @@ import useSWRMutation from 'swr/mutation';
 import { useAuth } from '@vestido-ecommerce/auth/client';
 import { useClearCacheOnSuccess } from '@vestido-ecommerce/utils';
 
-import {
-  CreateOrderRequest,
-  CreateOrderSWRResponse,
-} from '../../../services/orders/create-order/types';
 import { OrderSWRKeys } from '../keys';
-import { createNewOrder } from './service';
+import { cancelOrder } from './service';
+import { CancelOrderRequest, CancelOrderResponse } from './types';
 
-export const useCreateOrder = () => {
+export const useCancelOrder = () => {
   const { isAuthenticated, authHeaders } = useAuth();
   const key = isAuthenticated
-    ? [OrderSWRKeys.CREATE, OrderSWRKeys.ORDER]
+    ? [OrderSWRKeys.CANCEL, OrderSWRKeys.ORDER]
     : null;
 
   return useSWRMutation<
-    CreateOrderSWRResponse,
+    CancelOrderResponse,
     Error,
     string[] | null,
-    CreateOrderRequest
-  >(key, (_, { arg }) => createNewOrder({ ...arg }, authHeaders), {
+    CancelOrderRequest
+  >(key, (_, { arg }) => cancelOrder({ ...arg }, authHeaders), {
     ...useClearCacheOnSuccess(OrderSWRKeys.ORDER),
   });
 };
