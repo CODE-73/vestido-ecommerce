@@ -7,10 +7,8 @@ export async function cancelOrder(
   data: CancelOrderSchemaType | unknown,
 ): Promise<boolean> {
   const prisma = getPrismaClient();
-
+  const { orderId, reason, remarks } = CancelOrderSchema.parse(data);
   try {
-    const { orderId, reason, remarks } = CancelOrderSchema.parse(data);
-
     // Check if the order has any submitted fulfillments
     const hasSubmittedFulfillments = await prisma.fulfillment.findFirst({
       where: {
@@ -54,8 +52,8 @@ export async function cancelOrder(
     return true;
   } catch (error) {
     throw new VestidoError({
-      name: 'Error Cancelling Order',
-      message: '',
+      name: 'OrderCancellationFailed',
+      message: `Error Cancelling Order with ID ${orderId}`,
       httpStatus: 500,
       context: {
         error: error,
