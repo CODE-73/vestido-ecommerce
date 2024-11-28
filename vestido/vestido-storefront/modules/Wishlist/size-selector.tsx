@@ -130,7 +130,7 @@ export const SizeSelectorDialog: React.FC<SizeSelectorDialogProps> = ({
                   />
                   <div className="flex flex-col gap-4 ">
                     <div className="font-normal">{item?.title}</div>
-                    <div className="flex">
+                    <div className="flex gap-2">
                       {formatINR(
                         item?.discountedPrice ?? (item?.price as number),
                       )}

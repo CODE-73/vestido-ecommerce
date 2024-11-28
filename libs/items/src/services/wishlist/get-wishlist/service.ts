@@ -17,6 +17,8 @@ export async function listWishlistItems(customerId: string) {
           price: true,
           stockStatus: true,
           images: true,
+          discountedPrice: true,
+          discountPercent: true,
         },
       },
       variant: {
