@@ -13,7 +13,7 @@ import {
   BreadcrumbSeparator,
 } from '@vestido-ecommerce/shadcn-ui/breadcrumb';
 
-import ProductFilter from './ProductFilter';
+// import ProductFilter from './ProductFilter';
 import ProductTile from './ProductTile';
 
 type ProductListViewProps = {
@@ -60,12 +60,12 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
       >
         {!suggestedList && (category?.name ?? 'All')}
       </div>
-      <div className="flex relative">
-        {!suggestedList && (
+      <div className="flex relative justify-center">
+        {/* {!suggestedList && (
           <div className="basis-1/5 hidden invisible lg:block">
             <ProductFilter />
           </div>
-        )}
+        )} */}
 
         {items && items.length > 0 ? (
           <>
@@ -76,7 +76,7 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
                 <ProductTile data={item} key={item.id} />
               ))}
             </div>
-            <div className="flex justify-center mt-8">
+            <div className="absolute -bottom-8 left-[50%] flex justify-center mt-8">
               <button
                 className="border border-gray-200 text-xs font-medium py-2 px-5  my-5 hover:border-black duration-100"
                 onClick={handleShowMoreClick}
