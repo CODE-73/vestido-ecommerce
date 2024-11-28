@@ -81,6 +81,7 @@ export async function submitFulfillment(fulfillmentId: string) {
         data: {
           fulfilledQuantity: newFulfilledQuantity,
           status: 'IN_PROGRESS',
+          deliveryStatus: 'IN_PROGRESS',
         },
       });
 
@@ -162,6 +163,7 @@ export async function submitFulfillment(fulfillmentId: string) {
         },
         data: {
           orderStatus: 'IN_PROGRESS',
+          deliveryStatus: 'IN_PROGRESS',
         },
       });
     }
