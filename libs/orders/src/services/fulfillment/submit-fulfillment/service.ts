@@ -167,45 +167,12 @@ export async function submitFulfillment(fulfillmentId: string) {
     }
 
     // Check if all OrderItems are fully fulfilled (all items have fulfilledQuantity equal to qty)
-    const allItemsFulfilled = order.orderItems.every((item) => {
-      return item.fulfilledQuantity === item.qty;
-    });
+    // const allItemsFulfilled = order.orderItems.every((item) => {
+    //   return item.fulfilledQuantity === item.qty;
+    // });
 
     // If all items are fulfilled, delete remaining DRAFT fulfillments
-    if (allItemsFulfilled) {
-      // Delete fulfillment items associated with the DRAFT fulfillments
-      const draftFulfillments = await prisma.fulfillment.findMany({
-        where: {
-          orderId: existingFulfillment.orderId,
-          status: 'DRAFT',
-          id: {
-            not: fulfillmentId, // Exclude the currently processed fulfillment
-          },
-        },
-        select: {
-          id: true,
-        },
-      });
-
-      const draftFulfillmentIds = draftFulfillments.map((f) => f.id);
-
-      await prisma.fulfillmentItem.deleteMany({
-        where: {
-          fulfillmentId: {
-            in: draftFulfillmentIds,
-          },
-        },
-      });
-
-      // Delete the DRAFT fulfillments themselves
-      await prisma.fulfillment.deleteMany({
-        where: {
-          id: {
-            in: draftFulfillmentIds,
-          },
-        },
-      });
-    }
+    //    if (allItemsFulfilled) {}
 
     const validatedAddress = CreateAddressSchema.parse(order.shippingAddress);
 
