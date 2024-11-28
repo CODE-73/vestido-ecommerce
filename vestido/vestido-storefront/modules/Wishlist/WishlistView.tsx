@@ -1,10 +1,13 @@
 import * as React from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import { LuShoppingBag, LuX } from 'react-icons/lu';
 
+import { WishlistItemResponse } from '@vestido-ecommerce/items';
 import {
+  useAddToCart,
   useRemoveFromWishlist,
   useWishlist,
 } from '@vestido-ecommerce/items/client';
@@ -19,18 +22,19 @@ import {
   AlertDialogTrigger,
 } from '@vestido-ecommerce/shadcn-ui/alert-dialog';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
-import { Dialog, DialogTrigger } from '@vestido-ecommerce/shadcn-ui/dialog';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { formatINR, ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import { ItemToastBody } from '../../components/item-toast-body';
-import { AddToCartDialog } from './AddToCartSizeSelector';
+import { SizeSelectorDialog } from './size-selector';
 
 const WishlistView: React.FC = () => {
   const { data: { data: wishlistItems } = { data: [] } } = useWishlist();
 
-  const { trigger } = useRemoveFromWishlist();
+  const { trigger: wishlistTrigger } = useRemoveFromWishlist();
   const { toast } = useToast();
+  const { trigger } = useAddToCart();
+  const [qty] = useState(1);
 
   const removeItem = (itemId: string) => {
     return wishlistItems.find((x) => x.itemId === itemId);
@@ -38,7 +42,7 @@ const WishlistView: React.FC = () => {
 
   const handleRemoveFromWishlist = (itemId: string) => {
     const removedItem = removeItem(itemId);
-    trigger({
+    wishlistTrigger({
       itemId: itemId,
     });
     if (!removedItem) {
@@ -46,15 +50,41 @@ const WishlistView: React.FC = () => {
         title: 'Error',
         description: 'Item not found in the wishlist!',
       });
-    } else {
-      toast({
-        title: '',
-        description: ItemToastBody(
-          false,
-          removedItem.item,
-          'Item removed from Wishlist',
-        ),
-      });
+    }
+  };
+  const handleAddToCart = async (
+    wishlistItem: WishlistItemResponse['data'][number],
+
+    selectedVariantId: string | null,
+  ) => {
+    if (wishlistItem) {
+      // setLoading(true);
+
+      try {
+        await trigger({
+          itemId: wishlistItem.itemId,
+          qty: qty,
+          variantId: selectedVariantId,
+        });
+
+        toast({
+          title: '',
+          description: ItemToastBody(
+            true,
+            wishlistItem.item,
+            'Item Added to Cart!',
+          ),
+        });
+        console.log('passed toast');
+      } catch (error) {
+        console.error('Failed to add item to cart', error);
+        toast({
+          title: 'Error Adding to Cart!',
+          description: ItemToastBody(false, wishlistItem.item, ''),
+        });
+      } finally {
+        // setLoading(false);
+      }
     }
   };
 
@@ -131,17 +161,20 @@ const WishlistView: React.FC = () => {
                     </div>
                   </div>
 
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <div className={`p-2 bg-white w-full`}>
-                        <Button className="bg-white w-full flex gap-3 h-[30px] text-lg mb-1 text-white p-2 uppercase font-semibold tracking-wide hover:bg-transparent">
-                          <LuShoppingBag color="#fff" size={24} />
-                          <div> Add to Cart</div>
-                        </Button>
-                      </div>
-                    </DialogTrigger>
-                    <AddToCartDialog itemId={wishlistItem.itemId} />
-                  </Dialog>
+                  <SizeSelectorDialog
+                    itemId={wishlistItem.itemId}
+                    onSizeSelect={(selectedVariantId) => {
+                      handleRemoveFromWishlist(wishlistItem.itemId);
+                      handleAddToCart(wishlistItem, selectedVariantId);
+                    }}
+                  >
+                    <div className={`p-2 bg-white w-full`}>
+                      <Button className="bg-white w-full flex gap-3 h-[30px] text-lg mb-1 text-white p-2 uppercase font-semibold tracking-wide hover:bg-transparent">
+                        <LuShoppingBag color="#fff" size={24} />
+                        <div> Add to Cart</div>
+                      </Button>
+                    </div>
+                  </SizeSelectorDialog>
                 </>
               </div>
             );
