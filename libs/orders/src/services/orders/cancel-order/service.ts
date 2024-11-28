@@ -1,4 +1,5 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
+import { VestidoError } from '@vestido-ecommerce/utils';
 
 import { CancelOrderSchema, CancelOrderSchemaType } from './zod';
 
@@ -52,7 +53,14 @@ export async function cancelOrder(
 
     return true;
   } catch (error) {
-    console.error('Error cancelling order:', error);
+    throw new VestidoError({
+      name: 'Error Cancelling Order',
+      message: '',
+      httpStatus: 500,
+      context: {
+        error: error,
+      },
+    });
 
     return false;
   }
