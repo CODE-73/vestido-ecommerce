@@ -25,6 +25,12 @@ import {
   AlertDialogTrigger,
 } from '@vestido-ecommerce/shadcn-ui/alert-dialog';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from '@vestido-ecommerce/shadcn-ui/card';
 import { Form } from '@vestido-ecommerce/shadcn-ui/form';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { VestidoError } from '@vestido-ecommerce/utils';
@@ -172,10 +178,44 @@ const FulfillmentForm: React.FC<FulfillmentFormProps> = ({ fulfillmentId }) => {
         <div className="text-2xl font-semibold capitalize flex justify-between">
           {fulfillment?.id}
         </div>
+
         <div className="flex h-full flex-col flex-grow ps-2 pe-2">
           <hr className="border-t-1 border-slate-400 mb-4 w-full" />
           <BasicFulfillmentForm />
           <hr />
+          <div>
+            <Card className="col-span-6">
+              <CardHeader>
+                <CardTitle className="text-xl">Shiprocket Details</CardTitle>
+                <hr />
+              </CardHeader>
+              <CardContent className="gap-4 grid grid-cols-3 max-w-xl">
+                <div className="">Shiprocket Order ID: </div>
+                <div className="font-semibold col-span-2">
+                  {fulfillment?.shiprocket_order_id ? (
+                    <a
+                      href={` https://app.shiprocket.in/seller/orders/details/${fulfillment.shiprocket_order_id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-500 hover:underline"
+                    >
+                      {fulfillment.shiprocket_order_id}
+                    </a>
+                  ) : (
+                    'N/A'
+                  )}
+                </div>
+                <div className="">Shipment ID:</div>
+                <div className="font-semibold col-span-2">
+                  {fulfillment?.shipment_id ? fulfillment.shipment_id : 'N/A'}
+                </div>
+                <div className="">AWB: </div>
+                <div className="font-semibold col-span-2">
+                  {fulfillment?.tracking ? fulfillment.tracking : 'N/A'}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
           <FulfillmentFormTable
             orderId={orderId ?? ''}
             fulfillment={fulfillment}
