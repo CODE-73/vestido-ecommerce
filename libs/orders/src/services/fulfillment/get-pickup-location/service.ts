@@ -1,6 +1,6 @@
 import { getShiprocketPickupLocation } from '@vestido-ecommerce/shiprocket';
 
-export async function getPickupLoc() {
+export async function getPickupLoc(): Promise<string[]> {
   const response = await getShiprocketPickupLocation();
 
   const pickupLocations = response.data.shipping_address.map(

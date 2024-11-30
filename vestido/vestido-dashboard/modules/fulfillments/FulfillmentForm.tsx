@@ -37,6 +37,7 @@ import { VestidoError } from '@vestido-ecommerce/utils';
 
 import BasicFulfillmentForm from './fulfillment-form-basic';
 import FulfillmentFormTable from './fulfillment-form-table';
+import FulfillmentPickupLocation from './fulfillment-pickup-location';
 
 const FulfillmentItemSchema = z.object({
   orderItemId: z.string().uuid(),
@@ -49,6 +50,7 @@ const UpdateFulfillmentFormSchema = z.object({
   status: z
     .nativeEnum(FulfillmentStatus)
     .default('DRAFT' satisfies FulfillmentStatus),
+  pickup_location: z.string().nullable(),
   length: z.coerce.number().nullable(),
   breadth: z.coerce.number().nullable(),
   height: z.coerce.number().nullable(),
@@ -75,6 +77,7 @@ const FulfillmentForm: React.FC<FulfillmentFormProps> = ({ fulfillmentId }) => {
     defaultValues: {
       id: fulfillmentId,
       status: 'DRAFT',
+      pickup_location: null,
       length: 0,
       breadth: 0,
       height: 0,
@@ -216,6 +219,7 @@ const FulfillmentForm: React.FC<FulfillmentFormProps> = ({ fulfillmentId }) => {
               </CardContent>
             </Card>
           </div>
+          <FulfillmentPickupLocation name="pickup_location" />
           <FulfillmentFormTable
             orderId={orderId ?? ''}
             fulfillment={fulfillment}
