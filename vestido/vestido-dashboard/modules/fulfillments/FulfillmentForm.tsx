@@ -25,10 +25,16 @@ import {
   AlertDialogTrigger,
 } from '@vestido-ecommerce/shadcn-ui/alert-dialog';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
+import {
+  Card,
+  CardContent,
+  CardTitle,
+} from '@vestido-ecommerce/shadcn-ui/card';
 import { Form } from '@vestido-ecommerce/shadcn-ui/form';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { VestidoError } from '@vestido-ecommerce/utils';
 
+import { formattedDate, formattedTime } from '../orders/OrdersTable';
 import BasicFulfillmentForm from './fulfillment-form-basic';
 import FulfillmentFormTable from './fulfillment-form-table';
 
@@ -63,6 +69,7 @@ const FulfillmentForm: React.FC<FulfillmentFormProps> = ({ fulfillmentId }) => {
   const { trigger: submitTrigger } = useSubmitFulfillment();
 
   const orderId = useFulfillment(fulfillmentId).data?.data.orderId;
+  const fulfillmentStatus = useFulfillment(fulfillmentId).data?.data.status;
 
   const form = useForm<UpdateFulfillmentForm>({
     resolver: zodResolver(UpdateFulfillmentFormSchema),
@@ -155,6 +162,9 @@ const FulfillmentForm: React.FC<FulfillmentFormProps> = ({ fulfillmentId }) => {
       console.error('Error submitting fulfillment:', err);
     }
   };
+  const handleRowClick = (orderId: string | number) => {
+    router.push(`/orders/${encodeURIComponent(orderId)}`);
+  };
 
   return (
     <Form {...form}>
@@ -169,11 +179,47 @@ const FulfillmentForm: React.FC<FulfillmentFormProps> = ({ fulfillmentId }) => {
         onSubmit={form.handleSubmit(handleSubmit)}
         className="flex flex-col justify-center w-full text-lg mt-16 bg-slate-200 px-5 py-10 mb-5"
       >
-        <div className="text-2xl font-semibold capitalize flex justify-between">
-          {fulfillment?.id}
+        <div className="flex items-center py-5 gap-3 justify-between">
+          <h1 className="text-lg font-semibold">Fulfillment Details</h1>
         </div>
-        <div className="flex h-full flex-col flex-grow ps-2 pe-2">
-          <hr className="border-t-1 border-slate-400 mb-4 w-full" />
+        <Card className="col-span-6 p-4 bg-white shadow-md d-flex rounded-md">
+          <CardTitle className="text-xl  font-normal ">
+            <div className="flex justify-between items-center pb-3">
+              <div className="flex flex-col  gap-4">
+                <div className="flex flex-row gap-4">
+                  <span className=" font-medium ">Fulfillment ID: </span>
+                  <span className="font-semibold ">{fulfillment?.id}</span>
+                </div>
+                <div className="flex flex-row gap-4">
+                  <span className=" text-gray-700 font-medium ">
+                    Fulfillment Status:{' '}
+                  </span>
+                  <span className="font-semibold ">{fulfillmentStatus}</span>
+                </div>
+              </div>
+              <div className="text-lg flex divide-x divide-gray-300 gap-5">
+                <div>
+                  {fulfillment && formattedDate(new Date(fulfillment.dateTime))}
+                </div>
+
+                <div className="pl-5">
+                  {fulfillment && formattedTime(new Date(fulfillment.dateTime))}
+                </div>
+              </div>
+            </div>
+          </CardTitle>
+          <CardContent
+            className="gap-4 p-0 grid grid-cols-3 max-w-xl cursor-pointer hover:underline transition"
+            onClick={() => orderId && handleRowClick(orderId)}
+          >
+            <div className="text-gray-700 font-medium ">Order ID:</div>
+            <div className="col-span-2 text-gray-900 underline  hover:underline">
+              {orderId || 'N/A'}
+            </div>
+          </CardContent>
+        </Card>
+
+        <div className="flex h-full flex-col flex-grow ps-2 pe-2 py-5">
           <BasicFulfillmentForm />
           <hr />
           <FulfillmentFormTable

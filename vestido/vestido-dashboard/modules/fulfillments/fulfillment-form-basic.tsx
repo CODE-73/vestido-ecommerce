@@ -4,7 +4,7 @@ import { InputElement } from '../../forms/input-element';
 
 const BasicFulfillmentForm: FC = () => {
   return (
-    <div className="grid grid-cols-4 gap-5 lg:px-10">
+    <div className="grid grid-cols-4 gap-5 ">
       <div className="col-start-1">
         <InputElement
           name="length"
