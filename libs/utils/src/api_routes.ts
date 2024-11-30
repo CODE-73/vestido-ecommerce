@@ -133,3 +133,19 @@ export function captureSentryError(e: unknown) {
   }
   console.error('SentryErrorCaptured:', e);
 }
+
+export const jsonMiddleware: RouteHandlerMiddleware = async ({
+  request,
+  next,
+}) => {
+  if (!request.headers['content-type']?.includes('application/json')) {
+    throw new VestidoError({
+      name: 'JsonParsingError',
+      message: 'Content-Type is not application/json',
+      httpStatus: 400,
+      context: {
+        body: request.body,
+      },
+    });
+  }
+};

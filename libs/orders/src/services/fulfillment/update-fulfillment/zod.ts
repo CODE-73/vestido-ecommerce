@@ -13,6 +13,7 @@ export const UpdateFulfillmentSchema = z.object({
   height: z.number().nullable(),
   weight: z.number().nullable(),
   description: z.string().nullable(),
+  pickup_location: z.string().nullable(),
   items: z.array(FulfillmentItemSchema),
 });
 

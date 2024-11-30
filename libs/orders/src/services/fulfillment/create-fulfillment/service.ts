@@ -33,6 +33,7 @@ export async function createFulfillment(data: CreateFulfillmentSchemaType) {
         breadth: validatedData.breadth,
         height: validatedData.height,
         weight: validatedData.weight,
+        pickup_location: validatedData.pickup_location,
         fulfillmentItems: {
           createMany: {
             data: validatedData.items.map((i) => ({

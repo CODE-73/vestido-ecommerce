@@ -1,6 +1,7 @@
 import { FC } from 'react';
 
 import { InputElement } from '../../forms/input-element';
+import FulfillmentPickupLocation from './fulfillment-pickup-location';
 
 const BasicFulfillmentForm: FC = () => {
   return (
@@ -32,6 +33,7 @@ const BasicFulfillmentForm: FC = () => {
         placeholder="Add a note on Fulfillment"
         label="Note"
       />
+      <FulfillmentPickupLocation name="pickup_location" />
     </div>
   );
 };

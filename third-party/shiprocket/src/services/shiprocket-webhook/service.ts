@@ -27,9 +27,26 @@ export async function handleShiprocketWebhook(data: shiprocketWebhookRequest) {
   }
 
   await prisma.$transaction(async (prisma) => {
+    const fulfillment = await prisma.fulfillment.findFirst({
+      where: {
+        shiprocket_order_id: String(data.sr_order_id),
+      },
+    });
+
+    if (!fulfillment) {
+      throw new VestidoError({
+        name: 'FulfillmentNotFound',
+        message: `Fulfillment not found for ${data.sr_order_id} from Webhook Response`,
+        httpStatus: 404,
+        context: {
+          data,
+        },
+      });
+    }
+
     await prisma.fulfillmentLog.create({
       data: {
-        fullfillmentId: data.order_id,
+        fullfillmentId: fulfillment.id,
         logType: 'SHIPROCKET_WEBHOOK',
         rawData: data,
       },
