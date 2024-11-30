@@ -15,14 +15,14 @@ const FulfillmentPickupLocation: FC<FulfillmentPickupLocationProps> = ({
   const { data: { data } = { data: [] }, isLoading } = usePickupLoc();
 
   return (
-    <>
+    <div className="flex flex-col">
       <Label>Pickup Location</Label>
       <SelectElement
         name={name}
         options={(data || []).map((loc) => ({ title: loc, id: loc }))}
         disabled={isLoading}
       ></SelectElement>
-    </>
+    </div>
   );
 };
 

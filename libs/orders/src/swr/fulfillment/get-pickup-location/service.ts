@@ -5,7 +5,7 @@ import { PickupLocationResponse } from 'libs/orders/src/services';
 export async function getPickupLoc(
   headers?: Record<string, string>,
 ): Promise<PickupLocationResponse> {
-  const url = `/api/fulfillments/pickup`;
+  const url = `/api/fulfillments/pickup-locations`;
   const r = await fetch(url, {
     headers: {
       ...headers,
