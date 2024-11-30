@@ -28,6 +28,7 @@ import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
   Card,
   CardContent,
+  CardHeader,
   CardTitle,
 } from '@vestido-ecommerce/shadcn-ui/card';
 import { Form } from '@vestido-ecommerce/shadcn-ui/form';
@@ -49,6 +50,7 @@ const UpdateFulfillmentFormSchema = z.object({
   status: z
     .nativeEnum(FulfillmentStatus)
     .default('DRAFT' satisfies FulfillmentStatus),
+  pickup_location: z.string().nullable(),
   length: z.coerce.number().nullable(),
   breadth: z.coerce.number().nullable(),
   height: z.coerce.number().nullable(),
@@ -76,6 +78,7 @@ const FulfillmentForm: React.FC<FulfillmentFormProps> = ({ fulfillmentId }) => {
     defaultValues: {
       id: fulfillmentId,
       status: 'DRAFT',
+      pickup_location: null,
       length: 0,
       breadth: 0,
       height: 0,
@@ -87,19 +90,9 @@ const FulfillmentForm: React.FC<FulfillmentFormProps> = ({ fulfillmentId }) => {
   const { data: { data: fulfillment } = { data: null } /*, isLoading */ } =
     useFulfillment(fulfillmentId);
 
-  console.log('fulfillment is', fulfillment);
-
-  const { isDirty, isValid, errors } = form.formState;
+  const { isDirty, isValid } = form.formState;
   const isSubmitting = form.formState.isSubmitting;
-  console.info(
-    'FormState:',
-    structuredClone({
-      isDirty,
-      isValid,
-      errors,
-      values: form.getValues(),
-    }),
-  );
+  const isDraft = fulfillment?.status === 'DRAFT' || false;
 
   useEffect(() => {
     const items = fulfillment?.fulfillmentItems.map((fulfillmentItem) => {
@@ -190,12 +183,6 @@ const FulfillmentForm: React.FC<FulfillmentFormProps> = ({ fulfillmentId }) => {
                   <span className=" font-medium ">Fulfillment ID: </span>
                   <span className="font-semibold ">{fulfillment?.id}</span>
                 </div>
-                <div className="flex flex-row gap-4">
-                  <span className=" text-gray-700 font-medium ">
-                    Fulfillment Status:{' '}
-                  </span>
-                  <span className="font-semibold ">{fulfillmentStatus}</span>
-                </div>
               </div>
               <div className="text-lg flex divide-x divide-gray-300 gap-5">
                 <div>
@@ -208,62 +195,120 @@ const FulfillmentForm: React.FC<FulfillmentFormProps> = ({ fulfillmentId }) => {
               </div>
             </div>
           </CardTitle>
-          <CardContent
-            className="gap-4 p-0 grid grid-cols-3 max-w-xl cursor-pointer hover:underline transition"
-            onClick={() => orderId && handleRowClick(orderId)}
-          >
+          <CardContent className="gap-4 p-0 grid grid-cols-3 max-w-xl ">
+            <div className=" text-gray-700 font-medium ">
+              Fulfillment Status:{' '}
+            </div>
+            <div className="col-span-2 text-gray-900 ">{fulfillmentStatus}</div>
+
             <div className="text-gray-700 font-medium ">Order ID:</div>
-            <div className="col-span-2 text-gray-900 underline  hover:underline">
+            <div
+              className="col-span-2 text-gray-900 underline  hover:underline cursor-pointer "
+              onClick={() => orderId && handleRowClick(orderId)}
+            >
               {orderId || 'N/A'}
             </div>
           </CardContent>
         </Card>
 
-        <div className="flex h-full flex-col flex-grow ps-2 pe-2 py-5">
+        {/* <div className="flex h-full flex-col flex-grow ps-2 pe-2 py-5">
           <BasicFulfillmentForm />
           <hr />
           <FulfillmentFormTable
             orderId={orderId ?? ''}
             fulfillment={fulfillment}
           />
-        </div>
+        </div> */}
 
-        <div className="grid grid-cols-3 md:grid-cols-8 mt-3 text-right gap-2">
-          <Button
-            type="submit"
-            disabled={!isValid || isSubmitting || !isDirty}
-            className="col-span-2"
-          >
-            Update Fulfillment
-          </Button>
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button type="button" disabled={isDirty} className="col-span-2">
-                Submit
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>
-                  Final Submit Fulfillment ??{' '}
-                </AlertDialogTitle>
-                <AlertDialogDescription>
-                  You are about to submit this fulfillment permanently. No
-                  further changes will be allowed. This will be forwarded to the
-                  delivery partner. Would you like to proceed
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction
-                  onClick={() => handleSubmitFulfillment(fulfillmentId ?? '')}
+        <fieldset disabled={!isDraft}>
+          {/* <div className="text-2xl font-semibold capitalize flex justify-between">
+            {fulfillment?.id}
+          </div> */}
+
+          <div className="flex h-full flex-col flex-grow ps-2 pe-2">
+            <hr className="border-t-1 border-slate-400 mb-4 w-full" />
+            <BasicFulfillmentForm />
+            <hr />
+            <div>
+              <Card className="col-span-6">
+                <CardHeader>
+                  <CardTitle className="text-xl">Shiprocket Details</CardTitle>
+                  <hr />
+                </CardHeader>
+                <CardContent className="gap-4 grid grid-cols-3 max-w-xl">
+                  <div className="">Shiprocket Order ID: </div>
+                  <div className="font-semibold col-span-2">
+                    {fulfillment?.shiprocket_order_id ? (
+                      <a
+                        href={` https://app.shiprocket.in/seller/orders/details/${fulfillment.shiprocket_order_id}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-500 hover:underline"
+                      >
+                        {fulfillment.shiprocket_order_id}
+                      </a>
+                    ) : (
+                      'N/A'
+                    )}
+                  </div>
+                  <div className="">Shipment ID:</div>
+                  <div className="font-semibold col-span-2">
+                    {fulfillment?.shipment_id ? fulfillment.shipment_id : 'N/A'}
+                  </div>
+                  <div className="">AWB: </div>
+                  <div className="font-semibold col-span-2">
+                    {fulfillment?.tracking ? fulfillment.tracking : 'N/A'}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+            <FulfillmentFormTable
+              orderId={orderId ?? ''}
+              fulfillment={fulfillment}
+            />
+          </div>
+
+          <div className="grid grid-cols-3 md:grid-cols-8 mt-3 text-right gap-2">
+            <Button
+              type="submit"
+              disabled={!isValid || isSubmitting || !isDirty}
+              className="col-span-2"
+            >
+              Update Fulfillment
+            </Button>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  type="button"
+                  disabled={isDirty || !isDraft}
+                  className="col-span-2"
                 >
-                  Yes, Submit
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-        </div>
+                  Submit
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>
+                    Final Submit Fulfillment ??{' '}
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    You are about to submit this fulfillment permanently. No
+                    further changes will be allowed. This will be forwarded to
+                    the delivery partner. Would you like to proceed
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={() => handleSubmitFulfillment(fulfillmentId ?? '')}
+                  >
+                    Yes, Submit
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
+        </fieldset>
       </form>
     </Form>
   );
