@@ -49,6 +49,18 @@ export async function createShiprocketOrder(data: CreateShiprocketOrderType) {
       method: 'POST',
       body: { ...body },
     });
+
+    if (!response.order_id) {
+      throw new VestidoError({
+        name: 'ShiprocketOrderCreationFailed',
+        message: `Could Not Create Shiprocket Order`,
+        httpStatus: 404,
+        context: {
+          errorMessage: response.message || response,
+        },
+      });
+    }
+
     return response;
   } catch (e) {
     if (e instanceof VestidoError) {

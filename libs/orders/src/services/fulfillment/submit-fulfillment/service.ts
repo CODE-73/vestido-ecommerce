@@ -199,7 +199,7 @@ export async function submitFulfillment(fulfillmentId: string) {
     const shiprocketData = {
       fulfillmentId,
       orderDate: order.dateTime,
-      pickupLocation: 'Home',
+      pickupLocation: 'warehouse-1',
       shippingIsBilling: true,
       billing_customer_name: validatedAddress.firstName,
       billing_last_name: validatedAddress.lastName,
