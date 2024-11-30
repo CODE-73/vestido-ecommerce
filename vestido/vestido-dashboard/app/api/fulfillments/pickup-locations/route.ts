@@ -1,5 +1,5 @@
 import { authMiddleware, roleMiddleware } from '@vestido-ecommerce/auth';
-import { getPickupLoc } from 'libs/orders/src/services/fulfillment/get-pickup-location';
+import { getPickupLoc } from '@vestido-ecommerce/orders';
 import { apiRouteHandler } from '@vestido-ecommerce/utils';
 
 export const GET = apiRouteHandler(
