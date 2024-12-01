@@ -1,10 +1,10 @@
 import useSWRImmutable from 'swr/immutable';
 
 import { useAuth } from '@vestido-ecommerce/auth/client';
-import { getPickupLoc } from './service';
 
+import { PickupLocationResponse } from '../../../services';
 import { getPickupLocSWRKeys } from '../keys';
-import { PickupLocationResponse } from 'libs/orders/src/services';
+import { getPickupLoc } from './service';
 
 export function usePickupLoc() {
   const { authHeaders } = useAuth();
