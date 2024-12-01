@@ -12,6 +12,11 @@ export enum UpdateFulfillmentSWRKeys {
   FULFILLMENT = 'fulfillment',
 }
 
+export enum getPickupLocSWRKeys {
+  GET = 'get',
+  SHIPROCKET = 'shiprocket',
+}
+
 export enum SubmitFulfillmentSWRKeys {
   SUBMIT = 'submit',
   FULFILLMENT = 'fulfillment',

@@ -5,6 +5,7 @@ import { VestidoError } from '@vestido-ecommerce/utils';
 import { CreateAddressSchema } from '../../address/create-address/zod';
 import { getOrder } from '../../orders/get-order';
 import { getFulfillment } from '../get-fulfillment';
+import { SubmitFulfillmentSchema } from './zod';
 
 export async function submitFulfillment(fulfillmentId: string) {
   const prisma = getPrismaClient();
@@ -36,6 +37,9 @@ export async function submitFulfillment(fulfillmentId: string) {
         },
       });
     }
+
+    const validatedFulfillment =
+      SubmitFulfillmentSchema.parse(existingFulfillment);
 
     // Prepare the updates for OrderItems
     const updates = existingFulfillment.fulfillmentItems.map(async (item) => {
@@ -199,7 +203,7 @@ export async function submitFulfillment(fulfillmentId: string) {
     const shiprocketData = {
       fulfillmentId,
       orderDate: order.dateTime,
-      pickupLocation: 'warehouse-1',
+      pickupLocation: validatedFulfillment.pickup_location,
       shippingIsBilling: true,
       billing_customer_name: validatedAddress.firstName,
       billing_last_name: validatedAddress.lastName,
@@ -213,10 +217,10 @@ export async function submitFulfillment(fulfillmentId: string) {
       order_items: fulfillmentItems,
       paymentMethod: paymentMethod,
       totalAmount: totalAmount,
-      length: existingFulfillment.length ?? 0,
-      breadth: existingFulfillment.breadth ?? 0,
-      height: existingFulfillment.height ?? 0,
-      weight: existingFulfillment.weight ?? 0,
+      length: validatedFulfillment.length,
+      breadth: validatedFulfillment.breadth,
+      height: validatedFulfillment.height,
+      weight: validatedFulfillment.weight,
     };
 
     const shiprocketOrder = await createShiprocketOrder(shiprocketData);

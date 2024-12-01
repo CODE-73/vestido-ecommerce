@@ -56,7 +56,7 @@ export async function createShiprocketOrder(data: CreateShiprocketOrderType) {
         message: `Could Not Create Shiprocket Order`,
         httpStatus: 404,
         context: {
-          errorMessage: response.message || response,
+          response,
         },
       });
     }

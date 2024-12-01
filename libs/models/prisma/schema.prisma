@@ -342,6 +342,7 @@ model Fulfillment {
     breadth             Float?
     height              Float?
     weight              Float?
+    pickup_location     String?
     price               Float?
     description         String?
     fulfillmentItems    FulfillmentItem[]

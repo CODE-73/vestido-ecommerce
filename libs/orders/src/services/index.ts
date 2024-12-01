@@ -7,6 +7,7 @@ export * from './fulfillment/cancel-fulfillment';
 export * from './fulfillment/create-fulfillment';
 export * from './fulfillment/delete-fulfillment';
 export * from './fulfillment/get-fulfillment';
+export * from './fulfillment/get-pickup-location';
 export * from './fulfillment/list-fulfillment';
 export * from './fulfillment/submit-fulfillment';
 export * from './fulfillment/update-fulfillment';
