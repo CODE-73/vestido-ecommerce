@@ -139,7 +139,7 @@ export async function submitFulfillment(fulfillmentId: string) {
 
     // Calculate the ratio and the total amount for this fulfillment
     const totalAmount =
-      (fulfillmentItemTotal / orderItemTotal) * order.totalPrice;
+      (fulfillmentItemTotal / orderItemTotal) * order.grandTotal;
 
     // Update the Fulfillment status
     await prisma.fulfillment.update({

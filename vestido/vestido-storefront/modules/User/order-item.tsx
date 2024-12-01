@@ -47,7 +47,11 @@ const OrderIteminOrderList: React.FC<orderItemProps> = ({
         <div className="px-1 text-sm flex gap-4">
           <div>Price:</div>
           <div className="uppercase font-semibold">
-            {formatINR(orderitem_item.price)}
+            {formatINR(
+              orderitem_item.discountedPrice
+                ? orderitem_item.discountedPrice
+                : orderitem_item.price,
+            )}
           </div>
         </div>
       </div>

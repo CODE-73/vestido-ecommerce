@@ -96,8 +96,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
             <div className="font-semibold col-span-2">{order?.grandTotal}</div>
             <div className="">Amount Paid: </div>
             <div className="font-semibold col-span-2">
-              {/* {order?.payments.map((payment) => payment.amount)} */}
-              ₹1599.00
+              {order?.payments.map((payment) => payment.amount)}
             </div>
           </CardContent>
         </Card>
@@ -199,18 +198,15 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
           <CardContent className="gap-3 grid grid-cols-2">
             <div className="justify-self-end">Payment Status: </div>
             <div className="font-semibold">
-              {/* {order?.payments.map((payment) => payment.status)} */}
-              PENDING
+              {order?.payments.map((payment) => payment.status)}
             </div>
             <div className="justify-self-end">Gateway: </div>
             <div className="font-semibold">
-              {/* {order?.payments.map((payment) => payment.paymentGateway)} */}
-              Razorpay
+              {order?.payments.map((payment) => payment.paymentGateway)}
             </div>
             <div className="justify-self-end">Amount Paid: </div>
             <div className="font-semibold">
-              {/* {order?.payments.map((payment) => payment.amount)} */}
-              ₹1599.00
+              {order?.payments.map((payment) => payment.amount)}
             </div>
           </CardContent>
         </Card>

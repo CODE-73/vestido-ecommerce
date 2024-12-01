@@ -32,14 +32,10 @@ const FulfillmentsTable: React.FC<FulfillmentTableProps> = ({
       <TableHeader>
         <TableRow>
           <TableHead>Fulfillment No.</TableHead>
+          <TableHead>Fulfillment ID</TableHead>
           <TableHead>Order ID</TableHead>
           <TableHead>Date</TableHead>
           <TableHead>Time</TableHead>
-
-          <TableHead>Breadth</TableHead>
-          <TableHead>Height</TableHead>
-          <TableHead>Length</TableHead>
-          <TableHead>Weight</TableHead>
           <TableHead>Shiprocker Order ID</TableHead>
           <TableHead>Status</TableHead>
         </TableRow>
@@ -56,6 +52,9 @@ const FulfillmentsTable: React.FC<FulfillmentTableProps> = ({
                 {fulfillment.fulfillment_no.toString()}
               </TableCell>
               <TableCell className="font-semibold capitalize">
+                {fulfillment.id}
+              </TableCell>
+              <TableCell className="font-semibold capitalize">
                 {fulfillment.orderId}
               </TableCell>
               <TableCell>
@@ -65,13 +64,6 @@ const FulfillmentsTable: React.FC<FulfillmentTableProps> = ({
                 {formattedTime(new Date(fulfillment.dateTime))}
               </TableCell>
 
-              <TableCell>{fulfillment.breadth}</TableCell>
-              <TableCell>{fulfillment.height}</TableCell>
-              <TableCell>{fulfillment.length}</TableCell>
-
-              <TableCell className="truncate max-w-xs">
-                {fulfillment.weight}
-              </TableCell>
               <TableCell>{fulfillment.shiprocket_order_id}</TableCell>
               <TableCell>{fulfillment.status}</TableCell>
             </TableRow>
