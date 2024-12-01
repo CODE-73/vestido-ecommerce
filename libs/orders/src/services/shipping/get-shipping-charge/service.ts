@@ -34,7 +34,6 @@ export async function calculateShippingCharges(
   }
 
   if (data.paymentType === 'ONLINE') {
-    console.log(isPinCodeInKerala(pinCode));
     if (isPinCodeInKerala(pinCode)) {
       shippingCost = 0.0;
     } else {
