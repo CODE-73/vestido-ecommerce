@@ -26,24 +26,29 @@ export async function handleShiprocketWebhook(data: shiprocketWebhookRequest) {
     });
   }
 
-  await prisma.$transaction(async (prisma) => {
-    const fulfillment = await prisma.fulfillment.findFirst({
-      where: {
-        shiprocket_order_id: String(data.sr_order_id),
+  const fulfillment = await prisma.fulfillment.findFirst({
+    where: {
+      shiprocket_order_id: String(data.sr_order_id),
+    },
+  });
+
+  if (!fulfillment) {
+    throw new VestidoError({
+      name: 'WebhookFulfillmentNotFound',
+      message: `Fulfillment not found for ${data.sr_order_id} from ShipRocket Request`,
+      // Shiprocket Webhook expects 200 status code even on unknown fulfillment
+      // This is required to pass their Webhook validation
+      // We get notified of this error on Sentry.
+      httpStatus: 200,
+      context: {
+        data,
       },
     });
 
-    if (!fulfillment) {
-      throw new VestidoError({
-        name: 'FulfillmentNotFound',
-        message: `Fulfillment not found for ${data.sr_order_id} from Webhook Response`,
-        httpStatus: 404,
-        context: {
-          data,
-        },
-      });
-    }
+    return null;
+  }
 
+  await prisma.$transaction(async (prisma) => {
     await prisma.fulfillmentLog.create({
       data: {
         fullfillmentId: fulfillment.id,
