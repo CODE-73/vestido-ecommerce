@@ -33,21 +33,18 @@ export async function handleShiprocketWebhook(data: shiprocketWebhookRequest) {
   });
 
   if (!fulfillment) {
-    console.warn(
-      'Fulfillment not found for shiprocket order id:',
-      data.sr_order_id,
-      'Failing Webhook Silently',
-    );
-    /*
     throw new VestidoError({
-      name: 'FulfillmentNotFound',
-      message: `Fulfillment not found for ${data.sr_order_id} from Webhook Response`,
-      httpStatus: 404,
+      name: 'WebhookFulfillmentNotFound',
+      message: `Fulfillment not found for ${data.sr_order_id} from ShipRocket Request`,
+      // Shiprocket Webhook expects 200 status code even on unknown fulfillment
+      // This is required to pass their Webhook validation
+      // We get notified of this error on Sentry.
+      httpStatus: 200,
       context: {
         data,
       },
     });
-    */
+
     return null;
   }
 
