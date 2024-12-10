@@ -134,6 +134,8 @@ export function captureSentryError(e: unknown) {
   console.error('SentryErrorCaptured:', e);
 }
 
+// TODO: JSON Middleware to validate the JSON before it gets to the controllers
+/*
 export const jsonMiddleware: RouteHandlerMiddleware = async ({
   request,
   next,
@@ -149,3 +151,4 @@ export const jsonMiddleware: RouteHandlerMiddleware = async ({
     });
   }
 };
+*/
