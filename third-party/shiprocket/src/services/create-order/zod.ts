@@ -8,7 +8,7 @@ const OrderItemSchema = z.object({
   units: z.number().positive(),
   selling_price: z.number().positive(),
   discount: z.number().nullable(),
-  tax: z.string().nullable(),
+  tax: z.number().nullable(),
   hsn: z.string().nullable(),
 });
 
@@ -35,6 +35,8 @@ export const CreateShiprocketSchema = z.object({
   breadth: z.number(),
   height: z.number(),
   weight: z.number(),
+  shipping_charges: z.number().nullable(),
+  total_discount: z.number().nullable(),
 });
 
 export type CreateShiprocketSchemaType = z.infer<typeof CreateShiprocketSchema>;

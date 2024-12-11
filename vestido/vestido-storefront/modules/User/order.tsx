@@ -101,7 +101,7 @@ const OrderInOrderList: React.FC<OrderProps> = ({ order }) => {
             <span className="text-sm font-normal">
               Order Total Price:&nbsp;
             </span>
-            {formatINR(order.totalPrice)}
+            {formatINR(order.grandTotal)}
           </div>
         </div>
         {!hasSubmittedFulfillments && (

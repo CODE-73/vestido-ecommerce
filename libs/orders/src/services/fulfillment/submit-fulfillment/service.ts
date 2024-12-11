@@ -139,7 +139,16 @@ export async function submitFulfillment(fulfillmentId: string) {
 
     // Calculate the ratio and the total amount for this fulfillment
     const totalAmount =
-      (fulfillmentItemTotal / orderItemTotal) * order.totalPrice;
+      (fulfillmentItemTotal / orderItemTotal) * order.grandTotal;
+
+    const fulfillmentCharges =
+      (fulfillmentItemTotal / orderItemTotal) * order.totalCharges;
+
+    const fulfillmentDisc =
+      (fulfillmentItemTotal / orderItemTotal) * order.totalDiscount;
+
+    const totalAmountWithoutChargesDiscount =
+      totalAmount - fulfillmentCharges + fulfillmentDisc;
 
     // Update the Fulfillment status
     await prisma.fulfillment.update({
@@ -190,8 +199,10 @@ export async function submitFulfillment(fulfillmentId: string) {
           Math.floor(Math.random() * 1000000).toString(),
         units: item.quantity,
         selling_price: item.orderItem.item.price,
-        discount: item.orderItem.item.discountedPrice,
-        tax: '',
+        discount: item.orderItem.item.discountedPrice
+          ? item.orderItem.item.price - item.orderItem.item.discountedPrice
+          : 0,
+        tax: item.orderItem.item.taxRate,
         hsn: '',
       }),
     );
@@ -216,11 +227,13 @@ export async function submitFulfillment(fulfillmentId: string) {
       billing_state: validatedAddress.state,
       order_items: fulfillmentItems,
       paymentMethod: paymentMethod,
-      totalAmount: totalAmount,
+      totalAmount: totalAmountWithoutChargesDiscount,
       length: validatedFulfillment.length,
       breadth: validatedFulfillment.breadth,
       height: validatedFulfillment.height,
       weight: validatedFulfillment.weight,
+      shipping_charges: fulfillmentCharges,
+      total_discount: fulfillmentDisc,
     };
 
     const shiprocketOrder = await createShiprocketOrder(shiprocketData);

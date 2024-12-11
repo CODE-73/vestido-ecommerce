@@ -23,7 +23,8 @@ export async function calculateTotal(data: CalculateTotalSchemaType) {
     let taxAmount = 0;
 
     if (item.taxInclusive && item.taxRate) {
-      taxAmount = (item.taxRate * item.price) / 100; // tax per item irrespective of qty
+      const itemsPriceWithoutTax = (item.price * 100) / (100 + item.taxRate);
+      taxAmount = item.price - itemsPriceWithoutTax; // tax per item irrespective of qty
     }
 
     return {
