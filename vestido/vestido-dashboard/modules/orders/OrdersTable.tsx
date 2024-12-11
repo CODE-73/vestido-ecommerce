@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 
 import { type ListAdminOrderResponse } from '@vestido-ecommerce/orders';
@@ -16,6 +17,7 @@ import { formatINR } from '@vestido-ecommerce/utils';
 interface ProductTableProps {
   data: ListAdminOrderResponse | undefined;
 }
+
 export const formattedDate = (dateTime: Date) => {
   const day = String(dateTime.getDate()).padStart(2, '0'); // Get day and ensure two digits
   const month = String(dateTime.getMonth() + 1).padStart(2, '0'); // Get month and ensure two digits (months are zero-indexed in JS)
@@ -31,12 +33,53 @@ export const formattedTime = (dateTime: Date) => {
 
   hours = hours % 12; // Convert to 12-hour format
   hours = hours ? hours : 12; // The hour '0' should be '12'
-
   return `${hours}:${minutes} ${ampm}`;
 };
 
 const OrdersTable: React.FC<ProductTableProps> = ({ data }) => {
   const router = useRouter();
+
+  const [sortConfig, setSortConfig] = useState<{
+    key: string;
+    direction: 'asc' | 'desc';
+  } | null>(null);
+
+  const sortedData = data?.data.slice().sort((a, b) => {
+    if (!sortConfig) return 0;
+    const { key, direction } = sortConfig;
+
+    // Retrieve values for comparison
+    const aValue = a[key as keyof typeof a];
+    const bValue = b[key as keyof typeof b];
+
+    // Handle null or undefined values explicitly
+    if (aValue == null && bValue == null) return 0; // Both are null or undefined
+    if (aValue == null) return direction === 'asc' ? -1 : 1; // Null comes first or last based on direction
+    if (bValue == null) return direction === 'asc' ? 1 : -1; // Null comes first or last based on direction
+
+    // Compare non-null values
+    if (aValue < bValue) return direction === 'asc' ? -1 : 1;
+    if (aValue > bValue) return direction === 'asc' ? 1 : -1;
+
+    return 0; // Values are equal
+  });
+
+  const handleSort = (key: string) => {
+    setSortConfig((prevConfig) => {
+      if (prevConfig?.key === key) {
+        return {
+          key,
+          direction: prevConfig.direction === 'asc' ? 'desc' : 'asc',
+        };
+      }
+      return { key, direction: 'asc' };
+    });
+  };
+
+  const renderSortArrow = (key: string) => {
+    if (sortConfig?.key !== key) return null;
+    return sortConfig.direction === 'asc' ? '▲' : '▼'; // Use Unicode characters for arrows
+  };
 
   const handleRowClick = (order: string) => {
     router.push(`/orders/${encodeURIComponent(order)}`);
@@ -46,36 +89,65 @@ const OrdersTable: React.FC<ProductTableProps> = ({ data }) => {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Order Number</TableHead>
-          <TableHead>Order ID</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead>Price</TableHead>
-          <TableHead>Date</TableHead>
-          <TableHead>Time</TableHead>
+          <TableHead
+            onClick={() => handleSort('order_no')}
+            className="cursor-pointer"
+          >
+            Order Number {renderSortArrow('order_no')}
+          </TableHead>
+          <TableHead
+            onClick={() => handleSort('id')}
+            className="cursor-pointer"
+          >
+            Order ID {renderSortArrow('id')}
+          </TableHead>
+          <TableHead
+            onClick={() => handleSort('orderStatus')}
+            className="cursor-pointer"
+          >
+            Status {renderSortArrow('orderStatus')}
+          </TableHead>
+          <TableHead
+            onClick={() => handleSort('grandTotal')}
+            className="cursor-pointer"
+          >
+            Price {renderSortArrow('grandTotal')}
+          </TableHead>
+          <TableHead
+            onClick={() => handleSort('dateTime')}
+            className="cursor-pointer"
+          >
+            Date {renderSortArrow('dateTime')}
+          </TableHead>
+          <TableHead
+            onClick={() => handleSort('dateTime')}
+            className="cursor-pointer"
+          >
+            Time {renderSortArrow('dateTime')}
+          </TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data &&
-          data.data.map((order) => (
-            <TableRow
-              key={order.id}
-              onClick={() => handleRowClick(order.id)}
-              className="cursor-pointer"
-            >
-              <TableCell className="font-semibold capitalize">
-                {order.order_no.toString()}
-              </TableCell>
-              <TableCell className="font-semibold capitalize">
-                {order.id}
-              </TableCell>
-              <TableCell className="font-semibold capitalize">
-                {order.orderStatus}
-              </TableCell>
-              <TableCell> {formatINR(order.grandTotal)}</TableCell>
-              <TableCell>{formattedDate(new Date(order.dateTime))}</TableCell>
-              <TableCell>{formattedTime(new Date(order.dateTime))}</TableCell>
-            </TableRow>
-          ))}
+        {sortedData?.map((order) => (
+          <TableRow
+            key={order.id}
+            onClick={() => handleRowClick(order.id)}
+            className="cursor-pointer"
+          >
+            <TableCell className="font-semibold capitalize">
+              {order.order_no.toString()}
+            </TableCell>
+            <TableCell className="font-semibold capitalize">
+              {order.id}
+            </TableCell>
+            <TableCell className="font-semibold capitalize">
+              {order.orderStatus}
+            </TableCell>
+            <TableCell>{formatINR(order.grandTotal)}</TableCell>
+            <TableCell>{formattedDate(new Date(order.dateTime))}</TableCell>
+            <TableCell>{formattedTime(new Date(order.dateTime))}</TableCell>
+          </TableRow>
+        ))}
       </TableBody>
       <TableFooter></TableFooter>
     </Table>
