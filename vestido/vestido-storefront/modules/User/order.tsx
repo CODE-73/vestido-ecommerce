@@ -1,11 +1,15 @@
+import { useRouter } from 'next/router';
+
 import { cva } from 'class-variance-authority';
 
 import {
   type ListOrderResponse,
   useOrder,
 } from '@vestido-ecommerce/orders/client';
+import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { formatINR } from '@vestido-ecommerce/utils';
 
+import CancelOrderDialog from '../orders/cancel-order-dialog';
 import { checkReturnEligibility } from './check-return-eligibility';
 import OrderIteminOrderList from './order-item';
 
@@ -15,6 +19,7 @@ type OrderProps = {
 
 const OrderInOrderList: React.FC<OrderProps> = ({ order }) => {
   const { data } = useOrder(order.id);
+  const router = useRouter();
   const fulfillments = data?.data?.fulfillments;
 
   const draftFulfillments = fulfillments?.filter((x) => x.status === 'DRAFT');
@@ -42,6 +47,10 @@ const OrderInOrderList: React.FC<OrderProps> = ({ order }) => {
       ),
     ) ?? [],
   );
+
+  const handleOrderClick = () => {
+    router.replace(`/orders/${order.id}`);
+  };
 
   // Combine unfulfilled( fulfillment not submitted) items and items in DRAFT fulfillments
   const unfulfilledOrDraftOrderItems = order.orderItems.filter(
@@ -74,10 +83,11 @@ const OrderInOrderList: React.FC<OrderProps> = ({ order }) => {
 
   return (
     <div
-      className="flex flex-col gap-3 bg-neutral-900  p-2 rounded-lg"
+      className="flex flex-col gap-3 bg-neutral-900  p-2 rounded-lg cursor-pointer"
       style={{
         boxShadow: '0 -20px 25px -5px rgba(55, 65, 81, 0.3)', // Mimicking shadow-lg shadow-gray-700/50
       }}
+      onClick={() => handleOrderClick()}
     >
       <div className="font-semibold my-2 mx-2 grid grid-cols-8 ">
         <div className="col-span-5 flex flex-col">
@@ -95,12 +105,22 @@ const OrderInOrderList: React.FC<OrderProps> = ({ order }) => {
           </div>
         </div>
         {!hasSubmittedFulfillments && (
-          <div
-            className={`hidden md:block text-xs uppercase col-span-3 justify-self-end  ${orderStatusClasses(
-              { status: order.orderStatus },
-            )}`}
-          >
-            {order.orderStatus}
+          <div className="col-span-3 justify-self-end flex items-center gap-2">
+            {order.orderStatus != 'CANCELLED' && (
+              <CancelOrderDialog
+                orderId={order?.id as string}
+                orderNo={order?.order_no}
+              >
+                <Button variant="ghost">Cancel Order</Button>
+              </CancelOrderDialog>
+            )}
+            <div
+              className={`hidden md:block text-xs uppercase   ${orderStatusClasses(
+                { status: order.orderStatus },
+              )}`}
+            >
+              {order.orderStatus}
+            </div>
           </div>
         )}
       </div>

@@ -149,6 +149,7 @@ const CheckoutView: React.FC = () => {
   });
 
   const isSubmitting = form.formState.isSubmitting;
+  const submitSuccesful = form.formState.isSubmitSuccessful;
 
   const handleSubmit = async (data: CreateOrderForm) => {
     try {
@@ -353,7 +354,7 @@ const CheckoutView: React.FC = () => {
               {currentSession == 'Payment' && (
                 <Button
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || submitSuccesful}
                   className="disabled:bg-gray-300 uppercase flex tracking-wide bg-white  text-black hover:bg-neutral-900 hover:border hover:border-white hover:text-white w-full h-14  text-md font-extraboldjustify-center mt-5"
                 >
                   <div>PROCEED TO PAYMENT</div>
