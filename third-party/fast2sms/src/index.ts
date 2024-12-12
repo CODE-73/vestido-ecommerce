@@ -3,7 +3,10 @@ import { z } from 'zod';
 const FAST2SMS_AUTH_KEY = process.env['FAST2SMS_AUTH_KEY'] as string;
 
 export enum SMSTemplate {
-  OTP_SMS = '172397',
+  OTP_SMS = '172544',
+  PLACED_SMS = '176598',
+  SHIPPED_SMS = '176599',
+  DELIVERED_SMS = '176600',
 }
 
 export enum SMSSenderID {
