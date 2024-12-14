@@ -80,8 +80,8 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
           <CardTitle className="text-xl p-3 font-normal ">
             <div className="flex justify-between">
               <div>
-                <span className="text-base text-gray-500">Order ID: </span>
-                {order?.id}
+                <span className="text-base text-gray-500">Order Number: </span>
+                {order?.order_no.toString()}
               </div>
               <div className="text-lg flex divide-x gap-5">
                 <div>{order && formattedDate(new Date(order.dateTime))}</div>
@@ -262,9 +262,13 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
         </div>
         <div className="bg-white col-span-6">
           <div className="p-4 text-lg font-semibold">Fulfillments</div>
-          <div className="bg-white">
-            <FulfillmentsTable data={order?.fulfillments ?? []} />
-          </div>
+          {order?.fulfillments.length && order.fulfillments.length > 0 ? (
+            <div className="bg-white">
+              <FulfillmentsTable data={order?.fulfillments ?? []} />
+            </div>
+          ) : (
+            <div>Your Order will be shipped soon. </div>
+          )}
         </div>
       </div>
       {/*

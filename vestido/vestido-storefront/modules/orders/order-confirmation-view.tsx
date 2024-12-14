@@ -46,7 +46,7 @@ const OrderConfirmationView: FC<OrderConfirmationProps> = ({ orderId }) => {
         <CardContent className="grid gap-4">
           <div className="grid gap-1">
             <div className="text-muted-foreground">Order Number</div>
-            <div className="font-medium">{order?.id}</div>
+            <div className="font-medium">{order?.order_no.toString()}</div>
           </div>
           <div className="grid gap-1">
             <div className="text-muted-foreground">Total Amount</div>
@@ -83,52 +83,6 @@ const OrderConfirmationView: FC<OrderConfirmationProps> = ({ orderId }) => {
     </div>
   );
 };
-
-/*
-export default function Component() {
-  return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-background">
-      <Card className="w-full max-w-md p-6 md:p-8">
-        <CardHeader className="flex flex-col items-center gap-2">
-          <CircleCheckIcon className="text-green-500 w-12 h-12" />
-          <CardTitle className="text-2xl font-bold">Order Confirmed</CardTitle>
-          <CardDescription className="text-muted-foreground">
-            Thank you for your purchase!
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="grid gap-4">
-          <div className="grid gap-1">
-            <div className="text-muted-foreground">Order Number</div>
-            <div className="font-medium">OD-12345678</div>
-          </div>
-          <div className="grid gap-1">
-            <div className="text-muted-foreground">Total Amount</div>
-            <div className="font-medium">$149.99</div>
-          </div>
-          <div className="grid gap-1">
-            <div className="text-muted-foreground">Delivery Information</div>
-            <address className="not-italic">
-              <div>John Doe</div>
-              <div>123 Main St.</div>
-              <div>Anytown, CA 12345</div>
-            </address>
-          </div>
-        </CardContent>
-        <CardFooter className="flex flex-col gap-2 md:flex-row md:justify-between">
-          <Link href="#" className="w-full md:w-auto" prefetch={false}>
-            <Button variant="outline" className="w-full">
-              View Order Details
-            </Button>
-          </Link>
-          <Link href="#" className="w-full md:w-auto" prefetch={false}>
-            <Button className="w-full">Continue Shopping</Button>
-          </Link>
-        </CardFooter>
-      </Card>
-    </div>
-  );
-}
-*/
 
 function CircleCheckIcon(props: SVGProps<SVGSVGElement>) {
   return (
