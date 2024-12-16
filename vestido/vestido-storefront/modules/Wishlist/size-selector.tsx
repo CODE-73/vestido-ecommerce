@@ -2,6 +2,7 @@ import { ReactNode, useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 
 import clsx from 'clsx';
+import clsx from 'clsx';
 
 import { useItem } from '@vestido-ecommerce/items/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
@@ -93,69 +94,48 @@ export const SizeSelectorDialog: React.FC<SizeSelectorDialogProps> = ({
       setSelectedVariantId(_v.id);
     }
   };
+  console.info('Selected Variant ID:', selectedVariantId, selectedVariant);
 
-  // const attributeMap: {
-  //   [key: string]: { name: string; values: { value: string; id: string }[] };
-  // } = {};
+  const attributeMap: {
+    [key: string]: {
+      name: string;
+      values: {
+        value: string;
+        id: string;
+        displayIdx: number;
+        enabled: boolean;
+      }[];
+    };
+  } = {};
 
-  // item?.variants.forEach((variant) => {
-  //   variant.attributeValues.forEach((attributeValue) => {
-  //     if (!attributeMap[attributeValue.attributeId]) {
-  //       attributeMap[attributeValue.attributeId] = {
-  //         name: attributeValue.attribute.name,
-  //         values: [],
-  //       };
-  //     }
-  //     if (
-  //       !attributeMap[attributeValue.attributeId].values.find(
-  //         (x) => x.id === attributeValue.attributeValue.id,
-  //       )
-  //     ) {
-  //       attributeMap[attributeValue.attributeId].values.push({
-  //         value: attributeValue.attributeValue.value,
-  //         id: attributeValue.attributeValue.id,
-  //       });
-  //     }
-  //   });
-  // });
-
-  const attributeMap = useMemo(() => {
-    const attributeMap: VariantAttributeMap = {};
-
-    item?.variants
-      .filter((x) => x.enabled)
-      .forEach((variant) => {
-        variant.attributeValues.forEach((attributeValue) => {
-          if (!attributeMap[attributeValue.attributeId]) {
-            attributeMap[attributeValue.attributeId] = {
-              name: attributeValue.attribute.name,
-              values: [],
-            };
-          }
-          if (
-            !attributeMap[attributeValue.attributeId].values.find(
-              (x) => x.id === attributeValue.attributeValue.id,
-            )
-          ) {
-            attributeMap[attributeValue.attributeId].values.push({
-              value: attributeValue.attributeValue.value,
-              displayIdx: attributeValue.attributeValue.displayIndex,
-              id: attributeValue.attributeValue.id,
-              enabled:
-                variant.enabled && variant.stockStatus !== 'OUT_OF_STOCK',
-            });
-          }
+  item?.variants.forEach((variant) => {
+    variant.attributeValues.forEach((attributeValue) => {
+      if (!attributeMap[attributeValue.attributeId]) {
+        attributeMap[attributeValue.attributeId] = {
+          name: attributeValue.attribute.name,
+          values: [],
+        };
+      }
+      if (
+        !attributeMap[attributeValue.attributeId].values.find(
+          (x) => x.id === attributeValue.attributeValue.id,
+        )
+      ) {
+        attributeMap[attributeValue.attributeId].values.push({
+          value: attributeValue.attributeValue.value,
+          id: attributeValue.attributeValue.id,
+          displayIdx: attributeValue.attributeValue.displayIndex,
+          enabled: variant.enabled && variant.stockStatus !== 'OUT_OF_STOCK',
         });
-      });
+      }
+    });
+  });
 
-    for (const attributeId in attributeMap) {
-      attributeMap[attributeId].values.sort(
-        (a, b) => a.displayIdx - b.displayIdx,
-      );
-    }
-
-    return attributeMap;
-  }, [item?.variants]);
+  for (const attributeId in attributeMap) {
+    attributeMap[attributeId].values.sort(
+      (a, b) => a.displayIdx - b.displayIdx,
+    );
+  }
 
   const handleConfirmSelection = () => {
     onSizeSelect(selectedVariantId); // Pass the selected variant ID to the parent
@@ -201,47 +181,38 @@ export const SizeSelectorDialog: React.FC<SizeSelectorDialogProps> = ({
             </DialogHeader>
             <hr />
 
-            <div className="grid grid-cols-4 items-center gap-4 -mt-5">
+            <div className="grid items-center gap-4 -mt-5">
               <div className="mt-5 flex flex-col gap-2">
                 {Object.keys(attributeMap).map((attributeId) => (
                   <>
                     <strong>
                       Select&nbsp;{attributeMap[attributeId].name}:
                     </strong>
-                    <div key={attributeId} className="flex gap-2">
+                    <div key={attributeId} className="flex flex-wrap gap-2">
                       {attributeMap[attributeId].values.map((value, index) => {
                         const isSelected =
                           selectedVariant?.attributeValues.some(
                             (attrVal) =>
                               attrVal.attributeId === attributeId &&
-                              attrVal.attributeValue.id === value.id,
-                          ) || false;
+                              attrVal.attributeValueId === value.id,
+                          );
+
                         return (
                           <div
                             key={index}
-                            // onClick={() => changeToVariant(attributeId, value.id)}
-                            // className={`flex flex-col  rounded-3xl m-1 cursor-pointer ${
-                            //   selectedVariant?.attributeValues.some(
-                            //     (attrVal) =>
-                            //       attrVal.attributeId === attributeId &&
-                            //       attrVal.attributeValue.id === value.id,
-                            //   )
-                            //     ? 'bg-black text-white border-0'
-                            //     : 'border border-2 border-zinc-300 hover:border-black '
-                            // }`}
                             onClick={() =>
                               value.enabled
                                 ? changeToVariant(attributeId, value.id)
                                 : null
                             }
                             className={clsx(
-                              `flex flex-col border border-2 rounded-3xl m-1 uppercase`,
+                              `border border-2 rounded-3xl m-1 uppercase`,
                               {
                                 'cursor-pointer': value.enabled,
-                                'bg-black text-white border-0': isSelected,
+                                'bg-black text-white': isSelected,
                                 'border-zinc-100 ':
                                   !isSelected && value.enabled,
-                                invisible: !value.enabled,
+                                'opacity-50': !value.enabled,
                               },
                             )}
                           >

@@ -140,15 +140,12 @@ const ProductViewVariants: FC<ProductViewVariantsProps> = ({
                       ? changeToVariant(attributeId, value.id)
                       : null
                   }
-                  className={clsx(
-                    `flex flex-col border border-2 rounded-3xl m-1 uppercase`,
-                    {
-                      'cursor-pointer': value.enabled,
-                      'bg-white text-black': isSelected,
-                      'border-zinc-100 ': !isSelected && value.enabled,
-                      'opacity-50': !value.enabled,
-                    },
-                  )}
+                  className={clsx(`border border-2 rounded-3xl m-1 uppercase`, {
+                    'cursor-pointer': value.enabled,
+                    'bg-white text-black': isSelected,
+                    'border-zinc-100 ': !isSelected && value.enabled,
+                    'opacity-50': !value.enabled,
+                  })}
                 >
                   <div className="text-sm font-semibold border border-1 border-stone-200 rounded-3xl py-2 px-4 ">
                     {value.value}
