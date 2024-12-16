@@ -1,6 +1,8 @@
 import { ReactNode, useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 
+import clsx from 'clsx';
+
 import { useItem } from '@vestido-ecommerce/items/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
@@ -207,25 +209,48 @@ export const SizeSelectorDialog: React.FC<SizeSelectorDialogProps> = ({
                       Select&nbsp;{attributeMap[attributeId].name}:
                     </strong>
                     <div key={attributeId} className="flex gap-2">
-                      {attributeMap[attributeId].values.map((value, index) => (
-                        <div
-                          key={index}
-                          onClick={() => changeToVariant(attributeId, value.id)}
-                          className={`flex flex-col  rounded-3xl m-1 cursor-pointer ${
-                            selectedVariant?.attributeValues.some(
-                              (attrVal) =>
-                                attrVal.attributeId === attributeId &&
-                                attrVal.attributeValue.id === value.id,
-                            )
-                              ? 'bg-black text-white border-0'
-                              : 'border border-2 border-zinc-300 hover:border-black '
-                          }`}
-                        >
-                          <div className="text-sm font-semibold border border-1 border-stone-200 rounded-3xl py-2 px-4 ">
-                            {value.value}
+                      {attributeMap[attributeId].values.map((value, index) => {
+                        const isSelected =
+                          selectedVariant?.attributeValues.some(
+                            (attrVal) =>
+                              attrVal.attributeId === attributeId &&
+                              attrVal.attributeValue.id === value.id,
+                          ) || false;
+                        return (
+                          <div
+                            key={index}
+                            // onClick={() => changeToVariant(attributeId, value.id)}
+                            // className={`flex flex-col  rounded-3xl m-1 cursor-pointer ${
+                            //   selectedVariant?.attributeValues.some(
+                            //     (attrVal) =>
+                            //       attrVal.attributeId === attributeId &&
+                            //       attrVal.attributeValue.id === value.id,
+                            //   )
+                            //     ? 'bg-black text-white border-0'
+                            //     : 'border border-2 border-zinc-300 hover:border-black '
+                            // }`}
+                            onClick={() =>
+                              value.enabled
+                                ? changeToVariant(attributeId, value.id)
+                                : null
+                            }
+                            className={clsx(
+                              `flex flex-col border border-2 rounded-3xl m-1 uppercase`,
+                              {
+                                'cursor-pointer': value.enabled,
+                                'bg-black text-white border-0': isSelected,
+                                'border-zinc-100 ':
+                                  !isSelected && value.enabled,
+                                invisible: !value.enabled,
+                              },
+                            )}
+                          >
+                            <div className="text-sm font-semibold border border-1 border-stone-200 rounded-3xl py-2 px-4 ">
+                              {value.value}
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   </>
                 ))}
