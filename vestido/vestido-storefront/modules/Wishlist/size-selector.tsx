@@ -54,6 +54,18 @@ export const SizeSelectorDialog: React.FC<SizeSelectorDialogProps> = ({
     [key: string]: string;
   }
 
+  type VariantAttributeMap = {
+    [key: string]: {
+      name: string;
+      values: {
+        value: string;
+        displayIdx: number;
+        enabled: boolean;
+        id: string;
+      }[];
+    };
+  };
+
   const currentAttributeValues = useMemo<AttributeValuesMap>(() => {
     if (!selectedVariant) return {};
 
@@ -80,30 +92,68 @@ export const SizeSelectorDialog: React.FC<SizeSelectorDialogProps> = ({
     }
   };
 
-  const attributeMap: {
-    [key: string]: { name: string; values: { value: string; id: string }[] };
-  } = {};
+  // const attributeMap: {
+  //   [key: string]: { name: string; values: { value: string; id: string }[] };
+  // } = {};
 
-  item?.variants.forEach((variant) => {
-    variant.attributeValues.forEach((attributeValue) => {
-      if (!attributeMap[attributeValue.attributeId]) {
-        attributeMap[attributeValue.attributeId] = {
-          name: attributeValue.attribute.name,
-          values: [],
-        };
-      }
-      if (
-        !attributeMap[attributeValue.attributeId].values.find(
-          (x) => x.id === attributeValue.attributeValue.id,
-        )
-      ) {
-        attributeMap[attributeValue.attributeId].values.push({
-          value: attributeValue.attributeValue.value,
-          id: attributeValue.attributeValue.id,
+  // item?.variants.forEach((variant) => {
+  //   variant.attributeValues.forEach((attributeValue) => {
+  //     if (!attributeMap[attributeValue.attributeId]) {
+  //       attributeMap[attributeValue.attributeId] = {
+  //         name: attributeValue.attribute.name,
+  //         values: [],
+  //       };
+  //     }
+  //     if (
+  //       !attributeMap[attributeValue.attributeId].values.find(
+  //         (x) => x.id === attributeValue.attributeValue.id,
+  //       )
+  //     ) {
+  //       attributeMap[attributeValue.attributeId].values.push({
+  //         value: attributeValue.attributeValue.value,
+  //         id: attributeValue.attributeValue.id,
+  //       });
+  //     }
+  //   });
+  // });
+
+  const attributeMap = useMemo(() => {
+    const attributeMap: VariantAttributeMap = {};
+
+    item?.variants
+      .filter((x) => x.enabled)
+      .forEach((variant) => {
+        variant.attributeValues.forEach((attributeValue) => {
+          if (!attributeMap[attributeValue.attributeId]) {
+            attributeMap[attributeValue.attributeId] = {
+              name: attributeValue.attribute.name,
+              values: [],
+            };
+          }
+          if (
+            !attributeMap[attributeValue.attributeId].values.find(
+              (x) => x.id === attributeValue.attributeValue.id,
+            )
+          ) {
+            attributeMap[attributeValue.attributeId].values.push({
+              value: attributeValue.attributeValue.value,
+              displayIdx: attributeValue.attributeValue.displayIndex,
+              id: attributeValue.attributeValue.id,
+              enabled:
+                variant.enabled && variant.stockStatus !== 'OUT_OF_STOCK',
+            });
+          }
         });
-      }
-    });
-  });
+      });
+
+    for (const attributeId in attributeMap) {
+      attributeMap[attributeId].values.sort(
+        (a, b) => a.displayIdx - b.displayIdx,
+      );
+    }
+
+    return attributeMap;
+  }, [item?.variants]);
 
   const handleConfirmSelection = () => {
     onSizeSelect(selectedVariantId); // Pass the selected variant ID to the parent
