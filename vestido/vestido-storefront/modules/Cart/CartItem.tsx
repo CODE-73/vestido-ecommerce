@@ -21,6 +21,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@vestido-ecommerce/shadcn-ui/alert-dialog';
+import { Skeleton } from '@vestido-ecommerce/shadcn-ui/skeleton';
 import { toast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { formatINR } from '@vestido-ecommerce/utils';
 
@@ -216,3 +217,22 @@ const CartItemCard: React.FC<props> = ({ cartItem, removeItem }) => {
 };
 
 export default CartItemCard;
+
+export const CartItemSkeleton = () => {
+  return (
+    <div className="flex gap-2 lg:gap-4 items-center bg-neutral-800 border border-gray-600 mb-5 min-h-[170px]  md:rounded-lg  relative">
+      <div className="absolute right-1 md:right-5 top-1 md:top-5">
+        <Skeleton className="bg-neutral-900 h-10 w-10 rounded-full" />
+      </div>
+
+      <Skeleton className="w-[150px] h-[195px] pl-2 md:pl-0 md:rounded-l-lg bg-neutral-700" />
+
+      <div className="flex flex-col gap-1 lg:gap-3 md:self-start my-4">
+        <Skeleton className="w-[300px] h-[20px] rounded-full bg-neutral-600" />
+        <Skeleton className="w-[200px] mt-8 h-[10px] rounded-full bg-neutral-600" />
+        <Skeleton className="w-[150px] h-[10px] rounded-full bg-neutral-600" />
+        <Skeleton className="w-[150px] h-[10px] rounded-full bg-neutral-600" />
+      </div>
+    </div>
+  );
+};
