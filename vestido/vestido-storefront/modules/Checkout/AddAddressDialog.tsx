@@ -80,6 +80,7 @@ const AddAddressDialog: React.FC<AddressFormProps> = ({ addressId, isNew }) => {
         ...{
           ...defaultValues,
           ...addressDetails,
+          landmark: addressDetails.landmark || '',
         },
       });
     }
