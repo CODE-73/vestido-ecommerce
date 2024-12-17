@@ -26,11 +26,11 @@ import { toast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { formatINR } from '@vestido-ecommerce/utils';
 
 import { ItemToastBody } from '../../components/item-toast-body';
-import CartItemCard from './CartItem';
+import CartItemCard, { CartItemSkeleton } from './CartItem';
 
 const CartView: React.FC = () => {
   const router = useRouter();
-  const { data: { data: cartItems } = { data: [] } } = useCart();
+  const { data: { data: cartItems } = { data: [] }, isLoading } = useCart();
 
   const { trigger } = useRemoveFromCart();
   const { trigger: wishlistTrigger } = useAddToWishlist();
@@ -113,9 +113,14 @@ const CartView: React.FC = () => {
         <span className="md:text-2xl text-gray-600">Cart</span>
         <LuChevronRight /> Address <LuChevronRight /> Payment
       </div>
-      {cartItems.length && cartItems.length > 0 ? (
+      {isLoading ? (
+        Array(2)
+          .fill(0)
+          .map((_, index) => <CartItemSkeleton key={index} />)
+      ) : cartItems.length && cartItems.length > 0 ? (
         <div className="flex flex-col xl:flex-row gap-5 md:gap-10 ">
           <div className="hidden xl:block xl:basis-[24%]"></div>
+
           <div className="md:grow flex flex-col ">
             {cartItems.map((cartItem, index) => {
               return (
@@ -126,6 +131,7 @@ const CartView: React.FC = () => {
                 />
               );
             })}
+
             <div className="border-t border-gray-300 my-4"></div>
             <div className="flex flex-col lg:flex-row gap-3 lg:justify-between items-center">
               <Link href="/products">

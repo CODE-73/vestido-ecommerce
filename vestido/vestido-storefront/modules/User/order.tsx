@@ -7,6 +7,7 @@ import {
   useOrder,
 } from '@vestido-ecommerce/orders/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
+import { Skeleton } from '@vestido-ecommerce/shadcn-ui/skeleton';
 import { formatINR } from '@vestido-ecommerce/utils';
 
 import CancelOrderDialog from '../orders/cancel-order-dialog';
@@ -179,3 +180,28 @@ const OrderInOrderList: React.FC<OrderProps> = ({ order }) => {
   );
 };
 export default OrderInOrderList;
+
+export const OrderinOrderlistSkeleton = () => {
+  return (
+    <div
+      className="flex flex-col gap-3 bg-neutral-900  p-2 rounded-lg cursor-pointer"
+      style={{
+        boxShadow: '0 -20px 25px -5px rgba(55, 65, 81, 0.3)',
+      }}
+    >
+      <Skeleton className="bg-neutral-700 w-[300px] h-[20px] rounded-full" />
+      <Skeleton className="bg-neutral-700 w-[150px] h-[10px]" />
+
+      <div className="py-3 flex gap-4 bg-black rounded-lg">
+        <Skeleton className=" justify-self-center bg-neutral-800 rounded-lg ml-4 w-[60px] h-[90px]" />
+        <div className="flex flex-col gap-3">
+          <Skeleton className="bg-neutral-700 w-[300px] h-[20px] rounded-full" />
+
+          <Skeleton className="bg-neutral-700 w-[100px] h-[10px]" />
+
+          <Skeleton className="bg-neutral-700 w-[100px] h-[10px]" />
+        </div>
+      </div>
+    </div>
+  );
+};
