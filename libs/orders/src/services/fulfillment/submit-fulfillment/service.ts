@@ -221,7 +221,8 @@ export async function submitFulfillment(fulfillmentId: string) {
       billing_email: `${validatedAddress.mobile}@vestidonation.com`,
       billing_phone: validatedAddress.mobile,
       billing_address: validatedAddress.line1,
-      billing_address_2: validatedAddress.line2,
+      billing_address_2: `${validatedAddress.line2}${validatedAddress.landmark ? ', Landmark: ' + validatedAddress.landmark : ''}`,
+
       billing_city: validatedAddress.district,
       billing_pincode: validatedAddress.pinCode,
       billing_state: validatedAddress.state,
