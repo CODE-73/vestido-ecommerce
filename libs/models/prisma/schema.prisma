@@ -94,21 +94,23 @@ enum ProfileGender {
 }
 
 model CustomerAddress {
-    id          String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    customer    Profile     @relation(fields: [customerId], references: [id])
-    customerId  String      @db.Uuid
-    firstName   String
-    lastName    String
-    mobile      String
-    line1       String
-    line2       String
-    district    String
-    state       String
-    pinCode     String
-    addressType AddressType @default(HOME)
-    default     Boolean
-    Order       Order[]
-    archived    Boolean     @default(false)
+    id              String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    customer        Profile     @relation(fields: [customerId], references: [id])
+    customerId      String      @db.Uuid
+    firstName       String
+    lastName        String
+    mobile          String
+    alternateMobile String?
+    landmark        String?
+    line1           String
+    line2           String
+    district        String
+    state           String
+    pinCode         String
+    addressType     AddressType @default(HOME)
+    default         Boolean
+    Order           Order[]
+    archived        Boolean     @default(false)
 }
 
 model Profile {
