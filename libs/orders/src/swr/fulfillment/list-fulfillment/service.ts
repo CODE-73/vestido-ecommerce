@@ -3,12 +3,14 @@ import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
 import { FulfillmentListResponse } from '../../../services/fulfillment/list-fulfillment/types';
 
 export async function getFulfillmentList(
-  headers?: Record<string, string>,
+  authHeaders: Record<string, string>,
+  sortBy: string,
+  sortOrder: string,
 ): Promise<FulfillmentListResponse> {
-  const url = '/api/fulfillments';
+  const url = `/api/fulfillments?sortBy=${sortBy}&sortOrder=${sortOrder}`;
   const r = await fetch(url, {
     headers: {
-      ...headers,
+      ...authHeaders,
     },
   });
   if (!r.ok) {

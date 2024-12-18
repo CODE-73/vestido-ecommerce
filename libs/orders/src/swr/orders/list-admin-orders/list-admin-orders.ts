@@ -6,10 +6,7 @@ import { ListAdminOrderResponse } from '../../../services/orders/list-admin-orde
 import { OrderSWRKeys } from '../keys';
 import { getAdminOrderList } from './service';
 
-export function useAdminOrders(
-  sortBy: string = 'dateTime',
-  sortOrder: string = 'asc',
-) {
+export function useAdminOrders(sortBy: string, sortOrder: string) {
   const { isAuthenticated, authHeaders } = useAuth();
   const key = isAuthenticated
     ? [OrderSWRKeys.ORDER, OrderSWRKeys.LIST, sortBy, sortOrder]
