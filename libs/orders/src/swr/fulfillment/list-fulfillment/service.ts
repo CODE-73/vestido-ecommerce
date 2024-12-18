@@ -6,8 +6,18 @@ export async function getFulfillmentList(
   authHeaders: Record<string, string>,
   sortBy: string,
   sortOrder: string,
+  fulfillmentStatus: string[],
 ): Promise<FulfillmentListResponse> {
-  const url = `/api/fulfillments?sortBy=${sortBy}&sortOrder=${sortOrder}`;
+  const params = new URLSearchParams({
+    sortBy,
+    sortOrder,
+    ...(fulfillmentStatus?.length
+      ? { fulfillmentStatus: fulfillmentStatus.join(',') }
+      : {}),
+  });
+
+  const url = `/api/fulfillments?${params.toString()}`;
+
   const r = await fetch(url, {
     headers: {
       ...authHeaders,

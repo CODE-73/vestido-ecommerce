@@ -6,17 +6,22 @@ import { FulfillmentListResponse } from '../../../services/fulfillment/list-fulf
 import { ListFulfillmentSWRKeys } from '../keys';
 import { getFulfillmentList } from './service';
 
-export function useFulfillments(sortBy: string, sortOrder: string) {
+export function useFulfillments(
+  sortBy: string,
+  sortOrder: string,
+  fulfillmentStatus: string[],
+) {
   const { authHeaders } = useAuth();
   const key = [
     ListFulfillmentSWRKeys.FULFILLMENT,
     ListFulfillmentSWRKeys.LIST,
     sortBy,
     sortOrder,
+    fulfillmentStatus,
   ];
   return useSWRImmutable<FulfillmentListResponse, Error>(
     key,
-    () => getFulfillmentList(authHeaders, sortBy, sortOrder),
+    () => getFulfillmentList(authHeaders, sortBy, sortOrder, fulfillmentStatus),
     {
       keepPreviousData: true,
     },
