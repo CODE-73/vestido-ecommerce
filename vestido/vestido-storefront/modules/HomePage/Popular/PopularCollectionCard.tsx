@@ -1,7 +1,9 @@
-import Image, { StaticImageData } from 'next/image';
+import Image from 'next/image';
+
+import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 export type PopularCollectionCardData = {
-  cardImage: StaticImageData;
+  cardImage: ImageSchemaType;
   mainTitle: string;
   textColor?: string;
 };
@@ -17,12 +19,14 @@ const PopularCollectionCard: React.FC<PopularCollectionCardProps> = ({
   return (
     <div
       className={`group relative overflow-hidden ${mainImage ? 'col-span-2 row-span-2' : ''} w-full`}
+      style={{ height: mainImage ? '85vh' : '42vh' }}
     >
       <div className="hover:scale-110 transition duration-500 cursor-pointer w-full h-full">
         <Image
-          src={data.cardImage}
+          src={data.cardImage.url ?? ''}
           alt="alt text"
-          className={`object-cover w-full h-full ${mainImage ? 'max-h-[85vh]' : 'max-h-[43vh]'}`} // Ensure it covers the entire area
+          fill
+          className="object-cover "
         />
       </div>
       <div className="absolute left-10 top-10 ">
