@@ -1,11 +1,27 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
 
-import { ListFulfillmentRequest } from './types';
+import { ListFulfillmentSchema, ListFulfillmentSchemaType } from './zod';
 
-export async function getFulfillmentList(_args: ListFulfillmentRequest) {
+//import { ListFulfillmentRequest } from './types';
+
+export async function getFulfillmentList(data: ListFulfillmentSchemaType) {
   const prisma = getPrismaClient();
 
+  const validatedData = ListFulfillmentSchema.parse(data);
+
+  const orderByArray = validatedData.orderBy?.map(({ column, direction }) => ({
+    [column]: direction,
+  })) || [{ dateTime: 'asc' }];
+
+  const whereCondition =
+    validatedData.fulfillmentStatus &&
+    validatedData.fulfillmentStatus.length > 0
+      ? { status: { in: validatedData.fulfillmentStatus } }
+      : {};
+
   const fulfillmentList = await prisma.fulfillment.findMany({
+    orderBy: orderByArray,
+    where: whereCondition,
     include: {
       fulfillmentItems: {
         include: {

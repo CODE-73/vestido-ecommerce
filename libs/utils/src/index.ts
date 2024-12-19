@@ -6,5 +6,6 @@ export * from './promise';
 export * from './react-hooks';
 export * from './response';
 export * from './slug';
+export * from './sort';
 export * from './swr';
 export * from './units';

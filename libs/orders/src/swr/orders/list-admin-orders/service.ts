@@ -4,8 +4,21 @@ import { ListAdminOrderResponse } from '../../../services/orders/list-admin-orde
 
 export async function getAdminOrderList(
   authHeaders: Record<string, string>,
+  sortBy: string,
+  sortOrder: string,
+  orderStatus?: string[],
 ): Promise<ListAdminOrderResponse> {
-  const r = await fetch('/api/orders', {
+  // Construct the query string
+  const params = new URLSearchParams({
+    sortBy,
+    sortOrder,
+    ...(orderStatus?.length ? { orderStatus: orderStatus.join(',') } : {}),
+  });
+
+  // Append the query string to the URL
+  const url = `/api/orders?${params.toString()}`;
+
+  const r = await fetch(url, {
     headers: {
       ...authHeaders,
     },
