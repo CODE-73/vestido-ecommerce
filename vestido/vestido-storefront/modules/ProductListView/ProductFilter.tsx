@@ -68,7 +68,7 @@ const ProductFilter: React.FC = () => {
               className="flex flex-row my-2"
               onClick={() => toggleCategory(item.category)}
             >
-              <div className=" font-semibold hover:text-[#48CAB2] cursor-pointer">
+              <div className=" font-semibold  cursor-pointer">
                 {item.category}
               </div>
               {isExpanded(item.category) ? <LuChevronUp /> : <LuChevronDown />}

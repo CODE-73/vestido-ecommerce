@@ -24,7 +24,7 @@ export const RandomProducts: FC<RandomProductsProps> = ({
     <div
       className={`flex flex-col items-center justify-center ${clsx(className)}`}
     >
-      <h3 className="text-2xl md:text-4xl tracking-wide text-white hover:text-[#48cab2] pb-6">
+      <h3 className="text-2xl md:text-4xl tracking-wide text-white  pb-6">
         Our Bestsellers
       </h3>
 

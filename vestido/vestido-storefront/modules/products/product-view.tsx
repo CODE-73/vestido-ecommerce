@@ -29,6 +29,7 @@ import { formatINR } from '@vestido-ecommerce/utils';
 
 import AddToWishListButton from '../ProductListView/AddToWishlistButton';
 import ProductListView from '../ProductListView/ProductListView';
+import { SizeSelectorDialog } from '../Wishlist/size-selector';
 import ProductViewBreadcrumb from './poduct-view-breadcrumpts';
 import ProductViewImages from './product-view-images';
 import ProductViewVariants from './product-view-variants';
@@ -68,7 +69,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
 
   const { trigger: cartTrigger } = useAddToCart();
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (selectedVariantId: string | null) => {
     if (!isAuthenticated) {
       routeToLogin();
       return;
@@ -85,7 +86,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
       });
     }
   };
-  const handleBuyNow = () => {
+  const handleBuyNow = (selectedVariantId: string | null) => {
     if (!isAuthenticated) {
       routeToLogin();
       return;
@@ -123,7 +124,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
                       <div className="font-light text-lg line-through">
                         {formatINR(item?.price)}
                       </div>
-                      <div className="text-xs text-[#66CDAA] md:mt-1">
+                      <div className="text-xs text-red-400 md:mt-1">
                         ({formatINR(item.price - item.discountedPrice)}
                         &nbsp; OFF)
                       </div>
@@ -138,7 +139,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
 
             <div className="text-sm mt-4">
               <h1
-                className={`font-semibold sm:mb-2 ${item?.stockStatus == 'LIMITED_STOCK' ? 'text-yellow-400' : item?.stockStatus === 'OUT_OF_STOCK' ? 'text-red-400' : 'text-[#48CAB2]'}`}
+                className={`font-semibold sm:mb-2 ${item?.stockStatus == 'LIMITED_STOCK' ? 'text-red-400' : item?.stockStatus === 'OUT_OF_STOCK' ? 'text-white' : 'text-[#48CAB2]'}`}
               >
                 {item?.stockStatus === 'LIMITED_STOCK'
                   ? 'Limited Stock'
@@ -156,7 +157,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
 
               <div className="flex gap-2">
                 <h1 className="font-extralight">SKU: </h1>
-                <h1 className="font-semibold no-underline hover:underline">
+                <h1 className="font-semibold no-underline hover:underline text-gray-300">
                   {item?.variants?.length && item?.variants?.length > 0
                     ? selectedVariant?.sku
                     : item?.sku}
@@ -169,40 +170,56 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
                 setSelectedVariantId={setSelectedVariantId}
               />
             </div>
-
-            <hr className="border-gray-600" />
           </div>
           <div
-            className="flex flex-col sm:flex-row md:flex-col 2xl:flex-row gap-2 mb-5 w-full fixed -bottom-5 w-full sm:static bg-black  py-4 px-2 mx-0 z-50 sm:z-auto"
+            className="flex gap-2 mb-5 md:mb-0 md:my-5 w-full fixed -bottom-6 w-full sm:static bg-black  py-2 px-2 mx-0 z-50 sm:z-auto "
             style={{
               boxShadow: '0 -20px 25px -5px rgba(55, 65, 81, 0.3)', // Mimicking shadow-lg shadow-gray-700/50
             }}
           >
-            <div className="flex  bg-[#48CAB2] h-10 sm:h-auto items-center gap-2 flex-1 justify-center text-white  ">
-              <LuShoppingBag size={30} />
-              <Button
-                onClick={() => handleAddToCart()}
-                className="text-xl font-semibold bg-transparent hover:bg-transparent h-10 sm:h-auto"
-              >
-                ADD TO CART
+            <SizeSelectorDialog
+              itemId={item.id}
+              onSizeSelect={(variantId) => {
+                if (!variantId) {
+                  toast({
+                    title: 'Error',
+                    description: 'Please select a valid size.',
+                  });
+                  return;
+                }
+
+                handleAddToCart(variantId);
+              }}
+            >
+              <Button className="text-sm md:text-xl font-semibold bg-transparent hover:bg-transparent h-10 sm:h-auto flex gap-1 border border-white  flex-1">
+                <LuShoppingBag className="h-4 w-4 md:h-8 md:w-8" />
+                <div>ADD TO CART</div>
               </Button>
-            </div>
-            <div className="flex flex-1 gap-2">
-              <div className="flex  order-last sm:order-none bg-[#48CAB2] h-10 sm:h-auto items-center gap-2 flex-1 justify-center text-white  ">
-                <Button
-                  onClick={() => handleBuyNow()}
-                  className="text-xl font-semibold bg-transparent hover:bg-transparent h-10 sm:h-auto"
-                >
-                  BUY NOW
-                </Button>
-              </div>
-              <AddToWishListButton
-                itemId={item?.id || ''}
-                className="border sm:border-2 border-[#48CAB2] font-medium text-xs h-full self-center p-1 sm:p-4  md:p-1 2xl:p-4 "
-              />
-            </div>
+            </SizeSelectorDialog>
+
+            <SizeSelectorDialog
+              itemId={item.id}
+              onSizeSelect={(variantId) => {
+                if (!variantId) {
+                  toast({
+                    title: 'Error',
+                    description: 'Please select a valid size.',
+                  });
+                  return;
+                }
+                handleBuyNow(variantId);
+              }}
+            >
+              <Button className="text-sm md:text-xl text-black bg-[#f8f8f8] font-semibold h-10 sm:h-auto flex-1 hover:bg-white">
+                BUY NOW
+              </Button>
+            </SizeSelectorDialog>
+            <AddToWishListButton
+              itemId={item?.id || ''}
+              className="border sm:border-2 rounded-lg font-medium text-xs h-full self-center p-1 sm:p-4  md:p-1 2xl:p-4 "
+            />
           </div>
-          <hr className="border-gray-600" />
+
           <div className="flex justify-between py-5 px-1 sm:px-0">
             <div className="grid grid-cols-3 w-full">
               <Dialog>

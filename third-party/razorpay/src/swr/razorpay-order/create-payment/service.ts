@@ -64,6 +64,8 @@ export async function createRazorpayPayment(
               ...authHeaders,
             },
           });
+
+          window.location.href = '/checkout'; // Redirect to checkout page
         },
       },
     };

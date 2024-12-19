@@ -1,6 +1,7 @@
 import { Gender } from '@prisma/client';
 
 import { getPrismaClient } from '@vestido-ecommerce/models';
+import { VestidoError } from '@vestido-ecommerce/utils';
 
 import { validateSlug } from '../../slug';
 import { CreateCategorySchema, CreateCategorySchemaType } from './zod';
@@ -28,9 +29,18 @@ export async function createCategory(body: CreateCategorySchemaType) {
     );
 
     if (!isSubset) {
-      throw new Error(
-        "The genders of the new category must be a subset of the parent category's genders.",
-      );
+      throw new VestidoError({
+        name: 'GenderNotSubsetOfParentCategoryGender',
+        message:
+          'The Category should only have genders included in its parent category',
+        httpStatus: 404,
+        context: {
+          site: 'dashboard',
+          parentCategoryId: validatedData.parentCategoryId,
+          parentGenders,
+          newCategoryGenders,
+        },
+      });
     }
   }
 

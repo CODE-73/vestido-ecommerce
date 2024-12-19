@@ -33,9 +33,6 @@ export async function createItem(data: ItemUpsertSchemaType) {
     );
 
     if (!isSubset) {
-      // throw new VestidoError(
-      //   "The genders of a product must be a subset of its category's genders.",
-      // );
       throw new VestidoError({
         name: 'ProductGenderNotSubsetOfCategoryGender',
         message:

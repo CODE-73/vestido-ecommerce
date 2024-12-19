@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 import { SWRConfig, unstable_serialize } from 'swr';
 
 import { getOrder } from '@vestido-ecommerce/orders';
-import { GetOrderSWRKeys } from '@vestido-ecommerce/orders/client';
+import { OrderSWRKeys } from '@vestido-ecommerce/orders/client';
 
 import OrderConfirmationView from '../../modules/orders/order-confirmation-view';
 
@@ -49,8 +49,8 @@ export async function getServerSideProps({
       fallback: {
         // useOrder(orderId)
         [unstable_serialize([
-          GetOrderSWRKeys.GET,
-          GetOrderSWRKeys.ORDER,
+          OrderSWRKeys.GET,
+          OrderSWRKeys.ORDER,
           query.orderId,
         ])]: {
           data: JSON.parse(JSON.stringify(order)),

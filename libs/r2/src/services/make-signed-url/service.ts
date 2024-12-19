@@ -1,3 +1,5 @@
+import { VestidoError } from '@vestido-ecommerce/utils';
+
 import { MakeSignedUrlRequest, MakeSignedUrlResponse } from './types';
 
 export async function makeSignedUrl(
@@ -14,14 +16,31 @@ export async function makeSignedUrl(
   });
 
   if (!r.ok) {
-    console.error(r);
-    throw new Error('Failed fetching signed URL');
+    const responseText = await r.text();
+    throw new VestidoError({
+      name: 'R2SignedURLFailed',
+      message: 'Failed fetching signed URL',
+      httpStatus: 500,
+      context: {
+        responseText,
+        responseStatus: r.status,
+        args,
+      },
+    });
   }
   const data = await r.json();
 
   if (!data.success) {
-    console.error(data);
-    throw new Error('Failed fetching signed URL');
+    throw new VestidoError({
+      name: 'R2SignedURLFailed',
+      message: 'Failed fetching signed URL',
+      httpStatus: 500,
+      context: {
+        data,
+        responseStatus: r.status,
+        args,
+      },
+    });
   }
 
   return data.signedURL;

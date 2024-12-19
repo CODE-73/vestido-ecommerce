@@ -23,8 +23,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ data: item }) => {
   return (
     <div className="relative flex flex-col items-center group  mb-10 cursor-pointer ">
       {item.discountPercent && item.discountPercent > 0 ? (
-        <Badge className="absolute top-2 left-2 rounded-none uppercase bg-red-500 hover:bg-red-400 cursor-auto">
-          sale&nbsp;{item.discountPercent}&nbsp;%
+        <Badge className="absolute top-2 left-2 rounded-none uppercase bg-red-500 hover:bg-red-400 cursor-auto z-10">
+          flat&nbsp;{item.discountPercent}&nbsp;%
         </Badge>
       ) : (
         ''

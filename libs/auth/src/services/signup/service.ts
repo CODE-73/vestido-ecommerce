@@ -12,6 +12,7 @@ export async function signUp(data: SignUpSchemaType) {
       firstName: validatedData.firstName,
       lastName: validatedData.lastName,
       mobile: validatedData.mobile,
+      gender: validatedData.gender,
     },
   });
 

@@ -56,7 +56,7 @@
     "next-themes": "^0.2.1",
     "node-cron": "^3.0.3",
     "nuqs": "^1.19.3",
-    "posthog-js": "^1.158.1",
+    "posthog-js": "^1.184.1",
     "prisma": "5.16.1",
     "razorpay": "^2.9.4",
     "react": "18.2.0",

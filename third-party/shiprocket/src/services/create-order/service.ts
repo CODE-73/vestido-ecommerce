@@ -33,10 +33,10 @@ export async function createShiprocketOrder(data: CreateShiprocketOrderType) {
     shipping_phone: '',
     order_items: data.order_items,
     payment_method: data.paymentMethod,
-    shipping_charges: 0,
+    shipping_charges: data.shipping_charges,
     giftwrap_charges: 0,
     transaction_charges: 0,
-    total_discount: 0,
+    total_discount: data.total_discount,
     sub_total: data.totalAmount,
     length: data.length,
     breadth: data.length,
@@ -49,6 +49,18 @@ export async function createShiprocketOrder(data: CreateShiprocketOrderType) {
       method: 'POST',
       body: { ...body },
     });
+
+    if (!response.order_id) {
+      throw new VestidoError({
+        name: 'ShiprocketOrderCreationFailed',
+        message: `Could Not Create Shiprocket Order`,
+        httpStatus: 404,
+        context: {
+          response,
+        },
+      });
+    }
+
     return response;
   } catch (e) {
     if (e instanceof VestidoError) {

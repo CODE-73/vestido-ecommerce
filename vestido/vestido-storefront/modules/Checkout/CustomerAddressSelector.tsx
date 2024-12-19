@@ -1,5 +1,4 @@
-// import React, { useEffect, useState } from 'react';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
 import clsx from 'clsx';
@@ -22,10 +21,7 @@ import {
   AlertDialogTrigger,
 } from '@vestido-ecommerce/shadcn-ui/alert-dialog';
 import { Dialog, DialogTrigger } from '@vestido-ecommerce/shadcn-ui/dialog';
-import {
-  RadioGroup,
-  // RadioGroupItem,
-} from '@vestido-ecommerce/shadcn-ui/radio-group';
+import { RadioGroup } from '@vestido-ecommerce/shadcn-ui/radio-group';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 
 import AddAddressDialog from './AddAddressDialog';
@@ -47,14 +43,20 @@ const CustomerAddressSelector: React.FC<CustomerAddressSelectorProps> = ({
   const sortedAddresses = [...(addresses?.data ?? [])].sort(
     (a, b) => (b.default ? 1 : 0) - (a.default ? 1 : 0),
   );
+  const [userHasInteracted, setUserHasInteracted] = useState(false);
 
+  // Automatically select the default address if the user hasn't interacted
   useEffect(() => {
-    if (value || !sortedAddresses.length) {
-      return;
+    if (!userHasInteracted && sortedAddresses.length > 0) {
+      onChange?.(sortedAddresses[0].id);
     }
+  }, [sortedAddresses, userHasInteracted, onChange]);
 
-    onChange?.(sortedAddresses[0].id);
-  });
+  // Handle manual selection by the user
+  const handleSelectionChange = (selectedId: string) => {
+    setUserHasInteracted(true); // Mark as user-interacted
+    onChange?.(selectedId);
+  };
 
   const handleAddressDelete = async (addressId: string) => {
     try {
@@ -69,7 +71,7 @@ const CustomerAddressSelector: React.FC<CustomerAddressSelectorProps> = ({
     }
   };
   return (
-    <RadioGroup value={value} onValueChange={onChange}>
+    <RadioGroup value={value} onValueChange={handleSelectionChange}>
       {sortedAddresses
         .filter((address) => address.archived == false)
         .map((address, index) => (
@@ -83,7 +85,7 @@ const CustomerAddressSelector: React.FC<CustomerAddressSelectorProps> = ({
                 <div>
                   {address.firstName} {address.lastName}
                 </div>
-                <div className="text-[#48CAB2] rounded-xl border border-1 border-[#48CAB2] text-[10px] px-2 flex items-center">
+                <div className="text-black rounded-xl bg-white text-[10px] px-2 flex items-center">
                   {address.addressType}
                 </div>
               </div>
@@ -93,7 +95,7 @@ const CustomerAddressSelector: React.FC<CustomerAddressSelectorProps> = ({
                     <DialogTrigger asChild>
                       <MdOutlineModeEditOutline
                         size={24}
-                        className="hover:text-[#48CAB2] cursor-pointer"
+                        className="hover:text-gray-400 cursor-pointer"
                       />
                     </DialogTrigger>
                     <AddAddressDialog isNew={false} addressId={address.id} />
@@ -104,7 +106,7 @@ const CustomerAddressSelector: React.FC<CustomerAddressSelectorProps> = ({
                   <AlertDialogTrigger asChild>
                     <MdDeleteOutline
                       size={24}
-                      className="hover:text-[#48CAB2] cursor-pointer"
+                      className="hover:text-gray-400 cursor-pointer"
                     />
                   </AlertDialogTrigger>
                   <AlertDialogContent>
@@ -130,7 +132,7 @@ const CustomerAddressSelector: React.FC<CustomerAddressSelectorProps> = ({
                 <div
                   className={`${
                     address.default
-                      ? 'bg-[#48CAB2] px-3 py-2 rounded-lg text-white'
+                      ? 'bg-white px-3 py-1 rounded-full text-black text-xs'
                       : 'hidden'
                   }`}
                 >

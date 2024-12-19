@@ -1,7 +1,7 @@
 import sharp from 'sharp';
 import { rgbaToThumbHash } from 'thumbhash';
 
-import { ImageSchemaType } from '@vestido-ecommerce/utils';
+import { ImageSchemaType, VestidoError } from '@vestido-ecommerce/utils';
 
 import { makeSignedUrl } from './r2-images';
 
@@ -27,7 +27,15 @@ export async function makeThumbHash({ fileUrl, file }: MakeThumbHashArgs) {
   }
 
   if (!file) {
-    throw new Error('No file provided');
+    throw new VestidoError({
+      name: 'ThumbhashNoFileProvided',
+      message: 'No file provided for thumbhash generation',
+      httpStatus: 400,
+      context: {
+        fileUrl,
+        hasFile: !!file,
+      },
+    });
   }
 
   if (file instanceof Blob) {

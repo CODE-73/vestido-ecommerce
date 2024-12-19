@@ -3,7 +3,9 @@ import { createShiprocketOrder } from '@vestido-ecommerce/shiprocket';
 import { VestidoError } from '@vestido-ecommerce/utils';
 
 import { CreateAddressSchema } from '../../address/create-address/zod';
+import { getOrder } from '../../orders/get-order';
 import { getFulfillment } from '../get-fulfillment';
+import { SubmitFulfillmentSchema } from './zod';
 
 export async function submitFulfillment(fulfillmentId: string) {
   const prisma = getPrismaClient();
@@ -11,6 +13,18 @@ export async function submitFulfillment(fulfillmentId: string) {
   // Start a transaction
   const result = await prisma.$transaction(async (prisma) => {
     const existingFulfillment = await getFulfillment(fulfillmentId);
+
+    const orderOfFulfillment = await getOrder(existingFulfillment.orderId);
+    if (
+      orderOfFulfillment?.orderStatus !== 'CONFIRMED' &&
+      orderOfFulfillment?.orderStatus !== 'IN_PROGRESS'
+    ) {
+      throw new VestidoError({
+        name: 'OrderNotInConfirmedState',
+        message: `Order is not in CONFIRMED/IN_PROGRESS Status. ${existingFulfillment.orderId} is in ${orderOfFulfillment?.orderStatus} status`,
+        httpStatus: 401,
+      });
+    }
 
     if (existingFulfillment.status !== 'DRAFT') {
       throw new VestidoError({
@@ -23,6 +37,9 @@ export async function submitFulfillment(fulfillmentId: string) {
         },
       });
     }
+
+    const validatedFulfillment =
+      SubmitFulfillmentSchema.parse(existingFulfillment);
 
     // Prepare the updates for OrderItems
     const updates = existingFulfillment.fulfillmentItems.map(async (item) => {
@@ -67,10 +84,8 @@ export async function submitFulfillment(fulfillmentId: string) {
         },
         data: {
           fulfilledQuantity: newFulfilledQuantity,
-          status:
-            newFulfilledQuantity === orderItem.qty
-              ? 'IN_PROGRESS'
-              : orderItem.status,
+          status: 'IN_PROGRESS',
+          deliveryStatus: 'IN_PROGRESS',
         },
       });
 
@@ -124,7 +139,16 @@ export async function submitFulfillment(fulfillmentId: string) {
 
     // Calculate the ratio and the total amount for this fulfillment
     const totalAmount =
-      (fulfillmentItemTotal / orderItemTotal) * order.totalPrice;
+      (fulfillmentItemTotal / orderItemTotal) * order.grandTotal;
+
+    const fulfillmentCharges =
+      (fulfillmentItemTotal / orderItemTotal) * order.totalCharges;
+
+    const fulfillmentDisc =
+      (fulfillmentItemTotal / orderItemTotal) * order.totalDiscount;
+
+    const totalAmountWithoutChargesDiscount =
+      totalAmount - fulfillmentCharges + fulfillmentDisc;
 
     // Update the Fulfillment status
     await prisma.fulfillment.update({
@@ -140,53 +164,30 @@ export async function submitFulfillment(fulfillmentId: string) {
       },
     });
 
-    const allItemsInProgress = order.orderItems.every(
+    // Change Order Status to 'IN_PROGRESS' when atleast one Fulfillment is Submitted
+    const atLeastOneItemInProgress = order.orderItems.some(
       (item) => item.status === 'IN_PROGRESS',
     );
 
-    if (allItemsInProgress) {
+    if (atLeastOneItemInProgress) {
       await prisma.order.update({
         where: {
           id: existingFulfillment.orderId,
         },
         data: {
           orderStatus: 'IN_PROGRESS',
-        },
-      });
-
-      // Delete fulfillment items associated with the DRAFT fulfillments
-      const draftFulfillments = await prisma.fulfillment.findMany({
-        where: {
-          orderId: existingFulfillment.orderId,
-          status: 'DRAFT',
-          id: {
-            not: fulfillmentId, // Exclude the currently processed fulfillment
-          },
-        },
-        select: {
-          id: true,
-        },
-      });
-
-      const draftFulfillmentIds = draftFulfillments.map((f) => f.id);
-
-      await prisma.fulfillmentItem.deleteMany({
-        where: {
-          fulfillmentId: {
-            in: draftFulfillmentIds,
-          },
-        },
-      });
-
-      // Delete the DRAFT fulfillments themselves
-      await prisma.fulfillment.deleteMany({
-        where: {
-          id: {
-            in: draftFulfillmentIds,
-          },
+          deliveryStatus: 'IN_PROGRESS',
         },
       });
     }
+
+    // Check if all OrderItems are fully fulfilled (all items have fulfilledQuantity equal to qty)
+    // const allItemsFulfilled = order.orderItems.every((item) => {
+    //   return item.fulfilledQuantity === item.qty;
+    // });
+
+    // If all items are fulfilled, delete remaining DRAFT fulfillments
+    //    if (allItemsFulfilled) {}
 
     const validatedAddress = CreateAddressSchema.parse(order.shippingAddress);
 
@@ -198,8 +199,10 @@ export async function submitFulfillment(fulfillmentId: string) {
           Math.floor(Math.random() * 1000000).toString(),
         units: item.quantity,
         selling_price: item.orderItem.item.price,
-        discount: item.orderItem.item.discountedPrice,
-        tax: '',
+        discount: item.orderItem.item.discountedPrice
+          ? item.orderItem.item.price - item.orderItem.item.discountedPrice
+          : 0,
+        tax: item.orderItem.item.taxRate,
         hsn: '',
       }),
     );
@@ -211,27 +214,37 @@ export async function submitFulfillment(fulfillmentId: string) {
     const shiprocketData = {
       fulfillmentId,
       orderDate: order.dateTime,
-      pickupLocation: 'Home',
+      pickupLocation: validatedFulfillment.pickup_location,
       shippingIsBilling: true,
       billing_customer_name: validatedAddress.firstName,
       billing_last_name: validatedAddress.lastName,
       billing_email: `${validatedAddress.mobile}@vestidonation.com`,
       billing_phone: validatedAddress.mobile,
       billing_address: validatedAddress.line1,
-      billing_address_2: validatedAddress.line2,
+      billing_address_2: `${validatedAddress.line2}${validatedAddress.landmark ? ', Landmark: ' + validatedAddress.landmark : ''}`,
       billing_city: validatedAddress.district,
       billing_pincode: validatedAddress.pinCode,
       billing_state: validatedAddress.state,
       order_items: fulfillmentItems,
       paymentMethod: paymentMethod,
-      totalAmount: totalAmount,
-      length: existingFulfillment.length ?? 0,
-      breadth: existingFulfillment.breadth ?? 0,
-      height: existingFulfillment.height ?? 0,
-      weight: existingFulfillment.weight ?? 0,
+      totalAmount: totalAmountWithoutChargesDiscount,
+      length: validatedFulfillment.length,
+      breadth: validatedFulfillment.breadth,
+      height: validatedFulfillment.height,
+      weight: validatedFulfillment.weight,
+      shipping_charges: fulfillmentCharges,
+      total_discount: fulfillmentDisc,
     };
 
     const shiprocketOrder = await createShiprocketOrder(shiprocketData);
+
+    await prisma.fulfillmentLog.create({
+      data: {
+        fullfillmentId: fulfillmentId,
+        logType: 'SHIPROCKET_CREATE_ORDER_RESPONSE',
+        rawData: shiprocketOrder,
+      },
+    });
 
     const shippingFulfillment = await prisma.fulfillment.update({
       where: {

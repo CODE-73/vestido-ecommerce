@@ -6,7 +6,7 @@ export async function removeFromCart(body: unknown) {
   const prisma = getPrismaClient();
   const validatedData = RemoveFromCartSchema.parse(body);
 
-  if (validatedData.actionType === 'full') {
+  if (validatedData.actionType !== 'decrement') {
     // Full removal of the item
     const cartItem = await prisma.cartItem.deleteMany({
       where: {
@@ -16,7 +16,7 @@ export async function removeFromCart(body: unknown) {
       },
     });
     return cartItem;
-  } else if (validatedData.actionType === 'decrement') {
+  } else {
     // Decrement quantity by 1
     const cartItem = await prisma.cartItem.updateMany({
       where: {
@@ -48,6 +48,4 @@ export async function removeFromCart(body: unknown) {
 
     return cartItem;
   }
-
-  throw new Error('Invalid action type');
 }

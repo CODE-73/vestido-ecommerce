@@ -1,5 +1,7 @@
 import { type PrismaClient } from '@prisma/client';
 
+import { VestidoError } from '@vestido-ecommerce/utils';
+
 export async function validateAttributes(
   client: PrismaClient,
   attributes: Array<{ attributeId: string; attributeValueId: string }>,
@@ -8,7 +10,14 @@ export async function validateAttributes(
   if (
     new Set(attributes.map((x) => x.attributeId)).size !== attributes.length
   ) {
-    throw new Error('An Attribute can only be specified once');
+    throw new VestidoError({
+      name: 'DuplicateAttributeValue',
+      message: 'An Attribute can only be specified once',
+      httpStatus: 400,
+      context: {
+        attributes,
+      },
+    });
   }
 
   // Validate attributeValueId belongs to attributeId
@@ -27,7 +36,14 @@ export async function validateAttributes(
           x.attributeId === attr.attributeId && x.id === attr.attributeValueId,
       )
     ) {
-      throw new Error('Attribute values incompatible');
+      throw new VestidoError({
+        name: 'AttributeValueIncompatible',
+        message: 'Attribute values incompatible',
+        httpStatus: 400,
+        context: {
+          attributes,
+        },
+      });
     }
   }
 

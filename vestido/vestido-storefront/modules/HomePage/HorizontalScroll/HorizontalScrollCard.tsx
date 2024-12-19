@@ -53,9 +53,9 @@ const HorizontalScrollCard: React.FC<ScrollCardProps> = ({ data }) => {
 
         <div className="sm:hidden group-hover:block mx-1">
           {SmallMobile ? (
-            <DiscoverButton className="w-4/5" />
+            <DiscoverButton bgLight={true} className="w-4/5" />
           ) : (
-            <DiscoverButton />
+            <DiscoverButton bgLight={true} />
           )}
         </div>
       </div>

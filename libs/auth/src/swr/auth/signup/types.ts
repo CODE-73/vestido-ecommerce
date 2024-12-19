@@ -4,6 +4,7 @@ export type SignUpRequest = {
   lastName: string;
   mobile: string;
   otp: string;
+  gender: string;
 };
 
 export type SignUpResponse = {

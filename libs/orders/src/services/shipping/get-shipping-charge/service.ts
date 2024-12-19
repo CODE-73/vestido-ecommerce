@@ -1,4 +1,5 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
+import { VestidoError } from '@vestido-ecommerce/utils';
 
 import { ShippingChargesSchema, ShippingChargesSchemaType } from './zod';
 
@@ -22,11 +23,17 @@ export async function calculateShippingCharges(
   const deliveryAvailable = true; // Assume true for demonstration
 
   if (!pinCode) {
-    throw new Error('Pincode is required');
+    throw new VestidoError({
+      name: 'PincodeRequired',
+      message: 'Pincode is required',
+      httpStatus: 400,
+      context: {
+        ...data,
+      },
+    });
   }
 
   if (data.paymentType === 'ONLINE') {
-    console.log(isPinCodeInKerala(pinCode));
     if (isPinCodeInKerala(pinCode)) {
       shippingCost = 0.0;
     } else {

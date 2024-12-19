@@ -2,7 +2,7 @@ import useSWRImmutable from 'swr/immutable';
 
 import { useAuth } from '@vestido-ecommerce/auth/client';
 
-import { CalculateTotalSWRKeys } from '../keys';
+import { OrderSWRKeys } from '../keys';
 import { calculateTotal } from './service';
 import { CalculateTotalRequest, CalculateTotalResponse } from './types';
 
@@ -11,8 +11,8 @@ export function useCalculateTotal(args: CalculateTotalRequest) {
   const key =
     isAuthenticated && args.addressId && args.orderItems && args.paymentType
       ? [
-          CalculateTotalSWRKeys.CALCULATE,
-          CalculateTotalSWRKeys.ORDER,
+          OrderSWRKeys.CALCULATE,
+          OrderSWRKeys.ORDER,
           args.addressId,
           args.orderItems,
           args.paymentType,

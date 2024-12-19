@@ -46,7 +46,8 @@ const OrdersTable: React.FC<ProductTableProps> = ({ data }) => {
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Customer ID</TableHead>
+          <TableHead>Order Number</TableHead>
+          <TableHead>Order ID</TableHead>
           <TableHead>Status</TableHead>
           <TableHead>Price</TableHead>
           <TableHead>Date</TableHead>
@@ -62,12 +63,15 @@ const OrdersTable: React.FC<ProductTableProps> = ({ data }) => {
               className="cursor-pointer"
             >
               <TableCell className="font-semibold capitalize">
-                {order.customerId}
+                {order.order_no.toString()}
+              </TableCell>
+              <TableCell className="font-semibold capitalize">
+                {order.id}
               </TableCell>
               <TableCell className="font-semibold capitalize">
                 {order.orderStatus}
               </TableCell>
-              <TableCell> {formatINR(order.totalPrice)}</TableCell>
+              <TableCell> {formatINR(order.grandTotal)}</TableCell>
               <TableCell>{formattedDate(new Date(order.dateTime))}</TableCell>
               <TableCell>{formattedTime(new Date(order.dateTime))}</TableCell>
             </TableRow>

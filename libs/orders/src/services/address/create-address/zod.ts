@@ -8,6 +8,8 @@ export const CreateAddressSchema = z.object({
   firstName: z.string(),
   lastName: z.string(),
   mobile: z.string(),
+  alternateMobile: z.string().nullable(),
+  landmark: z.string().nullable(),
   line1: z.string(),
   line2: z.string(),
   district: z.string(),

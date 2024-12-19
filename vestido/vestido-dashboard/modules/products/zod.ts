@@ -6,7 +6,7 @@ import {
   ItemVariantWithAttributes,
   ItemVariantWithSize,
 } from '@vestido-ecommerce/items/client';
-import { ImageSchemaType } from '@vestido-ecommerce/utils';
+import { ImageSchemaType, VestidoError } from '@vestido-ecommerce/utils';
 
 export { type ItemVariantWithSize };
 
@@ -54,11 +54,25 @@ export function parseItemDetails(item: ItemDetailsResponse['data']) {
 function parseVariants(variants: ItemVariantWithAttributes[]) {
   return variants.map((variant) => {
     if (variant.attributeValues.length > 1) {
-      throw new Error('Only one attribute is supported (Size)');
+      throw new VestidoError({
+        name: 'MultipleVariantAttributes',
+        message: 'Only one attribute is supported (Size)',
+        httpStatus: 400,
+        context: {
+          variants,
+        },
+      });
     }
 
     if (variant.attributeValues.length === 0) {
-      throw new Error('Variant must have at least one attribute (Size)');
+      throw new VestidoError({
+        name: 'NoVariantAttributes',
+        message: 'Variant must have at least one attribute (Size)',
+        httpStatus: 400,
+        context: {
+          variants,
+        },
+      });
     }
 
     const sizeAttribute = variant.attributeValues[0];

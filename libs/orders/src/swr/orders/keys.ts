@@ -1,18 +1,10 @@
-export enum CreateOrderSWRKeys {
+export enum OrderSWRKeys {
+  ORDER = 'order',
   CREATE = 'create',
-  ORDER = 'order',
-}
-
-export enum ListOrderSWRKeys {
   LIST = 'list',
-  ORDER = 'order',
-}
-export enum GetOrderSWRKeys {
   GET = 'get',
-  ORDER = 'order',
-}
-
-export enum CalculateTotalSWRKeys {
+  UPDATE = 'update',
   CALCULATE = 'calculate',
-  ORDER = 'order',
+  TRACK = 'track',
+  CANCEL = 'cancel',
 }

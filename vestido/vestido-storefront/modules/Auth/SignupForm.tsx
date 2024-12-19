@@ -70,6 +70,7 @@ const SignupForm: React.FC<Props> = ({ mobile, onBackClick }) => {
         lastName: data.lastName,
         mobile: data.mobile,
         otp: data.otp,
+        gender: data.gender,
       });
 
       onLogin(user, token);

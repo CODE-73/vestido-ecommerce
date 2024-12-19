@@ -4,12 +4,13 @@ import { Item } from '@prisma/client';
 import { LuShoppingBag } from 'react-icons/lu';
 
 import { useAuth } from '@vestido-ecommerce/auth/client';
-import { useAddToCart, useItem } from '@vestido-ecommerce/items/client';
+import { useAddToCart } from '@vestido-ecommerce/items/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { formatINR } from '@vestido-ecommerce/utils';
 
 import { ItemToastBody } from '../../components/item-toast-body';
+import { SizeSelectorDialog } from '../Wishlist/size-selector';
 
 interface AddToCartButtonProps {
   price: number;
@@ -26,30 +27,23 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   const { toast } = useToast();
   const [hovered, setHovered] = useState(false);
   const [qty] = useState(1);
-  const [loading, setLoading] = useState(false); // State to show loading
-  // const [success, setSuccess] = useState(false);
-  const { data } = useItem(item.id);
-  const product = data?.data;
+  // const [loading, setLoading] = useState(false);
   const { trigger } = useAddToCart();
 
-  const defaultVar = product?.variants.find((x) => x.default == true);
-
-  const handleAddToCart = async () => {
+  const handleAddToCart = async (selectedVariantId: string | null) => {
     if (!isAuthenticated) {
       routeToLogin();
       return;
     }
 
     if (item) {
-      setLoading(true); // Set loading to true when the process starts
-      // setSuccess(false);
-      // Reset success state when a new action starts
+      // setLoading(true);
 
       try {
         await trigger({
           itemId: item.id,
           qty: qty,
-          variantId: defaultVar?.id ?? product?.variants?.[0]?.id ?? null,
+          variantId: selectedVariantId,
         });
 
         toast({
@@ -64,63 +58,62 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
           description: ItemToastBody(false, item, ''),
         });
       } finally {
-        setLoading(false);
+        // setLoading(false);
       }
     }
   };
 
   const buttonHeight = '40px';
   return (
-    <Button
-      className="relative flex items-center transition-all justify-start duration-300 bg-black rounded-none hover:bg-[#48CAB2] w-full p-0"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{ height: buttonHeight, minHeight: buttonHeight }}
-      onClick={() => handleAddToCart()}
-      disabled={loading}
+    <SizeSelectorDialog
+      itemId={item.id}
+      onSizeSelect={(selectedVariantId) => {
+        handleAddToCart(selectedVariantId);
+      }}
     >
-      <div
-        className={`flex items-center justify-start gap-3 transition-all duration-300 bg-[#48CAB2] p-2 ${
-          hovered ? 'w-full' : ''
-        }`}
-        style={{ height: '100%' }}
+      <Button
+        className="relative flex items-center transition-all justify-start duration-300 bg-black hover:bg-white w-full p-0 "
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+        style={{ height: buttonHeight, minHeight: buttonHeight }}
       >
-        {loading ? (
-          <span className="ml-2 text-white text-lg font-semibold">
-            Adding...
-          </span>
-        ) : (
+        <div
+          className={`flex items-center justify-start gap-3 transition-all duration-300 bg-white p-2 rounded-lg ${
+            hovered ? 'w-full' : ''
+          }`}
+          style={{ height: '100%' }}
+        >
           <>
-            <LuShoppingBag className="text-white" size={20} />
+            <LuShoppingBag className="text-black" size={20} />
             {hovered && (
-              <span className="ml-2 text-white text-lg font-semibold">
+              <span className="ml-2 text-black  font-semibold">
                 ADD TO CART
               </span>
             )}
           </>
-        )}
-      </div>
-      {!hovered && !loading && (
-        <div className="ml-4 font-semibold text-left flex-grow text-white ">
-          {offerPrice ? (
-            <div className="flex items-baseline gap-1">
-              <div className="text-white text-base">
-                {formatINR(offerPrice)}
-              </div>
-              {offerPrice < price ? (
-                <div className="text-gray-500 line-through text-xs">
-                  {formatINR(price)}
-                </div>
-              ) : (
-                ''
-              )}
-            </div>
-          ) : (
-            <div className="text-white text-base">{formatINR(price)}</div>
-          )}
         </div>
-      )}
-    </Button>
+        {!hovered && (
+          <div className="ml-4 font-semibold text-left flex-grow text-white ">
+            {offerPrice ? (
+              <div className="flex items-baseline gap-1">
+                <div className="text-white text-base">
+                  {formatINR(offerPrice)}
+                </div>
+                {offerPrice < price ? (
+                  <div className="text-gray-500 line-through text-xs">
+                    {formatINR(price)}
+                  </div>
+                ) : (
+                  ''
+                )}
+              </div>
+            ) : (
+              <div className="text-white text-base">{formatINR(price)}</div>
+            )}
+          </div>
+        )}
+      </Button>
+    </SizeSelectorDialog>
   );
 };
 

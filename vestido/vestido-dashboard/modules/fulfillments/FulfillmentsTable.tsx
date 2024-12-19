@@ -31,26 +31,29 @@ const FulfillmentsTable: React.FC<FulfillmentTableProps> = ({
     <Table>
       <TableHeader>
         <TableRow>
+          <TableHead>Fulfillment No.</TableHead>
+          <TableHead>Fulfillment ID</TableHead>
           <TableHead>Order ID</TableHead>
           <TableHead>Date</TableHead>
           <TableHead>Time</TableHead>
-
-          <TableHead>Breadth</TableHead>
-          <TableHead>Height</TableHead>
-          <TableHead>Length</TableHead>
-          <TableHead>Weight</TableHead>
           <TableHead>Shiprocker Order ID</TableHead>
           <TableHead>Status</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {fulfillments &&
+        {fulfillments.length > 0 ? (
           fulfillments.map((fulfillment) => (
             <TableRow
               key={fulfillment.id}
               onClick={() => handleRowClick(fulfillment.id)}
               className="cursor-pointer"
             >
+              <TableCell className="font-semibold capitalize">
+                {fulfillment.fulfillment_no.toString()}
+              </TableCell>
+              <TableCell className="font-semibold capitalize">
+                {fulfillment.id}
+              </TableCell>
               <TableCell className="font-semibold capitalize">
                 {fulfillment.orderId}
               </TableCell>
@@ -61,17 +64,15 @@ const FulfillmentsTable: React.FC<FulfillmentTableProps> = ({
                 {formattedTime(new Date(fulfillment.dateTime))}
               </TableCell>
 
-              <TableCell>{fulfillment.breadth}</TableCell>
-              <TableCell>{fulfillment.height}</TableCell>
-              <TableCell>{fulfillment.length}</TableCell>
-
-              <TableCell className="truncate max-w-xs">
-                {fulfillment.weight}
-              </TableCell>
               <TableCell>{fulfillment.shiprocket_order_id}</TableCell>
               <TableCell>{fulfillment.status}</TableCell>
             </TableRow>
-          ))}
+          ))
+        ) : (
+          <TableRow className="text-center">
+            <TableCell colSpan={10}>No fulfillments made yet.</TableCell>
+          </TableRow>
+        )}
       </TableBody>
       <TableFooter></TableFooter>
     </Table>

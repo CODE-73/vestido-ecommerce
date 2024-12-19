@@ -1,10 +1,13 @@
 import { FC, useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
 
+import clsx from 'clsx';
+
 import { ItemDetails } from '@vestido-ecommerce/items';
 import {
   Carousel,
   CarouselContent,
+  CarouselDots,
   CarouselItem,
 } from '@vestido-ecommerce/shadcn-ui/carousel';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
@@ -94,7 +97,7 @@ const ProductViewImages: FC<ProductViewImagesProps> = ({
                   onClick={() => setSelectedImage(image)}
                 >
                   <Image
-                    className="outline outline-3 hover:outline-[#48CAB2] mb-3"
+                    className="outline outline-3 hover:outline-gray-300 mb-3"
                     placeholder={image.blurHashDataURL ? 'blur' : undefined}
                     blurDataURL={image.blurHashDataURL ?? undefined}
                     src={image.url!}
@@ -110,7 +113,7 @@ const ProductViewImages: FC<ProductViewImagesProps> = ({
         <div className="basis-5/6 text-right">
           <Image
             ref={mainImageRef}
-            src={mainImage?.url ?? ''}
+            src={mainImage?.url ?? '/assets/fallback-image.png'}
             placeholder={mainImage?.blurHashDataURL ? 'blur' : undefined}
             blurDataURL={mainImage?.blurHashDataURL ?? undefined}
             alt="alt text"
@@ -122,22 +125,50 @@ const ProductViewImages: FC<ProductViewImagesProps> = ({
       <div className="sm:hidden">
         <Carousel className=" w-full relative">
           <CarouselContent>
-            {productImages.map((image, index) => (
-              <CarouselItem key={index}>
-                <div>
-                  <Image
-                    className="outline outline-3 hover:outline-[#48CAB2] mb-3"
-                    src={image.url!}
-                    placeholder={image.blurHashDataURL ? 'blur' : undefined}
-                    blurDataURL={image.blurHashDataURL ?? undefined}
-                    alt="alt text"
-                    width={550}
-                    height={720}
-                  />
-                </div>
-              </CarouselItem>
-            ))}
+            {productImages.length > 0 ? (
+              productImages.map((image, index) => (
+                <CarouselItem key={index}>
+                  <div>
+                    <Image
+                      className="outline outline-3 hover:outline-gray-300 mb-3"
+                      src={image.url!}
+                      placeholder={image.blurHashDataURL ? 'blur' : undefined}
+                      blurDataURL={image.blurHashDataURL ?? undefined}
+                      alt="alt text"
+                      width={550}
+                      height={680}
+                    />
+                  </div>
+                </CarouselItem>
+              ))
+            ) : (
+              <div>
+                <Image
+                  className="outline outline-3 hover:outline-gray-300 mb-3"
+                  src="/assets/fallback-image.png"
+                  alt="alt text"
+                  width={550}
+                  height={680}
+                />
+              </div>
+            )}
           </CarouselContent>
+          <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 pb-3 ">
+            <CarouselDots>
+              {({ scrollSnap, onClick, selectedIndex, index }) => (
+                <button
+                  className={clsx('rounded-full  h-1', {
+                    ' w-2 h-2 bg-white  border border-white':
+                      selectedIndex === index,
+                    'w-2 h-2   border  border border-white':
+                      selectedIndex !== index,
+                  })}
+                  key={scrollSnap}
+                  onClick={() => onClick(index)}
+                ></button>
+              )}
+            </CarouselDots>
+          </div>
         </Carousel>
       </div>
     </>

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Image from 'next/image';
 
 import {
@@ -7,8 +8,9 @@ import {
   LuPhone,
   LuUser,
 } from 'react-icons/lu';
+import * as z from 'zod';
 
-import { useOrder } from '@vestido-ecommerce/orders/client';
+import { useOrder, useUpdateOrder } from '@vestido-ecommerce/orders/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
   Card,
@@ -26,18 +28,41 @@ import {
   TableHeader,
   TableRow,
 } from '@vestido-ecommerce/shadcn-ui/table';
+import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { formatINR, ImageSchemaType } from '@vestido-ecommerce/utils';
 
+import FulfillmentsTable from '../fulfillments/FulfillmentsTable';
 import { CreateFulfillmentDialog } from './CreateFulfillmentDialog';
 import { formattedDate, formattedTime } from './OrdersTable';
 type OrderDetailsProps = {
   orderId: string;
 };
 
+export type UpdateOrderForm = z.infer<typeof UpdateOrderFormSchema>;
+const UpdateOrderFormSchema = z.object({
+  id: z.string(),
+  description: z.string(),
+});
+
 const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
   const { data } = useOrder(orderId);
+  const { trigger: updateOrderTrigger } = useUpdateOrder();
+  const { toast } = useToast();
+
+  const [description, setDescription] = useState('');
   const order = data?.data;
   console.log(order);
+
+  const handleUpdateOrder = async (data: UpdateOrderForm) => {
+    try {
+      await updateOrderTrigger(data);
+      toast({
+        title: 'Order Updated Successfully',
+      });
+    } catch (err) {
+      console.error('Error updating order:', err);
+    }
+  };
 
   return (
     <div className="container mx-auto py-10 bg-slate-200 mt-16">
@@ -55,8 +80,8 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
           <CardTitle className="text-xl p-3 font-normal ">
             <div className="flex justify-between">
               <div>
-                <span className="text-base text-gray-500">Order ID: </span>
-                {order?.id}
+                <span className="text-base text-gray-500">Order Number: </span>
+                {order?.order_no.toString()}
               </div>
               <div className="text-lg flex divide-x gap-5">
                 <div>{order && formattedDate(new Date(order.dateTime))}</div>
@@ -68,12 +93,42 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
             <div className="">Order Status: </div>
             <div className="font-semibold col-span-2">{order?.orderStatus}</div>
             <div className="">Total Amount:</div>
-            <div className="font-semibold col-span-2">{order?.totalPrice}</div>
+            <div className="font-semibold col-span-2">{order?.grandTotal}</div>
             <div className="">Amount Paid: </div>
             <div className="font-semibold col-span-2">
-              {/* {order?.payments.map((payment) => payment.amount)} */}
-              ₹1599.00
+              {order?.payments.map((payment) => payment.amount)}
             </div>
+          </CardContent>
+        </Card>
+        <Card className="col-span-6">
+          <CardTitle className="text-xl p-3 font-normal ">
+            <div className="flex justify-between">
+              <div>
+                <span className="text-base text-gray-500">Add a Note: </span>
+              </div>
+            </div>
+          </CardTitle>
+          <CardContent className="flex items-center justify-between max-w-full">
+            <span className="text-base text-gray-500">Note:</span>
+            <textarea
+              className="flex-1 mx-3 p-2 border rounded-md text-sm text-gray-700"
+              placeholder="Enter a note about the order"
+              value={description} // Bind to a state variable
+              onChange={(e) => setDescription(e.target.value)} // Update the state
+            />
+            <button
+              className={`px-4 py-2 rounded-md text-white ${
+                description
+                  ? 'bg-blue-500 hover:bg-blue-600'
+                  : 'bg-gray-300 cursor-not-allowed'
+              }`}
+              onClick={() =>
+                handleUpdateOrder({ id: order?.id || '', description })
+              } // Trigger your handler
+              disabled={!description} // Disable button when description is empty
+            >
+              Save Note
+            </button>
           </CardContent>
         </Card>
         <Card className="col-span-6 md:col-span-3 xl:col-span-2">
@@ -143,18 +198,15 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
           <CardContent className="gap-3 grid grid-cols-2">
             <div className="justify-self-end">Payment Status: </div>
             <div className="font-semibold">
-              {/* {order?.payments.map((payment) => payment.status)} */}
-              PENDING
+              {order?.payments.map((payment) => payment.status)}
             </div>
             <div className="justify-self-end">Gateway: </div>
             <div className="font-semibold">
-              {/* {order?.payments.map((payment) => payment.paymentGateway)} */}
-              Razorpay
+              {order?.payments.map((payment) => payment.paymentGateway)}
             </div>
             <div className="justify-self-end">Amount Paid: </div>
             <div className="font-semibold">
-              {/* {order?.payments.map((payment) => payment.amount)} */}
-              ₹1599.00
+              {order?.payments.map((payment) => payment.amount)}
             </div>
           </CardContent>
         </Card>
@@ -207,6 +259,16 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
             </TableBody>
             <TableFooter></TableFooter>
           </Table>
+        </div>
+        <div className="bg-white col-span-6">
+          <div className="p-4 text-lg font-semibold">Fulfillments</div>
+          {order?.fulfillments.length && order.fulfillments.length > 0 ? (
+            <div className="bg-white">
+              <FulfillmentsTable data={order?.fulfillments ?? []} />
+            </div>
+          ) : (
+            <div>Your Order will be shipped soon. </div>
+          )}
         </div>
       </div>
       {/*

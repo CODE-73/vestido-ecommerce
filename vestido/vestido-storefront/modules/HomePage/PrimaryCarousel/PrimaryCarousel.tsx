@@ -77,10 +77,10 @@ export const PrimaryCarousel: React.FC = () => {
   );
 
   return (
-    <div className="">
+    <div className=" overflow-hidden lg:rounded-[25px]">
       <Carousel
         plugins={[plugin.current]}
-        className=" pt-2 pr-0 relative bg-black"
+        className=" pr-0 relative bg-black"
         onMouseEnter={plugin.current.stop}
         onMouseLeave={plugin.current.reset}
       >

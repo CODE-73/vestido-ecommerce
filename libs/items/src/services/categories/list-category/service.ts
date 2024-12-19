@@ -24,7 +24,7 @@ export async function listCategories(_args: ListCategoryRequest) {
         ? {
             enabled: args.enabled ?? false,
           }
-        : { enabled: true }),
+        : {}),
 
       ...(args?.gender ? { gender: { has: args.gender } } : {}),
     },

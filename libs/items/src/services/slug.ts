@@ -2,6 +2,7 @@ import {
   getPrismaClient,
   type PrismaModelName,
 } from '@vestido-ecommerce/models';
+import { slugify, VestidoError } from '@vestido-ecommerce/utils';
 
 type ValidateSlugArgs = {
   id?: string;
@@ -19,7 +20,7 @@ export async function validateSlug({
   const prisma = getPrismaClient();
 
   if (!incoming || typeof incoming !== 'string' || incoming.length === 0) {
-    incoming = generateSlug(generateFrom);
+    incoming = slugify(generateFrom);
   }
 
   for (let i = 0; i < 10; i++) {
@@ -35,12 +36,14 @@ export async function validateSlug({
     incoming = `${incoming}-${Math.floor(Math.random() * 1000)}`;
   }
 
-  throw new Error('Could not generate a unique slug.');
-}
-
-function generateSlug(str: string) {
-  return str
-    .toLowerCase()
-    .replace(/ /g, '-')
-    .replace(/[^a-z0-9-]/g, '');
+  throw new VestidoError({
+    name: 'SlugGenerationFailed',
+    message: 'Could not generate a unique slug.',
+    httpStatus: 500,
+    context: {
+      tableName,
+      generateFrom,
+      attemptedSlug: incoming,
+    },
+  });
 }

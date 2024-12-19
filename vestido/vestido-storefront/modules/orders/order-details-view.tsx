@@ -15,6 +15,7 @@ import {
 import { formatINR } from '@vestido-ecommerce/utils';
 
 import ItemImage from '../../components/item-image';
+import CancelOrderDialog from './cancel-order-dialog';
 import ShipmentStatus from './shipment-status';
 
 type OrderDetailsProps = {
@@ -57,23 +58,34 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
     return null;
   }
 
+  const submittedFulfillments = order?.fulfillments.filter(
+    (x) => x.status != 'DRAFT',
+  );
+  const hasSubmittedFulfillment = (submittedFulfillments?.length ?? 0) > 0;
+
+  const isCancelledOrder = order?.orderStatus === 'CANCELLED';
+
   const cardHeight = '700px';
   return (
-    <div className="grid lg:grid-cols-2 gap-1 lg:gap-3 items-start justify-center mt-10">
+    <div
+      className={`grid gap-1 items-start justify-center mt-10 ${
+        isCancelledOrder ? 'grid-cols-1' : 'lg:grid-cols-2 lg:gap-3'
+      }`}
+    >
       <Card
         style={{ height: cardHeight, minHeight: cardHeight }}
-        className="w-full max-w-3xl p-3 md:p-6 md:justify-self-end"
+        className={`w-full max-w-3xl p-3 md:p-6 ${
+          isCancelledOrder ? 'md:justify-self-center' : 'md:justify-self-end'
+        }`}
       >
         <CardHeader className="flex flex-col items-center gap-2 p-0 lg:p-6">
           <CardTitle className="text-2xl font-semibold">
-            Order Details
+            {isCancelledOrder ? <div>Order Cancelled!</div> : 'Order Details'}
           </CardTitle>
           <CardDescription className="text-muted-foreground">
             <div className="flex gap-1">
-              <div className="text-muted-foreground hidden md:block">
-                Order Number:
-              </div>
-              <div className="font-medium">{order?.id}</div>
+              <div className="text-muted-foreground hidden md:block">Order</div>
+              <div className="font-medium">#{order?.order_no.toString()}</div>
             </div>
           </CardDescription>
         </CardHeader>
@@ -108,7 +120,7 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
                   {orderItem.qty}
                 </div>
                 <div className="text-sm pl-1 col-span-2 justify-self-center">
-                  {formatINR(orderItem.item.price)}
+                  {formatINR(orderItem.price)}
                 </div>
               </div>
             ))}
@@ -117,7 +129,7 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
           <div className="grid gap-1">
             <div className="text-muted-foreground">Total Amount</div>
             <div className="font-medium">
-              {formatINR(order?.totalPrice as number)}
+              {formatINR(order?.grandTotal as number)}
             </div>
           </div>
           <div className="grid gap-1">
@@ -132,75 +144,78 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
           </div>
         </CardContent>
         <CardFooter className="flex flex-col gap-2 md:flex-row md:justify-between">
-          <Link
-            href={`/orders/${orderId}`}
-            className="w-full md:w-auto"
-            prefetch={false}
-          >
-            <Button variant="outline" className="w-full">
-              Back
-            </Button>
+          <Link href="/profile" className="w-full md:w-auto" prefetch={false}>
+            <Button className="w-full">Back</Button>
           </Link>
+          {!hasSubmittedFulfillment && order?.orderStatus != 'CANCELLED' && (
+            <CancelOrderDialog
+              orderId={order?.id as string}
+              orderNo={order?.order_no}
+            >
+              <Button variant="outline">Cancel Order</Button>
+            </CancelOrderDialog>
+          )}
         </CardFooter>
       </Card>
-
-      <div>
-        <Card
-          className="p-3 md:p-6 max-w-3xl"
-          style={{ height: cardHeight, minHeight: cardHeight }}
-        >
-          <CardHeader className="flex flex-col items-center gap-2">
-            <CardTitle className="text-2xl font-semibold text-center">
-              Shipment Details
-            </CardTitle>
-            <CardDescription className="text-muted-foreground">
-              <div className="flex gap-1">
-                <div className="text-muted-foreground">Order Number: </div>
-                <div className="font-medium">{order?.id}</div>
-              </div>
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="grid gap-4 max-h-[80%] overflow-y-scroll">
-            {order?.fulfillments.map((fulfillment, index) => (
-              <div
-                key={index}
-                className="w-full max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md"
-              >
-                {formattedDate(new Date(fulfillment.dateTime))}
-                <ShipmentStatus fulfillmentStatus={fulfillment.status} />
-                <div>
-                  <div className="flex flex-col  divide-y">
-                    {fulfillment.fulfillmentItems.map(
-                      (fulfillmentItem, index) => (
-                        <div
-                          key={index}
-                          className="py-3 grid grid-cols-8 divide-x"
-                        >
-                          <ItemImage
-                            item={fulfillmentItem?.orderItem?.item}
-                            width={50}
-                            height={70}
-                            className="w-10 h-12 justify-self-center"
-                          />
-                          <div className="text-xs col-span-4 pl-1 ">
-                            {fulfillmentItem?.orderItem?.item.title}
+      {!isCancelledOrder && (
+        <div>
+          <Card
+            className="p-3 md:p-6 max-w-3xl"
+            style={{ height: cardHeight, minHeight: cardHeight }}
+          >
+            <CardHeader className="flex flex-col items-center gap-2">
+              <CardTitle className="text-2xl font-semibold text-center">
+                Shipment Details
+              </CardTitle>
+              <CardDescription className="text-muted-foreground">
+                <div className="flex gap-1">
+                  <div className="text-muted-foreground">Order Number: </div>
+                  <div className="font-medium">{order?.id}</div>
+                </div>
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="grid gap-4 max-h-[80%] overflow-y-scroll">
+              {order?.fulfillments.map((fulfillment, index) => (
+                <div
+                  key={index}
+                  className="w-full max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md"
+                >
+                  {formattedDate(new Date(fulfillment.dateTime))}
+                  <ShipmentStatus fulfillmentStatus={fulfillment.status} />
+                  <div>
+                    <div className="flex flex-col  divide-y">
+                      {fulfillment.fulfillmentItems.map(
+                        (fulfillmentItem, index) => (
+                          <div
+                            key={index}
+                            className="py-3 grid grid-cols-8 divide-x"
+                          >
+                            <ItemImage
+                              item={fulfillmentItem?.orderItem?.item}
+                              width={50}
+                              height={70}
+                              className="w-10 h-12 justify-self-center"
+                            />
+                            <div className="text-xs col-span-4 pl-1 ">
+                              {fulfillmentItem?.orderItem?.item.title}
+                            </div>
+                            <div className="px-1 text-sm text-center justify-self-center">
+                              {fulfillmentItem?.orderItem?.qty}
+                            </div>
+                            <div className="text-sm pl-1 col-span-2 justify-self-center">
+                              {formatINR(fulfillmentItem?.orderItem?.price)}
+                            </div>
                           </div>
-                          <div className="px-1 text-sm text-center justify-self-center">
-                            {fulfillmentItem?.orderItem?.qty}
-                          </div>
-                          <div className="text-sm pl-1 col-span-2 justify-self-center">
-                            {formatINR(fulfillmentItem?.orderItem?.item?.price)}
-                          </div>
-                        </div>
-                      ),
-                    )}
+                        ),
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-      </div>
+              ))}
+            </CardContent>
+          </Card>
+        </div>
+      )}
     </div>
   );
 };

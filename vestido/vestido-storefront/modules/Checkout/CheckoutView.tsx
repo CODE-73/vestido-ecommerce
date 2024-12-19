@@ -104,11 +104,11 @@ const CheckoutView: React.FC = () => {
         'orderItems',
         checkoutItems?.map((checkoutItem) => ({
           itemId: checkoutItem.itemId,
-          price: checkoutItem.item.price,
+          price: checkoutItem.item.discountedPrice || checkoutItem.item.price,
           qty: checkoutItem.qty,
           variantId: checkoutItem.variantId,
-          taxTitle: checkoutItem.item.taxTitle ?? null, // Add taxTitle
-          taxRate: checkoutItem.item.taxRate ?? null, // Add taxRate
+          taxTitle: checkoutItem.item.taxTitle || null, // Add taxTitle
+          taxRate: checkoutItem.item.taxRate || null, // Add taxRate
           taxInclusive: checkoutItem.item.taxInclusive ?? false, // Add taxInclusive
         })),
       );
@@ -132,7 +132,7 @@ const CheckoutView: React.FC = () => {
   const mappedOrderItems = checkoutItems
     ? checkoutItems.map((checkoutItem) => ({
         itemId: checkoutItem.itemId,
-        price: checkoutItem.item.price, // Get price from the item object
+        price: checkoutItem.item.discountedPrice || checkoutItem.item.price, // Get price from the item object
         qty: checkoutItem.qty,
         variantId: checkoutItem.variantId || null, // Handle optional variantId
         taxTitle: checkoutItem.item.taxTitle || null, // Get taxTitle from the item object
@@ -147,6 +147,9 @@ const CheckoutView: React.FC = () => {
     paymentType: paymentType,
     couponCode: form.watch('couponCode'),
   });
+
+  const isSubmitting = form.formState.isSubmitting;
+  const submitSuccesful = form.formState.isSubmitSuccessful;
 
   const handleSubmit = async (data: CreateOrderForm) => {
     try {
@@ -188,7 +191,7 @@ const CheckoutView: React.FC = () => {
         <div className="text-xs md:text-lg tracking-wide text-gray-300 text-center font-semibold md:mt-12 md:mb-12 mt-32 mb-16 uppercase font flex items-center justify-center gap-2">
           <Link href="/cart">Cart</Link>
           <LuChevronRight />
-          <span className="text-[#48CAB2] text-2xl">Address</span>
+          <span className="text-gray-600 text-2xl">Address</span>
           <LuChevronRight /> Payment
         </div>
       )}
@@ -204,7 +207,7 @@ const CheckoutView: React.FC = () => {
             Address
           </span>
           <LuChevronRight />
-          <span className="text-[#48CAB2] text-2xl ">Payment</span>
+          <span className="text-gray-600 text-2xl ">Payment</span>
         </div>
       )}
 
@@ -229,11 +232,9 @@ const CheckoutView: React.FC = () => {
               {currentSession == 'Address' && (
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button>
-                      <div className="border font-semibold w-full p-5 mb-10 cursor-pointer  border-dashed text-[#48CAB2] border-3 border-gray-300">
-                        + Add New Address
-                      </div>
-                    </Button>
+                    <div className="border font-semibold w-full p-5 mb-10 cursor-pointer  border-dashed text-gray-200 border-3 border-gray-300">
+                      + Add New Address
+                    </div>
                   </DialogTrigger>
                   <AddAddressDialog isNew={true} addressId={null} />
                 </Dialog>
@@ -342,10 +343,10 @@ const CheckoutView: React.FC = () => {
                   disabled={!shippingAddressId}
                   type="button"
                   onClick={() => setCurrentSession('Payment')}
-                  className="disabled:bg-gray-300 uppercase flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 text-md font-extrabold hover:text-black text-white justify-center mt-5"
+                  className="disabled:bg-gray-300 uppercase flex tracking-wide bg-white  text-black hover:bg-neutral-900 hover:border hover:border-white hover:text-white w-full h-14 text-md font-extrabold   justify-center mt-5"
                 >
                   <div className="flex items-center gap-2">
-                    CHOOSE PAYMENT METHOD{' '}
+                    CHOOSE PAYMENT METHOD
                     <LuChevronRight strokeWidth={2} size={24} />
                   </div>
                 </Button>
@@ -353,7 +354,8 @@ const CheckoutView: React.FC = () => {
               {currentSession == 'Payment' && (
                 <Button
                   type="submit"
-                  className="disabled:bg-gray-300 uppercase flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 text-md font-extrabold hover:text-black text-white justify-center mt-5"
+                  disabled={isSubmitting || submitSuccesful}
+                  className="disabled:bg-gray-300 uppercase flex tracking-wide bg-white  text-black hover:bg-neutral-900 hover:border hover:border-white hover:text-white w-full h-14  text-md font-extraboldjustify-center mt-5"
                 >
                   <div>PROCEED TO PAYMENT</div>
                 </Button>

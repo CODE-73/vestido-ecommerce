@@ -13,7 +13,7 @@ import {
   BreadcrumbSeparator,
 } from '@vestido-ecommerce/shadcn-ui/breadcrumb';
 
-import ProductFilter from './ProductFilter';
+// import ProductFilter from './ProductFilter';
 import ProductTile from './ProductTile';
 
 type ProductListViewProps = {
@@ -60,16 +60,15 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
       >
         {!suggestedList && (category?.name ?? 'All')}
       </div>
-      <div className="flex relative">
-        {!suggestedList && (
-          <div className="basis-1/5 hidden lg:block">
+      <div className="flex relative justify-center">
+        {/* {!suggestedList && (
+          <div className="basis-1/5 hidden invisible lg:block">
             <ProductFilter />
           </div>
-        )}
+        )} */}
 
         {items && items.length > 0 ? (
           <>
-            {' '}
             <div
               className={`${suggestedList ? 'xl:px-32 xl:grid-cols-6' : ' lg:basis-4/5 xl:grid-cols-5'} grid grid-cols-2 gap-2 px-5 md:grid-cols-3 lg:grid-cols-4  md:gap-5 xl:gap-10 md:px-0`}
             >
@@ -77,27 +76,26 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
                 <ProductTile data={item} key={item.id} />
               ))}
             </div>
+            <div className="absolute -bottom-8 left-[50%] flex justify-center mt-8">
+              <button
+                className="border border-gray-200 text-xs font-medium py-2 px-5  my-5 hover:border-black duration-100"
+                onClick={handleShowMoreClick}
+              >
+                Show More
+              </button>
+            </div>
           </>
         ) : (
           <div className="absolute left-[50%] transform -translate-x-1/2 flex flex-col items-center">
             <div>
-              {' '}
               We are updating this category with brand new products to suit your
               style!
             </div>
-            <div className="relative w-20 h-20 sm:w-32 sm:h-32 mt-32">
+            <div className="relative w-20 h-20 sm:w-24 sm:h-24 mt-32">
               <Image src="/assets/noitems.png" alt="" fill />
             </div>
           </div>
         )}
-      </div>
-      <div className="flex justify-center mt-8">
-        <button
-          className="border border-gray-200 text-xs font-medium py-2 px-5  my-5 hover:border-black duration-100"
-          onClick={handleShowMoreClick}
-        >
-          Show More
-        </button>
       </div>
     </div>
   );

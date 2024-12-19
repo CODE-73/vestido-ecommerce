@@ -30,6 +30,7 @@ enum StockStatus {
 enum OrderStatus {
     PENDING
     CONFIRMED
+    // Can only CANCEL the Order before any Fulfillment is created
     CANCELLED
     IN_PROGRESS
     COMPLETED
@@ -65,8 +66,12 @@ enum OrderPaymentStatus {
 
 enum FulfillmentStatus {
     DRAFT
+    // Right on Submit, we create a Delivery Partner Order which
+    // sets the Fulfillment Status to 'AWAITING_PICKUP'
     AWAITING_PICKUP
+    // Once the DeliveryPartner picks up the order
     IN_TRANSIT
+    // Once the DeliveryPartner has reached the last mile
     OUT_FOR_DELIVERY
     DELIVERED
     CANCELLED
@@ -89,21 +94,23 @@ enum ProfileGender {
 }
 
 model CustomerAddress {
-    id          String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    customer    Profile     @relation(fields: [customerId], references: [id])
-    customerId  String      @db.Uuid
-    firstName   String
-    lastName    String
-    mobile      String
-    line1       String
-    line2       String
-    district    String
-    state       String
-    pinCode     String
-    addressType AddressType @default(HOME)
-    default     Boolean
-    Order       Order[]
-    archived    Boolean     @default(false)
+    id              String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    customer        Profile     @relation(fields: [customerId], references: [id])
+    customerId      String      @db.Uuid
+    firstName       String
+    lastName        String
+    mobile          String
+    alternateMobile String?
+    landmark        String?
+    line1           String
+    line2           String
+    district        String
+    state           String
+    pinCode         String
+    addressType     AddressType @default(HOME)
+    default         Boolean
+    Order           Order[]
+    archived        Boolean     @default(false)
 }
 
 model Profile {
@@ -253,6 +260,7 @@ model CartItem {
 model Order {
     id       String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     dateTime DateTime @default(now())
+    order_no BigInt   @default(autoincrement())
 
     totalPrice    Float // total item price = SUM(item.rate * qty IF not item.taxInclusive ELSE taxSubtractedItemAmount)
     totalTax      Float @default(0) // SUM(item.taxAmount)
@@ -265,6 +273,7 @@ model Order {
     deliveryStatus     DeliveryStatus     @default(UNFULFILLED)
     returnStatus       ReturnStatus?
     exchangeStatus     ExchangeStatus?
+    description        String?
     orderPaymentStatus OrderPaymentStatus @default(PENDING)
     customer           Profile            @relation(fields: [customerId], references: [id])
     customerId         String             @db.Uuid
@@ -273,6 +282,7 @@ model Order {
     orderItems         OrderItem[]
     payments           Payment[]
     fulfillments       Fulfillment[]
+    logs               OrderLog[]
 }
 
 model OrderItem {
@@ -297,6 +307,14 @@ model OrderItem {
     taxAmount         Float             @default(0)
 }
 
+model OrderLog {
+    id      String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    orderId String @db.Uuid
+    order   Order  @relation(fields: [orderId], references: [id])
+    logType String
+    rawData Json
+}
+
 model Payment {
     id       String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     order    Order    @relation(fields: [orderId], references: [id])
@@ -314,6 +332,7 @@ model Payment {
 
 model Fulfillment {
     id                  String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    fulfillment_no      BigInt            @default(autoincrement())
     order               Order             @relation(fields: [orderId], references: [id])
     orderId             String            @db.Uuid
     status              FulfillmentStatus @default(DRAFT)
@@ -325,8 +344,11 @@ model Fulfillment {
     breadth             Float?
     height              Float?
     weight              Float?
+    pickup_location     String?
     price               Float?
+    description         String?
     fulfillmentItems    FulfillmentItem[]
+    logs                FulfillmentLog[]
 }
 
 model FulfillmentItem {
@@ -336,6 +358,16 @@ model FulfillmentItem {
     orderItem     OrderItem   @relation(fields: [orderItemId], references: [id])
     orderItemId   String      @db.Uuid
     quantity      Int         @default(1)
+}
+
+model FulfillmentLog {
+    id             String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    fullfillmentId String      @db.Uuid
+    fulfillment    Fulfillment @relation(fields: [fullfillmentId], references: [id])
+    // SHIPROCKET_CREATE_ORDER_RESPONSE
+    // SHIPROCKET_WEBHOOK
+    logType        String
+    rawData        Json
 }
 
 model Coupon {

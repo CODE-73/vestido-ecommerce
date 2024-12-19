@@ -27,6 +27,8 @@ const AddAddressFormSchema = z.object({
   firstName: z.string(),
   lastName: z.string(),
   mobile: z.string(),
+  alternateMobile: z.string().nullable(),
+  landmark: z.string(),
   line1: z.string(),
   line2: z.string(),
   district: z.string(),
@@ -50,6 +52,7 @@ const defaultValues = {
   line1: '',
   line2: '',
   district: '',
+  landmark: '',
   state: '',
   pinCode: '',
   default: false,
@@ -77,6 +80,7 @@ const AddAddressDialog: React.FC<AddressFormProps> = ({ addressId, isNew }) => {
         ...{
           ...defaultValues,
           ...addressDetails,
+          landmark: addressDetails.landmark || '',
         },
       });
     }
@@ -121,6 +125,11 @@ const AddAddressDialog: React.FC<AddressFormProps> = ({ addressId, isNew }) => {
                 placeholder="Mobile"
                 className="mb-2"
               />
+              <InputElement
+                name="alternateMobile"
+                placeholder="Alternate Mobile"
+                className="mb-2"
+              />
 
               <InputElement
                 name="line1"
@@ -129,6 +138,11 @@ const AddAddressDialog: React.FC<AddressFormProps> = ({ addressId, isNew }) => {
               />
 
               <InputElement name="line2" placeholder="Area" className="mb-2" />
+              <InputElement
+                name="landmark"
+                placeholder="Landmark"
+                className="mb-2"
+              />
 
               <div className="flex flex-row space-x-3 mb-2">
                 <InputElement name="pinCode" placeholder="Pin Code" />
@@ -152,7 +166,15 @@ const AddAddressDialog: React.FC<AddressFormProps> = ({ addressId, isNew }) => {
                 />
               </div>
               <DialogFooter>
-                <Button className="flex tracking-wide bg-[#48CAB2] w-full h-14 hover:bg-gray-400 font-extrabold hover:text-black text-white justify-center">
+                <Button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    form.handleSubmit(handleSubmit)();
+                  }}
+                  className="flex tracking-wide bg-black w-full h-14 hover:bg-gray-400 font-extrabold hover:text-black text-white justify-center"
+                >
                   {isNew ? 'ADD ADDRESS' : 'UPDATE'}
                 </Button>
               </DialogFooter>
