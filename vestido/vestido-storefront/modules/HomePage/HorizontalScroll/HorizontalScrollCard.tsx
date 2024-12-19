@@ -1,16 +1,18 @@
-import Image, { StaticImageData } from 'next/image';
+import Image from 'next/image';
 
 import { useMediaQuery } from '@react-hook/media-query';
 
 import { CarouselItem } from '@vestido-ecommerce/shadcn-ui/carousel';
+import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import { DiscoverButton } from '../Buttons/DiscoverButton';
 
 export type ScrollCardData = {
-  cardImage: StaticImageData;
+  cardImage: ImageSchemaType;
   mainTitle: string;
   subtitle1: string;
   subtitle2: string;
+  buttonText?: string;
 };
 
 interface ScrollCardProps {
@@ -19,13 +21,17 @@ interface ScrollCardProps {
 const HorizontalScrollCard: React.FC<ScrollCardProps> = ({ data }) => {
   const SmallMobile = useMediaQuery('(max-width:400px)');
   return (
-    <CarouselItem className="group basis-1/2 lg:basis-1/3 text-center transition duration-700 ease-in-out md:hover:-translate-y-16 text-white">
+    <CarouselItem className="group basis-1/2 lg:basis-1/3 flex-shrink-0 text-center transition duration-700 ease-in-out md:hover:-translate-y-16 text-white">
       <div className="flex flex-col">
-        <Image
-          src={data.cardImage}
-          alt="alt text"
-          sizes="(max-width: 640px) 50vw"
-        />
+        <div className="relative w-full h-0 pb-[50%]">
+          <Image
+            src={data.cardImage.url ?? ''}
+            alt="alt text"
+            fill
+            sizes="(max-width: 1024px) 50vw, 33vw"
+            className="object-cover"
+          />
+        </div>
       </div>
       <div className="w-full flex flex-col max-w-full items-center">
         <div

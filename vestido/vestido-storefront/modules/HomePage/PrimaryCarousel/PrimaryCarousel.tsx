@@ -9,16 +9,25 @@ import {
   CarouselDots,
 } from '@vestido-ecommerce/shadcn-ui/carousel';
 
-import image1 from '../../../assets/carousel/slide-1.jpg';
-import image2 from '../../../assets/carousel/slide-2.jpg';
-import image3 from '../../../assets/carousel/slide-3.jpg';
+// import image1 from '../../../assets/carousel/slide-1.jpg';
+// import image2 from '../../../assets/carousel/slide-2.jpg';
+// import image3 from '../../../assets/carousel/slide-3.jpg';
 import PrimaryCarouselItem, {
   PrimaryCarouselItemData,
 } from './PrimaryCarouselItem';
 
 const carouselSlides: PrimaryCarouselItemData[] = [
   {
-    backgroundImage: image1,
+    backgroundImage: {
+      blurHash: '',
+      blurHashDataURL: ' z.string().nullish()',
+      alt: 'alt',
+      key: '',
+      url: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+
+      displayIndex: 1,
+      default: true,
+    },
     mainTitle: 'find your new favourite clothing',
     subtitle1: 'new collection',
     subtitle2:
@@ -29,7 +38,16 @@ const carouselSlides: PrimaryCarouselItemData[] = [
     textPosition: 'left-6',
   },
   {
-    backgroundImage: image2,
+    backgroundImage: {
+      blurHash: '',
+      blurHashDataURL: ' z.string().nullish()',
+      alt: 'alt',
+      key: '',
+      url: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+
+      displayIndex: 1,
+      default: true,
+    },
     mainTitle: 'must-haves for the season',
     subtitle1: 'need-it-now',
     subtitle2: 'Contemporary, minimal and beautifully iconic.',
@@ -39,7 +57,16 @@ const carouselSlides: PrimaryCarouselItemData[] = [
     textPosition: 'left-6',
   },
   {
-    backgroundImage: image3,
+    backgroundImage: {
+      blurHash: '',
+      blurHashDataURL: ' z.string().nullish()',
+      alt: 'alt',
+      key: '',
+      url: 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+
+      displayIndex: 1,
+      default: true,
+    },
     mainTitle: 'get upto 50% off!',
     subtitle1: "don't miss today's featured deals",
     subtitle2: 'Here to bring your lifestyles to next level',
@@ -48,27 +75,27 @@ const carouselSlides: PrimaryCarouselItemData[] = [
     textColor: 'white',
     textPosition: 'right-6',
   },
-  {
-    backgroundImage: image2,
-    mainTitle: 'must-haves for the season',
-    subtitle1: 'need-it-now',
-    subtitle2: 'Contemporary, minimal and beautifully iconic.',
-    buttonText: 'discover now!',
-    textAlign: 'center',
-    textColor: 'white',
-    textPosition: 'left-6',
-  },
-  {
-    backgroundImage: image1,
-    mainTitle: 'find your new favourite clothing',
-    subtitle1: 'new collection',
-    subtitle2:
-      'Keep perfect time with the contemporary, expertly-crafted designs.',
-    buttonText: 'discover now!',
-    textAlign: 'left',
-    textColor: '[#333333]',
-    textPosition: 'left-6',
-  },
+  // {
+  //   backgroundImage: image2,
+  //   mainTitle: 'must-haves for the season',
+  //   subtitle1: 'need-it-now',
+  //   subtitle2: 'Contemporary, minimal and beautifully iconic.',
+  //   buttonText: 'discover now!',
+  //   textAlign: 'center',
+  //   textColor: 'white',
+  //   textPosition: 'left-6',
+  // },
+  // {
+  //   backgroundImage: image1,
+  //   mainTitle: 'find your new favourite clothing',
+  //   subtitle1: 'new collection',
+  //   subtitle2:
+  //     'Keep perfect time with the contemporary, expertly-crafted designs.',
+  //   buttonText: 'discover now!',
+  //   textAlign: 'left',
+  //   textColor: '[#333333]',
+  //   textPosition: 'left-6',
+  // },
 ];
 
 export const PrimaryCarousel: React.FC = () => {
