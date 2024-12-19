@@ -1,37 +1,43 @@
 import { FulfillmentStatus } from '@prisma/client';
+import { z } from 'zod';
 
 import { authMiddleware, roleMiddleware } from '@vestido-ecommerce/auth';
 import { getFulfillmentList } from '@vestido-ecommerce/orders';
 import { apiRouteHandler } from '@vestido-ecommerce/utils';
 
+// Define Zod schema for query parameters
+const listFulfillmentSchema = z.object({
+  column: z.string().default('dateTime'), // Default sorting by dateTime
+  direction: z.enum(['asc', 'desc']).default('asc'), // Default order is ascending
+  fulfillmentStatus: z
+    .string()
+    .optional()
+    .transform((value) =>
+      value
+        ? value
+            .split(',')
+            .map((status) => status.trim())
+            .filter((status) =>
+              Object.values(FulfillmentStatus).includes(
+                status as FulfillmentStatus,
+              ),
+            )
+            .map((status) => status as FulfillmentStatus)
+        : [],
+    ), // Transform to an array of valid OrderStatus enums
+});
+
 export const GET = apiRouteHandler(
   authMiddleware,
   roleMiddleware('ADMIN'),
   async ({ request }) => {
-    //    const args = Object.fromEntries(request.nextUrl.searchParams.entries());
-    const url = new URL(request.url);
-    const sortBy = url.searchParams.get('sortBy') || 'dateTime';
-    const sortOrder = url.searchParams.get('sortOrder') || 'asc';
-    const fulfillmentStatusParam = url.searchParams.get('fulfillmentStatus');
-
-    // Split `orderStatus` into an array if it exists and map to valid OrderStatus enums
-    const fulfillmentStatus: FulfillmentStatus[] = fulfillmentStatusParam
-      ? fulfillmentStatusParam
-          .split(',')
-          .map((status) => status.trim()) // Split by commas and trim spaces
-          .filter((status) =>
-            Object.values(FulfillmentStatus).includes(
-              status as FulfillmentStatus,
-            ),
-          ) // Ensure it's a valid OrderStatus
-          .map((status) => status as FulfillmentStatus) // Convert string to enum value
-      : [];
-
-    const fulfillments = await getFulfillmentList(
-      sortBy,
-      sortOrder,
-      fulfillmentStatus,
+    // Extract search parameters and validate using Zod
+    const params = Object.fromEntries(
+      new URL(request.url).searchParams.entries(),
     );
+    const validatedData = listFulfillmentSchema.parse(params);
+
+    const fulfillments = await getFulfillmentList(validatedData);
 
     return fulfillments;
   },
