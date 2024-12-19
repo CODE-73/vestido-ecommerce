@@ -2,6 +2,9 @@ import { z } from 'zod';
 
 import { ImageSchema } from '@vestido-ecommerce/utils';
 
+import { SettingsKeys } from '../keys';
+import { useSettings } from '../swr';
+
 export const HeroCarouselSchema = z.object({
   image: ImageSchema,
   text_color: z.string(),
@@ -46,3 +49,21 @@ export const StorefrontHomeDataSchema = z.object({
     }),
   ),
 });
+
+export const useVestidoHomeData = (): z.infer<
+  typeof StorefrontHomeDataSchema
+> | null => {
+  const { data, error } = useSettings(SettingsKeys.VESTIDO_HOME_DATA);
+
+  if (error || !data) {
+    return null;
+  }
+
+  try {
+    const storefrontHomeData = StorefrontHomeDataSchema.parse(data.data?.value);
+    return storefrontHomeData;
+  } catch (e) {
+    console.error('Storefront Home Data validation failed:', e);
+    return null;
+  }
+};
