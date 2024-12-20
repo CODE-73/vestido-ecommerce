@@ -3,12 +3,23 @@ import { z } from 'zod';
 
 import { authMiddleware, roleMiddleware } from '@vestido-ecommerce/auth';
 import { listAdminOrders } from '@vestido-ecommerce/orders';
-import { apiRouteHandler } from '@vestido-ecommerce/utils';
+import { apiRouteHandler, OrderByFieldSchema } from '@vestido-ecommerce/utils';
 
 // Define Zod schema for query parameters
 const listAdminOrdersSchema = z.object({
-  column: z.string().default('dateTime'), // Default sorting by dateTime
-  direction: z.enum(['asc', 'desc']).default('asc'), // Default order is ascending
+  q: z.string().optional(),
+  orderBy: z
+    .string()
+    .optional()
+    .transform(
+      (value) =>
+        value
+          ? value.split(',').map((field) => {
+              const [column, direction] = field.split(':');
+              return OrderByFieldSchema.parse({ column, direction });
+            })
+          : [{ column: 'dateTime', direction: 'asc' as const }], // Default sorting
+    ),
   orderStatus: z
     .string()
     .optional()

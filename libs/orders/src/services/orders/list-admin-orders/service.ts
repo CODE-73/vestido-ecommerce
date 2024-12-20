@@ -1,5 +1,6 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
 
+import { orderSearchCondition } from '../order-search-condition/service';
 import { listAdminOrdersSchema, listAdminOrdersType } from './zod';
 
 export async function listAdminOrders(data: listAdminOrdersType) {
@@ -12,10 +13,19 @@ export async function listAdminOrders(data: listAdminOrdersType) {
   })) || [{ dateTime: 'asc' }];
 
   // Construct the where filter condition for orderStatus if the array is not null and not empty
-  const whereCondition =
+  const orderStatusCondition =
     validatedData.orderStatus && validatedData.orderStatus.length > 0
       ? { orderStatus: { in: validatedData.orderStatus } }
       : {};
+
+  const searchCondition = validatedData.q
+    ? orderSearchCondition(validatedData.q)
+    : {};
+
+  const whereCondition = {
+    ...orderStatusCondition,
+    ...searchCondition,
+  };
 
   const orderList = await prisma.order.findMany({
     orderBy: orderByArray,
