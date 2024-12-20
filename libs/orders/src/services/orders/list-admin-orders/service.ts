@@ -28,6 +28,8 @@ export async function listAdminOrders(data: listAdminOrdersType) {
   };
 
   const orderList = await prisma.order.findMany({
+    skip: validatedData.start,
+    take: validatedData.limit,
     orderBy: orderByArray,
     where: whereCondition,
   });

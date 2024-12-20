@@ -7,9 +7,8 @@ export const ListFulfillmentSchema = z.object({
   q: z.string().optional(),
   fulfillmentStatus: z.nativeEnum(FulfillmentStatus).array().optional(),
   orderBy: z.array(OrderByFieldSchema).optional(),
-  // pagination (offset pagination in Postgres)
-  // start: number?
-  // limit: number? @deafult(20)
+  start: z.number().optional(),
+  limit: z.number().optional().default(20),
 });
 
 export type ListFulfillmentSchemaType = z.infer<typeof ListFulfillmentSchema>;

@@ -36,6 +36,14 @@ const listFulfillmentSchema = z.object({
             .map((status) => status as FulfillmentStatus)
         : [],
     ), // Transform to an array of valid OrderStatus enums
+  start: z
+    .string()
+    .optional()
+    .transform((value) => (value ? parseInt(value, 10) : 0)), // Defaults to 0
+  limit: z
+    .string()
+    .optional()
+    .transform((value) => (value ? parseInt(value, 10) : 20)),
 });
 
 export const GET = apiRouteHandler(

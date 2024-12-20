@@ -28,6 +28,8 @@ export async function getFulfillmentList(data: ListFulfillmentSchemaType) {
   };
 
   const fulfillmentList = await prisma.fulfillment.findMany({
+    skip: validatedData.start,
+    take: validatedData.limit,
     orderBy: orderByArray,
     where: whereCondition,
     include: {
