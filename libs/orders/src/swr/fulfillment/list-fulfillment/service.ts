@@ -1,20 +1,30 @@
 import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
 
-import { FulfillmentListResponse } from '../../../services/fulfillment/list-fulfillment/types';
+import {
+  FulfillmentListResponse,
+  ListFulfillmentRequest,
+} from '../../../services/fulfillment/list-fulfillment/types';
 
 export async function getFulfillmentList(
   authHeaders: Record<string, string>,
-  sortBy: string,
-  sortOrder: string,
-  fulfillmentStatus: string[],
+  args?: ListFulfillmentRequest,
 ): Promise<FulfillmentListResponse> {
+  // Construct the query string
   const params = new URLSearchParams({
-    sortBy,
-    sortOrder,
-    ...(fulfillmentStatus?.length
-      ? { fulfillmentStatus: fulfillmentStatus.join(',') }
+    ...(args?.fulfillmentStatus?.length
+      ? { orderStatus: args.fulfillmentStatus.join(',') }
       : {}),
+    ...(args?.q ? { q: args.q } : {}),
+    ...(args?.start ? { start: args.start.toString() } : {}),
+    ...(args?.limit ? { start: args.limit.toString() } : {}),
   });
+
+  if (args?.orderBy && args.orderBy.length > 0) {
+    const orderByValue = args.orderBy
+      .map((field) => `${field.column}:${field.direction}`)
+      .join(',');
+    params.append('orderBy', orderByValue);
+  }
 
   const url = `/api/fulfillments?${params.toString()}`;
 
