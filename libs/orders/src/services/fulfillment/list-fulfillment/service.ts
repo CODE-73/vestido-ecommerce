@@ -10,7 +10,7 @@ export async function getFulfillmentList(data: ListFulfillmentSchemaType) {
 
   const orderByArray = validatedData.orderBy?.map(({ column, direction }) => ({
     [column]: direction,
-  })) || [{ dateTime: 'asc' }];
+  })) || [{ createdAt: 'asc' }];
 
   const fulfillmentStatusCondition =
     validatedData.fulfillmentStatus &&

@@ -18,7 +18,7 @@ const listFulfillmentSchema = z.object({
               const [column, direction] = field.split(':');
               return OrderByFieldSchema.parse({ column, direction });
             })
-          : [{ column: 'dateTime', direction: 'asc' as const }], // Default sorting
+          : [{ column: 'createdAt', direction: 'asc' as const }], // Default sorting
     ),
   fulfillmentStatus: z
     .string()

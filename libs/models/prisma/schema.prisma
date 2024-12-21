@@ -158,6 +158,8 @@ model Item {
     taxInclusive Boolean?
 
     sizeChart String?
+    createdAt DateTime  @default(now()) @db.Timestamptz(3)
+    updatedAt DateTime? @default(now()) @db.Timestamptz(3)
 }
 
 model ItemVariant {
@@ -239,7 +241,7 @@ model WishlistItem {
     customer   Profile      @relation(fields: [customerId], references: [id])
     customerId String       @db.Uuid
 
-    createdAt DateTime? @default(now()) @db.Timestamptz(3)
+    createdAt DateTime  @default(now()) @db.Timestamptz(3)
     updatedAt DateTime? @default(now()) @db.Timestamptz(3)
 }
 
@@ -253,14 +255,13 @@ model CartItem {
     variant    ItemVariant? @relation(fields: [variantId], references: [id])
     variantId  String?      @db.Uuid
 
-    createdAt DateTime? @default(now()) @db.Timestamptz(3)
+    createdAt DateTime  @default(now()) @db.Timestamptz(3)
     updatedAt DateTime? @default(now()) @db.Timestamptz(3)
 }
 
 model Order {
-    id       String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    dateTime DateTime @default(now())
-    order_no BigInt   @default(autoincrement())
+    id       String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    order_no BigInt @default(autoincrement())
 
     totalPrice    Float // total item price = SUM(item.rate * qty IF not item.taxInclusive ELSE taxSubtractedItemAmount)
     totalTax      Float @default(0) // SUM(item.taxAmount)
@@ -283,6 +284,8 @@ model Order {
     payments           Payment[]
     fulfillments       Fulfillment[]
     logs               OrderLog[]
+    createdAt          DateTime           @default(now()) @db.Timestamptz(3)
+    updatedAt          DateTime?          @default(now()) @db.Timestamptz(3)
 }
 
 model OrderItem {
@@ -305,21 +308,26 @@ model OrderItem {
     taxRate           Float?
     taxInclusive      Boolean?
     taxAmount         Float             @default(0)
+    createdAt         DateTime          @default(now()) @db.Timestamptz(3)
+    updatedAt         DateTime?         @default(now()) @db.Timestamptz(3)
 }
 
 model OrderLog {
-    id      String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    orderId String @db.Uuid
-    order   Order  @relation(fields: [orderId], references: [id])
-    logType String
-    rawData Json
+    id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    orderId   String   @db.Uuid
+    order     Order    @relation(fields: [orderId], references: [id])
+    logType   String
+    rawData   Json
+    createdAt DateTime @default(now()) @db.Timestamptz(3)
 }
 
 model Payment {
-    id       String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    order    Order    @relation(fields: [orderId], references: [id])
-    orderId  String   @unique @db.Uuid
-    dateTime DateTime @default(now())
+    id      String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    order   Order  @relation(fields: [orderId], references: [id])
+    orderId String @unique @db.Uuid
+
+    createdAt DateTime  @default(now()) @db.Timestamptz(3)
+    updatedAt DateTime? @default(now()) @db.Timestamptz(3)
 
     paymentGateway    String
     paymentGatewayRef String
@@ -337,7 +345,6 @@ model Fulfillment {
     orderId             String            @db.Uuid
     status              FulfillmentStatus @default(DRAFT)
     tracking            String?
-    dateTime            DateTime          @default(now())
     shiprocket_order_id String?
     shipment_id         String?
     length              Float?
@@ -349,6 +356,8 @@ model Fulfillment {
     description         String?
     fulfillmentItems    FulfillmentItem[]
     logs                FulfillmentLog[]
+    createdAt           DateTime          @default(now()) @db.Timestamptz(3)
+    updatedAt           DateTime?         @default(now()) @db.Timestamptz(3)
 }
 
 model FulfillmentItem {
@@ -358,6 +367,8 @@ model FulfillmentItem {
     orderItem     OrderItem   @relation(fields: [orderItemId], references: [id])
     orderItemId   String      @db.Uuid
     quantity      Int         @default(1)
+    createdAt     DateTime    @default(now()) @db.Timestamptz(3)
+    updatedAt     DateTime?   @default(now()) @db.Timestamptz(3)
 }
 
 model FulfillmentLog {
@@ -368,14 +379,17 @@ model FulfillmentLog {
     // SHIPROCKET_WEBHOOK
     logType        String
     rawData        Json
+    dateTime       DateTime    @default(now())
 }
 
 model Coupon {
-    id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     coupon      String
     description String
-    fromDate    DateTime @db.Timestamptz(3)
-    toDate      DateTime @db.Timestamptz(3)
+    createdAt   DateTime  @default(now()) @db.Timestamptz(3)
+    updatedAt   DateTime? @default(now()) @db.Timestamptz(3)
+    fromDate    DateTime  @db.Timestamptz(3)
+    toDate      DateTime  @db.Timestamptz(3)
     enabled     Boolean
 
     // This will be switched with a CRON job running every 15min.
@@ -390,11 +404,13 @@ model Coupon {
 }
 
 model Tax {
-    id          String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     title       String
     rate        Float
     description String?
-    enabled     Boolean @default(true)
+    enabled     Boolean   @default(true)
+    createdAt   DateTime  @default(now()) @db.Timestamptz(3)
+    updatedAt   DateTime? @default(now()) @db.Timestamptz(3)
 }
 
 model ContactUs {

@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const OrderByFieldSchema = z.object({
-  column: z.string().default('dateTime'),
+  column: z.string().default('createdAt'),
   direction: z.enum(['asc', 'desc']).default('asc'),
 });
 

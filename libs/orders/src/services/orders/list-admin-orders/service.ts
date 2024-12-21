@@ -10,7 +10,7 @@ export async function listAdminOrders(data: listAdminOrdersType) {
 
   const orderByArray = validatedData.orderBy?.map(({ column, direction }) => ({
     [column]: direction,
-  })) || [{ dateTime: 'asc' }];
+  })) || [{ createdAt: 'asc' }];
 
   // Construct the where filter condition for orderStatus if the array is not null and not empty
   const orderStatusCondition =

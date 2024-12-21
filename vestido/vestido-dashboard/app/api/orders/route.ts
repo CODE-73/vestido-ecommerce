@@ -18,7 +18,7 @@ const listAdminOrdersSchema = z.object({
               const [column, direction] = field.split(':');
               return OrderByFieldSchema.parse({ column, direction });
             })
-          : [{ column: 'dateTime', direction: 'asc' as const }], // Default sorting
+          : [{ column: 'createdAt', direction: 'asc' as const }], // Default sorting
     ),
   orderStatus: z
     .string()
@@ -53,7 +53,6 @@ export const GET = apiRouteHandler(
       new URL(request.url).searchParams.entries(),
     );
     const validatedData = listAdminOrdersSchema.parse(params);
-    console.log(validatedData);
 
     const orders = await listAdminOrders(validatedData);
 

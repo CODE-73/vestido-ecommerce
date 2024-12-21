@@ -93,11 +93,11 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
           <div className="text-lg flex flex-col md:flex-row md:divide-x gap-2 md:gap-5 ">
             <div className="flex  gap-1">
               <div className="text-muted-foreground">Date:</div> &nbsp;
-              {order && formattedDate(new Date(order.dateTime))}
+              {order && formattedDate(new Date(order.createdAt))}
             </div>
             <div className="flex gap-1 text-center">
               <div className="text-muted-foreground">Time:</div> &nbsp;
-              {order && formattedTime(new Date(order.dateTime))}
+              {order && formattedTime(new Date(order.createdAt))}
             </div>
           </div>
           <div className="text-muted-foreground -mb-2">
@@ -180,7 +180,7 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
                   key={index}
                   className="w-full max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md"
                 >
-                  {formattedDate(new Date(fulfillment.dateTime))}
+                  {formattedDate(new Date(fulfillment.createdAt))}
                   <ShipmentStatus fulfillmentStatus={fulfillment.status} />
                   <div>
                     <div className="flex flex-col  divide-y">
