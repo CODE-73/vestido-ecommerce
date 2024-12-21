@@ -1,11 +1,35 @@
 import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
 
-import { ListAdminOrderResponse } from '../../../services/orders/list-admin-orders/types';
+import {
+  ListAdminOrderRequest,
+  ListAdminOrderResponse,
+} from '../../../services/orders/list-admin-orders/types';
 
 export async function getAdminOrderList(
   authHeaders: Record<string, string>,
+  args?: ListAdminOrderRequest,
 ): Promise<ListAdminOrderResponse> {
-  const r = await fetch('/api/orders', {
+  // Construct the query string
+  const params = new URLSearchParams({
+    ...(args?.orderStatus?.length
+      ? { orderStatus: args.orderStatus.join(',') }
+      : {}),
+    ...(args?.q ? { q: args.q } : {}),
+    ...(args?.start ? { start: args.start.toString() } : {}),
+    ...(args?.limit ? { start: args.limit.toString() } : {}),
+  });
+
+  if (args?.orderBy && args.orderBy.length > 0) {
+    const orderByValue = args.orderBy
+      .map((field) => `${field.column}:${field.direction}`)
+      .join(',');
+    params.append('orderBy', orderByValue);
+  }
+
+  // Append the query string to the URL
+  const url = `/api/orders?${params.toString()}`;
+
+  const r = await fetch(url, {
     headers: {
       ...authHeaders,
     },

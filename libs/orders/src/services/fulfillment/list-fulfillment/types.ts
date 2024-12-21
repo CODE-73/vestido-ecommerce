@@ -1,7 +1,7 @@
 import { getFulfillmentList } from './service';
-import { ListFulfillmentRequestSchemaType } from './zod';
+import { ListFulfillmentSchemaType } from './zod';
 
-export type ListFulfillmentRequest = ListFulfillmentRequestSchemaType;
+export type ListFulfillmentRequest = ListFulfillmentSchemaType;
 
 export type FulfillmentListResponse = {
   data: Awaited<ReturnType<typeof getFulfillmentList>>;

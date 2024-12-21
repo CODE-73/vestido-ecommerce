@@ -61,7 +61,7 @@ const OrderInOrderList: React.FC<OrderProps> = ({ order }) => {
   );
 
   const { canBeReturned, returnDeadline } = checkReturnEligibility(
-    order.dateTime,
+    order.createdAt,
   );
 
   const orderStatusClasses = cva(

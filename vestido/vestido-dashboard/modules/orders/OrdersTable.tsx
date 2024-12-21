@@ -72,8 +72,8 @@ const OrdersTable: React.FC<ProductTableProps> = ({ data }) => {
                 {order.orderStatus}
               </TableCell>
               <TableCell> {formatINR(order.grandTotal)}</TableCell>
-              <TableCell>{formattedDate(new Date(order.dateTime))}</TableCell>
-              <TableCell>{formattedTime(new Date(order.dateTime))}</TableCell>
+              <TableCell>{formattedDate(new Date(order.createdAt))}</TableCell>
+              <TableCell>{formattedTime(new Date(order.createdAt))}</TableCell>
             </TableRow>
           ))}
       </TableBody>

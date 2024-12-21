@@ -37,7 +37,7 @@ export async function createOrder(_data: CreateOrderSchemaType) {
   const newOrder = await prisma.order.create({
     data: {
       ...data,
-      dateTime: new Date(),
+      createdAt: new Date(),
       /**
        * For Cash on Delivery, the order status is set to CONFIRMED immediately.
        * We are anticipating an error from the payment gateway, hence setting the order status to PENDING.
