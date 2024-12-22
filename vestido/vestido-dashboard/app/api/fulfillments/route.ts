@@ -3,48 +3,35 @@ import { z } from 'zod';
 
 import { authMiddleware, roleMiddleware } from '@vestido-ecommerce/auth';
 import { getFulfillmentList } from '@vestido-ecommerce/orders';
-import { apiRouteHandler, OrderByFieldSchema } from '@vestido-ecommerce/utils';
+import {
+  apiRouteHandler,
+  OrderByQueryParamSchema,
+  PaginationQueryParamSchema,
+} from '@vestido-ecommerce/utils';
 
 // Define Zod schema for query parameters
-const listFulfillmentSchema = z.object({
-  q: z.string().optional(),
-  orderBy: z
-    .string()
-    .optional()
-    .transform(
-      (value) =>
+const ListFulfillmentSchema = z
+  .object({
+    q: z.string().optional(),
+    fulfillmentStatus: z
+      .string()
+      .optional()
+      .transform((value) =>
         value
-          ? value.split(',').map((field) => {
-              const [column, direction] = field.split(':');
-              return OrderByFieldSchema.parse({ column, direction });
-            })
-          : [{ column: 'createdAt', direction: 'asc' as const }], // Default sorting
-    ),
-  fulfillmentStatus: z
-    .string()
-    .optional()
-    .transform((value) =>
-      value
-        ? value
-            .split(',')
-            .map((status) => status.trim())
-            .filter((status) =>
-              Object.values(FulfillmentStatus).includes(
-                status as FulfillmentStatus,
-              ),
-            )
-            .map((status) => status as FulfillmentStatus)
-        : [],
-    ), // Transform to an array of valid OrderStatus enums
-  start: z
-    .string()
-    .optional()
-    .transform((value) => (value ? parseInt(value, 10) : 0)), // Defaults to 0
-  limit: z
-    .string()
-    .optional()
-    .transform((value) => (value ? parseInt(value, 10) : 20)),
-});
+          ? value
+              .split(',')
+              .map((status) => status.trim())
+              .filter((status) =>
+                Object.values(FulfillmentStatus).includes(
+                  status as FulfillmentStatus,
+                ),
+              )
+              .map((status) => status as FulfillmentStatus)
+          : [],
+      ), // Transform to an array of valid OrderStatus enums
+  })
+  .merge(OrderByQueryParamSchema)
+  .merge(PaginationQueryParamSchema);
 
 export const GET = apiRouteHandler(
   authMiddleware,
@@ -54,7 +41,7 @@ export const GET = apiRouteHandler(
     const params = Object.fromEntries(
       new URL(request.url).searchParams.entries(),
     );
-    const validatedData = listFulfillmentSchema.parse(params);
+    const validatedData = ListFulfillmentSchema.parse(params);
 
     const fulfillments = await getFulfillmentList(validatedData);
 
