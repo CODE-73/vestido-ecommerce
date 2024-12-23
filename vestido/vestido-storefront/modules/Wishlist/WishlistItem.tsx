@@ -102,7 +102,7 @@ const WishlistItemCard: React.FC<props> = ({ wishlistItem, removeItem }) => {
     <div className="relative flex flex-col items-center group  mb-10 cursor-pointer ">
       {wishlistItem.item.discountPercent &&
       wishlistItem.item.discountPercent > 0 ? (
-        <Badge className="absolute top-2 left-2 rounded-none uppercase bg-red-500 hover:bg-red-400 cursor-auto z-10">
+        <Badge className="absolute top-2 left-2 rounded-none uppercase bg-red-500 hover:bg-red-400 cursor-auto z-[2]">
           sale&nbsp;{wishlistItem.item.discountPercent}&nbsp;%
         </Badge>
       ) : (
