@@ -58,10 +58,10 @@ const FulfillmentsTable: React.FC<FulfillmentTableProps> = ({
                 {fulfillment.orderId}
               </TableCell>
               <TableCell>
-                {formattedDate(new Date(fulfillment.dateTime))}
+                {formattedDate(new Date(fulfillment.createdAt))}
               </TableCell>
               <TableCell>
-                {formattedTime(new Date(fulfillment.dateTime))}
+                {formattedTime(new Date(fulfillment.createdAt))}
               </TableCell>
 
               <TableCell>{fulfillment.shiprocket_order_id}</TableCell>

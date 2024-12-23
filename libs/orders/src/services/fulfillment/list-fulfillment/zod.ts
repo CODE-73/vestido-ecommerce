@@ -1,11 +1,14 @@
+import { FulfillmentStatus } from '@prisma/client';
 import { z } from 'zod';
 
-export const ListFulfillmentRequestSchema = z
-  .object({
-    q: z.string().nullish(),
-  })
-  .nullish();
+import { OrderByFieldSchema } from '@vestido-ecommerce/utils';
 
-export type ListFulfillmentRequestSchemaType = z.infer<
-  typeof ListFulfillmentRequestSchema
->;
+export const ListFulfillmentSchema = z.object({
+  q: z.string().optional(),
+  fulfillmentStatus: z.nativeEnum(FulfillmentStatus).array().optional(),
+  orderBy: z.array(OrderByFieldSchema).optional(),
+  start: z.number().optional(),
+  limit: z.number().optional().default(20),
+});
+
+export type ListFulfillmentSchemaType = z.infer<typeof ListFulfillmentSchema>;
