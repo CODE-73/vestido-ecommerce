@@ -1,12 +1,48 @@
+import { OrderStatus } from '@prisma/client';
+import { z } from 'zod';
+
 import { authMiddleware, roleMiddleware } from '@vestido-ecommerce/auth';
 import { listAdminOrders } from '@vestido-ecommerce/orders';
-import { apiRouteHandler } from '@vestido-ecommerce/utils';
+import {
+  apiRouteHandler,
+  OrderByQueryParamSchema,
+  PaginationQueryParamSchema,
+} from '@vestido-ecommerce/utils';
+
+// Define Zod schema for query parameters
+const ListAdminOrdersSchema = z
+  .object({
+    q: z.string().optional(),
+    orderStatus: z
+      .string()
+      .optional()
+      .transform((value) =>
+        value
+          ? value
+              .split(',')
+              .map((status) => status.trim())
+              .filter((status) =>
+                Object.values(OrderStatus).includes(status as OrderStatus),
+              )
+              .map((status) => status as OrderStatus)
+          : [],
+      ), // Transform to an array of valid OrderStatus enums
+  })
+  .merge(OrderByQueryParamSchema)
+  .merge(PaginationQueryParamSchema);
 
 export const GET = apiRouteHandler(
   authMiddleware,
   roleMiddleware('ADMIN'),
-  async () => {
-    const orders = await listAdminOrders();
+  async ({ request }) => {
+    // Extract search parameters and validate using Zod
+    const params = Object.fromEntries(
+      new URL(request.url).searchParams.entries(),
+    );
+    const validatedData = ListAdminOrdersSchema.parse(params);
+
+    const orders = await listAdminOrders(validatedData);
+
     return orders;
   },
 );

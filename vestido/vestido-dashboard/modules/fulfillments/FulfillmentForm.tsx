@@ -98,6 +98,8 @@ const FulfillmentForm: React.FC<FulfillmentFormProps> = ({ fulfillmentId }) => {
         id: fulfillmentItem.id,
         fulfillmentId: fulfillmentItem.fulfillmentId,
         orderItemId: fulfillmentItem.orderItemId,
+        createdAt: fulfillmentItem.createdAt,
+        updatedAt: fulfillmentItem.updatedAt,
         quantity: fulfillmentItem.quantity,
       } satisfies FulfillmentItem;
     });

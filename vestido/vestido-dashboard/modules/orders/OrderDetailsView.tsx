@@ -84,8 +84,8 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
                 {order?.order_no.toString()}
               </div>
               <div className="text-lg flex divide-x gap-5">
-                <div>{order && formattedDate(new Date(order.dateTime))}</div>
-                <div>{order && formattedTime(new Date(order.dateTime))}</div>
+                <div>{order && formattedDate(new Date(order.createdAt))}</div>
+                <div>{order && formattedTime(new Date(order.createdAt))}</div>
               </div>
             </div>
           </CardTitle>
