@@ -43,7 +43,8 @@ import { Prisma } from '@prisma/client';
 type QueryMode = Prisma.QueryMode;
 
 export function orderSearchCondition(q: string) {
-  const isValidUUID = (value: string) => z.string().uuid().parse(value);
+  const isValidUUID = (value: string) =>
+    z.string().uuid().safeParse(value).success;
 
   const searchCondition = {
     OR: [

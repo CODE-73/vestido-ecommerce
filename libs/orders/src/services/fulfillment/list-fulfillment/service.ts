@@ -52,7 +52,8 @@ export async function getFulfillmentList(data: ListFulfillmentSchemaType) {
 type QueryMode = Prisma.QueryMode;
 
 export function fulfillmentSearchCondition(q: string) {
-  const isValidUUID = (value: string) => z.string().uuid().parse(value);
+  const isValidUUID = (value: string) =>
+    z.string().uuid().safeParse(value).success;
 
   const searchCondition = {
     OR: [
