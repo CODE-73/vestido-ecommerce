@@ -90,6 +90,7 @@ const FileUpload: FC<FileUploadProps> = (props) => {
       ) : (
         <Button
           type="button"
+          variant="ghost"
           size="icon"
           onClick={showFileDialog}
           disabled={!!uploadStatus}
