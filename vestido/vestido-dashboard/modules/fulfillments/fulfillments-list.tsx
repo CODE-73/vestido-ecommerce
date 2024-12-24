@@ -11,7 +11,9 @@ import FulfillmentsTable from './FulfillmentsTable';
 
 const FulfillmentsListView: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const { data, isLoading } = useFulfillments();
+  const { data, isLoading } = useFulfillments({
+    limit: 9999999,
+  });
   const fulfillments = data?.data;
   const router = useRouter();
 

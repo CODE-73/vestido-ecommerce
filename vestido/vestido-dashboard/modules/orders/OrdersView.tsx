@@ -6,7 +6,9 @@ import OrdersTable from './OrdersTable';
 
 const Products: React.FC = () => {
   //   const [searchQuery, setSearchQuery] = useState('');
-  const { data } = useAdminOrders();
+  const { data } = useAdminOrders({
+    limit: 999999,
+  });
 
   //   const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   //     setSearchQuery(e.target.value);
