@@ -1,4 +1,7 @@
-import { StorefrontHomeDataSchema } from 'libs/settings/src/hooks/use-storefront-home-data';
+import {
+  StorefrontHomeDataSchema,
+  useVestidoHomeData,
+} from 'libs/settings/src/hooks/use-storefront-home-data';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -11,18 +14,35 @@ import { Form } from '@vestido-ecommerce/shadcn-ui/form';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { useUpdateSettings } from '@vestido-ecommerce/settings/client';
 import { SettingsKeys } from 'libs/settings/src/keys';
+import { useEffect } from 'react';
 
 export type StorefrontHomeDataSchemaForm = z.infer<
   typeof StorefrontHomeDataSchema
 >;
 const StorefrontHomeIntegration: React.FC = () => {
   const { trigger } = useUpdateSettings();
+  const home_data = useVestidoHomeData();
+
   const form = useForm<StorefrontHomeDataSchemaForm>({
     resolver: zodResolver(StorefrontHomeDataSchema),
     defaultValues: {},
   });
 
-  console.info('formvalues', form.getValues());
+  console.info('formvalues', form.getValues().hero_categories);
+  console.info(
+    'isValid',
+    form.formState.isValid,
+    'isSubmitted',
+    form.formState.isSubmitted,
+    'errors',
+    form.formState.errors,
+  );
+
+  useEffect(() => {
+    if (home_data) {
+      form.reset({ ...home_data });
+    }
+  }, [home_data, form]);
 
   const handleSubmit = async (data: StorefrontHomeDataSchemaForm) => {
     await trigger({

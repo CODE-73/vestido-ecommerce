@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 
+// import { useFormContext } from 'react-hook-form';
 import {
   Carousel,
   CarouselContent,
@@ -7,10 +8,13 @@ import {
   CarouselItem,
 } from '@vestido-ecommerce/shadcn-ui/carousel';
 
+// import { ImageSchemaType } from '@vestido-ecommerce/utils';
 import { FileUploadElement } from '../../components/FileUpload';
 import { InputElement } from '../../forms/input-element';
 
 const PrimaryCarouselUploader: React.FC = () => {
+  // const form = useFormContext();
+  // const image = form.watch(`hero_carousel.${index}.image`) as ImageSchemaType;
   return (
     <div className=" overflow-hidden lg:rounded-[25px]">
       <Carousel className=" pr-0 relative bg-gray-300">

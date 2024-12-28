@@ -20,14 +20,14 @@ const PopularCollectionintegration: React.FC = () => {
                 label="Upload Image"
                 className="text-gray-500 absolute top-1/2 left-1/2 transform -translate-x-1/2"
               />
-              <div className="hover:scale-110 transition duration-500 cursor-pointer w-full h-full">
-                {/* <Image
+
+              {/* <Image
                   src={data.cardImage.url ?? ''}
                   alt="alt text"
                   fill
                   className="object-cover "
                 /> */}
-              </div>
+
               <div className="absolute left-10 top-10 ">
                 <InputElement
                   name={`collage.${index}.text_content`}
