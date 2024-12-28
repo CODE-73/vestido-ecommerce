@@ -16,7 +16,7 @@ export async function getFulfillmentList(
       : {}),
     ...(args?.q ? { q: args.q } : {}),
     ...(args?.start ? { start: args.start.toString() } : {}),
-    ...(args?.limit ? { start: args.limit.toString() } : {}),
+    ...(args?.limit ? { limit: args.limit.toString() } : {}),
   });
 
   if (args?.orderBy && args.orderBy.length > 0) {
