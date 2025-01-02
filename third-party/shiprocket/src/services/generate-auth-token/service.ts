@@ -1,13 +1,17 @@
+import { createHash } from 'crypto';
+
 import { getRedisClient } from '@vestido-ecommerce/caching';
 import { VestidoError } from '@vestido-ecommerce/utils';
 
+const SHIPROCKET_API_EMAIL = process.env['SHIPROCKET_API_EMAIL'] as string;
+const SHIPROCKET_API_PWD = process.env['SHIPROCKET_API_PWD'] as string;
+
 export async function generateToken() {
-  const email = process.env['SHIPROCKET_API_EMAIL'] as string;
-  let token = await getToken(email);
+  let token = await getTokenFromCache();
   if (!token) {
     const args = {
-      email: process.env['SHIPROCKET_API_EMAIL'],
-      password: process.env['SHIPROCKET_API_PWD'],
+      email: SHIPROCKET_API_EMAIL,
+      password: SHIPROCKET_API_PWD,
     };
     const r = await fetch(
       'https://apiv2.shiprocket.in/v1/external/auth/login',
@@ -22,7 +26,7 @@ export async function generateToken() {
     if (r.ok) {
       const data = await r.json();
       token = data.token;
-      console.log('Token:', token);
+      await updateTokenCache(token as string);
     } else {
       throw new VestidoError({
         name: 'ShiprocketAuthenticationError',
@@ -39,20 +43,20 @@ export async function generateToken() {
     }
   }
 
-  await setOTP(email, token as string);
   return token;
 }
 
-export async function getToken(email: string) {
+export async function getTokenFromCache() {
   const client = await getRedisClient();
-  return client.get(makeTokenKey(email));
+  return client.get(makeTokenKey());
 }
 
-function makeTokenKey(email: string) {
-  return `shiprocket-otp:${email}`;
+function makeTokenKey() {
+  const pwdHash = createHash('sha256').update(SHIPROCKET_API_PWD).digest('hex');
+  return `shiprocket-otp:${SHIPROCKET_API_EMAIL}:${pwdHash}`;
 }
 
-async function setOTP(email: string, token: string) {
+async function updateTokenCache(token: string) {
   const client = await getRedisClient();
-  return client.set(makeTokenKey(email), token, { EX: 604800 });
+  return client.set(makeTokenKey(), token, { EX: 604800 });
 }
