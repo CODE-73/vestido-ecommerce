@@ -15,6 +15,7 @@ import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { useUpdateSettings } from '@vestido-ecommerce/settings/client';
 import { SettingsKeys } from 'libs/settings/src/keys';
 import { useEffect } from 'react';
+import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 export type StorefrontHomeDataSchemaForm = z.infer<
   typeof StorefrontHomeDataSchema
@@ -28,15 +29,15 @@ const StorefrontHomeIntegration: React.FC = () => {
     defaultValues: {},
   });
 
-  console.info('formvalues', form.getValues().hero_categories);
-  console.info(
-    'isValid',
-    form.formState.isValid,
-    'isSubmitted',
-    form.formState.isSubmitted,
-    'errors',
-    form.formState.errors,
-  );
+  // console.info('formvalues', form.getValues().hero_categories);
+  // console.info(
+  //   'isValid',
+  //   form.formState.isValid,
+  //   'isSubmitted',
+  //   form.formState.isSubmitted,
+  //   'errors',
+  //   form.formState.errors,
+  // );
 
   useEffect(() => {
     if (home_data) {
@@ -56,7 +57,6 @@ const StorefrontHomeIntegration: React.FC = () => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)}>
           <div className="w-full justify-end sticky top-0 px-5 z-20 bg-white h-24 flex items-center">
-            {' '}
             <Button type="submit" className="w-[20%] h-14">
               Save Changes
             </Button>

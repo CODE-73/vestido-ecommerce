@@ -1,3 +1,5 @@
+import { useFormContext } from 'react-hook-form';
+
 import {
   Carousel,
   CarouselContent,
@@ -6,10 +8,12 @@ import {
   CarouselPrevious,
 } from '@vestido-ecommerce/shadcn-ui/carousel';
 
-import { FileUploadElement } from '../../components/FileUpload';
 import { InputElement } from '../../forms/input-element';
+import { StorefrontHomeDataSchemaForm } from './home-integration';
+import ScrollCardImageUploader from './hori-scroll-card';
 
 export const HorizontalScrollCardsUploader: React.FC = () => {
+  const form = useFormContext<StorefrontHomeDataSchemaForm>();
   return (
     <>
       <Carousel
@@ -26,23 +30,7 @@ export const HorizontalScrollCardsUploader: React.FC = () => {
                 key={index}
                 className="group basis-1/2 lg:basis-1/3 flex-shrink-0 text-center text-white"
               >
-                <div className="flex flex-col">
-                  <div className="relative w-full h-0 pb-[50%] bg-gray-300">
-                    {/* <Image
-                      src={data.cardImage.url ?? ''}
-                      alt="alt text"
-                      fill
-                      sizes="(max-width: 1024px) 50vw, 33vw"
-                      className="object-cover"
-                    /> */}
-                    <FileUploadElement
-                      name={`horizontal_scroll_cards.${index}.image.key`}
-                      keyPrefix="storefront/"
-                      label="Upload Image"
-                      className="cursor-pointer text-gray-500 absolute top-1/2 left-1/2 transform -translate-x-1/2"
-                    />
-                  </div>
-                </div>
+                <ScrollCardImageUploader index={index} form={form} />
                 <div className="w-full flex flex-col max-w-full items-center text-gray-600">
                   <InputElement
                     name={`horizontal_scroll_cards.${index}.text_content.line1`}
