@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { LuChevronUp } from 'react-icons/lu';
 
 import { ListItemResponse } from '@vestido-ecommerce/items/client';
+import { useVestidoHomeData } from '@vestido-ecommerce/settings/client';
 
 import useIsMobile from '../../hooks/useIsMobile';
 import { CategoryCards } from './CategorySection/CategoryCards';
@@ -29,6 +30,7 @@ const BackToTopButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
 const HomePage: React.FC<HomePageProps> = ({ items }) => {
   const [showBackToTop, setShowBackToTop] = useState(false);
   const isMobile = useIsMobile();
+  const home_data = useVestidoHomeData();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -63,7 +65,10 @@ const HomePage: React.FC<HomePageProps> = ({ items }) => {
         items={items}
         className="pt-16 sm:pt-24 max-w-[100vw]  px-2 sm:px-0 md:px-4 lg:max-w-[100rem] lg:self-center"
       />
-      <HorizontalScrollCards className="w-full relative my-20 px-1 sm:px-0" />{' '}
+      <HorizontalScrollCards
+        data={home_data?.horizontal_scroll_cards}
+        className="w-full relative my-20 px-1 sm:px-0"
+      />
       <RandomProducts
         items={items}
         className="max-w-[100vw] overflow-hidden px-2 sm:px-0 md:px-4 lg:max-w-[100rem] lg:self-center"
