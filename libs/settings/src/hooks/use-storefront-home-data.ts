@@ -11,6 +11,8 @@ export const ImageSchema = z.object({
   url: z.string().nullish(),
 });
 
+export type ImageSchemaType = z.infer<typeof ImageSchema>;
+
 export const HeroCarouselSchema = z.object({
   image: ImageSchema,
   text_color: z.string().nullish(),
