@@ -25,6 +25,24 @@ const PopularCollectionCard: React.FC<props> = ({ index, form }) => {
     requestType: 'GET',
     expiresIn: 3600,
   });
+
+  const handleDeleteImage = () => {
+    console.log('delete');
+    form.setValue(
+      `collage.${index}.image`,
+      {
+        blurHash: null,
+        blurHashDataURL: null,
+        alt: null,
+        key: '',
+        url: null,
+        default: false,
+        displayIndex: 0,
+      },
+      { shouldValidate: true },
+    );
+  };
+
   return (
     <div
       onMouseEnter={() => setIsHovered(true)}
@@ -47,7 +65,7 @@ const PopularCollectionCard: React.FC<props> = ({ index, form }) => {
                 type="button"
                 size="icon"
                 variant="destructive"
-                // onClick={() => handleDeleteImage()}
+                onClick={() => handleDeleteImage()}
               >
                 <LuTrash />
               </Button>

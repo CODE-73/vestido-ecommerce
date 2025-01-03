@@ -30,6 +30,23 @@ const HeroCarouselItem: React.FC<HeroCarouselItemProps> = ({ index, form }) => {
     requestType: 'GET',
     expiresIn: 3600,
   });
+
+  const handleDeleteImage = () => {
+    console.log('delete');
+    form.setValue(
+      `hero_carousel.${index}.image`,
+      {
+        blurHash: null,
+        blurHashDataURL: null,
+        alt: null,
+        key: '',
+        url: null,
+        default: false,
+        displayIndex: 0,
+      },
+      { shouldValidate: true },
+    );
+  };
   return (
     <div
       onMouseEnter={() => setIsHovered(true)}
@@ -82,7 +99,7 @@ const HeroCarouselItem: React.FC<HeroCarouselItemProps> = ({ index, form }) => {
                   className="absolute top-3 right-3 flex gap-2 "
                   type="button"
                   variant="destructive"
-                  // onClick={() => handleDeleteImage()}
+                  onClick={() => handleDeleteImage()}
                 >
                   Remove <LuTrash />
                 </Button>

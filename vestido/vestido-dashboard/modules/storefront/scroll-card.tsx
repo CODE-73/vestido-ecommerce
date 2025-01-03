@@ -29,6 +29,23 @@ const ScrollCardImageUploader: React.FC<props> = ({ index, form }) => {
     requestType: 'GET',
     expiresIn: 3600,
   });
+
+  const handleDeleteImage = () => {
+    console.log('delete');
+    form.setValue(
+      `horizontal_scroll_cards.${index}.image`,
+      {
+        blurHash: null,
+        blurHashDataURL: null,
+        alt: null,
+        key: '',
+        url: null,
+        default: false,
+        displayIndex: 0,
+      },
+      { shouldValidate: true },
+    );
+  };
   return (
     <div
       className="flex flex-col"
@@ -36,19 +53,6 @@ const ScrollCardImageUploader: React.FC<props> = ({ index, form }) => {
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="relative w-full h-0 pb-[50%] bg-gray-300">
-        {/* <Image
-            src={data.cardImage.url ?? ''}
-            alt="alt text"
-            fill
-            sizes="(max-width: 1024px) 50vw, 33vw"
-            className="object-cover"
-          /> */}
-        {/* <FileUploadElement
-          name={`horizontal_scroll_cards.${index}.image.key`}
-          keyPrefix="storefront/"
-          label="Upload Image"
-          className="cursor-pointer text-gray-500 absolute top-1/2 left-1/2 transform -translate-x-1/2"
-        /> */}
         {image?.key ? (
           image.url || imgURL ? (
             <>
@@ -65,7 +69,7 @@ const ScrollCardImageUploader: React.FC<props> = ({ index, form }) => {
                   type="button"
                   size="icon"
                   variant="destructive"
-                  // onClick={() => handleDeleteImage()}
+                  onClick={() => handleDeleteImage()}
                 >
                   <LuTrash />
                 </Button>

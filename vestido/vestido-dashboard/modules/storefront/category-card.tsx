@@ -27,24 +27,22 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ index, form }) => {
     expiresIn: 3600,
   });
 
-  // const handleDeleteImage = () => {
-  //   console.log('delete');
-  //   form.setValue(
-  //     `hero_categories.${index}.image`,
-  //     {
-  //       blurHash: null,
-  //       blurHashDataURL: null,
-  //       alt: null,
-  //       key: '',
-  //       url: null,
-  //       default: false,
-  //       displayIndex: 0,
-  //     },
-  //     { shouldValidate: true },
-  //   );
-
-  //   console.info('formvalues', form.getValues().hero_categories);
-  // };
+  const handleDeleteImage = () => {
+    console.log('delete');
+    form.setValue(
+      `hero_categories.${index}.image`,
+      {
+        blurHash: null,
+        blurHashDataURL: null,
+        alt: null,
+        key: '',
+        url: null,
+        default: false,
+        displayIndex: 0,
+      },
+      { shouldValidate: true },
+    );
+  };
 
   return (
     <div
@@ -70,7 +68,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ index, form }) => {
                   type="button"
                   size="icon"
                   variant="destructive"
-                  // onClick={() => handleDeleteImage()}
+                  onClick={() => handleDeleteImage()}
                 >
                   <LuTrash />
                 </Button>
