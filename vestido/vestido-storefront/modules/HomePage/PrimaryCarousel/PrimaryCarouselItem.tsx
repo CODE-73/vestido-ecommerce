@@ -2,11 +2,9 @@ import Image from 'next/image';
 
 import { z } from 'zod';
 
-import {
-  HeroCarouselSchema,
-  ImageSchemaType,
-} from '@vestido-ecommerce/settings/client';
+import { HeroCarouselSchema } from '@vestido-ecommerce/settings/client';
 import { CarouselItem } from '@vestido-ecommerce/shadcn-ui/carousel';
+import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import { DiscoverButton } from '../Buttons/DiscoverButton';
 type CarouselItemData = z.infer<typeof HeroCarouselSchema>;

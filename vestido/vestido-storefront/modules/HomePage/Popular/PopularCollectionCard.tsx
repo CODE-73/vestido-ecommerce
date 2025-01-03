@@ -3,13 +3,6 @@ import Image from 'next/image';
 import { z } from 'zod';
 
 import { CollageSchema } from '@vestido-ecommerce/settings/client';
-import { ImageSchemaType } from '@vestido-ecommerce/utils';
-
-export type PopularCollectionCardData = {
-  cardImage: ImageSchemaType;
-  mainTitle: string;
-  textColor?: string;
-};
 
 type CollageItemData = z.infer<typeof CollageSchema>;
 

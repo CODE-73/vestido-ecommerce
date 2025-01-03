@@ -5,9 +5,9 @@ import { z } from 'zod';
 
 import { ScrollCardSchema } from '@vestido-ecommerce/settings/client';
 import { CarouselItem } from '@vestido-ecommerce/shadcn-ui/carousel';
+import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import { DiscoverButton } from '../Buttons/DiscoverButton';
-import { ImageSchemaType } from 'libs/settings/src/hooks/use-storefront-home-data';
 
 // export type ScrollCardData = {
 //   cardImage: ImageSchemaType;

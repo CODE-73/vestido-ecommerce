@@ -2,18 +2,10 @@ import { useMemo } from 'react';
 
 import { z } from 'zod';
 
+import { ImageSchema } from '@vestido-ecommerce/utils';
+
 import { SettingsKeys } from '../keys';
 import { useSettings } from '../swr';
-
-export const ImageSchema = z.object({
-  blurHash: z.string().nullish(),
-  blurHashDataURL: z.string().nullish(),
-  alt: z.string().nullish(),
-  key: z.string().min(3).nullish(),
-  url: z.string().nullish(),
-});
-
-export type ImageSchemaType = z.infer<typeof ImageSchema>;
 
 export const HeroCarouselSchema = z.object({
   image: ImageSchema,
@@ -59,8 +51,10 @@ export const StorefrontHomeDataSchema = z.object({
   hero_carousel: z.array(HeroCarouselSchema),
   hero_categories: z.array(HeroCategorySchema),
   horizontal_scroll_cards: z.array(ScrollCardSchema),
-  collage: z.array(CollageSchema).nullish(),
+  collage: z.array(CollageSchema),
 });
+
+export type StorefrontHomeDataType = z.infer<typeof StorefrontHomeDataSchema>;
 
 export const useVestidoHomeData = (): z.infer<
   typeof StorefrontHomeDataSchema
