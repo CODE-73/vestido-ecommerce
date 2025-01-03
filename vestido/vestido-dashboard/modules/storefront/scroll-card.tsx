@@ -54,7 +54,7 @@ const ScrollCardImageUploader: React.FC<props> = ({ index, form }) => {
             <>
               <Image
                 src={image.url || imgURL || ''}
-                alt={image.alt}
+                alt={image.alt ?? ''}
                 fill
                 sizes="(max-width: 1024px) 50vw, 33vw"
                 className="object-cover"
