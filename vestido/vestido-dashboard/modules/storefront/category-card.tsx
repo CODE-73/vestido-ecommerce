@@ -28,7 +28,6 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ index, form }) => {
   });
 
   const handleDeleteImage = () => {
-    console.log('delete');
     form.setValue(
       `hero_categories.${index}.image`,
       {

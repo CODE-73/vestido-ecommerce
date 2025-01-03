@@ -27,7 +27,6 @@ const PopularCollectionCard: React.FC<props> = ({ index, form }) => {
   });
 
   const handleDeleteImage = () => {
-    console.log('delete');
     form.setValue(
       `collage.${index}.image`,
       {

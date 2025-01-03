@@ -32,7 +32,6 @@ const HeroCarouselItem: React.FC<HeroCarouselItemProps> = ({ index, form }) => {
   });
 
   const handleDeleteImage = () => {
-    console.log('delete');
     form.setValue(
       `hero_carousel.${index}.image`,
       {

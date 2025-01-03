@@ -31,7 +31,6 @@ const ScrollCardImageUploader: React.FC<props> = ({ index, form }) => {
   });
 
   const handleDeleteImage = () => {
-    console.log('delete');
     form.setValue(
       `horizontal_scroll_cards.${index}.image`,
       {
