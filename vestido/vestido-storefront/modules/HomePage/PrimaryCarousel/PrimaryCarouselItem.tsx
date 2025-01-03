@@ -17,7 +17,15 @@ const PrimaryCarouselItem: React.FC<PrimaryCarouselItemProps> = ({ data }) => {
     <CarouselItem className="w-full relative">
       <div className="min-h-[300px] md:min-h-[500px] xl:min-h-[600px] overflow-hidden w-full">
         <div
-          className={`flex flex-col gap-1 absolute mt-10 md:mt-auto md:top-1/3 ${data.text_position} text-${data.text_position} z-20`}
+          className={`flex flex-col gap-1 absolute mt-10 md:mt-auto md:top-1/3 ${
+            data.text_position === 'right'
+              ? 'right-8 text-right'
+              : data.text_position === 'left'
+                ? 'left-8 text-left'
+                : data.text_position === 'center'
+                  ? 'left-1/2 transform -translate-x-1/2 text-center'
+                  : ''
+          } z-20`}
         >
           <div
             className={`uppercase text-xs md:text-base font-bold md:font-extrabold text-${data.text_color}`}

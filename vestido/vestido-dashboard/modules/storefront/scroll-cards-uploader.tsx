@@ -10,7 +10,7 @@ import {
 
 import { InputElement } from '../../forms/input-element';
 import { StorefrontHomeDataSchemaForm } from './home-integration';
-import ScrollCardImageUploader from './hori-scroll-card';
+import ScrollCardImageUploader from './scroll-card';
 
 export const HorizontalScrollCardsUploader: React.FC = () => {
   const form = useFormContext<StorefrontHomeDataSchemaForm>();

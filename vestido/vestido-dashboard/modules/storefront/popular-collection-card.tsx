@@ -37,7 +37,7 @@ const PopularCollectionCard: React.FC<props> = ({ index, form }) => {
             {' '}
             <Image
               src={image.url || imgURL || ''}
-              alt={image.alt}
+              alt={image.alt ?? ''}
               fill
               className="object-cover "
             />

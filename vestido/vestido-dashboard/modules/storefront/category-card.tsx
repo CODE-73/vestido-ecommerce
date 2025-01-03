@@ -27,22 +27,24 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ index, form }) => {
     expiresIn: 3600,
   });
 
-  const handleDeleteImage = () => {
-    console.log('delete');
-    form.setValue(
-      `hero_categories.${index}.image`,
-      {
-        blurHash: null,
-        blurHashDataURL: null,
-        alt: null,
-        key: null,
-        url: null,
-      },
-      { shouldValidate: true },
-    );
+  // const handleDeleteImage = () => {
+  //   console.log('delete');
+  //   form.setValue(
+  //     `hero_categories.${index}.image`,
+  //     {
+  //       blurHash: null,
+  //       blurHashDataURL: null,
+  //       alt: null,
+  //       key: '',
+  //       url: null,
+  //       default: false,
+  //       displayIndex: 0,
+  //     },
+  //     { shouldValidate: true },
+  //   );
 
-    console.info('formvalues', form.getValues().hero_categories);
-  };
+  //   console.info('formvalues', form.getValues().hero_categories);
+  // };
 
   return (
     <div
@@ -56,7 +58,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ index, form }) => {
             <>
               <Image
                 src={image.url || imgURL || ''}
-                alt={image.alt}
+                alt={image.alt ?? ''}
                 sizes="80vw"
                 width={0}
                 height={0}
@@ -68,7 +70,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ index, form }) => {
                   type="button"
                   size="icon"
                   variant="destructive"
-                  onClick={() => handleDeleteImage()}
+                  // onClick={() => handleDeleteImage()}
                 >
                   <LuTrash />
                 </Button>
@@ -89,20 +91,6 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ index, form }) => {
         )}
       </div>
 
-      {/* <Image
-            src={data.cardImage.url ?? ''}
-            className="w-16 h-16 md:w-32 md:h-32 overflow-hidden rounded-full"
-            alt="alt text"
-            sizes="(max-width: 640px) 50vw"
-            width={16}
-            height={16}
-          /> */}
-
-      {/* <InputElement
-          name={`hero_categories.${index}.categoryId`}
-          placeholder="Title"
-          className="pt-2 text-black border-transparent capitalize text-center text-xs md:text-base leading-normal "
-        /> */}
       <CategoryElement
         name={`hero_categories.${index}.categoryId`}
         placeholder="Category"

@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 import CategoryCardsUploader from './category-cards-uploader';
 import PopularCollectionintegration from './popular-collection';
-import PrimaryCarouselUploader from './primary-carousel-uploader';
+import PrimaryCarouselUploader from './hero-carousel-uploader';
 import HorizontalScrollCardsUploader from './scroll-cards-uploader';
 import { useForm } from 'react-hook-form';
 import { Form } from '@vestido-ecommerce/shadcn-ui/form';
