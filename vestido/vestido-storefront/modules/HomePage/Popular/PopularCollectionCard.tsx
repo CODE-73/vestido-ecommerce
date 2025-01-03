@@ -1,5 +1,8 @@
 import Image from 'next/image';
 
+import { z } from 'zod';
+
+import { CollageSchema } from '@vestido-ecommerce/settings/client';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 export type PopularCollectionCardData = {
@@ -8,8 +11,10 @@ export type PopularCollectionCardData = {
   textColor?: string;
 };
 
+type CollageItemData = z.infer<typeof CollageSchema>;
+
 interface PopularCollectionCardProps {
-  data: PopularCollectionCardData;
+  data: CollageItemData;
   mainImage?: boolean;
 }
 const PopularCollectionCard: React.FC<PopularCollectionCardProps> = ({
@@ -23,7 +28,7 @@ const PopularCollectionCard: React.FC<PopularCollectionCardProps> = ({
     >
       <div className="hover:scale-110 transition duration-500 cursor-pointer w-full h-full">
         <Image
-          src={data.cardImage.url ?? ''}
+          src={data.image.url ?? ''}
           alt="alt text"
           fill
           className="object-cover "
@@ -32,10 +37,10 @@ const PopularCollectionCard: React.FC<PopularCollectionCardProps> = ({
       <div className="absolute left-10 top-10 ">
         <div
           className={`group-hover:underline capitalize font-bold text-2xl group-hover:underline group-hover:underline-offset-4 leading-normal main-title ${
-            data.textColor ? `text-${data.textColor}` : 'text-white'
+            data.text_color ? `text-${data.text_color}` : 'text-white'
           }`}
         >
-          {data.mainTitle}
+          {data.text_content}
         </div>
       </div>
     </div>

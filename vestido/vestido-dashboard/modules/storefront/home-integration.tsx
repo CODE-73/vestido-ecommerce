@@ -29,15 +29,7 @@ const StorefrontHomeIntegration: React.FC = () => {
     defaultValues: {},
   });
 
-  // console.info('formvalues', form.getValues().hero_categories);
-  // console.info(
-  //   'isValid',
-  //   form.formState.isValid,
-  //   'isSubmitted',
-  //   form.formState.isSubmitted,
-  //   'errors',
-  //   form.formState.errors,
-  // );
+  console.info('formvalues', form.getValues());
 
   useEffect(() => {
     if (home_data) {

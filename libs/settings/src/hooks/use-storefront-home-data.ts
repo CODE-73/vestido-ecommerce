@@ -1,3 +1,5 @@
+import { useMemo } from 'react';
+
 import { z } from 'zod';
 
 import { SettingsKeys } from '../keys';
@@ -17,13 +19,17 @@ export const HeroCarouselSchema = z.object({
   image: ImageSchema,
   text_color: z.string().nullish(),
   text_position: z.string().nullish(),
-  text_align: z.string().nullish(),
   text_content: z.object({
     line1: z.string(),
     line2: z.string().nullish(),
     line3: z.string().nullish(),
   }),
   button_text: z.string().nullish(),
+});
+
+export const HeroCategorySchema = z.object({
+  image: ImageSchema,
+  categoryId: z.string().nullish(),
 });
 
 export const ScrollCardSchema = z.object({
@@ -36,6 +42,12 @@ export const ScrollCardSchema = z.object({
   button_text: z.string().nullish(),
 });
 
+export const CollageSchema = z.object({
+  image: ImageSchema,
+  text_content: z.string(),
+  text_color: z.string().nullish().default('black'),
+});
+
 export const StorefrontHomeDataSchema = z.object({
   navbar_carousel: z
     .array(
@@ -45,37 +57,26 @@ export const StorefrontHomeDataSchema = z.object({
     )
     .nullish(),
   hero_carousel: z.array(HeroCarouselSchema),
-  hero_categories: z.array(
-    z.object({
-      image: ImageSchema,
-      categoryId: z.string().nullish(),
-    }),
-  ),
+  hero_categories: z.array(HeroCategorySchema),
   horizontal_scroll_cards: z.array(ScrollCardSchema),
-  collage: z
-    .array(
-      z.object({
-        image: ImageSchema,
-        text_content: z.string(),
-      }),
-    )
-    .nullish(),
+  collage: z.array(CollageSchema).nullish(),
 });
 
 export const useVestidoHomeData = (): z.infer<
   typeof StorefrontHomeDataSchema
 > | null => {
-  const { data, error } = useSettings(SettingsKeys.VESTIDO_HOME_DATA);
+  const { data } = useSettings(SettingsKeys.VESTIDO_HOME_DATA);
 
-  if (error || !data) {
-    return null;
-  }
+  return useMemo(() => {
+    if (!data) {
+      return null;
+    }
 
-  try {
-    const storefrontHomeData = StorefrontHomeDataSchema.parse(data.data?.value);
-    return storefrontHomeData;
-  } catch (e) {
-    console.error('Storefront Home Data validation failed:', e);
+    const p = StorefrontHomeDataSchema.safeParse(data?.data?.value);
+    if (p.success) {
+      return p.data;
+    }
+
     return null;
-  }
+  }, [data]);
 };
