@@ -9,8 +9,8 @@ import { useSettings } from '../swr';
 
 export const HeroCarouselSchema = z.object({
   image: ImageSchema,
-  text_color: z.string().nullish(),
-  text_position: z.string().nullish(),
+  text_color: z.string().default('black'),
+  text_position: z.string().default('left'),
   text_content: z.object({
     line1: z.string(),
     line2: z.string().nullish(),
