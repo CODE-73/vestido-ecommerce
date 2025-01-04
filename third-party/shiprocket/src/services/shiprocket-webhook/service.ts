@@ -63,6 +63,7 @@ export async function handleShiprocketWebhook(data: shiprocketWebhookRequest) {
       },
       data: {
         tracking: data.awb,
+        ...(data.current_status === 'IN TRANSIT' && { status: 'IN_TRANSIT' }),
       },
     });
     return fulfillmentDetails;
