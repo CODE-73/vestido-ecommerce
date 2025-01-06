@@ -1,11 +1,12 @@
 import { FC } from 'react';
-import { z } from 'zod';
 
 import clsx from 'clsx';
+import { z } from 'zod';
+
 import {
   StorefrontHomeDataSchema,
   useVestidoHomeData,
-} from 'libs/settings/src/hooks/use-storefront-home-data';
+} from '@vestido-ecommerce/settings/client';
 import {
   Carousel,
   CarouselContent,
@@ -13,12 +14,6 @@ import {
   CarouselPrevious,
 } from '@vestido-ecommerce/shadcn-ui/carousel';
 
-// import cardImage1 from '../../../assets/cards/card-1.jpg';
-// import cardImage2 from '../../../assets/cards/card-2.jpg';
-// import cardImage3 from '../../../assets/cards/card-3.jpg';
-// import cardImage4 from '../../../assets/cards/card-4.jpg';
-// import cardImage5 from '../../../assets/cards/card-5.jpg';
-// import cardImage6 from '../../../assets/cards/card-6.jpg';
 import HorizontalScrollCard from './HorizontalScrollCard';
 
 export type HorizontalScrollCards = z.infer<

@@ -1,21 +1,24 @@
+import { useEffect } from 'react';
+
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
+
 import {
   StorefrontHomeDataSchema,
   useVestidoHomeData,
-} from 'libs/settings/src/hooks/use-storefront-home-data';
-import * as z from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
+} from '@vestido-ecommerce/settings/client';
+import {
+  SettingsKeys,
+  useUpdateSettings,
+} from '@vestido-ecommerce/settings/client';
+import { Button } from '@vestido-ecommerce/shadcn-ui/button';
+import { Form } from '@vestido-ecommerce/shadcn-ui/form';
 
 import CategoryCardsUploader from './category-cards-uploader';
-import PopularCollectionintegration from './popular-collection';
 import PrimaryCarouselUploader from './hero-carousel-uploader';
+import PopularCollectionintegration from './popular-collection';
 import HorizontalScrollCardsUploader from './scroll-cards-uploader';
-import { useForm } from 'react-hook-form';
-import { Form } from '@vestido-ecommerce/shadcn-ui/form';
-import { Button } from '@vestido-ecommerce/shadcn-ui/button';
-import { useUpdateSettings } from '@vestido-ecommerce/settings/client';
-import { SettingsKeys } from 'libs/settings/src/keys';
-import { useEffect } from 'react';
-import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 export type StorefrontHomeDataSchemaForm = z.infer<
   typeof StorefrontHomeDataSchema

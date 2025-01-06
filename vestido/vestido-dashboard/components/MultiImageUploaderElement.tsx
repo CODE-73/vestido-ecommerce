@@ -207,7 +207,7 @@ const ImageCardElement: React.FC<ImageCardElementProps> = ({
         image.url || imgURL ? (
           <Image
             src={image.url || imgURL || ''}
-            alt={image.alt}
+            alt={image.alt ?? ''}
             sizes="80vw"
             width={0}
             height={0}
