@@ -19,20 +19,19 @@ const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
   const { isAuthenticated } = useAuth();
   return (
     <div className="bg-black shadow-lg flex items-center px-3 xl:px-32 sticky top-0 shadow-lg shadow-gray-700/50 ">
-      {/*bg-[#1B2149] */}
       <div className="flex flex-grow">
         <Link href="/" className="self-center">
-          <span className="sm:hidden">
+          {/* <span className="sm:hidden">
             <Image
               src="/assets/black-logo.png"
               alt="Logo"
               width="300"
               height="35"
             />
-          </span>
+          </span> */}
           <span className="self-end hidden sm:block">
             <Image
-              src="/assets/white-logo.png"
+              src="/assets/vestido-nation-logo.png"
               alt="Logo"
               width="180"
               height="35"
