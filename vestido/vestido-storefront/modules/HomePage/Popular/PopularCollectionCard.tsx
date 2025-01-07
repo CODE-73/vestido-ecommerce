@@ -22,6 +22,8 @@ const PopularCollectionCard: React.FC<PopularCollectionCardProps> = ({
       <div className="hover:scale-110 transition duration-500 cursor-pointer w-full h-full">
         <Image
           src={data.image.url ?? ''}
+          placeholder={data.image.blurHashDataURL ? 'blur' : undefined}
+          blurDataURL={data.image.blurHashDataURL ?? undefined}
           alt="alt text"
           fill
           className="object-cover "

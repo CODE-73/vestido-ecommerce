@@ -49,6 +49,8 @@ const PrimaryCarouselItem: React.FC<PrimaryCarouselItemProps> = ({ data }) => {
 
         <Image
           className="object-cover lg:rounded-[25px]"
+          placeholder={image.blurHashDataURL ? 'blur' : undefined}
+          blurDataURL={image.blurHashDataURL ?? undefined}
           src={image.url ?? ''}
           alt="Your alt text"
           fill

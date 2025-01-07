@@ -33,6 +33,8 @@ const HorizontalScrollCard: React.FC<ScrollCardProps> = ({ data }) => {
             // src={data.cardImage.url ?? ''}
             src={image?.url ?? '/assets/fallback-image.png'}
             alt="alt text"
+            placeholder={image.blurHashDataURL ? 'blur' : undefined}
+            blurDataURL={image.blurHashDataURL ?? undefined}
             fill
             sizes="(max-width: 1024px) 50vw, 33vw"
             className="object-cover"

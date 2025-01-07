@@ -60,7 +60,6 @@ export const useVestidoHomeData = (): z.infer<
   typeof StorefrontHomeDataSchema
 > | null => {
   const { data } = useSettings(SettingsKeys.VESTIDO_HOME_DATA);
-
   return useMemo(() => {
     if (!data) {
       return null;
