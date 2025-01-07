@@ -43,7 +43,7 @@ const PrimaryCarouselItem: React.FC<PrimaryCarouselItemProps> = ({ data }) => {
             {data.text_content.line3}
           </div>
           <div>
-            <DiscoverButton />
+            <DiscoverButton buttonText={data.button_text ?? 'discover now!'} />
           </div>
         </div>
 
