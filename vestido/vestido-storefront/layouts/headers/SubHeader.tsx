@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import Autoplay from 'embla-carousel-autoplay';
 
+import { useVestidoHomeData } from '@vestido-ecommerce/settings/client';
 import {
   Carousel,
   CarouselContent,
@@ -9,14 +10,8 @@ import {
 } from '@vestido-ecommerce/shadcn-ui/carousel';
 
 const SubHeader = () => {
-  const messages = [
-    {
-      description: 'standard shipping on orders $255',
-    },
-    {
-      description: 'Your second description',
-    },
-  ];
+  const home_data = useVestidoHomeData();
+  const navbar_carousel = home_data?.navbar_carousel;
 
   const plugin = React.useRef(
     Autoplay({ delay: 4000, stopOnInteraction: false, stopOnMouseEnter: true }),
@@ -35,14 +30,14 @@ const SubHeader = () => {
         className="justify-self-center w-fit"
       >
         <CarouselContent>
-          {messages.map((message, index) => (
+          {navbar_carousel?.map((message, index) => (
             <div key={index} className="flex-shrink-0 w-full">
               <CarouselItem>
                 <div className="flex justify-center">
                   {/* <div className="text-[#333] text-sm font-bold">
                     {message.title}&nbsp;
                   </div> */}
-                  <div>{message.description}</div>
+                  <div>{message.text_content}</div>
                 </div>
               </CarouselItem>
             </div>

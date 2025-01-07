@@ -3,20 +3,22 @@ import { useEffect } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
+import { ZodError } from 'zod';
 
 import {
-  StorefrontHomeDataSchema,
-  useVestidoHomeData,
-} from '@vestido-ecommerce/settings/client';
-import {
   SettingsKeys,
+  StorefrontHomeDataSchema,
   useUpdateSettings,
+  useVestidoHomeData,
 } from '@vestido-ecommerce/settings/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Form } from '@vestido-ecommerce/shadcn-ui/form';
+import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
+import { VestidoError } from '@vestido-ecommerce/utils';
 
 import CategoryCardsUploader from './category-cards-uploader';
 import PrimaryCarouselUploader from './hero-carousel-uploader';
+import NavbarCarouselUploader from './navbar-carousel';
 import PopularCollectionintegration from './popular-collection';
 import HorizontalScrollCardsUploader from './scroll-cards-uploader';
 
@@ -26,6 +28,7 @@ export type StorefrontHomeDataSchemaForm = z.infer<
 const StorefrontHomeIntegration: React.FC = () => {
   const { trigger } = useUpdateSettings();
   const home_data = useVestidoHomeData();
+  const { toast } = useToast();
 
   const form = useForm<StorefrontHomeDataSchemaForm>({
     resolver: zodResolver(StorefrontHomeDataSchema),
@@ -41,10 +44,36 @@ const StorefrontHomeIntegration: React.FC = () => {
   }, [home_data, form]);
 
   const handleSubmit = async (data: StorefrontHomeDataSchemaForm) => {
-    await trigger({
-      key: SettingsKeys.VESTIDO_HOME_DATA,
-      value: { ...data },
-    });
+    try {
+      await trigger({
+        key: SettingsKeys.VESTIDO_HOME_DATA,
+        value: { ...data },
+      });
+      toast({ title: 'Changes Saved Successfully' });
+    } catch (e) {
+      if (e instanceof VestidoError) {
+        form.setError('root', { message: e.message });
+        toast({
+          title: 'Error updating Storefront Data',
+          description: e.message,
+        });
+      } else if (e instanceof ZodError) {
+        for (const issue of e.issues) {
+          form.setError(
+            issue.path.join('.') as keyof StorefrontHomeDataSchemaForm,
+            {
+              message: issue.message,
+            },
+          );
+          toast({
+            title: 'Error updating Data',
+            description: issue.message,
+          });
+        }
+      } else {
+        console.error('Error updating storefront Data', e);
+      }
+    }
   };
 
   return (
@@ -56,7 +85,7 @@ const StorefrontHomeIntegration: React.FC = () => {
               Save Changes
             </Button>
           </div>
-
+          <NavbarCarouselUploader />
           <PrimaryCarouselUploader />
           <CategoryCardsUploader />
           <HorizontalScrollCardsUploader />

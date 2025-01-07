@@ -44,7 +44,7 @@ export const StorefrontHomeDataSchema = z.object({
   navbar_carousel: z
     .array(
       z.object({
-        text_content: z.string(),
+        text_content: z.string().nullish(),
       }),
     )
     .nullish(),
