@@ -436,6 +436,6 @@ model PrismaSeed {
 }
 
 model Settings {
-    key   String @unique
+    key   String @id
     value Json   @default("{}")
 }
