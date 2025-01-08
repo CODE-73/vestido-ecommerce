@@ -27,6 +27,9 @@ export const PrimaryCarousel: React.FC = () => {
         className=" pr-0 relative bg-black"
         onMouseEnter={plugin.current.stop}
         onMouseLeave={plugin.current.reset}
+        opts={{
+          loop: true,
+        }}
       >
         <CarouselContent className="h-64 sm:h-auto">
           {hero_carousel?.map((slide, index) => (
