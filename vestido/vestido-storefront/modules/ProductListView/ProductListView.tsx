@@ -74,8 +74,8 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
               className={`${suggestedList ? 'xl:px-32 xl:grid-cols-6' : ' lg:basis-4/5 xl:grid-cols-5'} grid grid-cols-2 gap-2 px-5 md:grid-cols-3 lg:grid-cols-4  md:gap-5 xl:gap-10 md:px-0`}
             >
               {items?.map((item: Item, index) => (
-                <MountAnimator key={item.id} animeIdx={index}>
-                  <ProductTile data={item} />
+                <MountAnimator key={item.id} deferIdx={index}>
+                  <ProductTile key={item.id} data={item} />
                 </MountAnimator>
               ))}
             </div>

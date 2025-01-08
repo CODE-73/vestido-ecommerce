@@ -2,22 +2,25 @@ import { ReactNode, useEffect, useState } from 'react';
 
 type MountAnimatorProps = {
   children: ReactNode;
-  animeIdx: number;
+  deferDuration?: number;
+  deferIdx?: number;
 };
 
 const MountAnimator: React.FC<MountAnimatorProps> = ({
   children,
-  animeIdx,
+  deferDuration = 100,
+  deferIdx = 0,
 }) => {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setMounted(true);
-    }, animeIdx * 100);
+    }, deferIdx * deferDuration);
 
     return () => clearTimeout(timer);
-  }, [animeIdx]);
+  }, [deferDuration, deferIdx]);
+
   return (
     <div
       className=" transition-all duration-500 ease-in-out"
