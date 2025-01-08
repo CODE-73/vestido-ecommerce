@@ -53,6 +53,15 @@ const nextConfig = {
         hostname: R2_NEXT_IMAGE_HOSTNAME,
         protocol: 'https',
       },
+      {
+        hostname: 'lp2.hm.com',
+        protocol: 'https',
+        port: '',
+      },
+      {
+        hostname: 'images.unsplash.com',
+        protocol: 'https',
+      },
     ],
   },
   env: {
