@@ -91,7 +91,7 @@ const MobileHeader: React.FC<HeaderProps> = ({ cart_count }) => {
 
         <Link href="/">
           <Image
-            src="/assets/white-logo.png"
+            src="/assets/vestido-nation-logo.png"
             alt="Logo"
             width="200"
             height="35"
