@@ -1,3 +1,4 @@
+// import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import { Item } from '@prisma/client';
@@ -7,21 +8,31 @@ import { Badge } from '@vestido-ecommerce/shadcn-ui/badge';
 import { formatINR } from '@vestido-ecommerce/utils';
 
 import ItemImage from '../../components/item-image';
+import useMountAnimation from '../../hooks/useMountAnimation';
 import AddToCartButton from './AddToCartButton';
 import AddToWishListButton from './AddToWishlistButton';
 
 interface ProductCardProps {
   data: Item;
+  animeIdx: number;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ data: item }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ data: item, animeIdx }) => {
   const router = useRouter();
+  const mounted = useMountAnimation(animeIdx);
   const handleProductClick = (itemId: string) => {
     router.push(`/products/${encodeURIComponent(itemId)}`);
   };
 
   return (
-    <div className="relative flex flex-col items-center group  mb-10 cursor-pointer ">
+    <div
+      className={`relative  flex flex-col items-center group  mb-10 cursor-pointer  transition-all duration-500 ease-in-out`}
+      style={{
+        // top: `${mounted ? '0' : '64px'}`,
+        transform: `${mounted ? 'translateY(0)' : 'translateY(64px)'}`,
+        opacity: `${mounted ? '1' : '0'}`,
+      }}
+    >
       {item.discountPercent && item.discountPercent > 0 ? (
         <Badge className="absolute top-2 left-2 rounded-none uppercase bg-red-500 hover:bg-red-400 cursor-auto z-[2]">
           flat&nbsp;{item.discountPercent}&nbsp;%
