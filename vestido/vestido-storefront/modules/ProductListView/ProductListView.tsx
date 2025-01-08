@@ -14,6 +14,7 @@ import {
 } from '@vestido-ecommerce/shadcn-ui/breadcrumb';
 
 // import ProductFilter from './ProductFilter';
+import MountAnimator from '../../components/mount-animator';
 import ProductTile from './ProductTile';
 
 type ProductListViewProps = {
@@ -72,8 +73,10 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
             <div
               className={`${suggestedList ? 'xl:px-32 xl:grid-cols-6' : ' lg:basis-4/5 xl:grid-cols-5'} grid grid-cols-2 gap-2 px-5 md:grid-cols-3 lg:grid-cols-4  md:gap-5 xl:gap-10 md:px-0`}
             >
-              {items?.map((item: Item) => (
-                <ProductTile data={item} key={item.id} />
+              {items?.map((item: Item, index) => (
+                <MountAnimator key={item.id} deferIdx={index}>
+                  <ProductTile data={item} />
+                </MountAnimator>
               ))}
             </div>
             <div className="absolute -bottom-8 left-[50%] flex justify-center mt-8">
