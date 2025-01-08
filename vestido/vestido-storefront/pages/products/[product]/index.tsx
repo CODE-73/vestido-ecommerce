@@ -11,6 +11,7 @@ import {
   ItemDetailsSWRKeys,
   ListItemSWRKeys,
 } from '@vestido-ecommerce/items/client';
+import { ensureSerializable } from '@vestido-ecommerce/utils';
 
 import ProductView from '../../../modules/products/product-view';
 
@@ -45,19 +46,19 @@ export async function getStaticProps({
   params: { product: string };
 }) {
   const itemId = params.product;
-  const item = await getItemDetails(itemId);
+  const item = ensureSerializable(await getItemDetails(itemId));
   if (!item) {
     return {
       notFound: true,
     };
   }
 
-  const category = await categoryDetails(item.categoryId);
+  const category = ensureSerializable(await categoryDetails(item.categoryId));
   if (!category) {
     throw new Error('Category does not exist');
   }
 
-  const items = await listItem({ categoryId: category.id });
+  const items = ensureSerializable(await listItem({ categoryId: category.id }));
 
   return {
     props: {

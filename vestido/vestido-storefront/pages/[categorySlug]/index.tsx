@@ -11,7 +11,7 @@ import {
   CategorySWRKeys,
   ListItemSWRKeys,
 } from '@vestido-ecommerce/items/client';
-import { slugify } from '@vestido-ecommerce/utils';
+import { ensureSerializable, slugify } from '@vestido-ecommerce/utils';
 
 import ProductListView from '../../modules/ProductListView/ProductListView';
 
@@ -36,7 +36,9 @@ export async function getStaticProps({
 }: {
   params: { categorySlug: string };
 }) {
-  const category = await categoryDetails(params.categorySlug);
+  const category = ensureSerializable(
+    await categoryDetails(params.categorySlug),
+  );
 
   if (!category) {
     return {
@@ -44,7 +46,7 @@ export async function getStaticProps({
     };
   }
 
-  const items = await listItem({ categoryId: category.id });
+  const items = ensureSerializable(await listItem({ categoryId: category.id }));
 
   return {
     props: {
