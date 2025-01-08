@@ -1,4 +1,3 @@
-// import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
 import { Item } from '@prisma/client';
@@ -13,12 +12,10 @@ import AddToWishListButton from './AddToWishlistButton';
 
 interface ProductCardProps {
   data: Item;
-  // animeIdx: number;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ data: item }) => {
   const router = useRouter();
-  // const mounted = useMountAnimation(animeIdx);
   const handleProductClick = (itemId: string) => {
     router.push(`/products/${encodeURIComponent(itemId)}`);
   };
