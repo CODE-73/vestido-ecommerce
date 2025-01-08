@@ -75,7 +75,7 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
             >
               {items?.map((item: Item, index) => (
                 <MountAnimator key={item.id} deferIdx={index}>
-                  <ProductTile key={item.id} data={item} />
+                  <ProductTile data={item} />
                 </MountAnimator>
               ))}
             </div>
