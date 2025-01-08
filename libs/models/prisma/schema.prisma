@@ -49,11 +49,11 @@ enum ReturnStatus {
     RETURNED
 }
 
-enum ExchangeStatus {
-    EXCHANGE_REQUESTED
-    EXCHANGE_IN_PROGRESS
-    PARTIALLY_EXCHANGED
-    EXCHANGED
+enum ReplacementStatus {
+    REPLACEMENT_REQUESTED
+    REPLACEMENT_IN_PROGRESS
+    PARTIALLY_REPLACED
+    REPLACED
 }
 
 enum OrderPaymentStatus {
@@ -159,8 +159,8 @@ model Item {
 
     sizeChart String?
 
-    createdAt  DateTime  @default(now()) @db.Timestamptz(3)
-    updatedAt  DateTime  @default(now()) @db.Timestamptz(3)
+    createdAt DateTime @default(now()) @db.Timestamptz(3)
+    updatedAt DateTime @default(now()) @db.Timestamptz(3)
 }
 
 model ItemVariant {
@@ -242,8 +242,8 @@ model WishlistItem {
     customer   Profile      @relation(fields: [customerId], references: [id])
     customerId String       @db.Uuid
 
-    createdAt DateTime  @default(now()) @db.Timestamptz(3)
-    updatedAt DateTime  @default(now()) @db.Timestamptz(3)
+    createdAt DateTime @default(now()) @db.Timestamptz(3)
+    updatedAt DateTime @default(now()) @db.Timestamptz(3)
 }
 
 model CartItem {
@@ -256,8 +256,8 @@ model CartItem {
     variant    ItemVariant? @relation(fields: [variantId], references: [id])
     variantId  String?      @db.Uuid
 
-    createdAt DateTime  @default(now()) @db.Timestamptz(3)
-    updatedAt DateTime  @default(now()) @db.Timestamptz(3)
+    createdAt DateTime @default(now()) @db.Timestamptz(3)
+    updatedAt DateTime @default(now()) @db.Timestamptz(3)
 }
 
 model Order {
@@ -274,7 +274,7 @@ model Order {
     orderStatus        OrderStatus        @default(PENDING)
     deliveryStatus     DeliveryStatus     @default(UNFULFILLED)
     returnStatus       ReturnStatus?
-    exchangeStatus     ExchangeStatus?
+    replacementStatus  ReplacementStatus?
     description        String?
     orderPaymentStatus OrderPaymentStatus @default(PENDING)
     customer           Profile            @relation(fields: [customerId], references: [id])
@@ -290,27 +290,27 @@ model Order {
 }
 
 model OrderItem {
-    id                String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    id                String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     price             Float
     qty               Int
-    order             Order             @relation(fields: [orderId], references: [id])
-    orderId           String            @db.Uuid
-    item              Item              @relation(fields: [itemId], references: [id])
-    itemId            String            @db.Uuid
-    variant           ItemVariant?      @relation(fields: [variantId], references: [id])
-    variantId         String?           @db.Uuid
-    status            OrderStatus       @default(PENDING)
-    deliveryStatus    DeliveryStatus    @default(UNFULFILLED)
+    order             Order              @relation(fields: [orderId], references: [id])
+    orderId           String             @db.Uuid
+    item              Item               @relation(fields: [itemId], references: [id])
+    itemId            String             @db.Uuid
+    variant           ItemVariant?       @relation(fields: [variantId], references: [id])
+    variantId         String?            @db.Uuid
+    status            OrderStatus        @default(PENDING)
+    deliveryStatus    DeliveryStatus     @default(UNFULFILLED)
     returnStatus      ReturnStatus?
-    exchangeStatus    ExchangeStatus?
+    replacementStatus ReplacementStatus?
     fulfilledQuantity Int?
     fulfillmentItems  FulfillmentItem[]
     taxTitle          String?
     taxRate           Float?
     taxInclusive      Boolean?
-    taxAmount         Float             @default(0)
-    createdAt         DateTime          @default(now()) @db.Timestamptz(3)
-    updatedAt         DateTime          @default(now()) @db.Timestamptz(3)
+    taxAmount         Float              @default(0)
+    createdAt         DateTime           @default(now()) @db.Timestamptz(3)
+    updatedAt         DateTime           @default(now()) @db.Timestamptz(3)
 }
 
 model OrderLog {
@@ -327,8 +327,8 @@ model Payment {
     order   Order  @relation(fields: [orderId], references: [id])
     orderId String @unique @db.Uuid
 
-    createdAt DateTime  @default(now()) @db.Timestamptz(3)
-    updatedAt DateTime  @default(now()) @db.Timestamptz(3)
+    createdAt DateTime @default(now()) @db.Timestamptz(3)
+    updatedAt DateTime @default(now()) @db.Timestamptz(3)
 
     paymentGateway    String
     paymentGatewayRef String
@@ -384,13 +384,13 @@ model FulfillmentLog {
 }
 
 model Coupon {
-    id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     coupon      String
     description String
-    createdAt   DateTime  @default(now()) @db.Timestamptz(3)
-    updatedAt   DateTime  @default(now()) @db.Timestamptz(3)
-    fromDate    DateTime  @db.Timestamptz(3)
-    toDate      DateTime  @db.Timestamptz(3)
+    createdAt   DateTime @default(now()) @db.Timestamptz(3)
+    updatedAt   DateTime @default(now()) @db.Timestamptz(3)
+    fromDate    DateTime @db.Timestamptz(3)
+    toDate      DateTime @db.Timestamptz(3)
     enabled     Boolean
 
     // This will be switched with a CRON job running every 15min.
@@ -405,13 +405,13 @@ model Coupon {
 }
 
 model Tax {
-    id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     title       String
     rate        Float
     description String?
-    enabled     Boolean   @default(true)
-    createdAt   DateTime  @default(now()) @db.Timestamptz(3)
-    updatedAt   DateTime  @default(now()) @db.Timestamptz(3)
+    enabled     Boolean  @default(true)
+    createdAt   DateTime @default(now()) @db.Timestamptz(3)
+    updatedAt   DateTime @default(now()) @db.Timestamptz(3)
 }
 
 model ContactUs {
