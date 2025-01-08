@@ -4,6 +4,7 @@ import { SWRConfig, unstable_serialize } from 'swr';
 import { listItem, ListItemResponse } from '@vestido-ecommerce/items';
 import { getSettings, SettingsKeys } from '@vestido-ecommerce/settings';
 import { SettingsSWRKeys } from '@vestido-ecommerce/settings/client';
+import { ensureSerializable } from '@vestido-ecommerce/utils';
 
 import HomePage from '../modules/HomePage/HomePage';
 
@@ -23,7 +24,7 @@ const Home: NextPage<ItemsListProps> = ({ items, fallback }) => {
 export default Home;
 
 export async function getStaticProps() {
-  const items = await listItem(null);
+  const items = ensureSerializable(await listItem(null));
   const home_data = await getSettings('VESTIDO_HOME_DATA');
 
   return {
