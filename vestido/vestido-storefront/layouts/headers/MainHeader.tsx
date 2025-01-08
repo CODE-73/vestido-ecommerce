@@ -21,14 +21,6 @@ const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
     <div className="bg-black shadow-lg flex items-center px-3 xl:px-32 sticky top-0 shadow-lg shadow-gray-700/50 ">
       <div className="flex flex-grow">
         <Link href="/" className="self-center">
-          {/* <span className="sm:hidden">
-            <Image
-              src="/assets/black-logo.png"
-              alt="Logo"
-              width="300"
-              height="35"
-            />
-          </span> */}
           <span className="self-end hidden sm:block">
             <Image
               src="/assets/vestido-nation-logo.png"

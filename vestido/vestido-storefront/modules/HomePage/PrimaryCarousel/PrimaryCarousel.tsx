@@ -20,8 +20,6 @@ export const PrimaryCarousel: React.FC = () => {
   const home_data = useVestidoHomeData();
   const hero_carousel = home_data?.hero_carousel;
 
-  console.log('home_data', hero_carousel);
-
   return (
     <div className=" overflow-hidden lg:rounded-[25px]">
       <Carousel

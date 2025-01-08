@@ -1,8 +1,6 @@
-import { __values } from 'tslib';
-
 import { getPrismaClient } from '@vestido-ecommerce/models';
 
-import { formatStorefrontData } from '../format-storefront-data';
+import { formatStorefrontData } from '../storefront-data/format-storefront-data';
 
 export async function getSettings(key: string) {
   const prisma = getPrismaClient();

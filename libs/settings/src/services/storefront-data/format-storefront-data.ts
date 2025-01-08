@@ -1,12 +1,12 @@
-import { addThumbhashToImages } from '@vestido-ecommerce/caching';
+import { populateImageURLs } from '@vestido-ecommerce/caching';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import {
   StorefrontHomeDataSchema,
   StorefrontHomeDataType,
-} from '../hooks/use-storefront-home-data';
+} from '../../hooks/use-storefront-home-data';
 
-export const updateStorefrontData = async (
+export const formatStorefrontData = async (
   args: unknown,
 ): Promise<StorefrontHomeDataType> => {
   const p = StorefrontHomeDataSchema.safeParse(args);
@@ -28,6 +28,7 @@ export const updateStorefrontData = async (
     ...data.collage.map((x) => x.image),
   ];
 
-  await addThumbhashToImages(images);
+  await populateImageURLs(images);
+
   return data;
 };

@@ -9,13 +9,6 @@ import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import { DiscoverButton } from '../Buttons/DiscoverButton';
 
-// export type ScrollCardData = {
-//   cardImage: ImageSchemaType;
-//   mainTitle: string;
-//   subtitle1: string;
-//   subtitle2: string;
-//   buttonText?: string;
-// };
 type ScrollCardData = z.infer<typeof ScrollCardSchema>;
 
 interface ScrollCardProps {
@@ -30,7 +23,6 @@ const HorizontalScrollCard: React.FC<ScrollCardProps> = ({ data }) => {
       <div className="flex flex-col">
         <div className="relative w-full h-0 pb-[50%]">
           <Image
-            // src={data.cardImage.url ?? ''}
             src={image?.url ?? '/assets/fallback-image.png'}
             alt="alt text"
             placeholder={image.blurHashDataURL ? 'blur' : undefined}

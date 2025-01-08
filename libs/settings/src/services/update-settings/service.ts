@@ -1,7 +1,7 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
 
 import { SettingsKeys } from '../../keys';
-import { updateStorefrontData } from '../update-storefront-data';
+import { updateStorefrontData } from '../storefront-data/update-storefront-data';
 import { UpdateSettingsSchema, UpdateSettingsSchemaType } from './zod';
 
 export async function updateSettings(_data: UpdateSettingsSchemaType) {
