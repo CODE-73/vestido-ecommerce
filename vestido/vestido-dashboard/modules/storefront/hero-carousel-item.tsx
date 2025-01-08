@@ -24,7 +24,8 @@ const HeroCarouselItem: React.FC<HeroCarouselItemProps> = ({ index, form }) => {
   const [isHovered, setIsHovered] = useState(false);
   const image = form.watch(`hero_carousel.${index}.image`) as ImageSchemaType;
   const color = form.watch(`hero_carousel.${index}.text_color`);
-  const text_position = form.watch(`hero_carousel.${index}.text_position`);
+  const horizontal = form.watch(`hero_carousel.${index}.horizontal_position`);
+  const vertical = form.watch(`hero_carousel.${index}.vertical_position`);
   const { data: imgURL } = useR2SignedURL({
     key: image?.key,
     requestType: 'GET',
@@ -77,7 +78,7 @@ const HeroCarouselItem: React.FC<HeroCarouselItemProps> = ({ index, form }) => {
                 placeholder="Text Color"
               />
               <SelectElement
-                name={`hero_carousel.${index}.text_position`}
+                name={`hero_carousel.${index}.horizontal_position`}
                 options={[
                   { title: 'Left', id: 'left' },
                   {
@@ -89,7 +90,22 @@ const HeroCarouselItem: React.FC<HeroCarouselItemProps> = ({ index, form }) => {
                     id: 'right',
                   },
                 ]}
-                placeholder="Text Position"
+                placeholder="Horizontal"
+              />
+              <SelectElement
+                name={`hero_carousel.${index}.vertical_position`}
+                options={[
+                  { title: 'Top', id: 'top' },
+                  {
+                    title: 'Middle',
+                    id: 'middle',
+                  },
+                  {
+                    title: 'Bottom',
+                    id: 'bottom',
+                  },
+                ]}
+                placeholder="Vertical"
               />
             </div>
             {isHovered && (
@@ -118,15 +134,23 @@ const HeroCarouselItem: React.FC<HeroCarouselItemProps> = ({ index, form }) => {
           />
         </>
       )}
-      <div className="min-h-[300px] md:min-h-[500px] xl:min-h-[600px] overflow-hidden w-full">
+      <div className="min-h-[300px] md:min-h-[500px] xl:min-h-[600px] overflow-hidden">
         <div
-          className={`flex flex-col gap-1 absolute mt-10 md:mt-auto md:top-1/3 pl-2 md:pl-10 z-[3] ${
-            text_position === 'right'
-              ? 'right-8 text-right'
-              : text_position === 'left'
-                ? 'left-8 text-left'
-                : text_position === 'center'
+          className={`flex  flex-col gap-1 absolute  z-[3] ${
+            horizontal === 'right'
+              ? 'right-20 text-right'
+              : horizontal === 'left'
+                ? 'left-20 text-left'
+                : horizontal === 'center'
                   ? 'left-1/2 transform -translate-x-1/2 text-center'
+                  : ''
+          }  ${
+            vertical === 'top'
+              ? 'top-8'
+              : vertical === 'middle'
+                ? 'top-1/2 transform -translate-y-1/2'
+                : vertical === 'bottom'
+                  ? 'bottom-8'
                   : ''
           }`}
         >
@@ -145,7 +169,7 @@ const HeroCarouselItem: React.FC<HeroCarouselItemProps> = ({ index, form }) => {
           <InputElement
             name={`hero_carousel.${index}.text_content.line3`}
             placeholder="Subtitle 2"
-            className={`bg-transparent border-transparent text-xs font-light md:text-base md:font-extralight text-${color}`}
+            className={` bg-transparent border-transparent text-xs font-light md:text-base md:font-extralight text-${color}`}
           />
 
           <InputElement

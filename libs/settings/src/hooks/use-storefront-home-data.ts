@@ -10,13 +10,15 @@ import { useSettings } from '../swr';
 export const HeroCarouselSchema = z.object({
   image: ImageSchema,
   text_color: z.string().default('black'),
-  text_position: z.string().default('left'),
+  horizontal_position: z.string().default('left'),
+  vertical_position: z.string().default('middle'),
   text_content: z.object({
     line1: z.string(),
     line2: z.string().nullish(),
     line3: z.string().nullish(),
   }),
   button_text: z.string().nullish(),
+  href: z.string().nullish(),
 });
 
 export const CircleLinksSchema = z.object({
@@ -33,12 +35,14 @@ export const ScrollCardSchema = z.object({
     line3: z.string().nullish(),
   }),
   button_text: z.string().nullish(),
+  href: z.string().nullish(),
 });
 
 export const CollageSchema = z.object({
   image: ImageSchema,
   text_content: z.string(),
   text_color: z.string().nullish().default('black'),
+  href: z.string().nullish(),
 });
 
 export const StorefrontHomeDataSchema = z.object({
