@@ -43,10 +43,17 @@ enum DeliveryStatus {
 }
 
 enum ReturnStatus {
-    RETURN_REQUESTED
-    RETURN_IN_PROGRESS
-    PARTIALLY_RETURNED
+    AWAITING_PICKUP
+    PICKED_UP
+    IN_TRANSIT
     RETURNED
+    REJECTED
+}
+
+enum RefundStatus {
+    PENDING
+    REFUNDED
+    REJECTED
 }
 
 enum ReplacementStatus {
@@ -127,6 +134,7 @@ model Profile {
     ContactUs       ContactUs[]
     orders          Order[]
     CustomerAddress CustomerAddress[]
+    BankDetails     BankDetails[]
 }
 
 model Item {
@@ -309,8 +317,12 @@ model OrderItem {
     taxRate           Float?
     taxInclusive      Boolean?
     taxAmount         Float              @default(0)
+    returnedQty       Int?
+    replacedQty       Int?
     createdAt         DateTime           @default(now()) @db.Timestamptz(3)
     updatedAt         DateTime           @default(now()) @db.Timestamptz(3)
+    returns           Return[]
+    ReturnItem        ReturnItem[]
 }
 
 model OrderLog {
@@ -357,8 +369,10 @@ model Fulfillment {
     description         String?
     fulfillmentItems    FulfillmentItem[]
     logs                FulfillmentLog[]
+    deliveredDate       String?
     createdAt           DateTime          @default(now()) @db.Timestamptz(3)
     updatedAt           DateTime          @default(now()) @db.Timestamptz(3)
+    returns             Return[]
 }
 
 model FulfillmentItem {
@@ -381,6 +395,54 @@ model FulfillmentLog {
     logType        String
     rawData        Json
     dateTime       DateTime    @default(now())
+}
+
+model Return {
+    id            String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    return_no     BigInt        @default(autoincrement())
+    fulfillment   Fulfillment   @relation(fields: [fulfillmentId], references: [id])
+    fulfillmentId String        @db.Uuid
+    shipmentId    String?
+    reason        String
+    status        ReturnStatus  @default(AWAITING_PICKUP)
+    refundAmount  String
+    refundStatus  RefundStatus  @default(PENDING)
+    createdAt     DateTime      @default(now()) @db.Timestamptz(3)
+    updatedAt     DateTime      @default(now()) @db.Timestamptz(3)
+    OrderItem     OrderItem?    @relation(fields: [orderItemId], references: [id])
+    orderItemId   String?       @db.Uuid
+    ReturnLogs    ReturnLog[]
+    bankDetails   BankDetails[]
+}
+
+model ReturnItem {
+    id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    orderItem   OrderItem @relation(fields: [orderItemId], references: [id])
+    orderItemId String    @db.Uuid
+    Qty         Int
+    createdAt   DateTime  @default(now()) @db.Timestamptz(3)
+    updatedAt   DateTime  @default(now()) @db.Timestamptz(3)
+}
+
+model ReturnLog {
+    id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    return    Return   @relation(fields: [returnId], references: [id])
+    returnId  String   @db.Uuid
+    logType   String
+    rawData   Json
+    createdAt DateTime @default(now()) @db.Timestamptz(3)
+}
+
+model BankDetails {
+    id            String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    customer      Profile @relation(fields: [customerId], references: [id])
+    customerId    String  @db.Uuid
+    return        Return  @relation(fields: [returnId], references: [id])
+    returnId      String  @db.Uuid
+    accountNumber String
+    IFSC_Code     String
+    ReceiverName  String?
+    mobile        String
 }
 
 model Coupon {
