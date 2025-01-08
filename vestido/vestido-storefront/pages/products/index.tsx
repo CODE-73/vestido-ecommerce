@@ -4,6 +4,7 @@ import { SWRConfig, unstable_serialize } from 'swr';
 
 import { listItem } from '@vestido-ecommerce/items';
 import { ListItemSWRKeys } from '@vestido-ecommerce/items/client';
+import { ensureSerializable } from '@vestido-ecommerce/utils';
 
 import ProductListView from '../../modules/ProductListView/ProductListView';
 
@@ -20,7 +21,7 @@ const AllProductsPage: FC<AllProductsPageProps> = ({ fallback }) => {
 };
 
 export async function getStaticProps() {
-  const items = await listItem({});
+  const items = ensureSerializable(await listItem({}));
 
   return {
     props: {
