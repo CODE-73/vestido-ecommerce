@@ -9,7 +9,7 @@ import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import { FileUploadElement } from '../../components/FileUpload';
-import { CategoryElement } from '../../forms/category-combobox-element';
+import { InputElement } from '../../forms/input-element';
 import { StorefrontHomeDataSchemaForm } from './home-integration';
 
 type CategoryCardProps = {
@@ -87,12 +87,17 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ index, form }) => {
           </>
         )}
       </div>
-
-      <CategoryElement
-        name={`hero_categories.${index}.categoryId`}
-        placeholder="Category"
-        className="pt-2 text-black capitalize text-center text-xs md:text-base leading-normal "
+      <InputElement
+        className="border-transparent text-center placeholder:text-center "
+        placeholder="Label"
+        name={`hero_categories.${index}.text_content`}
       />
+      {isHovered && (
+        <InputElement
+          placeholder="Link"
+          name={`hero_categories.${index}.text_link`}
+        ></InputElement>
+      )}
     </div>
   );
 };

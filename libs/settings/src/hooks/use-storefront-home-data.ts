@@ -21,7 +21,8 @@ export const HeroCarouselSchema = z.object({
 
 export const HeroCategorySchema = z.object({
   image: ImageSchema,
-  categoryId: z.string().nullish(),
+  text_content: z.string().nullish(),
+  text_link: z.string().nullish(),
 });
 
 export const ScrollCardSchema = z.object({
