@@ -1,3 +1,4 @@
 export enum SettingsKeys {
   VESTIDO_SIZE_CHART = 'VESTIDO_SIZE_CHART',
+  VESTIDO_HOME_DATA = 'VESTIDO_HOME_DATA',
 }

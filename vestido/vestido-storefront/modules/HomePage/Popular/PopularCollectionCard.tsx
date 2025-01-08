@@ -1,13 +1,13 @@
-import Image, { StaticImageData } from 'next/image';
+import Image from 'next/image';
 
-export type PopularCollectionCardData = {
-  cardImage: StaticImageData;
-  mainTitle: string;
-  textColor?: string;
-};
+import { z } from 'zod';
+
+import { CollageSchema } from '@vestido-ecommerce/settings/client';
+
+type CollageItemData = z.infer<typeof CollageSchema>;
 
 interface PopularCollectionCardProps {
-  data: PopularCollectionCardData;
+  data: CollageItemData;
   mainImage?: boolean;
 }
 const PopularCollectionCard: React.FC<PopularCollectionCardProps> = ({
@@ -17,21 +17,25 @@ const PopularCollectionCard: React.FC<PopularCollectionCardProps> = ({
   return (
     <div
       className={`group relative overflow-hidden ${mainImage ? 'col-span-2 row-span-2' : ''} w-full`}
+      style={{ height: mainImage ? '85vh' : '42vh' }}
     >
       <div className="hover:scale-110 transition duration-500 cursor-pointer w-full h-full">
         <Image
-          src={data.cardImage}
+          src={data.image.url ?? ''}
+          placeholder={data.image.blurHashDataURL ? 'blur' : undefined}
+          blurDataURL={data.image.blurHashDataURL ?? undefined}
           alt="alt text"
-          className={`object-cover w-full h-full ${mainImage ? 'max-h-[85vh]' : 'max-h-[43vh]'}`} // Ensure it covers the entire area
+          fill
+          className="object-cover "
         />
       </div>
       <div className="absolute left-10 top-10 ">
         <div
           className={`group-hover:underline capitalize font-bold text-2xl group-hover:underline group-hover:underline-offset-4 leading-normal main-title ${
-            data.textColor ? `text-${data.textColor}` : 'text-white'
+            data.text_color ? `text-${data.text_color}` : 'text-white'
           }`}
         >
-          {data.mainTitle}
+          {data.text_content}
         </div>
       </div>
     </div>
