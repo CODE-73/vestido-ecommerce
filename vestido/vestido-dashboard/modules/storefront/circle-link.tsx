@@ -12,14 +12,14 @@ import { FileUploadElement } from '../../components/FileUpload';
 import { InputElement } from '../../forms/input-element';
 import { StorefrontHomeDataSchemaForm } from './home-integration';
 
-type CategoryCardProps = {
+type CircleLinkProps = {
   index: number;
   form: UseFormReturn<StorefrontHomeDataSchemaForm>;
 };
 
-const CategoryCard: React.FC<CategoryCardProps> = ({ index, form }) => {
+const CircleLink: React.FC<CircleLinkProps> = ({ index, form }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const image = form.watch(`hero_categories.${index}.image`) as ImageSchemaType;
+  const image = form.watch(`circle_links.${index}.image`) as ImageSchemaType;
 
   const { data: imgURL } = useR2SignedURL({
     key: image?.key,
@@ -29,7 +29,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ index, form }) => {
 
   const handleDeleteImage = () => {
     form.setValue(
-      `hero_categories.${index}.image`,
+      `circle_links.${index}.image`,
       {
         blurHash: null,
         blurHashDataURL: null,
@@ -79,7 +79,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ index, form }) => {
         ) : (
           <>
             <FileUploadElement
-              name={`hero_categories.${index}.image.key`}
+              name={`circle_links.${index}.image.key`}
               keyPrefix="storefront/"
               label=""
               className="absolute top-1/2 left-1/2 transform -translate-x-[70%] -translate-y-1/2  z-5 border-none"
@@ -90,15 +90,15 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ index, form }) => {
       <InputElement
         className="border-transparent text-center placeholder:text-center "
         placeholder="Label"
-        name={`hero_categories.${index}.text_content`}
+        name={`circle_links.${index}.text_content`}
       />
       {isHovered && (
         <InputElement
           placeholder="Link"
-          name={`hero_categories.${index}.text_link`}
+          name={`circle_links.${index}.text_link`}
         ></InputElement>
       )}
     </div>
   );
 };
-export default CategoryCard;
+export default CircleLink;
