@@ -158,6 +158,9 @@ model Item {
     taxInclusive Boolean?
 
     sizeChart String?
+
+    createdAt DateTime @default(now()) @db.Timestamptz(3)
+    updatedAt DateTime @default(now()) @db.Timestamptz(3)
 }
 
 model ItemVariant {
@@ -239,8 +242,8 @@ model WishlistItem {
     customer   Profile      @relation(fields: [customerId], references: [id])
     customerId String       @db.Uuid
 
-    createdAt DateTime? @default(now()) @db.Timestamptz(3)
-    updatedAt DateTime? @default(now()) @db.Timestamptz(3)
+    createdAt DateTime @default(now()) @db.Timestamptz(3)
+    updatedAt DateTime @default(now()) @db.Timestamptz(3)
 }
 
 model CartItem {
@@ -253,8 +256,8 @@ model CartItem {
     variant    ItemVariant? @relation(fields: [variantId], references: [id])
     variantId  String?      @db.Uuid
 
-    createdAt DateTime? @default(now()) @db.Timestamptz(3)
-    updatedAt DateTime? @default(now()) @db.Timestamptz(3)
+    createdAt DateTime @default(now()) @db.Timestamptz(3)
+    updatedAt DateTime @default(now()) @db.Timestamptz(3)
 }
 
 model Order {
@@ -283,7 +286,7 @@ model Order {
     fulfillments       Fulfillment[]
     logs               OrderLog[]
     createdAt          DateTime           @default(now()) @db.Timestamptz(3)
-    updatedAt          DateTime?          @default(now()) @db.Timestamptz(3)
+    updatedAt          DateTime           @default(now()) @db.Timestamptz(3)
 }
 
 model OrderItem {
@@ -307,7 +310,7 @@ model OrderItem {
     taxInclusive      Boolean?
     taxAmount         Float              @default(0)
     createdAt         DateTime           @default(now()) @db.Timestamptz(3)
-    updatedAt         DateTime?          @default(now()) @db.Timestamptz(3)
+    updatedAt         DateTime           @default(now()) @db.Timestamptz(3)
 }
 
 model OrderLog {
@@ -324,8 +327,8 @@ model Payment {
     order   Order  @relation(fields: [orderId], references: [id])
     orderId String @unique @db.Uuid
 
-    createdAt DateTime  @default(now()) @db.Timestamptz(3)
-    updatedAt DateTime? @default(now()) @db.Timestamptz(3)
+    createdAt DateTime @default(now()) @db.Timestamptz(3)
+    updatedAt DateTime @default(now()) @db.Timestamptz(3)
 
     paymentGateway    String
     paymentGatewayRef String
@@ -355,7 +358,7 @@ model Fulfillment {
     fulfillmentItems    FulfillmentItem[]
     logs                FulfillmentLog[]
     createdAt           DateTime          @default(now()) @db.Timestamptz(3)
-    updatedAt           DateTime?         @default(now()) @db.Timestamptz(3)
+    updatedAt           DateTime          @default(now()) @db.Timestamptz(3)
 }
 
 model FulfillmentItem {
@@ -366,7 +369,7 @@ model FulfillmentItem {
     orderItemId   String      @db.Uuid
     quantity      Int         @default(1)
     createdAt     DateTime    @default(now()) @db.Timestamptz(3)
-    updatedAt     DateTime?   @default(now()) @db.Timestamptz(3)
+    updatedAt     DateTime    @default(now()) @db.Timestamptz(3)
 }
 
 model FulfillmentLog {
@@ -381,13 +384,13 @@ model FulfillmentLog {
 }
 
 model Coupon {
-    id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     coupon      String
     description String
-    createdAt   DateTime  @default(now()) @db.Timestamptz(3)
-    updatedAt   DateTime? @default(now()) @db.Timestamptz(3)
-    fromDate    DateTime  @db.Timestamptz(3)
-    toDate      DateTime  @db.Timestamptz(3)
+    createdAt   DateTime @default(now()) @db.Timestamptz(3)
+    updatedAt   DateTime @default(now()) @db.Timestamptz(3)
+    fromDate    DateTime @db.Timestamptz(3)
+    toDate      DateTime @db.Timestamptz(3)
     enabled     Boolean
 
     // This will be switched with a CRON job running every 15min.
@@ -402,13 +405,13 @@ model Coupon {
 }
 
 model Tax {
-    id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     title       String
     rate        Float
     description String?
-    enabled     Boolean   @default(true)
-    createdAt   DateTime  @default(now()) @db.Timestamptz(3)
-    updatedAt   DateTime? @default(now()) @db.Timestamptz(3)
+    enabled     Boolean  @default(true)
+    createdAt   DateTime @default(now()) @db.Timestamptz(3)
+    updatedAt   DateTime @default(now()) @db.Timestamptz(3)
 }
 
 model ContactUs {
