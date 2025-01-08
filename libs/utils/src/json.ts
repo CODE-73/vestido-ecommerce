@@ -5,3 +5,7 @@ export function safeParseJSON<T>(json: string): T | null {
     return null;
   }
 }
+
+export function ensureSerializable<T>(value: T): T {
+  return JSON.parse(JSON.stringify(value));
+}
