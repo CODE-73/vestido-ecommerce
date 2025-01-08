@@ -81,7 +81,6 @@ export const SizeSelectorDialog: React.FC<SizeSelectorDialogProps> = ({
       setSelectedVariantId(_v.id);
     }
   };
-  console.info('Selected Variant ID:', selectedVariantId, selectedVariant);
 
   const attributeMap: {
     [key: string]: {

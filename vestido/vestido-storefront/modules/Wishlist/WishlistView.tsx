@@ -11,6 +11,8 @@ const WishlistView: React.FC = () => {
   const { data: { data: wishlistItems } = { data: [] }, isLoading } =
     useWishlist();
 
+  // const isLoading = true;
+
   const removeItem = (itemId: string) => {
     return wishlistItems.find((x) => x.itemId === itemId);
   };
