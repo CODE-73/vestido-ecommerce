@@ -134,7 +134,7 @@ model Profile {
     ContactUs       ContactUs[]
     orders          Order[]
     CustomerAddress CustomerAddress[]
-    BankDetails     BankDetails[]
+    bankDetails     BankDetails[]
 }
 
 model Item {
@@ -295,6 +295,7 @@ model Order {
     logs               OrderLog[]
     createdAt          DateTime           @default(now()) @db.Timestamptz(3)
     updatedAt          DateTime           @default(now()) @db.Timestamptz(3)
+    returns            Return[]
 }
 
 model OrderItem {
@@ -322,7 +323,7 @@ model OrderItem {
     createdAt         DateTime           @default(now()) @db.Timestamptz(3)
     updatedAt         DateTime           @default(now()) @db.Timestamptz(3)
     returns           Return[]
-    ReturnItem        ReturnItem[]
+    returnItems       ReturnItem[]
 }
 
 model OrderLog {
@@ -402,6 +403,8 @@ model Return {
     return_no     BigInt        @default(autoincrement())
     fulfillment   Fulfillment   @relation(fields: [fulfillmentId], references: [id])
     fulfillmentId String        @db.Uuid
+    order         Order         @relation(fields: [orderId], references: [id])
+    orderId       String        @db.Uuid
     shipmentId    String?
     reason        String
     status        ReturnStatus  @default(AWAITING_PICKUP)
@@ -411,7 +414,7 @@ model Return {
     updatedAt     DateTime      @default(now()) @db.Timestamptz(3)
     OrderItem     OrderItem?    @relation(fields: [orderItemId], references: [id])
     orderItemId   String?       @db.Uuid
-    ReturnLogs    ReturnLog[]
+    returnLogs    ReturnLog[]
     bankDetails   BankDetails[]
 }
 
@@ -419,7 +422,7 @@ model ReturnItem {
     id          String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     orderItem   OrderItem @relation(fields: [orderItemId], references: [id])
     orderItemId String    @db.Uuid
-    Qty         Int
+    qty         Int
     createdAt   DateTime  @default(now()) @db.Timestamptz(3)
     updatedAt   DateTime  @default(now()) @db.Timestamptz(3)
 }
@@ -434,15 +437,15 @@ model ReturnLog {
 }
 
 model BankDetails {
-    id            String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    customer      Profile @relation(fields: [customerId], references: [id])
-    customerId    String  @db.Uuid
-    return        Return  @relation(fields: [returnId], references: [id])
-    returnId      String  @db.Uuid
-    accountNumber String
-    IFSC_Code     String
-    ReceiverName  String?
-    mobile        String
+    id                String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    customer          Profile @relation(fields: [customerId], references: [id])
+    customerId        String  @db.Uuid
+    return            Return  @relation(fields: [returnId], references: [id])
+    returnId          String  @db.Uuid
+    accountNumber     String
+    ifscCode          String
+    accountHolderName String?
+    mobile            String?
 }
 
 model Coupon {
