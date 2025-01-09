@@ -50,6 +50,7 @@ export const StorefrontHomeDataSchema = z.object({
     .array(
       z.object({
         text_content: z.string().nullish(),
+        href: z.string().nullish(),
       }),
     )
     .nullish(),

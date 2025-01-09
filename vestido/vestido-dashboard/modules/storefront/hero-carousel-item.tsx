@@ -177,6 +177,11 @@ const HeroCarouselItem: React.FC<HeroCarouselItemProps> = ({ index, form }) => {
             className="h-16 w-1/2 bg-black rounded-none text-white placeholder:text-white font-semibold"
             placeholder="DISCOVER NOW!"
           />
+          <InputElement
+            name={`hero_carousel.${index}.href`}
+            placeholder="Button Link"
+            className={`w-1/2 ${isHovered ? '' : 'invisible'}`}
+          />
         </div>
       </div>
     </div>
