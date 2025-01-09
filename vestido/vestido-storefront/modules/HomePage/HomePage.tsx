@@ -6,7 +6,7 @@ import { LuChevronUp } from 'react-icons/lu';
 import { ListItemResponse } from '@vestido-ecommerce/items/client';
 
 import useIsMobile from '../../hooks/useIsMobile';
-import { CategoryCards } from './CategorySection/CategoryCards';
+import { CircleLinks } from './CircleLinks/CircleLinks';
 import { HorizontalScrollCards } from './HorizontalScroll/HorizontalScrollCards';
 import { PopularCollection } from './Popular/PopularCollection';
 import { PrimaryCarousel } from './PrimaryCarousel/PrimaryCarousel';
@@ -57,7 +57,7 @@ const HomePage: React.FC<HomePageProps> = ({ items }) => {
         <AddOnHeader />
       </div> */}
       <div className="flex flex-col lg:flex-col-reverse justify-center lg:mx-4">
-        <CategoryCards /> <PrimaryCarousel />
+        <CircleLinks /> <PrimaryCarousel />
       </div>
       <TopProducts
         items={items}

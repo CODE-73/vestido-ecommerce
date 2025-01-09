@@ -1,9 +1,9 @@
 import { useFormContext } from 'react-hook-form';
 
-import CategoryCard from './category-card';
+import CircleLink from './circle-link';
 import { StorefrontHomeDataSchemaForm } from './home-integration';
 
-const CategoryCardsUploader: React.FC = () => {
+const CircleLinksUploader: React.FC = () => {
   const form = useFormContext<StorefrontHomeDataSchemaForm>();
 
   return (
@@ -16,7 +16,7 @@ const CategoryCardsUploader: React.FC = () => {
               key={index}
               className="cursor-pointer group basis-1/4 lg:basis-48 text-center  text-[#333333]"
             >
-              <CategoryCard index={index} form={form} />
+              <CircleLink index={index} form={form} />
             </div>
           ))}
       </div>
@@ -24,4 +24,4 @@ const CategoryCardsUploader: React.FC = () => {
   );
 };
 
-export default CategoryCardsUploader;
+export default CircleLinksUploader;

@@ -2,17 +2,17 @@ import { FC } from 'react';
 
 import { useVestidoHomeData } from '@vestido-ecommerce/settings/client';
 
-import CategoryCard from './CategoryCard';
+import CircleLink from './CircleLink';
 
-export const CategoryCards: FC = () => {
+export const CircleLinks: FC = () => {
   const home_data = useVestidoHomeData();
-  const category_cards = home_data?.hero_categories;
+  const circle_links = home_data?.circle_links;
 
   return (
     <div className="w-full lg:w-auto overflow-x-auto no-scrollbar sm:pt-4 sm:pb-5 lg:pb-auto lg:pt-10">
       <div className="flex space-x-4 lg:space-x-2 px-4 lg:justify-center">
-        {category_cards?.map((card, index) => (
-          <CategoryCard key={index} category_card={card} />
+        {circle_links?.map((card, index) => (
+          <CircleLink key={index} data={card} />
         ))}
       </div>
     </div>
