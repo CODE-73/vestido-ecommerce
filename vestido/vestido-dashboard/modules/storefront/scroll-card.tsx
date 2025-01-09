@@ -9,8 +9,8 @@ import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import { FileUploadElement } from '../../components/FileUpload';
+import { InputElement } from '../../forms/input-element';
 import { StorefrontHomeDataSchemaForm } from './home-integration';
-// import { InputElement } from '../../forms/input-element';
 
 type props = {
   index: number;
@@ -63,15 +63,22 @@ const ScrollCardImageUploader: React.FC<props> = ({ index, form }) => {
                 className="object-cover"
               />{' '}
               {isHovered && (
-                <Button
-                  className="absolute top-3 right-3 "
-                  type="button"
-                  size="icon"
-                  variant="destructive"
-                  onClick={() => handleDeleteImage()}
-                >
-                  <LuTrash />
-                </Button>
+                <>
+                  <Button
+                    className="absolute top-3 right-3 "
+                    type="button"
+                    size="icon"
+                    variant="destructive"
+                    onClick={() => handleDeleteImage()}
+                  >
+                    <LuTrash />
+                  </Button>
+                  <InputElement
+                    name={`horizontal_scroll_cards.${index}.href`}
+                    placeholder="Card Link"
+                    className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-3/5"
+                  />
+                </>
               )}
             </>
           ) : (

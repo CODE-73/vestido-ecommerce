@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Link from 'next/link';
 
 import Autoplay from 'embla-carousel-autoplay';
 
@@ -33,9 +34,11 @@ const SubHeader = () => {
           {navbar_carousel?.map((message, index) => (
             <div key={index} className="flex-shrink-0 w-full">
               <CarouselItem>
-                <div className="flex justify-center">
-                  <div>{message.text_content}</div>
-                </div>
+                <Link href={`/${message.href}`}>
+                  <div className="flex justify-center">
+                    <div>{message.text_content}</div>
+                  </div>
+                </Link>
               </CarouselItem>
             </div>
           ))}

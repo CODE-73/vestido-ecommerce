@@ -14,7 +14,7 @@ import PrimaryCarouselItem from './PrimaryCarouselItem';
 
 export const PrimaryCarousel: React.FC = () => {
   const plugin = React.useRef(
-    Autoplay({ delay: 4000, stopOnInteraction: false, stopOnMouseEnter: true }),
+    Autoplay({ delay: 7000, stopOnInteraction: false, stopOnMouseEnter: true }),
   );
 
   const home_data = useVestidoHomeData();
