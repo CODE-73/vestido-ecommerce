@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 import { z } from 'zod';
 
@@ -50,9 +51,9 @@ const PrimaryCarouselItem: React.FC<PrimaryCarouselItemProps> = ({ data }) => {
           >
             {data.text_content.line3}
           </div>
-          <div>
+          <Link href={`/${data.href}`}>
             <DiscoverButton buttonText={data.button_text ?? 'discover now!'} />
-          </div>
+          </Link>
         </div>
 
         <Image
