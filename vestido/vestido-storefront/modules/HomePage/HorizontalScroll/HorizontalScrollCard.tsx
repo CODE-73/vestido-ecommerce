@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import Link from 'next/link';
 
 import { useMediaQuery } from '@react-hook/media-query';
 import { z } from 'zod';
@@ -55,25 +54,25 @@ const cardContent = (
         <div
           className="w-full uppercase truncate text-clip
          font-bold pt-6"
-          >
-            {data.text_content.line1}
-          </div>
+        >
+          {data.text_content.line1}
+        </div>
 
-          <h4 className="hidden md:block capitalize text-4xl group-hover:underline group-hover:underline-offset-4 leading-normal main-title ">
-            {data.text_content.line2}
-          </h4>
+        <h4 className="hidden md:block capitalize text-4xl group-hover:underline group-hover:underline-offset-4 leading-normal main-title ">
+          {data.text_content.line2}
+        </h4>
 
-          <div
-            className="font-extralight w-full text-sm md:text-base text-ellipsis"
-            style={{
-              display: '-webkit-box',
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: 'vertical',
-              whiteSpace: 'normal',
-            }}
-          >
-            {data.text_content.line3}
-          </div>
+        <div
+          className="font-extralight w-full text-sm md:text-base text-ellipsis"
+          style={{
+            display: '-webkit-box',
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical',
+            whiteSpace: 'normal',
+          }}
+        >
+          {data.text_content.line3}
+        </div>
 
         <div className="sm:hidden group-hover:block mx-1">
           {SmallMobile ? (
