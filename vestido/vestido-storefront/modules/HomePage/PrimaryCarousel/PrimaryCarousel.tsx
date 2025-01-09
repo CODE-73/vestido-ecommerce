@@ -14,7 +14,7 @@ import PrimaryCarouselItem from './PrimaryCarouselItem';
 
 export const PrimaryCarousel: React.FC = () => {
   const plugin = React.useRef(
-    Autoplay({ delay: 4000, stopOnInteraction: false, stopOnMouseEnter: true }),
+    Autoplay({ delay: 7000, stopOnInteraction: false, stopOnMouseEnter: true }),
   );
 
   const home_data = useVestidoHomeData();
@@ -27,6 +27,9 @@ export const PrimaryCarousel: React.FC = () => {
         className=" pr-0 relative bg-black"
         onMouseEnter={plugin.current.stop}
         onMouseLeave={plugin.current.reset}
+        opts={{
+          loop: true,
+        }}
       >
         <CarouselContent className="h-64 sm:h-auto">
           {hero_carousel?.map((slide, index) => (

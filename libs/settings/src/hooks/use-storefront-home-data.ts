@@ -10,18 +10,21 @@ import { useSettings } from '../swr';
 export const HeroCarouselSchema = z.object({
   image: ImageSchema,
   text_color: z.string().default('black'),
-  text_position: z.string().default('left'),
+  horizontal_position: z.string().default('left'),
+  vertical_position: z.string().default('middle'),
   text_content: z.object({
     line1: z.string(),
     line2: z.string().nullish(),
     line3: z.string().nullish(),
   }),
   button_text: z.string().nullish(),
+  href: z.string().nullish(),
 });
 
-export const HeroCategorySchema = z.object({
+export const CircleLinksSchema = z.object({
   image: ImageSchema,
-  categoryId: z.string().nullish(),
+  text_content: z.string().nullish(),
+  href: z.string().nullish(),
 });
 
 export const ScrollCardSchema = z.object({
@@ -32,12 +35,14 @@ export const ScrollCardSchema = z.object({
     line3: z.string().nullish(),
   }),
   button_text: z.string().nullish(),
+  href: z.string().nullish(),
 });
 
 export const CollageSchema = z.object({
   image: ImageSchema,
   text_content: z.string(),
   text_color: z.string().nullish().default('black'),
+  href: z.string().nullish(),
 });
 
 export const StorefrontHomeDataSchema = z.object({
@@ -45,11 +50,12 @@ export const StorefrontHomeDataSchema = z.object({
     .array(
       z.object({
         text_content: z.string().nullish(),
+        href: z.string().nullish(),
       }),
     )
     .nullish(),
   hero_carousel: z.array(HeroCarouselSchema),
-  hero_categories: z.array(HeroCategorySchema),
+  circle_links: z.array(CircleLinksSchema),
   horizontal_scroll_cards: z.array(ScrollCardSchema),
   collage: z.array(CollageSchema),
 });

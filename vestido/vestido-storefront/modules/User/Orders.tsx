@@ -5,7 +5,6 @@ import OrderInOrderList, { OrderinOrderlistSkeleton } from './order';
 const OrdersView: React.FC = () => {
   const { data, isLoading } = useOrders();
   const orders = data?.data;
-  console.log(isLoading, 'isloading');
 
   return (
     <div className="bg-black">
