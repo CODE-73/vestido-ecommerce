@@ -69,7 +69,7 @@ export async function handleShiprocketWebhook(data: shiprocketWebhookRequest) {
             status: 'OUT_FOR_DELIVERY',
           }),
           ...(data.current_status === 'DELIVERED' && { status: 'DELIVERED' }),
-          //...(data.delivered_date && {deliveredDate: data.delivered_date})
+          ...(data.delivered_date && { deliveredDate: data.delivered_date }),
         },
       });
 

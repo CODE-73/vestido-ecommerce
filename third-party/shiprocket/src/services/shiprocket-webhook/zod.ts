@@ -30,6 +30,7 @@ export const shiprocketWebhookSchema = z.object({
   pod_status: z.string(), // POD status: "OTP Based Delivery"
   pod: z.string().nullable(), // Proof of delivery: "Not Available"
   token: z.string(),
+  delivered_date: z.string().nullable(),
 });
 
 export type shiprocketWebhookSchemaType = z.infer<
