@@ -4,9 +4,7 @@ import Link from 'next/link';
 import { z } from 'zod';
 
 import { CollageSchema } from '@vestido-ecommerce/settings/client';
-
 type CollageItemData = z.infer<typeof CollageSchema>;
-
 interface PopularCollectionCardProps {
   data: CollageItemData;
   mainImage?: boolean;
@@ -16,10 +14,13 @@ const PopularCollectionCard: React.FC<PopularCollectionCardProps> = ({
   mainImage,
 }) => {
   return (
-    <Link href={`/${data.href}`}>
-      <div
-        className={`group relative overflow-hidden ${mainImage ? 'col-span-2 row-span-2' : ''} w-full`}
-        style={{ height: mainImage ? '85vh' : '42vh' }}
+    <div
+      className={`group relative overflow-hidden ${mainImage ? 'col-span-2 row-span-2' : ''} w-full`}
+      style={{ height: mainImage ? '85vh' : '42vh' }}
+    >
+      <Link
+        href={`/${data.href}`}
+        className={`${data.href ? '' : 'pointer-events-none'}`}
       >
         <div className="hover:scale-110 transition duration-500 cursor-pointer w-full h-full">
           <Image
@@ -40,8 +41,8 @@ const PopularCollectionCard: React.FC<PopularCollectionCardProps> = ({
             {data.text_content}
           </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 };
 

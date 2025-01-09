@@ -9,9 +9,7 @@ import { CarouselItem } from '@vestido-ecommerce/shadcn-ui/carousel';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import { DiscoverButton } from '../Buttons/DiscoverButton';
-
 type ScrollCardData = z.infer<typeof ScrollCardSchema>;
-
 interface ScrollCardProps {
   data: ScrollCardData;
 }
@@ -21,7 +19,10 @@ const HorizontalScrollCard: React.FC<ScrollCardProps> = ({ data }) => {
   const image = data.image as ImageSchemaType;
   return (
     <CarouselItem className="group basis-1/2 lg:basis-1/3 flex-shrink-0 text-center transition duration-700 ease-in-out md:hover:-translate-y-16 text-white">
-      <Link href={`/${data.href}`}>
+      <Link
+        href={`/${data.href}`}
+        className={`${data.href ? '' : 'pointer-events-none'}`}
+      >
         <div className="flex flex-col">
           <div className="relative w-full h-0 pb-[50%]">
             <Image
@@ -43,7 +44,7 @@ const HorizontalScrollCard: React.FC<ScrollCardProps> = ({ data }) => {
             {data.text_content.line1}
           </div>
 
-          <h4 className="hidden md:block capitalize text-4xl group-hover:underline group-hover:underline-offset-4 leading-normal main-title ">
+          <h4 className="hidden md:block capitalize text-4xl leading-normal main-title ">
             {data.text_content.line2}
           </h4>
 
