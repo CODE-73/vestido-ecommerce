@@ -16,7 +16,7 @@ import { Form } from '@vestido-ecommerce/shadcn-ui/form';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { VestidoError } from '@vestido-ecommerce/utils';
 
-import CategoryCardsUploader from './category-cards-uploader';
+import CircleLinksUploader from './circles-links-uploader';
 import PrimaryCarouselUploader from './hero-carousel-uploader';
 import NavbarCarouselUploader from './navbar-carousel';
 import PopularCollectionintegration from './popular-collection';
@@ -87,7 +87,7 @@ const StorefrontHomeIntegration: React.FC = () => {
           </div>
           <NavbarCarouselUploader />
           <PrimaryCarouselUploader />
-          <CategoryCardsUploader />
+          <CircleLinksUploader />
           <HorizontalScrollCardsUploader />
           <PopularCollectionintegration />
         </form>
