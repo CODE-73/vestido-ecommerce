@@ -14,26 +14,34 @@ interface CircleLinkProps {
 const CircleLink: React.FC<CircleLinkProps> = ({ data }) => {
   return (
     <div className="group basis-1/4 lg:basis-48 text-center transition duration-700 ease-in-out md:hover:-translate-y-5 text-[#333333]">
-      <Link href={`/${data.href}`}>
-        <div className="flex flex-col items-center mb-5 md:mb-auto">
-          <div className="relative w-16 h-16 md:w-32 md:h-32 overflow-hidden rounded-full">
-            <Image
-              src={data.image.url ?? ''}
-              alt="alt text"
-              placeholder={data.image.blurHashDataURL ? 'blur' : undefined}
-              blurDataURL={data.image.blurHashDataURL ?? undefined}
-              sizes="(max-width: 640px) 50vw"
-              fill
-            />
-          </div>
-
-          <div className="pt-2 capitalize text-center text-xs md:text-base group-hover:underline group-hover:underline-offset-4 leading-normal text-white group-hover:text-[#48CAB2] ">
-            {data.text_content}
-          </div>
-        </div>
-      </Link>
+      {data.href ? (
+        <Link href={`/${data.href}`}>{content(data)}</Link>
+      ) : (
+        <div>{content(data)}</div>
+      )}
     </div>
   );
 };
 
 export default CircleLink;
+
+const content = (data: CircleLinkData): JSX.Element => {
+  return (
+    <div className="flex flex-col items-center mb-5 md:mb-auto">
+      <div className="relative w-16 h-16 md:w-32 md:h-32 overflow-hidden rounded-full">
+        <Image
+          src={data.image.url ?? ''}
+          alt="alt text"
+          placeholder={data.image.blurHashDataURL ? 'blur' : undefined}
+          blurDataURL={data.image.blurHashDataURL ?? undefined}
+          sizes="(max-width: 640px) 50vw"
+          fill
+        />
+      </div>
+
+      <div className="pt-2 capitalize text-center text-xs md:text-base group-hover:underline group-hover:underline-offset-4 leading-normal text-white group-hover:text-[#48CAB2] ">
+        {data.text_content}
+      </div>
+    </div>
+  );
+};

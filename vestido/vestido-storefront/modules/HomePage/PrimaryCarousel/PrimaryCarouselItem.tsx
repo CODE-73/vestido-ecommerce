@@ -51,9 +51,16 @@ const PrimaryCarouselItem: React.FC<PrimaryCarouselItemProps> = ({ data }) => {
           >
             {data.text_content.line3}
           </div>
-          <Link href={`/${data.href}`}>
+
+          {data.href ? (
+            <Link href={`/${data.href}`}>
+              <DiscoverButton
+                buttonText={data.button_text ?? 'discover now!'}
+              />
+            </Link>
+          ) : (
             <DiscoverButton buttonText={data.button_text ?? 'discover now!'} />
-          </Link>
+          )}
         </div>
 
         <Image
