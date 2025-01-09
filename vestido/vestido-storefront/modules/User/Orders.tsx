@@ -6,8 +6,6 @@ const OrdersView: React.FC = () => {
   const { data, isLoading } = useOrders();
   const orders = data?.data;
 
-  console.log(isLoading, 'isloading');
-
   return (
     <div className="bg-black">
       <h5 className="font-light text-xl my-4 hidden md:block">All Orders</h5>
