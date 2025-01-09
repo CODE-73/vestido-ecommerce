@@ -29,6 +29,9 @@ export async function listOrder(customerId: string) {
         },
       },
     },
+    orderBy: {
+      createdAt: 'desc',
+    },
   });
 
   const images = orderList.flatMap((order) =>
