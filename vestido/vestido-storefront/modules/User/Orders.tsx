@@ -6,10 +6,6 @@ const OrdersView: React.FC = () => {
   const { data, isLoading } = useOrders();
   const orders = data?.data;
 
-  const sortedOrders = orders?.sort(
-    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-  );
-
   console.log(isLoading, 'isloading');
 
   return (
@@ -20,7 +16,7 @@ const OrdersView: React.FC = () => {
           ? Array(3)
               .fill(0)
               .map((_, index) => <OrderinOrderlistSkeleton key={index} />)
-          : sortedOrders?.map((order, index) => {
+          : orders?.map((order, index) => {
               return <OrderInOrderList key={index} order={order} />;
             })}
       </div>
