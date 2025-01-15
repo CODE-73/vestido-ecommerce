@@ -48,23 +48,44 @@ export async function handleShiprocketWebhook(data: shiprocketWebhookRequest) {
     return null;
   }
 
-  await prisma.$transaction(async (prisma) => {
-    await prisma.fulfillmentLog.create({
-      data: {
-        fullfillmentId: fulfillment.id,
-        logType: 'SHIPROCKET_WEBHOOK',
-        rawData: data,
-      },
-    });
+  if (!data.is_return) {
+    await prisma.$transaction(async (prisma) => {
+      await prisma.fulfillmentLog.create({
+        data: {
+          fullfillmentId: fulfillment.id,
+          logType: 'SHIPROCKET_WEBHOOK_FULFILLMENT',
+          rawData: data,
+        },
+      });
 
-    const fulfillmentDetails = await prisma.fulfillment.updateMany({
-      where: {
-        shiprocket_order_id: String(data.sr_order_id),
-      },
-      data: {
-        tracking: data.awb,
-      },
+      const fulfillmentDetails = await prisma.fulfillment.updateMany({
+        where: {
+          shiprocket_order_id: String(data.sr_order_id),
+        },
+        data: {
+          tracking: data.awb,
+          ...(data.current_status === 'IN TRANSIT' && { status: 'IN_TRANSIT' }),
+          ...(data.current_status === 'OUT FOR DELIVERY' && {
+            status: 'OUT_FOR_DELIVERY',
+          }),
+          ...(data.current_status === 'DELIVERED' && { status: 'DELIVERED' }),
+          ...(data.delivered_date && { deliveredDate: data.delivered_date }),
+        },
+      });
+
+      return fulfillmentDetails;
     });
-    return fulfillmentDetails;
-  });
+  }
+
+  if (data.is_return) {
+    await prisma.$transaction(async (prisma) => {
+      await prisma.fulfillmentLog.create({
+        data: {
+          fullfillmentId: fulfillment.id,
+          logType: 'SHIPROCKET_WEBHOOK_RETURN',
+          rawData: data,
+        },
+      });
+    });
+  }
 }
