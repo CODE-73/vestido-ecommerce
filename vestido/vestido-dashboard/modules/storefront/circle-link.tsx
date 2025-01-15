@@ -95,7 +95,7 @@ const CircleLink: React.FC<CircleLinkProps> = ({ index, form }) => {
       {isHovered && (
         <InputElement
           placeholder="Link"
-          name={`circle_links.${index}.text_link`}
+          name={`circle_links.${index}.href`}
         ></InputElement>
       )}
     </div>
