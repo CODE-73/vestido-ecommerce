@@ -1,8 +1,16 @@
 import { z } from 'zod';
 
+export const ReturnPackageSchema = z.object({
+  length: z.number().min(0.5, { message: 'Length must be greater than 0.5' }),
+  breadth: z.number().min(0.5, { message: 'Breadth must be greater than 0.5' }),
+  height: z.number().min(0.5, { message: 'Height must be greater than 0.5' }),
+  weight: z.number().min(0.1, { message: 'Weight must be greater than 0' }),
+});
+
 export const ReturnItemSchema = z.object({
   orderItemId: z.string().uuid(),
   quantity: z.number().int(),
+  FulfillmentItemPrice: z.number().positive(),
 });
 
 const indianMobileRegex = /^[6-9]\d{9}$/;

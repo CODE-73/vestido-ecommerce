@@ -322,7 +322,6 @@ model OrderItem {
     replacedQty       Int?
     createdAt         DateTime           @default(now()) @db.Timestamptz(3)
     updatedAt         DateTime           @default(now()) @db.Timestamptz(3)
-    returns           Return[]
     returnItems       ReturnItem[]
 }
 
@@ -409,12 +408,11 @@ model Return {
     shipmentId    String?
     reason        String
     status        ReturnStatus  @default(AWAITING_PICKUP)
-    refundAmount  String
+    refundAmount  Float
     refundStatus  RefundStatus  @default(PENDING)
     createdAt     DateTime      @default(now()) @db.Timestamptz(3)
     updatedAt     DateTime      @default(now()) @db.Timestamptz(3)
-    OrderItem     OrderItem?    @relation(fields: [orderItemId], references: [id])
-    orderItemId   String?       @db.Uuid
+    returnItems   ReturnItem[]
     returnLogs    ReturnLog[]
     bankDetails   BankDetails[]
 }
@@ -426,6 +424,8 @@ model ReturnItem {
     qty         Int
     createdAt   DateTime  @default(now()) @db.Timestamptz(3)
     updatedAt   DateTime  @default(now()) @db.Timestamptz(3)
+    Return      Return?   @relation(fields: [returnId], references: [id])
+    returnId    String?   @db.Uuid
 }
 
 model ReturnLog {

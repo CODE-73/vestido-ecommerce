@@ -18,7 +18,7 @@ export const POST = apiRouteHandler(
       });
     }
     const body = await request.json();
-    await returnOrder({ ...body });
-    return true;
+    const returnOrderDetails = await returnOrder({ ...body });
+    return returnOrderDetails;
   },
 );
