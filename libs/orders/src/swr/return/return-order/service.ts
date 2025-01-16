@@ -8,14 +8,17 @@ export async function returnOrder(
   args: ReturnOrderRequest,
   authHeaders: Record<string, string>,
 ): Promise<ReturnOrderSWRResponse> {
-  const r = await fetch(`/api/orders/${args.orderId}/return`, {
-    method: 'POST',
-    headers: {
-      ...authHeaders,
-      'Content-Type': 'application/json',
+  const r = await fetch(
+    `/api/orders/${encodeURIComponent(args.orderId)}/return`,
+    {
+      method: 'POST',
+      headers: {
+        ...authHeaders,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(args),
     },
-    body: JSON.stringify(args),
-  });
+  );
 
   if (!r.ok) {
     await handleVestidoErrorResponse(r);

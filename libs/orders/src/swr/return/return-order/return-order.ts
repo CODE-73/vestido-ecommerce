@@ -10,7 +10,7 @@ import {
 import { useClearCacheOnSuccess } from '@vestido-ecommerce/utils';
 import { returnOrder } from './service';
 
-export const useReturnOrder = () => {
+export const useCreateReturnOrder = () => {
   const { isAuthenticated, authHeaders } = useAuth();
   const key = isAuthenticated
     ? [ReturnSWRKeys.INITIATE, ReturnSWRKeys.RETURN]
