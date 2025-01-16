@@ -18,7 +18,7 @@ const Profile: React.FC = () => {
       </div>
       <hr className="border-gray-600 " />
       {isEditing ? (
-        <EditProfileForm />
+        <EditProfileForm setIsEditing={setIsEditing} />
       ) : (
         <>
           <div className="flex gap-3 my-4 ">
