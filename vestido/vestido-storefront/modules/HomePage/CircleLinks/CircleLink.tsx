@@ -13,7 +13,7 @@ const CircleLink: React.FC<CircleLinkProps> = ({ data }) => {
     <div className="group basis-1/4 lg:basis-48 text-center transition duration-700 ease-in-out md:hover:-translate-y-5 text-[#333333]">
       <Link
         href={`/${data.href}`}
-        className={`${data.href ? '' : 'pointer-events-none'}`}
+        className={`${data.href ? 'cursor-pointer' : 'pointer-events-none'}`}
       >
         <div className="flex flex-col items-center mb-5 md:mb-auto">
           <div className="relative w-16 h-16 md:w-32 md:h-32 overflow-hidden rounded-full">
