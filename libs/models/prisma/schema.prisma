@@ -318,8 +318,8 @@ model OrderItem {
     taxRate           Float?
     taxInclusive      Boolean?
     taxAmount         Float              @default(0)
-    returnedQty       Int?
-    replacedQty       Int?
+    returnedQty       Int                @default(0)
+    replacedQty       Int                @default(0)
     createdAt         DateTime           @default(now()) @db.Timestamptz(3)
     updatedAt         DateTime           @default(now()) @db.Timestamptz(3)
     returnItems       ReturnItem[]
@@ -369,7 +369,7 @@ model Fulfillment {
     description         String?
     fulfillmentItems    FulfillmentItem[]
     logs                FulfillmentLog[]
-    deliveredDate       String?
+    deliveredDate       DateTime          @default(now()) @db.Timestamptz(3)
     createdAt           DateTime          @default(now()) @db.Timestamptz(3)
     updatedAt           DateTime          @default(now()) @db.Timestamptz(3)
     returns             Return[]
@@ -424,8 +424,8 @@ model ReturnItem {
     qty         Int
     createdAt   DateTime  @default(now()) @db.Timestamptz(3)
     updatedAt   DateTime  @default(now()) @db.Timestamptz(3)
-    Return      Return?   @relation(fields: [returnId], references: [id])
-    returnId    String?   @db.Uuid
+    Return      Return    @relation(fields: [returnId], references: [id])
+    returnId    String    @db.Uuid
 }
 
 model ReturnLog {
