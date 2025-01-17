@@ -60,7 +60,10 @@ export async function getReturnableItems(orderId: string) {
 
       return {
         ...fulfillmentItem,
-        returnableQty,
+        orderItem: {
+          ...orderItem,
+          returnableQty,
+        },
       };
     }),
   );
