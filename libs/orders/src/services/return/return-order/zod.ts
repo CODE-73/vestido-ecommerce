@@ -16,6 +16,7 @@ export const ReturnItemSchema = z.object({
 const indianMobileRegex = /^[6-9]\d{9}$/;
 
 export const ReturnOrderSchema = z.object({
+  returnType: z.string(),
   fulfillmentId: z.string().uuid(),
   orderId: z.string().uuid(),
   reason: z.string(),

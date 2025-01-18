@@ -10,6 +10,7 @@ import {
 } from './zod';
 import { getPickupLoc } from '@vestido-ecommerce/orders/client';
 import { createShiprocketReturnOrder } from '@vestido-ecommerce/shiprocket';
+import { createOrder } from '../../orders/create-order';
 
 export async function returnOrder(data: ReturnOrderSchemaType) {
   const prisma = getPrismaClient();
@@ -190,7 +191,63 @@ export async function returnOrder(data: ReturnOrderSchemaType) {
         returnItems: true,
       },
     });
-    return returnOrderDetails;
+
+    // TODO: Refund If Only for Return
+    // if (validatedData.returnType === 'RETURN') {
+    // }
+
+    //Create new order if REFPLACE
+    let updatedReplacedOrder;
+    if (validatedData.returnType === 'REPLACE') {
+      const orderItems = returnOrder.returnItems.map((returnItem) => {
+        const orderItem = returnItem.orderItem;
+
+        return {
+          itemId: orderItem.itemId,
+          price: orderItem.price,
+          qty: returnItem.qty,
+          variantId: orderItem.variantId || null,
+          taxTitle: orderItem.taxTitle || null,
+          taxRate: orderItem.taxRate || 0,
+          taxInclusive: orderItem.taxInclusive || false,
+        };
+      });
+
+      // Define the type for newOrderData
+      const newOrderData: {
+        addressId: string;
+        customerId: string;
+        paymentType: 'CASH_ON_DELIVERY' | 'REPLACEMENT_ORDER' | 'ONLINE';
+        orderItems: {
+          itemId: string;
+          price: number;
+          qty: number;
+          variantId: string | null;
+          taxTitle: string | null;
+          taxRate: number;
+          taxInclusive: boolean;
+        }[];
+      } = {
+        addressId: orderDetails.addressId,
+        customerId: orderDetails.customerId,
+        paymentType: 'REPLACEMENT_ORDER',
+        orderItems: orderItems,
+      };
+
+      const replacedOrder = await createOrder(newOrderData);
+
+      updatedReplacedOrder = await prisma.order.update({
+        where: {
+          id: replacedOrder.order.id,
+        },
+        data: {
+          isReplacement: true,
+          parentOrderId: orderDetails.id,
+          replacementStatus: 'REPLACEMENT_REQUESTED',
+        },
+      });
+    }
+    return { returnOrderDetails, updatedReplacedOrder };
   });
   return result;
 }
