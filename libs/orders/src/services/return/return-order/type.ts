@@ -1,9 +1,9 @@
 import { VestidoResponse } from '@vestido-ecommerce/utils';
 
 import { returnOrder } from './service';
-import { returnOrderSchemaType } from './zod';
+import { ReturnOrderSchemaType } from './zod';
 
-export type ReturnOrderRequest = returnOrderSchemaType;
+export type ReturnOrderRequest = ReturnOrderSchemaType;
 
 export type ReturnOrderResponse = {
   data: Awaited<ReturnType<typeof returnOrder>>;

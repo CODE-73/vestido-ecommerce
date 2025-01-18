@@ -3,19 +3,20 @@ import { VestidoError } from '@vestido-ecommerce/utils';
 
 import { getOrder } from '../../orders/get-order';
 import {
-  returnOrderSchema,
-  returnOrderSchemaType,
+  BankDetailsSchema,
+  ReturnOrderSchema,
+  ReturnOrderSchemaType,
   ReturnPackageSchema,
 } from './zod';
 import { getPickupLoc } from '@vestido-ecommerce/orders/client';
 import { createShiprocketReturnOrder } from '@vestido-ecommerce/shiprocket';
 
-export async function returnOrder(data: returnOrderSchemaType) {
+export async function returnOrder(data: ReturnOrderSchemaType) {
   const prisma = getPrismaClient();
 
   // Start a transaction
   const result = await prisma.$transaction(async (prisma) => {
-    const validatedData = await returnOrderSchema.parse(data);
+    const validatedData = await ReturnOrderSchema.parse(data);
 
     const orderDetails = await getOrder(validatedData.orderId);
     if (!orderDetails) {
@@ -107,6 +108,21 @@ export async function returnOrder(data: returnOrderSchemaType) {
         },
       },
     });
+
+    if (orderDetails.payments[0]?.paymentGateway === 'CASH_ON_DELIVERY') {
+      const validatedBankData = BankDetailsSchema.parse(data);
+
+      await prisma.bankDetails.create({
+        data: {
+          returnId: returnOrder.id,
+          customerId: validatedBankData.customerId,
+          accountHolderName: validatedBankData.bankAccountHolderName,
+          accountNumber: validatedBankData.bankAccountNumber,
+          ifscCode: validatedBankData.bankIfscCode,
+          mobile: validatedBankData.mobile,
+        },
+      });
+    }
 
     console.log('returnOrder: ', returnOrder);
 
