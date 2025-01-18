@@ -35,7 +35,7 @@ const UpdateProfileSchema = z.object({
 export type UpdateProfileForm = z.infer<typeof UpdateProfileSchema>;
 
 type EditProfileFormProps = {
-  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsEditing?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const EditProfileForm: React.FC<EditProfileFormProps> = ({ setIsEditing }) => {
@@ -67,7 +67,9 @@ const EditProfileForm: React.FC<EditProfileFormProps> = ({ setIsEditing }) => {
       toast({
         title: 'Profile Updated Successfully',
       });
-      setIsEditing(false);
+      if (setIsEditing) {
+        setIsEditing(false);
+      }
     } catch (e) {
       console.error('Error updating profilr:', e);
     }
