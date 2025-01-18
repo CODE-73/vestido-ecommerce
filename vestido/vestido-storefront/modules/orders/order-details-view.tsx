@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -15,6 +15,7 @@ import {
 import { formatINR } from '@vestido-ecommerce/utils';
 
 import ItemImage from '../../components/item-image';
+import ReturnReplaceDialog from '../ReturnOrReplace/return-exchange-dialog';
 import CancelOrderDialog from './cancel-order-dialog';
 import ShipmentStatus from './shipment-status';
 
@@ -46,6 +47,13 @@ export const formattedTime = (dateTime: Date) => {
 const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
   const router = useRouter();
   const { data: { data: order } = { data: null } } = useOrder(orderId);
+  const [isCancelledOrder, setIsCancelledOrder] = useState(
+    order?.orderStatus === 'CANCELLED',
+  );
+
+  // const hasDeliveredFulfillments =
+  //   (order?.fulfillments?.filter((x) => x.status === 'DELIVERED').length ?? 0) >
+  //   0;
 
   useEffect(() => {
     // Route to home page if orderId is not provided
@@ -62,9 +70,6 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
     (x) => x.status != 'DRAFT',
   );
   const hasSubmittedFulfillment = (submittedFulfillments?.length ?? 0) > 0;
-
-  const isCancelledOrder = order?.orderStatus === 'CANCELLED';
-
   const cardHeight = '700px';
   return (
     <div
@@ -78,19 +83,32 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
           isCancelledOrder ? 'md:justify-self-center' : 'md:justify-self-end'
         }`}
       >
-        <CardHeader className="flex flex-col items-center gap-2 p-0 lg:p-6">
-          <CardTitle className="text-2xl font-semibold">
-            {isCancelledOrder ? <div>Order Cancelled!</div> : 'Order Details'}
-          </CardTitle>
-          <CardDescription className="text-muted-foreground">
-            <div className="flex gap-1">
-              <div className="text-muted-foreground hidden md:block">Order</div>
-              <div className="font-medium">#{order?.order_no.toString()}</div>
-            </div>
-          </CardDescription>
-        </CardHeader>
+        <div className="flex flex-col md:flex-row md:justify-between gap-2">
+          <CardHeader>
+            <CardTitle className="text-2xl font-semibold text-red-400">
+              {isCancelledOrder ? <div>Order Cancelled!</div> : 'Order Details'}
+            </CardTitle>
+            <CardDescription className="text-muted-foreground">
+              <div className="flex gap-1">
+                <div className="text-muted-foreground hidden md:block">
+                  Order
+                </div>
+                <div className="font-medium">#{order?.order_no.toString()}</div>
+              </div>
+            </CardDescription>
+          </CardHeader>
+          <div className="flex gap-2 p-3 md:pt-6 ">
+            <ReturnReplaceDialog order={order} isReturn>
+              <Button className="basis-1/2">Return Items</Button>
+            </ReturnReplaceDialog>
+            <ReturnReplaceDialog order={order}>
+              <Button className="basis-1/2">Replace Items</Button>
+            </ReturnReplaceDialog>
+          </div>
+        </div>
+
         <CardContent className="grid gap-4 overflow-y-scroll">
-          <div className="text-lg flex flex-col md:flex-row md:divide-x gap-2 md:gap-5 ">
+          <div className="text-sm flex flex-col md:flex-row md:divide-x gap-2 md:gap-5 ">
             <div className="flex  gap-1">
               <div className="text-muted-foreground">Date:</div> &nbsp;
               {order && formattedDate(new Date(order.createdAt))}
@@ -100,7 +118,7 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
               {order && formattedTime(new Date(order.createdAt))}
             </div>
           </div>
-          <div className="text-muted-foreground -mb-2">
+          <div className="text-xs text-muted-foreground -mb-2">
             Products included in this order: <hr className="-mb-2" />
           </div>
 
@@ -127,13 +145,15 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
           </div>
           <hr />
           <div className="grid gap-1">
-            <div className="text-muted-foreground">Total Amount</div>
+            <div className="text-xs text-muted-foreground">Total Amount</div>
             <div className="font-medium">
               {formatINR(order?.grandTotal as number)}
             </div>
           </div>
           <div className="grid gap-1">
-            <div className="text-muted-foreground">Delivery Information</div>
+            <div className="text-xs text-muted-foreground">
+              Delivery Information
+            </div>
             <address className="not-italic">
               <div>
                 {`${order?.shippingAddress.firstName} ${order?.shippingAddress.lastName}`.trim()}
@@ -147,12 +167,15 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
           <Link href="/profile" className="w-full md:w-auto" prefetch={false}>
             <Button className="w-full">Back</Button>
           </Link>
-          {!hasSubmittedFulfillment && order?.orderStatus != 'CANCELLED' && (
+          {!hasSubmittedFulfillment && !isCancelledOrder && (
             <CancelOrderDialog
               orderId={order?.id as string}
               orderNo={order?.order_no}
+              onOrderCancelled={() => setIsCancelledOrder(true)}
             >
-              <Button variant="outline">Cancel Order</Button>
+              <Button className="w-full md:w-auto" variant="outline">
+                Cancel Order
+              </Button>
             </CancelOrderDialog>
           )}
         </CardFooter>

@@ -84,7 +84,7 @@ const OrderConfirmationView: FC<OrderConfirmationProps> = ({ orderId }) => {
   );
 };
 
-function CircleCheckIcon(props: SVGProps<SVGSVGElement>) {
+export function CircleCheckIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
