@@ -50,6 +50,11 @@ enum ReturnStatus {
     REJECTED
 }
 
+enum ReturnType {
+    RETURN
+    REPLACE
+}
+
 enum RefundStatus {
     PENDING
     REFUNDED
@@ -283,6 +288,8 @@ model Order {
     deliveryStatus     DeliveryStatus     @default(UNFULFILLED)
     returnStatus       ReturnStatus?
     replacementStatus  ReplacementStatus?
+    isReplacement      Boolean            @default(false)
+    parentOrderId      String?            @db.Uuid
     description        String?
     orderPaymentStatus OrderPaymentStatus @default(PENDING)
     customer           Profile            @relation(fields: [customerId], references: [id])
@@ -399,22 +406,24 @@ model FulfillmentLog {
 }
 
 model Return {
-    id            String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    return_no     BigInt        @default(autoincrement())
-    fulfillment   Fulfillment   @relation(fields: [fulfillmentId], references: [id])
-    fulfillmentId String        @db.Uuid
-    order         Order         @relation(fields: [orderId], references: [id])
-    orderId       String        @db.Uuid
-    shipmentId    String?
-    reason        String
-    status        ReturnStatus  @default(AWAITING_PICKUP)
-    refundAmount  Float
-    refundStatus  RefundStatus  @default(PENDING)
-    createdAt     DateTime      @default(now()) @db.Timestamptz(3)
-    updatedAt     DateTime      @default(now()) @db.Timestamptz(3)
-    returnItems   ReturnItem[]
-    returnLogs    ReturnLog[]
-    bankDetails   BankDetails[]
+    id                 String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    return_no          BigInt        @default(autoincrement())
+    fulfillment        Fulfillment   @relation(fields: [fulfillmentId], references: [id])
+    fulfillmentId      String        @db.Uuid
+    order              Order         @relation(fields: [orderId], references: [id])
+    orderId            String        @db.Uuid
+    shipmentId         String?
+    reason             String
+    type               ReturnType    @default(RETURN)
+    replacementOrderId String?       @db.Uuid
+    status             ReturnStatus  @default(AWAITING_PICKUP)
+    refundAmount       Float
+    refundStatus       RefundStatus  @default(PENDING)
+    createdAt          DateTime      @default(now()) @db.Timestamptz(3)
+    updatedAt          DateTime      @default(now()) @db.Timestamptz(3)
+    returnItems        ReturnItem[]
+    returnLogs         ReturnLog[]
+    bankDetails        BankDetails[]
 }
 
 model ReturnItem {

@@ -124,8 +124,6 @@ export async function returnOrder(data: ReturnOrderSchemaType) {
       });
     }
 
-    console.log('returnOrder: ', returnOrder);
-
     const validatedMeasurements = ReturnPackageSchema.parse(fulfillmentDetails);
 
     const returnItems = returnOrder.returnItems.map((item) => ({
