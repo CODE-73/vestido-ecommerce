@@ -433,7 +433,7 @@ model ReturnItem {
     qty         Int
     createdAt   DateTime  @default(now()) @db.Timestamptz(3)
     updatedAt   DateTime  @default(now()) @db.Timestamptz(3)
-    Return      Return    @relation(fields: [returnId], references: [id])
+    return      Return    @relation(fields: [returnId], references: [id])
     returnId    String    @db.Uuid
 }
 
