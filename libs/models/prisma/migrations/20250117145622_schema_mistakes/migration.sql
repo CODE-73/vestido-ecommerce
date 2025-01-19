@@ -11,7 +11,13 @@ ALTER TABLE "Fulfillment" DROP COLUMN "deliveredDate",
 ADD COLUMN     "deliveredDate" TIMESTAMPTZ(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;
 
 -- AlterTable
-ALTER TABLE "OrderItem" ALTER COLUMN "replacedQty" SET NOT NULL,
-ALTER COLUMN "replacedQty" SET DEFAULT 0,
-ALTER COLUMN "returnedQty" SET NOT NULL,
-ALTER COLUMN "returnedQty" SET DEFAULT 0;
+ALTER TABLE "OrderItem"
+  ALTER COLUMN "replacedQty" SET DEFAULT 0,
+  ALTER COLUMN "returnedQty" SET DEFAULT 0;
+
+UPDATE "OrderItem" SET "replacedQty" = 0 WHERE "replacedQty" IS NULL;
+UPDATE "OrderItem" SET "returnedQty" = 0 WHERE "returnedQty" IS NULL;
+
+ALTER TABLE "OrderItem"
+  ALTER COLUMN "replacedQty" SET NOT NULL,
+  ALTER COLUMN "returnedQty" SET NOT NULL;
