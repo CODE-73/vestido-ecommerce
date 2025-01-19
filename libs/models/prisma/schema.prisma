@@ -50,6 +50,11 @@ enum ReturnStatus {
     REJECTED
 }
 
+enum ReturnType {
+    RETURN
+    REPLACE
+}
+
 enum RefundStatus {
     PENDING
     REFUNDED
@@ -283,6 +288,8 @@ model Order {
     deliveryStatus     DeliveryStatus     @default(UNFULFILLED)
     returnStatus       ReturnStatus?
     replacementStatus  ReplacementStatus?
+    isReplacement      Boolean            @default(false)
+    parentOrderId      String?            @db.Uuid
     description        String?
     orderPaymentStatus OrderPaymentStatus @default(PENDING)
     customer           Profile            @relation(fields: [customerId], references: [id])
@@ -318,11 +325,10 @@ model OrderItem {
     taxRate           Float?
     taxInclusive      Boolean?
     taxAmount         Float              @default(0)
-    returnedQty       Int?
-    replacedQty       Int?
+    returnedQty       Int                @default(0)
+    replacedQty       Int                @default(0)
     createdAt         DateTime           @default(now()) @db.Timestamptz(3)
     updatedAt         DateTime           @default(now()) @db.Timestamptz(3)
-    returns           Return[]
     returnItems       ReturnItem[]
 }
 
@@ -370,21 +376,22 @@ model Fulfillment {
     description         String?
     fulfillmentItems    FulfillmentItem[]
     logs                FulfillmentLog[]
-    deliveredDate       String?
+    deliveredDate       DateTime          @default(now()) @db.Timestamptz(3)
     createdAt           DateTime          @default(now()) @db.Timestamptz(3)
     updatedAt           DateTime          @default(now()) @db.Timestamptz(3)
     returns             Return[]
 }
 
 model FulfillmentItem {
-    id            String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    fulfillment   Fulfillment @relation(fields: [fulfillmentId], references: [id])
-    fulfillmentId String      @db.Uuid
-    orderItem     OrderItem   @relation(fields: [orderItemId], references: [id])
-    orderItemId   String      @db.Uuid
-    quantity      Int         @default(1)
-    createdAt     DateTime    @default(now()) @db.Timestamptz(3)
-    updatedAt     DateTime    @default(now()) @db.Timestamptz(3)
+    id                   String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    fulfillment          Fulfillment @relation(fields: [fulfillmentId], references: [id])
+    fulfillmentId        String      @db.Uuid
+    orderItem            OrderItem   @relation(fields: [orderItemId], references: [id])
+    orderItemId          String      @db.Uuid
+    quantity             Int         @default(1)
+    fulfillmentItemPrice Float?
+    createdAt            DateTime    @default(now()) @db.Timestamptz(3)
+    updatedAt            DateTime    @default(now()) @db.Timestamptz(3)
 }
 
 model FulfillmentLog {
@@ -399,23 +406,24 @@ model FulfillmentLog {
 }
 
 model Return {
-    id            String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    return_no     BigInt        @default(autoincrement())
-    fulfillment   Fulfillment   @relation(fields: [fulfillmentId], references: [id])
-    fulfillmentId String        @db.Uuid
-    order         Order         @relation(fields: [orderId], references: [id])
-    orderId       String        @db.Uuid
-    shipmentId    String?
-    reason        String
-    status        ReturnStatus  @default(AWAITING_PICKUP)
-    refundAmount  String
-    refundStatus  RefundStatus  @default(PENDING)
-    createdAt     DateTime      @default(now()) @db.Timestamptz(3)
-    updatedAt     DateTime      @default(now()) @db.Timestamptz(3)
-    OrderItem     OrderItem?    @relation(fields: [orderItemId], references: [id])
-    orderItemId   String?       @db.Uuid
-    returnLogs    ReturnLog[]
-    bankDetails   BankDetails[]
+    id                 String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    return_no          BigInt        @default(autoincrement())
+    fulfillment        Fulfillment   @relation(fields: [fulfillmentId], references: [id])
+    fulfillmentId      String        @db.Uuid
+    order              Order         @relation(fields: [orderId], references: [id])
+    orderId            String        @db.Uuid
+    shipmentId         String?
+    reason             String
+    type               ReturnType    @default(RETURN)
+    replacementOrderId String?       @db.Uuid
+    status             ReturnStatus  @default(AWAITING_PICKUP)
+    refundAmount       Float
+    refundStatus       RefundStatus  @default(PENDING)
+    createdAt          DateTime      @default(now()) @db.Timestamptz(3)
+    updatedAt          DateTime      @default(now()) @db.Timestamptz(3)
+    returnItems        ReturnItem[]
+    returnLogs         ReturnLog[]
+    bankDetails        BankDetails[]
 }
 
 model ReturnItem {
@@ -425,6 +433,8 @@ model ReturnItem {
     qty         Int
     createdAt   DateTime  @default(now()) @db.Timestamptz(3)
     updatedAt   DateTime  @default(now()) @db.Timestamptz(3)
+    return      Return    @relation(fields: [returnId], references: [id])
+    returnId    String    @db.Uuid
 }
 
 model ReturnLog {
