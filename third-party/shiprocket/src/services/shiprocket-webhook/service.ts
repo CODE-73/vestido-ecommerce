@@ -1,6 +1,8 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
 import { VestidoError } from '@vestido-ecommerce/utils';
 
+import { refreshOrderStatus } from './../../../../../libs/orders/src/services';
+
 import { shiprocketWebhookRequest } from './types';
 
 const SHIPROCKET_WEBHOOK_TOKEN = process.env[
@@ -64,7 +66,9 @@ export async function handleShiprocketWebhook(data: shiprocketWebhookRequest) {
         },
         data: {
           tracking: data.awb,
-          ...(data.current_status === 'IN TRANSIT' && { status: 'IN_TRANSIT' }),
+          ...((data.current_status === 'IN TRANSIT' || 'PICKED UP') && {
+            status: 'IN_TRANSIT',
+          }),
           ...(data.current_status === 'OUT FOR DELIVERY' && {
             status: 'OUT_FOR_DELIVERY',
           }),
@@ -72,6 +76,12 @@ export async function handleShiprocketWebhook(data: shiprocketWebhookRequest) {
           ...(data.delivered_date && { deliveredDate: data.delivered_date }),
         },
       });
+
+      const refreshOrderData = {
+        id: data.order_id,
+        type: 'fulfillmentStatus',
+      };
+      await refreshOrderStatus(refreshOrderData);
 
       return fulfillmentDetails;
     });
