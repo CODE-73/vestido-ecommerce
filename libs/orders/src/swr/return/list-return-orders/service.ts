@@ -1,10 +1,11 @@
 import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
-import { ListReturnOrderSWRResponse } from 'libs/orders/src/services';
+
+import { ListReturnOrderSWRResponse } from '../../../services';
 
 export async function getReturnOrdersList(
   authHeaders: Record<string, string>,
 ): Promise<ListReturnOrderSWRResponse> {
-  let url = '/api/returns';
+  const url = '/api/returns';
   const r = await fetch(url, {
     headers: {
       ...authHeaders,

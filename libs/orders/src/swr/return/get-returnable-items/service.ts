@@ -1,5 +1,6 @@
 import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
-import { GetReturnableitemsSWRResponse } from 'libs/orders/src/services';
+
+import { GetReturnableitemsSWRResponse } from '../../../services';
 
 export async function getReturnableItems(
   orderId: string,

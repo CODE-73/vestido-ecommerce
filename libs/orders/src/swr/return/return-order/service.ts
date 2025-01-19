@@ -1,8 +1,6 @@
 import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
-import {
-  ReturnOrderRequest,
-  ReturnOrderSWRResponse,
-} from 'libs/orders/src/services';
+
+import { ReturnOrderRequest, ReturnOrderSWRResponse } from '../../../services';
 
 export async function returnOrder(
   args: ReturnOrderRequest,

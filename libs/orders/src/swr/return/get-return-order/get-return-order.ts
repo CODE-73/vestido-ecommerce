@@ -2,9 +2,9 @@ import useSWRImmutable from 'swr/immutable';
 
 import { useAuth } from '@vestido-ecommerce/auth/client';
 
+import { GetReturnOrderSWRResponse } from '../../../services';
 import { ReturnSWRKeys } from '../keys';
 import { getReturnOrderDetails } from './service';
-import { GetReturnOrderSWRResponse } from 'libs/orders/src/services';
 
 export function useReturnOrder(returnId?: string | null) {
   const { authHeaders } = useAuth();

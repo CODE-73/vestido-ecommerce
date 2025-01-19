@@ -2,9 +2,8 @@ import useSWRImmutable from 'swr/immutable';
 
 import { useAuth } from '@vestido-ecommerce/auth/client';
 
+import { ListReturnOrderSWRResponse } from '../../../services';
 import { ReturnSWRKeys } from '../keys';
-
-import { ListReturnOrderSWRResponse } from 'libs/orders/src/services';
 import { getReturnOrdersList } from './service';
 
 export function useReturnOrders() {
