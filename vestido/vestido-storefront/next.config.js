@@ -12,7 +12,6 @@ const R2_NEXT_IMAGE_HOSTNAME = process.env.R2_NEXT_IMAGE_HOSTNAME || '';
  **/
 const nextConfig = {
   experimental: {
-    appDir: true,
     instrumentationHook: true,
   },
   nx: {
