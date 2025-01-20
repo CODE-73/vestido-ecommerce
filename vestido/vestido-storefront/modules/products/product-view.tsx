@@ -150,14 +150,12 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
 
               <div className="flex gap-2">
                 <h1 className="font-extralight">Category:&nbsp;</h1>
-                <h1 className="font-semibold no-underline hover:underline">
-                  {category?.name}
-                </h1>
+                <h1 className="font-semibold no-underline">{category?.name}</h1>
               </div>
 
               <div className="flex gap-2">
                 <h1 className="font-extralight">SKU: </h1>
-                <h1 className="font-semibold no-underline hover:underline text-gray-300">
+                <h1 className="font-semibold no-underline text-gray-300">
                   {item?.variants?.length && item?.variants?.length > 0
                     ? selectedVariant?.sku
                     : item?.sku}
@@ -256,7 +254,9 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
           <div>
             <Accordion className="px-2" type="single" collapsible>
               <AccordionItem value="item-1" className="border-none">
-                <AccordionTrigger>Description</AccordionTrigger>
+                <AccordionTrigger className="hover:no-underline">
+                  Description
+                </AccordionTrigger>
                 <AccordionContent>
                   <Markdown className="prose prose-invert text-white text-sm md:text-base">
                     {item?.description}
