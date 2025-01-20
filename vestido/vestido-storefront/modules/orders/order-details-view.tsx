@@ -85,7 +85,7 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
       >
         <div className="flex flex-col md:flex-row md:justify-between gap-2">
           <CardHeader>
-            <CardTitle className="text-2xl font-semibold text-red-400">
+            <CardTitle className="text-2xl font-semibold">
               {isCancelledOrder ? <div>Order Cancelled!</div> : 'Order Details'}
             </CardTitle>
             <CardDescription className="text-muted-foreground">
@@ -108,6 +108,12 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
         </div>
 
         <CardContent className="grid gap-4 overflow-y-scroll">
+          {order?.orderStatus === 'CONFIRMED' &&
+          order?.deliveryStatus === 'UNFULFILLED' ? (
+            <div className="text-xs font-bold uppercase">Ready to Ship</div>
+          ) : (
+            <div>{order?.orderStatus}</div>
+          )}
           <div className="text-sm flex flex-col md:flex-row md:divide-x gap-2 md:gap-5 ">
             <div className="flex  gap-1">
               <div className="text-muted-foreground">Date:</div> &nbsp;
