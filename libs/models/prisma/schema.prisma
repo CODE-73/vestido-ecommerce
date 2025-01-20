@@ -74,6 +74,7 @@ enum OrderPaymentStatus {
     FAILED
     REFUNDED
     PARTIALLY_REFUNDED
+    CANCELLED
 }
 
 enum FulfillmentStatus {
@@ -344,7 +345,7 @@ model OrderLog {
 model Payment {
     id      String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     order   Order  @relation(fields: [orderId], references: [id])
-    orderId String @unique @db.Uuid
+    orderId String @db.Uuid
 
     createdAt DateTime @default(now()) @db.Timestamptz(3)
     updatedAt DateTime @default(now()) @db.Timestamptz(3)

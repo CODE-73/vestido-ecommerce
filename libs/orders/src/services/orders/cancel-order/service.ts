@@ -104,12 +104,27 @@ export async function cancelOrder(
                 rpRefundId: refundResponse.id,
               }),
               moreDetails: 'RefundPayment',
+              status: 'REFUNDED',
               currency: 'INR',
               amount: refundResponse.amount ? refundResponse.amount / 100 : 0,
               isRefund: true,
             },
           });
         }
+      }
+
+      if (paymentMethod === 'COD') {
+        await prismaTransaction.payment.update({
+          where: {
+            id: validPayments[0].id,
+          },
+          data: {
+            status: 'CANCELLED',
+          },
+          include: {
+            order: true,
+          },
+        });
       }
 
       // Update the order status
