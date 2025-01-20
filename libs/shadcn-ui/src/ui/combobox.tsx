@@ -1,7 +1,7 @@
 'use client';
 import { ComponentProps, FocusEventHandler, useEffect, useState } from 'react';
 
-import { LuCheck, LuChevronsUpDown } from 'react-icons/lu';
+import { LuCheck /* LuChevronsUpDown */ } from 'react-icons/lu';
 
 import { cn } from '../utils';
 import { Button } from './button';
@@ -38,6 +38,7 @@ export interface ComboboxProps {
   fullWidth?: boolean;
   className?: string;
   inputProps?: ComponentProps<typeof CommandInput>;
+  shouldFilter?: boolean;
 }
 
 function Combobox({
@@ -49,6 +50,7 @@ function Combobox({
   onChange,
   onBlur,
   onSearch,
+  shouldFilter = false,
   nullable,
   isLoading: _isLoading,
   multiple,
@@ -95,11 +97,11 @@ function Combobox({
                 placeholder
               : placeholder || 'Select'
           }
-          <LuChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          {/* <LuChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" /> */}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[780px] p-0 font-primary">
-        <Command shouldFilter={false} className="w-full">
+        <Command shouldFilter={shouldFilter} className="w-full">
           <CommandInput
             autoFocus
             onBlur={onBlur}
