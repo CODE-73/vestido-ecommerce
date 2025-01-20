@@ -9,7 +9,7 @@ export async function refundRazorpay(data: RefundRazorpaySchemaType) {
   });
   const validatedData = RefundRazorpaySchema.parse(data);
 
-  const response = razorpay.payments.refund(validatedData.paymentId, {
+  const response = razorpay.payments.refund(validatedData.rpPaymentId, {
     amount: validatedData.amount,
 
     speed: 'normal',

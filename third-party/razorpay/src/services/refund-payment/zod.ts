@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const RefundRazorpaySchema = z.object({
-  paymentId: z.string(),
+  rpPaymentId: z.string(),
   amount: z.coerce.number(),
   receipt: z.string().optional(),
   notes: z.string().optional(),

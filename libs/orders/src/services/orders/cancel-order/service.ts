@@ -51,45 +51,71 @@ export async function cancelOrder(
         firstPayment.paymentGateway === 'CASH_ON_DELIVERY' ? 'COD' : 'Prepaid';
       const isCaptured = firstPayment.status === 'CAPTURED';
 
+      const paymentGatewayRef = JSON.parse(firstPayment.paymentGatewayRef);
+      const rpPaymentId = paymentGatewayRef.rpPaymentId;
+
       let refundResponse;
 
       if (paymentMethod === 'Prepaid' && isCaptured) {
         const refundData = {
-          paymentId: firstPayment.id,
+          rpPaymentId: rpPaymentId,
           amount: order.grandTotal * 100,
         };
 
         refundResponse = await refundRazorpay(refundData);
 
-        if (refundResponse.status === 'failed') {
+        console.log('refundResponse: ', refundResponse);
+
+        if (!refundResponse || refundResponse.status === 'failed') {
           throw new VestidoError({
             name: 'RazorpayRefundFailed',
             message: `Order ${orderId} cannot be cancelled because Razorpay Refund failed`,
           });
         }
-      }
 
-      if (paymentMethod === 'COD' || refundResponse?.status === 'processed') {
-        // Update the order status
-        await prismaTransaction.order.update({
-          where: { id: orderId },
-          data: {
-            orderStatus: 'CANCELLED',
-          },
-        });
+        //TODO: refundResponse.status==='pending'
 
-        // Log the cancellation in the OrderLog table
-        await prismaTransaction.orderLog.create({
-          data: {
-            orderId,
-            logType: 'USER_ORDER_CANCELLATION',
-            rawData: {
-              reason,
-              remarks,
+        if (refundResponse.status === 'processed') {
+          await prismaTransaction.payment.create({
+            data: {
+              order: {
+                connect: {
+                  id: orderId,
+                },
+              },
+              paymentGateway: 'RAZORPAY',
+              paymentGatewayRef: JSON.stringify({
+                rpRefundId: refundResponse.id,
+              }),
+              moreDetails: 'RefundPayment',
+              currency: 'INR',
+              amount: refundResponse.amount ? refundResponse.amount / 100 : 0,
+              isRefund: true,
             },
-          },
-        });
+          });
+        }
       }
+
+      // Update the order status
+      await prismaTransaction.order.update({
+        where: { id: orderId },
+        data: {
+          orderStatus: 'CANCELLED',
+          orderPaymentStatus: 'REFUNDED',
+        },
+      });
+
+      // Log the cancellation in the OrderLog table
+      await prismaTransaction.orderLog.create({
+        data: {
+          orderId,
+          logType: 'USER_ORDER_CANCELLATION',
+          rawData: {
+            reason,
+            remarks,
+          },
+        },
+      });
     });
 
     return true; // Indicate successful cancellation
