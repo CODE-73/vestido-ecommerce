@@ -43,10 +43,26 @@ export async function cancelOrder(
       });
     }
 
+    // Find the payment that are not Refund
+    const validPayments = order.payments.filter(
+      (payment) => payment.isRefund === false,
+    );
+
+    if (!validPayments) {
+      throw new VestidoError({
+        name: 'NotFoundError',
+        message: 'Valid Payment does not exist',
+        httpStatus: 404,
+        context: {
+          orderId: order.id,
+        },
+      });
+    }
+
     // Perform database operations in a transaction
     await prisma.$transaction(async (prismaTransaction) => {
       // Check payment details
-      const firstPayment = order.payments[0];
+      const firstPayment = validPayments[0];
       const paymentMethod =
         firstPayment.paymentGateway === 'CASH_ON_DELIVERY' ? 'COD' : 'Prepaid';
       const isCaptured = firstPayment.status === 'CAPTURED';
