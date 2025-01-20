@@ -67,12 +67,12 @@ export async function cancelOrder(
         firstPayment.paymentGateway === 'CASH_ON_DELIVERY' ? 'COD' : 'Prepaid';
       const isCaptured = firstPayment.status === 'CAPTURED';
 
-      const paymentGatewayRef = JSON.parse(firstPayment.paymentGatewayRef);
-      const rpPaymentId = paymentGatewayRef.rpPaymentId;
-
       let refundResponse;
 
       if (paymentMethod === 'Prepaid' && isCaptured) {
+        const paymentGatewayRef = JSON.parse(firstPayment.paymentGatewayRef);
+        const rpPaymentId = paymentGatewayRef.rpPaymentId;
+
         const refundData = {
           rpPaymentId: rpPaymentId,
           amount: order.grandTotal * 100,
@@ -132,7 +132,7 @@ export async function cancelOrder(
         where: { id: orderId },
         data: {
           orderStatus: 'CANCELLED',
-          orderPaymentStatus: 'REFUNDED',
+          orderPaymentStatus: 'CANCELLED',
         },
       });
 
