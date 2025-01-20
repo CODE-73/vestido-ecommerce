@@ -34,7 +34,10 @@ const SubHeader = () => {
           {navbar_carousel?.map((message, index) => (
             <div key={index} className="flex-shrink-0 w-full">
               <CarouselItem>
-                <Link href={`/${message.href}`}>
+                <Link
+                  href={`/${message.href}`}
+                  className={`${message.href ? 'cursor-pointer' : 'pointer-events-none'}`}
+                >
                   <div className="flex justify-center">
                     <div>{message.text_content}</div>
                   </div>
