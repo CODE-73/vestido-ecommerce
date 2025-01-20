@@ -81,7 +81,7 @@ const ProfileView: React.FC = () => {
                   <li className="my-4">
                     <Link
                       href="/terms-and-conditions"
-                      className="text-sm md:text-lg hover:underline"
+                      className="text-sm md:text-lg cursor-pointer"
                     >
                       Terms of Use
                     </Link>
@@ -89,7 +89,7 @@ const ProfileView: React.FC = () => {
                   <li className="mb-4">
                     <Link
                       href="/privacy-policy"
-                      className=" text-sm md:text-lg hover:underline"
+                      className=" text-sm md:text-lg cursor-pointer"
                     >
                       Privacy Policy
                     </Link>

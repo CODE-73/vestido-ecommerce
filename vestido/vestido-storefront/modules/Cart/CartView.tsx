@@ -137,7 +137,7 @@ const CartView: React.FC = () => {
               <Link href="/products">
                 <div className="flex items-center cursor-pointer">
                   <LuChevronLeft color="white" size={24} />
-                  <div className="font-extrabold no-underline hover:underline text-white">
+                  <div className="font-extrabold text-white">
                     Continue Shopping
                   </div>
                 </div>
@@ -145,8 +145,8 @@ const CartView: React.FC = () => {
               <AlertDialog>
                 <AlertDialogTrigger asChild>
                   <div className="flex cursor-pointer">
-                    <LuTrash2 className="mr-3 " color="white" />
-                    <div className="mr-5 font-extrabold no-underline hover:underline text-white">
+                    <LuTrash2 className="mr-3 mt-1" color="white" />
+                    <div className="mr-5 font-extrabold text-white">
                       Clear Shopping Cart
                     </div>
                   </div>

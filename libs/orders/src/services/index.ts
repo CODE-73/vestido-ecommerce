@@ -21,6 +21,10 @@ export * from './orders/refresh-order-statuses';
 export * from './orders/track-order';
 export * from './orders/update-order';
 export * from './payment/get-payment';
+export * from './return/get-return-order';
+export * from './return/get-returnable-items';
+export * from './return/list-return-orders';
+export * from './return/return-order';
 export * from './shipping/get-shipping-charge';
 
 // @ts-expect-error BigInt JSON Serialization

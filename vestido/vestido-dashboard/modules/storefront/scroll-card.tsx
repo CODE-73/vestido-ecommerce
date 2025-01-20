@@ -76,7 +76,7 @@ const ScrollCardImageUploader: React.FC<props> = ({ index, form }) => {
                   <InputElement
                     name={`horizontal_scroll_cards.${index}.href`}
                     placeholder="Card Link"
-                    className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-3/5"
+                    className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-3/5 text-black"
                   />
                 </>
               )}
