@@ -97,6 +97,22 @@ export async function createOrder(_data: CreateOrderSchemaType) {
 
     // Clear Cart on Confirmation
     await clearCartOnOrderCreation(newOrder.id);
+  } else if (paymentType == 'REPLACEMENT_ORDER') {
+    newPayment = await prisma.payment.create({
+      data: {
+        order: {
+          connect: {
+            id: newOrder.id,
+          },
+        },
+        paymentGateway: 'REPLACEMENT_ORDER',
+        paymentGatewayRef: 'Null',
+        moreDetails: 'Null',
+        currency: 'INR',
+        amount: 0,
+        status: 'CAPTURED',
+      },
+    });
   }
 
   const totalItems = itemsWithTax

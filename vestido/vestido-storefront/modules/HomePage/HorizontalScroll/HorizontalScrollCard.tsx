@@ -21,7 +21,7 @@ const HorizontalScrollCard: React.FC<ScrollCardProps> = ({ data }) => {
     <CarouselItem className="group basis-1/2 lg:basis-1/3 flex-shrink-0 text-center transition duration-700 ease-in-out md:hover:-translate-y-16 text-white">
       <Link
         href={`/${data.href}`}
-        className={`${data.href ? '' : 'pointer-events-none'}`}
+        className={`${data.href ? 'cursor-pointer' : 'pointer-events-none'}`}
       >
         <div className="flex flex-col">
           <div className="relative w-full h-0 pb-[50%]">

@@ -34,7 +34,11 @@ const UpdateProfileSchema = z.object({
 
 export type UpdateProfileForm = z.infer<typeof UpdateProfileSchema>;
 
-const EditProfileForm: React.FC = () => {
+type EditProfileFormProps = {
+  setIsEditing?: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const EditProfileForm: React.FC<EditProfileFormProps> = ({ setIsEditing }) => {
   const { data } = useProfile();
   const profile = data?.data;
   console.log('profile is', profile);
@@ -63,6 +67,9 @@ const EditProfileForm: React.FC = () => {
       toast({
         title: 'Profile Updated Successfully',
       });
+      if (setIsEditing) {
+        setIsEditing(false);
+      }
     } catch (e) {
       console.error('Error updating profilr:', e);
     }
@@ -113,7 +120,13 @@ const EditProfileForm: React.FC = () => {
 
             {/* Gender */}
             <div className="mb-4">
-              <RadioGroup defaultValue={profile?.gender} className="flex gap-4">
+              <RadioGroup
+                value={form.watch('gender')}
+                onValueChange={(value) =>
+                  form.setValue('gender', value as 'MALE' | 'FEMALE')
+                }
+                className="flex gap-4"
+              >
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="MALE" id="r1" />
                   <Label htmlFor="r1" className="text-white">

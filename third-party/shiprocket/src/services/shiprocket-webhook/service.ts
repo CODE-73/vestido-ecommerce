@@ -7,7 +7,14 @@ const SHIPROCKET_WEBHOOK_TOKEN = process.env[
   'SHIPROCKET_WEBHOOK_TOKEN'
 ] as string;
 
-export async function handleShiprocketWebhook(data: shiprocketWebhookRequest) {
+export type ShiprocketWebhookTarget = {
+  type: 'Order' | 'Fulfillment' | 'Return';
+  id: string;
+};
+
+export async function handleShiprocketWebhook(
+  data: shiprocketWebhookRequest,
+): Promise<ShiprocketWebhookTarget | null> {
   const prisma = getPrismaClient();
 
   const incomingToken = data.token;
@@ -44,8 +51,6 @@ export async function handleShiprocketWebhook(data: shiprocketWebhookRequest) {
         data,
       },
     });
-
-    return null;
   }
 
   if (!data.is_return) {
@@ -58,13 +63,15 @@ export async function handleShiprocketWebhook(data: shiprocketWebhookRequest) {
         },
       });
 
-      const fulfillmentDetails = await prisma.fulfillment.updateMany({
+      await prisma.fulfillment.updateMany({
         where: {
           shiprocket_order_id: String(data.sr_order_id),
         },
         data: {
           tracking: data.awb,
-          ...(data.current_status === 'IN TRANSIT' && { status: 'IN_TRANSIT' }),
+          ...((data.current_status === 'IN TRANSIT' || 'PICKED UP') && {
+            status: 'IN_TRANSIT',
+          }),
           ...(data.current_status === 'OUT FOR DELIVERY' && {
             status: 'OUT_FOR_DELIVERY',
           }),
@@ -73,7 +80,10 @@ export async function handleShiprocketWebhook(data: shiprocketWebhookRequest) {
         },
       });
 
-      return fulfillmentDetails;
+      return {
+        type: 'Order',
+        id: data.order_id,
+      };
     });
   }
 
@@ -87,5 +97,12 @@ export async function handleShiprocketWebhook(data: shiprocketWebhookRequest) {
         },
       });
     });
+
+    return {
+      type: 'Fulfillment',
+      id: fulfillment.id,
+    };
   }
+
+  return null;
 }

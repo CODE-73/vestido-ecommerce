@@ -164,6 +164,31 @@ export async function submitFulfillment(fulfillmentId: string) {
       },
     });
 
+    // Calculate the price for each fulfillmentItem based on its contribution
+    await Promise.all(
+      existingFulfillment.fulfillmentItems.map(async (fulfillmentItem) => {
+        const pricePerUnit =
+          fulfillmentItem.orderItem.item.discountedPrice ??
+          fulfillmentItem.orderItem.item.price;
+        const totalPriceForItem = pricePerUnit * fulfillmentItem.quantity;
+
+        // Calculate the proportional price of the fulfillmentItem
+        const fulfillmentItemPrice =
+          (totalPriceForItem / fulfillmentItemTotal) * totalAmount;
+
+        // Update the fulfillmentItem with the calculated price
+        await prisma.fulfillmentItem.update({
+          where: {
+            id: fulfillmentItem.id,
+          },
+          data: {
+            fulfillmentItemPrice:
+              fulfillmentItemPrice / fulfillmentItem.quantity,
+          },
+        });
+      }),
+    );
+
     // Change Order Status to 'IN_PROGRESS' when atleast one Fulfillment is Submitted
     const atLeastOneItemInProgress = order.orderItems.some(
       (item) => item.status === 'IN_PROGRESS',
