@@ -20,7 +20,7 @@ const PopularCollectionCard: React.FC<PopularCollectionCardProps> = ({
     >
       <Link
         href={`/${data.href}`}
-        className={`${data.href ? 'curosr-pointer' : 'pointer-events-none'}`}
+        className={`${data.href ? 'cursor-pointer' : 'pointer-events-none'}`}
       >
         <div className="hover:scale-110 transition duration-500 cursor-pointer w-full h-full">
           <Image
