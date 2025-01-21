@@ -34,7 +34,7 @@ const PopularCollectionCard: React.FC<PopularCollectionCardProps> = ({
         </div>
         <div className="absolute left-10 top-10 ">
           <div
-            className={`group-hover:underline capitalize font-bold text-2xl group-hover:underline group-hover:underline-offset-4 leading-normal main-title ${
+            className={` capitalize font-bold text-2xl leading-normal main-title ${
               data.text_color ? `text-${data.text_color}` : 'text-white'
             }`}
           >
