@@ -21,7 +21,8 @@ const PrimaryCarouselItem: React.FC<PrimaryCarouselItemProps> = ({ data }) => {
         className={`${data.href ? 'cursor-pointer' : 'pointer-events-none'}`}
       >
         {' '}
-        <div className="min-h-[300px] md:min-h-[500px] xl:min-h-[600px] overflow-hidden w-full">
+        {/* <div className="min-h-[300px] md:min-h-[500px] xl:min-h-[700px] 2xl:min-h-[768px] overflow-hidden w-full"> */}
+        <div className="min-h-[300px] md:min-h-0 md:aspect-[2/1] xl:aspect-[2/1] overflow-hidden w-full">
           <div
             className={`flex flex-col gap-1 absolute   ${
               data.horizontal_position === 'right'
@@ -44,28 +45,21 @@ const PrimaryCarouselItem: React.FC<PrimaryCarouselItemProps> = ({ data }) => {
             <div
               className={`uppercase text-xs md:text-base font-bold md:font-extrabold text-${data.text_color}`}
             >
-              {data.text_content.line1}
+              {data?.text_content?.line1 ?? ''}
             </div>
             <h1
               className={`capitalize text-lg md:text-5xl max-w-[500px] leading-normal text-${data.text_color}`}
             >
-              {data.text_content.line2}
+              {data?.text_content?.line2 ?? ''}
             </h1>
             <div
               className={`text-xs font-light md:text-base md:font-extralight text-${data.text_color}`}
             >
-              {data.text_content.line3}
+              {data?.text_content?.line3 ?? ''}
             </div>
-
-            {/* {data.href ? (
-              <Link href={`/${data.href}`}>
-                <DiscoverButton
-                  buttonText={data.button_text ?? 'discover now!'}
-                />
-              </Link>
-            ) : ( */}
-            <DiscoverButton buttonText={data.button_text ?? 'discover now!'} />
-            {/* )} */}
+            {data.button_text && (
+              <DiscoverButton buttonText={data.button_text} />
+            )}
           </div>
 
           <Image
