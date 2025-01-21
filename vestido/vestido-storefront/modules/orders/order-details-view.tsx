@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import { useOrder } from '@vestido-ecommerce/orders/client';
+import { useOrder, useReturnableItems } from '@vestido-ecommerce/orders/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
   Card,
@@ -51,6 +51,13 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
     order?.orderStatus === 'CANCELLED',
   );
 
+  const { data: { data: returnableItems } = { data: null } } =
+    useReturnableItems(order?.id);
+
+  console.log('return', returnableItems);
+
+  const hasReturnableItems = returnableItems?.length > 0;
+
   // const hasDeliveredFulfillments =
   //   (order?.fulfillments?.filter((x) => x.status === 'DELIVERED').length ?? 0) >
   //   0;
@@ -66,6 +73,33 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
     return null;
   }
 
+  // const orderItemFulfillmentStatus = (orderItemId: string) =>
+  //   order?.fulfillments.find((x) =>
+  //     x.fulfillmentItems.some((y) => y.orderItemId === orderItemId),
+  //   )?.status;
+
+  function orderItemFulfillments(orderItemId: string) {
+    const fulfillmentsWithTheOrderItem = order?.fulfillments.filter((x) =>
+      x.fulfillmentItems.some((y) => y.orderItemId === orderItemId),
+    );
+
+    const rows = fulfillmentsWithTheOrderItem?.map((fulfillment) => {
+      const matchingFulfillmentItem = fulfillment.fulfillmentItems.find(
+        (item) => item.orderItemId === orderItemId,
+      );
+      return {
+        quantity: matchingFulfillmentItem?.quantity ?? 0, // Extract the quantity
+        status: fulfillment.status, // Extract the fulfillment status
+      };
+    });
+
+    return rows || [];
+  }
+
+  // const hasReturnedOrReplacedQty = (orderItemId: string) => (
+
+  // )
+
   const submittedFulfillments = order?.fulfillments.filter(
     (x) => x.status != 'DRAFT',
   );
@@ -73,13 +107,14 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
   const cardHeight = '700px';
   return (
     <div
-      className={`grid gap-1 items-start justify-center mt-10 ${
-        isCancelledOrder ? 'grid-cols-1' : 'lg:grid-cols-2 lg:gap-3'
-      }`}
+      // className={`grid gap-1 items-start justify-center mt-10 ${
+      //   isCancelledOrder ? 'grid-cols-1' : 'lg:grid-cols-2 lg:gap-3'
+      // }`}
+      className="flex justify-center"
     >
       <Card
         style={{ height: cardHeight, minHeight: cardHeight }}
-        className={`w-full max-w-3xl p-3 md:p-6 ${
+        className={`w-full max-w-4xl p-3 md:p-6 overflow-y-scroll ${
           isCancelledOrder ? 'md:justify-self-center' : 'md:justify-self-end'
         }`}
       >
@@ -97,17 +132,19 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
               </div>
             </CardDescription>
           </CardHeader>
-          <div className="flex gap-2 p-3 md:pt-6 ">
-            <ReturnReplaceDialog order={order} isReturn>
-              <Button className="basis-1/2">Return Items</Button>
-            </ReturnReplaceDialog>
-            <ReturnReplaceDialog order={order}>
-              <Button className="basis-1/2">Replace Items</Button>
-            </ReturnReplaceDialog>
-          </div>
+          {hasReturnableItems && (
+            <div className="flex gap-2 p-3 md:pt-6 ">
+              <ReturnReplaceDialog order={order} isReturn>
+                <Button className="basis-1/2">Return Items</Button>
+              </ReturnReplaceDialog>
+              <ReturnReplaceDialog order={order}>
+                <Button className="basis-1/2">Replace Items</Button>
+              </ReturnReplaceDialog>
+            </div>
+          )}
         </div>
 
-        <CardContent className="grid gap-4 overflow-y-scroll">
+        <CardContent className="grid gap-4 ">
           {order?.orderStatus === 'CONFIRMED' &&
           order?.deliveryStatus === 'UNFULFILLED' ? (
             <div className="text-xs font-bold uppercase">Ready to Ship</div>
@@ -128,26 +165,72 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
             Products included in this order: <hr className="-mb-2" />
           </div>
 
-          <div className="flex flex-col  divide-y">
-            {order?.orderItems.map((orderItem, index) => (
-              <div key={index} className="py-3 grid grid-cols-8 divide-x">
-                <ItemImage
-                  item={orderItem.item}
-                  width={50}
-                  height={70}
-                  className="w-10 h-12 justify-self-center"
-                />
-                <div className="text-xs col-span-4 pl-1 ">
-                  {orderItem.item.title}
+          <div className="flex flex-col gap-3">
+            {order?.orderItems.map((orderItem, index) => {
+              const hasFulfilledQty =
+                orderItem.fulfilledQuantity && orderItem.fulfilledQuantity > 0;
+              const hasReturnedOrReplacedQty =
+                orderItem.replacedQty > 0 || orderItem.returnedQty > 0;
+
+              return (
+                <div
+                  key={index}
+                  className={`py-3 grid grid-cols-8 bg-gray-300  rounded-lg pb-8`}
+                >
+                  <ItemImage
+                    item={orderItem.item}
+                    width={60}
+                    height={90}
+                    className="justify-self-center rounded-lg ml-4"
+                  />
+
+                  <div className="text-xs col-span-3 pl-1 ">
+                    {orderItem.item.title}
+                  </div>
+                  <div className="text-sm pl-1  justify-self-center">
+                    {formatINR(orderItem.price)}
+                  </div>
+
+                  {hasFulfilledQty &&
+                    orderItemFulfillments(orderItem.id).map((fulfillment) => (
+                      <>
+                        <div className="px-1 text-sm text-center justify-self-center">
+                          {fulfillment.quantity}
+                        </div>
+                        <div className="px-1 text-sm text-center justify-self-center">
+                          {fulfillment.status}
+                        </div>
+                      </>
+                    ))}
+
+                  {!hasReturnedOrReplacedQty && (
+                    <>
+                      <div className="px-1 text-sm text-center justify-self-center col-start-6">
+                        {orderItem.qty - (orderItem.fulfilledQuantity ?? 0)}
+                      </div>
+                      <div className="px-1 text-sm text-center ">
+                        not shipped yet
+                      </div>
+                    </>
+                  )}
+                  {hasReturnedOrReplacedQty && (
+                    <>
+                      <div className="px-1 text-sm text-center justify-self-center col-start-6">
+                        {orderItem.returnedQty || orderItem.replacedQty}
+                      </div>
+                      <div>
+                        {orderItem.returnStatus || orderItem.replacementStatus}
+                      </div>
+                    </>
+                  )}
+                  {/* {order.orderStatus == 'IN_PROGRESS' && (
+                  <div className="text-sm pl-1  justify-self-center">
+                  
+                  </div>
+                )} */}
                 </div>
-                <div className="px-1 text-sm text-center justify-self-center">
-                  {orderItem.qty}
-                </div>
-                <div className="text-sm pl-1 col-span-2 justify-self-center">
-                  {formatINR(orderItem.price)}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
           <hr />
           <div className="grid gap-1">
@@ -186,7 +269,8 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
           )}
         </CardFooter>
       </Card>
-      {!isCancelledOrder && (
+
+      {/* {!isCancelledOrder && (
         <div>
           <Card
             className="p-3 md:p-6 max-w-3xl"
@@ -244,7 +328,7 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
             </CardContent>
           </Card>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

@@ -150,7 +150,7 @@ const OrderInOrderList: React.FC<OrderProps> = ({ order }) => {
               key={orderItem.id}
               orderitem_itemid={orderItem.itemId}
               orderitem_item={orderItem.item}
-              orderitem_qty={orderItem.qty}
+              orderitem_qty={orderItem.qty - (orderItem.fulfilledQuantity ?? 0)}
               orderitem_variantid={orderItem.variantId as string}
             />
           ))}
