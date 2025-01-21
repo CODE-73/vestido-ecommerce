@@ -2,7 +2,7 @@ import { FC, useMemo } from 'react';
 import { useRouter } from 'next/router';
 
 import clsx from 'clsx';
-import { LuSearch, LuX } from 'react-icons/lu';
+import { LuX } from 'react-icons/lu';
 import { twMerge } from 'tailwind-merge';
 
 import { useCategories } from '@vestido-ecommerce/items/client';
@@ -14,6 +14,7 @@ type HeaderSearchInputProps = {
   containerClassName?: string;
   iconSize?: number;
   onCancelClick?: () => void;
+  setSearchOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const HeaderSearchInput: FC<HeaderSearchInputProps> = ({
@@ -21,6 +22,7 @@ export const HeaderSearchInput: FC<HeaderSearchInputProps> = ({
   containerClassName,
   onCancelClick,
   iconSize = 24,
+  setSearchOpen,
 }) => {
   const router = useRouter();
   const { data: categories, isLoading } = useCategories();
@@ -52,7 +54,7 @@ export const HeaderSearchInput: FC<HeaderSearchInputProps> = ({
       className={twMerge(
         clsx(
           'relative border border-input border-slate-300 px-2',
-          'flex items-center justify-items-center content-center gap-4',
+          'flex items-center justify-items-center content-center gap-4 rounded-full',
           containerClassName,
         ),
       )}
@@ -61,7 +63,9 @@ export const HeaderSearchInput: FC<HeaderSearchInputProps> = ({
         value={null}
         disabled={isLoading}
         options={options}
-        placeholder="Search Products..."
+        placeholder="Search"
+        shouldFilter
+        noOptionsText="Try something else?"
         onChange={onSelect}
         className={clsx(
           'rounded-none max-w-28 bg-transparent hover:bg-transparent hover:text-auto',
@@ -70,14 +74,15 @@ export const HeaderSearchInput: FC<HeaderSearchInputProps> = ({
         )}
       />
       {onCancelClick && (
-        <div
-          className="text-slate-400 hover:text-black"
-          onClick={onCancelClick}
-        >
+        <div className="text-slate-400 cursor-pointer" onClick={onCancelClick}>
           <LuX size={iconSize} />
         </div>
       )}
-      <LuSearch className="text-slate-400 hover:text-black" size={iconSize} />
+      <LuX
+        className="text-slate-400 cursor-pointer"
+        size={iconSize}
+        onClick={() => setSearchOpen && setSearchOpen(false)}
+      />
     </div>
   );
 };

@@ -1,8 +1,9 @@
 import * as React from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { LuHeart, LuShoppingBag, LuUser2 } from 'react-icons/lu';
+import { LuHeart, LuSearch, LuShoppingBag, LuUser2 } from 'react-icons/lu';
 
 import { AuthenticatedLink, useAuth } from '@vestido-ecommerce/auth/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
@@ -10,6 +11,7 @@ import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import Menubar from '../../components/Menubar';
 import LogoutButton from '../LogoutButton';
 import HeaderDropdown from './HeaderDropdown';
+import { HeaderSearchInput } from './HeaderSearchInput';
 
 interface HeaderProps {
   cart_count: number;
@@ -17,6 +19,7 @@ interface HeaderProps {
 }
 const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
   const { isAuthenticated } = useAuth();
+  const [searchOpen, setSearchOpen] = useState(false);
   return (
     <div className="bg-black shadow-lg flex items-center px-3 xl:px-32 sticky top-0 shadow-lg shadow-gray-700/50 ">
       <div className="flex flex-grow">
@@ -37,7 +40,19 @@ const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
         </div>
 
         <div className="flex items-center gap-3 pl-2">
-          {/* <HeaderSearchInput className="text-white ml-2" /> */}
+          {searchOpen ? (
+            <HeaderSearchInput
+              className="text-white ml-2"
+              setSearchOpen={setSearchOpen}
+            />
+          ) : (
+            <LuSearch
+              size={20}
+              className="text-white cursor-pointer"
+              onClick={() => setSearchOpen(true)}
+            />
+          )}
+
           <AuthenticatedLink
             href="/profile"
             className="text-white hover:text-gray-400"
