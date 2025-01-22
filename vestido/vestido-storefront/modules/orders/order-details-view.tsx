@@ -17,7 +17,6 @@ import { formatINR } from '@vestido-ecommerce/utils';
 import ItemImage from '../../components/item-image';
 import ReturnReplaceDialog from '../ReturnOrReplace/return-exchange-dialog';
 import CancelOrderDialog from './cancel-order-dialog';
-import ShipmentStatus from './shipment-status';
 
 type OrderDetailsProps = {
   orderId: string;
@@ -156,10 +155,6 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
               <div className="text-muted-foreground">Date:</div> &nbsp;
               {order && formattedDate(new Date(order.createdAt))}
             </div>
-            <div className="flex gap-1 text-center">
-              <div className="text-muted-foreground">Time:</div> &nbsp;
-              {order && formattedTime(new Date(order.createdAt))}
-            </div>
           </div>
           <div className="text-xs text-muted-foreground -mb-2">
             Products included in this order: <hr className="-mb-2" />
@@ -181,7 +176,7 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
                     item={orderItem.item}
                     width={60}
                     height={90}
-                    className="justify-self-center rounded-lg ml-4"
+                    className="justify-self-center rounded-lg ml-4 row-span-2"
                   />
 
                   <div className="text-xs col-span-3 pl-1 ">
@@ -194,8 +189,18 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
                   {hasFulfilledQty &&
                     orderItemFulfillments(orderItem.id).map((fulfillment) => (
                       <>
-                        <div className="px-1 text-sm text-center justify-self-center">
-                          {fulfillment.quantity}
+                        <div
+                          className="px-1 text-sm text-center justify-self-center col-start-6
+                        "
+                        >
+                          {fulfillment.status === 'DELIVERED' ? (
+                            <div>
+                              {fulfillment.quantity -
+                                (orderItem.returnedQty + orderItem.replacedQty)}
+                            </div>
+                          ) : (
+                            <div>{fulfillment.quantity}</div>
+                          )}
                         </div>
                         <div className="px-1 text-sm text-center justify-self-center">
                           {fulfillment.status}
@@ -219,7 +224,11 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
                         {orderItem.returnedQty || orderItem.replacedQty}
                       </div>
                       <div>
-                        {orderItem.returnStatus || orderItem.replacementStatus}
+                        return
+                        <span>
+                          {orderItem.returnStatus ||
+                            orderItem.replacementStatus}
+                        </span>
                       </div>
                     </>
                   )}
