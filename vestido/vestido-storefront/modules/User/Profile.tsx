@@ -3,11 +3,12 @@ import { useState } from 'react';
 
 import { useProfile } from '@vestido-ecommerce/auth/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
+import { Skeleton } from '@vestido-ecommerce/shadcn-ui/skeleton';
 
 import EditProfileForm from './EditProfileForm';
 
 const Profile: React.FC = () => {
-  const { data } = useProfile();
+  const { data, isLoading } = useProfile();
   const currentUser = data?.data;
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
@@ -23,21 +24,40 @@ const Profile: React.FC = () => {
         <>
           <div className="flex gap-3 my-4 ">
             <div className="basis-1/2 ">Full Name &nbsp;</div>
-            <div className="uppercase basis-1/2">
-              {currentUser?.firstName}&nbsp;{currentUser?.lastName}
-            </div>
+
+            {isLoading ? (
+              <Skeleton className="bg-neutral-700 rounded-lg w-[200px] h-[15px]" />
+            ) : (
+              <div className="uppercase basis-1/2">
+                {currentUser?.firstName}&nbsp;{currentUser?.lastName}{' '}
+              </div>
+            )}
           </div>
           <div className="flex gap-3 my-4 ">
             <div className="basis-1/2">Mobile Number &nbsp;</div>
-            <div className="uppercase basis-1/2">{currentUser?.mobile}</div>
+            {isLoading ? (
+              <Skeleton className="bg-neutral-700 rounded-lg w-[200px] h-[15px]" />
+            ) : (
+              <div className="uppercase basis-1/2">{currentUser?.mobile}</div>
+            )}
           </div>
           <div className="flex gap-3 my-4">
             <div className="basis-1/2">Email&nbsp;</div>
-            <div className="basis-1/2">{currentUser?.email ?? 'Not Added'}</div>
+            {isLoading ? (
+              <Skeleton className="bg-neutral-700 rounded-lg w-[200px] h-[15px]" />
+            ) : (
+              <div className="basis-1/2">
+                {currentUser?.email ?? 'Not Added'}
+              </div>
+            )}
           </div>
           <div className="flex gap-3 my-4">
             <div className="basis-1/2">Gender&nbsp;</div>
-            <div className="basis-1/2">{currentUser?.gender}</div>
+            {isLoading ? (
+              <Skeleton className="bg-neutral-700 rounded-lg w-[200px] h-[15px]" />
+            ) : (
+              <div className="basis-1/2">{currentUser?.gender}</div>
+            )}
           </div>
           <Button
             onClick={() => setIsEditing(true)}

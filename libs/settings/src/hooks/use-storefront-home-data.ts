@@ -12,11 +12,13 @@ export const HeroCarouselSchema = z.object({
   text_color: z.string().default('black'),
   horizontal_position: z.string().default('left'),
   vertical_position: z.string().default('middle'),
-  text_content: z.object({
-    line1: z.string(),
-    line2: z.string().nullish(),
-    line3: z.string().nullish(),
-  }),
+  text_content: z
+    .object({
+      line1: z.string(),
+      line2: z.string().nullish(),
+      line3: z.string().nullish(),
+    })
+    .nullish(),
   button_text: z.string().nullish(),
   href: z.string().nullish(),
 });

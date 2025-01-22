@@ -43,7 +43,6 @@ export const HorizontalScrollCardsUploader: React.FC = () => {
                     placeholder="Main Title"
                     className="bg-transparent border-transparent  capitalize text-4xl group-hover:underline group-hover:underline-offset-4 leading-normal main-title"
                   />
-
                   <InputElement
                     name={`horizontal_scroll_cards.${index}.text_content.line3`}
                     placeholder="Subtitle 2"
@@ -54,8 +53,12 @@ export const HorizontalScrollCardsUploader: React.FC = () => {
                       WebkitBoxOrient: 'vertical',
                       whiteSpace: 'normal',
                     }}
+                  />{' '}
+                  <InputElement
+                    name={`horizontal_scroll_cards.${index}.button_text`}
+                    className="h-16 w-1/2 bg-black rounded-none text-white placeholder:text-white font-semibold"
+                    placeholder="DISCOVER NOW!"
                   />
-
                   <div className="sm:hidden group-hover:block mx-1">
                     {/* {SmallMobile ? (
                       <DiscoverButton bgLight={true} className="w-4/5" />
