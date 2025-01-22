@@ -13,14 +13,18 @@ export const ReturnItemSchema = z.object({
   FulfillmentItemPrice: z.number().positive(),
 });
 
+export const returnDetailsSchema = z.object({
+  fulfillmentId: z.string().uuid(),
+  returnItems: z.array(ReturnItemSchema),
+});
+
 const indianMobileRegex = /^[6-9]\d{9}$/;
 
 export const ReturnOrderSchema = z.object({
   returnType: z.string(),
-  fulfillmentId: z.string().uuid(),
   orderId: z.string().uuid(),
   reason: z.string(),
-  returnItems: z.array(ReturnItemSchema),
+  returnDetails: z.array(returnDetailsSchema),
 });
 
 export const BankDetailsSchema = z.object({

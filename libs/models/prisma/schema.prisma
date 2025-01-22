@@ -304,6 +304,7 @@ model Order {
     createdAt          DateTime           @default(now()) @db.Timestamptz(3)
     updatedAt          DateTime           @default(now()) @db.Timestamptz(3)
     returns            Return[]
+    BankDetails        BankDetails[]
 }
 
 model OrderItem {
@@ -452,12 +453,14 @@ model BankDetails {
     id                String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     customer          Profile @relation(fields: [customerId], references: [id])
     customerId        String  @db.Uuid
-    return            Return  @relation(fields: [returnId], references: [id])
-    returnId          String  @db.Uuid
+    order             Order   @relation(fields: [orderId], references: [id])
+    orderId           String  @db.Uuid
     accountNumber     String
     ifscCode          String
     accountHolderName String?
     mobile            String?
+    Return            Return? @relation(fields: [returnId], references: [id])
+    returnId          String? @db.Uuid
 }
 
 model Coupon {
