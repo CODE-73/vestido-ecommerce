@@ -12,20 +12,24 @@ export async function processPayment(data: verifyPaymentRequest) {
   const { order_id, payment_RP_id, razorpay_signature } = validatedData;
 
   const generatedSignature = generatePaymentSignature(order_id, payment_RP_id);
-
   if (generatedSignature === razorpay_signature) {
+    const razorpayRef = JSON.stringify({
+      rpOrderId: order_id,
+      rpPaymentId: payment_RP_id,
+    });
     await prisma.payment.updateMany({
       where: {
-        paymentGatewayRef: order_id,
+        id: validatedData.paymentId,
       },
       data: {
         status: 'CAPTURED',
+        paymentGatewayRef: razorpayRef,
       },
     });
 
     const updatedOrderIds = await prisma.payment.findMany({
       where: {
-        paymentGatewayRef: order_id,
+        id: validatedData.paymentId,
       },
       select: {
         orderId: true,

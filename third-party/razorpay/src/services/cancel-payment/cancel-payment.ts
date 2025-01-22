@@ -10,7 +10,7 @@ export async function cancelPayment(paymentId: string) {
         id: paymentId,
       },
       data: {
-        status: 'FAILED',
+        status: 'CANCELLED',
       },
       include: {
         order: true,
@@ -24,7 +24,7 @@ export async function cancelPayment(paymentId: string) {
       },
       data: {
         orderStatus: 'CANCELLED',
-        orderPaymentStatus: 'FAILED',
+        orderPaymentStatus: 'CANCELLED',
       },
     });
 

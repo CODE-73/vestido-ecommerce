@@ -30,7 +30,7 @@ export async function createRazorpayOrder(data: CreateRPOrderRequest) {
           },
         },
         paymentGateway: 'RAZORPAY',
-        paymentGatewayRef: resp.id,
+        paymentGatewayRef: JSON.stringify({ rpOrderId: resp.id }),
         moreDetails: 'Null',
         currency: resp.currency,
         amount: validatedData.amount / 100,
