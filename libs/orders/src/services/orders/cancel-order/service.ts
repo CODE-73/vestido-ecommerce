@@ -1,6 +1,7 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
+import { refundRazorpay } from '@vestido-ecommerce/razorpay';
 import { VestidoError } from '@vestido-ecommerce/utils';
-import { refundRazorpay } from './../../../../../../third-party/razorpay/src';
+
 import { CancelOrderSchema, CancelOrderSchemaType } from './zod';
 
 export async function cancelOrder(
@@ -10,6 +11,22 @@ export async function cancelOrder(
   const { orderId, reason, remarks } = CancelOrderSchema.parse(data);
 
   try {
+    const order = await prisma.order.findFirst({
+      where: {
+        id: orderId,
+      },
+      include: {
+        payments: true,
+      },
+    });
+
+    if (!order) {
+      throw new VestidoError({
+        name: 'OrderNotFoundError',
+        message: `Order ${orderId} not found`,
+      });
+    }
+
     // Check if the order has any submitted fulfillments
     const hasSubmittedFulfillments = await prisma.fulfillment.findFirst({
       where: {
@@ -22,24 +39,8 @@ export async function cancelOrder(
 
     if (hasSubmittedFulfillments) {
       throw new VestidoError({
-        name: 'OrderCancellationFailed',
+        name: 'OrderCancelFulfillmentsExistsError',
         message: `Order ${orderId} cannot be cancelled because it has submitted fulfillments.`,
-      });
-    }
-
-    const order = await prisma.order.findFirst({
-      where: {
-        id: orderId,
-      },
-      include: {
-        payments: true,
-      },
-    });
-
-    if (!order) {
-      throw new VestidoError({
-        name: 'SystemErrorOrderNotFound',
-        message: `Order ${orderId} not found`,
       });
     }
 
