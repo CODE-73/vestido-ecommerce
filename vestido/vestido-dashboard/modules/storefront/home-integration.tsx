@@ -37,6 +37,8 @@ const StorefrontHomeIntegration: React.FC = () => {
 
   console.info('formvalues', form.getValues());
 
+  console.info(form.formState.isValid, form.formState.errors);
+
   useEffect(() => {
     if (home_data) {
       form.reset({ ...home_data });
