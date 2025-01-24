@@ -148,7 +148,7 @@ export async function handleShiprocketWebhook(
               await sendSMS({
                 senderId: SMSSenderID.BVSTID,
                 template: SMSTemplate.DELIVERED_SMS,
-                variables: [totalItems],
+                variables: [totalItems, fulfillment.orderId],
                 recipients: [mobile],
               });
             }
