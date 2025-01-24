@@ -1,5 +1,8 @@
+import { sendSMS, SMSSenderID, SMSTemplate } from '@vestido-ecommerce/fast2sms';
 import { getPrismaClient } from '@vestido-ecommerce/models';
 import { VestidoError } from '@vestido-ecommerce/utils';
+
+const IS_DEVELOPMENT = process.env['NODE_ENV'] === 'development';
 
 import { shiprocketWebhookRequest } from './types';
 
@@ -37,6 +40,14 @@ export async function handleShiprocketWebhook(
     where: {
       shiprocket_order_id: String(data.sr_order_id),
     },
+    include: {
+      fulfillmentItems: true,
+      order: {
+        include: {
+          customer: true,
+        },
+      },
+    },
   });
 
   if (!fulfillment) {
@@ -55,14 +66,6 @@ export async function handleShiprocketWebhook(
 
   if (!data.is_return) {
     await prisma.$transaction(async (prisma) => {
-      await prisma.fulfillmentLog.create({
-        data: {
-          fullfillmentId: fulfillment.id,
-          logType: 'SHIPROCKET_WEBHOOK_FULFILLMENT',
-          rawData: data,
-        },
-      });
-
       await prisma.fulfillment.updateMany({
         where: {
           shiprocket_order_id: String(data.sr_order_id),
@@ -80,6 +83,88 @@ export async function handleShiprocketWebhook(
         },
       });
 
+      const isShipped = await prisma.fulfillmentLog.findFirst({
+        where: {
+          fullfillmentId: fulfillment.id,
+          logType: 'SHIPROCKET_WEBHOOK_FULFILLMENT_SHIPPED',
+        },
+      });
+
+      if (!isShipped && (data.current_status === 'IN_TRANSIT' || 'PICKED UP')) {
+        await prisma.fulfillmentLog.create({
+          data: {
+            fullfillmentId: fulfillment.id,
+            logType: 'SHIPROCKET_WEBHOOK_FULFILLMENT_SHIPPED',
+            rawData: data,
+          },
+        });
+      } else {
+        await prisma.fulfillmentLog.create({
+          data: {
+            fullfillmentId: fulfillment.id,
+            logType: 'SHIPROCKET_WEBHOOK_FULFILLMENT',
+            rawData: data,
+          },
+        });
+      }
+
+      //Send SMS
+      if (!IS_DEVELOPMENT) {
+        const totalItems = fulfillment.fulfillmentItems
+          .reduce((sum, item) => sum + item.quantity, 0)
+          .toString();
+
+        const mobile = fulfillment.order.customer.mobile ?? '';
+
+        if (
+          !isShipped &&
+          (data.current_status === 'IN_TRANSIT' || 'PICKED UP')
+        ) {
+          try {
+            if (!mobile) {
+              await sendSMS({
+                senderId: SMSSenderID.BVSTID,
+                template: SMSTemplate.SHIPPED_SMS,
+                variables: [fulfillment.orderId, totalItems],
+                recipients: [mobile],
+              });
+            }
+          } catch (e) {
+            throw new VestidoError({
+              name: 'SendOTPFailed',
+              message: 'Failed to send OTP',
+              httpStatus: 500,
+              context: {
+                fulfillment,
+                error: e,
+              },
+            });
+          }
+        }
+
+        if (data.current_status === 'DELIVERED') {
+          try {
+            if (!mobile) {
+              await sendSMS({
+                senderId: SMSSenderID.BVSTID,
+                template: SMSTemplate.DELIVERED_SMS,
+                variables: [totalItems],
+                recipients: [mobile],
+              });
+            }
+          } catch (e) {
+            throw new VestidoError({
+              name: 'SendOTPFailed',
+              message: 'Failed to send OTP',
+              httpStatus: 500,
+              context: {
+                fulfillment,
+                error: e,
+              },
+            });
+          }
+        }
+      }
       return {
         type: 'Order',
         id: data.order_id,
