@@ -17,12 +17,19 @@ import { StorefrontHomeDataSchemaForm } from './home-integration';
 type HeroCarouselItemProps = {
   index: number;
   form: UseFormReturn<StorefrontHomeDataSchemaForm>;
-  className: string;
+  className?: string;
+  sizeClass: 'sm' | 'md' | 'lg';
 };
 
-const HeroCarouselItem: React.FC<HeroCarouselItemProps> = ({ index, form }) => {
+const HeroCarouselItem: React.FC<HeroCarouselItemProps> = ({
+  index,
+  form,
+  sizeClass,
+}) => {
   const [isHovered, setIsHovered] = useState(false);
-  const image = form.watch(`hero_carousel.${index}.image`) as ImageSchemaType;
+  const image = form.watch(
+    `hero_carousel.${index}.image.${sizeClass}`,
+  ) as ImageSchemaType;
   const color = form.watch(`hero_carousel.${index}.text_color`);
   const horizontal = form.watch(`hero_carousel.${index}.horizontal_position`);
   const vertical = form.watch(`hero_carousel.${index}.vertical_position`);
@@ -34,7 +41,7 @@ const HeroCarouselItem: React.FC<HeroCarouselItemProps> = ({ index, form }) => {
 
   const handleDeleteImage = () => {
     form.setValue(
-      `hero_carousel.${index}.image`,
+      `hero_carousel.${index}.image.${sizeClass}`,
       {
         blurHash: null,
         blurHashDataURL: null,
@@ -60,11 +67,11 @@ const HeroCarouselItem: React.FC<HeroCarouselItemProps> = ({ index, form }) => {
             <Image
               src={image.url || imgURL || ''}
               alt={image.alt ?? ''}
-              className="object-cover lg:rounded-[25px]"
+              className={`object-cover lg:rounded-[25px] mx-auto ${sizeClass === 'sm' ? 'aspect-[4/3] max-w-[768px]' : sizeClass === 'md' ? 'aspect-[2.5/1] max-w-[1024px]' : 'aspect-[2.5/1]'}`}
               fill
             />
             <div
-              className={`absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 z-10 flex flex-col gap-2 ${isHovered ? '' : 'invisible'}`}
+              className={`absolute bottom-5 right-5 z-10 flex flex-col gap-2 ${isHovered ? '' : 'invisible'}`}
             >
               <SelectElement
                 name={`hero_carousel.${index}.text_color`}
@@ -127,14 +134,15 @@ const HeroCarouselItem: React.FC<HeroCarouselItemProps> = ({ index, form }) => {
       ) : (
         <>
           <FileUploadElement
-            name={`hero_carousel.${index}.image.key`}
+            name={`hero_carousel.${index}.image.${sizeClass}.key`}
             keyPrefix="storefront/"
             label=""
             className="absolute top-1/2 left-1/2 transform -translate-x-[70%] -translate-y-1/2  z-5 border-none"
           />
         </>
       )}
-      <div className="min-h-[300px] md:min-h-[500px] xl:min-h-[600px] overflow-hidden">
+      {/* <div className="min-h-[300px] md:min-h-[500px] xl:min-h-[600px] overflow-hidden"> */}
+      <div className="aspect-[4/3] md:aspect-[2/1] lg:aspect-[2.5/1] overflow-hidden w-full">
         <div
           className={`flex  flex-col gap-1 absolute  z-[3] ${
             horizontal === 'right'

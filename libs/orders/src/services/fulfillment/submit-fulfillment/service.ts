@@ -232,7 +232,22 @@ export async function submitFulfillment(fulfillmentId: string) {
       }),
     );
 
-    const firstPaymentGateway = order.payments[0].paymentGateway;
+    // Find the payment that are not Refund
+    const validPayments = order.payments.filter(
+      (payment) => payment.isRefund === false,
+    );
+
+    if (!validPayments) {
+      throw new VestidoError({
+        name: 'NotFoundError',
+        message: 'Valid Payment does not exist',
+        httpStatus: 404,
+        context: {
+          orderId: order.id,
+        },
+      });
+    }
+    const firstPaymentGateway = validPayments[0].paymentGateway;
     const paymentMethod =
       firstPaymentGateway === 'CASH_ON_DELIVERY' ? 'COD' : 'Prepaid';
 
