@@ -10,6 +10,11 @@ on:
     branches:
       - master
 
+env:
+  DATABASE_URL: ${{ secrets.DATABASE_URL}}
+  REDIS_URL: ${{ secrets.REDIS_URL}}
+  R2_NEXT_IMAGE_HOSTNAME: ${{ secrets.R2_NEXT_IMAGE_HOSTNAME}}
+
 jobs:
   lint:
     runs-on: ubuntu-latest
