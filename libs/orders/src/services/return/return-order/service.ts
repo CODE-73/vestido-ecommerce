@@ -109,7 +109,23 @@ export async function returnOrder(data: ReturnOrderSchemaType) {
       },
     });
 
-    if (orderDetails.payments[0]?.paymentGateway === 'CASH_ON_DELIVERY') {
+    // Find the payment that are not Refund
+    const validPayments = orderDetails.payments.filter(
+      (payment) => payment.isRefund === false,
+    );
+
+    if (!validPayments) {
+      throw new VestidoError({
+        name: 'NotFoundError',
+        message: 'Valid Payment does not exist',
+        httpStatus: 404,
+        context: {
+          orderId: orderDetails.id,
+        },
+      });
+    }
+
+    if (validPayments[0].paymentGateway === 'CASH_ON_DELIVERY') {
       const validatedBankData = BankDetailsSchema.parse(data);
 
       await prisma.bankDetails.create({
@@ -141,7 +157,7 @@ export async function returnOrder(data: ReturnOrderSchemaType) {
       qc_enable: false,
     }));
 
-    const firstPaymentGateway = orderDetails.payments[0].paymentGateway;
+    const firstPaymentGateway = validPayments[0].paymentGateway;
     const paymentMethod =
       firstPaymentGateway === 'CASH_ON_DELIVERY' ? 'COD' : 'Prepaid';
 

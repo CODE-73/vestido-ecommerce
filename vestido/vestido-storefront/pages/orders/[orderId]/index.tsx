@@ -37,7 +37,6 @@ export async function getServerSideProps({
   params: { orderId: string };
 }) {
   const order = await getOrder(params.orderId);
-  console.log('order is page', order);
   if (!order) {
     return {
       notFound: true,
