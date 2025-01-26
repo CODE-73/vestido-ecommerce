@@ -37,7 +37,8 @@ const StorefrontHomeIntegration: React.FC = () => {
 
   console.info('formvalues', form.getValues());
 
-  console.info(form.formState.isValid, form.formState.errors);
+  const isValid = form.formState.isValid;
+  const isDirty = form.formState.isDirty;
 
   useEffect(() => {
     if (home_data) {
@@ -83,7 +84,11 @@ const StorefrontHomeIntegration: React.FC = () => {
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)}>
           <div className="w-full justify-end sticky top-0 px-5 z-20 bg-white h-24 flex items-center">
-            <Button type="submit" className="w-[20%] h-14">
+            <Button
+              disabled={!isValid || !isDirty}
+              type="submit"
+              className="w-[20%] h-14"
+            >
               Save Changes
             </Button>
           </div>
