@@ -31,7 +31,7 @@ export const PrimaryCarousel: React.FC = () => {
           loop: true,
         }}
       >
-        <CarouselContent className="h-64 sm:h-auto">
+        <CarouselContent>
           {hero_carousel?.map((slide, index) => (
             <PrimaryCarouselItem data={slide} key={index} />
           ))}

@@ -22,7 +22,7 @@ const PrimaryCarouselItem: React.FC<PrimaryCarouselItemProps> = ({ data }) => {
       >
         {' '}
         {/* <div className="min-h-[300px] md:min-h-[500px] xl:min-h-[700px] 2xl:min-h-[768px] overflow-hidden w-full"> */}
-        <div className="min-h-[300px] md:min-h-0 md:aspect-[2/1] lg:aspect-[2.5/1] xl:aspect-[2.5/1] overflow-hidden w-full">
+        <div className="aspect-[4/3] md:aspect-[2/1] lg:aspect-[2.5/1] overflow-hidden w-full">
           <div
             className={`flex flex-col gap-1 absolute   ${
               data.horizontal_position === 'right'

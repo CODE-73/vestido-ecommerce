@@ -8,13 +8,22 @@ import { SettingsKeys } from '../keys';
 import { useSettings } from '../swr';
 
 export const HeroCarouselSchema = z.object({
-  image: ImageSchema,
+  image: z
+    .object({
+      sm: ImageSchema.optional(),
+      md: ImageSchema.optional(),
+      lg: ImageSchema.optional(),
+    })
+    .refine((data) => data.sm || data.md || data.lg, {
+      message: 'At least one image is required',
+      path: ['images'],
+    }),
   text_color: z.string().default('black'),
   horizontal_position: z.string().default('left'),
   vertical_position: z.string().default('middle'),
   text_content: z
     .object({
-      line1: z.string(),
+      line1: z.string().nullish(),
       line2: z.string().nullish(),
       line3: z.string().nullish(),
     })
@@ -32,7 +41,7 @@ export const CircleLinksSchema = z.object({
 export const ScrollCardSchema = z.object({
   image: ImageSchema,
   text_content: z.object({
-    line1: z.string(),
+    line1: z.string().nullish(),
     line2: z.string().nullish(),
     line3: z.string().nullish(),
   }),
