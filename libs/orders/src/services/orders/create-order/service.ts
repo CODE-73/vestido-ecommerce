@@ -14,9 +14,9 @@ export async function createOrder(_data: CreateOrderSchemaType) {
   const { addressId, customerId, paymentType, couponCode, ...data } =
     CreateOrderSchema.parse(_data);
 
-  const customer = await prisma.profile.findUnique({
+  const shippingdetails = await prisma.customerAddress.findUnique({
     where: {
-      id: customerId,
+      id: addressId,
     },
   });
 
@@ -121,7 +121,7 @@ export async function createOrder(_data: CreateOrderSchemaType) {
 
   if (!IS_DEVELOPMENT) {
     try {
-      const mobile = customer?.mobile ?? '';
+      const mobile = shippingdetails?.mobile ?? '';
       if (mobile) {
         await sendSMS({
           senderId: SMSSenderID.BVSTID,
