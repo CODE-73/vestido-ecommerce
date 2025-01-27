@@ -123,22 +123,11 @@ export async function createOrder(_data: CreateOrderSchemaType) {
     try {
       const mobile = customer?.mobile ?? '';
       if (mobile) {
-        const resp = await sendSMS({
+        await sendSMS({
           senderId: SMSSenderID.BVSTID,
-          template: SMSTemplate.PLACED_SMS,
+          template: SMSTemplate.ORDER_PLACED_SMS,
           variables: [newOrder.id, totalItems],
           recipients: [mobile],
-        });
-
-        await prisma.sMSLog.create({
-          data: {
-            contactDetails: JSON.stringify({
-              mobile: mobile,
-              orderId: newOrder.id,
-            }),
-            logType: 'PLACED_SMS',
-            rawData: resp,
-          },
         });
       }
     } catch (e) {
