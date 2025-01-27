@@ -126,7 +126,7 @@ export async function createOrder(_data: CreateOrderSchemaType) {
         await sendSMS({
           senderId: SMSSenderID.BVSTID,
           template: SMSTemplate.ORDER_PLACED_SMS,
-          variables: [newOrder.id, totalItems],
+          variables: [newOrder.order_no.toString(), totalItems],
           recipients: [mobile],
         });
       }
