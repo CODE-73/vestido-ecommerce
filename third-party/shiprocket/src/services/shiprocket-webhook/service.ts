@@ -44,6 +44,7 @@ export async function handleShiprocketWebhook(
       fulfillmentItems: true,
       order: {
         include: {
+          shippingAddress: true,
           customer: true,
         },
       },
@@ -121,7 +122,7 @@ export async function handleShiprocketWebhook(
           .reduce((sum, item) => sum + item.quantity, 0)
           .toString();
 
-        const mobile = fulfillment.order.customer.mobile ?? '';
+        const mobile = fulfillment.order.shippingAddress.mobile ?? '';
 
         if (
           !isShipped &&
