@@ -122,7 +122,7 @@ export async function createOrder(_data: CreateOrderSchemaType) {
   if (!IS_DEVELOPMENT) {
     try {
       const mobile = customer?.mobile ?? '';
-      if (!mobile) {
+      if (mobile) {
         await sendSMS({
           senderId: SMSSenderID.BVSTID,
           template: SMSTemplate.PLACED_SMS,
