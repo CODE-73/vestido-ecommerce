@@ -64,6 +64,13 @@ export async function handleShiprocketWebhook(
     });
   }
 
+  await prisma.webhookLog.create({
+    data: {
+      logType: 'SHIPROCKET',
+      rawData: data,
+    },
+  });
+
   if (!data.is_return) {
     await prisma.$transaction(async (prisma) => {
       await prisma.fulfillment.updateMany({
@@ -124,7 +131,7 @@ export async function handleShiprocketWebhook(
             if (!mobile) {
               await sendSMS({
                 senderId: SMSSenderID.BVSTID,
-                template: SMSTemplate.SHIPPED_SMS,
+                template: SMSTemplate.ORDER_SHIPPED_SMS,
                 variables: [fulfillment.orderId, totalItems],
                 recipients: [mobile],
               });
@@ -147,7 +154,7 @@ export async function handleShiprocketWebhook(
             if (!mobile) {
               await sendSMS({
                 senderId: SMSSenderID.BVSTID,
-                template: SMSTemplate.DELIVERED_SMS,
+                template: SMSTemplate.ORDER_DELIVERED_SMS,
                 variables: [totalItems, fulfillment.orderId],
                 recipients: [mobile],
               });

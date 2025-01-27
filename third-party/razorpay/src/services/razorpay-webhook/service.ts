@@ -17,6 +17,13 @@ export async function handleRazorpayWebhook(data: RazorpayWebhookSchemaType) {
     const event = data.event;
     const payload = data.payload;
 
+    await prisma.webhookLog.create({
+      data: {
+        logType: 'RAZORPAY',
+        rawData: data,
+      },
+    });
+
     if (event === 'payment.captured') {
       const RazorpayOrderId = payload.payment.entity['order_id'];
 
