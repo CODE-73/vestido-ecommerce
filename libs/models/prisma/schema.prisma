@@ -460,6 +460,13 @@ model BankDetails {
     mobile            String?
 }
 
+model WebhookLog {
+    id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    logType   String
+    rawData   Json
+    createdAt DateTime @default(now()) @db.Timestamptz(3)
+}
+
 model Coupon {
     id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     coupon      String

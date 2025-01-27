@@ -64,6 +64,13 @@ export async function handleShiprocketWebhook(
     });
   }
 
+  await prisma.webhookLog.create({
+    data: {
+      logType: 'SHIPROCKET',
+      rawData: data,
+    },
+  });
+
   if (!data.is_return) {
     await prisma.$transaction(async (prisma) => {
       await prisma.fulfillment.updateMany({
