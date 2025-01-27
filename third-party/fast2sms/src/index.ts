@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { getPrismaClient } from './../../../libs/models';
+import { getPrismaClient } from './../../../libs/models/src/client';
 
 const FAST2SMS_AUTH_KEY = process.env['FAST2SMS_AUTH_KEY'] as string;
 
