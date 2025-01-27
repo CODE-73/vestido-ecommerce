@@ -122,11 +122,22 @@ export async function handleShiprocketWebhook(
         ) {
           try {
             if (!mobile) {
-              await sendSMS({
+              const resp = await sendSMS({
                 senderId: SMSSenderID.BVSTID,
                 template: SMSTemplate.SHIPPED_SMS,
                 variables: [fulfillment.orderId, totalItems],
                 recipients: [mobile],
+              });
+
+              await prisma.sMSLog.create({
+                data: {
+                  contactDetails: JSON.stringify({
+                    mobile: mobile,
+                    orderId: fulfillment.id,
+                  }),
+                  logType: 'SHIPPED_SMS',
+                  rawData: resp,
+                },
               });
             }
           } catch (e) {
@@ -145,11 +156,22 @@ export async function handleShiprocketWebhook(
         if (data.current_status === 'DELIVERED') {
           try {
             if (!mobile) {
-              await sendSMS({
+              const resp = await sendSMS({
                 senderId: SMSSenderID.BVSTID,
                 template: SMSTemplate.DELIVERED_SMS,
                 variables: [totalItems, fulfillment.orderId],
                 recipients: [mobile],
+              });
+
+              await prisma.sMSLog.create({
+                data: {
+                  contactDetails: JSON.stringify({
+                    mobile: mobile,
+                    orderId: fulfillment.id,
+                  }),
+                  logType: 'DELIVERED_SMS',
+                  rawData: resp,
+                },
               });
             }
           } catch (e) {

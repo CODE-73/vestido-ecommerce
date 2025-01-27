@@ -491,6 +491,14 @@ model Tax {
     updatedAt   DateTime @default(now()) @db.Timestamptz(3)
 }
 
+model SMSLog {
+    id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    contactDetails String
+    logType        String
+    rawData        Json
+    createdAt      DateTime @default(now()) @db.Timestamptz(3)
+}
+
 model ContactUs {
     id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     type       String?
