@@ -126,14 +126,37 @@ export async function handleShiprocketWebhook(
 
         if (
           !isShipped &&
-          (data.current_status === 'IN_TRANSIT' || 'PICKED UP')
+          (data.current_status === 'IN TRANSIT' || 'PICKED UP')
         ) {
           try {
-            if (!mobile) {
+            if (mobile) {
               await sendSMS({
                 senderId: SMSSenderID.BVSTID,
                 template: SMSTemplate.ORDER_SHIPPED_SMS,
-                variables: [fulfillment.orderId, totalItems],
+                variables: [fulfillment.order.order_no.toString(), totalItems],
+                recipients: [mobile],
+              });
+            }
+          } catch (e) {
+            throw new VestidoError({
+              name: 'SendOTPFailed',
+              message: 'Failed to send OTP',
+              httpStatus: 500,
+              context: {
+                fulfillment,
+                error: e,
+              },
+            });
+          }
+        }
+
+        if (data.current_status === 'OUT FOR DELIVERY') {
+          try {
+            if (mobile) {
+              await sendSMS({
+                senderId: SMSSenderID.BVSTID,
+                template: SMSTemplate.ORDER_OUT_FOR_DELIVERY_SMS,
+                variables: [totalItems, fulfillment.order.order_no.toString()],
                 recipients: [mobile],
               });
             }
@@ -152,11 +175,11 @@ export async function handleShiprocketWebhook(
 
         if (data.current_status === 'DELIVERED') {
           try {
-            if (!mobile) {
+            if (mobile) {
               await sendSMS({
                 senderId: SMSSenderID.BVSTID,
                 template: SMSTemplate.ORDER_DELIVERED_SMS,
-                variables: [totalItems, fulfillment.orderId],
+                variables: [totalItems, fulfillment.order.order_no.toString()],
                 recipients: [mobile],
               });
             }
