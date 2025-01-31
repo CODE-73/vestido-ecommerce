@@ -24,6 +24,7 @@ export async function getOrder(orderId: string) {
               },
             },
           },
+          returns: true,
         },
       },
       orderItems: {

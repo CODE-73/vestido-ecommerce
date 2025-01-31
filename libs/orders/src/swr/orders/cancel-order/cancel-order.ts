@@ -19,6 +19,6 @@ export const useCancelOrder = () => {
     string[] | null,
     CancelOrderRequest
   >(key, (_, { arg }) => cancelOrder({ ...arg }, authHeaders), {
-    ...useClearCacheOnSuccess(OrderSWRKeys.ORDER),
+    ...useClearCacheOnSuccess(OrderSWRKeys.CANCEL),
   });
 };

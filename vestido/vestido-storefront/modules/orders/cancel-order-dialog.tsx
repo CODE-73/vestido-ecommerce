@@ -26,6 +26,7 @@ type CancelOrderDialogProps = {
   orderId: string;
   orderNo: bigint | undefined;
   children: ReactNode;
+  onOrderCancelled: () => void;
 };
 
 const CancelOrderFormSchema = z.object({
@@ -45,6 +46,7 @@ const CancelOrderDialog: FC<CancelOrderDialogProps> = ({
   orderId,
   orderNo,
   children,
+  onOrderCancelled,
 }) => {
   const { toast } = useToast();
   const router = useRouter();
@@ -66,6 +68,7 @@ const CancelOrderDialog: FC<CancelOrderDialogProps> = ({
       });
 
       router.replace(`/orders/${orderId}`);
+      onOrderCancelled();
       setIsDialogOpen(false);
     } catch (e) {
       if (e instanceof VestidoError) {
@@ -85,7 +88,10 @@ const CancelOrderDialog: FC<CancelOrderDialogProps> = ({
       <Dialog>
         <DialogTrigger asChild>{children}</DialogTrigger>
         {isDialogOpen && (
-          <DialogContent className="sm:max-w-[425px]">
+          <DialogContent
+            className="sm:max-w-[425px]"
+            onClick={(event) => event.stopPropagation()}
+          >
             <Form {...form}>
               <DialogHeader>
                 <DialogTitle>Order #{orderNo?.toString()}</DialogTitle>
