@@ -3,6 +3,7 @@ export * from './address/delete-address';
 export * from './address/get-address';
 export * from './address/list-address';
 export * from './address/update-address';
+export * from './fulfillment/auto-update-fulfillment';
 export * from './fulfillment/cancel-fulfillment';
 export * from './fulfillment/create-fulfillment';
 export * from './fulfillment/delete-fulfillment';
