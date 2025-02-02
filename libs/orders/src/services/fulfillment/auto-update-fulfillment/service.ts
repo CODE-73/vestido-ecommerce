@@ -103,8 +103,8 @@ export async function autoUpdateFulfillmentStatus() {
           },
         });
       }
-
-      await refreshOrderStatus({ id: f.id, type: 'fulfillmentStatus' });
+      const refreshData = { id: f.id, type: 'fulfillmentStatus' };
+      await refreshOrderStatus(refreshData);
     }
   });
 }
