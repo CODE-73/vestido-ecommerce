@@ -1,6 +1,11 @@
-{ "crons": [
+{
+  "crons": [
     {
       "path": "/api/coupons/cron",
+      "schedule": "0 0 * * *"
+    },
+    {
+      "path": "/api/fulfillments/cron",
       "schedule": "0 0 * * *"
     }
   ]

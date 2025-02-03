@@ -378,7 +378,7 @@ model Fulfillment {
     description         String?
     fulfillmentItems    FulfillmentItem[]
     logs                FulfillmentLog[]
-    deliveredDate       DateTime          @default(now()) @db.Timestamptz(3)
+    deliveredDate       DateTime?         @db.Timestamptz(3)
     createdAt           DateTime          @default(now()) @db.Timestamptz(3)
     updatedAt           DateTime          @default(now()) @db.Timestamptz(3)
     returns             Return[]
