@@ -52,6 +52,18 @@ export async function getTokenFromCache() {
 }
 
 function makeTokenKey() {
+  if (!SHIPROCKET_API_EMAIL || !SHIPROCKET_API_PWD) {
+    throw new VestidoError({
+      name: 'ShiprocketTokenGenerationError',
+      message: 'Shiprocket API credentials not set',
+      httpStatus: 500,
+      context: {
+        SHIPROCKET_API_EMAIL,
+        SHIPROCKET_API_PWD,
+      },
+    });
+  }
+
   const pwdHash = createHash('sha256').update(SHIPROCKET_API_PWD).digest('hex');
   return `shiprocket-otp:${SHIPROCKET_API_EMAIL}:${pwdHash}`;
 }

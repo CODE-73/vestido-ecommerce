@@ -3,7 +3,7 @@ import { getPrismaClient } from '@vestido-ecommerce/models';
 import { trackAWB } from '@vestido-ecommerce/shiprocket';
 import { VestidoError } from '@vestido-ecommerce/utils';
 
-import { refreshOrderStatus } from '@vestido-ecommerce/orders';
+import { refreshOrderStatus } from '../../../services';
 
 export async function autoUpdateFulfillmentStatus() {
   const prisma = getPrismaClient();
@@ -20,6 +20,9 @@ export async function autoUpdateFulfillmentStatus() {
   });
 
   const awbCodes = fulfillmentsToUpdate.map((f) => f.tracking as string);
+  if (!awbCodes.length) {
+    return;
+  }
 
   const trackingDetails = await trackAWB(awbCodes);
 
@@ -29,6 +32,9 @@ export async function autoUpdateFulfillmentStatus() {
     const currentStatus =
       fulfilmentTrackDetails?.tracking_data?.shipment_track?.[0]
         ?.current_status || null;
+
+    let mobile: string | null = null;
+    let totalItems = '0';
 
     if (currentStatus === 'OUT FOR DELIVERY') {
       const updatedFulfillment = await prisma.fulfillment.update({
@@ -48,8 +54,8 @@ export async function autoUpdateFulfillmentStatus() {
         },
       });
 
-      const mobile = updatedFulfillment.order.shippingAddress.mobile;
-      const totalItems = updatedFulfillment.fulfillmentItems
+      mobile = updatedFulfillment.order.shippingAddress.mobile;
+      totalItems = updatedFulfillment.fulfillmentItems
         .reduce((sum, item) => sum + item.quantity, 0)
         .toString();
     }
@@ -75,8 +81,8 @@ export async function autoUpdateFulfillmentStatus() {
         },
       });
 
-      const mobile = updatedFulfillment.order.shippingAddress.mobile;
-      const totalItems = updatedFulfillment.fulfillmentItems
+      mobile = updatedFulfillment.order.shippingAddress.mobile;
+      totalItems = updatedFulfillment.fulfillmentItems
         .reduce((sum, item) => sum + item.quantity, 0)
         .toString();
 

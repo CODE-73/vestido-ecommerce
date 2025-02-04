@@ -6,7 +6,7 @@ export async function trackAWB(awbCodes: string[]) {
   try {
     const response = await invokeShiprocketAPI('/courier/track/awbs', {
       method: 'POST',
-      body: { ...awbCodes },
+      body: { awbs: awbCodes },
     });
     return response;
   } catch (e) {
