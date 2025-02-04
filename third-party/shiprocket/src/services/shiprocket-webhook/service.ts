@@ -1,7 +1,7 @@
 import { sendSMS, SMSSenderID, SMSTemplate } from '@vestido-ecommerce/fast2sms';
 import { getPrismaClient } from '@vestido-ecommerce/models';
+import { refreshOrderStatus } from '@vestido-ecommerce/orders';
 import { VestidoError } from '@vestido-ecommerce/utils';
-import { refreshOrderStatus } from '../../../../../libs/orders';
 
 const IS_DEVELOPMENT = process.env['NODE_ENV'] === 'development';
 

@@ -152,9 +152,9 @@ export async function returnOrder(data: ReturnOrderSchemaType) {
       discount: item.orderItem.item.discountedPrice
         ? item.orderItem.item.price - item.orderItem.item.discountedPrice
         : 0,
-      tax: item.orderItem.item.taxRate,
+      tax: item.orderItem.item.taxRate ?? 0,
       hsn: '',
-      qc_enable: false,
+      qc_enable: true,
     }));
 
     const firstPaymentGateway = validPayments[0].paymentGateway;
