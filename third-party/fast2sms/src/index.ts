@@ -1,12 +1,15 @@
 import { z } from 'zod';
 
+import { getPrismaClient } from '@vestido-ecommerce/models';
+
 const FAST2SMS_AUTH_KEY = process.env['FAST2SMS_AUTH_KEY'] as string;
 
 export enum SMSTemplate {
   OTP_SMS = '172544',
-  PLACED_SMS = '176598',
-  SHIPPED_SMS = '176599',
-  DELIVERED_SMS = '176600',
+  ORDER_PLACED_SMS = '176598',
+  ORDER_SHIPPED_SMS = '176599',
+  ORDER_OUT_FOR_DELIVERY_SMS = '179083',
+  ORDER_DELIVERED_SMS = '176600',
 }
 
 export enum SMSSenderID {
@@ -25,6 +28,7 @@ export const SendSMSSchema = z.object({
 export type SendSMSRequest = z.infer<typeof SendSMSSchema>;
 
 export async function sendSMS(_args: SendSMSRequest) {
+  const prisma = getPrismaClient();
   const args = SendSMSSchema.parse(_args);
 
   // https://docs.fast2sms.com/#post-method
@@ -44,6 +48,17 @@ export async function sendSMS(_args: SendSMSRequest) {
       Authorization: `${FAST2SMS_AUTH_KEY}`,
     },
     body: JSON.stringify(reqBody),
+  });
+
+  await prisma.sMSLog.create({
+    data: {
+      context: JSON.stringify({
+        mobile: args.recipients,
+        orderId: args.variables,
+      }),
+      logType: args.template,
+      response: JSON.stringify(r),
+    },
   });
 
   if (!r.ok) {

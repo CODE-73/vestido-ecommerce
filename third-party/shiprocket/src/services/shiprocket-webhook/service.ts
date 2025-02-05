@@ -44,6 +44,7 @@ export async function handleShiprocketWebhook(
       fulfillmentItems: true,
       order: {
         include: {
+          shippingAddress: true,
           customer: true,
         },
       },
@@ -64,6 +65,13 @@ export async function handleShiprocketWebhook(
     });
   }
 
+  await prisma.webhookLog.create({
+    data: {
+      logType: 'SHIPROCKET',
+      rawData: data,
+    },
+  });
+
   if (!data.is_return) {
     await prisma.$transaction(async (prisma) => {
       await prisma.fulfillment.updateMany({
@@ -79,7 +87,9 @@ export async function handleShiprocketWebhook(
             status: 'OUT_FOR_DELIVERY',
           }),
           ...(data.current_status === 'DELIVERED' && { status: 'DELIVERED' }),
-          ...(data.delivered_date && { deliveredDate: data.delivered_date }),
+          ...(data.delivered_date && {
+            deliveredDate: new Date(data.delivered_date),
+          }),
         },
       });
 
@@ -114,18 +124,41 @@ export async function handleShiprocketWebhook(
           .reduce((sum, item) => sum + item.quantity, 0)
           .toString();
 
-        const mobile = fulfillment.order.customer.mobile ?? '';
+        const mobile = fulfillment.order.shippingAddress.mobile ?? '';
 
         if (
           !isShipped &&
-          (data.current_status === 'IN_TRANSIT' || 'PICKED UP')
+          (data.current_status === 'IN TRANSIT' || 'PICKED UP')
         ) {
           try {
-            if (!mobile) {
+            if (mobile) {
               await sendSMS({
                 senderId: SMSSenderID.BVSTID,
-                template: SMSTemplate.SHIPPED_SMS,
-                variables: [fulfillment.orderId, totalItems],
+                template: SMSTemplate.ORDER_SHIPPED_SMS,
+                variables: [fulfillment.order.order_no.toString(), totalItems],
+                recipients: [mobile],
+              });
+            }
+          } catch (e) {
+            throw new VestidoError({
+              name: 'SendOTPFailed',
+              message: 'Failed to send OTP',
+              httpStatus: 500,
+              context: {
+                fulfillment,
+                error: e,
+              },
+            });
+          }
+        }
+
+        if (data.current_status === 'OUT FOR DELIVERY') {
+          try {
+            if (mobile) {
+              await sendSMS({
+                senderId: SMSSenderID.BVSTID,
+                template: SMSTemplate.ORDER_OUT_FOR_DELIVERY_SMS,
+                variables: [totalItems, fulfillment.order.order_no.toString()],
                 recipients: [mobile],
               });
             }
@@ -144,11 +177,11 @@ export async function handleShiprocketWebhook(
 
         if (data.current_status === 'DELIVERED') {
           try {
-            if (!mobile) {
+            if (mobile) {
               await sendSMS({
                 senderId: SMSSenderID.BVSTID,
-                template: SMSTemplate.DELIVERED_SMS,
-                variables: [totalItems, fulfillment.orderId],
+                template: SMSTemplate.ORDER_DELIVERED_SMS,
+                variables: [totalItems, fulfillment.order.order_no.toString()],
                 recipients: [mobile],
               });
             }

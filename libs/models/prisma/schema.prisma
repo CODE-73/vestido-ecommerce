@@ -378,7 +378,7 @@ model Fulfillment {
     description         String?
     fulfillmentItems    FulfillmentItem[]
     logs                FulfillmentLog[]
-    deliveredDate       DateTime          @default(now()) @db.Timestamptz(3)
+    deliveredDate       DateTime?         @db.Timestamptz(3)
     createdAt           DateTime          @default(now()) @db.Timestamptz(3)
     updatedAt           DateTime          @default(now()) @db.Timestamptz(3)
     returns             Return[]
@@ -460,6 +460,13 @@ model BankDetails {
     mobile            String?
 }
 
+model WebhookLog {
+    id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    logType   String
+    rawData   Json
+    createdAt DateTime @default(now()) @db.Timestamptz(3)
+}
+
 model Coupon {
     id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     coupon      String
@@ -489,6 +496,14 @@ model Tax {
     enabled     Boolean  @default(true)
     createdAt   DateTime @default(now()) @db.Timestamptz(3)
     updatedAt   DateTime @default(now()) @db.Timestamptz(3)
+}
+
+model SMSLog {
+    id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    context   String
+    logType   String
+    response  Json
+    createdAt DateTime @default(now()) @db.Timestamptz(3)
 }
 
 model ContactUs {

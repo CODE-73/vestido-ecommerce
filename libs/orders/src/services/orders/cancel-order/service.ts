@@ -81,7 +81,7 @@ export async function cancelOrder(
 
         refundResponse = await refundRazorpay(refundData);
 
-        console.log('refundResponse: ', refundResponse);
+        console.log('Refund Response: ', refundResponse);
 
         if (!refundResponse || refundResponse.status === 'failed') {
           throw new VestidoError({
