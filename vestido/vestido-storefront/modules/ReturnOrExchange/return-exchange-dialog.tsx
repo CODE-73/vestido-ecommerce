@@ -30,7 +30,7 @@ import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { InputElement } from '../../forms/input-element';
 import { RadioGroupElement } from '../../forms/radio-group-element';
 import { CircleCheckIcon } from '../orders/order-confirmation-view';
-import { SelectItems } from './selectItems';
+import { SelectItems } from './return-exchange-dialog-select-items';
 type ReturnReplaceDialogProps = {
   children: ReactNode;
   isReturn?: boolean;
@@ -51,7 +51,7 @@ const ReturnOrderSchema = z.object({
   reason: z.enum([
     'DAMAGED_ITEM',
     'WRONG_ITEM_RECEIVED',
-    'MISIING_PART_OF_SET',
+    'MISSING_PART_OF_SET',
     'QUALITY_ISSUES',
     'FIT_ISSUES',
     'OTHER',
@@ -185,7 +185,7 @@ const ReturnReplaceDialog: React.FC<ReturnReplaceDialogProps> = ({
               <>
                 <RadioGroupElement
                   name="reason"
-                  label="Reason for Return"
+                  label={`Reason for ${isReturn} ? 'Return' :'Exchange'`}
                   options={[
                     {
                       label: 'Received Damaged/torn Item',
@@ -196,8 +196,8 @@ const ReturnReplaceDialog: React.FC<ReturnReplaceDialogProps> = ({
                       value: 'WRONG_ITEM_RECEIVED',
                     },
                     {
-                      label: 'MIssing part of a set',
-                      value: 'MISIING_PART_OF_SET',
+                      label: 'Missing part of a set',
+                      value: 'MISSING_PART_OF_SET',
                     },
                     {
                       label: 'Bad Quality',
@@ -211,21 +211,18 @@ const ReturnReplaceDialog: React.FC<ReturnReplaceDialogProps> = ({
                   ]}
                 />
                 <DialogFooter>
-                  {cod ? (
+                  {isReturn && cod ? (
                     <Button
                       onClick={() => setActiveDialog('bankDetails')}
                       type="button"
-                      className="w-full"
+                      className="w-full mt-4"
                     >
                       Next
                     </Button>
                   ) : (
-                    <Button
-                      disabled={form.formState.isSubmitting}
-                      className="w-full mt-5"
-                      type="submit"
-                    >
-                      Confirm Return
+                    <Button className="w-full mt-5" type="submit">
+                      Confirm &nbsp;
+                      {isReturn ? <span>Return</span> : <span>Exchange</span>}
                     </Button>
                   )}
                 </DialogFooter>

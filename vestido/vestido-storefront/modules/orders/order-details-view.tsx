@@ -15,7 +15,7 @@ import {
 import { formatINR } from '@vestido-ecommerce/utils';
 
 import ItemImage from '../../components/item-image';
-import ReturnReplaceDialog from '../ReturnOrReplace/return-exchange-dialog';
+import ReturnReplaceDialog from '../ReturnOrExchange/return-exchange-dialog';
 import CancelOrderDialog from './cancel-order-dialog';
 
 type OrderDetailsProps = {

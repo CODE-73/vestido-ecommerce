@@ -64,7 +64,7 @@ export const SelectItems: React.FC<selectItemProps> = ({
         {isReturn ? <div>Return Items</div> : <div>Exchange Items</div>}
       </DialogTitle>
 
-      <DialogDescription className="text-xs w-full">
+      <DialogDescription className="text-xs w-full mb-3">
         Select Item(s) to&nbsp;
         {isReturn ? (
           <span>return</span>
@@ -188,19 +188,13 @@ export const SelectItems: React.FC<selectItemProps> = ({
       </div>
 
       <DialogFooter>
-        {isReturn ? (
-          <Button
-            onClick={() => setActiveDialog('selectReason')}
-            type="button"
-            className="w-full"
-          >
-            Next
-          </Button>
-        ) : (
-          <Button className="w-full mt-5" type="submit">
-            Confirm Exchange
-          </Button>
-        )}
+        <Button
+          onClick={() => setActiveDialog('selectReason')}
+          type="button"
+          className="w-full mt-4"
+        >
+          Next
+        </Button>
       </DialogFooter>
     </>
   );
