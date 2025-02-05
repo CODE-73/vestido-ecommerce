@@ -185,7 +185,7 @@ const ReturnReplaceDialog: React.FC<ReturnReplaceDialogProps> = ({
               <>
                 <RadioGroupElement
                   name="reason"
-                  label={`Reason for ${isReturn} ? 'Return' :'Exchange'`}
+                  label={`Reason for ${isReturn ? 'Return' : 'Exchange'}`}
                   options={[
                     {
                       label: 'Received Damaged/torn Item',
