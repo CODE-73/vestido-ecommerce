@@ -21,7 +21,6 @@ import CancelOrderDialog from './cancel-order-dialog';
 type OrderDetailsProps = {
   orderId: string;
 };
-
 const formattedDate = (date: Date) => {
   return date.toLocaleDateString('en-US', {
     year: 'numeric',
@@ -32,17 +31,6 @@ const formattedDate = (date: Date) => {
   });
 };
 
-export const formattedTime = (dateTime: Date) => {
-  let hours = dateTime.getHours(); // Get hours (0-23)
-  const minutes = String(dateTime.getMinutes()).padStart(2, '0'); // Get minutes and ensure two digits
-  const ampm = hours >= 12 ? 'PM' : 'AM'; // Determine AM or PM
-
-  hours = hours % 12; // Convert to 12-hour format
-  hours = hours ? hours : 12; // The hour '0' should be '12'
-
-  return `${hours}:${minutes} ${ampm}`;
-};
-
 const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
   const router = useRouter();
   const { data: { data: order } = { data: null } } = useOrder(orderId);
@@ -50,12 +38,11 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
     order?.orderStatus === 'CANCELLED',
   );
 
-  const { data: { data: returnableItems } = { data: null } } =
-    useReturnableItems(order?.id);
+  const { data: { data: returnableItems } = { data: [] } } = useReturnableItems(
+    order?.id ?? null,
+  );
 
-  console.log('return', returnableItems);
-
-  const hasReturnableItems = returnableItems?.length > 0;
+  const hasReturnableItems = (returnableItems?.length || 0) > 0;
 
   // const hasDeliveredFulfillments =
   //   (order?.fulfillments?.filter((x) => x.status === 'DELIVERED').length ?? 0) >
@@ -133,10 +120,17 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
           </CardHeader>
           {hasReturnableItems && (
             <div className="flex gap-2 p-3 md:pt-6 ">
-              <ReturnReplaceDialog order={order} isReturn>
+              <ReturnReplaceDialog
+                order={order}
+                isReturn
+                returnableItems={returnableItems ?? []}
+              >
                 <Button className="basis-1/2">Return Items</Button>
               </ReturnReplaceDialog>
-              <ReturnReplaceDialog order={order}>
+              <ReturnReplaceDialog
+                returnableItems={returnableItems ?? []}
+                order={order}
+              >
                 <Button className="basis-1/2">Replace Items</Button>
               </ReturnReplaceDialog>
             </div>

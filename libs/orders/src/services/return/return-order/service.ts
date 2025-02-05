@@ -184,8 +184,9 @@ export async function returnOrder(data: ReturnOrderSchemaType) {
       weight: validatedMeasurements.weight,
     };
 
-    const shiprocketReturnOrder =
-      await createShiprocketReturnOrder(shiprocketReturnData);
+    /* const shiprocketReturnOrder =
+      await createShiprocketReturnOrder(shiprocketReturnData); */
+    const shiprocketReturnOrder = { shipment_id: 'TEST_SHIPMENT' };
 
     await prisma.returnLog.create({
       data: {
