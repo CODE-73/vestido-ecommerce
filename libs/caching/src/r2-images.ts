@@ -1,7 +1,9 @@
+import * as Sentry from '@sentry/nextjs';
+import { differenceInHours, parse } from 'date-fns';
 import { thumbHashToDataURL } from 'thumbhash';
 
 import { makeSignedUrl as _makeSignedUrl } from '@vestido-ecommerce/r2';
-import { ImageSchemaType } from '@vestido-ecommerce/utils';
+import { ImageSchemaType, VestidoError } from '@vestido-ecommerce/utils';
 
 import { getRedisClient } from './client';
 
@@ -56,7 +58,7 @@ export async function makeSignedUrl(key: string) {
   const imgKey = `img:${key}`;
 
   let url = await client.get(imgKey);
-  if (!url) {
+  if (!url || !validateImageURL(url)) {
     url = await _makeSignedUrl({
       requestType: 'GET',
       key,
@@ -66,4 +68,65 @@ export async function makeSignedUrl(key: string) {
   }
 
   return url;
+}
+
+function validateImageURL(_url: string) {
+  let url: URL | null = null;
+  try {
+    url = new URL(_url);
+  } catch (e) {
+    Sentry.captureException(
+      new VestidoError({
+        name: 'InvalidPresignedImageURL',
+        message: 'URL Parsing Failed',
+        httpStatus: 500,
+        context: {
+          url: _url,
+          error: e,
+        },
+      }),
+    );
+    return false;
+  }
+
+  const amzDate = url.searchParams.get('X-Amz-Date');
+  const amzExpires = url.searchParams.get('X-Amz-Expires');
+
+  if (!amzDate || !amzExpires) {
+    Sentry.captureException(
+      new VestidoError({
+        name: 'InvalidPresignedImageURL',
+        message: 'Missing X-Amz-Date or X-Amz-Expires',
+        httpStatus: 500,
+        context: {
+          url: _url,
+        },
+      }),
+    );
+    return false;
+  }
+
+  // Parse the X-Amz-Date (format: YYYYMMDDTHHmmssZ)
+  const date = parse(amzDate, "yyyyMMdd'T'HHmmss'Z'", new Date());
+
+  // Calculate the expiry time
+  const expiryTime = new Date(date.getTime() + parseInt(amzExpires) * 1000);
+
+  // Check if the expiry is at least 12 hours into the future
+  const now = new Date();
+  if (differenceInHours(expiryTime, now) >= REDIS_KEY_EXPIRY / 60 / 60) {
+    return true;
+  } else {
+    Sentry.captureException(
+      new VestidoError({
+        name: 'InvalidPresignedImageURL',
+        message: 'Expiry time is less than 12 hours into the future',
+        httpStatus: 500,
+        context: {
+          url: _url,
+        },
+      }),
+    );
+    return false;
+  }
 }
