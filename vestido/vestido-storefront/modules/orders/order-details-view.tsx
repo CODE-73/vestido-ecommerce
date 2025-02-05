@@ -74,6 +74,7 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
         (item) => item.orderItemId === orderItemId,
       );
       return {
+        fulfillmentId: fulfillment.id,
         quantity: matchingFulfillmentItem?.quantity ?? 0, // Extract the quantity
         status: fulfillment.status, // Extract the fulfillment status
       };
@@ -182,7 +183,7 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
 
                   {hasFulfilledQty &&
                     orderItemFulfillments(orderItem.id).map((fulfillment) => (
-                      <>
+                      <div key={fulfillment.fulfillmentId}>
                         <div
                           className="px-1 text-sm text-center justify-self-center col-start-6
                         "
@@ -199,7 +200,7 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
                         <div className="px-1 text-sm text-center justify-self-center">
                           {fulfillment.status}
                         </div>
-                      </>
+                      </div>
                     ))}
 
                   {!hasReturnedOrReplacedQty && (
