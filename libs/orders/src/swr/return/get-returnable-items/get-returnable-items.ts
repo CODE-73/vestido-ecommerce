@@ -6,7 +6,7 @@ import { GetReturnableitemsSWRResponse } from '../../../services';
 import { ReturnSWRKeys } from '../keys';
 import { getReturnableItems } from './service';
 
-export function useReturnableItems(orderId: string) {
+export function useReturnableItems(orderId: string | null) {
   const { authHeaders } = useAuth();
   const key = orderId
     ? [ReturnSWRKeys.GET, ReturnSWRKeys.RETURN, orderId]

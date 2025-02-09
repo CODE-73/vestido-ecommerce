@@ -9,7 +9,7 @@ export const ReturnPackageSchema = z.object({
 
 export const ReturnItemSchema = z.object({
   orderItemId: z.string().uuid(),
-  quantity: z.number().int(),
+  quantity: z.coerce.number().int(),
   FulfillmentItemPrice: z.number().positive(),
 });
 

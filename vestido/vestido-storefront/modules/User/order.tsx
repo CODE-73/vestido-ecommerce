@@ -6,11 +6,9 @@ import {
   type ListOrderResponse,
   useOrder,
 } from '@vestido-ecommerce/orders/client';
-import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Skeleton } from '@vestido-ecommerce/shadcn-ui/skeleton';
 import { formatINR } from '@vestido-ecommerce/utils';
 
-import CancelOrderDialog from '../orders/cancel-order-dialog';
 import { checkReturnEligibility } from './check-return-eligibility';
 import OrderIteminOrderList from './order-item';
 
@@ -107,14 +105,6 @@ const OrderInOrderList: React.FC<OrderProps> = ({ order }) => {
         </div>
         {!hasSubmittedFulfillments && (
           <div className="col-span-3 justify-self-end flex items-center gap-2">
-            {order.orderStatus != 'CANCELLED' && (
-              <CancelOrderDialog
-                orderId={order?.id as string}
-                orderNo={order?.order_no}
-              >
-                <Button variant="ghost">Cancel Order</Button>
-              </CancelOrderDialog>
-            )}
             <div
               className={`hidden md:block text-xs uppercase   ${orderStatusClasses(
                 { status: order.orderStatus },
@@ -160,7 +150,7 @@ const OrderInOrderList: React.FC<OrderProps> = ({ order }) => {
               key={orderItem.id}
               orderitem_itemid={orderItem.itemId}
               orderitem_item={orderItem.item}
-              orderitem_qty={orderItem.qty}
+              orderitem_qty={orderItem.qty - (orderItem.fulfilledQuantity ?? 0)}
               orderitem_variantid={orderItem.variantId as string}
             />
           ))}
