@@ -19,7 +19,7 @@ export const BankDetailsSchema = z.object({
   customerId: z.string(),
   bankAccountNumber: z.string(),
   bankIfscCode: z.string(),
-  bankAccountHolderName: z.string().optional(),
+  bankAccountHolderName: z.string(),
   mobile: z
     .string()
     .regex(indianMobileRegex, 'Please enter a valid Indian mobile number')

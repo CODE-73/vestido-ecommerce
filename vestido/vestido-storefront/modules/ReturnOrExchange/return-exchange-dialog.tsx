@@ -6,8 +6,10 @@ import { z } from 'zod';
 
 import { useProfile } from '@vestido-ecommerce/auth/client';
 import {
+  BankDetailsSchema,
   GetOrderResponse,
   GetReturnableitemsResponse,
+  type ReturnOrderSchemaType,
   useCreateReturnOrder,
 } from '@vestido-ecommerce/orders/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
@@ -39,19 +41,6 @@ type ReturnReplaceDialogProps = {
   returnableItems: GetReturnableitemsResponse;
 };
 
-const indianMobileRegex = /^[6-9]\d{9}$/;
-
-export const BankDetailsSchema = z.object({
-  customerId: z.string(),
-  bankAccountNumber: z.string(),
-  bankIfscCode: z.string(),
-  bankAccountHolderName: z.string().optional(),
-  mobile: z
-    .string()
-    .regex(indianMobileRegex, 'Please enter a valid Indian mobile number')
-    .optional(),
-});
-
 const ReturnItemSchema = z.object({
   orderItemId: z.string().uuid(),
   quantity: z.coerce.number().int(),
@@ -59,7 +48,7 @@ const ReturnItemSchema = z.object({
   fulfillmentId: z.string().uuid(),
 });
 
-const ReturnOrderSchema = z
+const ReturnOrderFormSchema = z
   .object({
     returnType: z.string(),
     orderId: z.string().uuid(),
@@ -88,7 +77,7 @@ const ReturnOrderSchema = z
     }
   });
 
-export type ReturnReplaceForm = z.infer<typeof ReturnOrderSchema>;
+export type ReturnReplaceForm = z.infer<typeof ReturnOrderFormSchema>;
 
 const ReturnReplaceDialog: React.FC<ReturnReplaceDialogProps> = ({
   children,
@@ -113,7 +102,7 @@ const ReturnReplaceDialog: React.FC<ReturnReplaceDialogProps> = ({
   };
 
   const form = useForm<ReturnReplaceForm>({
-    resolver: zodResolver(ReturnOrderSchema),
+    resolver: zodResolver(ReturnOrderFormSchema),
     defaultValues: {
       returnType: 'RETURN',
       orderId: order?.id,
@@ -162,14 +151,6 @@ const ReturnReplaceDialog: React.FC<ReturnReplaceDialogProps> = ({
     order?.payments,
   ]);
 
-  console.info('formvalues', form.getValues());
-  console.info(
-    'form..',
-    form.formState.isValid,
-    form.formState.isDirty,
-    form.formState.errors,
-  );
-
   const handleSubmit = async (data: ReturnReplaceForm) => {
     try {
       // Filter out items with quantity > 0
@@ -208,7 +189,7 @@ const ReturnReplaceDialog: React.FC<ReturnReplaceDialogProps> = ({
           fulfillmentId, // Attach fulfillmentId at the request level
           returnItems: items, // Ensure returnItems array does NOT contain fulfillmentId
         }),
-      );
+      ) as Array<ReturnOrderSchemaType>;
       // Send all return requests in parallel
       await Promise.all(returnRequests.map((req) => trigger(req)));
 
