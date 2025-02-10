@@ -21,6 +21,21 @@ export async function getReturnableItems(orderId: string) {
     },
   });
 
+  const fulfillments =
+    fulfillmentitems.length > 0
+      ? await prisma.fulfillment.findMany({
+          where: {
+            id: {
+              in: fulfillmentitems.map((x) => x.fulfillmentId),
+            },
+          },
+          select: {
+            id: true,
+            deliveredDate: true,
+          },
+        })
+      : [];
+
   const filteredFulfillmentItems = await Promise.all(
     fulfillmentitems.map(async (fulfillmentItem) => {
       const orderItem = fulfillmentItem.orderItem;
@@ -60,6 +75,9 @@ export async function getReturnableItems(orderId: string) {
 
       return {
         ...fulfillmentItem,
+        deliveredDate:
+          fulfillments.find((x) => x.id === fulfillmentItem.fulfillmentId)
+            ?.deliveredDate || null,
         orderItem: {
           ...orderItem,
           returnableQty,

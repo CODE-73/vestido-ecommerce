@@ -9,11 +9,22 @@ export const ReturnPackageSchema = z.object({
 
 export const ReturnItemSchema = z.object({
   orderItemId: z.string().uuid(),
-  quantity: z.number().int(),
+  quantity: z.coerce.number().int(),
   FulfillmentItemPrice: z.number().positive(),
 });
 
 const indianMobileRegex = /^[6-9]\d{9}$/;
+
+export const BankDetailsSchema = z.object({
+  customerId: z.string(),
+  bankAccountNumber: z.string(),
+  bankIfscCode: z.string(),
+  bankAccountHolderName: z.string(),
+  mobile: z
+    .string()
+    .regex(indianMobileRegex, 'Please enter a valid Indian mobile number')
+    .optional(),
+});
 
 export const ReturnOrderSchema = z.object({
   returnType: z.string(),
@@ -21,17 +32,7 @@ export const ReturnOrderSchema = z.object({
   orderId: z.string().uuid(),
   reason: z.string(),
   returnItems: z.array(ReturnItemSchema),
-});
-
-export const BankDetailsSchema = z.object({
-  customerId: z.string(),
-  bankAccountNumber: z.string(),
-  bankIfscCode: z.string(),
-  bankAccountHolderName: z.string().optional(),
-  mobile: z
-    .string()
-    .regex(indianMobileRegex, 'Please enter a valid Indian mobile number')
-    .optional(),
+  bankDetails: BankDetailsSchema.nullish(),
 });
 
 export type ReturnOrderSchemaType = z.infer<typeof ReturnOrderSchema>;
