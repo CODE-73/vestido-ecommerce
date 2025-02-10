@@ -1,6 +1,5 @@
 import { sendSMS, SMSSenderID, SMSTemplate } from '@vestido-ecommerce/fast2sms';
 import { getPrismaClient } from '@vestido-ecommerce/models';
-import { refreshOrderStatus } from '@vestido-ecommerce/orders';
 import { VestidoError } from '@vestido-ecommerce/utils';
 
 const IS_DEVELOPMENT = process.env['NODE_ENV'] === 'development';
@@ -93,9 +92,6 @@ export async function handleShiprocketWebhook(
           }),
         },
       });
-
-      const refreshData = { id: fulfillment.id, type: 'fulfillmentStatus' };
-      await refreshOrderStatus(refreshData);
 
       const isShipped = await prisma.fulfillmentLog.findFirst({
         where: {
