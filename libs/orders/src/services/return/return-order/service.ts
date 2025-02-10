@@ -5,7 +5,6 @@ import { VestidoError } from '@vestido-ecommerce/utils';
 import { createOrder } from '../../orders/create-order';
 import { getOrder } from '../../orders/get-order';
 import {
-  BankDetailsSchema,
   ReturnOrderSchema,
   ReturnOrderSchemaType,
   ReturnPackageSchema,
@@ -126,8 +125,17 @@ export async function returnOrder(data: ReturnOrderSchemaType) {
     }
 
     if (validPayments[0].paymentGateway === 'CASH_ON_DELIVERY') {
-      const validatedBankData = BankDetailsSchema.parse(data);
-
+      const validatedBankData = validatedData.bankDetails;
+      if (!validatedBankData) {
+        throw new VestidoError({
+          name: 'NotFoundError',
+          message: 'Bank Details does not exist',
+          httpStatus: 404,
+          context: {
+            bankDetails: validatedData.bankDetails,
+          },
+        });
+      }
       await prisma.bankDetails.create({
         data: {
           returnId: returnOrder.id,
@@ -184,8 +192,9 @@ export async function returnOrder(data: ReturnOrderSchemaType) {
       weight: validatedMeasurements.weight,
     };
 
-    const shiprocketReturnOrder =
-      await createShiprocketReturnOrder(shiprocketReturnData);
+    // const shiprocketReturnOrder =
+    //   await createShiprocketReturnOrder(shiprocketReturnData);
+    const shiprocketReturnOrder = { shipment_id: 'TEST_SHIPMENT' };
 
     await prisma.returnLog.create({
       data: {
@@ -211,7 +220,7 @@ export async function returnOrder(data: ReturnOrderSchemaType) {
     // if (validatedData.returnType === 'RETURN') {
     // }
 
-    //Create new order if REFPLACE
+    //Create new order if REPLACE
     let updatedReplacedOrder;
     if (validatedData.returnType === 'REPLACE') {
       const orderItems = returnOrder.returnItems.map((returnItem) => {

@@ -15,23 +15,24 @@ export const ReturnItemSchema = z.object({
 
 const indianMobileRegex = /^[6-9]\d{9}$/;
 
+export const BankDetailsSchema = z.object({
+  customerId: z.string(),
+  bankAccountNumber: z.string(),
+  bankIfscCode: z.string(),
+  bankAccountHolderName: z.string(),
+  mobile: z
+    .string()
+    .regex(indianMobileRegex, 'Please enter a valid Indian mobile number')
+    .optional(),
+});
+
 export const ReturnOrderSchema = z.object({
   returnType: z.string(),
   fulfillmentId: z.string().uuid(),
   orderId: z.string().uuid(),
   reason: z.string(),
   returnItems: z.array(ReturnItemSchema),
-});
-
-export const BankDetailsSchema = z.object({
-  customerId: z.string(),
-  bankAccountNumber: z.string(),
-  bankIfscCode: z.string(),
-  bankAccountHolderName: z.string().optional(),
-  mobile: z
-    .string()
-    .regex(indianMobileRegex, 'Please enter a valid Indian mobile number')
-    .optional(),
+  bankDetails: BankDetailsSchema.nullish(),
 });
 
 export type ReturnOrderSchemaType = z.infer<typeof ReturnOrderSchema>;

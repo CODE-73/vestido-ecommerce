@@ -4,9 +4,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
+import { useProfile } from '@vestido-ecommerce/auth/client';
 import {
+  BankDetailsSchema,
   GetOrderResponse,
   GetReturnableitemsResponse,
+  type ReturnOrderSchemaType,
   useCreateReturnOrder,
 } from '@vestido-ecommerce/orders/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
@@ -45,21 +48,36 @@ const ReturnItemSchema = z.object({
   fulfillmentId: z.string().uuid(),
 });
 
-const ReturnOrderSchema = z.object({
-  returnType: z.string(),
-  orderId: z.string().uuid(),
-  reason: z.enum([
-    'DAMAGED_ITEM',
-    'WRONG_ITEM_RECEIVED',
-    'MISSING_PART_OF_SET',
-    'QUALITY_ISSUES',
-    'FIT_ISSUES',
-    'OTHER',
-  ]),
-  returnItems: z.array(ReturnItemSchema),
-});
+const ReturnOrderFormSchema = z
+  .object({
+    returnType: z.string(),
+    orderId: z.string().uuid(),
+    reason: z.enum([
+      'DAMAGED_ITEM',
+      'WRONG_ITEM_RECEIVED',
+      'MISSING_PART_OF_SET',
+      'QUALITY_ISSUES',
+      'FIT_ISSUES',
+      'OTHER',
+    ]),
+    returnItems: z.array(ReturnItemSchema),
+    paymentType: z.string(),
+    bankDetails: BankDetailsSchema.nullish(),
+  })
+  .superRefine((data, ctx) => {
+    if (data.returnType === 'RETURN' && data.paymentType === 'COD') {
+      const bankDetailsCheck = BankDetailsSchema.safeParse(data.bankDetails);
+      if (!bankDetailsCheck.success) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: 'Bank details are required for COD returns',
+          path: ['bankDetails'],
+        });
+      }
+    }
+  });
 
-export type ReturnReplaceForm = z.infer<typeof ReturnOrderSchema>;
+export type ReturnReplaceForm = z.infer<typeof ReturnOrderFormSchema>;
 
 const ReturnReplaceDialog: React.FC<ReturnReplaceDialogProps> = ({
   children,
@@ -73,6 +91,8 @@ const ReturnReplaceDialog: React.FC<ReturnReplaceDialogProps> = ({
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { trigger } = useCreateReturnOrder();
 
+  const { data: profile } = useProfile();
+
   const [activeDialog, setActiveDialog] = useState<string>('selectItems');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
@@ -82,12 +102,20 @@ const ReturnReplaceDialog: React.FC<ReturnReplaceDialogProps> = ({
   };
 
   const form = useForm<ReturnReplaceForm>({
-    resolver: zodResolver(ReturnOrderSchema),
+    resolver: zodResolver(ReturnOrderFormSchema),
     defaultValues: {
       returnType: 'RETURN',
       orderId: order?.id,
       returnItems: [{ quantity: 0 }],
       reason: 'OTHER',
+      paymentType: order?.payments[0].paymentGateway,
+      bankDetails: {
+        mobile: profile?.data.mobile ?? undefined,
+        customerId: profile?.data.id ?? '',
+        bankAccountNumber: '',
+        bankIfscCode: '',
+        bankAccountHolderName: '',
+      },
     },
   });
 
@@ -96,6 +124,7 @@ const ReturnReplaceDialog: React.FC<ReturnReplaceDialogProps> = ({
   useEffect(() => {
     form.reset({
       returnType: isReturn ? 'RETURN' : 'EXCHANGE',
+      paymentType: order?.payments[0].paymentGateway,
       orderId: order?.id,
       reason: 'OTHER',
       returnItems: returnableItems.map((item) => ({
@@ -104,8 +133,23 @@ const ReturnReplaceDialog: React.FC<ReturnReplaceDialogProps> = ({
         orderItemId: item.orderItemId,
         quantity: 0,
       })),
+      bankDetails: {
+        mobile: profile?.data.mobile ?? undefined,
+        customerId: profile?.data.id ?? '',
+        bankAccountNumber: '',
+        bankIfscCode: '',
+        bankAccountHolderName: '',
+      },
     });
-  }, [form, returnableItems, isReturn, order?.id]);
+  }, [
+    form,
+    returnableItems,
+    isReturn,
+    order?.id,
+    profile?.data.id,
+    profile?.data.mobile,
+    order?.payments,
+  ]);
 
   const handleSubmit = async (data: ReturnReplaceForm) => {
     try {
@@ -138,11 +182,14 @@ const ReturnReplaceDialog: React.FC<ReturnReplaceDialogProps> = ({
       const returnRequests = Object.values(groupedByFulfillment).map(
         ({ fulfillmentId, items }) => ({
           ...data,
+          bankDetails: {
+            ...data.bankDetails,
+            customerId: profile?.data.id ?? '',
+          },
           fulfillmentId, // Attach fulfillmentId at the request level
           returnItems: items, // Ensure returnItems array does NOT contain fulfillmentId
         }),
-      );
-
+      ) as Array<ReturnOrderSchemaType>;
       // Send all return requests in parallel
       await Promise.all(returnRequests.map((req) => trigger(req)));
 
@@ -204,7 +251,7 @@ const ReturnReplaceDialog: React.FC<ReturnReplaceDialogProps> = ({
                       value: 'QUALITY_ISSUES',
                     },
                     {
-                      label: 'Need to Change Payment Method',
+                      label: 'Does not fit well',
                       value: 'FIT_ISSUES',
                     },
                     { label: 'Other', value: 'OTHER' },
@@ -236,19 +283,24 @@ const ReturnReplaceDialog: React.FC<ReturnReplaceDialogProps> = ({
                 </DialogDescription>
 
                 <InputElement
-                  name="account_holder_name"
+                  name="bankDetails.bankAccountHolderName"
                   label="Account Holder Name"
                   placeholder="Account holder name"
                 />
                 <InputElement
-                  name="account_number"
+                  name="bankDetails.bankAccountNumber"
                   label="Account Number"
                   placeholder="Account no."
                 />
                 <InputElement
-                  name="ifsc_code"
+                  name="bankDetails.bankIfscCode"
                   label="IFSC Code"
                   placeholder="IFSC code"
+                />
+                <InputElement
+                  name="bankDetails.mobile"
+                  label="Mobile"
+                  placeholder="Mobile"
                 />
 
                 <DialogFooter>
