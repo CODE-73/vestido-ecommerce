@@ -159,8 +159,7 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
             {order?.orderItems.map((orderItem, index) => {
               const hasFulfilledQty =
                 orderItem.fulfilledQuantity && orderItem.fulfilledQuantity > 0;
-              const hasReturnedOrReplacedQty =
-                orderItem.replacedQty > 0 || orderItem.returnedQty > 0;
+              const hasReturnedOrReplacedQty = orderItem.returnItems.length > 0;
 
               return (
                 <div
@@ -183,9 +182,12 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
 
                   {hasFulfilledQty &&
                     orderItemFulfillments(orderItem.id).map((fulfillment) => (
-                      <div key={fulfillment.fulfillmentId}>
+                      <div
+                        key={fulfillment.fulfillmentId}
+                        className="col-span-3 grid grid-cols-3"
+                      >
                         <div
-                          className="px-1 text-sm text-center justify-self-center col-start-6
+                          className="px-1 text-sm text-center justify-self-center 
                         "
                         >
                           {fulfillment.status === 'DELIVERED' ? (
@@ -197,35 +199,35 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
                             <div>{fulfillment.quantity}</div>
                           )}
                         </div>
-                        <div className="px-1 text-sm text-center justify-self-center">
+                        <div className="px-1 text-sm text-center justify-self-center col-span-2">
                           {fulfillment.status}
                         </div>
                       </div>
                     ))}
 
                   {!hasReturnedOrReplacedQty && (
-                    <>
-                      <div className="px-1 text-sm text-center justify-self-center col-start-6">
+                    <div className="col-start-6 col-span-3 grid grid-cols-3">
+                      <div className="px-1 text-sm text-center justify-self-center ">
                         {orderItem.qty - (orderItem.fulfilledQuantity ?? 0)}
                       </div>
-                      <div className="px-1 text-sm text-center ">
+                      <div className="px-1 text-sm text-center col-span-2 ">
                         not shipped yet
                       </div>
-                    </>
+                    </div>
                   )}
                   {hasReturnedOrReplacedQty && (
-                    <>
-                      <div className="px-1 text-sm text-center justify-self-center col-start-6">
+                    <div className="col-start-6 col-span-3 grid grid-cols-3">
+                      <div className="px-1 text-sm text-center justify-self-center ">
                         {orderItem.returnedQty || orderItem.replacedQty}
                       </div>
-                      <div>
+                      <div className="col-span-2 justify-self-center">
                         return
                         <span>
                           {orderItem.returnStatus ||
                             orderItem.replacementStatus}
                         </span>
                       </div>
-                    </>
+                    </div>
                   )}
                   {/* {order.orderStatus == 'IN_PROGRESS' && (
                   <div className="text-sm pl-1  justify-self-center">
