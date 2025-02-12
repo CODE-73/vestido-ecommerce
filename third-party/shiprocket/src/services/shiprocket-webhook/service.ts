@@ -198,10 +198,6 @@ export async function handleShiprocketWebhook(
           }
         }
       }
-      return {
-        type: 'Order',
-        id: data.order_id,
-      };
     });
   }
 
@@ -222,5 +218,8 @@ export async function handleShiprocketWebhook(
     };
   }
 
-  return null;
+  return {
+    type: 'Order',
+    id: data.order_id,
+  };
 }
