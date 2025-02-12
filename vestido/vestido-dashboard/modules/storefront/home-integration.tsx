@@ -83,11 +83,16 @@ const StorefrontHomeIntegration: React.FC = () => {
     <div className="my-5 md:my-10">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)}>
-          <div className="w-full justify-end sticky top-0 px-5 z-20 bg-white h-24 flex items-center">
+          <div className="w-full justify-between sticky top-0 px-5 z-20 bg-white h-24 flex items-center">
+            {Object.keys(form.formState.errors ?? {}).length > 0 && (
+              <div className="text-red-300 text-xs">
+                {JSON.stringify(form.formState.errors, null, 2)}
+              </div>
+            )}
             <Button
               disabled={!isValid || !isDirty}
               type="submit"
-              className="w-[20%] h-14"
+              className="w-[20%] h-14 ml-auto"
             >
               Save Changes
             </Button>
