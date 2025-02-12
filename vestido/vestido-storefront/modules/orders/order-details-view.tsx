@@ -17,6 +17,7 @@ import { formatINR } from '@vestido-ecommerce/utils';
 import ItemImage from '../../components/item-image';
 import ReturnReplaceDialog from '../ReturnOrExchange/return-exchange-dialog';
 import CancelOrderDialog from './cancel-order-dialog';
+import { useOrderItemsDetailedStatus } from './use-order-item-detailed-status';
 
 type OrderDetailsProps = {
   orderId: string;
@@ -34,6 +35,10 @@ const formattedDate = (date: Date) => {
 const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
   const router = useRouter();
   const { data: { data: order } = { data: null } } = useOrder(orderId);
+  console.log('order return data', order);
+
+  const orderItemsDetails = useOrderItemsDetailedStatus(order);
+  console.log('hook', orderItemsDetails);
   const [isCancelledOrder, setIsCancelledOrder] = useState(
     order?.orderStatus === 'CANCELLED',
   );
@@ -63,29 +68,6 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
   //   order?.fulfillments.find((x) =>
   //     x.fulfillmentItems.some((y) => y.orderItemId === orderItemId),
   //   )?.status;
-
-  function orderItemFulfillments(orderItemId: string) {
-    const fulfillmentsWithTheOrderItem = order?.fulfillments.filter((x) =>
-      x.fulfillmentItems.some((y) => y.orderItemId === orderItemId),
-    );
-
-    const rows = fulfillmentsWithTheOrderItem?.map((fulfillment) => {
-      const matchingFulfillmentItem = fulfillment.fulfillmentItems.find(
-        (item) => item.orderItemId === orderItemId,
-      );
-      return {
-        fulfillmentId: fulfillment.id,
-        quantity: matchingFulfillmentItem?.quantity ?? 0, // Extract the quantity
-        status: fulfillment.status, // Extract the fulfillment status
-      };
-    });
-
-    return rows || [];
-  }
-
-  // const hasReturnedOrReplacedQty = (orderItemId: string) => (
-
-  // )
 
   const submittedFulfillments = order?.fulfillments.filter(
     (x) => x.status != 'DRAFT',
@@ -156,87 +138,88 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
           </div>
 
           <div className="flex flex-col gap-3">
-            {order?.orderItems.map((orderItem, index) => {
-              const hasFulfilledQty =
-                orderItem.fulfilledQuantity && orderItem.fulfilledQuantity > 0;
-              const hasReturnedOrReplacedQty = orderItem.returnItems.length > 0;
+            {orderItemsDetails.map((orderItem) => (
+              <div
+                key={orderItem.id}
+                className={`py-3 grid grid-cols-8 bg-gray-300  rounded-lg pb-8`}
+              >
+                <ItemImage
+                  item={orderItem.item}
+                  width={60}
+                  height={90}
+                  className="justify-self-center rounded-lg ml-4 row-span-2"
+                />
 
-              return (
-                <div
-                  key={index}
-                  className={`py-3 grid grid-cols-8 bg-gray-300  rounded-lg pb-8`}
-                >
-                  <ItemImage
-                    item={orderItem.item}
-                    width={60}
-                    height={90}
-                    className="justify-self-center rounded-lg ml-4 row-span-2"
-                  />
-
-                  <div className="text-xs col-span-3 pl-1 ">
-                    {orderItem.item.title}
-                  </div>
-                  <div className="text-sm pl-1  justify-self-center">
-                    {formatINR(orderItem.price)}
-                  </div>
-
-                  {hasFulfilledQty &&
-                    orderItemFulfillments(orderItem.id).map((fulfillment) => (
+                <div className="text-xs col-span-3 pl-1 ">
+                  {orderItem.item.title}
+                </div>
+                <div className="text-sm pl-1  justify-self-center">
+                  {formatINR(orderItem.price)}
+                </div>
+                <div className="col-span-3">
+                  {orderItem.statuses.length > 0 &&
+                    orderItem.statuses.map((fulfillment) => (
                       <div
                         key={fulfillment.fulfillmentId}
-                        className="col-span-3 grid grid-cols-3"
+                        className="grid grid-cols-3"
                       >
-                        <div
-                          className="px-1 text-sm text-center justify-self-center 
-                        "
-                        >
-                          {fulfillment.status === 'DELIVERED' ? (
-                            <div>
-                              {fulfillment.quantity -
-                                (orderItem.returnedQty + orderItem.replacedQty)}
-                            </div>
-                          ) : (
-                            <div>{fulfillment.quantity}</div>
-                          )}
+                        <div className="px-1 text-sm text-center justify-self-center">
+                          {fulfillment.qty -
+                            (orderItem.returnInitiatedQty ?? 0)}
                         </div>
                         <div className="px-1 text-sm text-center justify-self-center col-span-2">
-                          {fulfillment.status}
+                          {fulfillment.title}
                         </div>
                       </div>
                     ))}
 
-                  {!hasReturnedOrReplacedQty && (
-                    <div className="col-start-6 col-span-3 grid grid-cols-3">
-                      <div className="px-1 text-sm text-center justify-self-center ">
+                  {!orderItem.hasReturnInitiatedQty && (
+                    <div className="grid grid-cols-3">
+                      <div className="px-1 text-sm text-center justify-self-center">
                         {orderItem.qty - (orderItem.fulfilledQuantity ?? 0)}
                       </div>
-                      <div className="px-1 text-sm text-center col-span-2 ">
+                      <div className="px-1 text-sm text-center col-span-2">
                         not shipped yet
                       </div>
                     </div>
                   )}
-                  {hasReturnedOrReplacedQty && (
-                    <div className="col-start-6 col-span-3 grid grid-cols-3">
-                      <div className="px-1 text-sm text-center justify-self-center ">
-                        {orderItem.returnedQty || orderItem.replacedQty}
+
+                  {orderItem.hasReturnInitiatedQty &&
+                    (orderItem.hasReturnedOrReplacedQty ? (
+                      <div className="grid grid-cols-3">
+                        <div className="px-1 text-sm text-center justify-self-center">
+                          {orderItem.returnedQty || orderItem.replacedQty}
+                        </div>
+                        <div className="col-span-2 justify-self-center">
+                          return
+                          <span>
+                            {orderItem.returnStatus ||
+                              orderItem.replacementStatus}
+                          </span>
+                        </div>
                       </div>
-                      <div className="col-span-2 justify-self-center">
-                        return
-                        <span>
-                          {orderItem.returnStatus ||
-                            orderItem.replacementStatus}
-                        </span>
-                      </div>
-                    </div>
-                  )}
-                  {/* {order.orderStatus == 'IN_PROGRESS' && (
-                  <div className="text-sm pl-1  justify-self-center">
-                  
-                  </div>
-                )} */}
+                    ) : (
+                      <>
+                        {orderItem.returnItems &&
+                          orderItem.returnItems.map((returnItem) => (
+                            <div
+                              key={returnItem.id}
+                              className="grid grid-cols-3"
+                            >
+                              <div className="px-1 text-sm text-center justify-self-center">
+                                {returnItem.qty}
+                              </div>
+                              <div className="col-span-2 justify-self-center">
+                                return
+                                <span>{returnItem.return.status}</span>
+                              </div>
+                            </div>
+                          ))}
+                      </>
+                    ))}
                 </div>
-              );
-            })}
+              </div>
+            ))}
           </div>
           <hr />
           <div className="grid gap-1">
@@ -275,66 +258,6 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
           )}
         </CardFooter>
       </Card>
-
-      {/* {!isCancelledOrder && (
-        <div>
-          <Card
-            className="p-3 md:p-6 max-w-3xl"
-            style={{ height: cardHeight, minHeight: cardHeight }}
-          >
-            <CardHeader className="flex flex-col items-center gap-2">
-              <CardTitle className="text-2xl font-semibold text-center">
-                Shipment Details
-              </CardTitle>
-              <CardDescription className="text-muted-foreground">
-                <div className="flex gap-1">
-                  <div className="text-muted-foreground">Order Number: </div>
-                  <div className="font-medium">{order?.id}</div>
-                </div>
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="grid gap-4 max-h-[80%] overflow-y-scroll">
-              {order?.fulfillments.map((fulfillment, index) => (
-                <div
-                  key={index}
-                  className="w-full max-w-3xl mx-auto p-6 bg-white rounded-lg shadow-md"
-                >
-                  {formattedDate(new Date(fulfillment.createdAt))}
-                  <ShipmentStatus fulfillmentStatus={fulfillment.status} />
-                  <div>
-                    <div className="flex flex-col  divide-y">
-                      {fulfillment.fulfillmentItems.map(
-                        (fulfillmentItem, index) => (
-                          <div
-                            key={index}
-                            className="py-3 grid grid-cols-8 divide-x"
-                          >
-                            <ItemImage
-                              item={fulfillmentItem?.orderItem?.item}
-                              width={50}
-                              height={70}
-                              className="w-10 h-12 justify-self-center"
-                            />
-                            <div className="text-xs col-span-4 pl-1 ">
-                              {fulfillmentItem?.orderItem?.item.title}
-                            </div>
-                            <div className="px-1 text-sm text-center justify-self-center">
-                              {fulfillmentItem?.orderItem?.qty}
-                            </div>
-                            <div className="text-sm pl-1 col-span-2 justify-self-center">
-                              {formatINR(fulfillmentItem?.orderItem?.price)}
-                            </div>
-                          </div>
-                        ),
-                      )}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-        </div>
-      )} */}
     </div>
   );
 };
