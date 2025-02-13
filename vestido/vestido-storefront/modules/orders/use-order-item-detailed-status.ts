@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 
 import { GetOrderResponse } from '@vestido-ecommerce/orders';
-import { OrderItemSchema } from 'libs/orders/src/services/orders/create-order/zod';
 
 /**
  * Returns an Array of {
@@ -29,8 +28,8 @@ export const useOrderItemsDetailedStatus = (
         const matchingFulfillmentItem = fulfillment.fulfillmentItems.find(
           (item) => item.orderItemId === orderItem.id,
         );
-        const HasReturnInFulfillment =
-          fulfillment.returns && fulfillment.returns.length > 0;
+        // const HasReturnInFulfillment =
+        //   fulfillment.returns && fulfillment.returns.length > 0;
         // if (HasReturnInFulfillment) {
         //     fulfillment.returns.map((return) => return.returnItems.find((x) => x.orderItemId === orderItem.id ))
         // }
