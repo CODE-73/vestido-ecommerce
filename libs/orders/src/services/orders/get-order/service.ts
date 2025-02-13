@@ -29,6 +29,11 @@ export async function getOrder(orderId: string) {
       },
       orderItems: {
         include: {
+          returnItems: {
+            include: {
+              return: true,
+            },
+          },
           item: {
             include: {
               variants: true,
