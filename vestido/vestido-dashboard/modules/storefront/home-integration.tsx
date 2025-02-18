@@ -37,6 +37,7 @@ const StorefrontHomeIntegration: React.FC = () => {
   });
 
   const isDirty = form.formState.isDirty;
+  const isSubmitting = form.formState.isSubmitting;
 
   useEffect(() => {
     if (home_data) {
@@ -88,7 +89,7 @@ const StorefrontHomeIntegration: React.FC = () => {
               </div>
             )}
             <Button
-              disabled={!isDirty}
+              disabled={!isDirty || isSubmitting}
               type="submit"
               className="w-[20%] h-14 ml-auto"
             >
