@@ -59,7 +59,7 @@ export async function makeThumbHash({ fileUrl, file }: MakeThumbHashArgs) {
 export async function addThumbhashToImages(images: ImageSchemaType[]) {
   return await Promise.all(
     images.map(async (img) => {
-      if (img.blurHash) {
+      if (img.blurHash || !img.key) {
         return;
       }
 
