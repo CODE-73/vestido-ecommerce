@@ -46,7 +46,7 @@ const HeroCarouselItem: React.FC<HeroCarouselItemProps> = ({
         blurHash: null,
         blurHashDataURL: null,
         alt: null,
-        key: '',
+        key: null,
         url: null,
         default: false,
         displayIndex: 0,

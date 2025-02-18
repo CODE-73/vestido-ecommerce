@@ -31,13 +31,11 @@ const StorefrontHomeIntegration: React.FC = () => {
   const { toast } = useToast();
 
   const form = useForm<StorefrontHomeDataSchemaForm>({
+    mode: 'all',
     resolver: zodResolver(StorefrontHomeDataSchema),
     defaultValues: {},
   });
 
-  console.info('formvalues', form.getValues());
-
-  const isValid = form.formState.isValid;
   const isDirty = form.formState.isDirty;
 
   useEffect(() => {
@@ -85,12 +83,12 @@ const StorefrontHomeIntegration: React.FC = () => {
         <form onSubmit={form.handleSubmit(handleSubmit)}>
           <div className="w-full justify-between sticky top-0 px-5 z-20 bg-white h-24 flex items-center">
             {Object.keys(form.formState.errors ?? {}).length > 0 && (
-              <div className="text-red-300 text-xs">
+              <div className="text-red-300 text-xs pointer-events-none">
                 {JSON.stringify(form.formState.errors, null, 2)}
               </div>
             )}
             <Button
-              disabled={!isValid || !isDirty}
+              disabled={!isDirty}
               type="submit"
               className="w-[20%] h-14 ml-auto"
             >
