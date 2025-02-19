@@ -14,5 +14,7 @@ export const POST = apiRouteHandler(async ({ request }) => {
       type: 'fulfillmentStatus',
     });
   }
-  return true;
+  return {
+    target,
+  };
 });
