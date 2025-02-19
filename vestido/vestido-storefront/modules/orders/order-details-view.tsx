@@ -49,12 +49,7 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
 
   const hasReturnableItems = (returnableItems?.length || 0) > 0;
 
-  // const hasDeliveredFulfillments =
-  //   (order?.fulfillments?.filter((x) => x.status === 'DELIVERED').length ?? 0) >
-  //   0;
-
   useEffect(() => {
-    // Route to home page if orderId is not provided
     if (!orderId) {
       router.replace('/');
     }
@@ -64,23 +59,13 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
     return null;
   }
 
-  // const orderItemFulfillmentStatus = (orderItemId: string) =>
-  //   order?.fulfillments.find((x) =>
-  //     x.fulfillmentItems.some((y) => y.orderItemId === orderItemId),
-  //   )?.status;
-
   const submittedFulfillments = order?.fulfillments.filter(
     (x) => x.status != 'DRAFT',
   );
   const hasSubmittedFulfillment = (submittedFulfillments?.length ?? 0) > 0;
   const cardHeight = '700px';
   return (
-    <div
-      // className={`grid gap-1 items-start justify-center mt-10 ${
-      //   isCancelledOrder ? 'grid-cols-1' : 'lg:grid-cols-2 lg:gap-3'
-      // }`}
-      className="flex justify-center"
-    >
+    <div className="flex justify-center">
       <Card
         style={{ height: cardHeight, minHeight: cardHeight }}
         className={`w-full max-w-4xl p-3 md:p-6 overflow-y-scroll ${
@@ -156,6 +141,7 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
                 <div className="text-sm pl-1  justify-self-center">
                   {formatINR(orderItem.price)}
                 </div>
+                <div className="col-span-3">x{orderItem.qty}</div>
                 <div className="col-span-3">
                   {orderItem.statuses.length > 0 &&
                     orderItem.statuses.map((fulfillment) => (
@@ -164,58 +150,12 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
                         className="grid grid-cols-3"
                       >
                         <div className="px-1 text-sm text-center justify-self-center">
-                          {fulfillment.qty -
-                            (orderItem.returnInitiatedQty ?? 0)}
+                          {fulfillment.qty}
                         </div>
                         <div className="px-1 text-sm text-center justify-self-center col-span-2">
                           {fulfillment.title}
                         </div>
                       </div>
-                    ))}
-
-                  {!orderItem.hasReturnInitiatedQty && (
-                    <div className="grid grid-cols-3">
-                      <div className="px-1 text-sm text-center justify-self-center">
-                        {orderItem.qty - (orderItem.fulfilledQuantity ?? 0)}
-                      </div>
-                      <div className="px-1 text-sm text-center col-span-2">
-                        not shipped yet
-                      </div>
-                    </div>
-                  )}
-
-                  {orderItem.hasReturnInitiatedQty &&
-                    (orderItem.hasReturnedOrReplacedQty ? (
-                      <div className="grid grid-cols-3">
-                        <div className="px-1 text-sm text-center justify-self-center">
-                          {orderItem.returnedQty || orderItem.replacedQty}
-                        </div>
-                        <div className="col-span-2 justify-self-center">
-                          return
-                          <span>
-                            {orderItem.returnStatus ||
-                              orderItem.replacementStatus}
-                          </span>
-                        </div>
-                      </div>
-                    ) : (
-                      <>
-                        {orderItem.returnItems &&
-                          orderItem.returnItems.map((returnItem) => (
-                            <div
-                              key={returnItem.id}
-                              className="grid grid-cols-3"
-                            >
-                              <div className="px-1 text-sm text-center justify-self-center">
-                                {returnItem.qty}
-                              </div>
-                              <div className="col-span-2 justify-self-center">
-                                return
-                                <span>{returnItem.return.status}</span>
-                              </div>
-                            </div>
-                          ))}
-                      </>
                     ))}
                 </div>
               </div>

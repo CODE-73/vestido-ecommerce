@@ -20,25 +20,52 @@ export const useOrderItemsDetailedStatus = (
     }
 
     return order.orderItems.map((orderItem) => {
-      const fulfillmentsWithTheOrderItem = order.fulfillments.filter((x) =>
+      // Fulfillments that handled current Order Item
+      const fulfillments = order.fulfillments.filter((x) =>
         x.fulfillmentItems.some((y) => y.orderItemId === orderItem.id),
       );
 
-      const statuses = fulfillmentsWithTheOrderItem.map((fulfillment) => {
-        const matchingFulfillmentItem = fulfillment.fulfillmentItems.find(
-          (item) => item.orderItemId === orderItem.id,
-        );
-        // const HasReturnInFulfillment =
-        //   fulfillment.returns && fulfillment.returns.length > 0;
-        // if (HasReturnInFulfillment) {
-        //     fulfillment.returns.map((return) => return.returnItems.find((x) => x.orderItemId === orderItem.id ))
-        // }
-        return {
-          title: fulfillment.status,
-          qty: matchingFulfillmentItem?.quantity ?? 0,
-          fulfillmentId: fulfillment.id,
-        };
-      });
+      const statuses = fulfillments
+        .reduce(
+          (_statuses, fulfillment) => {
+            const fulfillmentItem = fulfillment.fulfillmentItems.find(
+              (item) => item.orderItemId === orderItem.id,
+            );
+
+            let fulfilledQty = fulfillmentItem?.quantity ?? 0;
+            if (fulfillment.returns?.length > 0) {
+              const returns = fulfillment.returns.filter((x) =>
+                x.returnItems.some((y) => y.orderItemId === orderItem.id),
+              );
+              for (const _return of returns) {
+                const returnItem = _return.returnItems.find(
+                  (x) => x.orderItemId === orderItem.id,
+                );
+                if (!returnItem) {
+                  continue;
+                }
+
+                const returnQty = returnItem.qty ?? 0;
+                fulfilledQty -= returnQty;
+                _statuses.push({
+                  title: `RETURN:${_return.status}`,
+                  qty: returnQty,
+                  fulfillmentId: `${fulfillment.id}/${_return.id}`,
+                });
+              }
+            }
+
+            _statuses.push({
+              title: fulfillment.status,
+              qty: fulfilledQty,
+              fulfillmentId: fulfillment.id,
+            });
+
+            return _statuses;
+          },
+          [] as Array<{ title: string; qty: number; fulfillmentId: string }>,
+        )
+        .filter((x) => x.qty > 0);
 
       const returnItems = orderItem.returnItems || [];
       const returnInitiatedQty = returnItems.reduce(

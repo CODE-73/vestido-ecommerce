@@ -24,7 +24,11 @@ export async function getOrder(orderId: string) {
               },
             },
           },
-          returns: true,
+          returns: {
+            include: {
+              returnItems: true,
+            },
+          },
         },
       },
       orderItems: {
