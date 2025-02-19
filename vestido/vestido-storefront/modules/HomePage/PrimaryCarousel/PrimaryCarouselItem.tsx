@@ -5,15 +5,15 @@ import { z } from 'zod';
 
 import { HeroCarouselSchema } from '@vestido-ecommerce/settings/client';
 import { CarouselItem } from '@vestido-ecommerce/shadcn-ui/carousel';
-import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import { DiscoverButton } from '../Buttons/DiscoverButton';
+
 type CarouselItemData = z.infer<typeof HeroCarouselSchema>;
 interface PrimaryCarouselItemProps {
   data: CarouselItemData;
 }
 const PrimaryCarouselItem: React.FC<PrimaryCarouselItemProps> = ({ data }) => {
-  const image = data.image as ImageSchemaType;
+  const image = data.image;
   return (
     <CarouselItem className="w-full relative">
       <Link
@@ -63,10 +63,26 @@ const PrimaryCarouselItem: React.FC<PrimaryCarouselItemProps> = ({ data }) => {
           </div>
 
           <Image
-            className="object-cover lg:rounded-[25px]"
-            placeholder={image.blurHashDataURL ? 'blur' : undefined}
-            blurDataURL={image.blurHashDataURL ?? undefined}
-            src={image.url ?? ''}
+            className="object-cover lg:rounded-[25px] md:hidden"
+            placeholder={image.sm?.blurHashDataURL ? 'blur' : undefined}
+            blurDataURL={image.sm?.blurHashDataURL ?? undefined}
+            src={image.sm?.url ?? ''}
+            alt="Your alt text"
+            fill
+          />
+          <Image
+            className="object-cover lg:rounded-[25px] hidden md:block lg:hidden"
+            placeholder={image.md?.blurHashDataURL ? 'blur' : undefined}
+            blurDataURL={image.md?.blurHashDataURL ?? undefined}
+            src={image.md?.url ?? ''}
+            alt="Your alt text"
+            fill
+          />
+          <Image
+            className="object-cover lg:rounded-[25px] hidden lg:block"
+            placeholder={image.lg?.blurHashDataURL ? 'blur' : undefined}
+            blurDataURL={image.lg?.blurHashDataURL ?? undefined}
+            src={image.lg?.url ?? ''}
             alt="Your alt text"
             fill
           />

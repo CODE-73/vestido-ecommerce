@@ -22,7 +22,9 @@ export async function populateImageURLs(images: ImageSchemaType[]) {
   }
 
   await getRedisClient();
-  const imgKeys = Array.from(new Set(images.flatMap((x) => x.key)));
+  const imgKeys = Array.from(
+    new Set(images.flatMap((x) => x.key).filter((x) => !!x)),
+  ) as string[];
   const urlMap: { [x: string]: string } = {};
 
   await Promise.all(
@@ -35,6 +37,9 @@ export async function populateImageURLs(images: ImageSchemaType[]) {
   );
 
   for (const img of images) {
+    if (!img.key) {
+      continue;
+    }
     if (img.key in urlMap) {
       img.url = urlMap[img.key];
     }

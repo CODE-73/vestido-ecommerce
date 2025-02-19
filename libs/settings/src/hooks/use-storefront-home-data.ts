@@ -51,7 +51,7 @@ export const ScrollCardSchema = z.object({
 
 export const CollageSchema = z.object({
   image: ImageSchema,
-  text_content: z.string(),
+  text_content: z.string().nullish(),
   text_color: z.string().nullish().default('black'),
   href: z.string().nullish(),
 });

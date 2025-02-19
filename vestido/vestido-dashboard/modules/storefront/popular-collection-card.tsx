@@ -34,7 +34,7 @@ const PopularCollectionCard: React.FC<props> = ({ index, form }) => {
         blurHash: null,
         blurHashDataURL: null,
         alt: null,
-        key: '',
+        key: null,
         url: null,
         default: false,
         displayIndex: 0,
