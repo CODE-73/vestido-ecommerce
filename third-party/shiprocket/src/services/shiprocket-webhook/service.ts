@@ -203,6 +203,13 @@ export async function handleShiprocketWebhook(
 
   if (data.is_return) {
     await prisma.$transaction(async (prisma) => {
+      await prisma.webhookLog.create({
+        data: {
+          logType: 'SHIPROCKET_RETURN',
+          rawData: data,
+        },
+      });
+
       await prisma.fulfillmentLog.create({
         data: {
           fullfillmentId: fulfillment.id,

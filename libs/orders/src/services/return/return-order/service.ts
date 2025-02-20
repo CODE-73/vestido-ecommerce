@@ -162,7 +162,7 @@ export async function returnOrder(data: ReturnOrderSchemaType) {
         : 0,
       tax: item.orderItem.item.taxRate ?? 0,
       hsn: '',
-      qc_enable: true,
+      qc_enable: false,
     }));
 
     const firstPaymentGateway = validPayments[0].paymentGateway;
