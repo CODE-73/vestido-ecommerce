@@ -209,6 +209,14 @@ export async function handleShiprocketWebhook(
           rawData: data,
         },
       });
+
+      await prisma.fulfillmentLog.create({
+        data: {
+          fullfillmentId: fulfillment.id,
+          logType: 'SHIPROCKET_WEBHOOK_RETURN',
+          rawData: data,
+        },
+      });
     });
 
     return {
