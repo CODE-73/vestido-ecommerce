@@ -51,7 +51,6 @@ enum ReturnStatus {
 }
 
 enum OrderReturnStatus {
-    NULL
     RETURN_REQUESTED
     RETURN_IN_PROGRESS
     PARTIALLY_RETURNED
