@@ -48,22 +48,35 @@ export const useOrderItemsDetailedStatus = (
                 const returnQty = returnItem.qty ?? 0;
                 fulfilledQty -= returnQty;
                 _statuses.push({
-                  title: `RETURN:${_return.status}`,
+                  title: _return.status
+                    .toLowerCase()
+                    .replace(/_/g, ' ')
+                    .replace(/\b\w/g, (char) => char.toUpperCase()),
                   qty: returnQty,
                   fulfillmentId: `${fulfillment.id}/${_return.id}`,
+                  return: true,
                 });
               }
             }
 
             _statuses.push({
-              title: fulfillment.status,
+              title: fulfillment.status
+                .toLowerCase()
+                .replace(/_/g, ' ')
+                .replace(/\b\w/g, (char) => char.toUpperCase()),
               qty: fulfilledQty,
               fulfillmentId: fulfillment.id,
+              return: false,
             });
 
             return _statuses;
           },
-          [] as Array<{ title: string; qty: number; fulfillmentId: string }>,
+          [] as Array<{
+            title: string;
+            qty: number;
+            fulfillmentId: string;
+            return: boolean;
+          }>,
         )
         .filter((x) => x.qty > 0);
 

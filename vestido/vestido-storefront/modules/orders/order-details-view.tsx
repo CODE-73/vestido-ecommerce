@@ -124,35 +124,42 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
 
           <div className="flex flex-col gap-3">
             {orderItemsDetails.map((orderItem) => (
-              <div
-                key={orderItem.id}
-                className={`py-3 grid grid-cols-8 bg-gray-300  rounded-lg pb-8`}
-              >
-                <ItemImage
-                  item={orderItem.item}
-                  width={60}
-                  height={90}
-                  className="justify-self-center rounded-lg ml-4 row-span-2"
-                />
+              <div key={orderItem.id} className={`py-3 bg-gray-200 rounded-lg`}>
+                <div className="grid grid-cols-6  items-center">
+                  <ItemImage
+                    item={orderItem.item}
+                    width={40}
+                    height={60}
+                    className="justify-self-center rounded-lg "
+                  />
+                  <div className="text-xs col-span-3 ">
+                    {orderItem.item.title}
+                  </div>
+                  <div className="text-sm  justify-self-center">
+                    {formatINR(orderItem.price)}
+                  </div>
+                  <div className="text-sm  justify-self-center">
+                    x{orderItem.qty}
+                  </div>
+                </div>
 
-                <div className="text-xs col-span-3 pl-1 ">
-                  {orderItem.item.title}
-                </div>
-                <div className="text-sm pl-1  justify-self-center">
-                  {formatINR(orderItem.price)}
-                </div>
-                <div className="col-span-3">x{orderItem.qty}</div>
-                <div className="col-span-3">
+                <div className="flex flex-col gap-3 w-full mt-2">
+                  {' '}
                   {orderItem.statuses.length > 0 &&
                     orderItem.statuses.map((fulfillment) => (
                       <div
                         key={fulfillment.fulfillmentId}
-                        className="grid grid-cols-3"
+                        className="relative flex bg-blue-500/20 py-3 rounded-lg mx-4"
                       >
-                        <div className="px-1 text-sm text-center justify-self-center">
+                        <div
+                          className={`${fulfillment.return ? 'absolute top-1/2 -translate-y-1/2 right-3 font-semibold text-xs border border-2 text-white border-blue-500/50 px-3 py-1 rounded-full bg-blue-500/30' : 'hidden'} `}
+                        >
+                          Return
+                        </div>
+                        <div className="px-1 text-sm text-center basis-1/4">
                           {fulfillment.qty}
                         </div>
-                        <div className="px-1 text-sm text-center justify-self-center col-span-2">
+                        <div className="px-1 text-sm capitalize basis-3/4">
                           {fulfillment.title}
                         </div>
                       </div>

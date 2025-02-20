@@ -16,7 +16,7 @@ const CircleLink: React.FC<CircleLinkProps> = ({ data }) => {
         className={`${data.href ? 'cursor-pointer' : 'pointer-events-none'}`}
       >
         <div className="flex flex-col items-center mb-5 md:mb-auto">
-          <div className="relative w-16 h-16 md:w-32 md:h-32 overflow-hidden rounded-full">
+          <div className="relative w-16 h-16 md:w-20 md:h-20 lg:w-28 lg:h-28 xl:w-32 xl:h-32 overflow-hidden rounded-full">
             <Image
               src={data.image.url ?? ''}
               alt="alt text"

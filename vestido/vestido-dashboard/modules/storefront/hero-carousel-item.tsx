@@ -67,7 +67,7 @@ const HeroCarouselItem: React.FC<HeroCarouselItemProps> = ({
             <Image
               src={image.url || imgURL || ''}
               alt={image.alt ?? ''}
-              className={`object-cover lg:rounded-[25px] mx-auto ${sizeClass === 'sm' ? 'aspect-[4/3] max-w-[768px]' : sizeClass === 'md' ? 'aspect-[2.5/1] max-w-[1024px]' : 'aspect-[2.5/1]'}`}
+              className={`object-cover lg:rounded-[25px] mx-auto ${sizeClass === 'sm' ? 'aspect-[4/3] max-w-[768px]' : sizeClass === 'md' ? 'aspect-[2/1] max-w-[1024px]' : 'aspect-[2.5/1]'}`}
               fill
             />
             <div
