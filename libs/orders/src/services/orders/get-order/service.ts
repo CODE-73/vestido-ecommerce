@@ -24,11 +24,20 @@ export async function getOrder(orderId: string) {
               },
             },
           },
-          returns: true,
+          returns: {
+            include: {
+              returnItems: true,
+            },
+          },
         },
       },
       orderItems: {
         include: {
+          returnItems: {
+            include: {
+              return: true,
+            },
+          },
           item: {
             include: {
               variants: true,
