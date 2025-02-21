@@ -54,9 +54,6 @@ export async function getReturnableItems(orderId: string) {
               orderItemId: orderItem.id, // check if orderItem is in returnItems
             },
           },
-          status: {
-            notIn: ['RETURNED', 'REJECTED'], // Exclude RETURNED and REJECTED statuses
-          },
         },
         include: {
           returnItems: true,
@@ -73,6 +70,10 @@ export async function getReturnableItems(orderId: string) {
         });
       }
 
+      if (returnableQty < 1) {
+        return null;
+      }
+
       return {
         ...fulfillmentItem,
         deliveredDate:
@@ -86,5 +87,9 @@ export async function getReturnableItems(orderId: string) {
     }),
   );
 
-  return filteredFulfillmentItems;
+  // Remove null values
+  const finalFilteredFulfillmentItems =
+    filteredFulfillmentItems.filter(Boolean);
+
+  return finalFilteredFulfillmentItems;
 }
