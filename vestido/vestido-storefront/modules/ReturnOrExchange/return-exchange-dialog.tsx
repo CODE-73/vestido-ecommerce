@@ -128,9 +128,9 @@ const ReturnReplaceDialog: React.FC<ReturnReplaceDialogProps> = ({
       orderId: order?.id,
       reason: 'OTHER',
       returnItems: returnableItems.map((item) => ({
-        fulfillmentId: item.fulfillmentId,
-        FulfillmentItemPrice: item.fulfillmentItemPrice ?? 0,
-        orderItemId: item.orderItemId,
+        fulfillmentId: item?.fulfillmentId,
+        FulfillmentItemPrice: item?.fulfillmentItemPrice ?? 0,
+        orderItemId: item?.orderItemId,
         quantity: 0,
       })),
       bankDetails: {

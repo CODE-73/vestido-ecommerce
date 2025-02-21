@@ -50,6 +50,13 @@ enum ReturnStatus {
     REJECTED
 }
 
+enum OrderReturnStatus {
+    RETURN_REQUESTED
+    RETURN_IN_PROGRESS
+    PARTIALLY_RETURNED
+    RETURNED
+}
+
 enum ReturnType {
     RETURN
     REPLACE
@@ -287,7 +294,7 @@ model Order {
     couponCode         String?
     orderStatus        OrderStatus        @default(PENDING)
     deliveryStatus     DeliveryStatus     @default(UNFULFILLED)
-    returnStatus       ReturnStatus?
+    returnStatus       OrderReturnStatus?
     replacementStatus  ReplacementStatus?
     isReplacement      Boolean            @default(false)
     parentOrderId      String?            @db.Uuid
@@ -318,7 +325,7 @@ model OrderItem {
     variantId         String?            @db.Uuid
     status            OrderStatus        @default(PENDING)
     deliveryStatus    DeliveryStatus     @default(UNFULFILLED)
-    returnStatus      ReturnStatus?
+    returnStatus      OrderReturnStatus?
     replacementStatus ReplacementStatus?
     fulfilledQuantity Int?
     fulfillmentItems  FulfillmentItem[]
