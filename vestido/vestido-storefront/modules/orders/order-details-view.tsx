@@ -2,6 +2,8 @@ import { FC, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
+import { LuChevronDown } from 'react-icons/lu';
+
 import { useOrder, useReturnableItems } from '@vestido-ecommerce/orders/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
@@ -22,6 +24,15 @@ import { useOrderItemsDetailedStatus } from './use-order-item-detailed-status';
 type OrderDetailsProps = {
   orderId: string;
 };
+
+const STATUS_STAGES: Record<string, { label: string; progress: number }> = {
+  ORDER_PLACED: { label: 'Order Placed', progress: 0 },
+  AWAITING_PICKUP: { label: 'Awaiting Pickup', progress: 25 },
+  SHIPPED: { label: 'Shipped', progress: 50 },
+  OUT_FOR_DELIVERY: { label: 'Out for Delivery', progress: 75 },
+  DELIVERED: { label: 'Delivered', progress: 100 },
+};
+
 const formattedDate = (date: Date) => {
   return date.toLocaleDateString('en-US', {
     year: 'numeric',
@@ -49,6 +60,10 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
 
   const hasReturnableItems = (returnableItems?.length || 0) > 0;
 
+  const [expandedFulfillments, setExpandedFulfillments] = useState<
+    Record<string, boolean>
+  >({});
+
   useEffect(() => {
     if (!orderId) {
       router.replace('/');
@@ -64,6 +79,14 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
   );
   const hasSubmittedFulfillment = (submittedFulfillments?.length ?? 0) > 0;
   const cardHeight = '700px';
+
+  const toggleExpand = (fulfillmentId: string) => {
+    setExpandedFulfillments((prev) => ({
+      ...prev,
+      [fulfillmentId]: !prev[fulfillmentId],
+    }));
+  };
+
   return (
     <div className="flex justify-center">
       <Card
@@ -144,8 +167,7 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
                 </div>
 
                 <div className="flex flex-col gap-3 w-full mt-2">
-                  {' '}
-                  {orderItem.statuses.length > 0 &&
+                  {/* {orderItem.statuses.length > 0 &&
                     orderItem.statuses.map((fulfillment) => (
                       <div
                         key={fulfillment.fulfillmentId}
@@ -163,7 +185,94 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
                           {fulfillment.title}
                         </div>
                       </div>
-                    ))}
+                    ))} */}
+                  {orderItem.statuses.length > 0 &&
+                    orderItem.statuses.map((fulfillment) => {
+                      const statusInfo = STATUS_STAGES[fulfillment.title] || {
+                        label: 'Unknown',
+                        progress: 0,
+                      };
+                      console.log(STATUS_STAGES[fulfillment.title]);
+                      return (
+                        <div
+                          key={fulfillment.fulfillmentId}
+                          className={`relative flex flex-col bg-blue-500/20 py-3 rounded-lg mx-4 transition-all ${
+                            expandedFulfillments[fulfillment.fulfillmentId]
+                              ? 'pb-6'
+                              : ''
+                          }`}
+                        >
+                          {/* Return Badge */}
+                          {fulfillment.return && (
+                            <div className="absolute top-2 right-3 font-semibold text-xs border border-2 text-white border-blue-500/50 px-3 py-1 rounded-full bg-blue-500/30">
+                              Return
+                            </div>
+                          )}
+
+                          {/* Row with Chevron, Qty, and Title */}
+                          <div className="flex items-center w-full">
+                            <button
+                              onClick={() =>
+                                toggleExpand(fulfillment.fulfillmentId)
+                              }
+                              className="px-2 text-gray-600 hover:text-gray-800 transition"
+                            >
+                              <LuChevronDown
+                                className={`w-4 h-4 transition-transform ${
+                                  expandedFulfillments[
+                                    fulfillment.fulfillmentId
+                                  ]
+                                    ? 'rotate-180'
+                                    : ''
+                                }`}
+                              />
+                            </button>
+                            <div className="px-1 text-sm text-center basis-1/4">
+                              {fulfillment.qty}
+                            </div>
+                            <div className="px-1 text-sm capitalize basis-3/4">
+                              {fulfillment.title}
+                            </div>
+                          </div>
+
+                          {/* Progress Bar (Shown When Expanded) */}
+                          {expandedFulfillments[fulfillment.fulfillmentId] && (
+                            <div className="mt-3  relative">
+                              {/* Progress Bar */}
+                              <div className="relative w-full h-2 bg-gray-300 rounded-full">
+                                <div
+                                  className="absolute top-0 left-0 h-full bg-blue-500 rounded-full transition-all"
+                                  style={{ width: `${statusInfo.progress}%` }}
+                                />
+                              </div>
+
+                              {/* Milestone Circles & Status Labels */}
+                              <div className="absolute top-3 left-0 flex w-full justify-between transform -translate-y-1/2">
+                                {Object.values(STATUS_STAGES).map((stage) => (
+                                  <div
+                                    key={stage.label}
+                                    className="relative flex flex-col items-center w-1/4"
+                                  >
+                                    {/* Circle */}
+                                    <div
+                                      className={`absolute -top-[0.75] w-3 h-3 rounded-full  ${
+                                        statusInfo.progress >= stage.progress
+                                          ? 'bg-blue-500 border-blue-500'
+                                          : 'bg-white border-gray-400'
+                                      }`}
+                                    />
+                                    {/* Status Label */}
+                                    <span className="mt-3 text-xs font-medium text-gray-700 text-center">
+                                      {stage.label}
+                                    </span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
                 </div>
               </div>
             ))}
