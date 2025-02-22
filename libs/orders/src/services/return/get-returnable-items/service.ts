@@ -54,9 +54,6 @@ export async function getReturnableItems(orderId: string) {
               orderItemId: orderItem.id, // check if orderItem is in returnItems
             },
           },
-          status: {
-            notIn: ['RETURNED', 'REJECTED'], // Exclude RETURNED and REJECTED statuses
-          },
         },
         include: {
           returnItems: true,
@@ -86,5 +83,5 @@ export async function getReturnableItems(orderId: string) {
     }),
   );
 
-  return filteredFulfillmentItems;
+  return filteredFulfillmentItems.filter((x) => x.orderItem.returnableQty > 0);
 }

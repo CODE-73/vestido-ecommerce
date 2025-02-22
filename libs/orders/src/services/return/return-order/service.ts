@@ -215,13 +215,61 @@ export async function returnOrder(data: ReturnOrderSchemaType) {
       },
     });
 
-    // TODO: Refund If Only for Return
-    // if (validatedData.returnType === 'RETURN') {
-    // }
+    if (validatedData.returnType === 'RETURN') {
+      //Update Order if RETURN
+      await prisma.order.update({
+        where: {
+          id: validatedData.orderId,
+        },
+        data: {
+          returnStatus: 'RETURN_REQUESTED',
+        },
+      });
+
+      //Update OrderItem if RETURN
+      await Promise.all(
+        returnOrder.returnItems.map((item) =>
+          prisma.orderItem.update({
+            where: {
+              id: item.id,
+            },
+            data: {
+              returnStatus: 'RETURN_REQUESTED',
+            },
+          }),
+        ),
+      );
+
+      // TODO: Refund Only for Return
+    }
 
     //Create new order if REPLACE
     let updatedReplacedOrder;
     if (validatedData.returnType === 'REPLACE') {
+      //Update Order if RETURN
+      await prisma.order.update({
+        where: {
+          id: validatedData.orderId,
+        },
+        data: {
+          replacementStatus: 'REPLACEMENT_REQUESTED',
+        },
+      });
+
+      //Update OrderItem if RETURN
+      await Promise.all(
+        returnOrder.returnItems.map((item) =>
+          prisma.orderItem.update({
+            where: {
+              id: item.id,
+            },
+            data: {
+              replacementStatus: 'REPLACEMENT_REQUESTED',
+            },
+          }),
+        ),
+      );
+
       const orderItems = returnOrder.returnItems.map((returnItem) => {
         const orderItem = returnItem.orderItem;
 
@@ -266,7 +314,6 @@ export async function returnOrder(data: ReturnOrderSchemaType) {
         data: {
           isReplacement: true,
           parentOrderId: orderDetails.id,
-          replacementStatus: 'REPLACEMENT_REQUESTED',
         },
       });
     }
