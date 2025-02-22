@@ -70,10 +70,6 @@ export async function getReturnableItems(orderId: string) {
         });
       }
 
-      if (returnableQty < 1) {
-        return null;
-      }
-
       return {
         ...fulfillmentItem,
         deliveredDate:
@@ -87,9 +83,5 @@ export async function getReturnableItems(orderId: string) {
     }),
   );
 
-  // Remove null values
-  const finalFilteredFulfillmentItems =
-    filteredFulfillmentItems.filter(Boolean);
-
-  return finalFilteredFulfillmentItems;
+  return filteredFulfillmentItems.filter((x) => x.orderItem.returnableQty > 0);
 }
