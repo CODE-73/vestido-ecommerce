@@ -84,7 +84,7 @@ export async function returnOrder(data: ReturnOrderSchemaType) {
         orderId: validatedData.orderId,
         reason: validatedData.reason,
         status: 'AWAITING_PICKUP',
-        refundAmount: refundAmount,
+        refundAmount: refundAmount - 199, //Return Charge = 199
         refundStatus: 'PENDING',
         returnItems: {
           createMany: {
