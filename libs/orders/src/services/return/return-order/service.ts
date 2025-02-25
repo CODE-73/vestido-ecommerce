@@ -13,10 +13,10 @@ import {
 export async function returnOrder(data: ReturnOrderSchemaType) {
   const prisma = getPrismaClient();
 
+  const validatedData = await ReturnOrderSchema.parse(data);
+
   // Start a transaction
   const result = await prisma.$transaction(async (prisma) => {
-    const validatedData = await ReturnOrderSchema.parse(data);
-
     const orderDetails = await getOrder(validatedData.orderId);
     if (!orderDetails) {
       throw new VestidoError({
@@ -113,7 +113,7 @@ export async function returnOrder(data: ReturnOrderSchemaType) {
       (payment) => payment.isRefund === false,
     );
 
-    if (!validPayments) {
+    if (validPayments.length === 0) {
       throw new VestidoError({
         name: 'NotFoundError',
         message: 'Valid Payment does not exist',
@@ -124,7 +124,10 @@ export async function returnOrder(data: ReturnOrderSchemaType) {
       });
     }
 
-    if (validPayments[0].paymentGateway === 'CASH_ON_DELIVERY') {
+    if (
+      validPayments[0].paymentGateway === 'CASH_ON_DELIVERY' &&
+      validatedData.returnType === 'RETURN'
+    ) {
       const validatedBankData = validatedData.bankDetails;
       if (!validatedBankData) {
         throw new VestidoError({
@@ -148,6 +151,59 @@ export async function returnOrder(data: ReturnOrderSchemaType) {
       });
     }
 
+    if (validatedData.returnType === 'RETURN') {
+      //Update Order if RETURN
+      await prisma.order.update({
+        where: {
+          id: validatedData.orderId,
+        },
+        data: {
+          returnStatus: 'RETURN_REQUESTED',
+        },
+      });
+
+      //Update OrderItem if RETURN
+      await Promise.all(
+        returnOrder.returnItems.map((item) =>
+          prisma.orderItem.update({
+            where: {
+              id: item.orderItemId,
+            },
+            data: {
+              returnStatus: 'RETURN_REQUESTED',
+            },
+          }),
+        ),
+      );
+
+      // TODO: Refund Only for Return
+    }
+
+    if (validatedData.returnType === 'REPLACE') {
+      //Update Order if RETURN
+      await prisma.order.update({
+        where: {
+          id: validatedData.orderId,
+        },
+        data: {
+          replacementStatus: 'REPLACEMENT_REQUESTED',
+        },
+      });
+
+      //Update OrderItem if RETURN
+      await Promise.all(
+        returnOrder.returnItems.map((item) =>
+          prisma.orderItem.update({
+            where: {
+              id: item.orderItemId,
+            },
+            data: {
+              replacementStatus: 'REPLACEMENT_REQUESTED',
+            },
+          }),
+        ),
+      );
+    }
     const validatedMeasurements = ReturnPackageSchema.parse(fulfillmentDetails);
 
     const returnItems = returnOrder.returnItems.map((item) => ({
@@ -215,61 +271,9 @@ export async function returnOrder(data: ReturnOrderSchemaType) {
       },
     });
 
-    if (validatedData.returnType === 'RETURN') {
-      //Update Order if RETURN
-      await prisma.order.update({
-        where: {
-          id: validatedData.orderId,
-        },
-        data: {
-          returnStatus: 'RETURN_REQUESTED',
-        },
-      });
-
-      //Update OrderItem if RETURN
-      await Promise.all(
-        returnOrder.returnItems.map((item) =>
-          prisma.orderItem.update({
-            where: {
-              id: item.id,
-            },
-            data: {
-              returnStatus: 'RETURN_REQUESTED',
-            },
-          }),
-        ),
-      );
-
-      // TODO: Refund Only for Return
-    }
-
     //Create new order if REPLACE
     let updatedReplacedOrder;
     if (validatedData.returnType === 'REPLACE') {
-      //Update Order if RETURN
-      await prisma.order.update({
-        where: {
-          id: validatedData.orderId,
-        },
-        data: {
-          replacementStatus: 'REPLACEMENT_REQUESTED',
-        },
-      });
-
-      //Update OrderItem if RETURN
-      await Promise.all(
-        returnOrder.returnItems.map((item) =>
-          prisma.orderItem.update({
-            where: {
-              id: item.id,
-            },
-            data: {
-              replacementStatus: 'REPLACEMENT_REQUESTED',
-            },
-          }),
-        ),
-      );
-
       const orderItems = returnOrder.returnItems.map((returnItem) => {
         const orderItem = returnItem.orderItem;
 
@@ -314,6 +318,19 @@ export async function returnOrder(data: ReturnOrderSchemaType) {
         data: {
           isReplacement: true,
           parentOrderId: orderDetails.id,
+          orderPaymentStatus: 'CAPTURED',
+        },
+      });
+
+      await prisma.return.update({
+        where: {
+          id: returnOrder.id,
+        },
+        data: {
+          type: 'REPLACE',
+          replacementOrderId: replacedOrder.order.id,
+          refundAmount: 0,
+          refundStatus: 'REFUNDED',
         },
       });
     }

@@ -123,7 +123,7 @@ const ReturnReplaceDialog: React.FC<ReturnReplaceDialogProps> = ({
 
   useEffect(() => {
     form.reset({
-      returnType: isReturn ? 'RETURN' : 'EXCHANGE',
+      returnType: isReturn ? 'RETURN' : 'REPLACE',
       paymentType: order?.payments[0].paymentGateway,
       orderId: order?.id,
       reason: 'OTHER',
