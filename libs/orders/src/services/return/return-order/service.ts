@@ -316,6 +316,8 @@ export async function returnOrder(data: ReturnOrderSchemaType) {
           id: replacedOrder.order.id,
         },
         data: {
+          grandTotal: orderDetails.grandTotal,
+          totalCharges: orderDetails.totalCharges,
           isReplacement: true,
           parentOrderId: orderDetails.id,
           orderPaymentStatus: 'CAPTURED',
