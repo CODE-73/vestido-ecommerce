@@ -26,6 +26,7 @@ export * from './return/get-return-order';
 export * from './return/get-returnable-items';
 export * from './return/list-return-orders';
 export * from './return/return-order';
+export * from './return/update-return';
 export * from './shipping/get-shipping-charge';
 
 // @ts-expect-error BigInt JSON Serialization

@@ -37,6 +37,15 @@ export async function createRazorpayOrder(data: CreateRPOrderRequest) {
         status: 'PENDING',
       },
     });
+
+    await prisma.paymentLog.create({
+      data: {
+        paymentId: newPayment.id,
+        logType: 'RAZORPAY_ORDER_CREATION_LOG',
+        rawData: JSON.stringify(resp),
+      },
+    });
+
     const response = {
       razorpayOrderId: resp.id,
       paymentId: newPayment.id,

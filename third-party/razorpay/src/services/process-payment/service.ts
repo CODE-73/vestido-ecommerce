@@ -13,10 +13,19 @@ export async function processPayment(data: verifyPaymentRequest) {
 
   const generatedSignature = generatePaymentSignature(order_id, payment_RP_id);
   if (generatedSignature === razorpay_signature) {
+    await prisma.paymentLog.create({
+      data: {
+        paymentId: validatedData.paymentId,
+        logType: 'RAZORPAY_PAYMENT_RESPONSE_LOG',
+        rawData: JSON.stringify(data),
+      },
+    });
+
     const razorpayRef = JSON.stringify({
       rpOrderId: order_id,
       rpPaymentId: payment_RP_id,
     });
+
     await prisma.payment.updateMany({
       where: {
         id: validatedData.paymentId,
