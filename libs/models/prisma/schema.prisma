@@ -361,10 +361,20 @@ model Payment {
     paymentGatewayRef String
     moreDetails       String
 
-    currency String
-    amount   Float
-    status   OrderPaymentStatus @default(PENDING)
-    isRefund Boolean            @default(false)
+    currency   String
+    amount     Float
+    status     OrderPaymentStatus @default(PENDING)
+    isRefund   Boolean            @default(false)
+    PaymentLog PaymentLog[]
+}
+
+model PaymentLog {
+    id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    paymentId String   @db.Uuid
+    payment   Payment  @relation(fields: [paymentId], references: [id])
+    logType   String
+    rawData   Json
+    createdAt DateTime @default(now()) @db.Timestamptz(3)
 }
 
 model Fulfillment {

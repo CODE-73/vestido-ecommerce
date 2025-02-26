@@ -89,7 +89,13 @@ export async function cancelOrder(
             message: `Order ${orderId} cannot be cancelled because Razorpay Refund failed`,
           });
         }
-
+        await prismaTransaction.paymentLog.create({
+          data: {
+            paymentId: firstPayment.id,
+            logType: 'RAZORPAY_CANCEL_REFUND_LOG',
+            rawData: JSON.stringify(refundResponse),
+          },
+        });
         //TODO: refundResponse.status==='pending'
 
         if (refundResponse.status === 'processed') {

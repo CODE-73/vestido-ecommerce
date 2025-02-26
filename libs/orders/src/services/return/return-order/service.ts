@@ -1,4 +1,5 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
+import { refundRazorpay } from '@vestido-ecommerce/razorpay';
 import { createShiprocketReturnOrder } from '@vestido-ecommerce/shiprocket';
 import { VestidoError } from '@vestido-ecommerce/utils';
 
@@ -73,10 +74,11 @@ export async function returnOrder(data: ReturnOrderSchemaType) {
       });
     }
 
-    const refundAmount = validatedData.returnItems.reduce((sum, item) => {
-      const totalPricePerItem = item.FulfillmentItemPrice * item.quantity;
-      return sum + totalPricePerItem;
-    }, 0);
+    const refundAmount =
+      validatedData.returnItems.reduce((sum, item) => {
+        const totalPricePerItem = item.FulfillmentItemPrice * item.quantity;
+        return sum + totalPricePerItem;
+      }, 0) - 199; //Return Charge = 199
 
     const returnOrder = await prisma.return.create({
       data: {
@@ -84,7 +86,7 @@ export async function returnOrder(data: ReturnOrderSchemaType) {
         orderId: validatedData.orderId,
         reason: validatedData.reason,
         status: 'AWAITING_PICKUP',
-        refundAmount: refundAmount - 199, //Return Charge = 199
+        refundAmount: refundAmount > 0 ? refundAmount : 0,
         refundStatus: 'PENDING',
         returnItems: {
           createMany: {
@@ -177,6 +179,96 @@ export async function returnOrder(data: ReturnOrderSchemaType) {
       );
 
       // TODO: Refund Only for Return
+      const paymentMethod =
+        validPayments[0].paymentGateway === 'CASH_ON_DELIVERY'
+          ? 'COD'
+          : 'Prepaid';
+      const isCaptured = validPayments[0].status === 'CAPTURED';
+
+      // Refund Only for Return
+      if (paymentMethod === 'Prepaid' && isCaptured) {
+        const returnRefund = await prisma.payment.create({
+          data: {
+            order: {
+              connect: {
+                id: returnOrder.id,
+              },
+            },
+            paymentGateway: 'RAZORPAY',
+            paymentGatewayRef: 'Null',
+            moreDetails: 'ReturnRefundPayment',
+            status: 'PENDING',
+            currency: 'INR',
+            amount: refundAmount,
+            isRefund: true,
+          },
+        });
+
+        const paymentGatewayRef = JSON.parse(
+          validPayments[0].paymentGatewayRef,
+        );
+
+        const rpPaymentId = paymentGatewayRef.rpPaymentId;
+
+        const refundData = {
+          rpPaymentId: rpPaymentId,
+          amount: refundAmount * 100,
+        };
+
+        const refundResponse = await refundRazorpay(refundData);
+
+        console.log('Refund Response: ', refundResponse);
+
+        if (!refundResponse || refundResponse.status === 'failed') {
+          throw new VestidoError({
+            name: 'RazorpayReturnRefundFailed',
+            message: `Order ${returnOrder.id} cannot be cancelled because Razorpay Return Refund failed`,
+          });
+        }
+
+        await prisma.paymentLog.create({
+          data: {
+            paymentId: returnRefund.id,
+            logType: 'RAZORPAY_RETURN_REFUND_LOG',
+            rawData: JSON.stringify(refundResponse),
+          },
+        });
+
+        //TODO: refundResponse.status==='pending'
+
+        if (refundResponse.status === 'processed') {
+          await prisma.payment.update({
+            where: { id: returnRefund.id },
+            data: {
+              paymentGateway: 'RAZORPAY',
+              paymentGatewayRef: JSON.stringify({
+                rpRefundId: refundResponse.id,
+              }),
+              status: 'REFUNDED',
+              amount: refundResponse.amount ? refundResponse.amount / 100 : 0,
+            },
+          });
+        }
+      }
+
+      if (paymentMethod === 'COD' && isCaptured) {
+        await prisma.payment.create({
+          data: {
+            order: {
+              connect: {
+                id: returnOrder.id,
+              },
+            },
+            paymentGateway: 'BANK_TRANSFER',
+            paymentGatewayRef: 'Null',
+            moreDetails: 'ReturnRefundPayment',
+            status: 'PENDING',
+            currency: 'INR',
+            amount: refundAmount,
+            isRefund: true,
+          },
+        });
+      }
     }
 
     if (validatedData.returnType === 'REPLACE') {
