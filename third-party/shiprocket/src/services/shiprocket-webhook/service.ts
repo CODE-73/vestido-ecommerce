@@ -36,43 +36,67 @@ export async function handleShiprocketWebhook(
     });
   }
 
-  const fulfillment = await prisma.fulfillment.findFirst({
-    where: {
-      shiprocket_order_id: String(data.sr_order_id),
-    },
-    include: {
-      fulfillmentItems: true,
-      order: {
-        include: {
-          shippingAddress: true,
-          customer: true,
+  if (data.is_return) {
+    await prisma.$transaction(async (prisma) => {
+      await prisma.webhookLog.create({
+        data: {
+          logType: 'SHIPROCKET_RETURN',
+          rawData: data,
         },
-      },
-    },
-  });
+      });
 
-  if (!fulfillment) {
-    throw new VestidoError({
-      name: 'WebhookFulfillmentNotFound',
-      message: `Fulfillment not found for ${data.sr_order_id} from ShipRocket Request`,
-      // Shiprocket Webhook expects 200 status code even on unknown fulfillment
-      // This is required to pass their Webhook validation
-      // We get notified of this error on Sentry.
-      httpStatus: 200,
-      context: {
-        data,
-      },
+      await prisma.fulfillmentLog.create({
+        data: {
+          fullfillmentId: data.order_id, //This is returnOrderId, No Fulfillment Created For Return
+          logType: 'SHIPROCKET_WEBHOOK_RETURN',
+          rawData: data,
+        },
+      });
     });
+
+    return {
+      type: 'Return',
+      id: data.order_id,
+    };
   }
 
-  await prisma.webhookLog.create({
-    data: {
-      logType: 'SHIPROCKET',
-      rawData: data,
-    },
-  });
-
   if (!data.is_return) {
+    await prisma.webhookLog.create({
+      data: {
+        logType: 'SHIPROCKET_FULFILLMENT',
+        rawData: data,
+      },
+    });
+
+    const fulfillment = await prisma.fulfillment.findFirst({
+      where: {
+        shiprocket_order_id: String(data.sr_order_id),
+      },
+      include: {
+        fulfillmentItems: true,
+        order: {
+          include: {
+            shippingAddress: true,
+            customer: true,
+          },
+        },
+      },
+    });
+
+    if (!fulfillment) {
+      throw new VestidoError({
+        name: 'WebhookFulfillmentNotFound',
+        message: `Fulfillment not found for ${data.sr_order_id} from ShipRocket Request`,
+        // Shiprocket Webhook expects 200 status code even on unknown fulfillment
+        // This is required to pass their Webhook validation
+        // We get notified of this error on Sentry.
+        httpStatus: 200,
+        context: {
+          data,
+        },
+      });
+    }
+
     await prisma.$transaction(async (prisma) => {
       await prisma.fulfillment.updateMany({
         where: {
@@ -199,30 +223,6 @@ export async function handleShiprocketWebhook(
         }
       }
     });
-  }
-
-  if (data.is_return) {
-    await prisma.$transaction(async (prisma) => {
-      await prisma.webhookLog.create({
-        data: {
-          logType: 'SHIPROCKET_RETURN',
-          rawData: data,
-        },
-      });
-
-      await prisma.fulfillmentLog.create({
-        data: {
-          fullfillmentId: fulfillment.id,
-          logType: 'SHIPROCKET_WEBHOOK_RETURN',
-          rawData: data,
-        },
-      });
-    });
-
-    return {
-      type: 'Fulfillment',
-      id: fulfillment.id,
-    };
   }
 
   return {
