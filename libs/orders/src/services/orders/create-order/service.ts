@@ -95,6 +95,34 @@ export async function createOrder(_data: CreateOrderSchemaType) {
       },
     });
 
+    const totalItems = itemsWithTax
+      .reduce((sum, item) => sum + item.qty, 0)
+      .toString();
+
+    if (!IS_DEVELOPMENT) {
+      try {
+        const mobile = shippingdetails?.mobile ?? '';
+        if (mobile) {
+          await sendSMS({
+            senderId: SMSSenderID.BVSTID,
+            template: SMSTemplate.ORDER_PLACED_SMS,
+            variables: [newOrder.order_no.toString(), totalItems],
+            recipients: [mobile],
+          });
+        }
+      } catch (e) {
+        throw new VestidoError({
+          name: 'SendOTPFailed',
+          message: 'Failed to send ORDER_PLACED_SMS',
+          httpStatus: 500,
+          context: {
+            newOrder,
+            error: e,
+          },
+        });
+      }
+    }
+
     // Clear Cart on Confirmation
     await clearCartOnOrderCreation(newOrder.id);
   } else if (paymentType == 'REPLACEMENT_ORDER') {
@@ -113,34 +141,6 @@ export async function createOrder(_data: CreateOrderSchemaType) {
         status: 'CAPTURED',
       },
     });
-  }
-
-  const totalItems = itemsWithTax
-    .reduce((sum, item) => sum + item.qty, 0)
-    .toString();
-
-  if (!IS_DEVELOPMENT) {
-    try {
-      const mobile = shippingdetails?.mobile ?? '';
-      if (mobile) {
-        await sendSMS({
-          senderId: SMSSenderID.BVSTID,
-          template: SMSTemplate.ORDER_PLACED_SMS,
-          variables: [newOrder.order_no.toString(), totalItems],
-          recipients: [mobile],
-        });
-      }
-    } catch (e) {
-      throw new VestidoError({
-        name: 'SendOTPFailed',
-        message: 'Failed to send OTP',
-        httpStatus: 500,
-        context: {
-          newOrder,
-          error: e,
-        },
-      });
-    }
   }
 
   return {
