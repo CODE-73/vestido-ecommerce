@@ -45,13 +45,13 @@ export async function handleShiprocketWebhook(
         },
       });
 
-      await prisma.fulfillmentLog.create({
-        data: {
-          fullfillmentId: data.order_id, //This is returnOrderId, No Fulfillment Created For Return
-          logType: 'SHIPROCKET_WEBHOOK_RETURN',
-          rawData: data,
-        },
-      });
+      // await prisma.fulfillmentLog.create({
+      //   data: {
+      //     fullfillmentId: data.order_id, //This is returnOrderId, No Fulfillment Created For Return
+      //     logType: 'SHIPROCKET_WEBHOOK_RETURN',
+      //     rawData: data,
+      //   },
+      // });
     });
 
     return {
