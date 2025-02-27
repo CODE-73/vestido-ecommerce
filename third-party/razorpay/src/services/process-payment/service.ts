@@ -1,9 +1,14 @@
+import { sendSMS, SMSSenderID, SMSTemplate } from '@vestido-ecommerce/fast2sms';
 import { clearCartOnOrderCreation } from '@vestido-ecommerce/items';
 import { getPrismaClient } from '@vestido-ecommerce/models';
+import { calculateTotal } from '@vestido-ecommerce/orders';
+import { VestidoError } from '@vestido-ecommerce/utils';
 
 import { generatePaymentSignature } from '../signature';
 import { verifyPaymentRequest } from './types';
 import { verifyRPSignSchema } from './zod';
+
+const IS_DEVELOPMENT = process.env['NODE_ENV'] === 'development';
 
 export async function processPayment(data: verifyPaymentRequest) {
   const prisma = getPrismaClient();
@@ -48,7 +53,7 @@ export async function processPayment(data: verifyPaymentRequest) {
     // Update order status to 'PAID' for the fetched order IDs
     await Promise.all(
       updatedOrderIds.map(async (payment) => {
-        await prisma.order.update({
+        const orderDetails = await prisma.order.update({
           where: {
             id: payment.orderId,
           },
@@ -59,6 +64,10 @@ export async function processPayment(data: verifyPaymentRequest) {
           select: {
             customerId: true,
             orderItems: true,
+            addressId: true,
+            payments: true,
+            couponCode: true,
+            order_no: true,
           },
         });
 
@@ -71,6 +80,46 @@ export async function processPayment(data: verifyPaymentRequest) {
           },
         });
 
+        const shippingdetails = await prisma.customerAddress.findUnique({
+          where: {
+            id: orderDetails.addressId,
+          },
+        });
+
+        const { itemsWithTax } = await calculateTotal({
+          addressId: orderDetails.addressId,
+          orderItems: orderDetails.orderItems,
+          paymentType: 'ONLINE',
+          couponCode: orderDetails.couponCode,
+        });
+
+        const totalItems = itemsWithTax
+          .reduce((sum, item) => sum + item.qty, 0)
+          .toString();
+
+        if (!IS_DEVELOPMENT) {
+          try {
+            const mobile = shippingdetails?.mobile ?? '';
+            if (mobile) {
+              await sendSMS({
+                senderId: SMSSenderID.BVSTID,
+                template: SMSTemplate.ORDER_PLACED_SMS,
+                variables: [orderDetails.order_no.toString(), totalItems],
+                recipients: [mobile],
+              });
+            }
+          } catch (e) {
+            throw new VestidoError({
+              name: 'SendOTPFailed',
+              message: 'Failed to send ORDER_PLACED_SMS',
+              httpStatus: 500,
+              context: {
+                orderDetails,
+                error: e,
+              },
+            });
+          }
+        }
         await clearCartOnOrderCreation(payment.orderId);
       }),
     );
