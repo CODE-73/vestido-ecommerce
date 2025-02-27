@@ -121,6 +121,13 @@ export async function processPayment(data: verifyPaymentRequest) {
 
     return true;
   } else {
+    await prisma.paymentLog.create({
+      data: {
+        paymentId: validatedData.paymentId,
+        logType: 'RAZORPAY_PAYMENT_ERROR_RESPONSE_LOG',
+        rawData: JSON.stringify(data),
+      },
+    });
     return false;
   }
 }
