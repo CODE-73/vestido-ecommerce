@@ -119,7 +119,7 @@ const OrderInOrderList: React.FC<OrderProps> = ({ order }) => {
         {submittedFulfillments?.map((fulfillment) => (
           <div
             key={fulfillment.id}
-            className="py-3 gap-4 bg-black rounded-lg relative"
+            className="py-3 gap-2 bg-black rounded-lg relative"
           >
             <div className="absolute top-3 right-3 text-xs uppercase">
               {fulfillment.status == 'AWAITING_PICKUP'
@@ -139,22 +139,18 @@ const OrderInOrderList: React.FC<OrderProps> = ({ order }) => {
             ))}
           </div>
         ))}
-        <div className="flex flex-col gap-2 bg-black relative pt-4 rounded-lg">
-          {hasSubmittedFulfillments && (
-            <div className="absolute top-3 right-3 text-xs uppercase">
-              Shipping soon
-            </div>
-          )}
-          {unfulfilledOrDraftOrderItems.map((orderItem) => (
-            <OrderIteminOrderList
-              key={orderItem.id}
-              orderitem_itemid={orderItem.itemId}
-              orderitem_item={orderItem.item}
-              orderitem_qty={orderItem.qty - (orderItem.fulfilledQuantity ?? 0)}
-              orderitem_variantid={orderItem.variantId as string}
-            />
-          ))}
-        </div>
+        {unfulfilledOrDraftOrderItems.length > 0 && <div className="flex flex-col gap-2 bg-black relative pt-4 rounded-lg">
+         
+         {unfulfilledOrDraftOrderItems.map((orderItem) => (
+           <OrderIteminOrderList
+             key={orderItem.id}
+             orderitem_itemid={orderItem.itemId}
+             orderitem_item={orderItem.item}
+             orderitem_qty={orderItem.qty - (orderItem.fulfilledQuantity ?? 0)}
+             orderitem_variantid={orderItem.variantId as string}
+           />
+         ))}
+       </div>}        
       </div>
 
       {canBeReturned ? (
