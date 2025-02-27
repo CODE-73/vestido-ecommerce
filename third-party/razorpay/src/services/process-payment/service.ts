@@ -1,7 +1,6 @@
 import { sendSMS, SMSSenderID, SMSTemplate } from '@vestido-ecommerce/fast2sms';
 import { clearCartOnOrderCreation } from '@vestido-ecommerce/items';
 import { getPrismaClient } from '@vestido-ecommerce/models';
-import { calculateTotal } from '@vestido-ecommerce/orders';
 import { VestidoError } from '@vestido-ecommerce/utils';
 
 import { generatePaymentSignature } from '../signature';
@@ -63,10 +62,12 @@ export async function processPayment(data: verifyPaymentRequest) {
           },
           select: {
             customerId: true,
-            orderItems: true,
+            orderItems: {
+              select: {
+                qty: true,
+              },
+            },
             addressId: true,
-            payments: true,
-            couponCode: true,
             order_no: true,
           },
         });
@@ -86,14 +87,8 @@ export async function processPayment(data: verifyPaymentRequest) {
           },
         });
 
-        const { itemsWithTax } = await calculateTotal({
-          addressId: orderDetails.addressId,
-          orderItems: orderDetails.orderItems,
-          paymentType: 'ONLINE',
-          couponCode: orderDetails.couponCode,
-        });
-
-        const totalItems = itemsWithTax
+        // Calculate total quantity of all items in the order
+        const totalItems = orderDetails.orderItems
           .reduce((sum, item) => sum + item.qty, 0)
           .toString();
 
