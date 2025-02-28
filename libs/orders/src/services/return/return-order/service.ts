@@ -191,7 +191,7 @@ export async function returnOrder(data: ReturnOrderSchemaType) {
           data: {
             order: {
               connect: {
-                id: returnOrder.id,
+                id: orderDetails.id,
               },
             },
             paymentGateway: 'RAZORPAY',
@@ -256,7 +256,7 @@ export async function returnOrder(data: ReturnOrderSchemaType) {
           data: {
             order: {
               connect: {
-                id: returnOrder.id,
+                id: orderDetails.id,
               },
             },
             paymentGateway: 'BANK_TRANSFER',
