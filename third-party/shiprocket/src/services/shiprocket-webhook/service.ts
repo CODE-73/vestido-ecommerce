@@ -52,6 +52,27 @@ export async function handleShiprocketWebhook(
       //     rawData: data,
       //   },
       // });
+
+      await prisma.return.updateMany({
+        where: {
+          id: String(data.order_id),
+        },
+        data: {
+          tracking: data.awb,
+          ...(data.shipment_status === 'PICKED UP' && {
+            status: 'PICKED_UP',
+          }),
+          ...(data.shipment_status === 'IN TRANSIT' && {
+            status: 'IN_TRANSIT',
+          }),
+          // ...(data.shipment_status === '' && {
+          //   status: 'RETURNED',
+          // }),
+          // ...(data.shipment_status === '' && {
+          //   status: 'REJECTED',
+          // }),
+        },
+      });
     });
 
     return {
