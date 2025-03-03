@@ -82,87 +82,50 @@ const OrderInOrderList: React.FC<OrderProps> = ({ order }) => {
 
   return (
     <div
-      className="flex flex-col gap-3 bg-neutral-900  p-2 rounded-lg cursor-pointer"
-      style={{
-        boxShadow: '0 -20px 25px -5px rgba(55, 65, 81, 0.3)', // Mimicking shadow-lg shadow-gray-700/50
-      }}
-      onClick={() => handleOrderClick()}
-    >
-      <div className="font-semibold my-2 mx-2 grid grid-cols-8 ">
-        <div className="col-span-5 flex flex-col">
-          <div>
+            
+              className="flex flex-col gap-3 bg-neutral-900  p-2 rounded-lg cursor-pointer"
+              style={{
+                boxShadow: '0 -20px 25px -5px rgba(55, 65, 81, 0.3)', // Mimicking shadow-lg shadow-gray-700/50
+              }}
+              onClick={() => handleOrderClick()}
+            >
+              <div className="font-semibold my-2 mx-2 grid grid-cols-5 sm:grid-cols-8">
+                <div className="col-span-5 flex flex-col">
+                <div>
             <span className=" font-normal">Order </span>
             <span className="text-xl font-semibold">
               #{order.order_no.toString()}
             </span>
           </div>
-          <div>
-            <span className="text-sm font-normal">
-              Order Total Price:&nbsp;
-            </span>
-            {formatINR(order.grandTotal)}
-          </div>
-        </div>
-        {!hasSubmittedFulfillments && (
-          <div className="col-span-3 justify-self-end flex items-center gap-2">
-            <div
-              className={`hidden md:block text-xs uppercase   ${orderStatusClasses(
-                { status: order.orderStatus },
-              )}`}
-            >
-              {order.orderStatus}
-            </div>
-          </div>
-        )}
-      </div>
-      <div className="flex flex-col gap-4">
-        {submittedFulfillments?.map((fulfillment) => (
-          <div
-            key={fulfillment.id}
-            className="py-3 gap-2 bg-black rounded-lg relative"
-          >
-            <div className="absolute top-3 right-3 text-xs uppercase">
-              {fulfillment.status == 'AWAITING_PICKUP'
-                ? 'Awaiting Pickup'
-                : fulfillment.status}
-            </div>
-            {fulfillment.fulfillmentItems.map((fulfillmentItem) => (
-              <OrderIteminOrderList
-                key={fulfillmentItem.id}
-                orderitem_itemid={fulfillmentItem.orderItem.itemId}
-                orderitem_item={fulfillmentItem.orderItem.item}
-                orderitem_qty={fulfillmentItem.quantity}
-                orderitem_variantid={
-                  fulfillmentItem.orderItem.variantId as string
-                }
-              />
-            ))}
-          </div>
-        ))}
-        {unfulfilledOrDraftOrderItems.length > 0 && <div className="flex flex-col gap-2 bg-black relative pt-4 rounded-lg">
-         
-         {unfulfilledOrDraftOrderItems.map((orderItem) => (
-           <OrderIteminOrderList
-             key={orderItem.id}
-             orderitem_itemid={orderItem.itemId}
-             orderitem_item={orderItem.item}
-             orderitem_qty={orderItem.qty - (orderItem.fulfilledQuantity ?? 0)}
-             orderitem_variantid={orderItem.variantId as string}
-           />
-         ))}
-       </div>}        
-      </div>
+                  <div>
+                    <span className="text-sm font-normal">
+                      Order Total Price:&nbsp;
+                    </span>
+                    {formatINR(order.grandTotal)}
+                  </div>
+                </div>
+                <div
+                  className={`md:block text-xs uppercase col-span-3 sm:justify-self-end  ${orderStatusClasses(
+                    { status: order.orderStatus },
+                  )}`}
+                >
+                  {order.orderStatus.replace(/_/g, ' ').toLowerCase()}
+                  
+                </div>
+              </div>
 
-      {canBeReturned ? (
-        <div className="text-xs text-gray-400">
-          Can be returned until {returnDeadline}
-        </div>
-      ) : (
-        <div className="text-xs text-gray-400">
-          Return/Exchange Window closed on {returnDeadline}
-        </div>
-      )}
-    </div>
+              <div className="flex flex-col gap-2">
+                {order?.orderItems.map((orderItem, index) => (
+                  <OrderIteminOrderList key={index} orderItem={orderItem} />
+                ))}
+              </div>
+             
+                <div className="text-xs text-gray-400 cursor-pointer hover:underline">
+                 View Order Details
+                </div>
+            
+             
+            </div>
   );
 };
 export default OrderInOrderList;

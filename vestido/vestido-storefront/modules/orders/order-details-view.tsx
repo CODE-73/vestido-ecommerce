@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { LuChevronDown } from 'react-icons/lu';
 
 import { useOrder, useReturnableItems } from '@vestido-ecommerce/orders/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
@@ -22,6 +23,16 @@ import { useOrderItemsDetailedStatus } from './use-order-item-detailed-status';
 type OrderDetailsProps = {
   orderId: string;
 };
+
+// Order fulfillment statuses and their progress percentages
+const STATUS_STAGES: Record<string, { label: string; progress: number }> = {
+  ORDER_PLACED: { label: 'Order Placed', progress: 0},
+  AWAITING_PICKUP: { label: 'Awaiting Pickup', progress: 25 },
+  SHIPPED: { label: 'Shipped', progress: 50 },
+  OUT_FOR_DELIVERY: { label: 'Out for Delivery', progress: 75 },
+  DELIVERED: { label: 'Delivered', progress: 100 },
+};
+
 const formattedDate = (date: Date) => {
   return date.toLocaleDateString('en-US', {
     year: 'numeric',
@@ -32,61 +43,71 @@ const formattedDate = (date: Date) => {
   });
 };
 
+ 
 const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
-  const router = useRouter();
-  const { data: { data: order } = { data: null } } = useOrder(orderId);
-  console.log('order return data', order);
+    const router = useRouter();
+    const { data: { data: order } = { data: null } } = useOrder(orderId);
+    console.log('order return data', order);
+  
+    const orderItemsDetails = useOrderItemsDetailedStatus(order);
+    console.log('hook', orderItemsDetails);
+    const [isCancelledOrder, setIsCancelledOrder] = useState(
+      order?.orderStatus === 'CANCELLED',
+    );
+  
+    const { data: { data: returnableItems } = { data: [] } } = useReturnableItems(
+      order?.id ?? null,
+    );
+const [expandedFulfillments, setExpandedFulfillments] = useState<Record<string, boolean>>({});
 
-  const orderItemsDetails = useOrderItemsDetailedStatus(order);
-  console.log('hook', orderItemsDetails);
-  const [isCancelledOrder, setIsCancelledOrder] = useState(
-    order?.orderStatus === 'CANCELLED',
-  );
-
-  const { data: { data: returnableItems } = { data: [] } } = useReturnableItems(
-    order?.id ?? null,
-  );
-
-  const hasReturnableItems = (returnableItems?.length || 0) > 0;
-
-  useEffect(() => {
+  
+    const hasReturnableItems = (returnableItems?.length || 0) > 0;
+    console.log('has', returnableItems)
+  
+    useEffect(() => {
+      if (!orderId) {
+        router.replace('/');
+      }
+    }, [router, orderId]);
+  
     if (!orderId) {
-      router.replace('/');
+      return null;
     }
-  }, [router, orderId]);
+  
+    const submittedFulfillments = order?.fulfillments.filter(
+      (x) => x.status != 'DRAFT',
+    );
+    const hasSubmittedFulfillment = (submittedFulfillments?.length ?? 0) > 0;
 
-  if (!orderId) {
-    return null;
-  }
+ const toggleExpand = (fulfillmentId: string) => {
+  setExpandedFulfillments((prev) => ({
+    ...prev,
+    [fulfillmentId]: !prev[fulfillmentId],
+  }));
+}; 
 
-  const submittedFulfillments = order?.fulfillments.filter(
-    (x) => x.status != 'DRAFT',
-  );
-  const hasSubmittedFulfillment = (submittedFulfillments?.length ?? 0) > 0;
-  const cardHeight = '700px';
-  return (
-    <div className="flex justify-center">
-      <Card
-        style={{ height: cardHeight, minHeight: cardHeight }}
-        className={`w-full max-w-4xl p-3 md:p-6 overflow-y-scroll ${
-          isCancelledOrder ? 'md:justify-self-center' : 'md:justify-self-end'
-        }`}
-      >
-        <div className="flex flex-col md:flex-row md:justify-between gap-2">
-          <CardHeader>
+
+    const cardHeight = '700px';
+    return (
+      <div className="flex justify-center">
+        <Card
+          style={{ height: cardHeight, minHeight: cardHeight }}
+          className={`w-full max-w-4xl p-3 md:p-6 overflow-y-scroll ${
+            isCancelledOrder ? 'md:justify-self-center' : 'md:justify-self-end'
+          }`}
+        >
+           <div className="flex flex-col md:flex-row md:justify-between gap-2">
+      <CardHeader>
             <CardTitle className="text-2xl font-semibold">
-              {isCancelledOrder ? <div>Order Cancelled!</div> : 'Order Details'}
-            </CardTitle>
-            <CardDescription className="text-muted-foreground">
-              <div className="flex gap-1">
-                <div className="text-muted-foreground hidden md:block">
-                  Order
-                </div>
-                <div className="font-medium">#{order?.order_no.toString()}</div>
-              </div>
-            </CardDescription>
-          </CardHeader>
-          {hasReturnableItems && (
+             {isCancelledOrder ? <div>Order Cancelled!</div> : 'Order Details'}          </CardTitle>
+          <CardDescription className="text-muted-foreground">
+            <div className="flex gap-1">
+              <div className="text-muted-foreground hidden md:block">Order</div>
+              <div className="font-medium">#{order?.order_no.toString()}</div>
+            </div>
+          </CardDescription>
+        </CardHeader>
+        {hasReturnableItems && (
             <div className="flex gap-2 p-3 md:pt-6 ">
               <ReturnReplaceDialog
                 order={order}
@@ -102,100 +123,105 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
                 <Button className="basis-1/2">Replace Items</Button>
               </ReturnReplaceDialog>
             </div>
-          )}
-        </div>
+          )}</div>
 
-        <CardContent className="grid gap-4 ">
-          {order?.orderStatus === 'CONFIRMED' &&
-          order?.deliveryStatus === 'UNFULFILLED' ? (
-            <div className="text-xs font-bold uppercase">Ready to Ship</div>
-          ) : (
-            <div>{order?.orderStatus}</div>
-          )}
-          <div className="text-sm flex flex-col md:flex-row md:divide-x gap-2 md:gap-5 ">
-            <div className="flex  gap-1">
-              <div className="text-muted-foreground">Date:</div> &nbsp;
-              {order && formattedDate(new Date(order.createdAt))}
-            </div>
-          </div>
-          <div className="text-xs text-muted-foreground -mb-2">
-            Products included in this order: <hr className="-mb-2" />
-          </div>
-
-          <div className="flex flex-col gap-3">
-            {orderItemsDetails.map((orderItem) => (
-              <div
-                key={orderItem.id}
-                className={`py-3 grid grid-cols-8 bg-gray-300  rounded-lg pb-8`}
-              >
+        <CardContent className="grid gap-4">
+          {orderItemsDetails.map((orderItem) => (
+            <div key={orderItem.id} className="py-3 bg-gray-200 rounded-lg">
+              <div className="grid grid-cols-6 items-center">
                 <ItemImage
                   item={orderItem.item}
-                  width={60}
-                  height={90}
-                  className="justify-self-center rounded-lg ml-4 row-span-2"
+                  width={40}
+                  height={60}
+                  className="justify-self-center rounded-lg"
                 />
+                <div className="text-xs col-span-3">{orderItem.item.title}</div>
+                <div className="text-sm justify-self-center">{formatINR(orderItem.price)}</div>
+                <div className="text-sm justify-self-center">x{orderItem.qty}</div>
+              </div>
 
-                <div className="text-xs col-span-3 pl-1 ">
-                  {orderItem.item.title}
-                </div>
-                <div className="text-sm pl-1  justify-self-center">
-                  {formatINR(orderItem.price)}
-                </div>
-                <div className="col-span-3">x{orderItem.qty}</div>
-                <div className="col-span-3">
-                  {orderItem.statuses.length > 0 &&
-                    orderItem.statuses.map((fulfillment) => (
+              <div className="flex flex-col gap-3 w-full mt-2">
+                {orderItem.statuses.length > 0 &&
+                  orderItem.statuses.map((fulfillment) => {
+                    const statusInfo = STATUS_STAGES[fulfillment.title] || {
+                      label: 'Unknown',
+                      progress: 0,
+                    };
+
+                    return (
                       <div
                         key={fulfillment.fulfillmentId}
-                        className="grid grid-cols-3"
+                        className={`relative flex flex-col bg-blue-500/20 py-3 rounded-lg mx-4 transition-all ${
+                          expandedFulfillments[fulfillment.fulfillmentId] ? 'pb-6' : ''
+                        }`}
                       >
-                        <div className="px-1 text-sm text-center justify-self-center">
-                          {fulfillment.qty}
+                        {/* Return Badge */}
+                        {fulfillment.return && (
+                          <div className="absolute top-1/2 -translate-y-1/2 right-3 font-semibold text-xs border border-2 text-white border-blue-500/50 px-3 py-1 rounded-full bg-blue-500/30">
+                            Return
+                          </div>
+                        )}
+
+                        {/* Row with Chevron, Qty, and Title */}
+                        <div className="flex items-center w-full">
+                          <button
+                            onClick={() => toggleExpand(fulfillment.fulfillmentId)}
+                            className="px-2 text-gray-600 hover:text-gray-800 transition"
+                          >
+                            <LuChevronDown
+                              className={`w-4 h-4 transition-transform ${
+                                expandedFulfillments[fulfillment.fulfillmentId] ? 'rotate-180' : ''
+                              }`}
+                            />
+                          </button>
+                          <div className="px-1 text-sm text-center basis-1/4">Qty:&nbsp;<span className=''>{fulfillment.qty}</span></div>
+                          <div className="px-1 text-sm capitalize basis-3/4">{statusInfo.label}</div>
                         </div>
-                        <div className="px-1 text-sm text-center justify-self-center col-span-2">
-                          {fulfillment.title}
-                        </div>
+
+                        {/* Progress Bar (Shown When Expanded) */}
+                        {expandedFulfillments[fulfillment.fulfillmentId] && (
+  <div className="mt-3 px-4 relative">
+    {/* Progress Bar */}
+    <div className="relative h-48 w-2 sm:w-full  sm:h-2 bg-gray-300 rounded-full">
+      <div
+        className="absolute top-0 left-0 h-full bg-blue-500 rounded-full transition-all"
+        style={{ width: `${statusInfo.progress}%` }}
+      />
+    </div>
+
+    {/* Milestone Circles & Status Labels */}
+    <div className="absolute top-1/2 left-0 flex w-full justify-between transform -translate-y-1/2">
+      {Object.values(STATUS_STAGES).map((stage, index) => (
+        <div key={stage.label} className="relative flex flex-col items-center"  style={{ width: `${statusInfo.progress}/${index}%` }}>
+          {/* Circle */}
+          <div
+            className={`w-4 h-4 relative top-3 rounded-full border-2 flex items-center ${
+              statusInfo.progress >= stage.progress ? 'bg-blue-500 border-blue-500' : 'bg-white border-gray-400'
+            }`}
+          />
+          {/* Status Label */}
+          <span className="mt-3 text-xs font-medium text-gray-700 text-center whitespace-nowrap">
+            {stage.label}
+          </span>
+        </div>
+      ))}
+    </div>
+    
+  </div>
+)}
+
                       </div>
-                    ))}
-                </div>
+                    );
+                  })}
               </div>
-            ))}
-          </div>
-          <hr />
-          <div className="grid gap-1">
-            <div className="text-xs text-muted-foreground">Total Amount</div>
-            <div className="font-medium">
-              {formatINR(order?.grandTotal as number)}
             </div>
-          </div>
-          <div className="grid gap-1">
-            <div className="text-xs text-muted-foreground">
-              Delivery Information
-            </div>
-            <address className="not-italic">
-              <div>
-                {`${order?.shippingAddress.firstName} ${order?.shippingAddress.lastName}`.trim()}
-              </div>
-              <div>{order?.shippingAddress.line1}</div>
-              <div>{order?.shippingAddress.line2}</div>
-            </address>
-          </div>
+          ))}
         </CardContent>
+
         <CardFooter className="flex flex-col gap-2 md:flex-row md:justify-between">
           <Link href="/profile" className="w-full md:w-auto" prefetch={false}>
             <Button className="w-full">Back</Button>
           </Link>
-          {!hasSubmittedFulfillment && !isCancelledOrder && (
-            <CancelOrderDialog
-              orderId={order?.id as string}
-              orderNo={order?.order_no}
-              onOrderCancelled={() => setIsCancelledOrder(true)}
-            >
-              <Button className="w-full md:w-auto" variant="outline">
-                Cancel Order
-              </Button>
-            </CancelOrderDialog>
-          )}
         </CardFooter>
       </Card>
     </div>
@@ -203,3 +229,4 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
 };
 
 export default OrderDetailsView;
+

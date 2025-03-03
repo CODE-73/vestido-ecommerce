@@ -51,6 +51,7 @@ export const useOrderItemsDetailedStatus = (
                   title: `RETURN:${_return.status}`,
                   qty: returnQty,
                   fulfillmentId: `${fulfillment.id}/${_return.id}`,
+                  return: true,
                 });
               }
             }
@@ -58,12 +59,12 @@ export const useOrderItemsDetailedStatus = (
             _statuses.push({
               title: fulfillment.status,
               qty: fulfilledQty,
-              fulfillmentId: fulfillment.id,
+              fulfillmentId: fulfillment.id,              
             });
 
             return _statuses;
           },
-          [] as Array<{ title: string; qty: number; fulfillmentId: string }>,
+          [] as Array<{ title: string; qty: number; fulfillmentId: string, return?: boolean }>,
         )
         .filter((x) => x.qty > 0);
 
