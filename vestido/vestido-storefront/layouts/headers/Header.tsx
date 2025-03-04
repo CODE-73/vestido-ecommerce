@@ -18,8 +18,7 @@ const Header = () => {
       </div>
       <div className="fixed w-screen left-0 top-0 z-50 sm:hidden">
         <MobileHeader cart_count={cart_count} wishlist_count={wishlist_count} />
-        <SubHeader />
-      </div>
+              </div>
     </>
   );
 };

@@ -58,7 +58,7 @@ const PrimaryCarouselItem: React.FC<PrimaryCarouselItemProps> = ({ data }) => {
               {data?.text_content?.line3 ?? ''}
             </div>
             {data.button_text && (
-              <DiscoverButton buttonText={data.button_text} />
+              <DiscoverButton className="mt-6" buttonText={data.button_text} />
             )}
           </div>
 

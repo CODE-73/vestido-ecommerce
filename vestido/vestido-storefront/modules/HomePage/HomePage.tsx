@@ -12,6 +12,7 @@ import { PopularCollection } from './Popular/PopularCollection';
 import { PrimaryCarousel } from './PrimaryCarousel/PrimaryCarousel';
 import { RandomProducts } from './TopProducts/RandomProductsSection';
 import { TopProducts } from './TopProducts/TopProducts';
+import SubHeader from 'vestido/vestido-storefront/layouts/headers/SubHeader';
 
 type HomePageProps = {
   items: NonNullable<ListItemResponse>;
@@ -52,10 +53,8 @@ const HomePage: React.FC<HomePageProps> = ({ items }) => {
   };
 
   return (
-    <div className="flex flex-col justify-center bg-black pt-5 lg:pb-10">
-      {/* <div className="sm:hidden -mt-8  mb-4 shadow">
-        <AddOnHeader />
-      </div> */}
+    <div className="flex flex-col justify-center bg-black sm:pt-5 lg:pb-10">
+        <div className='sm:hidden'><SubHeader /></div>
       <div className="flex flex-col lg:flex-col-reverse justify-center lg:mx-4">
         <CircleLinks /> <PrimaryCarousel />
       </div>
@@ -66,9 +65,9 @@ const HomePage: React.FC<HomePageProps> = ({ items }) => {
       <HorizontalScrollCards className="w-full relative my-20 px-1 sm:px-0" />
       <RandomProducts
         items={items}
-        className="max-w-[100vw] overflow-hidden px-2 sm:px-0 md:px-4 lg:max-w-[100rem] lg:self-center"
+        className="max-w-[100vw] overflow-hidden px-2 sm:px-0 md:px-4 lg:max-w-[100rem] lg:self-center "
       />
-      <PopularCollection className="pt-16 px-1 sm:px-0" />
+      <PopularCollection className="pt-16 md:pt-20 xl:pt-28 px-1 sm:px-0" />
       {!isMobile && showBackToTop && <BackToTopButton onClick={scrollToTop} />}
     </div>
   );

@@ -14,7 +14,7 @@ export const DiscoverButton: React.FC<DiscoverButtonProps> = ({
 }) => {
   return (
     <Button
-      className={`mt-6 h-10 sm:h-12 rounded-none max-w-[230px] uppercase font-bold cursor-pointer tracking-wide px-10 ${clsx(className)} ${bgLight ? 'bg-white text-black hover:border hover:border-white hover:text-white' : 'bg-black text-white'}`}
+      className={`h-10 sm:h-12 rounded-none max-w-[230px] uppercase font-bold cursor-pointer tracking-wide px-10 ${clsx(className)} ${bgLight ? 'bg-white text-black hover:border hover:border-white hover:text-white' : 'bg-black text-white'}`}
     >
       {buttonText ?? 'discover now!'}
     </Button>
