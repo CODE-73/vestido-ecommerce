@@ -6,6 +6,7 @@ import Header from './headers/Header';
 import SubHeader from './headers/SubHeader';
 // import Footer from './Footer';
 import Footer from './Footer';
+import BottomNavbar from './bottom-navbar';
 
 type LayoutProps = ComponentWithChildrenProps;
 
@@ -14,7 +15,7 @@ const MainLayout: React.FC<LayoutProps> = ({ children }) => {
   const hideFooter = ['/checkout/Checkout'].includes(router.pathname);
 
   return (
-    <div className=" bg-black justify-center items-center flex flex-col scroll-smooth min-h-screen">
+    <div className="relative bg-black justify-center items-center flex flex-col scroll-smooth min-h-screen">
       {' '}
       {/*bg-background */}
       <div className="w-full">
@@ -32,6 +33,7 @@ const MainLayout: React.FC<LayoutProps> = ({ children }) => {
           <Footer />
         </div>
       )}
+      <div className='absolute bottom-0 sm:invisible'><BottomNavbar/></div>
     </div>
   );
 };

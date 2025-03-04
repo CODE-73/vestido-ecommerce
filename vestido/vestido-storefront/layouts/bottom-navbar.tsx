@@ -1,0 +1,60 @@
+import { AuthenticatedLink} from "@vestido-ecommerce/auth/client";
+import Link from "next/link";
+import { LuHeart, LuHome, LuShoppingBag, LuUser2 } from "react-icons/lu";
+import {RiHome2Line} from "react-icons/ri"
+import { MdOutlineCategory } from "react-icons/md";
+import { useEffect, useState } from "react";
+import CategoriesDrawer from "./mobile-navbar-categories";
+import { isDirty } from "zod";
+
+const BottomNavbar: React.FC = ()=> {
+      const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+      console.log(isDrawerOpen)
+      const toggleDrawer = () => {
+        setIsDrawerOpen(!isDrawerOpen);
+        console.log('toggle')
+        console.log(isDrawerOpen)
+      };
+      const drawerHeight = window.innerHeight - 75;
+
+     
+    return(
+        <footer className={`z-10 fixed left-0 bottom-0 rounded-tl-lg z-100 flex flex-col rounded-tr-lg bg-white  w-screen transition transition-all ease-out duration-500 ${isDrawerOpen ? `justify-between pb-8 h-[750px]`:'h-16 justify-center'}`}> 
+         {isDrawerOpen &&  <CategoriesDrawer isDrawerOpen={isDrawerOpen} toggleDrawer={toggleDrawer} />}<div className="flex items-center justify-around min-h-16"><AuthenticatedLink
+              href="/profile"
+              className=" hover:text-gray-400"
+            >
+              <LuUser2 size={20} />
+            </AuthenticatedLink>
+            <MdOutlineCategory size={24} onClick={toggleDrawer}/>
+       {/* {isDrawerOpen && <CategoriesDrawer isDrawerOpen={isDrawerOpen} toggleDrawer={toggleDrawer} />}    */}
+  
+           
+            <Link href='/'><RiHome2Line size={24} strokeWidth={0.1} /></Link>
+            <Link
+              href="/wishlist"
+              className={`relative hover:text-gray-400 `}
+            >
+              <LuHeart size={20} />
+              {/* {wishlist_count > 0 && ( */}
+                <sup className="absolute -right-[8px] h-4 w-4 text-center rounded-full bg-white text-black font-semibold text-xs">
+                  {/* {wishlist_count} */} 1
+                </sup>
+              {/* )} */}
+            </Link>
+            <Link
+              href="/cart"
+              className={`relative hover:text-gray-400`}
+            >
+              <LuShoppingBag size={20} />
+              {/* {cart_count > 0 && ( */}
+                <sup className="absolute -right-[8px]  h-4 w-4 text-center rounded-full bg-white text-black font-semibold text-xs">
+                  {/* {cart_count} */} 2
+                </sup>
+              {/* )} */}
+            </Link>   </div>   
+      </footer>
+    )
+ }
+
+export default BottomNavbar;
