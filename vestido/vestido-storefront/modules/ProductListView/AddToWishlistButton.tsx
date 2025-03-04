@@ -88,7 +88,7 @@ const AddToWishListButton: React.FC<WishlistbuttonProps> = ({
   };
 
   const isLoading =
-    wishlisted ===isWishlisting || isRemoving;
+    wishlisted === isWishlisting || isRemoving;
 
   return (
     <div onClick={onClick} className={className}>
@@ -97,7 +97,8 @@ const AddToWishListButton: React.FC<WishlistbuttonProps> = ({
                  <LuLoader2
                 strokeWidth={1.3}
                 size={24}
-                className="text-gray-600 animate-spin"
+                className={`${isWishlistLoading ? 'invisible': 'text-gray-600 animate-spin'}`}
+               
               />        
             )  : (
               <LuHeart
