@@ -105,12 +105,12 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
 
   return (
     <>
-      <ProductViewBreadcrumb item={item} category={category} />
-      <div className="w-full flex flex-col md:flex-row py-5 sm:px-2 md:px-0 md:space-x-10 md:px-10 lg:px-20 xl:px-64 text-white">
+      {/* <ProductViewBreadcrumb item={item} category={category} /> */}
+      <div className="w-full flex flex-col md:flex-row pb-5 sm:px-2 md:px-0 md:space-x-10 md:px-10 lg:px-20 xl:px-64 text-white -mt-6">
         <ProductViewImages item={item} selectedVariantId={selectedVariantId} />
         <div className="w-full md:w-1/2">
           <div className="px-2 sm:px-auto">
-            <h1 className="text-xl md:text-3xl font-semibold mt-2 md:mt-5 lg:mt-auto">
+            <h1 className="text-xl md:text-3xl font-semibold mt-5 sm:mt-2  md:mt-5 lg:mt-auto">
               {item?.title}
             </h1>
             <div className="flex flex-row items-center gap-1">
