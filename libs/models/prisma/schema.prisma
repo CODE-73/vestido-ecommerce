@@ -71,8 +71,8 @@ enum RefundStatus {
 enum ReplacementStatus {
     REPLACEMENT_REQUESTED
     REPLACEMENT_IN_PROGRESS
-    PARTIALLY_REPLACED
-    REPLACED
+    PARTIALLY_RECEIVED_BACK
+    RECEIVED_BACK
 }
 
 enum OrderPaymentStatus {

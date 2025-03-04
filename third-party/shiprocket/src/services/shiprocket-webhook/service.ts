@@ -53,7 +53,7 @@ export async function handleShiprocketWebhook(
       //   },
       // });
 
-      await prisma.return.updateMany({
+      await prisma.return.update({
         where: {
           id: String(data.order_id),
         },
@@ -65,9 +65,9 @@ export async function handleShiprocketWebhook(
           ...(data.shipment_status === 'IN TRANSIT' && {
             status: 'IN_TRANSIT',
           }),
-          // ...(data.shipment_status === '' && {
-          //   status: 'RETURNED',
-          // }),
+          ...(data.shipment_status === 'DELIVERED' && {
+            status: 'RETURNED',
+          }),
           // ...(data.shipment_status === '' && {
           //   status: 'REJECTED',
           // }),
@@ -247,7 +247,7 @@ export async function handleShiprocketWebhook(
   }
 
   return {
-    type: 'Order',
+    type: 'Fulfillment',
     id: data.order_id,
   };
 }
