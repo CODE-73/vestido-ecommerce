@@ -17,11 +17,13 @@ import { ItemToastBody } from '../../components/item-toast-body';
 type WishlistbuttonProps = {
   className?: string;
   itemId: string;
+ size? : number;
 };
 
 const AddToWishListButton: React.FC<WishlistbuttonProps> = ({
   itemId,
   className,
+ size
 }) => {
   const isMdAndAbove = useMediaQuery('(min-width:768px)');
 
@@ -87,8 +89,7 @@ const AddToWishListButton: React.FC<WishlistbuttonProps> = ({
     }
   };
 
-  const isLoading =
-    wishlisted === isWishlisting || isRemoving;
+  const isLoading = isWishlisting || isRemoving;
 
   return (
     <div onClick={onClick} className={className}>
@@ -96,15 +97,15 @@ const AddToWishListButton: React.FC<WishlistbuttonProps> = ({
             {isLoading ? (       
                  <LuLoader2
                 strokeWidth={1.3}
-                size={24}
+                size={size ?? 24}
                 className={`${isWishlistLoading ? 'invisible': 'text-gray-600 animate-spin'}`}
                
               />        
             )  : (
               <LuHeart
                 strokeWidth={1.3}
-                size={24}
-                className={`${isWishlistLoading ? 'invisible': 'text-gray-600'}`}
+                size={size ?? 24}
+                className={`${isWishlistLoading ? 'invisible': 'text-gray-600'} `}
                 style={{
                   fill: wishlisted ? 'red' : 'none',
                   color: wishlisted ? 'red' : '',

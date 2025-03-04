@@ -214,7 +214,8 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
             </SizeSelectorDialog>
             <AddToWishListButton
               itemId={item?.id || ''}
-              className="border sm:border-2 rounded-lg font-medium text-xs h-full self-center p-1 sm:p-4  md:p-1 2xl:p-4 "
+              size={28}
+              className="sm:border sm:border-2 rounded-full sm:rounded-lg font-medium text-xs h-full self-center p-1 sm:p-4  md:p-1 2xl:p-4 "
             />
           </div>
 
