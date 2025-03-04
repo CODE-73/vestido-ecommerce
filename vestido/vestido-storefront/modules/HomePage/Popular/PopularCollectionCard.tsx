@@ -15,13 +15,13 @@ const PopularCollectionCard: React.FC<PopularCollectionCardProps> = ({
 }) => {
   return (
     <div
-      className={`group relative overflow-hidden h-[42vh] ${mainImage ? 'md:h-[85vh] md:col-span-2 md:row-span-2' : ''} w-full`}  
+      className={`group  relative overflow-hidden h-[42vh] ${mainImage ? 'md:h-[85vh] md:col-span-2 md:row-span-2' : ''} w-full`}  
     >
       <Link
         href={`/${data.href}`}
         className={`${data.href ? 'cursor-pointer' : 'pointer-events-none'}`}
       >
-        <div className="hover:scale-110 transition duration-500 cursor-pointer w-full h-full">
+        <div className="group-hover:scale-110 transition duration-500 cursor-pointer w-full h-full">
           <Image
             src={data.image.url ?? ''}
             placeholder={data.image.blurHashDataURL ? 'blur' : undefined}
