@@ -19,9 +19,9 @@ const SubHeader = () => {
   );
 
   return (
-    <div className="text-white bg-[#333] text-[8px] sm:text-xs md:text-sm py-1 pt-2 flex justify-center px-2 ">
+    <div className="text-black bg-white text-sm py-1 flex justify-center px-2">
       <Carousel
-        opts={{
+        opts={{ 
           align: 'start',
           loop: true,
         }}
