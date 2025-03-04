@@ -15,8 +15,7 @@ const PopularCollectionCard: React.FC<PopularCollectionCardProps> = ({
 }) => {
   return (
     <div
-      className={`group relative overflow-hidden ${mainImage ? 'col-span-2 row-span-2' : ''} w-full`}
-      style={{ height: mainImage ? '85vh' : '42vh' }}
+      className={`group relative overflow-hidden h-[42vh] ${mainImage ? 'md:h-[85vh] md:col-span-2 md:row-span-2' : ''} w-full`}  
     >
       <Link
         href={`/${data.href}`}
@@ -29,7 +28,7 @@ const PopularCollectionCard: React.FC<PopularCollectionCardProps> = ({
             blurDataURL={data.image.blurHashDataURL ?? undefined}
             alt="alt text"
             fill
-            className="object-cover "
+            className="object-cover"
           />
         </div>
         <div className="absolute left-10 top-10 ">
