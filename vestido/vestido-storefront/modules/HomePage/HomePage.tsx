@@ -66,9 +66,9 @@ const HomePage: React.FC<HomePageProps> = ({ items }) => {
       <HorizontalScrollCards className="w-full relative my-20 px-1 sm:px-0" />
       <RandomProducts
         items={items}
-        className="max-w-[100vw] overflow-hidden px-2 sm:px-0 md:px-4 lg:max-w-[100rem] lg:self-center"
+        className="max-w-[100vw] overflow-hidden px-2 sm:px-0 md:px-4 lg:max-w-[100rem] lg:self-center "
       />
-      <PopularCollection className="pt-16 px-1 sm:px-0" />
+      <PopularCollection className="pt-16 md:pt-20 xl:pt-28 px-1 sm:px-0" />
       {!isMobile && showBackToTop && <BackToTopButton onClick={scrollToTop} />}
     </div>
   );

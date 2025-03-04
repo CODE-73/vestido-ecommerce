@@ -34,15 +34,15 @@ export const HorizontalScrollCards: FC<HorizontalScrollCardsProps> = (
         opts={{
           align: 'start',
         }}
-        className={`${clsx(className)} lg:h-[50vh] lg:min-h-[50vh]  xl:h-[65vh] xl:min-h-[65vh]`}
+        className={`${clsx(className)} lg:h-[35vh] lg:min-h-[35vh] xl:h-[45vh] xl:min-h-[45vh]`}
       >
         <CarouselContent className="flex max-w-content">
           {scroll_cards?.map((card, index) => (
             <HorizontalScrollCard key={index} data={card} />
           ))}
         </CarouselContent>
-        <CarouselPrevious className="absolute left-2 sm:left-10" />
-        <CarouselNext className="absolute right-2 sm:right-10" />
+        <CarouselPrevious className="absolute top-1/2 -translate-y-1/2 left-2 sm:left-10" />
+        <CarouselNext className="absolute top-1/2 -translate-y-1/2 right-2 sm:right-10" />
       </Carousel>
     </>
   );
