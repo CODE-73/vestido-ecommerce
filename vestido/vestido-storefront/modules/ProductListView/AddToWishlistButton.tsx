@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { useMediaQuery } from '@react-hook/media-query';
-import { LuHeart, LuLoader } from 'react-icons/lu';
+import { LuHeart} from 'react-icons/lu';
 
 import { useAuth } from '@vestido-ecommerce/auth/client';
 import {
@@ -9,12 +9,7 @@ import {
   useRemoveFromWishlist,
   useWishlist,
 } from '@vestido-ecommerce/items/client';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@vestido-ecommerce/shadcn-ui/tooltip';
+import { LuLoader2 } from "react-icons/lu";
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 
 import { ItemToastBody } from '../../components/item-toast-body';
@@ -93,46 +88,28 @@ const AddToWishListButton: React.FC<WishlistbuttonProps> = ({
   };
 
   const isLoading =
-    wishlisted === null || isWishlistLoading || isWishlisting || isRemoving;
+    wishlisted ===isWishlisting || isRemoving;
 
   return (
     <div onClick={onClick} className={className}>
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger>
-            {isLoading ? (
-              <LuLoader
+   
+            {isLoading ? (       
+                 <LuLoader2
                 strokeWidth={1.3}
-                size={32}
-                className="text-gray-600 "
-              />
-            ) : isMdAndAbove ? (
-              <LuHeart
-                strokeWidth={1.3}
-                size={32}
-                className="text-gray-600 "
-                style={{
-                  fill: wishlisted ? 'red' : 'none',
-                  color: wishlisted ? 'red' : '',
-                }}
-              />
-            ) : (
+                size={24}
+                className="text-gray-600 animate-spin"
+              />        
+            )  : (
               <LuHeart
                 strokeWidth={1.3}
                 size={24}
-                className="text-gray-600 "
+                className={`${isWishlistLoading ? 'invisible': 'text-gray-600'}`}
                 style={{
                   fill: wishlisted ? 'red' : 'none',
                   color: wishlisted ? 'red' : '',
                 }}
               />
-            )}
-          </TooltipTrigger>
-          <TooltipContent className="rounded-none border-none text-white text-xs font-thin relative top-8 bg-[#333333] right-20">
-            <p>Add to Wishlist</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+            )}   
     </div>
   );
 };
