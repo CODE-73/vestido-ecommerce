@@ -10,7 +10,6 @@ import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 
 import Menubar from '../../components/Menubar';
 import LogoutButton from '../LogoutButton';
-import HeaderDropdown from './HeaderDropdown';
 import { HeaderSearchInput } from './HeaderSearchInput';
 
 interface HeaderProps {
