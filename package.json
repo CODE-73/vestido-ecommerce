@@ -51,6 +51,7 @@
     "embla-carousel-autoplay": "^8.0.0-rc22",
     "embla-carousel-react": "^8.0.0-rc22",
     "event-iterator": "^2.0.0",
+    "framer-motion": "^12.4.10",
     "jsonwebtoken": "^9.0.2",
     "next": "^14.2.23",
     "next-themes": "^0.2.1",
