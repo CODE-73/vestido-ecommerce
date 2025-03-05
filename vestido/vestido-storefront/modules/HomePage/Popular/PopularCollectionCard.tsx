@@ -15,7 +15,7 @@ const PopularCollectionCard: React.FC<PopularCollectionCardProps> = ({
 }) => {
   return (
     <div
-      className={`group  relative overflow-hidden h-[42vh] ${mainImage ? 'md:h-[85vh] md:col-span-2 md:row-span-2' : ''} w-full`}  
+      className={`group  relative overflow-hidden h-[42vh] ${mainImage ? 'md:h-[85vh] md:col-span-2 md:row-span-2' : ''} w-full`}
     >
       <Link
         href={`/${data.href}`}
