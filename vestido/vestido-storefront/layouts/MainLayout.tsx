@@ -7,7 +7,6 @@ import SubHeader from './headers/SubHeader';
 import BottomNavbar from './bottom-navbar';
 // import Footer from './Footer';
 import Footer from './Footer';
-import BottomNavbar from './bottom-navbar';
 
 type LayoutProps = ComponentWithChildrenProps;
 
