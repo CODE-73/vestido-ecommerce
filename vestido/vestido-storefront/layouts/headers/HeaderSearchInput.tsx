@@ -21,7 +21,7 @@ export const HeaderSearchInput: FC<HeaderSearchInputProps> = ({
   className,
   containerClassName,
   onCancelClick,
-  iconSize = 24,
+  iconSize,
   setSearchOpen,
 }) => {
   const router = useRouter();
@@ -75,14 +75,12 @@ export const HeaderSearchInput: FC<HeaderSearchInputProps> = ({
       />
       {onCancelClick && (
         <div className="text-slate-400 cursor-pointer" onClick={onCancelClick}>
-          <LuX size={iconSize} />
+          <LuX
+            size={iconSize}
+            onClick={() => setSearchOpen && setSearchOpen(false)}
+          />
         </div>
       )}
-      <LuX
-        className="text-slate-400 cursor-pointer"
-        size={iconSize}
-        onClick={() => setSearchOpen && setSearchOpen(false)}
-      />
     </div>
   );
 };
