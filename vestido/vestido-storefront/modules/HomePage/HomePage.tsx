@@ -6,13 +6,13 @@ import { LuChevronUp } from 'react-icons/lu';
 import { ListItemResponse } from '@vestido-ecommerce/items/client';
 
 import useIsMobile from '../../hooks/useIsMobile';
+import SubHeader from '../../layouts/headers/SubHeader';
 import { CircleLinks } from './CircleLinks/CircleLinks';
 import { HorizontalScrollCards } from './HorizontalScroll/HorizontalScrollCards';
 import { PopularCollection } from './Popular/PopularCollection';
 import { PrimaryCarousel } from './PrimaryCarousel/PrimaryCarousel';
 import { RandomProducts } from './TopProducts/RandomProductsSection';
 import { TopProducts } from './TopProducts/TopProducts';
-import SubHeader from 'vestido/vestido-storefront/layouts/headers/SubHeader';
 
 type HomePageProps = {
   items: NonNullable<ListItemResponse>;
@@ -54,7 +54,9 @@ const HomePage: React.FC<HomePageProps> = ({ items }) => {
 
   return (
     <div className="flex flex-col justify-center bg-black sm:pt-5 lg:pb-10">
-        <div className='sm:hidden'><SubHeader /></div>
+      <div className="sm:hidden">
+        <SubHeader />
+      </div>
       <div className="flex flex-col lg:flex-col-reverse justify-center lg:mx-4">
         <CircleLinks /> <PrimaryCarousel />
       </div>

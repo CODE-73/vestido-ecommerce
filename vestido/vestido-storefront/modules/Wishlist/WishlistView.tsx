@@ -19,7 +19,7 @@ const WishlistView: React.FC = () => {
 
   return (
     <div className="md:px-16">
-      <div className="text-4xl flex items-center justify-center gap-3 tracking-wide text-white text-center font-extrabold my-5 lg:py-10">
+      <div className="text-4xl py-10 flex items-center justify-center gap-3 tracking-wide text-white text-center font-extrabold my-5 lg:py-10">
         Wishlist
         <span className="font-normal text-lg">
           ({`${wishlistItems.length ?? ''}`} items)

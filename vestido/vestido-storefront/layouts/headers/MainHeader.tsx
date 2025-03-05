@@ -10,7 +10,6 @@ import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 
 import Menubar from '../../components/Menubar';
 import LogoutButton from '../LogoutButton';
-import HeaderDropdown from './HeaderDropdown';
 import { HeaderSearchInput } from './HeaderSearchInput';
 
 interface HeaderProps {
@@ -21,7 +20,7 @@ const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
   const { isAuthenticated } = useAuth();
   const [searchOpen, setSearchOpen] = useState(false);
   return (
-    <div className="bg-black shadow-lg flex items-center px-3 xl:px-32 sticky top-0 shadow-lg shadow-gray-700/50 ">
+    <div className="bg-black sm:shadow-lg flex items-center px-3 xl:px-32 sticky top-0  sm:shadow-gray-700/50 ">
       <div className="flex flex-grow">
         <Link href="/" className="self-center">
           <span className="self-end hidden sm:block">
@@ -83,7 +82,7 @@ const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
             )}
           </Link>
 
-          <HeaderDropdown />
+          {/* <HeaderDropdown /> */}
           {isAuthenticated ? (
             <LogoutButton className="text-white hover:text-gray-400 hover:bg-transparent" />
           ) : (
