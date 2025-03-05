@@ -13,5 +13,12 @@ module.exports = {
     ),
     ...createGlobPatternsForDependencies(__dirname),
   ],
+  theme: {
+    extend: {
+      height: {
+        'screen-minus-nav': 'calc(100vh - var(--navbar-height))',
+      },
+    },
+  },
   plugins: [require('@tailwindcss/typography')],
 };
