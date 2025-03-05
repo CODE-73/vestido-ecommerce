@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
-import { useMediaQuery } from '@react-hook/media-query';
-import { LuHeart} from 'react-icons/lu';
+import { LuHeart } from 'react-icons/lu';
+import { LuLoader2 } from 'react-icons/lu';
 
 import { useAuth } from '@vestido-ecommerce/auth/client';
 import {
@@ -9,7 +9,6 @@ import {
   useRemoveFromWishlist,
   useWishlist,
 } from '@vestido-ecommerce/items/client';
-import { LuLoader2 } from "react-icons/lu";
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 
 import { ItemToastBody } from '../../components/item-toast-body';
@@ -17,16 +16,14 @@ import { ItemToastBody } from '../../components/item-toast-body';
 type WishlistbuttonProps = {
   className?: string;
   itemId: string;
- size? : number;
+  size?: number;
 };
 
 const AddToWishListButton: React.FC<WishlistbuttonProps> = ({
   itemId,
   className,
- size
+  size,
 }) => {
-  const isMdAndAbove = useMediaQuery('(min-width:768px)');
-
   const { isAuthenticated, routeToLogin } = useAuth();
 
   // SWR Queries & Mutations
@@ -93,25 +90,23 @@ const AddToWishListButton: React.FC<WishlistbuttonProps> = ({
 
   return (
     <div onClick={onClick} className={className}>
-   
-            {isLoading ? (       
-                 <LuLoader2
-                strokeWidth={1.3}
-                size={size ?? 24}
-                className={`${isWishlistLoading ? 'invisible': 'text-gray-600 animate-spin'}`}
-               
-              />        
-            )  : (
-              <LuHeart
-                strokeWidth={1.3}
-                size={size ?? 24}
-                className={`${isWishlistLoading ? 'invisible': 'text-gray-600'} `}
-                style={{
-                  fill: wishlisted ? 'red' : 'none',
-                  color: wishlisted ? 'red' : '',
-                }}
-              />
-            )}   
+      {isLoading ? (
+        <LuLoader2
+          strokeWidth={1.3}
+          size={size ?? 24}
+          className={`${isWishlistLoading ? 'invisible' : 'text-gray-600 animate-spin'}`}
+        />
+      ) : (
+        <LuHeart
+          strokeWidth={1.3}
+          size={size ?? 24}
+          className={`${isWishlistLoading ? 'invisible' : 'text-gray-600'} `}
+          style={{
+            fill: wishlisted ? 'red' : 'none',
+            color: wishlisted ? 'red' : '',
+          }}
+        />
+      )}
     </div>
   );
 };

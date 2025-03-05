@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import { ComponentWithChildrenProps } from '../types';
 import Header from './headers/Header';
 import SubHeader from './headers/SubHeader';
+import BottomNavbar from './bottom-navbar';
 // import Footer from './Footer';
 import Footer from './Footer';
 import BottomNavbar from './bottom-navbar';
@@ -33,7 +34,9 @@ const MainLayout: React.FC<LayoutProps> = ({ children }) => {
           <Footer />
         </div>
       )}
-      <div className='absolute bottom-0 sm:invisible'><BottomNavbar/></div>
+      <div className="absolute bottom-0 sm:invisible">
+        <BottomNavbar />
+      </div>
     </div>
   );
 };

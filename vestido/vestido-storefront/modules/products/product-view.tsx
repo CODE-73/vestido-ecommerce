@@ -30,7 +30,6 @@ import { formatINR } from '@vestido-ecommerce/utils';
 import AddToWishListButton from '../ProductListView/AddToWishlistButton';
 import ProductListView from '../ProductListView/ProductListView';
 import { SizeSelectorDialog } from '../Wishlist/size-selector';
-import ProductViewBreadcrumb from './poduct-view-breadcrumpts';
 import ProductViewImages from './product-view-images';
 import ProductViewVariants from './product-view-variants';
 import SizeChartTable from './size-chart-table';

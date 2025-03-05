@@ -36,7 +36,6 @@ const LogoutButton: FC<LogoutButtonProps> = ({ className }) => {
       <AlertDialogTrigger asChild className="cursor-pointer">
         <Button variant="ghost" className={clsx('flex gap-2 p-0', className)}>
           <IoLogOutOutline size={22} />
-         
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
