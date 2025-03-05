@@ -2,8 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { AiOutlineClose } from 'react-icons/ai';
-import { LuAlignLeft, LuSearch } from 'react-icons/lu';
+import { LuHeart, LuSearch } from 'react-icons/lu';
 
 import { HeaderSearchInput } from './HeaderSearchInput';
 
@@ -12,7 +11,6 @@ interface HeaderProps {
   wishlist_count: number;
 }
 const MobileHeader: React.FC<HeaderProps> = () => {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const navbarRef = useRef(null);
 
@@ -46,10 +44,6 @@ const MobileHeader: React.FC<HeaderProps> = () => {
     };
   }, []);
 
-  const toggleDrawer = () => {
-    setIsDrawerOpen(!isDrawerOpen);
-  };
-
   const toggleSearch = () => {
     if (isSearchExpanded) {
       setIsSearchExpanded(false);
@@ -63,12 +57,15 @@ const MobileHeader: React.FC<HeaderProps> = () => {
     <div ref={navbarRef}>
       <header className="bg-black shadow-lg shadow-gray-700/50 py-4 px-2 md:px-10">
         <div className="flex justify-between items-center">
-          <div className="text-white md:hidden" onClick={toggleDrawer}>
-            {isDrawerOpen ? (
-              <AiOutlineClose size={24} />
-            ) : (
-              <LuAlignLeft color="white" size={26} />
-            )}
+          <div className="text-white md:hidden">
+            <Link href="/wishlist" className={`relative hover:text-gray-400 `}>
+              <LuHeart size={20} />
+              {/* {wishlist_count > 0 && ( */}
+              <sup className="absolute -right-[8px] h-4 w-4 text-center rounded-full bg-white text-black font-semibold text-xs">
+                {/* {wishlist_count} */} 1
+              </sup>
+              {/* )} */}
+            </Link>
           </div>
 
           <Link href="/">

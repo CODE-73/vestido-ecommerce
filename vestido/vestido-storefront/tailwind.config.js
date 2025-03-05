@@ -18,6 +18,11 @@ module.exports = {
       height: {
         'screen-minus-nav': 'calc(100vh - var(--navbar-height))',
       },
+      colors: {
+        border: 'hsl(var(--border))',
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
+      },
     },
   },
   plugins: [require('@tailwindcss/typography')],

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 
-import { LuHeart, LuShoppingBag, LuUser2 } from 'react-icons/lu';
+import { LuPackage, LuShoppingBag, LuUser2 } from 'react-icons/lu';
 import { MdOutlineCategory } from 'react-icons/md';
 import { RiHome2Line } from 'react-icons/ri';
 
@@ -29,22 +29,10 @@ const BottomNavbar: React.FC = () => {
         />
       )}
       <div className="flex items-center justify-around min-h-16">
-        <AuthenticatedLink href="/profile" className=" hover:text-gray-400">
-          <LuUser2 size={20} />
-        </AuthenticatedLink>
-        <MdOutlineCategory size={24} onClick={toggleDrawer} />
-        {/* {isDrawerOpen && <CategoriesDrawer isDrawerOpen={isDrawerOpen} toggleDrawer={toggleDrawer} />}    */}
         <Link href="/">
           <RiHome2Line size={24} strokeWidth={0.1} />
         </Link>
-        <Link href="/wishlist" className={`relative hover:text-gray-400 `}>
-          <LuHeart size={20} />
-          {/* {wishlist_count > 0 && ( */}
-          <sup className="absolute -right-[8px] h-4 w-4 text-center rounded-full bg-white text-black font-semibold text-xs">
-            {/* {wishlist_count} */} 1
-          </sup>
-          {/* )} */}
-        </Link>
+        <MdOutlineCategory size={24} onClick={toggleDrawer} />
         <Link href="/cart" className={`relative hover:text-gray-400`}>
           <LuShoppingBag size={20} />
           {/* {cart_count > 0 && ( */}
@@ -52,7 +40,14 @@ const BottomNavbar: React.FC = () => {
             {/* {cart_count} */} 2
           </sup>
           {/* )} */}
-        </Link>{' '}
+        </Link>
+        <Link href="/orders">
+          <LuPackage size={24} />
+        </Link>
+        <AuthenticatedLink href="/profile" className=" hover:text-gray-400">
+          <LuUser2 size={20} />
+        </AuthenticatedLink>
+        {/* {isDrawerOpen && <CategoriesDrawer isDrawerOpen={isDrawerOpen} toggleDrawer={toggleDrawer} />}    */}
       </div>
     </footer>
   );
