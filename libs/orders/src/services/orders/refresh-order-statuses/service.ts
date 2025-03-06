@@ -88,6 +88,39 @@ export async function refreshOrderStatus(data: RefreshOrderStatusSchemaType) {
               deliveryStatus: 'COMPLETED',
             },
           });
+
+          const paymentDetails = await prisma.payment.findFirst({
+            where: {
+              orderId: fulfillment.orderId,
+            },
+          });
+
+          if (!paymentDetails) {
+            throw new VestidoError({
+              name: 'RefreshStatusCODPaymentNotFound',
+              message: `OrderPayment For Order ${fulfillment.orderId} not found.`,
+            });
+          }
+
+          if (paymentDetails.paymentGateway === 'CASH_ON_DELIVERY') {
+            await prisma.payment.update({
+              where: {
+                id: paymentDetails.id,
+              },
+              data: {
+                status: 'CAPTURED',
+              },
+            });
+
+            await prisma.order.update({
+              where: {
+                id: fulfillment.orderId,
+              },
+              data: {
+                orderPaymentStatus: 'CAPTURED',
+              },
+            });
+          }
         }
       }
       return fulfillment;
