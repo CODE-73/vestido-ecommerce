@@ -38,13 +38,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ data: item }) => {
           <ItemImage
             item={item}
             style={{ objectFit: 'cover' }}
-            className="absolute inset-0 block group-hover:hidden object-cover"
+            className="absolute inset-0 block object-cover transition-opacity duration-500 ease-in-out opacity-100 group-hover:opacity-0"
             fill
           />
           <ItemImage
             item={item}
             style={{ objectFit: 'cover' }}
-            className="absolute inset-0 group-hover:block hidden object-cover"
+            className="absolute inset-0 block object-cover transition-opacity duration-500 ease-in-out opacity-0 group-hover:opacity-100"
             imageIdx={1}
             fill
           />

@@ -79,9 +79,9 @@ const MobileHeader: React.FC<HeaderProps> = () => {
 
           {isSearchExpanded ? (
             <HeaderSearchInput
-              iconSize={32}
+              iconSize={24}
               onCancelClick={toggleSearch}
-              containerClassName="absolute  inset-0 w-full h-full p-2 border border-gray-300 rounded-l-md focus:outline-none bg-white"
+              containerClassName="absolute inset-0 w-screen h-full p-2 border border-gray-300 focus:outline-none bg-white"
             />
           ) : (
             <LuSearch
