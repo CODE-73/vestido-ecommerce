@@ -8,10 +8,17 @@ export const POST = apiRouteHandler(async ({ request }) => {
   body.token = token;
 
   const target = await handleShiprocketWebhook(body);
-  if (target && target.type === 'Order') {
+  if (target && target.type === 'Fulfillment') {
     await refreshOrderStatus({
       id: target.id,
       type: 'fulfillmentStatus',
+    });
+  }
+
+  if (target && target.type === 'Return') {
+    await refreshOrderStatus({
+      id: target.id,
+      type: 'ReturnStatus',
     });
   }
   return {
