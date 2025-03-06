@@ -71,8 +71,8 @@ enum RefundStatus {
 enum ReplacementStatus {
     REPLACEMENT_REQUESTED
     REPLACEMENT_IN_PROGRESS
-    PARTIALLY_REPLACED
-    REPLACED
+    PARTIALLY_RECEIVED_BACK
+    RECEIVED_BACK
 }
 
 enum OrderPaymentStatus {
@@ -432,6 +432,7 @@ model Return {
     order              Order         @relation(fields: [orderId], references: [id])
     orderId            String        @db.Uuid
     shipmentId         String?
+    tracking           String?
     reason             String
     type               ReturnType    @default(RETURN)
     replacementOrderId String?       @db.Uuid
