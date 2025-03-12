@@ -61,7 +61,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ data: item }) => {
               {formatINR(item.discountedPrice)}
             </div>
             {item.discountedPrice < item.price ? (
-              <div className="text-white line-through text-xs">
+              <div className="text-red-400 line-through text-xs">
                 {formatINR(item.price)}
               </div>
             ) : (
