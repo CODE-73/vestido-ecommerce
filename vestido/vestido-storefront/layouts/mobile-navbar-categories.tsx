@@ -50,11 +50,11 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({
   return (
     <div className={` bg-gray-700 bg-opacity-75 overflow-y-scroll w-full`}>
       {/* Drawer Content */}
-      <div className="bg-white h-auto w-80 w-full shadow-lg p-4 pb-0 pt-0 flex flex-col gap-5 align-end uppercase font-bold tracking-wide text-slate-500">
+      <div className="bg-white h-auto w-80 w-full shadow-lg p-4 pb-0 pt-0 flex flex-col gap-5 align-end uppercase font-bold tracking-wide text-black">
         <div className="sticky top-0 bg-white py-4 w-full flex justify-between">
           <div className="capitalize">Categories</div>
           <button
-            className="text-gray-600 flex gap-2 z-50 "
+            className="text-black flex gap-2 z-50 "
             onClick={toggleDrawer}
           >
             <LuX size={22} />
