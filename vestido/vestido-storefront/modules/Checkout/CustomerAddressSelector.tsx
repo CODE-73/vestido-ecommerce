@@ -130,22 +130,21 @@ const CustomerAddressSelector: React.FC<CustomerAddressSelectorProps> = ({
                   </AlertDialogContent>
                 </AlertDialog>
                 <div
-                  className={`${
-                    address.default
+                  className={`${address.default
                       ? 'bg-white px-3 py-1 rounded-full text-black text-xs'
                       : 'hidden'
-                  }`}
+                    }`}
                 >
                   DEFAULT
                 </div>
               </div>
             </div>
-            <div className="text-sm w-1/2 text-wrap pt-4 text-neutral-200">
+            <div className="text-sm w-1/2 text-wrap pt-4 text-white">
               {address.line1}, {address.line2}, {address.district},
               {address.state}, {address.pinCode}
             </div>
             <div className="pt-4 flex gap-2 font-semibold items-center">
-              <div className="text-sm text-neutral-300">Mobile:</div>
+              <div className="text-sm text-white">Mobile:</div>
               <div> {address.mobile}</div>
             </div>
           </div>
