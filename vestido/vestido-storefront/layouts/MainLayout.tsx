@@ -33,7 +33,7 @@ const MainLayout: React.FC<LayoutProps> = ({ children }) => {
           <Footer />
         </div>
       )}
-      <div className="absolute bottom-0 sm:invisible">
+      <div className="absolute bottom-0 sm:hidden">
         <BottomNavbar />
       </div>
     </div>
