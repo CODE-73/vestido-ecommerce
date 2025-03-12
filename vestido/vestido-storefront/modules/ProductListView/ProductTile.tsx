@@ -88,6 +88,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ data: item }) => {
           'sm:group-hover:flex sm:flex-col gap-3 absolute top-3 right-3 pt-2',
         )}
         itemId={item.id}
+        color="black"
       />
     </div>
   );
