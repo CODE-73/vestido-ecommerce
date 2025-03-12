@@ -14,14 +14,12 @@ module.exports = {
     ...createGlobPatternsForDependencies(__dirname),
   ],
   theme: {
+    ...(tailwindConfig.theme ?? {}),
     extend: {
+      ...(tailwindConfig.theme?.extend ?? {}),
       height: {
+        ...(tailwindConfig.theme?.extend?.height ?? {}),
         'screen-minus-nav': 'calc(100vh - var(--navbar-height))',
-      },
-      colors: {
-        border: 'hsl(var(--border))',
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
       },
     },
   },
