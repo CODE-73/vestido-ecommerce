@@ -2,8 +2,8 @@ import React from 'react';
 
 const PrivacyPolicy: React.FC = () => {
   return (
-    <div className="container mx-auto px-4 py-8 text-stone-500">
-      <h1 className="text-2xl font-semibold mb-6">Privacy Policy</h1>
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="hidden md:block text-2xl font-semibold mb-6">Privacy Policy</h1>
       <p className="mb-6 ">
         At Vestidonation, we are committed to protecting your privacy and
         ensuring the security of your personal information. This Privacy Policy
@@ -57,7 +57,7 @@ const PrivacyPolicy: React.FC = () => {
         You have the right to access, correct, or delete the personal
         information we hold about you. You may also withdraw your consent for us
         to use your information for marketing purposes at any time. For more
-        information or to exercise your rights, please contact us at
+        information or to exercise your rights, please contact us at&nbsp;
         <a
           href="mailto:support@vestidonation.com"
           className="text-blue-600 hover:underline"
@@ -80,7 +80,7 @@ const PrivacyPolicy: React.FC = () => {
       <p className=" text-sm md:text-lg mb-6">
         By using our website or services, you consent to the terms of this
         Privacy Policy. If you have any questions or concerns about our privacy
-        practices, please contact us at
+        practices, please contact us at&nbsp;
         <a
           href="mailto:support@vestidonation.com"
           className="text-blue-600 hover:underline"

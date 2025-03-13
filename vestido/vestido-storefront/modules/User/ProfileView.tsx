@@ -21,6 +21,8 @@ import Addresses from './Addresses';
 import DeleteAccount from './DeleteAccount';
 import OrdersView from './Orders';
 import Profile from './Profile';
+import TermsAndConditions from '../Documents/Terms&Conditions';
+import PrivacyPolicy from '../Documents/PrivacyPolicy';
 
 const ProfileView: React.FC = () => {
   const { data } = useProfile();
@@ -35,6 +37,32 @@ const ProfileView: React.FC = () => {
       setSelectedNav('profile');
     }
   }, [isSmallScreen]);
+
+  const profileTabs = [
+    { value: "profile", label: "Profile" },
+    { value: "orders", label: "Orders & Returns" },
+    { value: "addresses", label: "Addresses" },
+    { value: "delete", label: "Delete Account" },
+    { value: "t&c", label: "Terms of Use" },
+    { value: "privacy", label: "Privacy Policy" },
+    { value: "faq", label: "FAQs" },
+    { value: "shipping", label: "Shipping Policy" },
+    { value: "return", label: "Return & Exchange" },
+  ]
+  const TabContent = ({ value, label, children }: { value: string; label: string; children: React.ReactNode }) => (
+    <TabsContent value={value} className="relative">
+      {isSmallScreen && selectedNav && (
+        <>
+          <Button className="bg-transparent text-white p-0 flex items-center" onClick={() => setSelectedNav('')}>
+            <LuChevronLeft size={24} />
+            <div className="font-semibold text-lg my-4 md:hidden">{label}</div>
+          </Button>
+          <hr className="border-gray-600 mb-2" />
+        </>
+      )}
+      {children}
+    </TabsContent>
+  );
 
   return (
 
@@ -53,51 +81,14 @@ const ProfileView: React.FC = () => {
       >
         {!isSmallScreen || !selectedNav ? (
           <div className="w-full md:w-64 md:basis-1/4 p-2 md:p-4">
-            <TabsList className=" flex flex-col bg-transparent justify-start items-start text-slate-300 text-sm md:text-base">
-              <TabsTrigger
-                className="bg-transparent border-none data-[state=active]:border-none data-[state=active]:underline underline-offset-800 data-[state=active]:bg-transparent data-[state=active]:text-white text-sm md:text-lg mt-4 mb-1 px-0"
-                value="profile"
-              >
-                Profile
-              </TabsTrigger>
-              <TabsTrigger
-                className="bg-transparent border-none data-[state=active]:border-none data-[state=active]:underline underline-offset-800 data-[state=active]:bg-transparent data-[state=active]:text-white text-sm md:text-lg mt-4 mb-1 px-0"
-                value="orders"
-              >
-                Orders & Returns
-              </TabsTrigger>
-
-              <TabsTrigger
-                className="bg-transparent border-none data-[state=active]:border-none data-[state=active]:underline underline-offset-800 data-[state=active]:bg-transparent data-[state=active]:text-white text-sm md:text-lg  my-1 px-0"
-                value="addresses"
-              >
-                Addresses
-              </TabsTrigger>
-              <TabsTrigger
-                className="bg-transparent border-none data-[state=active]:border-none data-[state=active]:underline underline-offset-800 data-[state=active]:bg-transparent data-[state=active]:text-white text-sm md:text-lg  my-1 px-0"
-                value="delete"
-              >
-                Delete Account
-              </TabsTrigger>
-
-              <ul>
-                <li className="my-4">
-                  <Link
-                    href="/terms-and-conditions"
-                    className="text-sm md:text-lg cursor-pointer"
-                  >
-                    Terms of Use
-                  </Link>
-                </li>
-                <li className="mb-4">
-                  <Link
-                    href="/privacy-policy"
-                    className=" text-sm md:text-lg cursor-pointer"
-                  >
-                    Privacy Policy
-                  </Link>
-                </li>
-              </ul> <div className='sm:hidden'>Social Media:</div>
+            <TabsList className="flex flex-col bg-transparent justify-start items-start text-slate-300 text-sm md:text-base">
+              {profileTabs.map(({ value, label }) => (
+                <TabsTrigger key={value} value={value} className="bg-transparent border-none data-[state=active]:border-none data-[state=active]:underline underline-offset-800 data-[state=active]:bg-transparent data-[state=active]:text-white text-sm md:text-lg mb-1 px-0"
+                >
+                  {label}
+                </TabsTrigger>
+              ))}
+              <div className='sm:hidden mt-1'>Social Media:</div>
               <div className="sm:hidden w-full flex justify-around mt-3">
                 {' '}
                 <Link href="https://www.facebook.com/people/Vestido-Nation/61554017931370/?mibextid=ZbWKwL">
@@ -142,74 +133,57 @@ const ProfileView: React.FC = () => {
 
         <div className={`w-full md:basis-4/5 px-1 md:px-4 `}>
           {/*${isSmallScreen && selectedNav ? '' : 'hidden'}*/}
-          <TabsContent value="orders" className="relative">
-            {isSmallScreen && selectedNav && (
-              <>
-                <Button
-                  className="bg-transparent text-white p-0 flex items-center"
-                  onClick={() => setSelectedNav('')}
-                >
-                  <LuChevronLeft size={24} />
-                  <div className="font-semibold my-4 md:hidden">
-                    All Orders
-                  </div>
-                </Button>
-                <hr className="border-gray-600  mb-2" />
-              </>
-            )}
+          <TabContent value="orders" label="All Orders">
             <OrdersView />
-          </TabsContent>
-          <TabsContent value="profile">
-            {isSmallScreen && selectedNav && (
-              <>
-                <Button
-                  className="bg-transparent text-white h-10 p-0 flex items-center"
-                  onClick={() => setSelectedNav('')}
-                >
-                  <LuChevronLeft size={24} />
-                  <div className="font-semibold text-xs md:text-lg my-4 md:hidden">
-                    Profile Details
-                  </div>
-                </Button>
-              </>
-            )}
+          </TabContent>
+
+          <TabContent value="profile" label="Profile Details">
             <Profile />
-          </TabsContent>
+          </TabContent>
           <TabsContent value="addresses" className="relative">
             {isSmallScreen && selectedNav && (
               <>
                 <Button
-                  className="bg-transparent text-white p-0 absolute -top-0.5 left-0"
+                  className="bg-transparent text-white p-0 absolute -top-[2.5px] left-0"
                   onClick={() => setSelectedNav('')}
                 >
-                  <LuChevronLeft size={24} />
+                  <LuChevronLeft size={22} />
                 </Button>
               </>
             )}
             <Addresses />
           </TabsContent>
-          <TabsContent value="delete">
-            {isSmallScreen && selectedNav && (
-              <>
-                <Button
-                  className="bg-transparent text-white p-0 flex items-center"
-                  onClick={() => setSelectedNav('')}
-                >
-                  <LuChevronLeft size={24} />
-                  <div className="font-semibold text-lg my-4 md:hidden">
-                    Delete Account
-                  </div>
-                </Button>
-                <hr className="border-gray-600 -mx-3 mb-2" />
-              </>
-            )}
+
+
+
+          <TabContent value="delete" label="Delete Account">
             <DeleteAccount />
-          </TabsContent>
+          </TabContent>
+
+          <TabContent value="t&c" label="Terms and Conditions">
+            <TermsAndConditions />
+          </TabContent>
+
+          <TabContent value="privacy" label="Privacy Policy">
+            <PrivacyPolicy />
+          </TabContent>
+          <TabContent value="faq" label="Frequently Asked Questions">
+            <div>FAQs</div>
+          </TabContent>
+          <TabContent value="shipping" label="Shipping Policy">
+            <div>Shipping Policy</div>          </TabContent>
+          <TabContent value="return" label="Return & Exchange">
+          <div>Return & Exchange</div>
+          </TabContent>
+
+
         </div>
-      </Tabs>
-    </div>
+      </Tabs >
+    </div >
 
   );
 };
 
 export default ProfileView;
+
+
