@@ -148,21 +148,13 @@ const Addresses: React.FC = () => {
                     </div>
                   </div>
                 </div>
-                <div
-                  className={`${
-                    address.default
-                      ? 'px-3 max-w-[90px] rounded-full md:hidden border border-4 text-blue-500 border-blue-500 align-middle'
-                      : 'hidden'
-                  }`}
-                >
-                  DEFAULT
-                </div>
-                <div className="text-sm w-1/2 text-wrap pt-4 text-gray-600">
+
+                <div className="text-sm w-1/2 text-wrap pt-4">
                   {address.line1}, {address.line2}, {address.district},
                   {address.state}, {address.pinCode}
                 </div>
                 <div className="pt-4 flex gap-2 font-semibold items-center">
-                  <div className="text-sm text-gray-600">Mobile:</div>
+                  <div className="text-sm">Mobile:</div>
                   <div> {address.mobile}</div>
                 </div>
               </div>

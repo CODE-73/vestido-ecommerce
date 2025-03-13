@@ -48,19 +48,16 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({
   };
 
   return (
-    <div className={` bg-gray-700 bg-opacity-75 overflow-y-scroll w-full`}>
+    <div className={` bg-opacity-75 overflow-y-scroll w-full`}>
       {/* Drawer Content */}
-      <div className="bg-white h-auto w-80 w-full shadow-lg p-4 pb-0 pt-0 flex flex-col gap-5 align-end uppercase font-bold tracking-wide text-slate-500">
-        <div className="sticky top-0 bg-white py-4 w-full flex justify-between">
+      <div className="h-auto w-80 w-full shadow-lg p-4 pb-0 pt-0 flex flex-col gap-5 align-end uppercase font-bold tracking-wide text-white">
+        <div className="sticky top-0 py-4 w-full flex justify-between">
           <div className="capitalize">Categories</div>
-          <button
-            className="text-gray-600 flex gap-2 z-50 "
-            onClick={toggleDrawer}
-          >
+          <button className="flex gap-2 z-50 " onClick={toggleDrawer}>
             <LuX size={22} />
           </button>
         </div>
-        <hr />
+        <hr className="border-t border-white/30" />
 
         <div
           className="flex justify-between"
@@ -72,7 +69,7 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({
           </div>
           {dropdownsOpen.men ? <LuMinus /> : <LuPlus />}
         </div>
-        <hr />
+        <hr className="border-t border-white/30" />
         {dropdownsOpen.men && (
           <>
             {mainCategories
@@ -104,7 +101,7 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({
                   </ul>
                 </div>
               ))}
-            <hr />
+            <hr className="border-t border-white/30" />
           </>
         )}
         <div
@@ -117,7 +114,7 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({
           </div>
           {dropdownsOpen.women ? <LuMinus /> : <LuPlus />}
         </div>
-        <hr />
+        <hr className="border-t border-white/30" />
         {dropdownsOpen.women && (
           <>
             {mainCategories
@@ -153,7 +150,7 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({
                   </ul>
                 </div>
               ))}
-            <hr />
+            <hr className="border-t border-white/30" />
           </>
         )}
         <div
@@ -206,10 +203,10 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({
                   )}
                 </div>
               ))}
-            <hr />
+            <hr className="border-t border-white/30" />
           </>
         )}
-        <hr />
+        <hr className="border-t border-white/30" />
       </div>
     </div>
   );

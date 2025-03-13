@@ -2,8 +2,8 @@ import React from 'react';
 
 const TermsAndConditions: React.FC = () => {
   return (
-    <div className="container mx-auto px-4 py-8 text-stone-400 text-xs md:text-base">
-      <h1 className="text-2xl  text-white font-semibold mb-6">
+    <div className="container mx-auto px-4 py-8 text-xs md:text-base">
+      <h1 className="hidden md:block text-2xl  text-white font-semibold mb-6">
         Terms and Conditions
       </h1>
 

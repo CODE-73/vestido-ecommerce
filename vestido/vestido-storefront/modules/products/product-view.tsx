@@ -113,7 +113,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
               {item?.title}
             </h1>
             <div className="flex flex-row items-center gap-1">
-              <div className="text-2xl text-gray-500  mt-5 md:mt-0 font-semibold">
+              <div className="text-2xl text-white mt-5 md:mt-0 font-semibold">
                 {item?.discountedPrice && item?.discountedPrice < item.price ? (
                   <div className="flex flex-col md:flex-row gap-2 md:gap-4 md:items-center">
                     <div className="text-white">
@@ -169,7 +169,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
             </div>
           </div>
           <div
-            className="flex gap-2 mb-5 md:mb-0 md:my-5 w-full fixed -bottom-6 w-full sm:static bg-black  py-2 px-2 mx-0 z-50 sm:z-auto "
+            className="flex gap-2 mb-5 md:mb-0 md:my-5 w-full bg-black  py-2 px-2 mx-0 "
             style={{
               boxShadow: '0 -20px 25px -5px rgba(55, 65, 81, 0.3)', // Mimicking shadow-lg shadow-gray-700/50
             }}
@@ -215,6 +215,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
               itemId={item?.id || ''}
               size={28}
               className="sm:border sm:border-2 rounded-full sm:rounded-lg font-medium text-xs h-full self-center p-1 sm:p-4  md:p-1 2xl:p-4 "
+              color="white"
             />
           </div>
 

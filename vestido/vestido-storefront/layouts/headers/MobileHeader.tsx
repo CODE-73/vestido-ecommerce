@@ -7,10 +7,9 @@ import { LuHeart, LuSearch } from 'react-icons/lu';
 import { HeaderSearchInput } from './HeaderSearchInput';
 
 interface HeaderProps {
-  cart_count: number;
   wishlist_count: number;
 }
-const MobileHeader: React.FC<HeaderProps> = () => {
+const MobileHeader: React.FC<HeaderProps> = ({ wishlist_count }) => {
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const navbarRef = useRef(null);
 
@@ -59,12 +58,12 @@ const MobileHeader: React.FC<HeaderProps> = () => {
         <div className="flex justify-between items-center">
           <div className="text-white md:hidden">
             <Link href="/wishlist" className={`relative hover:text-gray-400 `}>
-              <LuHeart size={20} />
-              {/* {wishlist_count > 0 && ( */}
-              <sup className="absolute -right-[8px] h-4 w-4 text-center rounded-full bg-white text-black font-semibold text-xs">
-                {/* {wishlist_count} */} 1
-              </sup>
-              {/* )} */}
+              <LuHeart size={24} />
+              {wishlist_count > 0 && (
+                <sup className="absolute -right-[8px] h-4 w-4 text-center rounded-full bg-white text-black font-semibold text-xs">
+                  {wishlist_count}
+                </sup>
+              )}
             </Link>
           </div>
 
@@ -85,7 +84,7 @@ const MobileHeader: React.FC<HeaderProps> = () => {
             />
           ) : (
             <LuSearch
-              size={30}
+              size={24}
               onClick={toggleSearch}
               className="z-50"
               color="white"
