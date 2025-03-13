@@ -2,7 +2,10 @@ import * as Sentry from '@sentry/nextjs';
 import { differenceInHours, parse } from 'date-fns';
 import { thumbHashToDataURL } from 'thumbhash';
 
-import { makeSignedUrl as _makeSignedUrl } from '@vestido-ecommerce/r2';
+import {
+  getPublicURL,
+  makeSignedUrl as _makeSignedUrl,
+} from '@vestido-ecommerce/r2';
 import { ImageSchemaType, VestidoError } from '@vestido-ecommerce/utils';
 
 import { getRedisClient } from './client';
@@ -11,12 +14,29 @@ const SIGNED_URL_EXPRIY = 2 * 24 * 60 * 60; // 2 days // 48 hours
 const REDIS_KEY_EXPIRY = SIGNED_URL_EXPRIY / 2;
 
 /**
+ * Prefix S3 Bucket URL (public read)
+ * @param images ImagesSchemaType[]
+ */
+export async function populateImageURLs(images: ImageSchemaType[]) {
+  if (!images || images.length === 0) {
+    return;
+  }
+
+  for (const img of images) {
+    if (!img.key) {
+      continue;
+    }
+    img.url = getPublicURL(img.key);
+  }
+}
+
+/**
  * Always overwrites existing urls
  *
  * @param images ImagesSchemaType[]
  * @returns ImagesSchemaType[] populated with signed urls
  */
-export async function populateImageURLs(images: ImageSchemaType[]) {
+export async function populateSignedImageURLs(images: ImageSchemaType[]) {
   if (!images || images.length === 0) {
     return;
   }

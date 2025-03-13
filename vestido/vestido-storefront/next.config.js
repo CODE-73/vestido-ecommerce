@@ -46,6 +46,8 @@ const nextConfig = {
     return config;
   },
   images: {
+    loader: 'custom',
+    loaderFile: './cloudflare-loader.js',
     unoptimized: process.env.DISABLE_IMAGE_OPTIMIZATIONS === 'true',
     remotePatterns: [
       {
