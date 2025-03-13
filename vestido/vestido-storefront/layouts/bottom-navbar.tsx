@@ -21,7 +21,7 @@ const BottomNavbar: React.FC = () => {
 
   return (
     <footer
-      className={`z-10 fixed left-0 bottom-0 shadow-[0_-4px_20px_rgba(255,255,255,0.2)]  rounded-tl-lg z-100 flex flex-col rounded-tr-lg bg-black shadow  w-screen transition transition-all ease-out duration-500 ${isDrawerOpen ? `justify-between pb-8 h-screen-minus-nav` : 'h-16 justify-center'}`}
+      className={`z-100 fixed left-0 bottom-0 shadow-[0_-4px_20px_rgba(255,255,255,0.2)]  rounded-tl-lg z-100 flex flex-col rounded-tr-lg bg-black shadow  w-screen transition transition-all ease-out duration-500 ${isDrawerOpen ? `justify-between pb-8 h-screen-minus-nav` : 'h-16 justify-center'}`}
     >
       {isDrawerOpen && (
         <CategoriesDrawer

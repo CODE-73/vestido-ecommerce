@@ -169,7 +169,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
             </div>
           </div>
           <div
-            className="flex gap-2 mb-5 md:mb-0 md:my-5 w-full fixed -bottom-6 w-full sm:static bg-black  py-2 px-2 mx-0 z-50 sm:z-auto "
+            className="flex gap-2 mb-5 md:mb-0 md:my-5 w-full bg-black  py-2 px-2 mx-0 "
             style={{
               boxShadow: '0 -20px 25px -5px rgba(55, 65, 81, 0.3)', // Mimicking shadow-lg shadow-gray-700/50
             }}
