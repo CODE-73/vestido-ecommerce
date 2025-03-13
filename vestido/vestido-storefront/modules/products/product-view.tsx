@@ -113,7 +113,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
               {item?.title}
             </h1>
             <div className="flex flex-row items-center gap-1">
-              <div className="text-2xl text-gray-500  mt-5 md:mt-0 font-semibold">
+              <div className="text-2xl text-white mt-5 md:mt-0 font-semibold">
                 {item?.discountedPrice && item?.discountedPrice < item.price ? (
                   <div className="flex flex-col md:flex-row gap-2 md:gap-4 md:items-center">
                     <div className="text-white">
