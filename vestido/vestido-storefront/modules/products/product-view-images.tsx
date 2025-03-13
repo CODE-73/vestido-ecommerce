@@ -160,7 +160,8 @@ const ProductViewImages: FC<ProductViewImagesProps> = ({
               {({ scrollSnap, onClick, selectedIndex, index }) => (
                 <button
                   className={clsx('rounded-full mt-5 h-1', {
-                    'w-2 h-2 bg-white border border-white': selectedIndex === index,
+                    'w-2 h-2 bg-white border border-white':
+                      selectedIndex === index,
                     'w-2 h-2 border border-white': selectedIndex !== index,
                   })}
                   key={scrollSnap}

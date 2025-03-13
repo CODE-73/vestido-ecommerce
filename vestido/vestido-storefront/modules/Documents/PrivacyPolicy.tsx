@@ -3,7 +3,9 @@ import React from 'react';
 const PrivacyPolicy: React.FC = () => {
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="hidden md:block text-2xl font-semibold mb-6">Privacy Policy</h1>
+      <h1 className="hidden md:block text-2xl font-semibold mb-6">
+        Privacy Policy
+      </h1>
       <p className="mb-6 ">
         At Vestidonation, we are committed to protecting your privacy and
         ensuring the security of your personal information. This Privacy Policy
