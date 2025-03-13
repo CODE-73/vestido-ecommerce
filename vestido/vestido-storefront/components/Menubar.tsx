@@ -1,28 +1,25 @@
 import * as React from 'react';
 import Link from 'next/link';
 
-import * as AccordionPrimitive from '@radix-ui/react-accordion';
-import * as MenubarPrimitive from '@radix-ui/react-menubar';
-import clsx from 'clsx';
-import { LuChevronDown } from 'react-icons/lu';
+import * as NavigationMenuPrimitive from '@radix-ui/react-navigation-menu';
+import { clsx } from 'clsx';
 
-import { Gender, useCategories } from '@vestido-ecommerce/items/client';
+// import useIsMobile from '../hooks/useIsMobile';
+import { Gender } from '@vestido-ecommerce/items';
+import { useCategories } from '@vestido-ecommerce/items/client';
 import {
-  Accordion,
-  AccordionContent,
-} from '@vestido-ecommerce/shadcn-ui/accordion';
-import {
-  Menubar,
-  MenubarContent,
-  MenubarMenu,
-  MenubarTrigger,
-} from '@vestido-ecommerce/shadcn-ui/menubar';
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuList,
+  navigationMenuTriggerStyle,
+} from '@vestido-ecommerce/shadcn-ui/navigation-menu';
 
 type ListItemProps = {
   href: string;
   title: string;
 };
-export const ListItem: React.FC<ListItemProps> = ({ href, title }) => (
+const ListItem: React.FC<ListItemProps> = ({ href, title }) => (
   <li className="row-span-3">
     <Link
       className="flex select-none flex-col justify-start md:justify-end rounded-md  pl-3 no-underline outline-none focus:shadow-md"
@@ -37,7 +34,7 @@ type NavMenuProps = {
   isFixed: boolean;
 };
 
-const HeaderMenubar: React.FC<NavMenuProps> = ({ isFixed }) => {
+const NavMenu: React.FC<NavMenuProps> = ({ isFixed }) => {
   const { data: categories } = useCategories();
 
   //   const isMobile = useIsMobile();
@@ -55,268 +52,150 @@ const HeaderMenubar: React.FC<NavMenuProps> = ({ isFixed }) => {
   };
 
   return (
-    <Menubar className="bg-transparent border-none">
-      <MenubarMenu>
-        <MenubarTrigger
-          className={`font-semibold h-6 text-sm  cursor-pointer bg-transparent hover:bg-transparent data-active:bg-transparent data-[state=open]:bg-transparent hover:text-gray-300 data-[state=open]:text-gray-300 rounded-none mx-3 focus:bg-transparent ${
-            isFixed ? '' : 'text-white focus:text-white '
-          }`}
-        >
-          MEN
-        </MenubarTrigger>
-        <MenubarContent className="w-[100px] ">
-          {mainCategories
-            ?.filter(
-              (category) =>
-                category.gender.includes('MEN') &&
-                !category.gender.includes('WOMEN'),
-            )
-            .map((category, index) => (
-              <div key={index}>
-                <Accordion type="single" collapsible className="w-full ">
-                  <AccordionItem value="item-1" className="py-0  border-none">
-                    {getSubcategories(category.id, ['MEN'])!.length > 0 ? (
-                      <AccordionTrigger className="py-0">
-                        <div className=" text-stone-500 capitalize hover:bg-transparent focus:bg-transparent  px-2  text-sm mt-2">
-                          {/* <Link href={`/${category.slug}`}>
-                        {category.name}
-                      </Link> */}
-                          <div> {category.name}</div>
+    <NavigationMenu>
+      <NavigationMenuList>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger
+            className={`font-semibold h-6 bg-transparent hover:bg-transparent data-active:bg-transparent data-[state=open]:bg-transparent hover:text-white rounded-none mx-3 focus:bg-transparent ${isFixed ? '' : 'text-white focus:text-white '
+              }`}
+          >
+            MEN
+          </NavigationMenuTrigger>
+
+          <NavigationMenuContent className="flex flex-col p-6 w-[100px] ">
+            {mainCategories
+              ?.filter((category) => category.gender.includes('MEN'))
+              .map((category, index) => (
+                <div key={index}>
+                  <div className=" text-stone-500 capitalize hover:text-[#48cab2] px-2 cursor-pointer">
+                    <Link href={`/${category.id}`}>{category.name}</Link>
+                  </div>
+
+                  <ul className="text-stone-500 capitalize py-3 md:w-[200px] lg:w-[200px]">
+                    {getSubcategories(category.id, ['MEN'])?.map(
+                      (subcategory, subIndex) => (
+                        <div key={subIndex}>
+                          <ListItem
+                            href={`/${subcategory.id}`}
+                            title={subcategory.name}
+                          />
                         </div>
-                      </AccordionTrigger>
-                    ) : (
-                      <AccordionTriggerNoChevron className="py-0">
-                        <MenubarItem className=" text-stone-500 capitalize  hover:bg-transparent focus:bg-transparent focus:text-black px-2 cursor-pointer ">
-                          <Link href={`/${category.slug}`}>
-                            {category.name}
-                          </Link>
-                        </MenubarItem>
-                      </AccordionTriggerNoChevron>
+                      ),
                     )}
+                  </ul>
+                </div>
+              ))}
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger
+            className={`font-semibold h-6 bg-transparent hover:bg-transparent data-active:bg-transparent data-[state=open]:bg-transparent hover:text-white  rounded-none mx-3 focus:bg-transparent ${isFixed ? '' : 'text-white focus:text-white '
+              }`}
+          >
+            WOMEN
+          </NavigationMenuTrigger>
 
-                    {getSubcategories(category.id, ['MEN'])!.length > 0 && (
-                      <AccordionContent className="-mb-5">
-                        <ul className="text-stone-500 capitalize md:w-[200px] lg:w-[200px]">
-                          {getSubcategories(category.id, ['MEN'])?.map(
-                            (subcategory, subIndex) => (
-                              <MenubarItem
-                                key={subIndex}
-                                className="hover:text-black"
-                              >
-                                <ListItem
-                                  href={`/${subcategory.slug}`}
-                                  title={subcategory.name}
-                                />
-                              </MenubarItem>
-                            ),
-                          )}
-                        </ul>
-                      </AccordionContent>
-                    )}
-                  </AccordionItem>
-                </Accordion>
-              </div>
-            ))}
-        </MenubarContent>
-      </MenubarMenu>
+          <NavigationMenuContent className="flex flex-col p-6 w-[100px] ">
+            {mainCategories
+              ?.filter((category) => category.gender.includes('WOMEN'))
+              .map((category, index) => (
+                <div
+                  key={index}
+                // className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]"
+                >
+                  <div className=" text-stone-500 capitalize hover:text-[#48cab2] px-2 cursor-pointer">
+                    <Link href={`/${category.id}`}>{category.name}</Link>
+                  </div>
 
-      <MenubarMenu>
-        <MenubarTrigger
-          className={`font-semibold h-6 text-sm cursor-pointer bg-transparent hover:bg-transparent data-active:bg-transparent data-[state=open]:bg-transparent data-[state=open]:text-gray-300 hover:text-gray-300 rounded-none mx-3 focus:bg-transparent ${
-            isFixed ? '' : 'text-white focus:text-white '
-          }`}
-        >
-          WOMEN
-        </MenubarTrigger>
-        <MenubarContent className="w-[100px] ">
-          {mainCategories
-            ?.filter(
-              (category) =>
-                category.gender.includes('WOMEN') &&
-                !category.gender.includes('MEN'),
-            )
-            .map((category, index) => (
-              <div key={index}>
-                <Accordion type="single" collapsible className="w-full ">
-                  <AccordionItem value="item-1" className="py-0  border-none">
-                    {getSubcategories(category.id, ['WOMEN'])!.length > 0 ? (
-                      <AccordionTrigger className="py-0">
-                        <div className=" text-stone-500 capitalize hover:bg-transparent focus:bg-transparent  px-2  text-sm mt-2">
-                          {/* <Link href={`/${category.slug}`}>
-                        {category.name}
-                      </Link> */}
-                          <div> {category.name}</div>
+                  <ul className="text-stone-500 capitalize py-3 md:w-[200px] lg:w-[200px]">
+                    {getSubcategories(category.id, ['WOMEN'])?.map(
+                      (subcategory, subIndex) => (
+                        <div key={subIndex} className="hover:text-[#48cab2]">
+                          <ListItem
+                            href={`/${subcategory.id}`}
+                            title={subcategory.name}
+                          />
                         </div>
-                      </AccordionTrigger>
-                    ) : (
-                      <AccordionTriggerNoChevron className="py-0">
-                        <MenubarItem className=" text-stone-500 capitalize hover:text-[#48 hover:bg-transparent focus:bg-transparent focus:text-black px-2 cursor-pointer ">
-                          <Link href={`/${category.slug}`}>
-                            {category.name}
-                          </Link>
-                        </MenubarItem>
-                      </AccordionTriggerNoChevron>
+                      ),
                     )}
+                  </ul>
+                </div>
+              ))}
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger
+            className={`font-semibold h-6 bg-transparent hover:bg-transparent data-active:bg-transparent data-[state=open]:bg-transparent hover:text-white rounded-none mx-3 focus:bg-transparent ${isFixed ? '' : 'text-white focus:text-white '
+              }`}
+          >
+            UNISEX
+          </NavigationMenuTrigger>
 
-                    {getSubcategories(category.id, ['WOMEN'])!.length > 0 && (
-                      <AccordionContent className="-mb-5">
-                        <ul className="text-stone-500 capitalize md:w-[200px] lg:w-[200px]">
-                          {getSubcategories(category.id, ['WOMEN'])?.map(
-                            (subcategory, subIndex) => (
-                              <MenubarItem
-                                key={subIndex}
-                                className="hover:text-black"
-                              >
-                                <ListItem
-                                  href={`/${subcategory.slug}`}
-                                  title={subcategory.name}
-                                />
-                              </MenubarItem>
-                            ),
-                          )}
-                        </ul>
-                      </AccordionContent>
-                    )}
-                  </AccordionItem>
-                </Accordion>
-              </div>
-            ))}
-        </MenubarContent>
-      </MenubarMenu>
+          <NavigationMenuContent className="flex flex-col p-6 w-[100px] ">
+            {mainCategories
+              ?.filter(
+                (category) =>
+                  category.gender.includes('MEN') &&
+                  category.gender.includes('WOMEN'),
+              )
+              .map((category, index) => (
+                <div key={index}>
+                  <div className=" text-stone-500  capitalize hover:text-[#48cab2] px-2 cursor-pointer">
+                    <Link href={`/${category.id}`}>{category.name}</Link>
+                  </div>
 
-      <MenubarMenu>
-        <MenubarTrigger
-          className={`font-semibold h-6 cursor-pointer text-sm  bg-transparent hover:bg-transparent data-active:bg-transparent data-[state=open]:bg-transparent data-[state=open]:text-gray-300 hover:text-gray-300 rounded-none mx-3 focus:bg-transparent ${
-            isFixed ? '' : 'text-white focus:text-white '
-          }`}
-        >
-          UNISEX
-        </MenubarTrigger>
-
-        <MenubarContent className=" w-[100px] ">
-          {mainCategories
-            ?.filter(
-              (category) =>
-                category.gender.includes('MEN') &&
-                category.gender.includes('WOMEN'),
-            )
-            .map((category, index) => (
-              <div key={index}>
-                <Accordion type="single" collapsible className="w-full ">
-                  <AccordionItem value="item-1" className="py-0  border-none">
-                    {getSubcategories(category.id, ['MEN', 'WOMEN'])!.length >
-                    0 ? (
-                      <AccordionTrigger className="py-0">
-                        <div className=" text-stone-500 capitalize hover:bg-transparent focus:bg-transparent  px-2  text-sm mt-2">
-                          {/* <Link href={`/${category.slug}`}>
-                            {category.name}
-                          </Link> */}
-                          <div> {category.name}</div>
+                  <ul className="text-stone-500 capitalize py-3 md:w-[200px] lg:w-[200px]">
+                    {getSubcategories(category.id, ['MEN', 'WOMEN'])?.map(
+                      (subcategory, subIndex) => (
+                        <div key={subIndex} className="hover:text-[#48cab2]">
+                          <ListItem
+                            href={`/${subcategory.id}`}
+                            title={subcategory.name}
+                          />
                         </div>
-                      </AccordionTrigger>
-                    ) : (
-                      <AccordionTriggerNoChevron className="py-0">
-                        <MenubarItem className=" text-stone-500 capitalize hover:bg-transparent focus:bg-transparent focus:text-black px-2 cursor-pointer ">
-                          <Link href={`/${category.slug}`}>
-                            {category.name}
-                          </Link>
-                        </MenubarItem>
-                      </AccordionTriggerNoChevron>
+                      ),
                     )}
-
-                    {getSubcategories(category.id, ['MEN', 'WOMEN'])!.length >
-                      0 && (
-                      <AccordionContent className="-mb-5">
-                        <ul className="text-stone-500 capitalize md:w-[200px]">
-                          {getSubcategories(category.id, ['MEN', 'WOMEN'])?.map(
-                            (subcategory, subIndex) => (
-                              <MenubarItem
-                                key={subIndex}
-                                className="hover:text-black"
-                              >
-                                <ListItem
-                                  href={`/${subcategory.slug}`}
-                                  title={subcategory.name}
-                                />
-                              </MenubarItem>
-                            ),
-                          )}
-                        </ul>
-                      </AccordionContent>
-                    )}
-                  </AccordionItem>
-                </Accordion>
-              </div>
-            ))}
-        </MenubarContent>
-      </MenubarMenu>
-    </Menubar>
+                  </ul>
+                </div>
+              ))}
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+      {/* < NavigationMenuViewport /> */}
+    </NavigationMenu>
   );
 };
 
-const AccordionTrigger = React.forwardRef<
-  React.ElementRef<typeof AccordionPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>
+export const NavigationMenuTrigger = React.forwardRef<
+  React.ElementRef<typeof NavigationMenuPrimitive.Trigger>,
+  React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Trigger>
 >(({ className, children, ...props }, ref) => (
-  <AccordionPrimitive.Header className="flex">
-    <AccordionPrimitive.Trigger
-      ref={ref}
-      className={clsx(
-        'flex flex-1 items-center justify-between font-medium transition-all py-1 [&[data-state=open]>svg]:rotate-180 focus:bg-transparent',
-        className,
-      )}
-      {...props}
-    >
-      {children}
-      <LuChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200" />
-    </AccordionPrimitive.Trigger>
-  </AccordionPrimitive.Header>
-));
-AccordionTrigger.displayName = AccordionPrimitive.Trigger.displayName;
-
-const AccordionTriggerNoChevron = React.forwardRef<
-  React.ElementRef<typeof AccordionPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Trigger>
->(({ className, children, ...props }, ref) => (
-  <AccordionPrimitive.Header className="flex">
-    <AccordionPrimitive.Trigger
-      ref={ref}
-      className={clsx(
-        'flex flex-1 items-center justify-between font-medium transition-all py-1 [&[data-state=open]>svg]:rotate-180 focus:bg-transparent',
-        className,
-      )}
-      {...props}
-    >
-      {children}
-    </AccordionPrimitive.Trigger>
-  </AccordionPrimitive.Header>
-));
-AccordionTriggerNoChevron.displayName = AccordionPrimitive.Trigger.displayName;
-
-const AccordionItem = React.forwardRef<
-  React.ElementRef<typeof AccordionPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item>
->(({ className, ...props }, ref) => (
-  <AccordionPrimitive.Item ref={ref} className={clsx(className)} {...props} />
-));
-AccordionItem.displayName = 'AccordionItem';
-
-const MenubarItem = React.forwardRef<
-  React.ElementRef<typeof MenubarPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Item> & {
-    inset?: boolean;
-  }
->(({ className, inset, ...props }, ref) => (
-  <MenubarPrimitive.Item
+  <NavigationMenuPrimitive.Trigger
     ref={ref}
-    className={clsx(
-      'relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none  data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
-      inset && 'pl-8',
-      className,
-    )}
+    className={clsx(navigationMenuTriggerStyle(), 'group', className)}
     {...props}
-  />
+  >
+    {children}
+  </NavigationMenuPrimitive.Trigger>
 ));
-MenubarItem.displayName = MenubarPrimitive.Item.displayName;
+NavigationMenuTrigger.displayName = NavigationMenuPrimitive.Trigger.displayName;
 
-export default HeaderMenubar;
+const NavigationMenuViewport = React.forwardRef<
+  React.ElementRef<typeof NavigationMenuPrimitive.Viewport>,
+  React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Viewport>
+>(({ className, ...props }, ref) => (
+  <div className={clsx('absolute left-0 top-full flex justify-center')}>
+    <NavigationMenuPrimitive.Viewport
+      className={clsx(
+        'origin-top-center relative mt-1.5 h-[var(--radix-navigation-menu-viewport-height)] w-full overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-90 md:w-[var(--radix-navigation-menu-viewport-width)]',
+        className,
+      )}
+      ref={ref}
+      {...props}
+    />
+  </div>
+));
+NavigationMenuViewport.displayName =
+  NavigationMenuPrimitive.Viewport.displayName;
+
+export default NavMenu;
