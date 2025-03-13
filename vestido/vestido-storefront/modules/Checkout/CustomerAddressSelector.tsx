@@ -131,8 +131,8 @@ const CustomerAddressSelector: React.FC<CustomerAddressSelectorProps> = ({
                 </AlertDialog>
                 <div
                   className={`${address.default
-                      ? 'bg-white px-3 py-1 rounded-full text-black text-xs'
-                      : 'hidden'
+                    ? 'bg-white px-3 py-1 rounded-full text-black text-xs'
+                    : 'hidden'
                     }`}
                 >
                   DEFAULT
