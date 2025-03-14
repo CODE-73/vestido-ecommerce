@@ -17,9 +17,9 @@ const indianMobileRegex = /^[6-9]\d{9}$/;
 
 export const BankDetailsSchema = z.object({
   customerId: z.string(),
-  bankAccountNumber: z.string(),
-  bankIfscCode: z.string(),
-  bankAccountHolderName: z.string(),
+  bankAccountNumber: z.string().nullish(),
+  bankIfscCode: z.string().nullish(),
+  bankAccountHolderName: z.string().nullish(),
   mobile: z
     .string()
     .regex(indianMobileRegex, 'Please enter a valid Indian mobile number')
