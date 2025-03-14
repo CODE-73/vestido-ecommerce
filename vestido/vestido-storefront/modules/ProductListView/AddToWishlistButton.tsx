@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 
 import { LuHeart } from 'react-icons/lu';
-import { LuLoader2 } from 'react-icons/lu';
 
 import { useAuth } from '@vestido-ecommerce/auth/client';
 import {
@@ -17,12 +16,14 @@ type WishlistbuttonProps = {
   className?: string;
   itemId: string;
   size?: number;
+  color?: string;
 };
 
 const AddToWishListButton: React.FC<WishlistbuttonProps> = ({
   itemId,
   className,
   size,
+  color,
 }) => {
   const { isAuthenticated, routeToLogin } = useAuth();
 
@@ -90,23 +91,15 @@ const AddToWishListButton: React.FC<WishlistbuttonProps> = ({
 
   return (
     <div onClick={onClick} className={className}>
-      {isLoading ? (
-        <LuLoader2
-          strokeWidth={1.3}
-          size={size ?? 24}
-          className={`${isWishlistLoading ? 'invisible' : 'text-gray-600 animate-spin'}`}
-        />
-      ) : (
-        <LuHeart
-          strokeWidth={1.3}
-          size={size ?? 24}
-          className={`${isWishlistLoading ? 'invisible' : 'text-gray-600'} `}
-          style={{
-            fill: wishlisted ? 'red' : 'none',
-            color: wishlisted ? 'red' : '',
-          }}
-        />
-      )}
+      <LuHeart
+        strokeWidth={1.3}
+        size={size ?? 24}
+        className={`${isWishlistLoading ? 'invisible' : `text-${color || 'white'} ${isLoading ? 'animate-pulse' : ''}`}`}
+        style={{
+          fill: wishlisted ? 'red' : 'none',
+          color: wishlisted ? 'red' : '',
+        }}
+      />
     </div>
   );
 };

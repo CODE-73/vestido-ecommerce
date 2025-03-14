@@ -30,19 +30,19 @@ export const TopProductsTabs: FC = () => {
       <TabsList className="flex justify-center bg-transparent uppercase tracking-wide">
         <TabsTrigger
           value="men"
-          className="mr-8 rounded-none text-gray-500 uppercase tracking-wide data-[state=active]:underline underline-offset-4 data-[state=active]:text-white data-[state=active]:bg-transparent"
+          className="mr-8 rounded-none text-white uppercase tracking-wide data-[state=active]:underline underline-offset-4 data-[state=active]:text-white data-[state=active]:bg-transparent"
         >
           Men
         </TabsTrigger>
         <TabsTrigger
           value="women"
-          className=" rounded-none text-gray-500 uppercase tracking-wide data-[state=active]:underline underline-offset-4 data-[state=active]:text-white data-[state=active]:bg-transparent"
+          className=" rounded-none text-white uppercase tracking-wide data-[state=active]:underline underline-offset-4 data-[state=active]:text-white data-[state=active]:bg-transparent"
         >
           Women
         </TabsTrigger>
         <TabsTrigger
           value="unisex"
-          className="ml-8 rounded-none text-gray-500 uppercase tracking-wide data-[state=active]:underline underline-offset-4 data-[state=active]:text-white data-[state=active]:bg-transparent"
+          className="ml-8 rounded-none text-white uppercase tracking-wide data-[state=active]:underline underline-offset-4 data-[state=active]:text-white data-[state=active]:bg-transparent"
         >
           Unisex
         </TabsTrigger>

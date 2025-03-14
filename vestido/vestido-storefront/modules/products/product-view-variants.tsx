@@ -119,7 +119,10 @@ const ProductViewVariants: FC<ProductViewVariantsProps> = ({
     <div className="mt-5 flex flex-col gap-5">
       <hr className="border-gray-600" />
       {Object.keys(attributeMap).map((attributeId) => (
-        <div key={attributeId} className="flex flex-col items-start gap-[1px]">
+        <div
+          key={attributeId}
+          className="flex flex-col items-start gap-[1px] mb-10 md:mb-0"
+        >
           <div className="capitalize font-semibold text-md mx-2 my-1">
             {attributeMap[attributeId].name}:
           </div>
@@ -156,7 +159,6 @@ const ProductViewVariants: FC<ProductViewVariantsProps> = ({
           </div>
         </div>
       ))}
-      <hr className="border-gray-600 md:hidden" />
     </div>
   );
 };
