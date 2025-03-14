@@ -74,32 +74,44 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
 }
 
-html, body {
+html,
+body {
   /* Set the background color */
   background-color: black;
 
   /* Hide scrollbars across browsers */
-  -ms-overflow-style: none; /* Internet Explorer 10+ */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  /* Internet Explorer 10+ */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
-html::-webkit-scrollbar, body::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, and Edge */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, and Edge */
 }
 
 @layer utilities {
   .no-scrollbar::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, and Edge */
+    display: none;
+    /* Chrome, Safari, and Edge */
   }
+
   .no-scrollbar {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
   }
 }
-
-

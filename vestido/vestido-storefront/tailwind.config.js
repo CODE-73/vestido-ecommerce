@@ -13,5 +13,15 @@ module.exports = {
     ),
     ...createGlobPatternsForDependencies(__dirname),
   ],
-  plugins: [require('@tailwindcss/typography')],
+  theme: {
+    ...(tailwindConfig.theme ?? {}),
+    extend: {
+      ...(tailwindConfig.theme?.extend ?? {}),
+      height: {
+        ...(tailwindConfig.theme?.extend?.height ?? {}),
+        'screen-minus-nav': 'calc(100vh - var(--navbar-height))',
+      },
+    },
+  },
+  plugins: [require('@tailwindcss/typography', require('tailwindcss-animate'))],
 };

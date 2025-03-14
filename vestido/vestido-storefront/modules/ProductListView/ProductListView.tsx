@@ -71,7 +71,7 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
         {items && items.length > 0 ? (
           <>
             <div
-              className={`${suggestedList ? 'xl:px-32 xl:grid-cols-6' : ' lg:basis-4/5 xl:grid-cols-5'} grid grid-cols-2 gap-2 px-5 md:grid-cols-3 lg:grid-cols-4  md:gap-5 xl:gap-10 md:px-0`}
+              className={`grid grid-cols-2 gap-2 px-5 md:grid-cols-3 lg:grid-cols-4  md:gap-5 xl:gap-10 md:px-0 ${suggestedList ? 'xl:px-32 xl:grid-cols-6' : ' w-full xl:grid-cols-5'} `}
             >
               {items?.map((item: Item, index) => (
                 <MountAnimator key={item.id} deferIdx={index}>
@@ -79,7 +79,7 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
                 </MountAnimator>
               ))}
             </div>
-            <div className="absolute -bottom-8 left-[50%] flex justify-center mt-8">
+            <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 flex justify-center mt-8">
               <button
                 className="border border-gray-200 text-xs font-medium py-2 px-5  my-5 hover:border-black duration-100"
                 onClick={handleShowMoreClick}
@@ -94,7 +94,7 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
               We are updating this category with brand new products to suit your
               style!
             </div>
-            <div className="relative w-20 h-20 sm:w-24 sm:h-24 mt-32">
+            <div className="relative w-16 h-16 sm:w-20 sm:h-20 mt-32">
               <Image src="/assets/noitems.png" alt="" fill />
             </div>
           </div>

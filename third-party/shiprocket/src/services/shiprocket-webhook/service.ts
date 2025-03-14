@@ -45,11 +45,32 @@ export async function handleShiprocketWebhook(
         },
       });
 
-      await prisma.fulfillmentLog.create({
+      // await prisma.fulfillmentLog.create({
+      //   data: {
+      //     fullfillmentId: data.order_id, //This is returnOrderId, No Fulfillment Created For Return
+      //     logType: 'SHIPROCKET_WEBHOOK_RETURN',
+      //     rawData: data,
+      //   },
+      // });
+
+      await prisma.return.update({
+        where: {
+          id: String(data.order_id),
+        },
         data: {
-          fullfillmentId: data.order_id, //This is returnOrderId, No Fulfillment Created For Return
-          logType: 'SHIPROCKET_WEBHOOK_RETURN',
-          rawData: data,
+          tracking: data.awb,
+          ...(data.shipment_status === 'PICKED UP' && {
+            status: 'PICKED_UP',
+          }),
+          ...(data.shipment_status === 'IN TRANSIT' && {
+            status: 'IN_TRANSIT',
+          }),
+          ...(data.shipment_status === 'DELIVERED' && {
+            status: 'RETURNED',
+          }),
+          // ...(data.shipment_status === '' && {
+          //   status: 'REJECTED',
+          // }),
         },
       });
     });
@@ -226,7 +247,7 @@ export async function handleShiprocketWebhook(
   }
 
   return {
-    type: 'Order',
+    type: 'Fulfillment',
     id: data.order_id,
   };
 }

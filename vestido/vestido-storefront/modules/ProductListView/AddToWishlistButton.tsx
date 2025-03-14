@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { useMediaQuery } from '@react-hook/media-query';
-import { LuHeart, LuLoader } from 'react-icons/lu';
+import { LuHeart } from 'react-icons/lu';
 
 import { useAuth } from '@vestido-ecommerce/auth/client';
 import {
@@ -9,12 +8,6 @@ import {
   useRemoveFromWishlist,
   useWishlist,
 } from '@vestido-ecommerce/items/client';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@vestido-ecommerce/shadcn-ui/tooltip';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 
 import { ItemToastBody } from '../../components/item-toast-body';
@@ -22,14 +15,16 @@ import { ItemToastBody } from '../../components/item-toast-body';
 type WishlistbuttonProps = {
   className?: string;
   itemId: string;
+  size?: number;
+  color?: string;
 };
 
 const AddToWishListButton: React.FC<WishlistbuttonProps> = ({
   itemId,
   className,
+  size,
+  color,
 }) => {
-  const isMdAndAbove = useMediaQuery('(min-width:768px)');
-
   const { isAuthenticated, routeToLogin } = useAuth();
 
   // SWR Queries & Mutations
@@ -92,47 +87,19 @@ const AddToWishListButton: React.FC<WishlistbuttonProps> = ({
     }
   };
 
-  const isLoading =
-    wishlisted === null || isWishlistLoading || isWishlisting || isRemoving;
+  const isLoading = isWishlisting || isRemoving;
 
   return (
     <div onClick={onClick} className={className}>
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger>
-            {isLoading ? (
-              <LuLoader
-                strokeWidth={1.3}
-                size={32}
-                className="text-gray-600 "
-              />
-            ) : isMdAndAbove ? (
-              <LuHeart
-                strokeWidth={1.3}
-                size={32}
-                className="text-gray-600 "
-                style={{
-                  fill: wishlisted ? 'red' : 'none',
-                  color: wishlisted ? 'red' : '',
-                }}
-              />
-            ) : (
-              <LuHeart
-                strokeWidth={1.3}
-                size={24}
-                className="text-gray-600 "
-                style={{
-                  fill: wishlisted ? 'red' : 'none',
-                  color: wishlisted ? 'red' : '',
-                }}
-              />
-            )}
-          </TooltipTrigger>
-          <TooltipContent className="rounded-none border-none text-white text-xs font-thin relative top-8 bg-[#333333] right-20">
-            <p>Add to Wishlist</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+      <LuHeart
+        strokeWidth={1.3}
+        size={size ?? 24}
+        className={`${isWishlistLoading ? 'invisible' : `text-${color || 'white'} ${isLoading ? 'animate-pulse' : ''}`}`}
+        style={{
+          fill: wishlisted ? 'red' : 'none',
+          color: wishlisted ? 'red' : '',
+        }}
+      />
     </div>
   );
 };

@@ -25,9 +25,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
 }) => {
   const { isAuthenticated, routeToLogin } = useAuth();
   const { toast } = useToast();
-  const [hovered, setHovered] = useState(false);
   const [qty] = useState(1);
-  // const [loading, setLoading] = useState(false);
   const { trigger } = useAddToCart();
 
   const handleAddToCart = async (selectedVariantId: string | null) => {
@@ -37,8 +35,6 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
     }
 
     if (item) {
-      // setLoading(true);
-
       try {
         await trigger({
           itemId: item.id,
@@ -57,13 +53,9 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
           title: 'Error Adding to Cart!',
           description: ItemToastBody(false, item, ''),
         });
-      } finally {
-        // setLoading(false);
       }
     }
   };
-
-  const buttonHeight = '40px';
   return (
     <SizeSelectorDialog
       itemId={item.id}
@@ -71,29 +63,14 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
         handleAddToCart(selectedVariantId);
       }}
     >
-      <Button
-        className="relative flex items-center transition-all justify-start duration-300 bg-black hover:bg-white w-full p-0 "
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        style={{ height: buttonHeight, minHeight: buttonHeight }}
-      >
-        <div
-          className={`flex items-center justify-start gap-3 transition-all duration-300 bg-white p-2 rounded-lg ${
-            hovered ? 'w-full' : ''
-          }`}
-          style={{ height: '100%' }}
-        >
-          <>
-            <LuShoppingBag className="text-black" size={20} />
-            {hovered && (
-              <span className="ml-2 text-black  font-semibold">
-                ADD TO CART
-              </span>
-            )}
-          </>
-        </div>
-        {!hovered && (
-          <div className="ml-4 font-semibold text-left flex-grow text-white ">
+      <div className=" relative w-full h-full">
+        <Button className="group/button relative bg-white w-12 hover:w-full transition-all duration-700 flex justify-start">
+          <LuShoppingBag className="absolute left-3 text-black" size={20} />
+
+          <span className="hidden group-hover/button:block ml-8 text-black font-semibold transition-opacity duration-700 opacity-0 group-hover/button:opacity-100">
+            ADD TO CART
+          </span>
+          <div className="absolute left-10 top-1/2 -translate-y-1/2 ml-4 font-semibold text-left flex-grow text-white opacity-100 transition-opacity duration-700 group-hover/button:opacity-0">
             {offerPrice ? (
               <div className="flex items-baseline gap-1">
                 <div className="text-white text-base">
@@ -111,8 +88,8 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
               <div className="text-white text-base">{formatINR(price)}</div>
             )}
           </div>
-        )}
-      </Button>
+        </Button>
+      </div>
     </SizeSelectorDialog>
   );
 };

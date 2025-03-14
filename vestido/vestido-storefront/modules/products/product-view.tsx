@@ -30,7 +30,6 @@ import { formatINR } from '@vestido-ecommerce/utils';
 import AddToWishListButton from '../ProductListView/AddToWishlistButton';
 import ProductListView from '../ProductListView/ProductListView';
 import { SizeSelectorDialog } from '../Wishlist/size-selector';
-import ProductViewBreadcrumb from './poduct-view-breadcrumpts';
 import ProductViewImages from './product-view-images';
 import ProductViewVariants from './product-view-variants';
 import SizeChartTable from './size-chart-table';
@@ -105,16 +104,16 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
 
   return (
     <>
-      <ProductViewBreadcrumb item={item} category={category} />
-      <div className="w-full flex flex-col md:flex-row py-5 sm:px-2 md:px-0 md:space-x-10 md:px-10 lg:px-20 xl:px-64 text-white">
+      {/* <ProductViewBreadcrumb item={item} category={category} /> */}
+      <div className="w-full flex flex-col md:flex-row pb-5 sm:px-2 md:px-0 md:space-x-10 md:px-10 lg:px-20 xl:px-64 text-white mt-12 md:mt-5">
         <ProductViewImages item={item} selectedVariantId={selectedVariantId} />
         <div className="w-full md:w-1/2">
           <div className="px-2 sm:px-auto">
-            <h1 className="text-xl md:text-3xl font-semibold mt-2 md:mt-5 lg:mt-auto">
+            <h1 className="text-xl md:text-3xl font-semibold mt-5 sm:mt-2  md:mt-5 lg:mt-auto">
               {item?.title}
             </h1>
             <div className="flex flex-row items-center gap-1">
-              <div className="text-2xl text-gray-500  mt-5 md:mt-0 font-semibold">
+              <div className="text-2xl text-white mt-5 md:mt-0 font-semibold">
                 {item?.discountedPrice && item?.discountedPrice < item.price ? (
                   <div className="flex flex-col md:flex-row gap-2 md:gap-4 md:items-center">
                     <div className="text-white">
@@ -170,7 +169,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
             </div>
           </div>
           <div
-            className="flex gap-2 mb-5 md:mb-0 md:my-5 w-full fixed -bottom-6 w-full sm:static bg-black  py-2 px-2 mx-0 z-50 sm:z-auto "
+            className="flex gap-2 mb-5 md:mb-0 md:my-5 w-full bg-black  py-2 px-2 mx-0 "
             style={{
               boxShadow: '0 -20px 25px -5px rgba(55, 65, 81, 0.3)', // Mimicking shadow-lg shadow-gray-700/50
             }}
@@ -214,7 +213,9 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
             </SizeSelectorDialog>
             <AddToWishListButton
               itemId={item?.id || ''}
-              className="border sm:border-2 rounded-lg font-medium text-xs h-full self-center p-1 sm:p-4  md:p-1 2xl:p-4 "
+              size={28}
+              className="sm:border sm:border-2 rounded-full sm:rounded-lg font-medium text-xs h-full self-center p-1 sm:p-4  md:p-1 2xl:p-4 "
+              color="white"
             />
           </div>
 

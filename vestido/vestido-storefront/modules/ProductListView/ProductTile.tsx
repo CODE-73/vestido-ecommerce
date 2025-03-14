@@ -38,13 +38,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ data: item }) => {
           <ItemImage
             item={item}
             style={{ objectFit: 'cover' }}
-            className="absolute inset-0 block group-hover:hidden object-cover"
+            className="absolute inset-0 block object-cover transition-opacity duration-500 ease-in-out opacity-100 group-hover:opacity-0"
             fill
           />
           <ItemImage
             item={item}
             style={{ objectFit: 'cover' }}
-            className="absolute inset-0 group-hover:block hidden object-cover"
+            className="absolute inset-0 block object-cover transition-opacity duration-500 ease-in-out opacity-0 group-hover:opacity-100"
             imageIdx={1}
             fill
           />
@@ -61,7 +61,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ data: item }) => {
               {formatINR(item.discountedPrice)}
             </div>
             {item.discountedPrice < item.price ? (
-              <div className="text-white line-through text-xs">
+              <div className="text-red-400 line-through text-xs">
                 {formatINR(item.price)}
               </div>
             ) : (
@@ -88,6 +88,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ data: item }) => {
           'sm:group-hover:flex sm:flex-col gap-3 absolute top-3 right-3 pt-2',
         )}
         itemId={item.id}
+        color="black"
       />
     </div>
   );

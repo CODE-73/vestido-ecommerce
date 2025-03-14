@@ -99,7 +99,7 @@ const CartItemCard: React.FC<props> = ({ cartItem, removeItem }) => {
   };
   return (
     <div key={cartItem.id}>
-      <div className="flex gap-2 lg:gap-4 items-center bg-neutral-800 border border-gray-600 mb-5 min-h-[170px]  md:rounded-lg  relative">
+      <div className="flex gap-2 lg:gap-4 items-center  border border-gray-600 mb-5 min-h-[170px]  md:rounded-lg  relative">
         <div className="absolute right-1 md:right-5 top-1 md:top-5">
           <AlertDialog>
             <AlertDialogTrigger asChild className="cursor-pointer">

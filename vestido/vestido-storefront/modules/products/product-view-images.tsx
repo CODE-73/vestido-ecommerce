@@ -128,40 +128,41 @@ const ProductViewImages: FC<ProductViewImagesProps> = ({
             {productImages.length > 0 ? (
               productImages.map((image, index) => (
                 <CarouselItem key={index}>
-                  <div>
+                  <div className="w-full h-[60vh] flex justify-center items-center">
                     <Image
-                      className="outline outline-3 hover:outline-gray-300 mb-3"
+                      className="outline outline-3 hover:outline-gray-300 mb-3 object-cover"
                       src={image.url!}
                       placeholder={image.blurHashDataURL ? 'blur' : undefined}
                       blurDataURL={image.blurHashDataURL ?? undefined}
                       alt="alt text"
                       width={550}
                       height={680}
+                      style={{ width: '100%', height: '100%' }}
                     />
                   </div>
                 </CarouselItem>
               ))
             ) : (
-              <div>
+              <div className="w-full h-[60vh] flex justify-center items-center">
                 <Image
-                  className="outline outline-3 hover:outline-gray-300 mb-3"
+                  className="outline outline-3 hover:outline-gray-300 mb-3 object-cover"
                   src="/assets/fallback-image.png"
                   alt="alt text"
                   width={550}
                   height={680}
+                  style={{ width: '100%', height: '100%' }}
                 />
               </div>
             )}
           </CarouselContent>
-          <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 pb-3 ">
+          <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 pb-3">
             <CarouselDots>
               {({ scrollSnap, onClick, selectedIndex, index }) => (
                 <button
-                  className={clsx('rounded-full  h-1', {
-                    ' w-2 h-2 bg-white  border border-white':
+                  className={clsx('rounded-full mt-5 h-1', {
+                    'w-2 h-2 bg-white border border-white':
                       selectedIndex === index,
-                    'w-2 h-2   border  border border-white':
-                      selectedIndex !== index,
+                    'w-2 h-2 border border-white': selectedIndex !== index,
                   })}
                   key={scrollSnap}
                   onClick={() => onClick(index)}
