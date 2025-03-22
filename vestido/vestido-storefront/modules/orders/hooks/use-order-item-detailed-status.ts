@@ -97,3 +97,7 @@ export const useOrderItemsDetailedStatus = (
     });
   }, [order]);
 };
+
+export type OrderItemDetailedStatus = ReturnType<
+  typeof useOrderItemsDetailedStatus
+>[number];
