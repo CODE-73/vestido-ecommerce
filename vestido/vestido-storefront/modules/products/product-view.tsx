@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 
+import { motion } from 'framer-motion';
 import { LuCalendar, LuScaling, LuShoppingBag, LuTruck } from 'react-icons/lu';
 import Markdown from 'react-markdown';
 
@@ -229,14 +230,21 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
                   </div>
                 </DialogTrigger>
                 <DialogContent>
-                  {sizeChartValue ? (
-                    <SizeChartTable
-                      meta={sizeChartValue.meta}
-                      data={sizeChartValue.data}
-                    />
-                  ) : (
-                    <div>Size Chart Not Available.</div>
-                  )}
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.4, ease: 'easeOut' }}
+                  >
+                    {sizeChartValue ? (
+                      <SizeChartTable
+                        meta={sizeChartValue.meta}
+                        data={sizeChartValue.data}
+                      />
+                    ) : (
+                      <div>Size Chart Not Available.</div>
+                    )}
+                  </motion.div>
                 </DialogContent>
               </Dialog>
               <div className="flex  flex-col  justify-center gap-1 items-center ">
