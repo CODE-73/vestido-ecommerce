@@ -9,7 +9,7 @@ import { AuthenticatedLink, useAuth } from '@vestido-ecommerce/auth/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 
 import Menubar from '../../components/Menubar';
-import LogoutButton from '../LogoutButton';
+import LogoutButton from '../logout-button';
 import { HeaderSearchInput } from './HeaderSearchInput';
 
 interface HeaderProps {
