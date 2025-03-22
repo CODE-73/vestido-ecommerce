@@ -1,4 +1,3 @@
-
 import { ProtectedRoute } from '@vestido-ecommerce/auth/client';
 
 import ProfileView from '../../modules/user/profile-view';
