@@ -17,13 +17,13 @@ import {
   TabsTrigger,
 } from '@vestido-ecommerce/shadcn-ui/tabs';
 
-import LogoutButton from '../../layouts/LogoutButton';
-import ContactUs from '../Documents/ContactUs';
-import FAQ from '../Documents/faq';
-import PrivacyPolicy from '../Documents/PrivacyPolicy';
-import ReturnExchange from '../Documents/ReturnExchange';
-import ShippingPolicy from '../Documents/shippingPolicy';
-import TermsAndConditions from '../Documents/Terms&Conditions';
+import LogoutButton from '../../layouts/logout-button';
+import ContactUs from '../documents/contact-us';
+import FAQ from '../documents/faq';
+import PrivacyPolicy from '../documents/privacy-policy';
+import ReturnExchange from '../documents/return-exchange';
+import ShippingPolicy from '../documents/shipping-policy';
+import TermsAndConditions from '../documents/t-and-c';
 import Addresses from './Addresses';
 import DeleteAccount from './DeleteAccount';
 import OrdersView from './Orders';
