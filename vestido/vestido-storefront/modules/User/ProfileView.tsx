@@ -4,7 +4,6 @@ import Link from 'next/link';
 
 import { useMediaQuery } from '@react-hook/media-query';
 import { FaInstagram, FaLinkedinIn, FaXTwitter } from 'react-icons/fa6';
-import { IoLogoAndroid, IoLogoApple } from 'react-icons/io';
 import { LuFacebook } from 'react-icons/lu';
 import { LuChevronLeft } from 'react-icons/lu';
 
@@ -16,6 +15,7 @@ import {
   TabsList,
   TabsTrigger,
 } from '@vestido-ecommerce/shadcn-ui/tabs';
+
 import PrivacyPolicy from '../Documents/PrivacyPolicy';
 import TermsAndConditions from '../Documents/Terms&Conditions';
 import Addresses from './Addresses';
@@ -100,55 +100,45 @@ const ProfileView: React.FC = () => {
                   {label}
                 </TabsTrigger>
               ))}
-              <LogoutButton icon={false} />
-              <div className="sm:hidden w-full mt-32">
-                <div className="w-full flex justify-around mt-3">
-                  {' '}
-                  <Link href="https://www.facebook.com/people/Vestido-Nation/61554017931370/?mibextid=ZbWKwL">
-                    <div className="sm:rounded-full sm:bg-white sm:p-2 cursor-pointer">
-                      <LuFacebook
-                        strokeWidth={0.5}
-                        size={20}
-                        className="fill-white sm:fill-black"
-                      />
-                    </div>
-                  </Link>
-                  <div className="sm:rounded-full sm:bg-white sm:p-2  cursor-pointer">
-                    <FaXTwitter
+              <div className="sm:hidden mt-1">Social Media:</div>
+              <div className="sm:hidden w-full flex justify-around mt-3">
+                {' '}
+                <Link href="https://www.facebook.com/people/Vestido-Nation/61554017931370/?mibextid=ZbWKwL">
+                  <div className="sm:rounded-full sm:bg-white sm:p-2 cursor-pointer">
+                    <LuFacebook
+                      strokeWidth={0.5}
+                      size={20}
                       className="fill-white sm:fill-black"
+                    />
+                  </div>
+                </Link>
+                <div className="sm:rounded-full sm:bg-white sm:p-2  cursor-pointer">
+                  <FaXTwitter
+                    className="fill-white sm:fill-black"
+                    strokeWidth={0.5}
+                    size={20}
+                  />
+                </div>
+                <Link href="https://www.instagram.com/vestido_nation/">
+                  {' '}
+                  <div className="sm:rounded-full sm:bg-white sm:p-2  cursor-pointer">
+                    <FaInstagram
+                      className="sm:hidden fill-white sm:fill-black"
                       strokeWidth={0.5}
                       size={20}
                     />
-                  </div>
-                  <Link href="https://www.instagram.com/vestido_nation/">
-                    {' '}
-                    <div className="sm:rounded-full sm:bg-white sm:p-2  cursor-pointer">
-                      <FaInstagram
-                        className="sm:hidden fill-white sm:fill-black"
-                        strokeWidth={0.5}
-                        size={20}
-                      />
-                    </div>{' '}
+                  </div>{' '}
+                </Link>
+                <div className="sm:rounded-full sm:bg-white sm:p-2  cursor-pointer">
+                  <Link href="https://www.linkedin.com/company/vestidonation/">
+                    <FaLinkedinIn
+                      className="fill-white "
+                      strokeWidth={0.5}
+                      size={20}
+                    />
                   </Link>
-                  <div className="sm:rounded-full sm:bg-white sm:p-2  cursor-pointer">
-                    <Link href="https://www.linkedin.com/company/vestidonation/">
-                      <FaLinkedinIn
-                        className="fill-white "
-                        strokeWidth={0.5}
-                        size={20}
-                      />
-                    </Link>
-                  </div>
-                </div>
-                <div className="flex divide-x divide-gray-200 text-white gap-3 items-center justify-self-center mt-8">
-                  <div className=""> Available on</div>
-                  <div className="flex gap-3 items-center justify-around text-xl pl-3">
-                    <IoLogoAndroid />
-                    <IoLogoApple />
-                  </div>
                 </div>
               </div>
-
               {/* <div className='absolute bottom-2'>Available on:</div> */}
             </TabsList>
           </div>
