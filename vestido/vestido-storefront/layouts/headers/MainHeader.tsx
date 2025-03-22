@@ -16,6 +16,27 @@ interface HeaderProps {
   cart_count: number;
   wishlist_count: number;
 }
+
+const handleRipple = (event: React.MouseEvent<HTMLDivElement>) => {
+  const button = event.currentTarget;
+  const circle = document.createElement('span');
+
+  const diameter = Math.max(button.clientWidth, button.clientHeight);
+  const radius = diameter / 2;
+
+  circle.style.width = circle.style.height = `${diameter}px`;
+  circle.style.left = `${event.clientX - button.offsetLeft - radius}px`;
+  circle.style.top = `${event.clientY - button.offsetTop - radius}px`;
+  circle.classList.add('ripple');
+
+  const ripple = button.getElementsByClassName('ripple')[0];
+  if (ripple) {
+    ripple.remove();
+  }
+
+  button.appendChild(circle);
+};
+
 const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
   const { isAuthenticated } = useAuth();
   const [searchOpen, setSearchOpen] = useState(false);
@@ -51,14 +72,12 @@ const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
               onClick={() => setSearchOpen(true)}
             />
           )}
-
           <AuthenticatedLink
             href="/profile"
             className="text-white hover:text-gray-400"
           >
             <LuUser2 size={20} />
           </AuthenticatedLink>
-
           <Link
             href="/wishlist"
             className={`relative text-white hover:text-gray-400 `}
@@ -69,19 +88,20 @@ const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
                 {wishlist_count}
               </sup>
             )}
-          </Link>
-          <Link
+          </Link>{' '}
+          {/* <Link
             href="/cart"
             className={`relative text-white hover:text-gray-400`}
-          >
+          > */}
+          <div className="relative" onClick={handleRipple}>
             <LuShoppingBag size={20} />
             {cart_count > 0 && (
               <sup className="absolute -right-[8px]  h-4 w-4 text-center rounded-full bg-white text-black font-semibold text-xs">
                 {cart_count}
               </sup>
             )}
-          </Link>
-
+          </div>
+          {/* </Link> */}
           {/* <HeaderDropdown /> */}
           {isAuthenticated ? (
             <LogoutButton className="text-white hover:text-gray-400 hover:bg-transparent" />
