@@ -18,9 +18,9 @@ import {
 
 import PrivacyPolicy from '../Documents/PrivacyPolicy';
 import TermsAndConditions from '../Documents/Terms&Conditions';
+import OrdersView from '../orders/order-list/order-list';
 import Addresses from './Addresses';
 import DeleteAccount from './DeleteAccount';
-import OrdersView from './Orders';
 import Profile from './Profile';
 
 const ProfileView: React.FC = () => {

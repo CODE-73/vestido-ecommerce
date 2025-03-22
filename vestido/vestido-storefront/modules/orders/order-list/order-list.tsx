@@ -1,6 +1,6 @@
 import { useOrders } from '@vestido-ecommerce/orders/client';
 
-import OrderInOrderList, { OrderinOrderlistSkeleton } from './order';
+import OrderListItem, { OrderListItemSkeleton } from './order-list-item';
 
 const OrdersView: React.FC = () => {
   const { data, isLoading } = useOrders();
@@ -13,9 +13,9 @@ const OrdersView: React.FC = () => {
         {isLoading
           ? Array(3)
               .fill(0)
-              .map((_, index) => <OrderinOrderlistSkeleton key={index} />)
+              .map((_, index) => <OrderListItemSkeleton key={index} />)
           : orders?.map((order, index) => {
-              return <OrderInOrderList key={index} order={order} />;
+              return <OrderListItem key={index} order={order} />;
             })}
       </div>
     </div>
