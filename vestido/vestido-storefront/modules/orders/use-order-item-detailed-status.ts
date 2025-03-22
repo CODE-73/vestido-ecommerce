@@ -59,12 +59,17 @@ export const useOrderItemsDetailedStatus = (
             _statuses.push({
               title: fulfillment.status,
               qty: fulfilledQty,
-              fulfillmentId: fulfillment.id,              
+              fulfillmentId: fulfillment.id,
             });
 
             return _statuses;
           },
-          [] as Array<{ title: string; qty: number; fulfillmentId: string, return?: boolean }>,
+          [] as Array<{
+            title: string;
+            qty: number;
+            fulfillmentId: string;
+            return?: boolean;
+          }>,
         )
         .filter((x) => x.qty > 0);
 

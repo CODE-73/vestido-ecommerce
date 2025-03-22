@@ -1,5 +1,3 @@
-import { Item } from '@prisma/client';
-
 import { useSizeAttribute } from '@vestido-ecommerce/items/client';
 import { type ListOrderResponse } from '@vestido-ecommerce/orders/client';
 import { formatINR } from '@vestido-ecommerce/utils';
@@ -8,12 +6,9 @@ import ItemImage from '../../components/item-image';
 
 type orderItemProps = {
   orderItem: ListOrderResponse['data'][number]['orderItems'][number];
-
 };
 
-const OrderIteminOrderList: React.FC<orderItemProps> = ({
-  orderItem
-}) => {
+const OrderIteminOrderList: React.FC<orderItemProps> = ({ orderItem }) => {
   const { variantSize } = useSizeAttribute(
     orderItem.itemId,
     orderItem.variantId,

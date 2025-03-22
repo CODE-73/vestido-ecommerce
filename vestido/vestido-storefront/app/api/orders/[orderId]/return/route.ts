@@ -18,7 +18,6 @@ export const POST = apiRouteHandler(
       });
     }
     const body = await request.json();
-    console.log('route body', body)
     const returnOrderDetails = await returnOrder({ ...body });
     return returnOrderDetails;
   },
