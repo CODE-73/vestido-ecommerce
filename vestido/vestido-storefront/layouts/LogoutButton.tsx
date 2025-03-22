@@ -20,9 +20,10 @@ import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 
 type LogoutButtonProps = {
   className?: string;
+  icon?: boolean;
 };
 
-const LogoutButton: FC<LogoutButtonProps> = ({ className }) => {
+const LogoutButton: FC<LogoutButtonProps> = ({ className, icon }) => {
   const { logout } = useAuth();
   const router = useRouter();
 
@@ -34,9 +35,13 @@ const LogoutButton: FC<LogoutButtonProps> = ({ className }) => {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild className="cursor-pointer">
-        <Button variant="ghost" className={clsx('flex gap-2 p-0', className)}>
-          <IoLogOutOutline size={22} />
-        </Button>
+        {icon ? (
+          <Button variant="ghost" className={clsx('flex gap-2 p-0', className)}>
+            <IoLogOutOutline size={22} />
+          </Button>
+        ) : (
+          <div className="md:text-lg">Logout</div>
+        )}
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
