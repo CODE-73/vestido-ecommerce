@@ -48,22 +48,30 @@ export const useOrderItemsDetailedStatus = (
                 const returnQty = returnItem.qty ?? 0;
                 fulfilledQty -= returnQty;
                 _statuses.push({
-                  title: `RETURN:${_return.status}`,
+                  status: _return.status,
                   qty: returnQty,
                   fulfillmentId: `${fulfillment.id}/${_return.id}`,
+                  return: true,
                 });
               }
             }
 
-            _statuses.push({
-              title: fulfillment.status,
-              qty: fulfilledQty,
-              fulfillmentId: fulfillment.id,
-            });
+            if (fulfilledQty > 0) {
+              _statuses.push({
+                status: fulfillment.status,
+                qty: fulfilledQty,
+                fulfillmentId: fulfillment.id,
+              });
+            }
 
             return _statuses;
           },
-          [] as Array<{ title: string; qty: number; fulfillmentId: string }>,
+          [] as Array<{
+            status: string;
+            qty: number;
+            fulfillmentId: string;
+            return?: boolean;
+          }>,
         )
         .filter((x) => x.qty > 0);
 
@@ -91,3 +99,7 @@ export const useOrderItemsDetailedStatus = (
     });
   }, [order]);
 };
+
+export type OrderItemDetailedStatus = ReturnType<
+  typeof useOrderItemsDetailedStatus
+>[number];

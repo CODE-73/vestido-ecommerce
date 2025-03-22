@@ -24,9 +24,9 @@ import PrivacyPolicy from '../documents/privacy-policy';
 import ReturnExchange from '../documents/return-exchange';
 import ShippingPolicy from '../documents/shipping-policy';
 import TermsAndConditions from '../documents/t-and-c';
+import OrdersView from '../orders/order-list/order-list';
 import Addresses from './Addresses';
 import DeleteAccount from './DeleteAccount';
-import OrdersView from './Orders';
 import Profile from './Profile';
 
 const ProfileView: React.FC = () => {
