@@ -9,7 +9,6 @@ import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -18,14 +17,8 @@ import { formatINR } from '@vestido-ecommerce/utils';
 
 import ItemImage from '../../components/item-image';
 import ReturnReplaceDialog from '../ReturnOrExchange/return-exchange-dialog';
+import CancelOrderDialog from './cancel-order-dialog';
 import { useOrderItemsDetailedStatus } from './use-order-item-detailed-status';
-
-/**
- * Fahim TODO:
- * - import { checkReturnEligibility } from './check-return-eligibility';
- * - Order Cancellation Dialog Flows
- * - Return/Replace Order Flow
- */
 
 type OrderDetailsProps = {
   orderId: string;
@@ -46,6 +39,7 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
 
   const orderItemsDetails = useOrderItemsDetailedStatus(order);
   const isCancelledOrder = order?.orderStatus === 'CANCELLED';
+  const canCancelOrder = order?.orderStatus === 'CONFIRMED';
 
   const { data: { data: returnableItems } = { data: [] } } = useReturnableItems(
     order?.id ?? null,
@@ -53,8 +47,6 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
   const [expandedFulfillments, setExpandedFulfillments] = useState<
     Record<string, boolean>
   >({});
-
-  const hasReturnableItems = (returnableItems?.length || 0) > 0;
 
   useEffect(() => {
     if (!orderId) {
@@ -87,16 +79,23 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
             <CardTitle className="text-2xl font-semibold">
               {isCancelledOrder ? <div>Order Cancelled!</div> : 'Order Details'}{' '}
             </CardTitle>
-            <CardDescription className="text-muted-foreground">
+            <div className="text-muted-foreground">
               <div className="flex gap-1">
                 <div className="text-muted-foreground hidden md:block">
                   Order
                 </div>
                 <div className="font-medium">#{order?.order_no.toString()}</div>
               </div>
-            </CardDescription>
+            </div>
           </CardHeader>
-          {hasReturnableItems && (
+          {canCancelOrder && (
+            <div className="flex gap-2 p-3 md:pt-6 ">
+              <CancelOrderDialog orderId={order?.id} orderNo={order?.order_no}>
+                <Button className="basis-1/2">Cancel Order</Button>
+              </CancelOrderDialog>
+            </div>
+          )}
+          {(returnableItems ?? []).length > 0 && (
             <div className="flex gap-2 p-3 md:pt-6 ">
               <ReturnReplaceDialog
                 order={order}
