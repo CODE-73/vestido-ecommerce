@@ -15,14 +15,16 @@ const MainLayout: React.FC<LayoutProps> = ({ children }) => {
   const hideFooter = ['/checkout/Checkout'].includes(router.pathname);
 
   return (
-    <div className="relative bg-black items-center flex flex-col scroll-smooth min-h-screen max-h-screen">
+    <div className="relative bg-black items-center flex flex-col scroll-smooth min-h-screen max-h-screen w-full">
       {/*bg-background */}
-      <SubHeader />
-      <div className="sticky top-0 z-10">
+      <div className="w-full">
+        <SubHeader />
+      </div>
+      <div className="w-full sticky top-0 z-10">
         <Header />
       </div>
 
-      <main className={`w-[100vw] md:w-full -mt-4 sm:mt-12 overflow-y-scroll`}>
+      <main className={`w-[100vw] md:w-full mt-12 overflow-y-scroll`}>
         {children}
       </main>
       {!hideFooter && (
