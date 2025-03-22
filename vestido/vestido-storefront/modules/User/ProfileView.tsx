@@ -4,6 +4,7 @@ import Link from 'next/link';
 
 import { useMediaQuery } from '@react-hook/media-query';
 import { FaInstagram, FaLinkedinIn, FaXTwitter } from 'react-icons/fa6';
+import { IoLogoAndroid, IoLogoApple } from 'react-icons/io';
 import { LuFacebook } from 'react-icons/lu';
 import { LuChevronLeft } from 'react-icons/lu';
 
@@ -107,9 +108,7 @@ const ProfileView: React.FC = () => {
                 </TabsTrigger>
               ))}
               <LogoutButton icon={false} />
-              <div className="sm:hidden w-full mt-auto">
-                {' '}
-                <div className="mt-3">Social Media:</div>
+              <div className="sm:hidden w-full mt-32">
                 <div className="w-full flex justify-around mt-3">
                   {' '}
                   <Link href="https://www.facebook.com/people/Vestido-Nation/61554017931370/?mibextid=ZbWKwL">
@@ -146,6 +145,13 @@ const ProfileView: React.FC = () => {
                         size={20}
                       />
                     </Link>
+                  </div>
+                </div>
+                <div className="flex divide-x divide-gray-200 text-white gap-3 items-center justify-self-center mt-8">
+                  <div className=""> Available on</div>
+                  <div className="flex gap-3 items-center justify-around text-xl pl-3">
+                    <IoLogoAndroid />
+                    <IoLogoApple />
                   </div>
                 </div>
               </div>
