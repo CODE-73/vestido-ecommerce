@@ -223,7 +223,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
             <div className="grid grid-cols-3 w-full">
               <Dialog>
                 <DialogTrigger asChild>
-                  <div className="flex flex-col  gap-1 items-center ">
+                  <div className="flex flex-col cursor-pointer gap-1 items-center ">
                     <LuScaling size={24} />
                     <div className="text-xs">Size Guide</div>
                   </div>
