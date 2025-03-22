@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 import { ProtectedRoute } from '@vestido-ecommerce/auth/client';
 
 import EditProfileView from '../../../modules/profile/EditProfileForm';
