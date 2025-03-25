@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import { useMediaQuery } from '@react-hook/media-query';
 import { FaInstagram, FaLinkedinIn, FaXTwitter } from 'react-icons/fa6';
@@ -32,16 +32,23 @@ import Profile from './Profile';
 const ProfileView: React.FC = () => {
   const { data } = useProfile();
   const currentUser = data?.data;
-  const [selectedNav, setSelectedNav] = useState<string>('');
+
+  const router = useRouter();
+  const { tab } = router.query;
+  const selectedNav = typeof tab === 'string' ? tab : '';
+
+  const handleTabChange = (value: string) => {
+    router.push(`/profile/${value}`, undefined, { shallow: true });
+  };
 
   const isSmallScreen = useMediaQuery('(max-width:768px');
-  useEffect(() => {
-    if (isSmallScreen) {
-      setSelectedNav(''); // None for small screens
-    } else {
-      setSelectedNav('profile');
-    }
-  }, [isSmallScreen]);
+  // useEffect(() => {
+  //   if (isSmallScreen) {
+  //     setSelectedNav(''); // None for small screens
+  //   } else {
+  //     setSelectedNav('profile');
+  //   }
+  // }, [isSmallScreen]);
 
   const profileTabs = [
     { value: 'profile', label: 'Profile' },
@@ -69,7 +76,7 @@ const ProfileView: React.FC = () => {
         <>
           <Button
             className="bg-transparent text-white p-0 flex items-center"
-            onClick={() => setSelectedNav('')}
+            onClick={() => router.back()}
           >
             <LuChevronLeft size={24} />
             <div className="font-semibold text-lg my-4 md:hidden">{label}</div>
@@ -92,20 +99,22 @@ const ProfileView: React.FC = () => {
 
       <Tabs
         value={selectedNav}
-        onValueChange={setSelectedNav}
+        onValueChange={handleTabChange}
         className="flex flex-col md:flex-row divide-x text-xs md:text-base gap-1 md:gap-3 bg-transparent min-h-[280px] max-h-screen-minus-nav md:min-h-[500px]"
       >
         {!isSmallScreen || !selectedNav ? (
           <div className="h-full w-full md:w-64 md:basis-1/4 p-2 md:p-4">
             <TabsList className="h-full flex flex-col bg-transparent justify-start items-start text-slate-300 text-sm md:text-base">
               {profileTabs.map(({ value, label }) => (
-                <TabsTrigger
-                  key={value}
-                  value={value}
-                  className="bg-transparent border-none data-[state=active]:border-none data-[state=active]:underline underline-offset-800 data-[state=active]:bg-transparent data-[state=active]:text-white text-sm md:text-lg mb-1 px-0"
-                >
-                  {label}
-                </TabsTrigger>
+                <Link key={value} href={`/profile/${value}`} passHref>
+                  <TabsTrigger
+                    key={value}
+                    value={value}
+                    className="bg-transparent border-none data-[state=active]:border-none data-[state=active]:underline underline-offset-800 data-[state=active]:bg-transparent data-[state=active]:text-white text-sm md:text-lg mb-1 px-0"
+                  >
+                    {label}
+                  </TabsTrigger>
+                </Link>
               ))}
               <LogoutButton icon={false} />
               <div className="sm:hidden w-full mt-32">
@@ -170,19 +179,9 @@ const ProfileView: React.FC = () => {
           <TabContent value="profile" label="Profile Details">
             <Profile />
           </TabContent>
-          <TabsContent value="addresses" className="relative">
-            {isSmallScreen && selectedNav && (
-              <>
-                <Button
-                  className="bg-transparent text-white p-0 absolute -top-[2.5px] left-0"
-                  onClick={() => setSelectedNav('')}
-                >
-                  <LuChevronLeft size={22} />
-                </Button>
-              </>
-            )}
+          <TabContent value="addresses" label="Address">
             <Addresses />
-          </TabsContent>
+          </TabContent>
 
           <TabContent value="t&c" label="Terms and Conditions">
             <TermsAndConditions />

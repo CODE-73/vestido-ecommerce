@@ -53,7 +53,7 @@ const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
           )}
 
           <AuthenticatedLink
-            href="/profile"
+            href="/profile/profile"
             className="text-white hover:text-gray-400"
           >
             <LuUser2 size={20} />
