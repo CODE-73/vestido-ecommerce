@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { type GetOrderResponse } from '@vestido-ecommerce/orders';
+import { type GetOrderResponse } from '@vestido-ecommerce/orders/client';
 import { useCreateFulfillment } from '@vestido-ecommerce/orders/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
@@ -30,11 +30,16 @@ import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import { InputElement } from '../../forms/input-element';
 
-const FulfillmentItemSchema = z.object({
-  orderItemId: z.string().uuid(),
-  pendingQty: z.coerce.number().int(),
-  fulfillingQty: z.coerce.number().int(),
-});
+const FulfillmentItemSchema = z
+  .object({
+    orderItemId: z.string().uuid(),
+    pendingQty: z.coerce.number().int(),
+    fulfillingQty: z.coerce.number().int(),
+  })
+  .refine((data) => data.fulfillingQty <= data.pendingQty, {
+    message: 'Cannot exceed pending quantity',
+    path: ['fulfillingQty'],
+  });
 
 export type FulfillmentItem = z.infer<typeof FulfillmentItemSchema>;
 const CreateFulfillmentFormSchema = z.object({
