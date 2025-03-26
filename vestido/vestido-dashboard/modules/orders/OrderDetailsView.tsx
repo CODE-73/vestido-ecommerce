@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Image from 'next/image';
 
 import {
   LuCreditCard,
@@ -22,17 +21,16 @@ import { Dialog, DialogTrigger } from '@vestido-ecommerce/shadcn-ui/dialog';
 import {
   Table,
   TableBody,
-  TableCell,
   TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from '@vestido-ecommerce/shadcn-ui/table';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
-import { formatINR, ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import FulfillmentsTable from '../fulfillments/FulfillmentsTable';
 import { CreateFulfillmentDialog } from './CreateFulfillmentDialog';
+import ItemInOrderDetails from './item-in-order-details';
 import { formattedDate, formattedTime } from './OrdersTable';
 type OrderDetailsProps = {
   orderId: string;
@@ -45,14 +43,12 @@ const UpdateOrderFormSchema = z.object({
 });
 
 const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
-  const { data } = useOrder(orderId);
+  const { data: { data: order } = { data: null } } = useOrder(orderId);
   const { trigger: updateOrderTrigger } = useUpdateOrder();
+
   const { toast } = useToast();
 
   const [description, setDescription] = useState('');
-  const order = data?.data;
-  console.log(order);
-
   const handleUpdateOrder = async (data: UpdateOrderForm) => {
     try {
       await updateOrderTrigger(data);
@@ -219,42 +215,12 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
                 <TableHead>Item</TableHead>
                 <TableHead>Qty</TableHead>
                 <TableHead>Price</TableHead>
-                <TableHead>Variant</TableHead>
+                <TableHead>Size</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {order?.orderItems?.map((orderItem, index) => (
-                <TableRow key={index} className="cursor-pointer">
-                  <TableCell>
-                    <Image
-                      className="w-10 h-12"
-                      src={
-                        ((orderItem.item.images ?? []) as ImageSchemaType[])[0]
-                          .url!
-                      }
-                      alt={
-                        ((orderItem.item.images ?? []) as ImageSchemaType[])[0]
-                          .alt!
-                      }
-                      width={50}
-                      height={70}
-                    />
-                  </TableCell>
-                  <TableCell className="font-semibold capitalize">
-                    {orderItem.item.title}
-                  </TableCell>
-                  <TableCell className="font-semibold capitalize">
-                    {orderItem.qty}
-                  </TableCell>
-                  <TableCell>{formatINR(orderItem.price)}</TableCell>
-                  <TableCell>
-                    {
-                      orderItem.item.variants.find(
-                        (x) => x.id == orderItem.variantId,
-                      )?.title
-                    }
-                  </TableCell>
-                </TableRow>
+                <ItemInOrderDetails orderItem={orderItem} key={index} />
               ))}
             </TableBody>
             <TableFooter></TableFooter>
