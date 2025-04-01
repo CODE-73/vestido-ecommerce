@@ -1,8 +1,13 @@
 import { useRouter } from 'next/router';
 
 import { Fulfillment } from '@prisma/client';
+import { LuTrash } from 'react-icons/lu';
 
-import { FulfillmentListResponse } from '@vestido-ecommerce/orders/client';
+import {
+  FulfillmentListResponse,
+  useDeleteFulfillment,
+} from '@vestido-ecommerce/orders/client';
+import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
   Table,
   TableBody,
@@ -12,6 +17,7 @@ import {
   TableHeader,
   TableRow,
 } from '@vestido-ecommerce/shadcn-ui/table';
+import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 
 import { formattedDate, formattedTime } from '../orders/OrdersTable';
 
@@ -26,9 +32,25 @@ const FulfillmentsTable: React.FC<FulfillmentTableProps> = ({
   in_order,
 }) => {
   const router = useRouter();
+  const { trigger } = useDeleteFulfillment();
+  const { toast } = useToast();
 
   const handleRowClick = (fulfillmentId: string) => {
     router.push(`/fulfillments/${encodeURIComponent(fulfillmentId)}`);
+  };
+
+  const handleDelete = async (fulfillmentId: string) => {
+    try {
+      await trigger(fulfillmentId);
+      toast({
+        title: 'Deleted Draft Fulfillment',
+      });
+    } catch (e) {
+      console.error('Error deleting fulfillmentId', e);
+      toast({
+        title: 'Error deleting Fulfillment',
+      });
+    }
   };
 
   return (
@@ -41,6 +63,7 @@ const FulfillmentsTable: React.FC<FulfillmentTableProps> = ({
           <TableHead>Time</TableHead>
           <TableHead>Shiprocker Order ID</TableHead>
           <TableHead>Status</TableHead>
+          <TableHead></TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -68,6 +91,19 @@ const FulfillmentsTable: React.FC<FulfillmentTableProps> = ({
 
               <TableCell>{fulfillment.shiprocket_order_id}</TableCell>
               <TableCell>{fulfillment.status}</TableCell>
+              {fulfillment.status == 'DRAFT' && (
+                <TableCell>
+                  <Button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDelete(fulfillment.id);
+                    }}
+                    variant="ghost"
+                  >
+                    <LuTrash />
+                  </Button>
+                </TableCell>
+              )}
             </TableRow>
           ))
         ) : (
