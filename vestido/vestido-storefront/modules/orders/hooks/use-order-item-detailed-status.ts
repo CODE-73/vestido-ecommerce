@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { GetOrderResponse } from '@vestido-ecommerce/orders';
+import { GetOrderResponse } from '@vestido-ecommerce/orders/client';
 
 /**
  * Returns an Array of {

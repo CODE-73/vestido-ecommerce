@@ -103,7 +103,6 @@ export const CreateFulfillmentDialog: React.FC<
   console.info(isDirty, isValid, errors, structuredClone(form.getValues()));
 
   const handleSubmit = async (data: CreateFulfillmentForm) => {
-    console.log('hello');
     try {
       const response = await trigger({
         ...data,

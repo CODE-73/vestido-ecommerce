@@ -30,7 +30,7 @@ const ItemInOrderDetails: React.FC<props> = ({ orderItem }) => {
         {orderItem.item.title}
       </TableCell>
       <TableCell className="font-semibold capitalize">
-        {orderItem.qty}
+        {orderItem.fulfilledQuantity ?? 0}/{orderItem.qty}
       </TableCell>
       <TableCell>{formatINR(orderItem.price)}</TableCell>
       <TableCell className="pl-6">{variantSize}</TableCell>

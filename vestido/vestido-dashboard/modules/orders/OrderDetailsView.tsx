@@ -213,7 +213,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
               <TableRow>
                 <TableHead>Image</TableHead>
                 <TableHead>Item</TableHead>
-                <TableHead>Qty</TableHead>
+                <TableHead>Fulfilled/Total Qty</TableHead>
                 <TableHead>Price</TableHead>
                 <TableHead>Size</TableHead>
               </TableRow>
@@ -230,7 +230,10 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
           <div className="p-4 text-lg font-semibold">Fulfillments</div>
           {order?.fulfillments.length && order.fulfillments.length > 0 ? (
             <div className="bg-white">
-              <FulfillmentsTable data={order?.fulfillments ?? []} />
+              <FulfillmentsTable
+                in_order={true}
+                in_order_data={order?.fulfillments ?? []}
+              />
             </div>
           ) : (
             <div>Your Order will be shipped soon. </div>
