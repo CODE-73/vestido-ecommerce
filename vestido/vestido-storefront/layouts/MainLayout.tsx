@@ -24,7 +24,7 @@ const MainLayout: React.FC<LayoutProps> = ({ children }) => {
         <Header />
       </div>
 
-      <main className={`w-[100vw] md:w-full  overflow-y-scroll`}>
+      <main className={`w-[100vw] md:w-full overflow-y-scroll no-scrollbar`}>
         {children}
       </main>
       {!hideFooter && (
