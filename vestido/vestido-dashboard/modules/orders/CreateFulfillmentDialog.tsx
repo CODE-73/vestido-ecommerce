@@ -107,10 +107,12 @@ export const CreateFulfillmentDialog: React.FC<
       const response = await trigger({
         ...data,
         orderId: order?.id ?? '',
-        items: data.items.map((x) => ({
-          orderItemId: x.orderItemId,
-          quantity: x.fulfillingQty,
-        })),
+        items: data.items
+          .filter((x) => x.fulfillingQty > 0)
+          .map((x) => ({
+            orderItemId: x.orderItemId,
+            quantity: x.fulfillingQty,
+          })),
       });
       toast({
         title: 'Fulfillment Draft Created',
