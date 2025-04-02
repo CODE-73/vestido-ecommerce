@@ -1,7 +1,7 @@
 import Image from 'next/image';
 
 import { useSizeAttribute } from '@vestido-ecommerce/items/client';
-import { type GetOrderResult } from '@vestido-ecommerce/orders/client';
+import { type GetOrderResult } from '@vestido-ecommerce/orders';
 import { TableCell, TableRow } from '@vestido-ecommerce/shadcn-ui/table';
 import { formatINR, ImageSchemaType } from '@vestido-ecommerce/utils';
 
