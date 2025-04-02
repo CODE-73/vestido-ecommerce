@@ -1,12 +1,12 @@
 import Image from 'next/image';
 
 import { useSizeAttribute } from '@vestido-ecommerce/items/client';
-import { type GetOrderResponse } from '@vestido-ecommerce/orders/client';
+import { type GetOrderResult } from '@vestido-ecommerce/orders/client';
 import { TableCell, TableRow } from '@vestido-ecommerce/shadcn-ui/table';
 import { formatINR, ImageSchemaType } from '@vestido-ecommerce/utils';
 
 type props = {
-  orderItem: NonNullable<GetOrderResponse>['data']['orderItems'][number];
+  orderItem: NonNullable<GetOrderResult>['orderItems'][number];
 };
 
 const ItemInOrderDetails: React.FC<props> = ({ orderItem }) => {
