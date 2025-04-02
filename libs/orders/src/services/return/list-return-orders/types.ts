@@ -2,9 +2,8 @@ import { Return } from '@prisma/client';
 
 import { VestidoResponse } from '@vestido-ecommerce/utils';
 
-export type ListReturnOrderResponse = {
+export type ListReturnOrderResult = {
   data: Return[];
 };
 
-export type ListReturnOrderSWRResponse =
-  VestidoResponse<ListReturnOrderResponse>;
+export type ListReturnOrderResponse = VestidoResponse<ListReturnOrderResult>;
