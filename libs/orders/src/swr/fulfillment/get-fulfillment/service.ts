@@ -1,6 +1,6 @@
 import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
 
-import { FulfillmentDetailsResponse } from '../../../services/fulfillment/get-fulfillment/types';
+import { FulfillmentDetailsResponse } from './types';
 
 export async function getFulfillmentDetails(
   fulfillmentId: string,
