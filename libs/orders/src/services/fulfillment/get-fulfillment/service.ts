@@ -9,6 +9,7 @@ export async function getFulfillment(fulfillmentId: string) {
       id: fulfillmentId,
     },
     include: {
+      order: true,
       fulfillmentItems: {
         include: {
           orderItem: {

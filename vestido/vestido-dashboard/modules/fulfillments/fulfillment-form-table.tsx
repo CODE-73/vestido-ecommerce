@@ -20,7 +20,7 @@ import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import { InputElement } from '../../forms/input-element';
 import { SelectElement } from '../../forms/select-element';
-import FulfillmentItemSize from './fulfillment-item-size';
+import FulfillmentItemSizePrice from './fulfillment-item-size-price';
 import { UpdateFulfillmentForm } from './FulfillmentForm';
 
 type FulfillmentFormTableProps = {
@@ -95,6 +95,7 @@ const FulfillmentFormTable: FC<FulfillmentFormTableProps> = ({
             <TableHead>Image</TableHead>
             <TableHead>Item</TableHead>
             <TableHead>Size</TableHead>
+            <TableHead>Price</TableHead>
             <TableHead>Fulfilling Qty</TableHead>
             <TableHead>Delete</TableHead>
           </TableRow>
@@ -150,7 +151,7 @@ const FulfillmentFormTable: FC<FulfillmentFormTableProps> = ({
                     />
                   )}
                 </TableCell>
-                <FulfillmentItemSize
+                <FulfillmentItemSizePrice
                   _fulfillmentItem={fItem}
                   fulfillment={fulfillment}
                 />

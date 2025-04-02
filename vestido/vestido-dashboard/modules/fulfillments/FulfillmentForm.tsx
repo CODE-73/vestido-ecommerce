@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -171,8 +172,19 @@ const FulfillmentForm: React.FC<FulfillmentFormProps> = ({ fulfillmentId }) => {
         className="flex flex-col justify-center w-full text-lg mt-16 bg-slate-200 px-5 py-10 mb-5"
       >
         <fieldset disabled={!isDraft}>
-          <div className="text-2xl font-semibold capitalize flex justify-between">
-            {fulfillment?.id}
+          <div className="flex justify-between items-center">
+            <div>
+              <div className="text-2xl font-semibold capitalize flex justify-between">
+                Fulfillment #{fulfillment?.fulfillment_no}
+              </div>
+              <Link
+                href={`/orders/${fulfillment?.orderId}`}
+                className="text-sm text-blue-600 hover:underline"
+              >
+                Part of Order #{fulfillment.order.order_no}
+              </Link>
+            </div>
+            <div>{fulfillment.status}</div>
           </div>
 
           <div className="flex h-full flex-col flex-grow ps-2 pe-2">
