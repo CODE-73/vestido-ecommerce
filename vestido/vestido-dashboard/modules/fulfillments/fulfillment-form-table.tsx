@@ -5,7 +5,7 @@ import { OrderItem } from '@prisma/client';
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
 import { LuPlus, LuTrash } from 'react-icons/lu';
 
-import { FulfillmentDetailsResponse } from '@vestido-ecommerce/orders';
+import { FulfillmentDetailsResponse } from '@vestido-ecommerce/orders/client';
 import { useOrder } from '@vestido-ecommerce/orders/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
@@ -20,6 +20,7 @@ import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import { InputElement } from '../../forms/input-element';
 import { SelectElement } from '../../forms/select-element';
+import FulfillmentItemSize from './fulfillment-item-size';
 import { UpdateFulfillmentForm } from './FulfillmentForm';
 
 type FulfillmentFormTableProps = {
@@ -93,6 +94,7 @@ const FulfillmentFormTable: FC<FulfillmentFormTableProps> = ({
           <TableRow>
             <TableHead>Image</TableHead>
             <TableHead>Item</TableHead>
+            <TableHead>Size</TableHead>
             <TableHead>Fulfilling Qty</TableHead>
             <TableHead>Delete</TableHead>
           </TableRow>
@@ -148,6 +150,10 @@ const FulfillmentFormTable: FC<FulfillmentFormTableProps> = ({
                     />
                   )}
                 </TableCell>
+                <FulfillmentItemSize
+                  _fulfillmentItem={fItem}
+                  fulfillment={fulfillment}
+                />
 
                 <TableCell className="font-semibold capitalize">
                   <Controller
