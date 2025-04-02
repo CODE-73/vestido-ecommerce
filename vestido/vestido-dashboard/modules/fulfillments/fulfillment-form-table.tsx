@@ -53,21 +53,8 @@ const FulfillmentFormTable: FC<FulfillmentFormTableProps> = ({
     if (!images || !images.length) {
       return null;
     }
-
     return images.find((x) => x.default) ?? images[0];
   };
-
-  //   const getTitle = (fulfillmentItemId: string) => {
-  //     const fulfillingItem = fulfillment?.fulfillmentItems.find(
-  //       (x) => x.id === fulfillmentItemId,
-  //     );
-  //     if (!fulfillmentItemId) {
-  //       return null;
-  //     }
-
-  //     return fulfillingItem?.orderItem.item.title;
-  //   };
-
   const fulfillingItems = form.watch('items') ?? [];
 
   const getAvailableOrderItems = (orderItems: OrderItem[]) => {

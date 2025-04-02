@@ -181,10 +181,10 @@ const FulfillmentForm: React.FC<FulfillmentFormProps> = ({ fulfillmentId }) => {
                 href={`/orders/${fulfillment?.orderId}`}
                 className="text-sm text-blue-600 hover:underline"
               >
-                Part of Order #{fulfillment.order.order_no}
+                Part of Order #{fulfillment?.order.order_no}
               </Link>
             </div>
-            <div>{fulfillment.status}</div>
+            <div>{fulfillment?.status}</div>
           </div>
 
           <div className="flex h-full flex-col flex-grow ps-2 pe-2">

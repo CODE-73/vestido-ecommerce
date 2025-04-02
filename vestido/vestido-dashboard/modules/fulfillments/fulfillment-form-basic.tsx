@@ -10,23 +10,23 @@ const BasicFulfillmentForm: FC = () => {
         <InputElement
           name="length"
           placeholder="Length of package"
-          label="Length"
+          label="Length(cm)"
         />
       </div>
       <InputElement
         name="breadth"
         placeholder="Breadth of package"
-        label="Breadth"
+        label="Breadth(cm)"
       />
       <InputElement
         name="height"
         placeholder="Height of package"
-        label="Height"
+        label="Height(cm)"
       />
       <InputElement
         name="weight"
         placeholder="Weight of package"
-        label="Weight"
+        label="Weight(kg)"
       />
       <InputElement
         name="description"
