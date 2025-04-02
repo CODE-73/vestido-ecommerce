@@ -17,5 +17,5 @@ export async function getReturnOrdersList(
   }
   const data = await r.json();
 
-  return data as ListReturnOrderSWRResponse;
+  return data as ListReturnOrderResponse;
 }
