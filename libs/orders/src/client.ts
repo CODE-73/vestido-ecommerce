@@ -1,4 +1,3 @@
-export type { GetOrderResponse } from '../../orders/src/services/orders/get-order/types';
 export type { GetReturnableitemsResponse } from '../../orders/src/services/return/get-returnable-items/types';
 export {
   BankDetailsSchema,

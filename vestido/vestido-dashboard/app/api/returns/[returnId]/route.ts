@@ -28,7 +28,7 @@ export const PUT = apiRouteHandler(
   async ({ request, params }) => {
     const body = await request.json();
 
-    await getReturnOrder(params.orderSlug);
+    await getReturnOrder(params.returnId);
     // if (!isReturnExist) {
     //   throw new VestidoError({
     //     name: 'NotFoundError',

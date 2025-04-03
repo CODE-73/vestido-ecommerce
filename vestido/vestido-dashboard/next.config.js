@@ -19,14 +19,7 @@ const nextConfig = {
     // See: https://github.com/gregberge/svgr
     svgr: false,
   },
-  images: {
-    remotePatterns: [
-      {
-        hostname: R2_NEXT_IMAGE_HOSTNAME,
-        protocol: 'https',
-      },
-    ],
-  },
+
   webpack: (config, { isServer }) => {
     if (isServer) {
       config.externals.push('sharp');
@@ -53,6 +46,17 @@ const nextConfig = {
       };
     }
     return config;
+  },
+  images: {
+    loader: 'custom',
+    loaderFile: './cloudflare-loader.js',
+    unoptimized: process.env.DISABLE_IMAGE_OPTIMIZATIONS === 'true',
+    remotePatterns: [
+      {
+        hostname: R2_NEXT_IMAGE_HOSTNAME,
+        protocol: 'https',
+      },
+    ],
   },
   env: {
     NEXT_PUBLIC_APP_VERSION: version,

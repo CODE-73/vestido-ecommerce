@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 import { SWRConfig } from 'swr';
 
 // import { ensureSerializable } from '@vestido-ecommerce/utils';
-import OrderListView from '../../modules/User/Orders';
+import OrderListView from '../../modules/orders/order-list/order-list';
 
 type AllOrdersPageProps = {
   fallback: Record<string, unknown>;

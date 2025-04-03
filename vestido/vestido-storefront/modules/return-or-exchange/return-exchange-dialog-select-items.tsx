@@ -16,7 +16,7 @@ import {
 
 import ItemImage from '../../components/item-image';
 import { InputElement } from '../../forms/input-element';
-import { useReturnableItemsGroupedByFulfillment } from '../../hooks/useReturnableItemsGroupedByFulfillment';
+import { useReturnableItemsGroupedByFulfillment } from './hooks/use-returnable-items-grouped-by-fulfillment';
 import { ReturnReplaceForm } from './return-exchange-dialog';
 
 type selectItemProps = {

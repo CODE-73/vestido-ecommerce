@@ -26,7 +26,7 @@ type CancelOrderDialogProps = {
   orderId: string;
   orderNo: bigint | undefined;
   children: ReactNode;
-  onOrderCancelled: () => void;
+  onOrderCancelled?: () => void;
 };
 
 const CancelOrderFormSchema = z.object({
@@ -50,7 +50,7 @@ const CancelOrderDialog: FC<CancelOrderDialogProps> = ({
 }) => {
   const { toast } = useToast();
   const router = useRouter();
-  const [isDialogOpen, setIsDialogOpen] = useState(true);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const form = useForm<CancelOrderForm>({
     resolver: zodResolver(CancelOrderFormSchema),
     defaultValues: {
@@ -60,7 +60,7 @@ const CancelOrderDialog: FC<CancelOrderDialogProps> = ({
     },
   });
 
-  const { trigger } = useCancelOrder();
+  const { trigger, isMutating } = useCancelOrder();
   const handleSubmit = async (data: CancelOrderForm) => {
     try {
       await trigger({
@@ -68,7 +68,7 @@ const CancelOrderDialog: FC<CancelOrderDialogProps> = ({
       });
 
       router.replace(`/orders/${orderId}`);
-      onOrderCancelled();
+      onOrderCancelled?.();
       setIsDialogOpen(false);
     } catch (e) {
       if (e instanceof VestidoError) {
@@ -84,63 +84,66 @@ const CancelOrderDialog: FC<CancelOrderDialogProps> = ({
   };
 
   return (
-    <>
-      <Dialog>
-        <DialogTrigger asChild>{children}</DialogTrigger>
-        {isDialogOpen && (
-          <DialogContent
-            className="sm:max-w-[425px]"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <Form {...form}>
-              <DialogHeader>
-                <DialogTitle>Order #{orderNo?.toString()}</DialogTitle>
-              </DialogHeader>
-              <hr />
+    <Dialog
+      open={isDialogOpen}
+      onOpenChange={(_open) => setIsDialogOpen(_open)}
+    >
+      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogContent
+        className="sm:max-w-[425px]"
+        // disable backdrop click
+        onInteractOutside={(e) => e.preventDefault()}
+      >
+        <Form {...form}>
+          <DialogHeader>
+            <DialogTitle>Order #{orderNo?.toString()}</DialogTitle>
+          </DialogHeader>
+          <hr />
 
-              <form
-                onSubmit={form.handleSubmit(handleSubmit)}
-                className="flex flex-col gap-3 divide-y"
+          <form
+            onSubmit={form.handleSubmit(handleSubmit)}
+            className="flex flex-col gap-3 divide-y"
+          >
+            <RadioGroupElement
+              name="reason"
+              label="Reason for cancellation"
+              options={[
+                {
+                  label: 'Order Created By Mistake',
+                  value: 'ORDER_CREATED_BY_MISTAKE',
+                },
+                {
+                  label: 'Price of Item(s) Too High',
+                  value: 'ITEM_PRICE_TOO_HIGH',
+                },
+                {
+                  label: 'Need to Change Shipping Address',
+                  value: 'NEED_TO_CHANGE_SHIPPING_ADDRESS',
+                },
+                {
+                  label: 'Need to Change Payment Method',
+                  value: 'NEED_TO_CHANGE_PAYMENT_METHOD',
+                },
+                { label: 'Other', value: 'OTHER' },
+              ]}
+            />
+            <TextAreaElement
+              name="remarks"
+              label="Remarks"
+              placeholder="Remarks if any..."
+            />
+            <DialogFooter>
+              <Button
+                disabled={isMutating}
+                className="bg-black w-full text-lg my-1 text-white px-2 py-6 font-bold hover:bg-black rounded-none"
               >
-                <RadioGroupElement
-                  name="reason"
-                  label="Reason for cancellation"
-                  options={[
-                    {
-                      label: 'Order Created By Mistake',
-                      value: 'ORDER_CREATED_BY_MISTAKE',
-                    },
-                    {
-                      label: 'Price of Item(s) Too High',
-                      value: 'ITEM_PRICE_TOO_HIGH',
-                    },
-                    {
-                      label: 'Need to Change Shipping Address',
-                      value: 'NEED_TO_CHANGE_SHIPPING_ADDRESS',
-                    },
-                    {
-                      label: 'Need to Change Payment Method',
-                      value: 'NEED_TO_CHANGE_PAYMENT_METHOD',
-                    },
-                    { label: 'Other', value: 'OTHER' },
-                  ]}
-                />
-                <TextAreaElement
-                  name="remarks"
-                  label="Remarks"
-                  placeholder="Remarks if any..."
-                />
-                <DialogFooter>
-                  <Button className="bg-black w-full text-lg my-1 text-white px-2 py-6 font-bold hover:bg-black rounded-none">
-                    <div>Cancel Order</div>
-                  </Button>
-                </DialogFooter>
-              </form>
-            </Form>
-          </DialogContent>
-        )}
-      </Dialog>
-    </>
+                <div>Cancel Order</div>
+              </Button>
+            </DialogFooter>
+          </form>
+        </Form>
+      </DialogContent>
+    </Dialog>
   );
 };
 

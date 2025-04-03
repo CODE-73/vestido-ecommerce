@@ -9,7 +9,7 @@ export async function updateReturn(
   args: UpdateReturnRequest,
   authHeaders: Record<string, string>,
 ): Promise<UpdateReturnSWRResponse> {
-  const r = await fetch(`/api/return/${encodeURIComponent(args.returnId)}`, {
+  const r = await fetch(`/api/returns/${encodeURIComponent(args.returnId)}`, {
     method: 'PUT',
     headers: {
       ...authHeaders,

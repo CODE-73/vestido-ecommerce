@@ -1,9 +1,7 @@
 import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
 
-import {
-  FulfillmentListResponse,
-  ListFulfillmentRequest,
-} from '../../../services/fulfillment/list-fulfillment/types';
+import { ListFulfillmentRequest } from '../../../services/fulfillment/list-fulfillment/types';
+import { FulfillmentListResponse } from './types';
 
 export async function getFulfillmentList(
   authHeaders: Record<string, string>,
