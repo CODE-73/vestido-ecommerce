@@ -32,6 +32,15 @@ export async function updateReturnOrder(returnId: string, data: string) {
           status: 'REFUNDED',
         },
       });
+
+      await prisma.return.updateMany({
+        where: {
+          id: returnId,
+        },
+        data: {
+          refundStatus: 'REFUNDED',
+        },
+      });
     }
 
     return returnPayment;
