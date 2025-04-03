@@ -14,7 +14,7 @@ export async function updateReturnOrder(returnId: string, data: string) {
     const returnOrder = await getReturnOrder(returnId);
     if (!returnOrder) {
       throw new VestidoError({
-        name: 'NotFoundError',
+        name: 'UpdateReturnOrderNotFoundError',
         message: 'ReturnOrder Not Found Error',
         httpStatus: 404,
         context: {
@@ -22,9 +22,9 @@ export async function updateReturnOrder(returnId: string, data: string) {
         },
       });
     }
-    let returnPayment;
+    let updatedReturnOrder;
     if (validatedData.status === 'REFUNDED') {
-      returnPayment = await prisma.payment.updateMany({
+      await prisma.payment.updateMany({
         where: {
           orderId: returnId,
         },
@@ -33,7 +33,7 @@ export async function updateReturnOrder(returnId: string, data: string) {
         },
       });
 
-      await prisma.return.updateMany({
+      updatedReturnOrder = await prisma.return.updateMany({
         where: {
           id: returnId,
         },
@@ -43,7 +43,7 @@ export async function updateReturnOrder(returnId: string, data: string) {
       });
     }
 
-    return returnPayment;
+    return updatedReturnOrder;
   });
 
   return result;
