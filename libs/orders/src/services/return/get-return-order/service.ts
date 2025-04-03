@@ -1,5 +1,8 @@
 import { PrismaClient } from '@prisma/client';
 
+import { populateImageURLs } from '@vestido-ecommerce/caching';
+import { ImageSchemaType } from '@vestido-ecommerce/utils';
+
 export async function getReturnOrder(returnId: string) {
   const prisma = new PrismaClient();
 
@@ -8,7 +11,11 @@ export async function getReturnOrder(returnId: string) {
       id: returnId,
     },
     include: {
-      order: true,
+      order: {
+        include:{
+          payments: true
+        }
+      },
       bankDetails: true,
       fulfillment: true,
       returnItems: {
@@ -23,6 +30,13 @@ export async function getReturnOrder(returnId: string) {
       },
     },
   });
+
+  if (returnOrder) {
+    const images = returnOrder.returnItems.flatMap((returnItem) => [
+      ...((returnItem.orderItem.item.images ?? []) as ImageSchemaType[]),
+    ]);
+    await populateImageURLs(images);
+  }
 
   return returnOrder;
 }

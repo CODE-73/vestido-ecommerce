@@ -70,7 +70,9 @@ const FulfillmentForm: React.FC<FulfillmentFormProps> = ({ fulfillmentId }) => {
   const router = useRouter();
   const { trigger: submitTrigger } = useSubmitFulfillment();
 
-  const orderId = useFulfillment(fulfillmentId).data?.data.orderId;
+  const { data } = useFulfillment(fulfillmentId);
+
+  const orderId = data?.data?.orderId;
 
   const form = useForm<UpdateFulfillmentForm>({
     resolver: zodResolver(UpdateFulfillmentFormSchema),
@@ -175,13 +177,13 @@ const FulfillmentForm: React.FC<FulfillmentFormProps> = ({ fulfillmentId }) => {
           <div className="flex justify-between items-center">
             <div>
               <div className="text-2xl font-semibold capitalize flex justify-between">
-                Fulfillment #{fulfillment?.fulfillment_no}
+                Fulfillment #{fulfillment?.fulfillment_no.toString()}
               </div>
               <Link
                 href={`/orders/${fulfillment?.orderId}`}
                 className="text-sm text-blue-600 hover:underline"
               >
-                Part of Order #{fulfillment?.order.order_no}
+                Part of Order #{fulfillment?.order.order_no.toString()}
               </Link>
             </div>
             <div>{fulfillment?.status}</div>
