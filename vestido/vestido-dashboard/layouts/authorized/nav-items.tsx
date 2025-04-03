@@ -33,6 +33,11 @@ export const navItems: NavigationItem[] = [
     href: '/fulfillments',
   },
   {
+    id: 'returns',
+    label: 'Returns',
+    href: '/returns',
+  },
+  {
     id: 'storefront',
     label: 'Storefront',
     href: '/storefront',
