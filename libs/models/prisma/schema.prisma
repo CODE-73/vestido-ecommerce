@@ -431,6 +431,7 @@ model Return {
     fulfillmentId      String        @db.Uuid
     order              Order         @relation(fields: [orderId], references: [id])
     orderId            String        @db.Uuid
+    shiprocketOrderId  String?
     shipmentId         String?
     tracking           String?
     reason             String
