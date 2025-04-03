@@ -21,8 +21,10 @@ export const useOrderItemsDetailedStatus = (
 
     return order.orderItems.map((orderItem) => {
       // Fulfillments that handled current Order Item
-      const fulfillments = order.fulfillments.filter((x) =>
-        x.fulfillmentItems.some((y) => y.orderItemId === orderItem.id),
+      const fulfillments = order.fulfillments.filter(
+        (x) =>
+          x.status !== 'DRAFT' &&
+          x.fulfillmentItems.some((y) => y.orderItemId === orderItem.id),
       );
 
       const statuses = fulfillments
