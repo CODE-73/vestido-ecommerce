@@ -12,9 +12,9 @@ export async function getReturnOrder(returnId: string) {
     },
     include: {
       order: {
-        include:{
-          payments: true
-        }
+        include: {
+          payments: true,
+        },
       },
       bankDetails: true,
       fulfillment: true,
