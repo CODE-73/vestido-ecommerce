@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 
-import { ListReturnOrderResult } from '@vestido-ecommerce/orders';
+import { type GetOrderResult, ListFulfillmentResult, ListReturnOrderResult } from '@vestido-ecommerce/orders';
 import {
   Table,
   TableBody,
@@ -12,18 +12,28 @@ import {
 } from '@vestido-ecommerce/shadcn-ui/table';
 
 import { formattedDate, formattedTime } from '../orders/OrdersTable';
+import { GetOrderResponse } from '@vestido-ecommerce/orders/client';
 
 interface ReturnTableProps {
   data?: ListReturnOrderResult;
+  in_order?: boolean;
+  in_order_data: NonNullable<GetOrderResult>['fulfillments'];
+
 }
 
-const ReturnsTable: React.FC<ReturnTableProps> = ({ data: returns }) => {
-  console.log('returns', returns);
+const ReturnsTable: React.FC<ReturnTableProps> = ({ data, in_order_data }) => {
   const router = useRouter();
 
   const handleRowClick = (returnId: string) => {
     router.push(`/returns/${encodeURIComponent(returnId)}`);
   };
+
+  const returns = data
+  ? data
+  : in_order_data
+  ? in_order_data.flatMap((fulfillment) => fulfillment.returns || [])
+  : [];
+
 
   return (
     <Table>
@@ -40,7 +50,7 @@ const ReturnsTable: React.FC<ReturnTableProps> = ({ data: returns }) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {(returns?.length ?? 0) > 0 ? (
+        {returns?.length && returns.length > 0 ? (
           returns?.map((_return) => (
             <TableRow
               key={_return.id}
@@ -74,7 +84,6 @@ const ReturnsTable: React.FC<ReturnTableProps> = ({ data: returns }) => {
           </TableRow>
         )}
       </TableBody>
-      <TableFooter></TableFooter>
     </Table>
   );
 };

@@ -32,6 +32,7 @@ import FulfillmentsTable from '../fulfillments/FulfillmentsTable';
 import { CreateFulfillmentDialog } from './CreateFulfillmentDialog';
 import ItemInOrderDetails from './item-in-order-details';
 import { formattedDate, formattedTime } from './OrdersTable';
+import ReturnsTable from '../returns/returns-table';
 type OrderDetailsProps = {
   orderId: string;
 };
@@ -231,19 +232,37 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
           {order?.fulfillments.length && order.fulfillments.length > 0 ? (
             <div className="bg-white">
               <FulfillmentsTable
-                in_order={true}
-                in_order_data={order?.fulfillments ?? []}
+                in_order
+                in_order_data={order.fulfillments}
+
               />
             </div>
           ) : (
             <div>Your Order will be shipped soon. </div>
           )}
         </div>
+        <div className="bg-white col-span-6">
+          <div className="p-4 text-lg font-semibold">Returns/Exchanges</div>
+          {order?.fulfillments?.length && order?.fulfillments?.length > 0 ? (
+            // <div className="bg-white">
+            //   {order.fulfillments.map((fulfillment) => {
+            //     console.log('fulfilment', fulfillment)
+            //     return (
+            //       <ReturnsTable data={fulfillment.returns} />)
+            //   })}
+            // </div>
+            <div className="bg-white">
+
+              <ReturnsTable in_order in_order_data={order.fulfillments} />
+
+            </div>
+          ) : (
+            <div>Your Order will be shipped soon.</div>
+          )}
+
+        </div>
       </div>
-      {/*
 
-
-       */}
     </div>
   );
 };

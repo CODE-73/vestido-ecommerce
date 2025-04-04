@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -36,8 +36,10 @@ const ReturnDetails: React.FC<returnDetailsProps> = ({ returnId }) => {
   const { trigger } = useUpdateReturnOrder();
 
   const { data } = useReturnOrder(returnId);
-  const [refunded, setRefunded] = useState(false);
+
   const returnOrder = data?.data;
+  const refunded = returnOrder?.refundStatus === "REFUNDED"
+
   const cod =
     returnOrder?.order?.payments[0].paymentGateway === 'CASH_ON_DELIVERY';
 
@@ -45,10 +47,11 @@ const ReturnDetails: React.FC<returnDetailsProps> = ({ returnId }) => {
 
   const handleUpdate = async () => {
     try {
-      await trigger({ returnId, status: 'REFUNDED' });
-      setRefunded(true);
+      await trigger({ returnId, status: "REFUNDED" });
+      router.replace(router.asPath); 
+
     } catch (error) {
-      console.error('Failed to update refund status', error);
+      console.error("Failed to update refund status", error);
     }
   };
   return (
@@ -70,32 +73,19 @@ const ReturnDetails: React.FC<returnDetailsProps> = ({ returnId }) => {
               href={`/orders/${returnOrder?.orderId}`}
               className="text-sm text-blue-600 hover:underline"
             >
-              {returnOrder?.type === 'REPLACE' ? 'Exchanged' : 'Returned'} from
-              Order #{returnOrder?.order.order_no.toString()}
+              {returnOrder?.type === "REPLACE" ? 'Exchanged' : 'Returned'} from Order #{returnOrder?.order.order_no.toString()}
+
             </Link>
-            <Link
-              href={`/orders/${returnOrder?.replacementOrderId}`}
-              className="text-sm text-blue-600 hover:underline"
-            >
-              {returnOrder?.type === 'REPLACE' && (
-                <div>
-                  New Order Placed : Order #
-                  {replacementOrder?.data?.order_no.toString()}
-                </div>
-              )}
-            </Link>
+            <Link href={`/orders/${returnOrder?.replacementOrderId}`} className="text-sm text-blue-600 hover:underline"> {returnOrder?.type === "REPLACE" &&
+              <div>New Order Placed : Order #{replacementOrder?.data?.order_no.toString()}</div>}</Link>
           </div>
         </div>
         <div className="grid grid-cols-6 gap-3">
+
           <Card className="col-span-6 mt-3">
             <CardTitle className="text-xl p-3 font-normal ">
               <div className="flex justify-between">
-                <div>
-                  {' '}
-                  {returnOrder?.type === 'REPLACE'
-                    ? 'Exchange'
-                    : 'Return'} # {returnOrder?.return_no.toString()}
-                </div>
+                <div> {returnOrder?.type === "REPLACE" ? 'Exchange' : 'Return'} # {returnOrder?.return_no.toString()}</div>
                 <div className="text-base flex divide-x gap-5">
                   <div>
                     {returnOrder &&
@@ -109,7 +99,7 @@ const ReturnDetails: React.FC<returnDetailsProps> = ({ returnId }) => {
               </div>
             </CardTitle>
             <CardContent className="text-sm gap-4 grid grid-cols-3 max-w-xl">
-              <div className="">Return Status </div>
+              <div className="">Return Status: </div>
               <div className="font-semibold col-span-2">
                 {returnOrder?.status}
               </div>
@@ -117,7 +107,11 @@ const ReturnDetails: React.FC<returnDetailsProps> = ({ returnId }) => {
               <div className="font-semibold col-span-2">
                 {returnOrder?.refundAmount}
               </div>
-              <div className="">Type</div>
+              <div className="">Refund Status:</div>
+              <div className="font-semibold col-span-2">
+                {returnOrder?.refundStatus}
+              </div>
+              <div className="">Type:</div>
               <div className="font-semibold col-span-2">
                 {returnOrder?.type}
               </div>
@@ -127,38 +121,21 @@ const ReturnDetails: React.FC<returnDetailsProps> = ({ returnId }) => {
               </div>
             </CardContent>
           </Card>
-          {cod ? (
-            <Card className="relative col-span-6">
-              <Button
-                disabled={refunded}
-                onClick={() => handleUpdate()}
-                className={`absolute top-3 right-3 disabled:opacity-100 ${refunded ? 'bg-green-400 text-white' : ''}`}
-              >
-                {refunded ? 'Refunded' : 'Mark as Refunded'}
-              </Button>
+          {cod && returnOrder.type === "RETURN" ?
+            <Card className='relative col-span-6'>
+              <Button disabled={refunded} onClick={() => handleUpdate()} className={`absolute top-3 right-3 disabled:opacity-100 ${refunded ? 'bg-green-400 text-white' : ''}`}>{refunded ? 'Refunded' : 'Mark as Refunded'}</Button>
               <div className="p-4 text-lg font-semibold">Bank Details</div>
-              <CardContent className="grid grid-cols-4 text-sm gap-4">
-                <div className="justify-self-end">Account Holder Name:</div>
-                <span className="font-semibold col-span-3">
-                  {returnOrder.bankDetails.map((x) => x.accountHolderName)}
-                </span>
-                <div className="justify-self-end">Account Number:</div>
-                <span className="font-semibold col-span-3">
-                  {returnOrder.bankDetails.map((x) => x.accountNumber)}
-                </span>
-                <div className="justify-self-end">IFSC Code:</div>
-                <span className="font-semibold col-span-3">
-                  {returnOrder.bankDetails.map((x) => x.ifscCode)}
-                </span>
-                <div className="justify-self-end">Mobile:</div>
-                <span className="font-semibold col-span-3">
-                  {returnOrder.bankDetails.map((x) => x.mobile)}
-                </span>
+              <CardContent className='grid grid-cols-4 text-sm gap-4'>
+                <div className='justify-self-end'>Account Holder Name:</div>
+                <span className='font-semibold col-span-3'>{returnOrder.bankDetails.map((x) => x.accountHolderName)}</span>
+                <div className='justify-self-end'>Account Number:</div>
+                <span className='font-semibold col-span-3'>{returnOrder.bankDetails.map((x) => x.accountNumber)}</span>
+                <div className='justify-self-end'>IFSC Code:</div>
+                <span className='font-semibold col-span-3'>{returnOrder.bankDetails.map((x) => x.ifscCode)}</span>
+                <div className='justify-self-end'>Mobile:</div>
+                <span className='font-semibold col-span-3'>{returnOrder.bankDetails.map((x) => x.mobile)}</span>
               </CardContent>
-            </Card>
-          ) : (
-            ''
-          )}
+            </Card> : ''}
 
           <div className="bg-white col-span-6">
             <div className="p-4 text-lg font-semibold">

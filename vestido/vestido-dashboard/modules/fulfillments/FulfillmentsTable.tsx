@@ -23,13 +23,15 @@ import { formattedDate, formattedTime } from '../orders/OrdersTable';
 
 interface FulfillmentTableProps {
   data?: FulfillmentListResponse['data'];
-  in_order_data?: Fulfillment[];
   in_order?: boolean;
+  in_order_data?: Fulfillment[]
 }
 
 const FulfillmentsTable: React.FC<FulfillmentTableProps> = ({
   data: fulfillments,
   in_order,
+  in_order_data: _fulfillments
+
 }) => {
   const router = useRouter();
   const { trigger } = useDeleteFulfillment();
@@ -53,6 +55,10 @@ const FulfillmentsTable: React.FC<FulfillmentTableProps> = ({
     }
   };
 
+  const fulfillmentlist = fulfillments ?? _fulfillments ?? [];
+  const isMainFulfillments = fulfillmentlist === fulfillments;
+
+
   return (
     <Table>
       <TableHeader>
@@ -67,8 +73,8 @@ const FulfillmentsTable: React.FC<FulfillmentTableProps> = ({
         </TableRow>
       </TableHeader>
       <TableBody>
-        {(fulfillments?.length ?? 0) > 0 ? (
-          fulfillments?.map((fulfillment) => (
+        {(fulfillmentlist?.length ?? 0) > 0 ? (
+          fulfillmentlist?.map((fulfillment) => (
             <TableRow
               key={fulfillment.id}
               onClick={() => handleRowClick(fulfillment.id)}
@@ -77,11 +83,11 @@ const FulfillmentsTable: React.FC<FulfillmentTableProps> = ({
               <TableCell className="font-semibold capitalize">
                 {fulfillment.fulfillment_no.toString()}
               </TableCell>
-              {!in_order && (
-                <TableCell className="font-semibold capitalize">
-                  {fulfillment.order.order_no.toString()}
-                </TableCell>
-              )}
+              {isMainFulfillments && 'order' in fulfillment && (
+              <TableCell className="font-semibold capitalize">
+                {(fulfillment as { order: { order_no: string } }).order.order_no.toString()}
+              </TableCell>
+            )}
               <TableCell>
                 {formattedDate(new Date(fulfillment.createdAt))}
               </TableCell>
