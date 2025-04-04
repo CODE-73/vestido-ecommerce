@@ -357,6 +357,7 @@ export async function returnOrder(data: ReturnOrderSchemaType) {
       },
       data: {
         shipmentId: String(shiprocketReturnOrder.shipment_id),
+        shiprocketOrderId: String(shiprocketReturnOrder.order_id),
       },
       include: {
         returnItems: true,
