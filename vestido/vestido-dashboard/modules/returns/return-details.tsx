@@ -48,7 +48,7 @@ const ReturnDetails: React.FC<returnDetailsProps> = ({ returnId }) => {
   const handleUpdate = async () => {
     try {
       await trigger({ returnId, status: "REFUNDED" });
-      router.replace(router.asPath); 
+      router.replace(router.asPath);
 
     } catch (error) {
       console.error("Failed to update refund status", error);
@@ -69,13 +69,20 @@ const ReturnDetails: React.FC<returnDetailsProps> = ({ returnId }) => {
             <div className="text-2xl font-semibold capitalize flex justify-between">
               Return # {returnOrder?.return_no.toString()}
             </div>
-            <Link
+            <div className='flex flex-col md:flex-row md:gap-4'>    <Link
               href={`/orders/${returnOrder?.orderId}`}
               className="text-sm text-blue-600 hover:underline"
             >
-              {returnOrder?.type === "REPLACE" ? 'Exchanged' : 'Returned'} from Order #{returnOrder?.order.order_no.toString()}
+              {returnOrder?.type === "REPLACE" ? 'Exchanged' : 'Returned'} from Order #{returnOrder?.order.order_no.toString()},
 
-            </Link>
+            </Link>    <Link
+              href={`/fulfillments/${returnOrder?.fulfillmentId}`}
+              className="text-sm text-blue-600 hover:underline"
+            >
+                Fulfillment #{returnOrder?.fulfillment.fulfillment_no.toString()}
+
+              </Link></div>
+
             <Link href={`/orders/${returnOrder?.replacementOrderId}`} className="text-sm text-blue-600 hover:underline"> {returnOrder?.type === "REPLACE" &&
               <div>New Order Placed : Order #{replacementOrder?.data?.order_no.toString()}</div>}</Link>
           </div>
@@ -118,6 +125,36 @@ const ReturnDetails: React.FC<returnDetailsProps> = ({ returnId }) => {
               <div>Original Payment :</div>
               <div className="font-semibold col-span-2">
                 {cod ? 'Cash on Delivery' : 'Online'}
+              </div>
+            </CardContent>
+          </Card>
+          <Card className="col-span-6">
+            <div className="p-4 text-lg font-semibold">Shiprocket Details</div>
+
+
+            <CardContent className="gap-4 grid grid-cols-3 max-w-xl text-sm">
+              <div className="">Shiprocket Order ID: </div>
+              <div className="font-semibold col-span-2">
+                {returnOrder?.shiprocketOrderId ? (
+                  <a
+                    href={`https://app.shiprocket.in/seller/returns/details/${returnOrder.shiprocketOrderId}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-500 hover:underline"
+                  >
+                    <div className="text-sm text-blue-600 hover:underline"> {returnOrder?.shiprocketOrderId}</div>
+                  </a>
+                ) : (
+                  'N/A'
+                )}
+              </div>
+              <div className="">Shipment ID:</div>
+              <div className="font-semibold col-span-2">
+                {returnOrder?.shipmentId ? returnOrder.shipmentId : 'N/A'}
+              </div>
+              <div className="">AWB: </div>
+              <div className="font-semibold col-span-2">
+                {returnOrder?.tracking ? returnOrder.tracking : 'N/A'}
               </div>
             </CardContent>
           </Card>

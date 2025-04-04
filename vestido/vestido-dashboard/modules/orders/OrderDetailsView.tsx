@@ -238,7 +238,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
               />
             </div>
           ) : (
-            <div>Your Order will be shipped soon. </div>
+            <div className='text-sm p-3'>No Fulfillments yet</div>
           )}
         </div>
         <div className="bg-white col-span-6">
@@ -257,7 +257,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
 
             </div>
           ) : (
-            <div>Your Order will be shipped soon.</div>
+            <div className='text-sm p-3'>No Return or Replacement requests on items in this order</div>
           )}
 
         </div>
