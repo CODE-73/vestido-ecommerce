@@ -3,6 +3,6 @@ import { ListFulfillmentSchemaType } from './zod';
 
 export type ListFulfillmentRequest = ListFulfillmentSchemaType;
 
-export type FulfillmentListResponse = {
-  data: Awaited<ReturnType<typeof getFulfillmentList>>;
-};
+export type ListFulfillmentResult = Awaited<
+  ReturnType<typeof getFulfillmentList>
+>;

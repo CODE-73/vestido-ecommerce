@@ -146,8 +146,8 @@ export async function returnOrder(data: ReturnOrderSchemaType) {
           returnId: returnOrder.id,
           customerId: validatedBankData.customerId,
           accountHolderName: validatedBankData.bankAccountHolderName,
-          accountNumber: validatedBankData.bankAccountNumber,
-          ifscCode: validatedBankData.bankIfscCode,
+          accountNumber: validatedBankData.bankAccountNumber || '',
+          ifscCode: validatedBankData.bankIfscCode || '',
           mobile: validatedBankData.mobile,
         },
       });
@@ -357,6 +357,7 @@ export async function returnOrder(data: ReturnOrderSchemaType) {
       },
       data: {
         shipmentId: String(shiprocketReturnOrder.shipment_id),
+        shiprocketOrderId: String(shiprocketReturnOrder.order_id),
       },
       include: {
         returnItems: true,

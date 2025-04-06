@@ -6,7 +6,7 @@ import { LuFacebook, LuInstagram } from 'react-icons/lu';
 const Footer = () => {
   return (
     <div
-      className="bg-black grid  grid-cols-2 sm:grid-cols-3  gap-5 justify-between items-center text-[#f5f5f5] py-2 mt-10 sm:py-7 font-light px-3 xl:px-32"
+      className="bg-black grid  grid-cols-2 sm:grid-cols-3  gap-5 justify-between items-center text-[#f5f5f5] py-2 mt-1 sm:py-7 font-light px-3 xl:px-32"
       style={{
         boxShadow: '0 -20px 25px -5px rgba(55, 65, 81, 0.6)', // Mimicking shadow-lg shadow-gray-700/50
       }}

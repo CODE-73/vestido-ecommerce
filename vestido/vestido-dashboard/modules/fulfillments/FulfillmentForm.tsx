@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -69,7 +70,9 @@ const FulfillmentForm: React.FC<FulfillmentFormProps> = ({ fulfillmentId }) => {
   const router = useRouter();
   const { trigger: submitTrigger } = useSubmitFulfillment();
 
-  const orderId = useFulfillment(fulfillmentId).data?.data.orderId;
+  const { data } = useFulfillment(fulfillmentId);
+
+  const orderId = data?.data?.orderId;
 
   const form = useForm<UpdateFulfillmentForm>({
     resolver: zodResolver(UpdateFulfillmentFormSchema),
@@ -171,8 +174,19 @@ const FulfillmentForm: React.FC<FulfillmentFormProps> = ({ fulfillmentId }) => {
         className="flex flex-col justify-center w-full text-lg mt-16 bg-slate-200 px-5 py-10 mb-5"
       >
         <fieldset disabled={!isDraft}>
-          <div className="text-2xl font-semibold capitalize flex justify-between">
-            {fulfillment?.id}
+          <div className="flex justify-between items-center">
+            <div>
+              <div className="text-2xl font-semibold capitalize flex justify-between">
+                Fulfillment #{fulfillment?.fulfillment_no.toString()}
+              </div>
+              <Link
+                href={`/orders/${fulfillment?.orderId}`}
+                className="text-sm text-blue-600 hover:underline"
+              >
+                Part of Order #{fulfillment?.order.order_no.toString()}
+              </Link>
+            </div>
+            <div>{fulfillment?.status}</div>
           </div>
 
           <div className="flex h-full flex-col flex-grow ps-2 pe-2">

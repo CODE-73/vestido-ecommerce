@@ -109,8 +109,10 @@ const CartView: React.FC = () => {
   };
   return (
     <div>
-      <div className="text-xs md:text-lg tracking-wide text-gray-300 justify-center font-semibold md:mt-12 md:mb-12 mt-32 mb-16 uppercase flex gap-2 items-center">
-        <span className="md:text-2xl text-gray-600">Cart</span>
+      <div className="text-xs md:text-lg tracking-wide text-gray-300 justify-center font-semibold md:mt-12 md:mb-12 mt-8 mb-16 uppercase flex gap-2 items-center">
+        <span className="text-lg md:text-2xl underline underline-offset-4">
+          Cart
+        </span>
         <LuChevronRight /> Address <LuChevronRight /> Payment
       </div>
       {isLoading ? (

@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import { useRouter } from 'next/router';
 
 import { AiOutlineSearch } from 'react-icons/ai';
 
 import { useFulfillments } from '@vestido-ecommerce/orders/client';
-import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import { Input } from '@vestido-ecommerce/shadcn-ui/input';
 
 import FulfillmentsTable from './FulfillmentsTable';
@@ -15,14 +13,9 @@ const FulfillmentsListView: React.FC = () => {
     limit: 9999999,
   });
   const fulfillments = data?.data;
-  const router = useRouter();
 
   const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
-  };
-
-  const handleButtonClick = () => {
-    router.push('/fulfillments/add-new');
   };
 
   return (
@@ -43,14 +36,6 @@ const FulfillmentsListView: React.FC = () => {
               size={24}
             />
           </div>
-
-          <Button
-            onClick={handleButtonClick}
-            type="button"
-            className="p-5 whitespace-nowrap"
-          >
-            + Add New
-          </Button>
         </div>
       </div>
 

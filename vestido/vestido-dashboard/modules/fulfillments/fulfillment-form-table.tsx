@@ -5,7 +5,7 @@ import { OrderItem } from '@prisma/client';
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
 import { LuPlus, LuTrash } from 'react-icons/lu';
 
-import { FulfillmentDetailsResponse } from '@vestido-ecommerce/orders';
+import { FulfillmentDetailsResponse } from '@vestido-ecommerce/orders/client';
 import { useOrder } from '@vestido-ecommerce/orders/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
@@ -20,6 +20,7 @@ import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import { InputElement } from '../../forms/input-element';
 import { SelectElement } from '../../forms/select-element';
+import FulfillmentItemSizePrice from './fulfillment-item-size-price';
 import { UpdateFulfillmentForm } from './FulfillmentForm';
 
 type FulfillmentFormTableProps = {
@@ -52,21 +53,8 @@ const FulfillmentFormTable: FC<FulfillmentFormTableProps> = ({
     if (!images || !images.length) {
       return null;
     }
-
     return images.find((x) => x.default) ?? images[0];
   };
-
-  //   const getTitle = (fulfillmentItemId: string) => {
-  //     const fulfillingItem = fulfillment?.fulfillmentItems.find(
-  //       (x) => x.id === fulfillmentItemId,
-  //     );
-  //     if (!fulfillmentItemId) {
-  //       return null;
-  //     }
-
-  //     return fulfillingItem?.orderItem.item.title;
-  //   };
-
   const fulfillingItems = form.watch('items') ?? [];
 
   const getAvailableOrderItems = (orderItems: OrderItem[]) => {
@@ -93,6 +81,8 @@ const FulfillmentFormTable: FC<FulfillmentFormTableProps> = ({
           <TableRow>
             <TableHead>Image</TableHead>
             <TableHead>Item</TableHead>
+            <TableHead>Size</TableHead>
+            <TableHead>Price</TableHead>
             <TableHead>Fulfilling Qty</TableHead>
             <TableHead>Delete</TableHead>
           </TableRow>
@@ -148,6 +138,10 @@ const FulfillmentFormTable: FC<FulfillmentFormTableProps> = ({
                     />
                   )}
                 </TableCell>
+                <FulfillmentItemSizePrice
+                  _fulfillmentItem={fItem}
+                  fulfillment={fulfillment}
+                />
 
                 <TableCell className="font-semibold capitalize">
                   <Controller

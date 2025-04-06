@@ -34,6 +34,9 @@ export async function getFulfillmentList(data: ListFulfillmentSchemaType) {
     orderBy: orderByArray,
     where: whereCondition,
     include: {
+      order: {
+        select: { order_no: true },
+      },
       fulfillmentItems: {
         include: {
           orderItem: {

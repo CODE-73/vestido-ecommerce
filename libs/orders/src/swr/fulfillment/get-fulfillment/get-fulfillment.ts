@@ -2,9 +2,9 @@ import useSWRImmutable from 'swr/immutable';
 
 import { useAuth } from '@vestido-ecommerce/auth/client';
 
-import { FulfillmentDetailsResponse } from '../../../services/fulfillment/get-fulfillment/types';
 import { FulfillmentDetailsSWRKeys } from '../keys';
 import { getFulfillmentDetails } from './service';
+import { FulfillmentDetailsResponse } from './types';
 
 export function useFulfillment(fulfillmentId?: string | null) {
   const { authHeaders } = useAuth();

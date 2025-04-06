@@ -1,5 +1,5 @@
 import { getFulfillment } from './service';
 
-export type FulfillmentDetailsResponse = {
-  data: Awaited<ReturnType<typeof getFulfillment>>;
-};
+export type FulfillmentDetailsResult = Awaited<
+  ReturnType<typeof getFulfillment>
+>;

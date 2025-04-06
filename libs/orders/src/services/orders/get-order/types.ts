@@ -1,3 +1,3 @@
 import { getOrder } from './service';
 
-export type GetOrderResponse = { data: Awaited<ReturnType<typeof getOrder>> };
+export type GetOrderResult = Awaited<ReturnType<typeof getOrder>>;
