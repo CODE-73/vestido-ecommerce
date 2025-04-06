@@ -38,7 +38,7 @@ const ReturnDetails: React.FC<returnDetailsProps> = ({ returnId }) => {
   const { data } = useReturnOrder(returnId);
 
   const returnOrder = data?.data;
-  const refunded = returnOrder?.refundStatus === "REFUNDED"
+  const refunded = returnOrder?.refundStatus === 'REFUNDED';
 
   const cod =
     returnOrder?.order?.payments[0].paymentGateway === 'CASH_ON_DELIVERY';
@@ -47,11 +47,10 @@ const ReturnDetails: React.FC<returnDetailsProps> = ({ returnId }) => {
 
   const handleUpdate = async () => {
     try {
-      await trigger({ returnId, status: "REFUNDED" });
+      await trigger({ returnId, status: 'REFUNDED' });
       router.replace(router.asPath);
-
     } catch (error) {
-      console.error("Failed to update refund status", error);
+      console.error('Failed to update refund status', error);
     }
   };
   return (
@@ -69,30 +68,48 @@ const ReturnDetails: React.FC<returnDetailsProps> = ({ returnId }) => {
             <div className="text-2xl font-semibold capitalize flex justify-between">
               Return # {returnOrder?.return_no.toString()}
             </div>
-            <div className='flex flex-col md:flex-row md:gap-4'>    <Link
-              href={`/orders/${returnOrder?.orderId}`}
+            <div className="flex flex-col md:flex-row md:gap-4">
+              {' '}
+              <Link
+                href={`/orders/${returnOrder?.orderId}`}
+                className="text-sm text-blue-600 hover:underline"
+              >
+                {returnOrder?.type === 'REPLACE' ? 'Exchanged' : 'Returned'}{' '}
+                from Order #{returnOrder?.order.order_no.toString()},
+              </Link>{' '}
+              <Link
+                href={`/fulfillments/${returnOrder?.fulfillmentId}`}
+                className="text-sm text-blue-600 hover:underline"
+              >
+                Fulfillment #
+                {returnOrder?.fulfillment.fulfillment_no.toString()}
+              </Link>
+            </div>
+
+            <Link
+              href={`/orders/${returnOrder?.replacementOrderId}`}
               className="text-sm text-blue-600 hover:underline"
             >
-              {returnOrder?.type === "REPLACE" ? 'Exchanged' : 'Returned'} from Order #{returnOrder?.order.order_no.toString()},
-
-            </Link>    <Link
-              href={`/fulfillments/${returnOrder?.fulfillmentId}`}
-              className="text-sm text-blue-600 hover:underline"
-            >
-                Fulfillment #{returnOrder?.fulfillment.fulfillment_no.toString()}
-
-              </Link></div>
-
-            <Link href={`/orders/${returnOrder?.replacementOrderId}`} className="text-sm text-blue-600 hover:underline"> {returnOrder?.type === "REPLACE" &&
-              <div>New Order Placed : Order #{replacementOrder?.data?.order_no.toString()}</div>}</Link>
+              {' '}
+              {returnOrder?.type === 'REPLACE' && (
+                <div>
+                  New Order Placed : Order #
+                  {replacementOrder?.data?.order_no.toString()}
+                </div>
+              )}
+            </Link>
           </div>
         </div>
         <div className="grid grid-cols-6 gap-3">
-
           <Card className="col-span-6 mt-3">
             <CardTitle className="text-xl p-3 font-normal ">
               <div className="flex justify-between">
-                <div> {returnOrder?.type === "REPLACE" ? 'Exchange' : 'Return'} # {returnOrder?.return_no.toString()}</div>
+                <div>
+                  {' '}
+                  {returnOrder?.type === 'REPLACE'
+                    ? 'Exchange'
+                    : 'Return'} # {returnOrder?.return_no.toString()}
+                </div>
                 <div className="text-base flex divide-x gap-5">
                   <div>
                     {returnOrder &&
@@ -131,7 +148,6 @@ const ReturnDetails: React.FC<returnDetailsProps> = ({ returnId }) => {
           <Card className="col-span-6">
             <div className="p-4 text-lg font-semibold">Shiprocket Details</div>
 
-
             <CardContent className="gap-4 grid grid-cols-3 max-w-xl text-sm">
               <div className="">Shiprocket Order ID: </div>
               <div className="font-semibold col-span-2">
@@ -142,7 +158,10 @@ const ReturnDetails: React.FC<returnDetailsProps> = ({ returnId }) => {
                     rel="noopener noreferrer"
                     className="text-blue-500 hover:underline"
                   >
-                    <div className="text-sm text-blue-600 hover:underline"> {returnOrder?.shiprocketOrderId}</div>
+                    <div className="text-sm text-blue-600 hover:underline">
+                      {' '}
+                      {returnOrder?.shiprocketOrderId}
+                    </div>
                   </a>
                 ) : (
                   'N/A'
@@ -158,21 +177,38 @@ const ReturnDetails: React.FC<returnDetailsProps> = ({ returnId }) => {
               </div>
             </CardContent>
           </Card>
-          {cod && returnOrder.type === "RETURN" ?
-            <Card className='relative col-span-6'>
-              <Button disabled={refunded} onClick={() => handleUpdate()} className={`absolute top-3 right-3 disabled:opacity-100 ${refunded ? 'bg-green-400 text-white' : ''}`}>{refunded ? 'Refunded' : 'Mark as Refunded'}</Button>
+          {cod && returnOrder.type === 'RETURN' ? (
+            <Card className="relative col-span-6">
+              <Button
+                disabled={refunded}
+                onClick={() => handleUpdate()}
+                className={`absolute top-3 right-3 disabled:opacity-100 ${refunded ? 'bg-green-400 text-white' : ''}`}
+              >
+                {refunded ? 'Refunded' : 'Mark as Refunded'}
+              </Button>
               <div className="p-4 text-lg font-semibold">Bank Details</div>
-              <CardContent className='grid grid-cols-4 text-sm gap-4'>
-                <div className='justify-self-end'>Account Holder Name:</div>
-                <span className='font-semibold col-span-3'>{returnOrder.bankDetails.map((x) => x.accountHolderName)}</span>
-                <div className='justify-self-end'>Account Number:</div>
-                <span className='font-semibold col-span-3'>{returnOrder.bankDetails.map((x) => x.accountNumber)}</span>
-                <div className='justify-self-end'>IFSC Code:</div>
-                <span className='font-semibold col-span-3'>{returnOrder.bankDetails.map((x) => x.ifscCode)}</span>
-                <div className='justify-self-end'>Mobile:</div>
-                <span className='font-semibold col-span-3'>{returnOrder.bankDetails.map((x) => x.mobile)}</span>
+              <CardContent className="grid grid-cols-4 text-sm gap-4">
+                <div className="justify-self-end">Account Holder Name:</div>
+                <span className="font-semibold col-span-3">
+                  {returnOrder.bankDetails.map((x) => x.accountHolderName)}
+                </span>
+                <div className="justify-self-end">Account Number:</div>
+                <span className="font-semibold col-span-3">
+                  {returnOrder.bankDetails.map((x) => x.accountNumber)}
+                </span>
+                <div className="justify-self-end">IFSC Code:</div>
+                <span className="font-semibold col-span-3">
+                  {returnOrder.bankDetails.map((x) => x.ifscCode)}
+                </span>
+                <div className="justify-self-end">Mobile:</div>
+                <span className="font-semibold col-span-3">
+                  {returnOrder.bankDetails.map((x) => x.mobile)}
+                </span>
               </CardContent>
-            </Card> : ''}
+            </Card>
+          ) : (
+            ''
+          )}
 
           <div className="bg-white col-span-6">
             <div className="p-4 text-lg font-semibold">

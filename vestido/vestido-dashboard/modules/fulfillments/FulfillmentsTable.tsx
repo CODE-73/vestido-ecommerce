@@ -24,14 +24,13 @@ import { formattedDate, formattedTime } from '../orders/OrdersTable';
 interface FulfillmentTableProps {
   data?: FulfillmentListResponse['data'];
   in_order?: boolean;
-  in_order_data?: Fulfillment[]
+  in_order_data?: Fulfillment[];
 }
 
 const FulfillmentsTable: React.FC<FulfillmentTableProps> = ({
   data: fulfillments,
   in_order,
-  in_order_data: _fulfillments
-
+  in_order_data: _fulfillments,
 }) => {
   const router = useRouter();
   const { trigger } = useDeleteFulfillment();
@@ -58,7 +57,6 @@ const FulfillmentsTable: React.FC<FulfillmentTableProps> = ({
   const fulfillmentlist = fulfillments ?? _fulfillments ?? [];
   const isMainFulfillments = fulfillmentlist === fulfillments;
 
-
   return (
     <Table>
       <TableHeader>
@@ -84,10 +82,12 @@ const FulfillmentsTable: React.FC<FulfillmentTableProps> = ({
                 {fulfillment.fulfillment_no.toString()}
               </TableCell>
               {isMainFulfillments && 'order' in fulfillment && (
-              <TableCell className="font-semibold capitalize">
-                {(fulfillment as { order: { order_no: string } }).order.order_no.toString()}
-              </TableCell>
-            )}
+                <TableCell className="font-semibold capitalize">
+                  {(
+                    fulfillment as { order: { order_no: string } }
+                  ).order.order_no.toString()}
+                </TableCell>
+              )}
               <TableCell>
                 {formattedDate(new Date(fulfillment.createdAt))}
               </TableCell>

@@ -29,10 +29,10 @@ import {
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 
 import FulfillmentsTable from '../fulfillments/FulfillmentsTable';
+import ReturnsTable from '../returns/returns-table';
 import { CreateFulfillmentDialog } from './CreateFulfillmentDialog';
 import ItemInOrderDetails from './item-in-order-details';
 import { formattedDate, formattedTime } from './OrdersTable';
-import ReturnsTable from '../returns/returns-table';
 type OrderDetailsProps = {
   orderId: string;
 };
@@ -231,14 +231,10 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
           <div className="p-4 text-lg font-semibold">Fulfillments</div>
           {order?.fulfillments.length && order.fulfillments.length > 0 ? (
             <div className="bg-white">
-              <FulfillmentsTable
-                in_order
-                in_order_data={order.fulfillments}
-
-              />
+              <FulfillmentsTable in_order in_order_data={order.fulfillments} />
             </div>
           ) : (
-            <div className='text-sm p-3'>No Fulfillments yet</div>
+            <div className="text-sm p-3">No Fulfillments yet</div>
           )}
         </div>
         <div className="bg-white col-span-6">
@@ -252,17 +248,15 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ orderId }) => {
             //   })}
             // </div>
             <div className="bg-white">
-
               <ReturnsTable in_order in_order_data={order.fulfillments} />
-
             </div>
           ) : (
-            <div className='text-sm p-3'>No Return or Replacement requests on items in this order</div>
+            <div className="text-sm p-3">
+              No Return or Replacement requests on items in this order
+            </div>
           )}
-
         </div>
       </div>
-
     </div>
   );
 };

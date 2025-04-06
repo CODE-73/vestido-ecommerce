@@ -1,24 +1,24 @@
 import { useRouter } from 'next/router';
 
-import { type GetOrderResult, ListFulfillmentResult, ListReturnOrderResult } from '@vestido-ecommerce/orders';
+import {
+  type GetOrderResult,
+  ListReturnOrderResult,
+} from '@vestido-ecommerce/orders';
 import {
   Table,
   TableBody,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from '@vestido-ecommerce/shadcn-ui/table';
 
 import { formattedDate, formattedTime } from '../orders/OrdersTable';
-import { GetOrderResponse } from '@vestido-ecommerce/orders/client';
 
 interface ReturnTableProps {
   data?: ListReturnOrderResult;
   in_order?: boolean;
-  in_order_data: NonNullable<GetOrderResult>['fulfillments'];
-
+  in_order_data?: NonNullable<GetOrderResult>['fulfillments'];
 }
 
 const ReturnsTable: React.FC<ReturnTableProps> = ({ data, in_order_data }) => {
@@ -29,11 +29,10 @@ const ReturnsTable: React.FC<ReturnTableProps> = ({ data, in_order_data }) => {
   };
 
   const returns = data
-  ? data
-  : in_order_data
-  ? in_order_data.flatMap((fulfillment) => fulfillment.returns || [])
-  : [];
-
+    ? data
+    : in_order_data
+      ? in_order_data.flatMap((fulfillment) => fulfillment.returns || [])
+      : [];
 
   return (
     <Table>
