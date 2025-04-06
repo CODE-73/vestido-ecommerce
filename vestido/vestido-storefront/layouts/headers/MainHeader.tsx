@@ -35,7 +35,7 @@ const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
       </div>
       <div className="flex divide-x items-center divide-gray-700">
         <div className=" sm:py-4">
-          <Menubar isFixed={false} />
+          <Menubar />
         </div>
 
         <div className="flex items-center gap-3 pl-2">
