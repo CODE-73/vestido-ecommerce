@@ -48,7 +48,7 @@ const NavMenu: React.FC<NavMenuProps> = () => {
   ) => {
     if (trigger && list && value === itemValue) {
       const listWidth = list.offsetWidth;
-      const listCenter = listWidth / 2;
+      const listCenter = listWidth /1.2;
 
       const triggerOffsetRight =
         listWidth -
