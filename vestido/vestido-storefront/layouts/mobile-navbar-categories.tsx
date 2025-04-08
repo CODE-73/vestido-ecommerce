@@ -6,7 +6,7 @@ import { LuMinus, LuPlus, LuX } from 'react-icons/lu';
 
 import { Gender, useCategories } from '@vestido-ecommerce/items/client';
 
-import { ListItem } from '../components/Menubar';
+import { CategoryNavItem } from '../components/Menubar';
 
 type CategoriesDrawerProps = {
   isDrawerOpen: boolean;
@@ -91,7 +91,7 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({
                     {getSubcategories(category.id, ['MEN'])?.map(
                       (subcategory, subIndex) => (
                         <div key={subIndex} onClick={toggleDrawer}>
-                          <ListItem
+                          <CategoryNavItem
                             href={`/${subcategory.id}`}
                             title={subcategory.name}
                           />
@@ -140,7 +140,7 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({
                           onClick={toggleDrawer}
                           className="hover:text-green-300"
                         >
-                          <ListItem
+                          <CategoryNavItem
                             href={`/${subcategory.id}`}
                             title={subcategory.name}
                           />
@@ -192,7 +192,7 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({
                             className="hover:text-green-300"
                             onClick={toggleDrawer}
                           >
-                            <ListItem
+                            <CategoryNavItem
                               href={`/${subcategory.id}`}
                               title={subcategory.name}
                             />
