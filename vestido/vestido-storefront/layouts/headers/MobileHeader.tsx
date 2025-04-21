@@ -81,6 +81,7 @@ const MobileHeader: React.FC<HeaderProps> = ({ wishlist_count }) => {
               iconSize={24}
               onCancelClick={toggleSearch}
               containerClassName="absolute inset-0 w-screen h-full p-2 border border-gray-300 focus:outline-none bg-white"
+              setSearchOpen={setIsSearchExpanded}
             />
           ) : (
             <LuSearch
