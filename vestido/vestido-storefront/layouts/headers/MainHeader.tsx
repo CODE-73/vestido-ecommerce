@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import { LuHeart, LuSearch, LuShoppingBag, LuUser2 } from 'react-icons/lu';
 
@@ -17,8 +18,24 @@ interface HeaderProps {
   wishlist_count: number;
 }
 const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
+  const [isSearchExpanded, setIsSearchExpanded] = useState(false);
+
   const { isAuthenticated } = useAuth();
   const [searchOpen, setSearchOpen] = useState(false);
+  const router = useRouter();
+
+  const onSelect = (value: string) => {
+    router.push(`/${encodeURIComponent(value)}`);
+  };
+
+  const toggleSearch = () => {
+    if (isSearchExpanded) {
+      setIsSearchExpanded(false);
+    }
+    if (!isSearchExpanded) {
+      setIsSearchExpanded(true);
+    }
+  };
   return (
     <div className="bg-black sm:shadow-lg flex items-center px-3 xl:px-32 sticky top-0  sm:shadow-gray-700/50 ">
       <div className="flex flex-grow">
@@ -34,22 +51,29 @@ const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
         </Link>
       </div>
       <div className="flex divide-x items-center divide-gray-700">
-        <div className=" sm:py-4">
-          <Menubar />
-        </div>
-
         <div className="flex items-center gap-3 pl-2">
           {searchOpen ? (
-            <HeaderSearchInput
-              className="text-white ml-2"
-              setSearchOpen={setSearchOpen}
-            />
+            <div className="">
+              <HeaderSearchInput
+                className="text-white ml-2 w-full flex-1"
+                setSearchOpen={setSearchOpen}
+                onCancelClick={toggleSearch}
+                searchOpen={searchOpen}
+                value={null}
+                onChange={onSelect}
+              />
+            </div>
           ) : (
-            <LuSearch
-              size={20}
-              className="text-white cursor-pointer"
-              onClick={() => setSearchOpen(true)}
-            />
+            <>
+              <div className=" sm:py-4">
+                <Menubar />
+              </div>
+              <LuSearch
+                size={20}
+                className="text-white cursor-pointer "
+                onClick={() => setSearchOpen(true)}
+              />
+            </>
           )}
 
           <AuthenticatedLink
