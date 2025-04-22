@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 
 import { OrderStatus } from '@prisma/client';
+import { format, subDays } from 'date-fns';
+import { format as formatDate, parseISO } from 'date-fns';
 import { AiOutlineSearch } from 'react-icons/ai';
 
 import { useAdminOrders } from '@vestido-ecommerce/orders/client';
@@ -15,14 +17,22 @@ import {
 
 import OrdersTable from './OrdersTable';
 
-const Products: React.FC = () => {
+const Orders: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [status, setStatus] = useState<OrderStatus | null>(null);
+  const displayDate = (date: string) =>
+    formatDate(parseISO(date), 'dd/MM/yyyy');
+  const [from, setFrom] = useState(
+    format(subDays(new Date(), 30), 'yyyy-MM-dd'),
+  );
+  const [to, setTo] = useState(format(new Date(), 'yyyy-MM-dd'));
 
   const { data, isLoading } = useAdminOrders({
     limit: 999999,
     q: searchQuery,
     orderStatus: status ? [status] : undefined,
+    from,
+    to,
   });
 
   const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,6 +44,36 @@ const Products: React.FC = () => {
       <div className="flex items-center py-5 gap-3 justify-between">
         <h1 className="text-lg font-semibold">Orders List</h1>
         <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
+            <label className="text-sm font-medium">From</label>
+            <div className="relative">
+              <Input
+                type="date"
+                value={from}
+                onChange={(e) => setFrom(e.target.value)}
+                className="w-[150px] text-transparent caret-black"
+                style={{ WebkitTextFillColor: 'transparent' }} // for Safari
+              />
+              <span className="absolute left-2 top-1/2 -translate-y-1/2 text-black text-sm pointer-events-none">
+                {displayDate(from)}
+              </span>
+            </div>
+
+            <label className="text-sm font-medium">To</label>
+            <div className="relative">
+              <Input
+                type="date"
+                value={to}
+                onChange={(e) => setTo(e.target.value)}
+                className="w-[150px] text-transparent caret-black"
+                style={{ WebkitTextFillColor: 'transparent' }}
+              />
+              <span className="absolute left-2 top-1/2 -translate-y-1/2 text-black text-sm pointer-events-none">
+                {displayDate(to)}
+              </span>
+            </div>
+          </div>
+
           <Select
             value={status || undefined}
             onValueChange={(s) => setStatus(s ? (s as OrderStatus) : null)}
@@ -81,4 +121,4 @@ const Products: React.FC = () => {
   );
 };
 
-export default Products;
+export default Orders;

@@ -25,6 +25,8 @@ export async function getAdminOrderList(
       .join(',');
     params.append('orderBy', orderByValue);
   }
+  if (args?.from) params.append('from', args.from);
+  if (args?.to) params.append('to', args.to);
 
   // Append the query string to the URL
   const url = `/api/orders?${params.toString()}`;

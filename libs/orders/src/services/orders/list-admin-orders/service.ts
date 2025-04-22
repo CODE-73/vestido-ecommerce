@@ -23,9 +23,27 @@ export async function listAdminOrders(data: listAdminOrdersType) {
     ? orderSearchCondition(validatedData.q)
     : {};
 
+  const dateFilter =
+    validatedData.from || validatedData.to
+      ? {
+          createdAt: {
+            ...(validatedData.from
+              ? { gte: new Date(validatedData.from) }
+              : {}),
+            ...(validatedData.to
+              ? {
+                  lte: new Date(
+                    new Date(validatedData.to).setHours(23, 59, 59, 999),
+                  ),
+                }
+              : {}),
+          },
+        }
+      : {};
   const whereCondition = {
     ...orderStatusCondition,
     ...searchCondition,
+    ...dateFilter,
   };
 
   const orderList = await prisma.order.findMany({

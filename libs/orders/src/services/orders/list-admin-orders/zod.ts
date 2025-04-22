@@ -9,6 +9,8 @@ export const listAdminOrdersSchema = z.object({
   orderBy: z.array(OrderByFieldSchema).optional(),
   start: z.number().optional(),
   limit: z.number().optional(),
+  from: z.string().optional(),
+  to: z.string().optional(),
 });
 
 export type listAdminOrdersType = z.infer<typeof listAdminOrdersSchema>;

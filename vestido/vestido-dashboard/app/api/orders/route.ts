@@ -27,6 +27,8 @@ const ListAdminOrdersSchema = z
               .map((status) => status as OrderStatus)
           : [],
       ), // Transform to an array of valid OrderStatus enums
+    from: z.string().optional(),
+    to: z.string().optional(),
   })
   .merge(OrderByQueryParamSchema)
   .merge(PaginationQueryParamSchema);
