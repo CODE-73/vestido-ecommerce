@@ -1,19 +1,23 @@
-import { useRouter } from 'next/router';
 import { FC, useEffect, useMemo, useRef, useState } from 'react';
-
-import clsx from 'clsx';
-import { LuCheck, LuX } from 'react-icons/lu';
-import { twMerge } from 'tailwind-merge';
-
-import { Popover, PopoverAnchor, PopoverContent } from '@vestido-ecommerce/shadcn-ui/popover';
-import { useCategories } from '@vestido-ecommerce/items/client';
-import { ComboboxOption } from '@vestido-ecommerce/shadcn-ui/combobox';
-import { slugify } from '@vestido-ecommerce/utils';
-import { CommandEmpty, CommandGroup, CommandItem } from '@vestido-ecommerce/shadcn-ui/command';
-import { Command as CommandPrimitive } from 'cmdk';
-
-import { cn } from 'libs/shadcn-ui/src/utils';
 import React from 'react';
+
+import { Command as CommandPrimitive } from 'cmdk';
+import { LuCheck, LuX } from 'react-icons/lu';
+
+import { useCategories } from '@vestido-ecommerce/items/client';
+import { cn } from '@vestido-ecommerce/shadcn-ui';
+import { ComboboxOption } from '@vestido-ecommerce/shadcn-ui/combobox';
+import {
+  CommandEmpty,
+  CommandGroup,
+  CommandItem,
+} from '@vestido-ecommerce/shadcn-ui/command';
+import {
+  Popover,
+  PopoverAnchor,
+  PopoverContent,
+} from '@vestido-ecommerce/shadcn-ui/popover';
+import { slugify } from '@vestido-ecommerce/utils';
 
 type HeaderSearchInputProps = {
   className?: string;
@@ -23,8 +27,8 @@ type HeaderSearchInputProps = {
   onCancelClick?: () => void;
   setSearchOpen: React.Dispatch<React.SetStateAction<boolean>>;
   searchOpen?: boolean;
-  shouldFilter?: boolean
-  value?: string | null
+  shouldFilter?: boolean;
+  value?: string | null;
   nullable?: boolean;
   multiple?: boolean;
   values?: string[];
@@ -32,7 +36,6 @@ type HeaderSearchInputProps = {
 };
 
 export const HeaderSearchInput: FC<HeaderSearchInputProps> = ({
-  className,
   containerClassName,
   onCancelClick,
   iconSize,
@@ -40,25 +43,22 @@ export const HeaderSearchInput: FC<HeaderSearchInputProps> = ({
   searchOpen,
   onChange,
   value,
-  values = [],
-  onSearch
+  onSearch,
 }) => {
-  const router = useRouter();
   const anchorRef = useRef<HTMLDivElement>(null);
   const [anchorWidth, setAnchorWidth] = useState<number>();
 
-
-  const { data: categories, isLoading } = useCategories();
+  const { data: categories } = useCategories();
   const options = useMemo(
     () =>
       categories?.data?.flatMap((category) => [
         ...(category.slug
           ? [
-            {
-              label: category.name,
-              value: category.slug,
-            },
-          ]
+              {
+                label: category.name,
+                value: category.slug,
+              },
+            ]
           : []),
         ...category.searchTerms.map((term) => ({
           label: term,
@@ -67,10 +67,6 @@ export const HeaderSearchInput: FC<HeaderSearchInputProps> = ({
       ]) ?? [],
     [categories],
   );
-
-  const onSelect = (value: string) => {
-    router.push(`/${encodeURIComponent(value)}`);
-  };
 
   const [prevSelection, setPrevSelection] = useState<ComboboxOption | null>(
     null,
@@ -85,8 +81,9 @@ export const HeaderSearchInput: FC<HeaderSearchInputProps> = ({
 
   const [open, setOpen] = useState(false);
   console.log({
-    searchOpen, open
-  })
+    searchOpen,
+    open,
+  });
 
   useEffect(() => {
     if (anchorRef.current) {
@@ -94,43 +91,52 @@ export const HeaderSearchInput: FC<HeaderSearchInputProps> = ({
     }
   }, [open]);
 
-
   return (
     <div
-      className={twMerge(
-        clsx(
-          'relative border-b-2 border-gray-400 px-2',
-          'flex items-center justify-items-center content-center  my-2 bg-black',
-          containerClassName,
-        ),
+      className={cn(
+        'relative border-b-2 border-gray-400 px-2',
+        'flex items-center justify-items-center content-center  my-2 bg-black',
+        containerClassName,
       )}
     >
-      <div className='min-w-full'>
-        <Popover open={open} >
-          <CommandPrimitive shouldFilter={true} className="min-w-full md:min-w-[500px] min-h-[30px] ">
-            <PopoverAnchor ref={anchorRef} className='min-w-full flex flex-row gap-2 items-center bg-black'>
-              <div className='basis-11/12'>  <CommandInput
-                autoFocus
-                onFocus={() => {
-                  setOpen(true)
-                }}
-                onValueChange={(search) => {
-                  onSearch?.(search);
-                }}
-                placeholder="Search"
-                className=' min-h-[40px] bg-black border-none focus:border-none text-white'
-              /></div>
+      <div className="min-w-full">
+        <Popover open={open}>
+          <CommandPrimitive
+            shouldFilter={true}
+            className="min-w-full md:min-w-[500px] min-h-[30px] "
+          >
+            <PopoverAnchor
+              ref={anchorRef}
+              className="min-w-full flex flex-row gap-2 items-center bg-black"
+            >
+              <div className="basis-11/12">
+                {' '}
+                <CommandInput
+                  autoFocus
+                  onFocus={() => {
+                    setOpen(true);
+                  }}
+                  onValueChange={(search) => {
+                    onSearch?.(search);
+                  }}
+                  placeholder="Search"
+                  className=" min-h-[40px] bg-black border-none focus:border-none text-white"
+                />
+              </div>
 
               {onCancelClick && (
-                <div className="text-slate-400 cursor-pointer basis-1/12 flex flex-row justify-end" onClick={onCancelClick}>
-                  <LuX
-                    size={iconSize}
-                    onClick={() => setSearchOpen(false)}
-                  />
+                <div
+                  className="text-slate-400 cursor-pointer basis-1/12 flex flex-row justify-end"
+                  onClick={onCancelClick}
+                >
+                  <LuX size={iconSize} onClick={() => setSearchOpen(false)} />
                 </div>
               )}
             </PopoverAnchor>
-            <PopoverContent style={{ width: anchorWidth }} className="min-w-full md:min-w-[500px] p-0 font-primary ">
+            <PopoverContent
+              style={{ width: anchorWidth }}
+              className="min-w-full md:min-w-[500px] p-0 font-primary "
+            >
               <CommandEmpty>{'Nothing matches your search!'}</CommandEmpty>
               <CommandGroup className="max-h-[15rem] overflow-y-auto">
                 {options.map((option) => (
