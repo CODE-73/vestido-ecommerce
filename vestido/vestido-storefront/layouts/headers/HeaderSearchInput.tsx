@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { FC, useEffect, useMemo, useState } from 'react';
+import { FC, useEffect, useMemo, useRef, useState } from 'react';
 
 import clsx from 'clsx';
 import { LuCheck, LuX } from 'react-icons/lu';
@@ -44,6 +44,10 @@ export const HeaderSearchInput: FC<HeaderSearchInputProps> = ({
   onSearch
 }) => {
   const router = useRouter();
+  const anchorRef = useRef<HTMLDivElement>(null);
+  const [anchorWidth, setAnchorWidth] = useState<number>();
+
+
   const { data: categories, isLoading } = useCategories();
   const options = useMemo(
     () =>
@@ -84,70 +88,77 @@ export const HeaderSearchInput: FC<HeaderSearchInputProps> = ({
     searchOpen, open
   })
 
+  useEffect(() => {
+    if (anchorRef.current) {
+      setAnchorWidth(anchorRef.current.offsetWidth);
+    }
+  }, [open]);
+
 
   return (
     <div
       className={twMerge(
         clsx(
-          'relative border border-bottom border-slate-300 px-2',
-          'flex items-center justify-items-center content-center rounded-md my-2 bg-black' ,
+          'relative border-b-2 border-gray-400 px-2',
+          'flex items-center justify-items-center content-center  my-2 bg-black',
           containerClassName,
         ),
       )}
     >
       <div className='min-w-full'>
-      <Popover open={open} >
-        <CommandPrimitive shouldFilter={true} className="min-w-full md:min-w-[500px] min-h-[30px]">
-          <PopoverAnchor className='bg-white'>
-            <CommandInput
-              autoFocus
-              onFocus={() => {
-                setOpen(true)
-              }}
-              onValueChange={(search) => {
-                onSearch?.(search);
-              }}
-              placeholder="Search"
-              className=' min-h-[40px] ml-5 bg-black border-none focus:border-none text-white'
-            />
-          </PopoverAnchor>
-          <PopoverContent className="min-w-full md:min-w-[500px] p-0 font-primary">
-            <CommandEmpty>{'Nothing matches your search!'}</CommandEmpty>
-            <CommandGroup className="max-h-[15rem] overflow-y-auto">
-              {options.map((option) => (
-                <CommandItem
-                  key={option.value}
-                  value={option.value}
-                  onSelect={() => {
-                    setPrevSelection(option);
-                    onChange?.(option.value);
-                    setOpen(false);
-                    setTimeout(() => onSearch?.(''));
-                  }}
-                  className="font-bold"
-                >
-                  <LuCheck
-                    className={cn(
-                      'me-2 h-4 w-4 opacity-0',
-                      value === option.value && 'opacity-100',
-                    )}
+        <Popover open={open} >
+          <CommandPrimitive shouldFilter={true} className="min-w-full md:min-w-[500px] min-h-[30px] ">
+            <PopoverAnchor ref={anchorRef} className='min-w-full flex flex-row gap-2 items-center bg-black'>
+              <div className='basis-11/12'>  <CommandInput
+                autoFocus
+                onFocus={() => {
+                  setOpen(true)
+                }}
+                onValueChange={(search) => {
+                  onSearch?.(search);
+                }}
+                placeholder="Search"
+                className=' min-h-[40px] bg-black border-none focus:border-none text-white'
+              /></div>
+
+              {onCancelClick && (
+                <div className="text-slate-400 cursor-pointer basis-1/12 flex flex-row justify-end" onClick={onCancelClick}>
+                  <LuX
+                    size={iconSize}
+                    onClick={() => setSearchOpen(false)}
                   />
-                  {option.label}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </PopoverContent>
-        </CommandPrimitive>
-      </Popover>
+                </div>
+              )}
+            </PopoverAnchor>
+            <PopoverContent style={{ width: anchorWidth }} className="min-w-full md:min-w-[500px] p-0 font-primary ">
+              <CommandEmpty>{'Nothing matches your search!'}</CommandEmpty>
+              <CommandGroup className="max-h-[15rem] overflow-y-auto">
+                {options.map((option) => (
+                  <CommandItem
+                    key={option.value}
+                    value={option.value}
+                    onSelect={() => {
+                      setPrevSelection(option);
+                      onChange?.(option.value);
+                      setOpen(false);
+                      setTimeout(() => onSearch?.(''));
+                    }}
+                    className="font-bold px-0"
+                  >
+                    <LuCheck
+                      className={cn(
+                        'me-2 h-4 w-4 opacity-0',
+                        value === option.value && 'opacity-100',
+                      )}
+                    />
+                    {option.label}
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </PopoverContent>
+          </CommandPrimitive>
+        </Popover>
       </div>
-      {onCancelClick && (
-        <div className="text-slate-400 cursor-pointer" onClick={onCancelClick}>
-          <LuX
-            size={iconSize}
-            onClick={() => setSearchOpen(false)}
-          />
-        </div>
-      )}
     </div>
   );
 };
