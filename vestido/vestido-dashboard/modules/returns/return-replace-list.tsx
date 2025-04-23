@@ -1,32 +1,115 @@
 import React, { useState } from 'react';
 
+import { ReturnStatus } from '@prisma/client';
+import { subDays } from 'date-fns';
 import { AiOutlineSearch } from 'react-icons/ai';
 
 import { useReturnOrders } from '@vestido-ecommerce/orders/client';
 import { Input } from '@vestido-ecommerce/shadcn-ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@vestido-ecommerce/shadcn-ui/select';
 
 import ReturnsTable from './returns-table';
 
 const ReturnsListView: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const { data, isLoading } = useReturnOrders();
-  const returns = data?.data;
+  const [status, setStatus] = useState<ReturnStatus | null>(null);
+  const [fromDate, setFromDate] = useState<string>(
+    subDays(new Date(), 30).toISOString().substring(10, 0),
+  );
+  const [toDate, setToDate] = useState<string>(
+    new Date().toISOString().substring(0, 10),
+  );
 
-  console.log('returns', returns);
+  const { data, isLoading } = useReturnOrders({
+    limit: 999999,
+    q: searchQuery,
+    returnStatus: status ? [status] : [],
+    fromDate,
+    toDate,
+  });
+  const returns = data?.data;
 
   const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
+  };
+
+  const handleFromDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const dateStr = e.target.value; // yyyy-MM-dd
+    if (dateStr) {
+      setFromDate(dateStr);
+    }
+  };
+
+  const handleToDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const dateStr = e.target.value; // yyyy-MM-dd
+    if (dateStr) {
+      setToDate(dateStr);
+    }
   };
 
   return (
     <div className="container mx-auto py-10 bg-slate-200 mt-16 h-full">
       <div className="flex items-center py-5 gap-3 justify-between">
         <h1 className="text-lg font-semibold">Return/Replace List</h1>
-        <div className="flex gap-[5px] ">
+        <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
+            <label className="text-sm font-medium">From</label>
+            <div className="relative">
+              <Input
+                type="date"
+                value={fromDate}
+                onChange={handleFromDateChange}
+                className="w-[150px] text-transparent caret-black"
+                style={{ WebkitTextFillColor: 'transparent' }} // for Safari
+              />
+              <span className="absolute left-2 top-1/2 -translate-y-1/2 text-black text-sm pointer-events-none">
+                {fromDate}
+              </span>
+            </div>
+
+            <label className="text-sm font-medium">To</label>
+            <div className="relative">
+              <Input
+                type="date"
+                value={toDate}
+                onChange={handleToDateChange}
+                className="w-[150px] text-transparent caret-black"
+                style={{ WebkitTextFillColor: 'transparent' }}
+              />
+              <span className="absolute left-2 top-1/2 -translate-y-1/2 text-black text-sm pointer-events-none">
+                {toDate}
+              </span>
+            </div>
+          </div>
+
+          <Select
+            value={status || 'all'}
+            onValueChange={(s) => {
+              setStatus(s === 'all' ? null : (s as ReturnStatus));
+            }}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder=" Status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All</SelectItem>
+              <SelectItem value="AWAITING_PICKUP">Awaiting Pickup</SelectItem>
+              <SelectItem value="PICKED_UP">Picked Up</SelectItem>
+              <SelectItem value="IN_TRANSIT">In Transit</SelectItem>
+              <SelectItem value="RETURNED">Returned</SelectItem>
+              <SelectItem value="REJECTED">Rejected</SelectItem>
+            </SelectContent>
+          </Select>
           <div className="relative min-w-[15em]">
             <Input
-              name="search-fulfillments"
-              placeholder="Search Fulfillments"
+              name="search-returns"
+              placeholder="Search Returns"
               type="search"
               value={searchQuery}
               onChange={handleSearchInputChange}
@@ -43,6 +126,12 @@ const ReturnsListView: React.FC = () => {
         {isLoading ? (
           <div className="flex h-[60vh]">
             <span className="m-auto">Loading...</span>
+          </div>
+        ) : data && data.data?.length === 0 ? (
+          <div className="flex h-[60vh]">
+            <span className="m-auto text-lg text-slate-600">
+              No items match your filter
+            </span>
           </div>
         ) : (
           <ReturnsTable data={returns} />
