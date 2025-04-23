@@ -89,15 +89,16 @@ const FulfillmentsListView: React.FC = () => {
           </div>
 
           <Select
-            value={status || undefined}
+            value={status || 'all'}
             onValueChange={(s) =>
-              setStatus(s ? (s as FulfillmentStatus) : null)
+              setStatus(s === 'all' ? null : (s as FulfillmentStatus))
             }
           >
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Status" />
             </SelectTrigger>
             <SelectContent>
+              <SelectItem value="all">ALL</SelectItem>
               <SelectItem value="DRAFT">DRAFT</SelectItem>
               <SelectItem value="AWAITING_PICKUP">AWAITING PICKUP</SelectItem>
               <SelectItem value="IN_TRANSIT">IN TRANSIT</SelectItem>
@@ -127,6 +128,12 @@ const FulfillmentsListView: React.FC = () => {
         {isLoading ? (
           <div className="flex h-[60vh]">
             <span className="m-auto">Loading...</span>
+          </div>
+        ) : data && data.data?.length === 0 ? (
+          <div className="flex h-[60vh]">
+            <span className="m-auto text-lg text-slate-600">
+              No items match your filter
+            </span>
           </div>
         ) : (
           <FulfillmentsTable data={fulfillments ?? []} />

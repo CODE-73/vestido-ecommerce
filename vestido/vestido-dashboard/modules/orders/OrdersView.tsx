@@ -88,13 +88,16 @@ const Orders: React.FC = () => {
           </div>
 
           <Select
-            value={status || undefined}
-            onValueChange={(s) => setStatus(s ? (s as OrderStatus) : null)}
+            value={status || 'all'}
+            onValueChange={(s) => {
+              setStatus(s === 'all' ? null : (s as OrderStatus));
+            }}
           >
             <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Order Status" />
+              <SelectValue placeholder=" Status" />
             </SelectTrigger>
             <SelectContent>
+              <SelectItem value="all">ALL</SelectItem>
               <SelectItem value="PENDING">PENDING</SelectItem>
               <SelectItem value="CONFIRMED">CONFIRMED</SelectItem>
               <SelectItem value="CANCELLED">CANCELLED</SelectItem>
@@ -125,6 +128,12 @@ const Orders: React.FC = () => {
         {isLoading ? (
           <div className="flex h-[60vh]">
             <span className="m-auto">Loading...</span>
+          </div>
+        ) : data && data.data.length === 0 ? (
+          <div className="flex h-[60vh]">
+            <span className="m-auto text-lg text-slate-600">
+              No items match your filter
+            </span>
           </div>
         ) : (
           <OrdersTable data={data} />
