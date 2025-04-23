@@ -40,7 +40,6 @@ export const HeaderSearchInput: FC<HeaderSearchInputProps> = ({
   onCancelClick,
   iconSize,
   setSearchOpen,
-  searchOpen,
   onChange,
   value,
   onSearch,
@@ -80,11 +79,6 @@ export const HeaderSearchInput: FC<HeaderSearchInputProps> = ({
   }, [value, prevSelection]);
 
   const [open, setOpen] = useState(false);
-  console.log({
-    searchOpen,
-    open,
-  });
-
   useEffect(() => {
     if (anchorRef.current) {
       setAnchorWidth(anchorRef.current.offsetWidth);
@@ -110,11 +104,13 @@ export const HeaderSearchInput: FC<HeaderSearchInputProps> = ({
               className="min-w-full flex flex-row gap-2 items-center bg-black"
             >
               <div className="basis-11/12">
-                {' '}
                 <CommandInput
                   autoFocus
-                  onFocus={() => {
+                  onFocus={(e) => {
                     setOpen(true);
+                    setTimeout(() => {
+                      e.target.focus();
+                    }, 100);
                   }}
                   onValueChange={(search) => {
                     onSearch?.(search);
