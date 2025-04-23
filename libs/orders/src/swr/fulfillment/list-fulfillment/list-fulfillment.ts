@@ -8,12 +8,15 @@ import { getFulfillmentList } from './service';
 import { FulfillmentListResponse } from './types';
 
 export function useFulfillments(args?: ListFulfillmentRequest) {
-  const { authHeaders } = useAuth();
-  const key = [
-    ListFulfillmentSWRKeys.FULFILLMENT,
-    ListFulfillmentSWRKeys.LIST,
-    args,
-  ];
+  const { isAuthenticated, authHeaders } = useAuth();
+  const key = isAuthenticated
+    ? [
+        ListFulfillmentSWRKeys.FULFILLMENT,
+        ListFulfillmentSWRKeys.LIST,
+        JSON.stringify(args),
+      ]
+    : null;
+
   return useSWRImmutable<FulfillmentListResponse, Error>(
     key,
     () => getFulfillmentList(authHeaders, args),

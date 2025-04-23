@@ -3,8 +3,8 @@ import { z } from 'zod';
 
 import { getPrismaClient } from '@vestido-ecommerce/models';
 
-import { ListFulfillmentSchema, ListFulfillmentSchemaType } from './zod';
-export async function getFulfillmentList(data: ListFulfillmentSchemaType) {
+import { ListFulfillmentSchema } from './zod';
+export async function getFulfillmentList(data: unknown) {
   const prisma = getPrismaClient();
 
   const validatedData = ListFulfillmentSchema.parse(data);
@@ -23,9 +23,26 @@ export async function getFulfillmentList(data: ListFulfillmentSchemaType) {
     ? fulfillmentSearchCondition(validatedData.q)
     : {};
 
+  const dateFilter =
+    validatedData.fromDate || validatedData.toDate
+      ? {
+          createdAt: {
+            ...(validatedData.fromDate ? { gte: validatedData.fromDate } : {}),
+            ...(validatedData.toDate
+              ? {
+                  lte: new Date(
+                    new Date(validatedData.toDate).setHours(23, 59, 59, 999),
+                  ),
+                }
+              : {}),
+          },
+        }
+      : {};
+
   const whereCondition = {
     ...fulfillmentStatusCondition,
     ...searchCondition,
+    ...dateFilter,
   };
 
   const fulfillmentList = await prisma.fulfillment.findMany({

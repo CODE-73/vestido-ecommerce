@@ -10,7 +10,7 @@ export async function getFulfillmentList(
   // Construct the query string
   const params = new URLSearchParams({
     ...(args?.fulfillmentStatus?.length
-      ? { orderStatus: args.fulfillmentStatus.join(',') }
+      ? { fulfillmentStatus: args.fulfillmentStatus.join(',') }
       : {}),
     ...(args?.q ? { q: args.q } : {}),
     ...(args?.start ? { start: args.start.toString() } : {}),
@@ -23,6 +23,9 @@ export async function getFulfillmentList(
       .join(',');
     params.append('orderBy', orderByValue);
   }
+
+  if (args?.fromDate) params.append('fromDate', args.fromDate);
+  if (args?.toDate) params.append('toDate', args.toDate);
 
   const url = `/api/fulfillments?${params.toString()}`;
 
