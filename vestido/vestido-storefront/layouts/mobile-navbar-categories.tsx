@@ -6,7 +6,7 @@ import { LuMinus, LuPlus, LuX } from 'react-icons/lu';
 
 import { Gender, useCategories } from '@vestido-ecommerce/items/client';
 
-import { CategoryNavItem } from '../components/Menubar';
+import { CategoryNavItem } from '../components/nav-menu';
 
 type CategoriesDrawerProps = {
   isDrawerOpen: boolean;

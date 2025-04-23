@@ -9,7 +9,7 @@ import { LuHeart, LuSearch, LuShoppingBag, LuUser2 } from 'react-icons/lu';
 import { AuthenticatedLink, useAuth } from '@vestido-ecommerce/auth/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 
-import Menubar from '../../components/Menubar';
+import Menubar from '../../components/nav-menu';
 import LogoutButton from '../logout-button';
 import { HeaderSearchInput } from './HeaderSearchInput';
 

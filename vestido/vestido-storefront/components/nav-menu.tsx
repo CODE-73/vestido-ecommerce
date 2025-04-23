@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 
 import * as NavigationMenuPrimitive from '@radix-ui/react-navigation-menu';
+import { clsx } from 'clsx';
 
-// import useIsMobile from '../hooks/useIsMobile';
 import { Gender } from '@vestido-ecommerce/items';
 import {
   ListCategoryResponse,
@@ -14,7 +14,7 @@ import {
   NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuList,
-  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
   NavigationMenuViewport,
 } from '@vestido-ecommerce/shadcn-ui/navigation-menu';
 
@@ -37,30 +37,54 @@ const NavMenu: React.FC<NavMenuProps> = () => {
     );
   };
 
-  // Logic Specific to NavigationMenu ViewPort
+  // State for viewport offset and active item underline
   const [offset, setOffset] = useState<number | null>(null);
-  const [list, setList] = useState<HTMLUListElement | null>(null);
-  const [value, setValue] = useState<string>();
+  const [underlineStyle, setUnderlineStyle] = useState<{
+    left: number;
+    width: number;
+  }>({ left: 0, width: 0 });
+  const [value, setValue] = useState<string>('');
 
-  const onNodeUpdate = (
-    trigger: HTMLButtonElement | null,
-    itemValue: string,
-  ) => {
-    if (trigger && list && value === itemValue) {
+  // Refs for list and triggers
+  const listRef = useRef<HTMLUListElement | null>(null);
+  const triggerRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
+
+  // Update offset and underline when value or refs change
+  useEffect(() => {
+    const list = listRef.current;
+    const trigger = triggerRefs.current.get(value);
+
+    if (trigger && list && value) {
+      // Calculate viewport offset
       const listWidth = list.offsetWidth;
-      const listCenter = listWidth / 1.2;
+      const triggerRect = trigger.getBoundingClientRect();
+      const listRect = list.getBoundingClientRect();
+      const triggerCenter =
+        triggerRect.left - listRect.left + triggerRect.width / 2;
+      const viewportOffset = triggerCenter - listWidth / 2;
+      setOffset(Math.round(viewportOffset));
 
-      const triggerOffsetRight =
-        listWidth -
-        trigger.offsetLeft -
-        trigger.offsetWidth +
-        trigger.offsetWidth / 2;
-
-      setOffset(Math.round(listCenter - triggerOffsetRight));
+      // Calculate underline position and width
+      setUnderlineStyle({
+        left: trigger.offsetLeft,
+        width: trigger.offsetWidth,
+      });
     } else if (value === '') {
       setOffset(null);
+      setUnderlineStyle({ left: 0, width: 0 });
     }
-    return trigger;
+  }, [value]);
+
+  // Handle ref updates for triggers
+  const handleTriggerRef = (
+    node: HTMLButtonElement | null,
+    itemValue: string,
+  ) => {
+    if (node) {
+      triggerRefs.current.set(itemValue, node);
+    } else {
+      triggerRefs.current.delete(itemValue);
+    }
   };
 
   return (
@@ -69,7 +93,7 @@ const NavMenu: React.FC<NavMenuProps> = () => {
       onValueChange={setValue}
       className="relative z-10 flex max-w-max flex-1 items-center justify-center"
     >
-      <NavigationMenuList ref={setList}>
+      <NavigationMenuList ref={listRef} className="relative">
         {(
           [
             { value: 'MEN', gender: 'MEN' satisfies Gender },
@@ -79,8 +103,8 @@ const NavMenu: React.FC<NavMenuProps> = () => {
         ).map(({ value, gender }) => (
           <NavigationMenuItem key={value} value={value}>
             <NavigationMenuTrigger
-              className={`font-semibold h-6 bg-transparent hover:bg-transparent data-active:bg-transparent data-[state=open]:bg-transparent hover:text-white rounded-none mx-3 focus:bg-transparent text-white focus:text-white`}
-              ref={(node) => onNodeUpdate(node, value)}
+              className="bg-transparent text-white hover:bg-transparent focus:bg-transparent active:bg-transparent data-[state=open]:bg-transparent data-[active]:bg-transparent focus:text-white hover:text-white active:text-white !bg-transparent !text-white"
+              ref={(node) => handleTriggerRef(node, value)}
             >
               {value}
             </NavigationMenuTrigger>
@@ -91,15 +115,24 @@ const NavMenu: React.FC<NavMenuProps> = () => {
             />
           </NavigationMenuItem>
         ))}
+        {/* Underline indicator */}
+        <div
+          className="absolute bottom-0 h-[2px] bg-white transition-all duration-300 ease-in-out"
+          style={{
+            left: underlineStyle.left,
+            width: underlineStyle.width,
+            transformOrigin: 'center',
+          }}
+        />
       </NavigationMenuList>
       <NavigationMenuViewport
+        className="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-90"
         style={{
-          // Avoid transitioning from initial position when first opening
-          display: !offset ? 'none' : undefined,
-          transform: `translateX(${offset}px)`,
+          display: offset === null ? 'none' : undefined,
+          transform: `translateX(${offset ?? 0}px)`,
           top: '100%',
           width: 'var(--radix-navigation-menu-viewport-width)',
-          transition: 'all 0.5s ease',
+          transition: 'transform 0.3s ease-in-out',
         }}
       />
     </NavigationMenuPrimitive.Root>
@@ -123,17 +156,16 @@ const CategoryNavContent: React.FC<CategorySectionProps> = ({
   );
 
   return (
-    <NavigationMenuContent className="flex flex-col p-6 w-[100px] ">
+    <NavigationMenuContent className="flex flex-col p-3 w-[200px]">
       {filteredCategories?.map((category, index) => (
         <div key={index}>
-          <div className="text-stone-500 capitalize hover:text-[#48cab2] px-2 cursor-pointer">
+          <div className=" capitalize cursor-pointer">
             <Link href={`/${category.id}`}>{category.name}</Link>
           </div>
-
-          <ul className="text-stone-500 capitalize py-3 md:w-[200px] lg:w-[200px]">
+          <ul className="capitalize py-3 md:w-[200px]">
             {getSubcategories(category.id, genders)?.map(
               (subcategory, subIndex) => (
-                <div key={subIndex} className="hover:text-[#48cab2]">
+                <div key={subIndex}>
                   <CategoryNavItem
                     href={`/${subcategory.id}`}
                     title={subcategory.name}
@@ -156,14 +188,26 @@ export const CategoryNavItem: React.FC<CategoryNavItemProps> = ({
   href,
   title,
 }) => (
-  <li className="row-span-3">
-    <Link
-      className="flex select-none flex-col justify-start md:justify-end rounded-md  pl-3 no-underline outline-none focus:shadow-md"
-      href={href}
-    >
-      <div className="font-normal text-sm font-medium p-1">{title}</div>
-    </Link>
-  </li>
+  <Link
+    className="flex select-none flex-col justify-start md:justify-end rounded-md pl-3 no-underline outline-none focus:shadow-md"
+    href={href}
+  >
+    <div className="font-normal text-sm font-medium p-1">{title}</div>
+  </Link>
 );
+
+export const NavigationMenuTrigger = React.forwardRef<
+  React.ElementRef<typeof NavigationMenuPrimitive.Trigger>,
+  React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Trigger>
+>(({ className, children, ...props }, ref) => (
+  <NavigationMenuPrimitive.Trigger
+    ref={ref}
+    className={clsx(navigationMenuTriggerStyle(), 'group', className)}
+    {...props}
+  >
+    {children}
+  </NavigationMenuPrimitive.Trigger>
+));
+NavigationMenuTrigger.displayName = NavigationMenuPrimitive.Trigger.displayName;
 
 export default NavMenu;
