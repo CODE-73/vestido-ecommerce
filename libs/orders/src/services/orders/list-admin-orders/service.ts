@@ -2,9 +2,9 @@ import { z } from 'zod';
 
 import { getPrismaClient } from '@vestido-ecommerce/models';
 
-import { listAdminOrdersSchema, listAdminOrdersType } from './zod';
+import { listAdminOrdersSchema } from './zod';
 
-export async function listAdminOrders(data: listAdminOrdersType) {
+export async function listAdminOrders(data: unknown) {
   const prisma = getPrismaClient();
 
   const validatedData = listAdminOrdersSchema.parse(data);
@@ -24,16 +24,14 @@ export async function listAdminOrders(data: listAdminOrdersType) {
     : {};
 
   const dateFilter =
-    validatedData.from || validatedData.to
+    validatedData.fromDate || validatedData.toDate
       ? {
           createdAt: {
-            ...(validatedData.from
-              ? { gte: new Date(validatedData.from) }
-              : {}),
-            ...(validatedData.to
+            ...(validatedData.fromDate ? { gte: validatedData.fromDate } : {}),
+            ...(validatedData.toDate
               ? {
                   lte: new Date(
-                    new Date(validatedData.to).setHours(23, 59, 59, 999),
+                    new Date(validatedData.toDate).setHours(23, 59, 59, 999),
                   ),
                 }
               : {}),
