@@ -42,20 +42,27 @@ const ProductByGenderView: React.FC<ProductListViewProps> = ({ gender }) => {
   );
 
   return (
-    <div className="md:px-16 text-gray-300">
-      <Breadcrumb className="p-3">
+    <div className="md:px-16 ">
+      <Breadcrumb className="p-3 ">
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            <BreadcrumbLink href="/" className="text-white hover:text-white">
+              Home
+            </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink href="/products">Products</BreadcrumbLink>
+            <BreadcrumbLink
+              href="/products"
+              className="text-white hover:text-white"
+            >
+              Products
+            </BreadcrumbLink>
           </BreadcrumbItem>
 
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage className="text-white capitalize">
+            <BreadcrumbPage className="text-white underline underline-offset-4 capitalize">
               {gender}
             </BreadcrumbPage>
           </BreadcrumbItem>

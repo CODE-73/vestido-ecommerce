@@ -32,21 +32,28 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
   const handleShowMoreClick = () => {};
 
   return (
-    <div className="md:px-16 text-gray-300">
+    <div className="md:px-16">
       <Breadcrumb className={`${suggestedList ? 'hidden' : ''}   p-3`}>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            <BreadcrumbLink href="/" className="text-white hover:text-white">
+              Home
+            </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink href="/products">Products</BreadcrumbLink>
+            <BreadcrumbLink
+              href="/products"
+              className={`text-white hover:text-white ${category && category.name ? '' : 'underline underline-offset-4'}`}
+            >
+              Products
+            </BreadcrumbLink>
           </BreadcrumbItem>
           {category?.name && (
             <>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage className="text-white">
+                <BreadcrumbPage className="text-white underline underline-offset-4">
                   {category?.name}
                 </BreadcrumbPage>
               </BreadcrumbItem>

@@ -20,14 +20,21 @@ const ProductViewBreadcrumb: FC<ProductViewBreadcrumbProps> = ({
   category,
 }) => {
   return (
-    <Breadcrumb className="p-3 text-gray-200">
+    <Breadcrumb className="p-3 text-white hover:text-white">
       <BreadcrumbList>
         <BreadcrumbItem>
-          <BreadcrumbLink href="/">Home</BreadcrumbLink>
+          <BreadcrumbLink href="/" className="text-white hover:text-white">
+            Home
+          </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbLink href="/products">Products</BreadcrumbLink>
+          <BreadcrumbLink
+            href="/products"
+            className="text-white hover:text-white"
+          >
+            Products
+          </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
@@ -37,7 +44,9 @@ const ProductViewBreadcrumb: FC<ProductViewBreadcrumbProps> = ({
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbPage className="text-white">{item?.title}</BreadcrumbPage>
+          <BreadcrumbPage className="text-white underline underline-offset-4">
+            {item?.title}
+          </BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
