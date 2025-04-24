@@ -4,6 +4,7 @@ export const ListItemRequestSchema = z
   .object({
     q: z.string().nullish(),
     categoryId: z.string().nullish(),
+    gender: z.string().nullish(),
     enabled: z.union([
       z.boolean().nullish(),
       z

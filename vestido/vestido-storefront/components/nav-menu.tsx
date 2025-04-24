@@ -155,8 +155,29 @@ const CategoryNavContent: React.FC<CategorySectionProps> = ({
     genders.every((g) => category.gender.includes(g)),
   );
 
+  const getGender = (_gender: string | string[]) => {
+    let gender: string | undefined;
+
+    if (_gender?.length === 1 && _gender[0] === 'MEN') {
+      gender = 'men';
+    } else if (_gender?.length === 1 && _gender[0] === 'WOMEN') {
+      gender = 'women';
+    } else if (
+      _gender?.length === 2 &&
+      _gender[0] === 'MEN' &&
+      _gender[1] === 'WOMEN'
+    ) {
+      gender = 'unisex';
+    }
+
+    return gender;
+  };
+
   return (
     <NavigationMenuContent className="flex flex-col p-3 w-[200px]">
+      <div className="pb-3">
+        <Link href={`/products/search/${getGender(genders)}`}>All</Link>
+      </div>
       {filteredCategories?.map((category, index) => (
         <div key={index}>
           <div className=" capitalize cursor-pointer">
