@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import * as React from 'react';
 import Link from 'next/link';
 
@@ -9,6 +9,7 @@ import { Gender, ListItemResponse } from '@vestido-ecommerce/items/client';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
   Carousel,
+  CarouselApi,
   CarouselContent,
   CarouselItem,
 } from '@vestido-ecommerce/shadcn-ui/carousel';
@@ -22,15 +23,49 @@ type TopProductsProps = {
 };
 
 export const TopProducts: FC<TopProductsProps> = ({ className, items }) => {
+  const [api, setApi] = useState<CarouselApi | null>(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
   const getItemsByGender = (genders: Gender[]) => {
-    return items?.filter((item) =>
-      genders.every((gender) => item.gender.includes(gender)),
+    return items?.filter(
+      (item) =>
+        genders.every((gender) => item.gender.includes(gender)) && // All input genders must be present
+        item.gender.length === genders.length && // Ensure item.gender has exactly the same number of genders
+        item.gender.every((g) => genders.includes(g)), // Ensure no extra genders in item.gender
     );
   };
 
   const plugin = React.useRef(
     Autoplay({ delay: 4000, stopOnInteraction: false, stopOnMouseEnter: true }),
   );
+
+  const getViewMoreLink = () => {
+    switch (currentSlide) {
+      case 0:
+        return '/products/search/men';
+      case 1:
+        return '/products/search/women';
+      case 2:
+        return '/products/search/unisex';
+      default:
+        return '/products';
+    }
+  };
+
+  // Update current slide when carousel changes
+  React.useEffect(() => {
+    if (!api) return;
+
+    const updateSlide = () => {
+      setCurrentSlide(api.selectedScrollSnap());
+    };
+
+    updateSlide();
+    api.on('select', updateSlide);
+
+    return () => {
+      api.off('select', updateSlide);
+    };
+  }, [api]);
 
   return (
     <div
@@ -41,6 +76,7 @@ export const TopProducts: FC<TopProductsProps> = ({ className, items }) => {
       </h3>
 
       <Carousel
+        setApi={setApi}
         plugins={[plugin.current]}
         opts={{
           loop: true,
@@ -75,7 +111,7 @@ export const TopProducts: FC<TopProductsProps> = ({ className, items }) => {
         </CarouselContent>
       </Carousel>
 
-      <Link href="/products">
+      <Link href={getViewMoreLink()}>
         <Button className=" h-10 md:h-12 rounded-none  bg-transparent text-white hover:bg-white border border-white shadow uppercase hover:text-gray-600 font-semibold tracking-widest px-10">
           View More
         </Button>
