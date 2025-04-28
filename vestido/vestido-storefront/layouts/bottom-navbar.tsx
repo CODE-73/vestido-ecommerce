@@ -45,7 +45,9 @@ const BottomNavbar: React.FC = () => {
           className={`relative hover:text-gray-400 flex flex-col items-center gap-1 justify-end`}
         >
           <LuShoppingBag size={20} />
-          <div className="text-[12px]">Vcart</div>
+          <div className="text-[12px]">
+            Vca<span className="text-red-600">R</span>t
+          </div>
           {cart_count > 0 && (
             <sup className="absolute -right-[8px]  h-4 w-4 text-center rounded-full bg-white text-black font-semibold text-xs">
               {cart_count}
@@ -53,7 +55,7 @@ const BottomNavbar: React.FC = () => {
           )}
         </Link>
         <Link
-          href="/orders"
+          href="/profile/orders"
           className="flex flex-col items-center gap-1 justify-end"
         >
           <LuPackage size={24} />
