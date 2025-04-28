@@ -33,6 +33,7 @@ const NavMenu: React.FC<NavMenuProps> = () => {
     return (categories?.data ?? []).filter(
       (subcategory) =>
         subcategory.parentCategoryId === categoryId &&
+        subcategory.gender.length === genders.length &&
         genders.every((gender) => subcategory.gender.includes(gender)),
     );
   };
