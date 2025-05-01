@@ -21,6 +21,10 @@ module.exports = {
         ...(tailwindConfig.theme?.extend?.height ?? {}),
         'screen-minus-nav': 'calc(100vh - var(--navbar-height))',
       },
+      margin: {
+        ...(tailwindConfig.theme?.extend?.margin ?? {}),
+        'top-margin-nav': 'calc(var(--navbar-height) + 0.8em)',
+      },
     },
   },
   plugins: [require('@tailwindcss/typography', require('tailwindcss-animate'))],
