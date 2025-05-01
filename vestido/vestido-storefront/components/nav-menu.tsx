@@ -152,9 +152,15 @@ const CategoryNavContent: React.FC<CategorySectionProps> = ({
   getSubcategories,
 }) => {
   const genders = Array.isArray(gender) ? gender : [gender];
-  const filteredCategories = mainCategories?.filter((category) =>
-    genders.every((g) => category.gender.includes(g)),
-  );
+  const filteredCategories = mainCategories?.filter((category) => {
+    if (genders.length === 1) {
+      // Single gender: match exactly (e.g., ["men"] or ["women"])
+      return category.gender.length === 1 && category.gender[0] === genders[0];
+    } else {
+      // Multiple genders: match categories containing all specified genders (e.g., ["men", "women"])
+      return genders.every((gender) => category.gender.includes(gender));
+    }
+  });
 
   const getGender = (_gender: string | string[]) => {
     let gender: string | undefined;
