@@ -38,7 +38,6 @@ const CartView: React.FC = () => {
   const removeItem = (itemId: string) => {
     return cartItems.find((x) => x.itemId === itemId);
   };
-
   const totalPrice =
     cartItems.reduce((total, item) => {
       return total + item.qty * (item.item.discountedPrice || item.item.price);
@@ -109,7 +108,7 @@ const CartView: React.FC = () => {
   };
   return (
     <div>
-      <div className="text-xs md:text-lg tracking-wide text-gray-300 justify-center font-semibold md:mt-12 md:mb-12 mt-8 mb-16 uppercase flex gap-2 items-center">
+      <div className="text-xs md:text-lg tracking-wide text-gray-300 justify-center font-semibold mt-top-margin-nav md:mt-12 md:mb-12 mt-8 mb-16 uppercase flex gap-2 items-center">
         <span className="text-lg md:text-2xl underline underline-offset-4">
           Cart
         </span>
