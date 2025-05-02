@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 
-import { LuChevronLeft, LuMenu } from 'react-icons/lu';
+import { LuHome, LuMenu } from 'react-icons/lu';
 
 import { ComponentWithChildrenProps } from '../../types/component';
 import LogoutButton from './LogoutButton';
@@ -13,7 +12,6 @@ import Sidebar from './Sidebar';
 type AuthorizedLayoutProps = ComponentWithChildrenProps;
 
 const AuthorizedLayout: React.FC<AuthorizedLayoutProps> = ({ children }) => {
-  const router = useRouter();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -65,9 +63,10 @@ const AuthorizedLayout: React.FC<AuthorizedLayoutProps> = ({ children }) => {
       </div>
       <div className="sm:hidden flex flex-col w-full fixed top-0 left-0 bg-white">
         <div className="flex justify-between items-center p-4">
-          <button onClick={() => router.back()}>
-            <LuChevronLeft size={24} />
-          </button>
+          <Link href="/">
+            <LuHome size={24} />
+          </Link>
+
           <div className="font-bold text-lg">
             <Link href="/">
               <div className="flex items-center">
@@ -97,7 +96,12 @@ const AuthorizedLayout: React.FC<AuthorizedLayoutProps> = ({ children }) => {
         {isDropdownOpen && (
           <div className="flex flex-col items-start p-4 ">
             {navItems.map((item) => (
-              <Link key={item.id} href={item.href} className="my-2 w-full">
+              <Link
+                key={item.id}
+                href={item.href}
+                onClick={toggleDropdown}
+                className="my-2 w-full"
+              >
                 <div className="flex items-center gap-2">
                   {item.icon && <span>{item.icon}</span>}
                   <span>{item.label}</span>
