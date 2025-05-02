@@ -1,6 +1,6 @@
-import { useState } from 'react';
 import Link from 'next/link';
 
+import { parseAsBoolean, useQueryState } from 'nuqs';
 import { LuPackage, LuShoppingBag, LuUser2 } from 'react-icons/lu';
 import { MdOutlineCategory } from 'react-icons/md';
 import { RiHome2Line } from 'react-icons/ri';
@@ -11,7 +11,11 @@ import { useCart } from '@vestido-ecommerce/items/client';
 import CategoriesDrawer from './mobile-navbar-categories';
 
 const BottomNavbar: React.FC = () => {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useQueryState(
+    'drawerOpen',
+    parseAsBoolean.withDefault(false).withOptions({ history: 'push' }),
+  );
+
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
