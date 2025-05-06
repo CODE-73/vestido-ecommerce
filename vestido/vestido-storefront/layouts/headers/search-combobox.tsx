@@ -99,7 +99,7 @@ export function SearchCombobox({
     setOpen(false);
     setInputValue('');
     onSelect(item);
-    router.push(`/${item.value}`);
+    router.push(`/${encodeURIComponent(item.value)}`);
   };
 
   // Handle keyboard navigation

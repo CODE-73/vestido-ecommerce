@@ -3,7 +3,6 @@ import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-// import { useRouter } from 'next/router';
 import { LuHeart, LuSearch, LuShoppingBag, LuUser2 } from 'react-icons/lu';
 
 import { AuthenticatedLink, useAuth } from '@vestido-ecommerce/auth/client';
@@ -23,11 +22,8 @@ interface SearchItem {
 }
 
 const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
-  // const [isSearchExpanded, setIsSearchExpanded] = useState(false);
-
   const { isAuthenticated } = useAuth();
   const [searchOpen, setSearchOpen] = useState(false);
-  // const router = useRouter();
 
   const [selectedItem, setSelectedItem] = React.useState<SearchItem | null>(
     null,
@@ -37,18 +33,6 @@ const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
     setSelectedItem(item);
   };
 
-  // const onSelect = (value: string) => {
-  //   router.push(`/${encodeURIComponent(value)}`);
-  // };
-
-  // const toggleSearch = () => {
-  //   if (isSearchExpanded) {
-  //     setIsSearchExpanded(false);
-  //   }
-  //   if (!isSearchExpanded) {
-  //     setIsSearchExpanded(true);
-  //   }
-  // };
   return (
     <div className="bg-black sm:shadow-lg flex items-center px-3 xl:px-32 sticky top-0  sm:shadow-gray-700/50 ">
       <div className="flex flex-grow">
@@ -67,14 +51,6 @@ const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
         <div className="flex items-center gap-3 pl-2">
           {searchOpen ? (
             <div className="">
-              {/* <HeaderSearchInput
-                className="text-white ml-2 w-full flex-1"
-                setSearchOpen={setSearchOpen}
-                onCancelClick={toggleSearch}
-                searchOpen={searchOpen}
-                value={null}
-                onChange={onSelect}
-              /> */}
               <SearchCombobox
                 onSelect={handleSelect}
                 selectedItem={selectedItem}
