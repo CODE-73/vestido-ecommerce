@@ -78,6 +78,7 @@ const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
               <SearchCombobox
                 onSelect={handleSelect}
                 selectedItem={selectedItem}
+                setIsSearchExpanded={setSearchOpen}
               />
             </div>
           ) : (
