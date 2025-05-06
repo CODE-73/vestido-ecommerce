@@ -4,14 +4,24 @@ import Link from 'next/link';
 
 import { LuHeart, LuSearch } from 'react-icons/lu';
 
-import { HeaderSearchInput } from './HeaderSearchInput';
+import { SearchCombobox } from './search-combobox';
 
 interface HeaderProps {
   wishlist_count: number;
 }
+interface SearchItem {
+  label: string;
+  value: string;
+}
 const MobileHeader: React.FC<HeaderProps> = ({ wishlist_count }) => {
-  const [isSearchExpanded, setIsSearchExpanded] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const navbarRef = useRef(null);
+
+  const [selectedItem, setSelectedItem] = useState<SearchItem | null>(null);
+
+  const handleSelect = (item: SearchItem) => {
+    setSelectedItem(item);
+  };
 
   useEffect(() => {
     // Create ResizeObserver instance
@@ -44,11 +54,11 @@ const MobileHeader: React.FC<HeaderProps> = ({ wishlist_count }) => {
   }, []);
 
   const toggleSearch = () => {
-    if (isSearchExpanded) {
-      setIsSearchExpanded(false);
+    if (searchOpen) {
+      setSearchOpen(false);
     }
-    if (!isSearchExpanded) {
-      setIsSearchExpanded(true);
+    if (!searchOpen) {
+      setSearchOpen(true);
     }
   };
 
@@ -76,12 +86,12 @@ const MobileHeader: React.FC<HeaderProps> = ({ wishlist_count }) => {
             />
           </Link>
 
-          {isSearchExpanded ? (
-            <HeaderSearchInput
-              iconSize={24}
-              onCancelClick={toggleSearch}
-              containerClassName="absolute inset-0 w-screen h-full text-white focus:outline-none"
-              setSearchOpen={setIsSearchExpanded}
+          {searchOpen ? (
+            <SearchCombobox
+              containerClassName="absolute inset-0 w-screen h-full focus:outline-none bg-black pt-5"
+              onSelect={handleSelect}
+              selectedItem={selectedItem}
+              setIsSearchExpanded={setSearchOpen}
             />
           ) : (
             <LuSearch
