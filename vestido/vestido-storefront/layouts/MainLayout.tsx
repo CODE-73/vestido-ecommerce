@@ -24,7 +24,9 @@ const MainLayout: React.FC<LayoutProps> = ({ children }) => {
         <Header />
       </div>
 
-      <main className={`w-[100vw] md:w-full overflow-y-scroll no-scrollbar`}>
+      <main
+        className={`w-[100vw] md:w-full overflow-y-scroll no-scrollbar mb-10`}
+      >
         {children}
       </main>
       {!hideFooter && (
@@ -32,7 +34,7 @@ const MainLayout: React.FC<LayoutProps> = ({ children }) => {
           <Footer />
         </div>
       )}
-      <div className="mt-auto sm:hidden">
+      <div className="mt-auto fixed bottom-0 sm:hidden">
         <BottomNavbar />
       </div>
     </div>
