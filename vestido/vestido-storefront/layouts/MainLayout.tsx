@@ -25,7 +25,7 @@ const MainLayout: React.FC<LayoutProps> = ({ children }) => {
       </div>
 
       <main
-        className={`w-[100vw] md:w-full overflow-y-scroll no-scrollbar mb-16`}
+        className={`w-[100vw] md:w-full overflow-y-scroll no-scrollbar mb-20`}
       >
         {children}
       </main>
