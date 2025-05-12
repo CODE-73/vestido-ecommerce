@@ -82,7 +82,7 @@ const ProductByGenderView: React.FC<ProductListViewProps> = ({ gender }) => {
               ))}
             </div>
             <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 flex justify-center mt-8">
-              <button className="border border-gray-200 text-xs font-medium py-2 px-5  my-5 hover:border-black duration-100">
+              <button className="border border-gray-200 text-xs font-medium py-2 px-5 text-white my-5 hover:border-black duration-100">
                 Show More
               </button>
             </div>
