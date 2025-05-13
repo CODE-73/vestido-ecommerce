@@ -11,6 +11,8 @@ export async function createRazorpayPayment(
   authHeaders: Record<string, string>,
   profile: Profile,
 ): Promise<RazorpayResponse> {
+  const backButtonHandler = handleBackButton(args.paymentId, authHeaders);
+
   return new Promise<RazorpayResponse>((res, rej) => {
     const options = {
       key: process.env['NEXT_PUBLIC_RAZORPAY_KEY_ID'] as string,
@@ -20,6 +22,7 @@ export async function createRazorpayPayment(
       description: 'Your style. Your Statement.',
       order_id: args.razorpayOrderId,
       handler: async (r: RazorpayResponse) => {
+        backButtonHandler.remove();
         res(r);
         // try {
         //   const verifyData = {
@@ -56,14 +59,10 @@ export async function createRazorpayPayment(
       },
       modal: {
         ondismiss: async () => {
-          console.log('Payment modal closed by the user.');
+          backButtonHandler.remove();
 
-          await fetch(`/api/payments/${args.paymentId}/cancel`, {
-            method: 'POST',
-            headers: {
-              ...authHeaders,
-            },
-          });
+          console.log('Payment modal closed by the user.');
+          await invokeCancelPayment(args.paymentId, authHeaders);
 
           window.location.href = '/checkout'; // Redirect to checkout page
         },
@@ -85,9 +84,62 @@ export async function createRazorpayPayment(
         alert(response.error.reason);
         alert(response.error.metadata.order_id);
         alert(response.error.metadata.payment_id);
+
+        backButtonHandler.remove();
         rej('Payment Failed' + response.error);
       },
     );
     rzp1.open();
   });
+}
+
+async function invokeCancelPayment(
+  paymentId: string,
+  authHeaders: Record<string, string>,
+) {
+  const r = await fetch(`/api/payments/${paymentId}/cancel`, {
+    method: 'POST',
+    headers: {
+      ...authHeaders,
+    },
+  });
+
+  if (!r.ok) {
+    throw new Error('Failed to cancel payment');
+  }
+}
+
+function handleBackButton(
+  paymentId: string,
+  authHeaders: Record<string, string>,
+) {
+  let paymentInProgress = true;
+
+  // Push a new state to create a history entry
+  const historyState = { paymentId: paymentId };
+  window.history.pushState(historyState, '', window.location.href);
+  const handlePopState = async (_event: PopStateEvent) => {
+    if (paymentInProgress) {
+      // Prevent the default back action
+      window.history.pushState(historyState, '', window.location.href);
+
+      // Show a warning to the user
+      if (
+        confirm('Are you sure you want to leave? Your payment is in progress.')
+      ) {
+        paymentInProgress = false;
+        // Cancel the payment
+        await invokeCancelPayment(paymentId, authHeaders);
+        window.location.href = '/checkout';
+      }
+    }
+  };
+  window.addEventListener('popstate', handlePopState);
+
+  return {
+    remove: () => {
+      paymentInProgress = false;
+      window.removeEventListener('popstate', handlePopState);
+    },
+  };
 }
