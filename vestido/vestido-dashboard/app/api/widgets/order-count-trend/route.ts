@@ -10,7 +10,6 @@ export const GET = apiRouteHandler(
   roleMiddleware('ADMIN'),
   async ({ request }) => {
     const url = new URL(request.url);
-    console.log(url.searchParams);
     const queryParams = {
       fromDate: url.searchParams.get('fromDate'),
       toDate: url.searchParams.get('toDate'),
