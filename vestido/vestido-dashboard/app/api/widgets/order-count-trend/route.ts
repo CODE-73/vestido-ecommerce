@@ -1,12 +1,26 @@
 import { authMiddleware, roleMiddleware } from '@vestido-ecommerce/auth';
 import { apiRouteHandler } from '@vestido-ecommerce/utils';
-import { getOrderCount } from '@vestido-ecommerce/widgets';
+import {
+  BaseReportFilterSchema,
+  getOrderCount,
+} from '@vestido-ecommerce/widgets';
 
 export const GET = apiRouteHandler(
   authMiddleware,
   roleMiddleware('ADMIN'),
   async ({ request }) => {
-    const body = await request.json();
+    const url = new URL(request.url);
+    console.log(url.searchParams);
+    const queryParams = {
+      fromDate: url.searchParams.get('fromDate'),
+      toDate: url.searchParams.get('toDate'),
+      groupBy: url.searchParams.get('groupBy'),
+    };
+
+    // Validate query parameters using BaseReportFilterSchema
+    const body = BaseReportFilterSchema.parse(queryParams);
+
+    // Call getOrderCount with the validated parameters
     const orderCount = await getOrderCount(body);
 
     return orderCount;

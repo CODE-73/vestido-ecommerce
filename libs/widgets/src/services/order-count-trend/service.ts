@@ -38,5 +38,8 @@ export async function getOrderCount(_body: BaseReportFilter) {
     ORDER BY period;
   `;
 
-  return result;
+  return result.map((item) => ({
+    ...item,
+    total_orders: item.total_orders.toString(),
+  }));
 }
