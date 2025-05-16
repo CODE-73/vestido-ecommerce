@@ -112,7 +112,8 @@
         "libs/utils/src/index.ts",
         "../../libs/utils/src/index.ts"
       ],
-      "@vestido-ecommerce/widgets": ["libs/widgets/src/index.ts",   "../../libs/widgets/src/index.ts"]
+      "@vestido-ecommerce/widgets": ["libs/widgets/src/index.ts",   "../../libs/widgets/src/index.ts"],
+      "@vestido-ecommerce/widgets/client":["libs/widgets/src/client.ts",   "../../libs/widgets/src/client.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
