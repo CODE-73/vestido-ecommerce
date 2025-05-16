@@ -11,6 +11,8 @@ import {
   TableRow,
 } from '@vestido-ecommerce/shadcn-ui/table';
 import { formatINR } from '@vestido-ecommerce/utils';
+import { BaseReportFilter } from '@vestido-ecommerce/widgets';
+import { useOrderCount } from '@vestido-ecommerce/widgets/client';
 // import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 
 interface ProductTableProps {
@@ -35,8 +37,16 @@ export const formattedTime = (dateTime: Date) => {
   return `${hours}:${minutes} ${ampm}`;
 };
 
+const filter: BaseReportFilter = {
+  fromDate: '2025-01-01',
+  toDate: '2025-05-16',
+  groupBy: 'monthly',
+};
+
 const OrdersTable: React.FC<ProductTableProps> = ({ data }) => {
   const router = useRouter();
+  const { data: order_count } = useOrderCount(filter);
+  console.log('order count', order_count);
 
   const handleRowClick = (order: string) => {
     router.push(`/orders/${encodeURIComponent(order)}`);

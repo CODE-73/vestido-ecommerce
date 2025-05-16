@@ -1,0 +1,23 @@
+{
+  "name": "widgets",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/widgets/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/widgets",
+        "main": "libs/widgets/src/index.ts",
+        "tsConfig": "libs/widgets/tsconfig.lib.json",
+        "assets": ["libs/widgets/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": []
+}
