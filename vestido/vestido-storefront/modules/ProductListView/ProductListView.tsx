@@ -96,7 +96,7 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
             </div>
           </>
         ) : (
-          <div className="absolute left-[50%] transform -translate-x-1/2 flex flex-col items-center">
+          <div className="absolute left-[50%] transform -translate-x-1/2 flex flex-col items-center text-white">
             <div>
               We are updating this category with brand new products to suit your
               style!

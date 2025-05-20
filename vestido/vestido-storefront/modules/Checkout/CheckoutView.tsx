@@ -188,7 +188,7 @@ const CheckoutView: React.FC = () => {
   return (
     <>
       {currentSession == 'Address' && (
-        <div className="text-xs md:text-lg tracking-wide text-gray-300 text-center font-semibold md:mt-12 md:mb-12 mt-8 mb-16 uppercase font flex items-center justify-center gap-2">
+        <div className="text-xs md:text-lg tracking-wide text-gray-300 text-center font-semibold mt-top-margin-nav md:mt-12 md:mb-12 mb-16  uppercase font flex items-center justify-center gap-2">
           <Link href="/cart">
             Vca<span className="text-red-600">R</span>t
           </Link>
@@ -198,7 +198,7 @@ const CheckoutView: React.FC = () => {
         </div>
       )}
       {currentSession == 'Payment' && (
-        <div className="text-xs md:text-lg tracking-wide text-gray-300 text-center font-semibold md:mt-12 md:mb-12 mt-8 mb-16 uppercase flex items-center justify-center gap-2">
+        <div className="text-xs md:text-lg tracking-wide text-gray-300 text-center font-semibold mb-16 mt-top-margin-nav md:mt-12 md:mb-12  uppercase flex items-center justify-center gap-2">
           <Link href="/cart">
             Vca<span className="text-red-600">R</span>t
           </Link>

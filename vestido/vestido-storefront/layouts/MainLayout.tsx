@@ -27,7 +27,7 @@ const MainLayout: React.FC<LayoutProps> = ({ children }) => {
       <main
         className={`w-[100vw] md:w-full overflow-y-scroll no-scrollbar mb-20 sm:mb-0`}
       >
-        {children}
+        <div key={router.asPath}>{children}</div>
       </main>
       {!hideFooter && (
         <div className="w-full mt-auto hidden sm:block">

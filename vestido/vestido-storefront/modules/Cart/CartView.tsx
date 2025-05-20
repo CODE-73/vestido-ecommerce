@@ -108,7 +108,7 @@ const CartView: React.FC = () => {
   };
   return (
     <div>
-      <div className="text-xs md:text-lg tracking-wide text-gray-300 justify-center font-semibold mt-top-margin-nav md:mt-12 md:mb-12 mt-8 mb-16 uppercase flex gap-2 items-center">
+      <div className="text-xs md:text-lg tracking-wide text-gray-300 justify-center font-semibold mt-top-margin-nav mt-8 mb-16 md:mt-12 md:mb-12 uppercase flex gap-2 items-center">
         <span className="text-lg md:text-2xl underline underline-offset-4 capitalize">
           Vca<span className="text-red-600 uppercase">R</span>t
         </span>
