@@ -55,7 +55,7 @@ export async function createRazorpayPayment(
       },
       notes: {},
       theme: {
-        color: '#F37254',
+        color: '#000000',
       },
       modal: {
         ondismiss: async () => {
@@ -64,7 +64,8 @@ export async function createRazorpayPayment(
           console.log('Payment modal closed by the user.');
           await invokeCancelPayment(args.paymentId, authHeaders);
 
-          window.location.href = '/checkout'; // Redirect to checkout page
+          window.location.replace('/checkout'); // Redirect to checkout page
+          console.log('history', window.history);
         },
       },
     };
@@ -130,7 +131,7 @@ function handleBackButton(
         paymentInProgress = false;
         // Cancel the payment
         await invokeCancelPayment(paymentId, authHeaders);
-        window.location.href = '/checkout';
+        window.location.replace('/checkout');
       }
     }
   };

@@ -167,6 +167,7 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({
           {/* {dropdownsOpen.unisex ? <LuChevronUp /> : <LuChevronDown />} */}
           {dropdownsOpen.unisex ? <LuMinus /> : <LuPlus />}
         </div>
+        <hr className="border-t border-white/30" />
         {dropdownsOpen.unisex && (
           <>
             {mainCategories
@@ -203,10 +204,9 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({
                   )}
                 </div>
               ))}
-            <hr className="border-t border-white/30" />
           </>
         )}
-        <hr className="border-t border-white/30" />
+        {/* <hr className="border-t border-white/30" /> */}
       </div>
     </div>
   );
