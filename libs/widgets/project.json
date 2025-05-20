@@ -4,14 +4,11 @@
   "sourceRoot": "libs/widgets/src",
   "projectType": "library",
   "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "outputPath": "dist/libs/widgets",
-        "main": "libs/widgets/src/index.ts",
-        "tsConfig": "libs/widgets/tsconfig.lib.json",
-        "assets": ["libs/widgets/*.md"]
+        "jestConfig": "libs/orders/jest.config.ts"
       }
     },
     "lint": {

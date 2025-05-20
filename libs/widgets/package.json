@@ -1,15 +1,6 @@
 {
   "name": "@vestido-ecommerce/widgets",
   "version": "0.0.1",
-  "dependencies": {
-    "tslib": "^2.3.0",
-    "@vestido-ecommerce/models": "*",
-    "date-fns": "3.6.0",
-    "zod": "^3.24.3",
-    "swr": "^2.2.5",
-    "@vestido-ecommerce/auth": "*",
-    "@vestido-ecommerce/utils": "*"
-  },
   "type": "commonjs",
   "main": "./src/index.js",
   "typings": "./src/index.d.ts"
