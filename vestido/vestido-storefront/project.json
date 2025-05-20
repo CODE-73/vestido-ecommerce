@@ -7,13 +7,8 @@
   "targets": {
     "build": {
       "executor": "@nx/next:build",
-      "outputs": [
-        "{options.outputPath}"
-      ],
-      "dependsOn": [
-        "models:generate-types",
-        "shadcn-ui:build"
-      ],
+      "outputs": ["{options.outputPath}"],
+      "dependsOn": ["models:generate-types", "shadcn-ui:build"],
       "defaultConfiguration": "production",
       "options": {
         "outputPath": "dist/vestido/vestido-storefront"
@@ -28,10 +23,7 @@
     "serve": {
       "executor": "@nx/next:server",
       "defaultConfiguration": "development",
-      "dependsOn": [
-        "models:generate-types",
-        "shadcn-ui:build"
-      ],
+      "dependsOn": ["models:generate-types", "shadcn-ui:build"],
       "options": {
         "buildTarget": "vestido-storefront:build",
         "dev": true
@@ -50,32 +42,22 @@
     },
     "export": {
       "executor": "@nx/next:export",
-      "dependsOn": [
-        "models:generate-types",
-        "shadcn-ui:build"
-      ],
+      "dependsOn": ["models:generate-types", "shadcn-ui:build"],
       "options": {
         "buildTarget": "vestido-storefront:build:production"
       }
     },
     "test": {
       "executor": "@nx/jest:jest",
-      "dependsOn": [
-        "models:generate-types",
-        "shadcn-ui:build"
-      ],
-      "outputs": [
-        "{workspaceRoot}/coverage/{projectRoot}"
-      ],
+      "dependsOn": ["models:generate-types", "shadcn-ui:build"],
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
         "jestConfig": "vestido/vestido-storefront/jest.config.ts"
       }
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "outputs": [
-        "{options.outputFile}"
-      ]
+      "outputs": ["{options.outputFile}"]
     },
     "cap": {
       "executor": "@nxext/capacitor:cap",
