@@ -109,8 +109,8 @@ const CartView: React.FC = () => {
   return (
     <div>
       <div className="text-xs md:text-lg tracking-wide text-gray-300 justify-center font-semibold mt-top-margin-nav md:mt-12 md:mb-12 mt-8 mb-16 uppercase flex gap-2 items-center">
-        <span className="text-lg md:text-2xl underline underline-offset-4">
-          Cart
+        <span className="text-lg md:text-2xl underline underline-offset-4 capitalize">
+          Vca<span className="text-red-600 uppercase">R</span>t
         </span>
         <LuChevronRight /> Address <LuChevronRight /> Payment
       </div>
@@ -134,22 +134,22 @@ const CartView: React.FC = () => {
             })}
 
             <div className="border-t border-gray-300 my-4"></div>
-            <div className="flex flex-col lg:flex-row gap-3 lg:justify-between items-center">
-              <Link href="/products">
-                <div className="flex items-center cursor-pointer">
-                  <LuChevronLeft color="white" size={24} />
-                  <div className="font-extrabold text-white">
-                    Continue Shopping
-                  </div>
+            <div className="flex flex-col lg:flex-row gap-3 lg:justify-between items-center w-full">
+              <Link href="/products" className="w-full lg:w-auto">
+                <div className="flex items-center justify-center lg:justify-start gap-2 text-white font-extrabold w-full">
+                  <LuChevronLeft size={24} />
+                  <span>Continue Shopping</span>
                 </div>
               </Link>
+
               <AlertDialog>
                 <AlertDialogTrigger asChild>
-                  <div className="flex cursor-pointer">
-                    <LuTrash2 className="mr-3 mt-1" color="white" />
-                    <div className="mr-5 font-extrabold text-white">
-                      Clear Shopping Cart
-                    </div>
+                  <div className="flex items-center justify-center lg:justify-end gap-2 text-white font-extrabold cursor-pointer w-full lg:w-auto">
+                    <LuTrash2 size={20} />
+                    <span>
+                      Clear Vca<span className="text-red-600 uppercase">R</span>
+                      t
+                    </span>
                   </div>
                 </AlertDialogTrigger>
                 <AlertDialogContent>
@@ -163,7 +163,6 @@ const CartView: React.FC = () => {
                   </AlertDialogHeader>
                   <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-
                     <AlertDialogAction onClick={() => handleClearCart()}>
                       Remove
                     </AlertDialogAction>
