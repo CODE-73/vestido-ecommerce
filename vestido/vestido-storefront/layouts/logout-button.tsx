@@ -17,6 +17,7 @@ import {
   AlertDialogTrigger,
 } from '@vestido-ecommerce/shadcn-ui/alert-dialog';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
+import { motion } from 'framer-motion';
 
 type LogoutButtonProps = {
   className?: string;
@@ -43,19 +44,26 @@ const LogoutButton: FC<LogoutButtonProps> = ({ className, icon }) => {
           <div className="md:text-lg">Logout</div>
         )}
       </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Confirm Sign Out</AlertDialogTitle>
-          <AlertDialogDescription>
-            Staying signed in ensures your cart, wishlist, and saved items are
-            always accessible.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogContent className="w-full mx-auto rounded-lg ">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          transition={{ duration: 0.4, ease: 'easeOut' }}
+        >
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirm Sign Out</AlertDialogTitle>
+            <AlertDialogDescription>
+              Staying signed in ensures your cart, wishlist, and saved items are
+              always accessible.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className='grid grid-cols-2 gap-2 mt-8'>
+            <AlertDialogCancel className='border-black mt-0 bg-transparent text-black'>Cancel</AlertDialogCancel>
 
-          <AlertDialogAction onClick={handleLogout}>Logout</AlertDialogAction>
-        </AlertDialogFooter>
+            <AlertDialogAction onClick={handleLogout} className='bg-black'>Logout</AlertDialogAction>
+          </AlertDialogFooter>
+        </motion.div>
       </AlertDialogContent>
     </AlertDialog>
   );

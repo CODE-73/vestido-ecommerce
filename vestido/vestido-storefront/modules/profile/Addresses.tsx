@@ -21,6 +21,7 @@ import { Skeleton } from '@vestido-ecommerce/shadcn-ui/skeleton';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 
 import AddAddressDialog from '../Checkout/AddAddressDialog';
+import { motion } from 'framer-motion';
 
 const Addresses: React.FC = () => {
   const { toast } = useToast();
@@ -72,9 +73,9 @@ const Addresses: React.FC = () => {
                   <Skeleton className="bg-neutral-700 rounded-full w-[25px] h-[25px]" />
                   <Skeleton className="bg-neutral-700 rounded-full w-[25px] h-[25px]" />
                 </div>
-                <Skeleton className=" bg-neutral-700 w-[400px] h-[15px] rounded-xl" />
-                <Skeleton className=" bg-neutral-700  w-[400px] h-[15px] rounded-xl" />
-                <Skeleton className=" bg-neutral-700 w-[400px] h-[15px] rounded-xl" />
+                <Skeleton className=" bg-neutral-700 w-[75vw] max-w-[400px] h-[15px] rounded-xl mt-2" />
+                <Skeleton className=" bg-neutral-700 w-[75vw] max-w-[400px] h-[15px] rounded-xl" />
+                <Skeleton className=" bg-neutral-700 w-[75vw] max-w-[400px] h-[15px] rounded-xl" />
               </div>
             ))
         : sortedAddresses
@@ -117,7 +118,13 @@ const Addresses: React.FC = () => {
                           className="hover:text-gray-300 cursor-pointer"
                         />
                       </AlertDialogTrigger>
-                      <AlertDialogContent>
+            <AlertDialogContent className="w-full mx-auto rounded-lg ">
+                      <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.4, ease: 'easeOut' }}
+              >
                         <AlertDialogHeader>
                           <AlertDialogTitle>
                             Are you absolutely sure?
@@ -127,14 +134,15 @@ const Addresses: React.FC = () => {
                             delete this address.
                           </AlertDialogDescription>
                         </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogFooter className='grid grid-cols-2 gap-2 mt-8'>
+                          <AlertDialogCancel className='border-black mt-0'>Cancel</AlertDialogCancel>
                           <AlertDialogAction
-                            onClick={() => handleAddressDelete(address.id)}
+                            onClick={() => handleAddressDelete(address.id)} className='bg-black'
                           >
                             Delete
                           </AlertDialogAction>
                         </AlertDialogFooter>
+                        </motion.div>
                       </AlertDialogContent>
                     </AlertDialog>
                     <div

@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
+import { motion } from 'framer-motion';
 import { LuChevronLeft, LuChevronRight, LuTrash2 } from 'react-icons/lu';
 
 import {
@@ -152,29 +153,42 @@ const CartView: React.FC = () => {
                     </span>
                   </div>
                 </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>
-                      Are you sure you want to delete every item in the cart?
-                    </AlertDialogTitle>
-                    <AlertDialogDescription>
-                      You can move it all to wishlist for future.
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction onClick={() => handleClearCart()}>
-                      Remove
-                    </AlertDialogAction>
-                    <AlertDialogAction
-                      onClick={() => {
-                        handleMoveAllToWishlist();
-                        handleClearCart();
-                      }}
-                    >
-                      Move to wishlist
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
+                <AlertDialogContent className="w-full mx-auto rounded-lg ">
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.4, ease: 'easeOut' }}
+                  >
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Are you sure you want to delete every item in the cart?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        You can move it all to wishlist for future.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter className="grid grid-cols-2 md:grid-cols-3 gap-x-1 gap-y-[0.4] mt-2">
+                      <AlertDialogCancel className="border border-black order-last md:order-first col-span-2 md:col-span-1">
+                        Cancel
+                      </AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={() => handleClearCart()}
+                        className="bg-black"
+                      >
+                        Remove
+                      </AlertDialogAction>
+                      <AlertDialogAction
+                        onClick={() => {
+                          handleMoveAllToWishlist();
+                          handleClearCart();
+                        }}
+                        className="bg-black"
+                      >
+                        Move to wishlist
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </motion.div>
                 </AlertDialogContent>
               </AlertDialog>
             </div>

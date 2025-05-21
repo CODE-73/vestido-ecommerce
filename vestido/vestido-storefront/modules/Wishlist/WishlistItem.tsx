@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 
 import { Item, type WishlistItem } from '@prisma/client';
+import { motion } from 'framer-motion';
 import { LuShoppingBag, LuX } from 'react-icons/lu';
 
 import { WishlistItemResponse } from '@vestido-ecommerce/items';
@@ -113,24 +114,32 @@ const WishlistItemCard: React.FC<props> = ({ wishlistItem, removeItem }) => {
           <AlertDialogTrigger asChild>
             <LuX strokeWidth={3} />
           </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>
-                Are you sure you want to remove this from wishlist?
-              </AlertDialogTitle>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogContent className="w-full mx-auto rounded-lg ">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.4, ease: 'easeOut' }}
+            >
+              <AlertDialogHeader>
+                <AlertDialogTitle>
+                  Are you sure you want to remove this from wishlist?
+                </AlertDialogTitle>
+              </AlertDialogHeader>
+              <AlertDialogFooter className='grid grid-cols-2 items-center gap-2 mt-3'>
+                <AlertDialogCancel className='mt-0 border-black'>Cancel</AlertDialogCancel>
 
-              <AlertDialogAction
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleRemoveFromWishlist(wishlistItem.itemId);
-                }}
-              >
-                Yes, Remove.
-              </AlertDialogAction>
-            </AlertDialogFooter>
+                <AlertDialogAction
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleRemoveFromWishlist(wishlistItem.itemId);
+                  }}
+                  className='bg-black'
+                >
+                  Yes, Remove.
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </motion.div>
           </AlertDialogContent>
         </AlertDialog>
       </div>

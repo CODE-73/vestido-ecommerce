@@ -2,6 +2,7 @@ import * as React from 'react';
 import Link from 'next/link';
 
 import { type CartItem, Item } from '@prisma/client';
+import { motion } from 'framer-motion';
 import { LuMinus, LuPlus, LuTrash2 } from 'react-icons/lu';
 
 import {
@@ -105,42 +106,53 @@ const CartItemCard: React.FC<props> = ({ cartItem, removeItem }) => {
             <AlertDialogTrigger asChild className="cursor-pointer">
               <LuTrash2 color="rgb(161 161 170)" size={20} />
             </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>
-                  Are you sure you want to delete this item from cart?
-                </AlertDialogTitle>
-                <AlertDialogDescription>
-                  You can move this to wishlist for future.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogContent className="w-full mx-auto rounded-lg ">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.4, ease: 'easeOut' }}
+              >
+                <AlertDialogHeader>
+                  <AlertDialogTitle>
+                    Are you sure you want to delete this item from cart?
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    You can move this to wishlist for future.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter className="grid grid-cols-2 md:grid-cols-3 gap-x-1 gap-y-[0.4] mt-2">
+                  <AlertDialogCancel className="border border-black order-last md:order-first col-span-2 md:col-span-1">
+                    Cancel
+                  </AlertDialogCancel>
 
-                <AlertDialogAction
-                  onClick={() =>
-                    handleRemoveFromCart(
-                      cartItem.itemId,
-                      cartItem.variantId!,
-                      'full',
-                    )
-                  }
-                >
-                  Remove
-                </AlertDialogAction>
-                <AlertDialogAction
-                  onClick={() => {
-                    handleRemoveFromCart(
-                      cartItem.itemId,
-                      cartItem.variantId ?? '',
-                      'full',
-                    );
-                    handleAddToWishlist(cartItem.itemId);
-                  }}
-                >
-                  Move to wishlist
-                </AlertDialogAction>
-              </AlertDialogFooter>
+                  <AlertDialogAction
+                    onClick={() =>
+                      handleRemoveFromCart(
+                        cartItem.itemId,
+                        cartItem.variantId!,
+                        'full',
+                      )
+                    }
+                    className="bg-black"
+                  >
+                    Remove
+                  </AlertDialogAction>
+                  <AlertDialogAction
+                    onClick={() => {
+                      handleRemoveFromCart(
+                        cartItem.itemId,
+                        cartItem.variantId ?? '',
+                        'full',
+                      );
+                      handleAddToWishlist(cartItem.itemId);
+                    }}
+                    className="bg-black"
+                  >
+                    Move to wishlist
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </motion.div>
             </AlertDialogContent>
           </AlertDialog>
         </div>
