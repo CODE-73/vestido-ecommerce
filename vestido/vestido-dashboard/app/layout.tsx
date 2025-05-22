@@ -6,7 +6,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark:bg-slate-950 antialiased">
       <body>{children}</body>
     </html>
   );
