@@ -2,6 +2,7 @@ import { FC } from 'react';
 import { useRouter } from 'next/router';
 
 import { clsx } from 'clsx';
+import { motion } from 'framer-motion';
 import { IoLogOutOutline } from 'react-icons/io5';
 
 import { useAuth } from '@vestido-ecommerce/auth/client';
@@ -17,7 +18,6 @@ import {
   AlertDialogTrigger,
 } from '@vestido-ecommerce/shadcn-ui/alert-dialog';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
-import { motion } from 'framer-motion';
 
 type LogoutButtonProps = {
   className?: string;
@@ -58,10 +58,14 @@ const LogoutButton: FC<LogoutButtonProps> = ({ className, icon }) => {
               always accessible.
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter className='grid grid-cols-2 gap-2 mt-8'>
-            <AlertDialogCancel className='border-black mt-0 bg-transparent text-black'>Cancel</AlertDialogCancel>
+          <AlertDialogFooter className="grid grid-cols-2 gap-2 mt-8">
+            <AlertDialogCancel className="border-black mt-0 bg-transparent text-black">
+              Cancel
+            </AlertDialogCancel>
 
-            <AlertDialogAction onClick={handleLogout} className='bg-black'>Logout</AlertDialogAction>
+            <AlertDialogAction onClick={handleLogout} className="bg-black">
+              Logout
+            </AlertDialogAction>
           </AlertDialogFooter>
         </motion.div>
       </AlertDialogContent>

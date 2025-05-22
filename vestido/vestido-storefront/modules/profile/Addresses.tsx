@@ -1,4 +1,5 @@
 // import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import { MdDeleteOutline, MdOutlineModeEditOutline } from 'react-icons/md';
 
 import {
@@ -21,7 +22,6 @@ import { Skeleton } from '@vestido-ecommerce/shadcn-ui/skeleton';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 
 import AddAddressDialog from '../Checkout/AddAddressDialog';
-import { motion } from 'framer-motion';
 
 const Addresses: React.FC = () => {
   const { toast } = useToast();
@@ -118,30 +118,33 @@ const Addresses: React.FC = () => {
                           className="hover:text-gray-300 cursor-pointer"
                         />
                       </AlertDialogTrigger>
-            <AlertDialogContent className="w-full mx-auto rounded-lg ">
-                      <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.4, ease: 'easeOut' }}
-              >
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>
-                            Are you absolutely sure?
-                          </AlertDialogTitle>
-                          <AlertDialogDescription>
-                            This action cannot be undone. This will permanently
-                            delete this address.
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter className='grid grid-cols-2 gap-2 mt-8'>
-                          <AlertDialogCancel className='border-black mt-0'>Cancel</AlertDialogCancel>
-                          <AlertDialogAction
-                            onClick={() => handleAddressDelete(address.id)} className='bg-black'
-                          >
-                            Delete
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
+                      <AlertDialogContent className="w-full mx-auto rounded-lg ">
+                        <motion.div
+                          initial={{ opacity: 0, scale: 0.95 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.95 }}
+                          transition={{ duration: 0.4, ease: 'easeOut' }}
+                        >
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>
+                              Are you absolutely sure?
+                            </AlertDialogTitle>
+                            <AlertDialogDescription>
+                              This action cannot be undone. This will
+                              permanently delete this address.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter className="grid grid-cols-2 gap-2 mt-8">
+                            <AlertDialogCancel className="border-black mt-0">
+                              Cancel
+                            </AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={() => handleAddressDelete(address.id)}
+                              className="bg-black"
+                            >
+                              Delete
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
                         </motion.div>
                       </AlertDialogContent>
                     </AlertDialog>
