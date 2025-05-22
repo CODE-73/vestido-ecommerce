@@ -2,9 +2,10 @@ import useSWRImmutable from 'swr/immutable';
 
 import { useAuth } from '@vestido-ecommerce/auth/client';
 
-import { BaseReportFilter, OrderCountTrendResponse } from '../../services';
+import { BaseReportFilter } from '../../services';
 import { OrderCountSWRKeys } from './keys';
 import { getOrderCountTrend } from './service';
+import { OrderCountTrendResponse } from './types';
 
 export function useOrderCount(args: BaseReportFilter) {
   const { authHeaders } = useAuth();
