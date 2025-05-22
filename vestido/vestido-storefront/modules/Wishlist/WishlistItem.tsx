@@ -114,7 +114,7 @@ const WishlistItemCard: React.FC<props> = ({ wishlistItem, removeItem }) => {
           <AlertDialogTrigger asChild>
             <LuX strokeWidth={3} />
           </AlertDialogTrigger>
-            <AlertDialogContent className="w-full mx-auto rounded-lg ">
+          <AlertDialogContent className="w-full mx-auto rounded-lg ">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -126,15 +126,17 @@ const WishlistItemCard: React.FC<props> = ({ wishlistItem, removeItem }) => {
                   Are you sure you want to remove this from wishlist?
                 </AlertDialogTitle>
               </AlertDialogHeader>
-              <AlertDialogFooter className='grid grid-cols-2 items-center gap-2 mt-3'>
-                <AlertDialogCancel className='mt-0 border-black'>Cancel</AlertDialogCancel>
+              <AlertDialogFooter className="grid grid-cols-2 items-center gap-2 mt-3">
+                <AlertDialogCancel className="mt-0 border-black">
+                  Cancel
+                </AlertDialogCancel>
 
                 <AlertDialogAction
                   onClick={(e) => {
                     e.stopPropagation();
                     handleRemoveFromWishlist(wishlistItem.itemId);
                   }}
-                  className='bg-black'
+                  className="bg-black"
                 >
                   Yes, Remove.
                 </AlertDialogAction>

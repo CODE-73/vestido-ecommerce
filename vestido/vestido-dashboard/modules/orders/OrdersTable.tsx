@@ -12,7 +12,10 @@ import {
 } from '@vestido-ecommerce/shadcn-ui/table';
 import { formatINR } from '@vestido-ecommerce/utils';
 import { BaseReportFilter } from '@vestido-ecommerce/widgets';
-import { useOrderCount, useRevenueAmount } from '@vestido-ecommerce/widgets/client';
+import {
+  useOrderCount,
+  useRevenueAmount,
+} from '@vestido-ecommerce/widgets/client';
 // import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 
 interface ProductTableProps {
@@ -46,9 +49,9 @@ const filter: BaseReportFilter = {
 const OrdersTable: React.FC<ProductTableProps> = ({ data }) => {
   const router = useRouter();
   const { data: order_count } = useOrderCount(filter);
-  const { data: revenue } = useRevenueAmount(filter)
+  const { data: revenue } = useRevenueAmount(filter);
   console.log('order count', order_count);
-  console.log('revenue', revenue)
+  console.log('revenue', revenue);
 
   const handleRowClick = (order: string) => {
     router.push(`/orders/${encodeURIComponent(order)}`);

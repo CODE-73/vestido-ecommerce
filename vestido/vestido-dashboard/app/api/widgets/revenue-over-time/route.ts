@@ -1,9 +1,6 @@
 import { authMiddleware, roleMiddleware } from '@vestido-ecommerce/auth';
 import { apiRouteHandler } from '@vestido-ecommerce/utils';
-import {
-  BaseReportFilterSchema,
-  getRevenue,
-} from '@vestido-ecommerce/widgets';
+import { BaseReportFilterSchema, getRevenue } from '@vestido-ecommerce/widgets';
 
 export const GET = apiRouteHandler(
   authMiddleware,
