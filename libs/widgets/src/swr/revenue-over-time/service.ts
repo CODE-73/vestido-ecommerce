@@ -1,6 +1,7 @@
 import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
 
-import { BaseReportFilter, RevenueOverTimeResponse } from '../../services';
+import { BaseReportFilter } from '../../services';
+import { RevenueOverTimeResponse } from './types';
 
 export async function getRevenueTrend(
   args: BaseReportFilter,

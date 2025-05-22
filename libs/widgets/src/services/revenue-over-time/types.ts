@@ -1,4 +1,4 @@
-export type RevenueOverTimeResponse = Array<{
+export type RevenueOverTimeResult = Array<{
   period: string;
   total_revenue: string;
 }>;

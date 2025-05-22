@@ -1,7 +1,7 @@
 import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
 
 import { BaseReportFilter } from '../../services';
-import { OrderCountTrendResponse } from '../../services/order-count-trend/types';
+import { OrderCountTrendResponse } from './types';
 
 export async function getOrderCountTrend(
   args: BaseReportFilter,
