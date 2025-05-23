@@ -19,6 +19,7 @@ export async function createRazorpayPayment(
       amount: args.amount,
       currency: 'INR',
       name: 'Vestido Nation',
+      image: 'https://beta.vestidonation.com/assets/vn-logo-white.png',
       description: 'Your style. Your Statement.',
       order_id: args.razorpayOrderId,
       handler: async (r: RazorpayResponse) => {
