@@ -42,7 +42,7 @@ export async function getAverageOrderValue(_body: BaseReportFilter) {
 
   return result.map((item) => {
     const totalRevenue = Number(item.total_revenue);
-    const totalOrders = item.total_orders;
+    const totalOrders = Number(item.total_orders);
     const aov =
       totalOrders > 0 ? (totalRevenue / totalOrders).toFixed(2) : '0.00';
 
