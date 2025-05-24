@@ -11,7 +11,7 @@ export async function createRazorpayPayment(
   authHeaders: Record<string, string>,
   profile: Profile,
 ): Promise<RazorpayResponse> {
-  // const backButtonHandler = handleBackButton(args.paymentId, authHeaders);
+  const backButtonHandler = handleBackButton(args.paymentId, authHeaders);
 
   return new Promise<RazorpayResponse>((res, rej) => {
     const options = {
@@ -22,7 +22,7 @@ export async function createRazorpayPayment(
       description: 'Your style. Your Statement.',
       order_id: args.razorpayOrderId,
       handler: async (r: RazorpayResponse) => {
-        // backButtonHandler.remove();
+        backButtonHandler.remove();
         res(r);
         // try {
         //   const verifyData = {
@@ -59,7 +59,7 @@ export async function createRazorpayPayment(
       },
       modal: {
         ondismiss: async () => {
-          // backButtonHandler.remove();
+          backButtonHandler.remove();
 
           console.log('Payment modal closed by the user.');
           await invokeCancelPayment(args.paymentId, authHeaders);
@@ -86,7 +86,7 @@ export async function createRazorpayPayment(
         alert(response.error.metadata.order_id);
         alert(response.error.metadata.payment_id);
 
-        // backButtonHandler.remove();
+        backButtonHandler.remove();
         rej('Payment Failed' + response.error);
       },
     );
@@ -110,7 +110,11 @@ async function invokeCancelPayment(
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+/**
+ * On Mobile, when the Razorpay payment modal is open,
+ * Clicking Back Button is causing Next.js Router to pick it up and cause
+ * a navigation to the previous page in the BACKGROUND.
+ */
 function handleBackButton(
   paymentId: string,
   authHeaders: Record<string, string>,
