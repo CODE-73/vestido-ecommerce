@@ -36,6 +36,17 @@ export async function getServerSideProps({
     };
   }
 
+  if (order.orderPaymentStatus !== 'PENDING') {
+    // Payment is either successful or failed
+    // We redirect to the checkout page to be safe for all cases.
+    return {
+      redirect: {
+        destination: '/checkout',
+        permanent: false,
+      },
+    };
+  }
+
   return {
     props: {
       orderId: query.orderId,
