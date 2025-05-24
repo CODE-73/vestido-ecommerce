@@ -11,7 +11,7 @@ export async function createRazorpayPayment(
   authHeaders: Record<string, string>,
   profile: Profile,
 ): Promise<RazorpayResponse> {
-  const backButtonHandler = handleBackButton(args.paymentId, authHeaders);
+  // const backButtonHandler = handleBackButton(args.paymentId, authHeaders);
 
   return new Promise<RazorpayResponse>((res, rej) => {
     const options = {
@@ -22,7 +22,7 @@ export async function createRazorpayPayment(
       description: 'Your style. Your Statement.',
       order_id: args.razorpayOrderId,
       handler: async (r: RazorpayResponse) => {
-        backButtonHandler.remove();
+        // backButtonHandler.remove();
         res(r);
         // try {
         //   const verifyData = {
@@ -59,17 +59,17 @@ export async function createRazorpayPayment(
       },
       modal: {
         ondismiss: async () => {
-          backButtonHandler.remove();
+          // backButtonHandler.remove();
 
           console.log('Payment modal closed by the user.');
           await invokeCancelPayment(args.paymentId, authHeaders);
 
-          window.location.replace('/checkout'); // Redirect to checkout page
-          console.log('history', window.history);
+          // backButtonHandler.goBackToCheckout();
+          window.location.replace('/checkout');
+          rej('Payment modal closed by the user.');
         },
       },
     };
-    console.log('Options: ', options);
 
     // Razorpay is installed as a global <script />
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -86,7 +86,7 @@ export async function createRazorpayPayment(
         alert(response.error.metadata.order_id);
         alert(response.error.metadata.payment_id);
 
-        backButtonHandler.remove();
+        // backButtonHandler.remove();
         rej('Payment Failed' + response.error);
       },
     );
@@ -110,14 +110,26 @@ async function invokeCancelPayment(
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function handleBackButton(
   paymentId: string,
   authHeaders: Record<string, string>,
 ) {
   let paymentInProgress = true;
 
+  const goBackToCheckout = () => {
+    console.info('Going back to checkout');
+    if (history.state.isIntermediaryState) {
+      history.go(-2); // Go back to /checkout
+      console.info('Going back by 2');
+    } else {
+      history.go(-1); // Go back to /checkout
+      console.info('Going back by 1');
+    }
+  };
+
   // Push a new state to create a history entry
-  const historyState = { paymentId: paymentId };
+  const historyState = { paymentId: paymentId, isIntermediaryState: true };
   window.history.pushState(historyState, '', window.location.href);
   const handlePopState = async (_event: PopStateEvent) => {
     if (paymentInProgress) {
@@ -131,7 +143,8 @@ function handleBackButton(
         paymentInProgress = false;
         // Cancel the payment
         await invokeCancelPayment(paymentId, authHeaders);
-        window.location.replace('/checkout');
+        // Redirect to the checkout page
+        goBackToCheckout();
       }
     }
   };
@@ -142,5 +155,6 @@ function handleBackButton(
       paymentInProgress = false;
       window.removeEventListener('popstate', handlePopState);
     },
+    goBackToCheckout,
   };
 }

@@ -16,7 +16,7 @@ const OrderListItem: React.FC<OrderProps> = ({ order }) => {
   const router = useRouter();
 
   const handleOrderClick = () => {
-    router.replace(`/orders/${order.id}`);
+    router.push(`/orders/${order.id}`);
   };
 
   const orderStatusClasses = cva(
