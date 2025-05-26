@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 
-import WidgetsGrid from '../modules/widgets/widgets-grid';
+import Widgets from '../modules/widgets/widgets';
 
-const DashboardAnalyticsPage: NextPage = () => <WidgetsGrid />;
+const DashboardAnalyticsPage: NextPage = () => <Widgets />;
 
 export default DashboardAnalyticsPage;
