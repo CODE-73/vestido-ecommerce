@@ -1,23 +1,12 @@
 import formsPlugin from '@tailwindcss/forms';
+import merge from 'lodash.merge';
 import colors from 'tailwindcss/colors';
 
 const { createGlobPatternsForDependencies } = require('@nx/react/tailwind');
 const { join } = require('path');
 
-const { tailwindConfig } = require('../../dist/libs/shadcn-ui');
-
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-  ...tailwindConfig,
-  content: [
-    join(
-      __dirname,
-      '{src,pages,app,modules,components,layouts}/**/*!(*.stories|*.spec).{ts,tsx,html}',
-    ),
-    ...createGlobPatternsForDependencies(__dirname),
-    // Path to Tremor module
-    './node_modules/@tremor/**/*.{js,ts,jsx,tsx}',
-  ],
+const { tailwindConfig: shadcnTwConfig } = require('../../dist/libs/shadcn-ui');
+const tremorTwConfig = {
   theme: {
     transparent: 'transparent',
     current: 'currentColor',
@@ -139,6 +128,20 @@ module.exports = {
       pattern:
         /^(fill-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
     },
+  ],
+};
+
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  ...merge(tremorTwConfig, shadcnTwConfig),
+  content: [
+    join(
+      __dirname,
+      '{src,pages,app,modules,components,layouts}/**/*!(*.stories|*.spec).{ts,tsx,html}',
+    ),
+    ...createGlobPatternsForDependencies(__dirname),
+    // Path to Tremor module
+    './node_modules/@tremor/**/*.{js,ts,jsx,tsx}',
   ],
   plugins: [formsPlugin],
 };
