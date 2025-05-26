@@ -112,8 +112,10 @@ const CheckoutView: React.FC = () => {
           taxInclusive: checkoutItem.item.taxInclusive ?? false, // Add taxInclusive
         })),
       );
+    } else {
+      router.replace('/cart');
     }
-  }, [checkoutItems, form]);
+  }, [checkoutItems, form, router]);
 
   const couponInputRef = useRef<HTMLInputElement | null>(null);
 

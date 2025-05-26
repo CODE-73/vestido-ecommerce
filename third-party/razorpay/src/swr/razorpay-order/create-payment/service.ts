@@ -24,29 +24,7 @@ export async function createRazorpayPayment(
       handler: async (r: RazorpayResponse) => {
         backButtonHandler.remove();
         res(r);
-        // try {
-        //   const verifyData = {
-        //     paymentId: args.paymentId,
-        //     type: 'CAPTURE_PAYMENT',
-        //     order_id: args.razorpayOrderId,
-        //     payment_RP_id: razorpayOrderResponse.razorpay_payment_id,
-        //     razorpay_signature: razorpayOrderResponse.razorpay_signature,
-        //   };
-
-        //   const verificationResponse = await processPayment({
-        //     ...verifyData,
-        //   });
-
-        //   if (verificationResponse) {
-        //     // Handle successful payment here
-        //     console.log('Payment successful');
-        //   } else {
-        //     // Handle payment failure here
-        //     console.log('Payment failed');
-        //   }
-        // } catch (error) {
-        //   console.error('Error verifying Razorpay payment:', error);
-        // }
+        // Verification is done in another Service
       },
       prefill: {
         name: `${profile.firstName} ${profile.lastName}`.trim(),
@@ -64,12 +42,11 @@ export async function createRazorpayPayment(
           console.log('Payment modal closed by the user.');
           await invokeCancelPayment(args.paymentId, authHeaders);
 
-          window.location.replace('/checkout'); // Redirect to checkout page
-          console.log('history', window.history);
+          window.location.replace('/checkout');
+          rej('Payment modal closed by the user.');
         },
       },
     };
-    console.log('Options: ', options);
 
     // Razorpay is installed as a global <script />
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -110,6 +87,11 @@ async function invokeCancelPayment(
   }
 }
 
+/**
+ * On Mobile, when the Razorpay payment modal is open,
+ * Clicking Back Button is causing Next.js Router to pick it up and cause
+ * a navigation to the previous page in the BACKGROUND.
+ */
 function handleBackButton(
   paymentId: string,
   authHeaders: Record<string, string>,
@@ -131,6 +113,7 @@ function handleBackButton(
         paymentInProgress = false;
         // Cancel the payment
         await invokeCancelPayment(paymentId, authHeaders);
+        // Redirect to the checkout page
         window.location.replace('/checkout');
       }
     }
