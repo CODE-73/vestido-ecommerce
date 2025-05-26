@@ -57,34 +57,34 @@ const OrderTrendWidgetDisplay: React.FC<OrderTrendWidgetProps> = ({
       <div className='flex justify-between items-center'>  <h3 className="text-lg font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
         Order Count
       </h3>
-      <Select
-        value={groupBy}
-        onValueChange={(value) =>
-          onWidgetFilterChange('groupBy', value as GroupBy)
-        }
-      >
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Select Group By" />
-        </SelectTrigger>
-        <SelectContent className="bg-white">
-          {groupByOptions.map((option) => (
-            <SelectItem key={option} value={option}>
-              {option.charAt(0).toUpperCase() + option.slice(1)}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select></div>
-    
+        <Select
+          value={groupBy}
+          onValueChange={(value) =>
+            onWidgetFilterChange('groupBy', value as GroupBy)
+          }
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select Group By" />
+          </SelectTrigger>
+          <SelectContent className="bg-white">
+            {groupByOptions.map((option) => (
+              <SelectItem key={option} value={option}>
+                {option.charAt(0).toUpperCase() + option.slice(1)}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select></div>
+
       <BarChart
         className="mt-6 h-80"
         data={
           order_count?.success
             ? order_count.data.map(
-                (item: { period: string; total_orders: string }) => ({
-                  period: formatPeriod(item.period, groupBy),
-                  total_orders: Number(item.total_orders),
-                }),
-              )
+              (item: { period: string; total_orders: string }) => ({
+                period: formatPeriod(item.period, groupBy),
+                total_orders: Number(item.total_orders),
+              }),
+            )
             : []
         }
         index="period"
