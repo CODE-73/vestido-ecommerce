@@ -51,7 +51,7 @@ const RevenueWidgetDisplay: React.FC<RevenueWidgetProps> = ({
 
   return (
     <Card>
-      <h3 className="text-lg font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
+      <div className='flex items-center justify-between'>  <h3 className="text-lg font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
         Revenue
       </h3>
       <Select
@@ -70,7 +70,8 @@ const RevenueWidgetDisplay: React.FC<RevenueWidgetProps> = ({
             </SelectItem>
           ))}
         </SelectContent>
-      </Select>
+      </Select></div>
+    
       <BarChart
         className="mt-6 h-80"
         data={

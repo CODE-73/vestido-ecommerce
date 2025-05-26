@@ -54,7 +54,7 @@ const OrderTrendWidgetDisplay: React.FC<OrderTrendWidgetProps> = ({
 
   return (
     <Card>
-      <h3 className="text-lg font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
+      <div className='flex justify-between items-center'>  <h3 className="text-lg font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
         Order Count
       </h3>
       <Select
@@ -73,7 +73,8 @@ const OrderTrendWidgetDisplay: React.FC<OrderTrendWidgetProps> = ({
             </SelectItem>
           ))}
         </SelectContent>
-      </Select>
+      </Select></div>
+    
       <BarChart
         className="mt-6 h-80"
         data={

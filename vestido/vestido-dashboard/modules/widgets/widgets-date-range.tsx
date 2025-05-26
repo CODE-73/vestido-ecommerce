@@ -6,7 +6,7 @@ export default function WidgetsDateRange() {
   const { fromDate, toDate, handleDateChange } = useWidgets();
 
   return (
-    <div className="grid grid-cols-2 gap-1 mb-4">
+    <div className="flex gap-1 mb-4">
       <Input
         type="date"
         value={fromDate ?? ''}
