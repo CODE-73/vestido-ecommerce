@@ -51,9 +51,11 @@ const RevenueWidgetDisplay: React.FC<RevenueWidgetProps> = ({
 
   return (
     <Card>
-      <div className='flex items-center justify-between'>  <h3 className="text-lg font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
-        Revenue
-      </h3>
+      <div className="flex items-center justify-between">
+        {' '}
+        <h3 className="text-lg font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
+          Revenue
+        </h3>
         <Select
           value={groupBy}
           onValueChange={(value) =>
@@ -70,18 +72,19 @@ const RevenueWidgetDisplay: React.FC<RevenueWidgetProps> = ({
               </SelectItem>
             ))}
           </SelectContent>
-        </Select></div>
+        </Select>
+      </div>
 
       <BarChart
         className="mt-6 h-80"
         data={
           revenue?.success
             ? revenue.data.map(
-              (item: { period: string; total_revenue: string }) => ({
-                period: formatPeriod(item.period, groupBy),
-                total_revenue: Number(item.total_revenue),
-              }),
-            )
+                (item: { period: string; total_revenue: string }) => ({
+                  period: formatPeriod(item.period, groupBy),
+                  total_revenue: Number(item.total_revenue),
+                }),
+              )
             : []
         }
         index="period"
