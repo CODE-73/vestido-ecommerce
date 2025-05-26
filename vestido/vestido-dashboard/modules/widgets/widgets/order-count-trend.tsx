@@ -54,9 +54,11 @@ const OrderTrendWidgetDisplay: React.FC<OrderTrendWidgetProps> = ({
 
   return (
     <Card>
-      <div className='flex justify-between items-center'>  <h3 className="text-lg font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
-        Order Count
-      </h3>
+      <div className="flex justify-between items-center">
+        {' '}
+        <h3 className="text-lg font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
+          Order Count
+        </h3>
         <Select
           value={groupBy}
           onValueChange={(value) =>
@@ -73,18 +75,19 @@ const OrderTrendWidgetDisplay: React.FC<OrderTrendWidgetProps> = ({
               </SelectItem>
             ))}
           </SelectContent>
-        </Select></div>
+        </Select>
+      </div>
 
       <BarChart
         className="mt-6 h-80"
         data={
           order_count?.success
             ? order_count.data.map(
-              (item: { period: string; total_orders: string }) => ({
-                period: formatPeriod(item.period, groupBy),
-                total_orders: Number(item.total_orders),
-              }),
-            )
+                (item: { period: string; total_orders: string }) => ({
+                  period: formatPeriod(item.period, groupBy),
+                  total_orders: Number(item.total_orders),
+                }),
+              )
             : []
         }
         index="period"

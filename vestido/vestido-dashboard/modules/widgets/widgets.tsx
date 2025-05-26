@@ -6,7 +6,6 @@ import { WidgetsProvider } from './widgets-provider';
 const Widgets: React.FC = () => {
   return (
     <div className={`lg:pt-24 px-4 bg-slate-300 h-screen`}>
-
       {/* <Card className="mx-auto max-w-md">
           <h4 className="text-tremor-default text-tremor-content dark:text-dark-tremor-content">
             Sales
@@ -24,9 +23,9 @@ const Widgets: React.FC = () => {
         <WidgetsDateRange />
         <div className="wrapper w-full grid sm:grid-cols-2  gap-3 mt-10">
           <OrderTrendWidget />
-          <RevenueWidget /></div>
+          <RevenueWidget />
+        </div>
       </WidgetsProvider>
-
     </div>
   );
 };
