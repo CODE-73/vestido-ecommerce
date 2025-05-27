@@ -24,7 +24,7 @@ export async function createOrder(_data: CreateOrderSchemaType) {
     shippingCharges,
     itemsPrice,
     totalTax,
-    discount,
+    couponDiscount,
     grandTotal,
     itemsWithTax,
   } = await calculateTotal({
@@ -46,7 +46,7 @@ export async function createOrder(_data: CreateOrderSchemaType) {
       totalPrice: itemsPrice - totalTax,
       totalTax: totalTax,
       totalCharges: shippingCharges,
-      totalDiscount: discount,
+      totalDiscount: couponDiscount,
       grandTotal: grandTotal,
       couponCode: couponCode,
       customer: {

@@ -3,6 +3,7 @@ import { z } from 'zod';
 export const OrderItemSchema = z.object({
   itemId: z.string().uuid(),
   price: z.coerce.number(),
+  discountedPrice: z.coerce.number().nullish(),
   qty: z.number().int(),
   variantId: z.string().uuid().nullish(),
   taxTitle: z.string().nullish(),

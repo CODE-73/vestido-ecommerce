@@ -12,10 +12,15 @@ export async function calculateTotal(data: CalculateTotalSchemaType) {
   });
   const shippingCharges = shipping.shippingCost ?? 0;
 
+  const itemsOriginalPrice =
+    validatedData.orderItems?.reduce((total, item) => {
+      return total + (item.qty ?? 1) * item.price;
+    }, 0) ?? 0;
+
   //Qty*price to show in Storefront
   const itemsPrice =
     validatedData.orderItems?.reduce((total, item) => {
-      return total + (item.qty ?? 1) * item.price;
+      return total + (item.qty ?? 1) * (item.discountedPrice ?? item.price);
     }, 0) ?? 0;
 
   // Calculate item prices and taxes
@@ -39,7 +44,7 @@ export async function calculateTotal(data: CalculateTotalSchemaType) {
 
   const subTotal = itemsPrice - totalTax;
 
-  let discount = 0;
+  let couponDiscount = 0;
   let coupon;
   let invalidCoupon = false;
 
@@ -51,22 +56,23 @@ export async function calculateTotal(data: CalculateTotalSchemaType) {
       invalidCoupon = true;
     } else {
       if (coupon.discountType == 'AMOUNT') {
-        discount = coupon.discountAmount;
+        couponDiscount = coupon.discountAmount;
       }
       if (coupon.discountType == 'PERCENTAGE') {
-        discount = (subTotal * coupon.discountPercent) / 100;
+        couponDiscount = (subTotal * coupon.discountPercent) / 100;
       }
     }
   }
 
   //  const totalCharges = shippingCharges;
-  const grandTotal = subTotal - discount + totalTax + shippingCharges;
+  const grandTotal = subTotal - couponDiscount + totalTax + shippingCharges;
 
   const calculatedData = {
     shippingCharges,
+    itemsOriginalPrice,
     itemsPrice,
     totalTax,
-    discount,
+    couponDiscount,
     grandTotal,
     itemsWithTax,
     invalidCoupon,

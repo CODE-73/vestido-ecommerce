@@ -134,7 +134,9 @@ const CheckoutView: React.FC = () => {
   const mappedOrderItems = checkoutItems
     ? checkoutItems.map((checkoutItem) => ({
         itemId: checkoutItem.itemId,
-        price: checkoutItem.item.discountedPrice || checkoutItem.item.price, // Get price from the item object
+        price: checkoutItem.item.price, // Get price from the item object
+        discountedPrice:
+          checkoutItem.item.discountedPrice || checkoutItem.item.price,
         qty: checkoutItem.qty,
         variantId: checkoutItem.variantId || null, // Handle optional variantId
         taxTitle: checkoutItem.item.taxTitle || null, // Get taxTitle from the item object
@@ -301,22 +303,48 @@ const CheckoutView: React.FC = () => {
               </div>
               <hr className="border-gray-600" />
               <div className="flex justify-between pr-3 mt-3">
-                <div className="text-md">Subtotal</div>
+                <div className="text-md">VcaRt Total</div>
                 {totals ? (
-                  <div className="text-lg">{formatINR(totals.itemsPrice)}</div>
+                  <div className="text-lg">
+                    {formatINR(totals.itemsOriginalPrice)}
+                  </div>
                 ) : (
                   <div className="text-lg">
-                    <div className="animate-pulse bg-gray-200 h-6 w-20 rounded"></div>
+                    <div className="animate-pulse bg-gray-800 h-3 w-20 rounded"></div>
                   </div>
                 )}
               </div>
               <div className="flex justify-between pr-3 mt-3">
                 <div className="text-md">Discount</div>
                 {totals ? (
-                  <div className="text-lg">{formatINR(totals.discount)}</div>
+                  <div className="text-lg">
+                    {formatINR(totals.itemsOriginalPrice - totals.itemsPrice)}
+                  </div>
                 ) : (
                   <div className="text-lg">
-                    <div className="animate-pulse bg-gray-200 h-6 w-20 rounded"></div>
+                    <div className="animate-pulse bg-gray-800 h-3 w-20 rounded"></div>
+                  </div>
+                )}
+              </div>
+              <div className="flex justify-between pr-3 mt-3">
+                <div className="text-md">Subtotal</div>
+                {totals ? (
+                  <div className="text-lg">{formatINR(totals.itemsPrice)}</div>
+                ) : (
+                  <div className="text-lg">
+                    <div className="animate-pulse bg-gray-800 h-3 w-20 rounded"></div>
+                  </div>
+                )}
+              </div>
+              <div className="flex justify-between pr-3 mt-3">
+                <div className="text-md">Coupon Discount</div>
+                {totals ? (
+                  <div className="text-lg">
+                    {formatINR(totals.couponDiscount)}
+                  </div>
+                ) : (
+                  <div className="text-lg">
+                    <div className="animate-pulse bg-gray-800 h-3 w-20 rounded"></div>
                   </div>
                 )}
               </div>
@@ -328,7 +356,7 @@ const CheckoutView: React.FC = () => {
                   </div>
                 ) : (
                   <div className="text-lg">
-                    <div className="animate-pulse bg-gray-200 h-6 w-20 rounded"></div>
+                    <div className="animate-pulse bg-gray-800 h-3 w-20 rounded"></div>
                   </div>
                 )}
               </div>
@@ -339,7 +367,7 @@ const CheckoutView: React.FC = () => {
                   <div className="text-lg">{formatINR(totals.grandTotal)}</div>
                 ) : (
                   <div className="text-lg">
-                    <div className="animate-pulse bg-gray-200 h-6 w-20 rounded"></div>
+                    <div className="animate-pulse bg-gray-800 h-3 w-20 rounded"></div>
                   </div>
                 )}
               </div>

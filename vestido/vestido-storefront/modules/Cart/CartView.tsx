@@ -39,10 +39,18 @@ const CartView: React.FC = () => {
   const removeItem = (itemId: string) => {
     return cartItems.find((x) => x.itemId === itemId);
   };
+
+  const originalPrice =
+    cartItems.reduce((total, item) => {
+      return total + item.qty * item.item.price;
+    }, 0) ?? 0;
+
   const totalPrice =
     cartItems.reduce((total, item) => {
       return total + item.qty * (item.item.discountedPrice || item.item.price);
     }, 0) ?? 0;
+
+  const totalDiscount = originalPrice - totalPrice;
 
   const handleRemoveFromCart = (
     itemId: string,
@@ -197,7 +205,21 @@ const CartView: React.FC = () => {
           <div className="md:basis-1/3 overflow-auto  px-3 md:pl-5 md:sticky top-0 w-full text-white">
             <div className="flex flex-col">
               <hr className="border-gray-600" />
-              <div className="flex justify-between my-5">
+              <div className="flex justify-between mt-5">
+                <div>VcaRt Total</div>
+
+                <div className="text-right font-semibold">
+                  {formatINR(originalPrice)}
+                </div>
+              </div>
+              <div className="flex justify-between my-3">
+                <div>Discount</div>
+
+                <div className="text-right font-semibold">
+                  {formatINR(totalDiscount)}
+                </div>
+              </div>
+              <div className="flex justify-between mb-5">
                 <div>Items Subtotal</div>
 
                 <div className="text-right text-xl font-semibold">
