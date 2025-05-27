@@ -225,12 +225,12 @@ export const SizeSelectorDialog: React.FC<SizeSelectorDialogProps> = ({
               </div>
 
               <AlertDialogFooter className="sm:justify-center mt-4">
-                <AlertDialogCancel className="basis-1/2" type="button">
+                <AlertDialogCancel className="sm:basis-1/2" type="button">
                   Cancel
                 </AlertDialogCancel>
 
                 <AlertDialogAction
-                  className="basis-1/2"
+                  className="sm:basis-1/2"
                   onClick={() => handleConfirmSelection()}
                 >
                   Confirm
