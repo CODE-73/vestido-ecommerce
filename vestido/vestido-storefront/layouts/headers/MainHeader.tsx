@@ -102,7 +102,10 @@ const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
 
           {/* <HeaderDropdown /> */}
           {isAuthenticated ? (
-            <LogoutButton className="text-white hover:text-gray-400 hover:bg-transparent" />
+            <LogoutButton
+              icon
+              className="text-white hover:text-gray-400 hover:bg-transparent"
+            />
           ) : (
             <Link href="/login">
               <Button className="rounded-none h-10 bg-white text-black ml-4 hover:bg-white">
