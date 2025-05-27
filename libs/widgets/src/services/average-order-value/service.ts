@@ -1,5 +1,7 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
 
+import { generatePeriods } from '../generate-periods';
+import { validatePeriodRange } from '../validate-period-range';
 import { BaseReportFilter, BaseReportFilterSchema } from '../zod';
 
 export async function getAverageOrderValue(_body: BaseReportFilter) {
@@ -7,6 +9,8 @@ export async function getAverageOrderValue(_body: BaseReportFilter) {
 
   const body = BaseReportFilterSchema.parse(_body);
   const { fromDate, toDate, groupBy } = body;
+
+  validatePeriodRange({ fromDate, toDate, groupBy });
 
   let dateFormat: string;
   switch (groupBy) {
@@ -40,7 +44,7 @@ export async function getAverageOrderValue(_body: BaseReportFilter) {
     ORDER BY period;
   `;
 
-  return result.map((item) => {
+  const actualData = result.map((item) => {
     const totalRevenue = Number(item.total_revenue);
     const totalOrders = Number(item.total_orders);
     const aov =
@@ -48,7 +52,25 @@ export async function getAverageOrderValue(_body: BaseReportFilter) {
 
     return {
       period: item.period,
-      aov,
+      aov: aov.toString(), // Ensure aov is a string to match original logic
     };
   });
+
+  // Step 2: Generate all periods
+  const allPeriods = generatePeriods(
+    new Date(fromDate),
+    new Date(toDate),
+    groupBy,
+  );
+
+  // Step 3: Create a Map from actualData for constant-time lookup
+  const actualMap = new Map(actualData.map(({ period, aov }) => [period, aov]));
+
+  // Step 4: Fill in all periods using the map
+  const merged = allPeriods.map((period) => ({
+    period,
+    aov: actualMap.get(period) ?? '0.00', // Default to '0.00' if period not found
+  }));
+
+  return merged;
 }

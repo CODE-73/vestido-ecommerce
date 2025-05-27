@@ -1,5 +1,7 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
 
+import { generatePeriods } from '../generate-periods';
+import { validatePeriodRange } from '../validate-period-range';
 import { BaseReportFilter, BaseReportFilterSchema } from '../zod';
 
 export async function getRevenue(_body: BaseReportFilter) {
@@ -7,6 +9,8 @@ export async function getRevenue(_body: BaseReportFilter) {
 
   const body = BaseReportFilterSchema.parse(_body);
   const { fromDate, toDate, groupBy } = body;
+
+  validatePeriodRange({ fromDate, toDate, groupBy });
 
   let dateFormat: string;
   switch (groupBy) {
@@ -39,8 +43,28 @@ export async function getRevenue(_body: BaseReportFilter) {
     ORDER BY period;
   `;
 
-  return result.map((item) => ({
+  const actualData = result.map((item) => ({
     ...item,
     total_revenue: item.total_revenue.toString(),
   }));
+
+  const allPeriods = generatePeriods(
+    new Date(fromDate),
+    new Date(toDate),
+    groupBy,
+  );
+
+  const actualMap = new Map(
+    actualData.map(({ period, total_revenue }) => [
+      period,
+      total_revenue.toString(),
+    ]),
+  );
+
+  const merged = allPeriods.map((period) => ({
+    period,
+    total_revenue: actualMap.get(period) ?? '0',
+  }));
+
+  return merged;
 }

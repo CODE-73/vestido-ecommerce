@@ -1,5 +1,7 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
 
+import { generatePeriods } from '../generate-periods';
+import { validatePeriodRange } from '../validate-period-range';
 import { BaseReportFilter, BaseReportFilterSchema } from '../zod';
 
 export async function getOrderCount(_body: BaseReportFilter) {
@@ -7,6 +9,8 @@ export async function getOrderCount(_body: BaseReportFilter) {
 
   const body = BaseReportFilterSchema.parse(_body);
   const { fromDate, toDate, groupBy } = body;
+
+  validatePeriodRange({ fromDate, toDate, groupBy });
 
   let dateFormat: string;
   switch (groupBy) {
@@ -38,8 +42,30 @@ export async function getOrderCount(_body: BaseReportFilter) {
     ORDER BY period;
   `;
 
-  return result.map((item) => ({
+  const actualData = result.map((item) => ({
     ...item,
     total_orders: item.total_orders.toString(),
   }));
+
+  const allPeriods = generatePeriods(
+    new Date(fromDate),
+    new Date(toDate),
+    groupBy,
+  );
+
+  // Step 1: Create a Map from actualData for constant-time lookup
+  const actualMap = new Map(
+    actualData.map(({ period, total_orders }) => [
+      period,
+      total_orders.toString(),
+    ]),
+  );
+
+  // Step 2: Fill in all periods using the map
+  const merged = allPeriods.map((period) => ({
+    period,
+    total_orders: actualMap.get(period) ?? '0',
+  }));
+
+  return merged;
 }
