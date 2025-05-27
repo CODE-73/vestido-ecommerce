@@ -5,15 +5,16 @@ import clsx from 'clsx';
 import { motion } from 'framer-motion';
 
 import { useItem } from '@vestido-ecommerce/items/client';
-import { Button } from '@vestido-ecommerce/shadcn-ui/button';
 import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@vestido-ecommerce/shadcn-ui/dialog';
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@vestido-ecommerce/shadcn-ui/alert-dialog';
 import { formatINR, ImageSchemaType } from '@vestido-ecommerce/utils';
 
 type SizeSelectorDialogProps = {
@@ -133,21 +134,18 @@ export const SizeSelectorDialog: React.FC<SizeSelectorDialogProps> = ({
 
   return (
     <>
-      <Dialog>
-        <DialogTrigger asChild>{children}</DialogTrigger>
+      <AlertDialog>
+        <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
         {isDialogOpen && (
-          <DialogContent
-            className="sm:max-w-[425px]"
-            onInteractOutside={(e) => e.preventDefault()}
-          >
+          <AlertDialogContent className="sm:max-w-[425px]">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.4, ease: 'easeOut' }}
             >
-              <DialogHeader>
-                <DialogTitle>
+              <AlertDialogHeader>
+                <AlertDialogTitle>
                   <div className="flex">
                     <Image
                       className=" px-2 w-1/5"
@@ -176,17 +174,14 @@ export const SizeSelectorDialog: React.FC<SizeSelectorDialogProps> = ({
                       </div>
                     </div>
                   </div>
-                </DialogTitle>
-              </DialogHeader>
+                </AlertDialogTitle>
+              </AlertDialogHeader>
               <hr />
-
-              <div className="grid items-center gap-4 -mt-5">
+              <strong className="mt-5">Select Size:</strong>
+              <div className="grid items-center gap-4 -mt-5 justify-center">
                 <div className="mt-5 flex flex-col gap-2">
                   {Object.keys(attributeMap).map((attributeId) => (
                     <>
-                      <strong>
-                        Select&nbsp;{attributeMap[attributeId].name}:
-                      </strong>
                       <div key={attributeId} className="flex flex-wrap gap-2">
                         {attributeMap[attributeId].values.map(
                           (value, index) => {
@@ -229,18 +224,22 @@ export const SizeSelectorDialog: React.FC<SizeSelectorDialogProps> = ({
                 </div>
               </div>
 
-              <DialogFooter>
-                <Button
+              <AlertDialogFooter className="sm:justify-center mt-4">
+                <AlertDialogCancel className="basis-1/2" type="button">
+                  Cancel
+                </AlertDialogCancel>
+
+                <AlertDialogAction
+                  className="basis-1/2"
                   onClick={() => handleConfirmSelection()}
-                  className="bg-black w-full text-lg my-1 text-white px-2 py-6 font-bold hover:bg-black rounded-none"
                 >
-                  <div>Confirm</div>
-                </Button>
-              </DialogFooter>
+                  Confirm
+                </AlertDialogAction>
+              </AlertDialogFooter>
             </motion.div>
-          </DialogContent>
+          </AlertDialogContent>
         )}
-      </Dialog>
+      </AlertDialog>
     </>
   );
 };
