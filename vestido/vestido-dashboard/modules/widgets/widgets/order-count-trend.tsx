@@ -16,6 +16,7 @@ import {
   type GroupBy,
   isValidGroupBy,
 } from '../formatters';
+import { ValidRangeComponent } from './valid-range-component';
 import { InjectedWidgetProps, WidgetWrapper } from './widget-wrapper';
 
 type OrderTrendWidgetProps = InjectedWidgetProps<{
@@ -77,25 +78,30 @@ const OrderTrendWidgetDisplay: React.FC<OrderTrendWidgetProps> = ({
           </SelectContent>
         </Select>
       </div>
-
-      <BarChart
-        className="mt-6 h-80"
-        data={
-          order_count?.success
-            ? order_count.data.map(
-                (item: { period: string; total_orders: string }) => ({
-                  period: formatPeriod(item.period, groupBy),
-                  total_orders: Number(item.total_orders),
-                }),
-              )
-            : []
-        }
-        index="period"
-        categories={['total_orders']}
-        colors={['blue']}
-        valueFormatter={dataFormatter}
-        yAxisWidth={48}
-      />
+      <ValidRangeComponent
+        fromDate={fromDate}
+        toDate={toDate}
+        groupBy={groupBy}
+      >
+        <BarChart
+          className="mt-6 h-80"
+          data={
+            order_count?.success
+              ? order_count.data.map(
+                  (item: { period: string; total_orders: string }) => ({
+                    period: formatPeriod(item.period, groupBy),
+                    total_orders: Number(item.total_orders),
+                  }),
+                )
+              : []
+          }
+          index="period"
+          categories={['total_orders']}
+          colors={['blue']}
+          valueFormatter={dataFormatter}
+          yAxisWidth={48}
+        />
+      </ValidRangeComponent>
     </Card>
   );
 };

@@ -16,6 +16,7 @@ import {
   type GroupBy,
   isValidGroupBy,
 } from '../formatters';
+import { ValidRangeComponent } from './valid-range-component';
 import { InjectedWidgetProps, WidgetWrapper } from './widget-wrapper';
 
 type RevenueWidgetProps = InjectedWidgetProps<{
@@ -74,25 +75,30 @@ const RevenueWidgetDisplay: React.FC<RevenueWidgetProps> = ({
           </SelectContent>
         </Select>
       </div>
-
-      <BarChart
-        className="mt-6 h-80"
-        data={
-          revenue?.success
-            ? revenue.data.map(
-                (item: { period: string; total_revenue: string }) => ({
-                  period: formatPeriod(item.period, groupBy),
-                  total_revenue: Number(item.total_revenue),
-                }),
-              )
-            : []
-        }
-        index="period"
-        categories={['total_revenue']}
-        colors={['blue']}
-        valueFormatter={dataFormatter}
-        yAxisWidth={48}
-      />
+      <ValidRangeComponent
+        fromDate={fromDate}
+        toDate={toDate}
+        groupBy={groupBy}
+      >
+        <BarChart
+          className="mt-6 h-80"
+          data={
+            revenue?.success
+              ? revenue.data.map(
+                  (item: { period: string; total_revenue: string }) => ({
+                    period: formatPeriod(item.period, groupBy),
+                    total_revenue: Number(item.total_revenue),
+                  }),
+                )
+              : []
+          }
+          index="period"
+          categories={['total_revenue']}
+          colors={['blue']}
+          valueFormatter={dataFormatter}
+          yAxisWidth={48}
+        />
+      </ValidRangeComponent>
     </Card>
   );
 };

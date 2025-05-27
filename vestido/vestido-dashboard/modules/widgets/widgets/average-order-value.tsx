@@ -16,6 +16,7 @@ import {
   type GroupBy,
   isValidGroupBy,
 } from '../formatters';
+import { ValidRangeComponent } from './valid-range-component';
 import { InjectedWidgetProps, WidgetWrapper } from './widget-wrapper';
 
 type AverageValueWidgetProps = InjectedWidgetProps<{
@@ -81,24 +82,30 @@ const AverageOrderValueDisplay: React.FC<AverageValueWidgetProps> = ({
         </Select>
       </div>
 
-      <BarChart
-        className="mt-6 h-80"
-        data={
-          average_order_value?.success
-            ? average_order_value.data.map(
-                (value: { period: string; aov: string }) => ({
-                  period: formatPeriod(value.period, groupBy),
-                  aov: value.aov,
-                }),
-              )
-            : []
-        }
-        index="period"
-        categories={['aov']}
-        colors={['blue']}
-        valueFormatter={dataFormatter}
-        yAxisWidth={48}
-      />
+      <ValidRangeComponent
+        fromDate={fromDate}
+        toDate={toDate}
+        groupBy={groupBy}
+      >
+        <BarChart
+          className="mt-6 h-80"
+          data={
+            average_order_value?.success
+              ? average_order_value.data.map(
+                  (value: { period: string; aov: string }) => ({
+                    period: formatPeriod(value.period, groupBy),
+                    aov: value.aov,
+                  }),
+                )
+              : []
+          }
+          index="period"
+          categories={['aov']}
+          colors={['blue']}
+          valueFormatter={dataFormatter}
+          yAxisWidth={48}
+        />
+      </ValidRangeComponent>
     </Card>
   );
 };
