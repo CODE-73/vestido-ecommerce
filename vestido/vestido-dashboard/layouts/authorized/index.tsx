@@ -21,7 +21,7 @@ const AuthorizedLayout: React.FC<AuthorizedLayoutProps> = ({ children }) => {
     <>
       <div className="bg-background flex flex-row">
         <div
-          className="hidden sm:flex sm:flex-col h-screen sticky top-0"
+          className="hidden sm:flex sm:flex-col fixed top-0 left-0 h-screen overflow-hidden"
           style={{
             width: '200px',
             zIndex: 20,
@@ -57,7 +57,7 @@ const AuthorizedLayout: React.FC<AuthorizedLayoutProps> = ({ children }) => {
           <LogoutButton className="mt-auto" />
         </div>
 
-        <div className="flex-1">
+        <div className="flex-1 sm:ml-[200px]">
           <main>{children}</main>
         </div>
       </div>

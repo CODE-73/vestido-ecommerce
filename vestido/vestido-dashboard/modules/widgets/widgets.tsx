@@ -1,3 +1,4 @@
+import AverageOrderValueWidget from './widgets/average-order-value';
 import OrderTrendWidget from './widgets/order-count-trend';
 import RevenueWidget from './widgets/revenue-widget';
 import WidgetsDateRange from './widgets-date-range';
@@ -5,7 +6,7 @@ import { WidgetsProvider } from './widgets-provider';
 
 const Widgets: React.FC = () => {
   return (
-    <div className={`lg:pt-24 px-4 bg-slate-300 h-screen`}>
+    <div className={`lg:pt-24 px-4 bg-slate-300 pb-10`}>
       {/* <Card className="mx-auto max-w-md">
           <h4 className="text-tremor-default text-tremor-content dark:text-dark-tremor-content">
             Sales
@@ -24,6 +25,7 @@ const Widgets: React.FC = () => {
         <div className="wrapper w-full grid sm:grid-cols-2  gap-3 mt-10">
           <OrderTrendWidget />
           <RevenueWidget />
+          <AverageOrderValueWidget />
         </div>
       </WidgetsProvider>
     </div>
