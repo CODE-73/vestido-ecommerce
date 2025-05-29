@@ -215,7 +215,7 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
             <AddToWishListButton
               itemId={item?.id || ''}
               size={28}
-              className="sm:border sm:border-2 rounded-full sm:rounded-lg font-medium text-xs h-full self-center p-1 sm:p-4  md:p-1 2xl:p-4 "
+              className="hidden sm:block sm:border sm:border-2 rounded-full sm:rounded-lg font-medium text-xs h-full self-center p-1 sm:p-4  md:p-1 2xl:p-4 "
               color="white"
             />
           </div>

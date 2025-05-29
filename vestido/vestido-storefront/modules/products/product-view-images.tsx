@@ -12,6 +12,9 @@ import {
 } from '@vestido-ecommerce/shadcn-ui/carousel';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
+import ShareButton from '../../components/share-button';
+import AddToWishListButton from '../ProductListView/AddToWishlistButton';
+
 type ProductViewImagesProps = {
   item: ItemDetails;
   selectedVariantId: string | null;
@@ -119,6 +122,7 @@ const ProductViewImages: FC<ProductViewImagesProps> = ({
             alt="alt text"
             width={550}
             height={720}
+            className="z-0"
           />
         </div>
       </div>
@@ -139,6 +143,15 @@ const ProductViewImages: FC<ProductViewImagesProps> = ({
                       height={680}
                       style={{ width: '100%', height: '100%' }}
                     />
+                    <div className="absolute right-5 top-5 flex flex-col gap-10">
+                      <AddToWishListButton
+                        itemId={item?.id || ''}
+                        size={28}
+                        className=" text-xs h-full self-center p-1 "
+                        color="gray-600"
+                      />
+                      <ShareButton itemId={item?.id || ''} item={item} />
+                    </div>
                   </div>
                 </CarouselItem>
               ))
