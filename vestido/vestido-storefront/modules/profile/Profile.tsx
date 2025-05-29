@@ -14,10 +14,10 @@ const Profile: React.FC = () => {
 
   return (
     <div className="md:px-10 lg:px-32">
-      <div className="font-semibold text-lg py-4 hidden md:block">
+      <div className="font-semibold text-lg py-4 hidden md:block uppercase">
         Profile Details
       </div>
-      <hr className="border-gray-600 " />
+      <hr className="hidden md:block border-gray-600 " />
       {isEditing ? (
         <EditProfileForm setIsEditing={setIsEditing} />
       ) : (

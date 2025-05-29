@@ -41,7 +41,7 @@ const LogoutButton: FC<LogoutButtonProps> = ({ className, icon }) => {
             <IoLogOutOutline size={22} />
           </Button>
         ) : (
-          <div className="md:text-lg">Logout</div>
+          <div className="text-white text-lg uppercase">Logout</div>
         )}
       </AlertDialogTrigger>
       <AlertDialogContent className="w-full mx-auto rounded-lg ">

@@ -36,6 +36,7 @@ const ProfileView: React.FC = () => {
   const router = useRouter();
   const { tab } = router.query;
   const selectedNav = typeof tab === 'string' ? tab : '';
+  const IsTabSelected = selectedNav.trim() !== '';
 
   const handleTabChange = (value: string) => {
     router.push(`/profile/${value}`, undefined, { shallow: true });
@@ -51,16 +52,16 @@ const ProfileView: React.FC = () => {
   // }, [isSmallScreen]);
 
   const profileTabs = [
-    { value: 'profile', label: 'Profile' },
-    { value: 'orders', label: 'Orders & Returns' },
-    { value: 'addresses', label: 'Addresses' },
-    { value: 't&c', label: 'Terms of Use' },
-    { value: 'privacy', label: 'Privacy Policy' },
+    { value: 'profile', label: 'PROFILE' },
+    { value: 'orders', label: 'ORDERS & RETURNS' },
+    { value: 'addresses', label: 'ADDRESSES' },
+    { value: 't&c', label: 'TERMS OF USE' },
+    { value: 'privacy', label: 'PRIVACY POLICY' },
     { value: 'faq', label: 'FAQs' },
-    { value: 'shipping', label: 'Shipping Policy' },
-    { value: 'return', label: 'Return & Exchange' },
-    { value: 'contact', label: 'Contact Us' },
-    { value: 'delete', label: 'Delete Account' },
+    { value: 'shipping', label: 'SHIPPING POLICY' },
+    { value: 'return', label: 'RETURN & EXCHANGE' },
+    { value: 'help_center', label: 'HELP CENTER' },
+    { value: 'delete', label: 'DELETE ACCOUNT' },
   ];
   const TabContent = ({
     value,
@@ -71,31 +72,51 @@ const ProfileView: React.FC = () => {
     label: string;
     children: React.ReactNode;
   }) => (
-    <TabsContent value={value} className="relative">
+    // <TabsContent value={value} className="relative">
+    //   {isSmallScreen && selectedNav && (
+    //     <div className="flex justify-between items-center mb-10">
+    //       <Button
+    //         className="bg-transparent text-white p-0 flex items-center"
+    //         onClick={() => router.back()}
+    //       >
+    //         <LuChevronLeft size={30} />
+    //       </Button>
+    //       <div className="font-semibold text-lg my-4 md:hidden">{label}</div>
+    //       <div></div>
+    //     </div>
+    //   )}
+    //   {children}
+    // </TabsContent>
+    <TabsContent value={value} className="relative h-full">
       {isSmallScreen && selectedNav && (
-        <>
+        <div className="sticky top-0 z-10 bg-black flex justify-between items-center py-4">
           <Button
             className="bg-transparent text-white p-0 flex items-center"
             onClick={() => router.back()}
           >
-            <LuChevronLeft size={24} />
-            <div className="font-semibold text-lg my-4 md:hidden">{label}</div>
+            <LuChevronLeft size={30} />
           </Button>
-          <hr className="border-gray-600 mb-2" />
-        </>
+          <div className="font-semibold text-lg md:hidden">{label}</div>
+          <div></div>
+        </div>
       )}
-      {children}
+
+      <div className="overflow-y-auto h-[calc(100vh-60px)] px-1 pb-4">
+        {children}
+      </div>
     </TabsContent>
   );
 
   return (
     <div className="2xl:px-72 my-20 text-white px-3 relative">
-      <h4 className="md:text-lg">Account</h4>
-      <h3 className="uppercase md:text-lg my-1 md:my-4">
-        {currentUser?.firstName}&nbsp; {currentUser?.lastName}
-      </h3>
-      <hr className="border-gray-600" />
-      <hr className="border-gray-600 md:hidden relative" />
+      <div className={`${IsTabSelected ? 'hidden md:block' : ''} `}>
+        <h4 className="md:text-lg my-1 md:my-4 uppercase ">
+          Hi&nbsp;&nbsp;{currentUser?.firstName}&nbsp;{currentUser?.lastName}!
+        </h4>
+
+        <hr className="border-gray-600" />
+        <hr className="border-gray-600 md:hidden relative" />
+      </div>
 
       <Tabs
         value={selectedNav}
@@ -110,7 +131,7 @@ const ProfileView: React.FC = () => {
                   <TabsTrigger
                     key={value}
                     value={value}
-                    className="bg-transparent border-none data-[state=active]:border-none data-[state=active]:underline underline-offset-800 data-[state=active]:bg-transparent data-[state=active]:text-white text-sm md:text-lg mb-1 px-0"
+                    className="tracking-wide text-white bg-transparent border-none data-[state=active]:border-none data-[state=active]:underline underline-offset-800 data-[state=active]:bg-transparent data-[state=active]:text-white text-lg md:text-lg mb-1 px-0"
                   >
                     {label}
                   </TabsTrigger>
@@ -170,39 +191,39 @@ const ProfileView: React.FC = () => {
           </div>
         ) : null}
 
-        <div className={`w-full md:basis-4/5 px-1 md:px-4 `}>
+        <div className={`w-full md:basis-4/5 px-1 md:px-4 text-lg`}>
           {/*${isSmallScreen && selectedNav ? '' : 'hidden'}*/}
-          <TabContent value="orders" label="All Orders">
+          <TabContent value="orders" label="ORDERS">
             <OrdersView />
           </TabContent>
 
-          <TabContent value="profile" label="Profile Details">
+          <TabContent value="profile" label="PROFILE ">
             <Profile />
           </TabContent>
-          <TabContent value="addresses" label="Address">
+          <TabContent value="addresses" label="ADDRESSES">
             <Addresses />
           </TabContent>
 
-          <TabContent value="t&c" label="Terms and Conditions">
+          <TabContent value="t&c" label="TERMS & CONDITIONS">
             <TermsAndConditions />
           </TabContent>
 
-          <TabContent value="privacy" label="Privacy Policy">
+          <TabContent value="privacy" label="PRIVACY POLICY">
             <PrivacyPolicy />
           </TabContent>
-          <TabContent value="faq" label="Frequently Asked Questions">
+          <TabContent value="faq" label="FREQUENTLY ASKED QUESTIONS">
             <FAQ />
           </TabContent>
-          <TabContent value="shipping" label="Shipping Policy">
+          <TabContent value="shipping" label="SHIPPING POLICY">
             <ShippingPolicy />
           </TabContent>
-          <TabContent value="return" label="Return & Exchange">
+          <TabContent value="return" label="RETURN & EXCHANGE">
             <ReturnExchange />
           </TabContent>
-          <TabContent value="contact" label="Return & Exchange">
+          <TabContent value="help_center" label="HELP CENTER">
             <ContactUs />
           </TabContent>
-          <TabContent value="delete" label="Delete Account">
+          <TabContent value="delete" label="DELETE ACCOUNT">
             <DeleteAccount />
           </TabContent>
         </div>
