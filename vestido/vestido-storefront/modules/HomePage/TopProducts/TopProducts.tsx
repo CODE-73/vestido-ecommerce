@@ -69,7 +69,7 @@ export const TopProducts: FC<TopProductsProps> = ({ className, items }) => {
 
   return (
     <div
-      className={`flex flex-col items-center justify-center ${clsx(className)}`}
+      className={`flex flex-col items-center mx-auto justify-center ${clsx(className)}`}
     >
       <h3 className="text-2xl md:text-4xl tracking-wide text-[#333333]  pb-6 text-white">
         Top Products of the Week
