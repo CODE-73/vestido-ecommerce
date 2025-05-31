@@ -7,50 +7,22 @@ export async function getRevenueByCategory(_body: BaseReportFilter) {
   const body = BaseReportFilterSchema.parse(_body);
   const { fromDate, toDate } = body;
 
-  const revenueByLeafCategory = await prisma.category.findMany({
-    where: {
-      enabled: true,
-    },
-    select: {
-      id: true,
-      name: true,
-      items: {
-        select: {
-          OrderItem: {
-            where: {
-              order: {
-                orderPaymentStatus: 'CAPTURED',
-              },
-              createdAt: {
-                gte: new Date(fromDate),
-                lte: new Date(toDate),
-              },
-            },
-            select: {
-              price: true,
-              qty: true,
-            },
-          },
-        },
-      },
-    },
-  });
+  const revenueByLeafCategory = await prisma.$queryRaw<
+    Array<{ categoryName: string; totalRevenue: number }>
+  >` 
+  SELECT  
+    c.name as categoryName, 
+    COALESCE(SUM(oi.price * oi.qty), 0) AS totalRevenue
+  FROM "Category" c
+  LEFT JOIN "Item" i ON i."categoryId" = c.id
+  LEFT JOIN "OrderItem" oi ON oi."itemId" = i.id
+  LEFT JOIN "Order" o ON o.id = oi."orderId"
+  WHERE c.enabled = true
+    AND (oi."createdAt" BETWEEN ${new Date(fromDate)} AND ${new Date(toDate)})
+    AND o."orderPaymentStatus" = 'CAPTURED'
+  GROUP BY categoryName
+  ORDER BY totalRevenue DESC;
+`;
 
-  const result = revenueByLeafCategory
-    .map((cat) => {
-      const totalRevenue = cat.items.reduce((sum, item) => {
-        const itemRevenue = item.OrderItem.reduce((itemSum, orderItem) => {
-          return itemSum + orderItem.price * orderItem.qty;
-        }, 0);
-        return sum + itemRevenue;
-      }, 0);
-
-      return {
-        categoryName: cat.name,
-        totalRevenue,
-      };
-    })
-    .filter((cat) => cat.totalRevenue > 0);
-
-  return result;
+  return revenueByLeafCategory;
 }
