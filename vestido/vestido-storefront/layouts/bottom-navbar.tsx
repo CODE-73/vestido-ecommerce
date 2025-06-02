@@ -25,7 +25,9 @@ const BottomNavbar: React.FC = () => {
 
   return (
     <footer
-      className={`mt-5 shadow-[0_-4px_20px_rgba(255,255,255,0.2)]  rounded-tl-lg flex flex-col rounded-tr-lg bg-black shadow w-screen transition transition-all ease-out duration-500 ${isDrawerOpen ? `justify-between pb-8 h-screen-minus-nav` : 'h-16 justify-center'}`}
+      className={`fixed bottom-0 left-0 right-0 z-50 shadow-[0_-4px_20px_rgba(255,255,255,0.2)] rounded-tl-lg rounded-tr-lg bg-black transition-all ease-out duration-500 ${
+        isDrawerOpen ? `h-screen-minus-nav pb-8` : 'h-16'
+      }`}
     >
       {isDrawerOpen && (
         <CategoriesDrawer
@@ -33,25 +35,25 @@ const BottomNavbar: React.FC = () => {
           toggleDrawer={toggleDrawer}
         />
       )}
-      <div className="flex items-end text-white justify-center min-h-16">
-        <div className="grid grid-cols-5 w-full max-w-md">
+      <div className="flex items-center justify-center h-16 text-white">
+        <div className="grid grid-cols-5 w-full max-w-[500px] mx-auto gap-2">
           <Link
             href="/"
-            className="flex flex-col items-center justify-end h-16 w-full"
+            className="flex flex-col items-center justify-center h-16"
           >
             <RiHome2Line size={24} strokeWidth={0.1} />
             <div className="text-[12px]">Home</div>
           </Link>
           <button
             onClick={toggleDrawer}
-            className="flex flex-col items-center justify-end h-16 w-full"
+            className="flex flex-col items-center justify-center h-16"
           >
             <MdOutlineCategory size={24} />
             <div className="text-[12px]">Collection</div>
           </button>
           <Link
             href="/cart"
-            className=" flex flex-col items-center justify-end h-16 w-full"
+            className="flex flex-col items-center justify-center h-16"
           >
             <LuShoppingBag size={24} />
             <div className="relative text-[12px]">
@@ -65,14 +67,14 @@ const BottomNavbar: React.FC = () => {
           </Link>
           <Link
             href="/profile/orders"
-            className="flex flex-col items-center justify-end h-16 w-full"
+            className="flex flex-col items-center justify-center h-16"
           >
             <LuPackage size={24} />
             <div className="text-[12px]">Orders</div>
           </Link>
           <AuthenticatedLink
             href="/profile"
-            className="flex flex-col items-center justify-end h-16 w-full"
+            className="flex flex-col items-center justify-center h-16"
           >
             <LuUser2 size={24} />
             <div className="text-[12px]">Me</div>

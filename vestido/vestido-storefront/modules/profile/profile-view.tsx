@@ -139,7 +139,7 @@ const ProfileView: React.FC = () => {
               ))}
               <LogoutButton icon={false} />
               <div className="sm:hidden w-full mt-32">
-                <div className="w-full flex justify-around mt-3">
+                <div className=" flex justify-center space-x-16 mt-3">
                   {' '}
                   <Link href="https://www.facebook.com/people/Vestido-Nation/61554017931370/?mibextid=ZbWKwL">
                     <div className="sm:rounded-full sm:bg-white sm:p-2 cursor-pointer">
@@ -177,6 +177,7 @@ const ProfileView: React.FC = () => {
                     </Link>
                   </div>
                 </div>
+
                 <div className="flex divide-x divide-gray-200 text-white gap-3 items-center justify-self-center mt-8">
                   <div className=""> Available on</div>
                   <div className="flex gap-3 items-center justify-around text-xl pl-3">
