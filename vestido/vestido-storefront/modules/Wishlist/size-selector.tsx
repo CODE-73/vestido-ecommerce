@@ -137,7 +137,7 @@ export const SizeSelectorDialog: React.FC<SizeSelectorDialogProps> = ({
       <AlertDialog>
         <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
         {isDialogOpen && (
-          <AlertDialogContent className="sm:max-w-[425px]">
+          <AlertDialogContent className="w-[98%] flex justify-center mx-auto rounded-lg sm:max-w-[425px]">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -159,7 +159,7 @@ export const SizeSelectorDialog: React.FC<SizeSelectorDialogProps> = ({
                     />
                     <div className="flex flex-col gap-4 ">
                       <div className="font-normal">{item?.title}</div>
-                      <div className="flex gap-2">
+                      <div className="flex gap-2 items-center">
                         {formatINR(
                           item?.discountedPrice ?? (item?.price as number),
                         )}
@@ -177,7 +177,9 @@ export const SizeSelectorDialog: React.FC<SizeSelectorDialogProps> = ({
                 </AlertDialogTitle>
               </AlertDialogHeader>
               <hr />
-              <strong className="mt-5">Select Size:</strong>
+              <strong className="mt-8 text-[12px] sm:text-base">
+                Select Size
+              </strong>
               <div className="grid items-center gap-4 -mt-5 justify-center">
                 <div className="mt-5 flex flex-col gap-2">
                   {Object.keys(attributeMap).map((attributeId) => (
@@ -223,15 +225,14 @@ export const SizeSelectorDialog: React.FC<SizeSelectorDialogProps> = ({
                   ))}
                 </div>
               </div>
-
-              <AlertDialogFooter className="sm:justify-center mt-4">
-                <AlertDialogCancel className="sm:basis-1/2" type="button">
+              <AlertDialogFooter className="grid grid-cols-2 gap-2 mt-8">
+                <AlertDialogCancel className="border-black mt-0 bg-transparent text-black">
                   Cancel
                 </AlertDialogCancel>
 
                 <AlertDialogAction
-                  className="sm:basis-1/2"
                   onClick={() => handleConfirmSelection()}
+                  className="bg-black"
                 >
                   Confirm
                 </AlertDialogAction>
