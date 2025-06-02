@@ -89,15 +89,15 @@ const ProfileView: React.FC = () => {
     // </TabsContent>
     <TabsContent value={value} className="relative h-full">
       {isSmallScreen && selectedNav && (
-        <div className="sticky top-0 z-10 bg-black flex justify-between items-center py-4">
+        //[top: var(--navbar-height)]
+        <div className="sticky top-0 bg-black flex justify-center items-center py-4 relative">
           <Button
-            className="bg-transparent text-white p-0 flex items-center"
+            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-transparent text-white p-0 flex items-center"
             onClick={() => router.back()}
           >
             <LuChevronLeft size={30} />
           </Button>
           <div className="font-semibold text-lg md:hidden">{label}</div>
-          <div></div>
         </div>
       )}
 

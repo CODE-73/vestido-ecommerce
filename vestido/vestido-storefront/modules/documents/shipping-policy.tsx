@@ -1,7 +1,9 @@
 const ShippingPolicy = () => {
   return (
-    <div className="max-w-3xl mx-auto p-6 space-y-8">
-      <h1 className="text-2xl font-bold">Vestido Nation Shipping Policy</h1>
+    <div className="max-w-3xl mx-auto p-1 md:p-6 space-y-8 ">
+      <h1 className="text-2xl font-bold mt-10 text-center">
+        Vestido Nation Shipping Policy
+      </h1>
       <p>
         Thank you for shopping with Vestido Nation! We are committed to
         delivering your orders promptly and ensuring a seamless shopping

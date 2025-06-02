@@ -1,8 +1,6 @@
 const ContactUs = () => {
   return (
-    <div className="max-w-2xl mx-auto p-6 space-y-6">
-      <h1 className="text-2xl font-bold">Contact Us</h1>
-
+    <div className="max-w-2xl mx-auto p-2 md:p-6 pt-8 space-y-6">
       <div className="space-y-2">
         <h2 className="text-lg font-semibold">📞 Phone</h2>
         <p className="text-white">+91 88487 79394</p>
