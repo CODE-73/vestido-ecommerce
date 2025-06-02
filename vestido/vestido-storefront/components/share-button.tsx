@@ -76,7 +76,7 @@ const ShareButton: React.FC<ShareButtonProps> = ({ itemId, item }) => {
       aria-label="Share item"
       className="text-gray-600 hover:text-gray-800 transition-colors p-1"
     >
-      <LuShare2 strokeWidth={1.3} size={28} />
+      <LuShare2 strokeWidth={1.3} size={22} />
     </button>
   );
 };

@@ -127,14 +127,14 @@ const ProductViewImages: FC<ProductViewImagesProps> = ({
         </div>
       </div>
       <div className="sm:hidden">
-        <Carousel className=" w-full relative">
-          <CarouselContent>
+        <Carousel className="w-full relative">
+          <CarouselContent className="space-x-0">
             {productImages.length > 0 ? (
               productImages.map((image, index) => (
-                <CarouselItem key={index}>
-                  <div className="w-full h-[60vh] flex justify-center items-center">
+                <CarouselItem key={index} className="p-0 m-0">
+                  <div className="w-full h-[60vh] flex justify-center items-center relative">
                     <Image
-                      className="outline outline-3 hover:outline-gray-300 mb-3 object-cover"
+                      className="object-cover w-full h-full"
                       src={image.url!}
                       placeholder={image.blurHashDataURL ? 'blur' : undefined}
                       blurDataURL={image.blurHashDataURL ?? undefined}
@@ -143,11 +143,11 @@ const ProductViewImages: FC<ProductViewImagesProps> = ({
                       height={680}
                       style={{ width: '100%', height: '100%' }}
                     />
-                    <div className="absolute right-5 top-5 flex flex-col gap-10">
+                    <div className="absolute right-5 top-5 flex flex-col gap-4">
                       <AddToWishListButton
                         itemId={item?.id || ''}
-                        size={28}
-                        className=" text-xs h-full self-center p-1 "
+                        size={24}
+                        className="text-xs h-full self-center p-1"
                         color="gray-600"
                       />
                       <ShareButton itemId={item?.id || ''} item={item} />
@@ -156,22 +156,30 @@ const ProductViewImages: FC<ProductViewImagesProps> = ({
                 </CarouselItem>
               ))
             ) : (
-              <div className="w-full h-[60vh] flex justify-center items-center">
-                <Image
-                  className="outline outline-3 hover:outline-gray-300 mb-3 object-cover"
-                  src="/assets/fallback-image.png"
-                  alt="alt text"
-                  width={550}
-                  height={680}
-                  style={{ width: '100%', height: '100%' }}
-                />
-              </div>
+              <CarouselItem className="p-0 m-0">
+                <div className="w-full h-[60vh] flex justify-center items-center">
+                  <Image
+                    className="object-cover w-full h-full"
+                    src="/assets/fallback-image.png"
+                    alt="alt text"
+                    width={550}
+                    height={680}
+                    style={{ width: '100%', height: '100%' }}
+                  />
+                </div>
+              </CarouselItem>
             )}
           </CarouselContent>
-          <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 pb-3">
+          <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 pb-3">
             <CarouselDots>
               {({ scrollSnap, onClick, selectedIndex, index }) => (
                 <button
+                  // className={clsx('rounded-full mt-5 h-1', {
+                  //   'w-2 h-2 bg-gray-400 border border-gray-400':
+                  //     selectedIndex === index,
+                  //   'w-2 h-2 border border-gray': selectedIndex !== index,
+                  // })}
+
                   className={clsx('rounded-full mt-5 h-1', {
                     'w-2 h-2 bg-white border border-white':
                       selectedIndex === index,
