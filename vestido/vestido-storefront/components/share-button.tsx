@@ -38,7 +38,7 @@ const ShareButton: React.FC<ShareButtonProps> = ({ itemId, item }) => {
 
     const shareData: ShareData = {
       title: item?.title || 'Check out this item!',
-      text: 'I found this awesome item on Vestido Nation!',
+      text: 'I found this awesome item on Vestido Nation! 😍',
       url: shortUrl,
     };
 
