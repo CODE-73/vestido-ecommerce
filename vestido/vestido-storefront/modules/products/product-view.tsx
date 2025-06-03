@@ -2,8 +2,7 @@ import * as React from 'react';
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 
-import { motion } from 'framer-motion';
-import { LuCalendar, LuScaling, LuShoppingBag, LuTruck } from 'react-icons/lu';
+import { LuCalendar, LuShoppingBag, LuTruck } from 'react-icons/lu';
 import Markdown from 'react-markdown';
 
 import { useAuth } from '@vestido-ecommerce/auth/client';
@@ -12,7 +11,6 @@ import {
   useCategory,
   useItem,
 } from '@vestido-ecommerce/items/client';
-import { useVestidoSizeChart } from '@vestido-ecommerce/settings/client';
 import {
   Accordion,
   AccordionContent,
@@ -20,11 +18,6 @@ import {
   AccordionTrigger,
 } from '@vestido-ecommerce/shadcn-ui/accordion';
 import { Button } from '@vestido-ecommerce/shadcn-ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-} from '@vestido-ecommerce/shadcn-ui/dialog';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { formatINR } from '@vestido-ecommerce/utils';
 
@@ -33,7 +26,7 @@ import ProductListView from '../ProductListView/ProductListView';
 import { SizeSelectorDialog } from '../Wishlist/size-selector';
 import ProductViewImages from './product-view-images';
 import ProductViewVariants from './product-view-variants';
-import SizeChartTable from './size-chart-table';
+import SizeGuide from './size-guide-component';
 
 interface ProductViewProps {
   itemId: string;
@@ -43,16 +36,8 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
   const { isAuthenticated, routeToLogin } = useAuth();
   const router = useRouter();
   const { toast } = useToast();
-  const sizeCharts = useVestidoSizeChart();
 
   const { data: { data: item } = { data: null } } = useItem(itemId);
-
-  const sizeChartValue = useMemo(() => {
-    const sizeChartId = sizeCharts
-      ? Object.keys(sizeCharts).find((x) => x === item?.sizeChart)
-      : undefined;
-    return sizeCharts && sizeChartId ? sizeCharts[sizeChartId] : undefined;
-  }, [sizeCharts, item?.sizeChart]);
 
   const { data: { data: category } = { data: null } } = useCategory(
     item?.categoryId,
@@ -169,8 +154,12 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
               />
             </div>
           </div>
+          <div className="sm:hidden md:block lg:hidden -mt-7 md:mt-2">
+            {' '}
+            <SizeGuide itemId={itemId} IsSmallScreen />
+          </div>
           <div
-            className="flex gap-2 mb-5 md:mb-0 md:my-5 w-full bg-black  py-2 px-2 mx-0 "
+            className="flex gap-2 mb-5 md:mb-0 md:my-5 w-full bg-black  py-2 px-2 mx-0 mt-5 sm:mt-0"
             style={{
               boxShadow: '0 -20px 25px -5px rgba(55, 65, 81, 0.3)', // Mimicking shadow-lg shadow-gray-700/50
             }}
@@ -220,33 +209,12 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
             />
           </div>
 
-          <div className="flex justify-between py-5 px-1 sm:px-0">
-            <div className="grid grid-cols-3 w-full">
-              <Dialog>
-                <DialogTrigger asChild>
-                  <div className="flex flex-col cursor-pointer gap-1 items-center ">
-                    <LuScaling size={24} />
-                    <div className="text-xs">Size Guide</div>
-                  </div>
-                </DialogTrigger>
-                <DialogContent>
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 0.4, ease: 'easeOut' }}
-                  >
-                    {sizeChartValue ? (
-                      <SizeChartTable
-                        meta={sizeChartValue.meta}
-                        data={sizeChartValue.data}
-                      />
-                    ) : (
-                      <div>Size Chart Not Available.</div>
-                    )}
-                  </motion.div>
-                </DialogContent>
-              </Dialog>
+          <div className="flex justify-between py-5 px-1 sm:px-0 this">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 w-full">
+              <div className="hidden sm:block md:hidden lg:block">
+                <SizeGuide itemId={itemId} />
+              </div>
+
               <div className="flex  flex-col  justify-center gap-1 items-center ">
                 <LuCalendar size={24} />
                 <div className="text-xs text-center">7 Days Easy Return</div>
