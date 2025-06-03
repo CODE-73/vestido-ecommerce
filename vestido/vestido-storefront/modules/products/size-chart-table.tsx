@@ -1,7 +1,6 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   //   TableFooter,
   TableHead,
@@ -25,15 +24,16 @@ type SizeChartProps = {
   meta: SizeChartMeta;
   data: Record<string, SizeChartData>;
 };
-
 const SizeChartTable: React.FC<SizeChartProps> = ({ meta, data }) => {
   return (
     <>
+      <h2 className="text-xl font-semibold text-center text-black mb-3">
+        {meta.title}
+      </h2>
+      <div className="mb-4 text-center text-gray-600 font-medium">
+        In Inches
+      </div>
       <Table>
-        <TableCaption className="text-xl text-black mb-3">
-          {meta.title}
-        </TableCaption>
-        <TableCaption className="mb-5">In Inches</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead className="text-center">Size</TableHead>
@@ -48,7 +48,9 @@ const SizeChartTable: React.FC<SizeChartProps> = ({ meta, data }) => {
         <TableBody>
           {Object.keys(data).map((size) => (
             <TableRow key={size}>
-              <TableCell>{size}</TableCell>
+              <TableCell className="text-center text-xs font-medium">
+                {size}
+              </TableCell>
               {Object.keys(meta.attributes).map((attribute) => (
                 <TableCell key={attribute} className="text-center">
                   {data[size][attribute]?.in || '-'}
@@ -58,8 +60,10 @@ const SizeChartTable: React.FC<SizeChartProps> = ({ meta, data }) => {
           ))}
         </TableBody>
       </Table>
+      <div className="mt-6 mb-4 text-center text-gray-600 font-medium">
+        In Cm
+      </div>
       <Table>
-        <TableCaption className="mb-5">In Cm</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead className="text-center">Size</TableHead>
@@ -70,10 +74,11 @@ const SizeChartTable: React.FC<SizeChartProps> = ({ meta, data }) => {
             ))}
           </TableRow>
         </TableHeader>
+
         <TableBody>
           {Object.keys(data).map((size) => (
             <TableRow key={size}>
-              <TableCell>{size}</TableCell>
+              <TableCell className="text-center font-medium">{size}</TableCell>
               {Object.keys(meta.attributes).map((attribute) => (
                 <TableCell key={attribute} className="text-center">
                   {data[size][attribute]?.cm || '-'}

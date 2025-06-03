@@ -61,7 +61,7 @@ const SizeGuide: React.FC<ProductViewProps> = ({ itemId, IsSmallScreen }) => {
           </div>
         </div>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="max-w-full w-[95%] sm:w-[500px] md:w-[600px] rounded-lg px-2 overflow-scroll">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
