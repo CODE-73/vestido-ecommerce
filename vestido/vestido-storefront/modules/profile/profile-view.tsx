@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -113,24 +114,32 @@ const ProfileView: React.FC = () => {
   );
 
   return (
-    <div className="2xl:px-72 my-20 text-white px-3 relative">
+    <div className="2xl:px-72 my-20 text-white  relative">
       <div className={`${IsTabSelected ? 'hidden md:block' : ''} `}>
-        <h4 className="md:text-lg my-1 md:my-4 uppercase ">
-          Hi&nbsp;&nbsp;{currentUser?.firstName}&nbsp;{currentUser?.lastName}!
-        </h4>
+        <div className="relative -top-16 w-full h-48">
+          <Image
+            src="/assets/b-n-w.jpg"
+            alt=""
+            fill
+            className="object-cover opacity-30"
+          />
+          <h4 className="md:text-lg my-1 md:my-4 uppercase absolute bottom-2 left-6 text-white">
+            Hi {currentUser?.firstName} {currentUser?.lastName}!
+          </h4>
+        </div>
 
-        <hr className="border-gray-600" />
-        <hr className="border-gray-600 md:hidden relative" />
+        <hr className="hidden md:block border-gray-600" />
+        <hr className="border-gray-600 hidden relative" />
       </div>
 
       <Tabs
         value={selectedNav}
         onValueChange={handleTabChange}
-        className="flex flex-col md:flex-row divide-x text-xs md:text-base gap-1 md:gap-3 bg-transparent min-h-[280px] max-h-screen-minus-nav md:min-h-[500px]"
+        className="flex px-3 flex-col md:flex-row divide-x text-xs md:text-base gap-1 md:gap-3 bg-transparent min-h-[280px] max-h-screen-minus-nav md:min-h-[500px]"
       >
         {!isSmallScreen || !selectedNav ? (
           <div className="h-full w-full md:w-64 md:basis-1/4 p-2 md:p-4">
-            <TabsList className="h-full flex flex-col bg-transparent justify-start items-start text-slate-300 text-sm md:text-base">
+            <TabsList className="h-full flex flex-col bg-transparent justify-start items-start text-slate-300 text-sm md:text-base relative -top-10">
               {profileTabs.map(({ value, label }) => (
                 <Link key={value} href={`/profile/${value}`} passHref>
                   <TabsTrigger
