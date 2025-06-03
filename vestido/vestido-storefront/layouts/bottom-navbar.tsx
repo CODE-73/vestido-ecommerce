@@ -25,7 +25,7 @@ const BottomNavbar: React.FC = () => {
 
   return (
     <footer
-      className={`fixed bottom-0 left-0 right-0 z-50 shadow-[0_-4px_20px_rgba(255,255,255,0.2)] rounded-tl-lg rounded-tr-lg bg-black transition-all ease-out duration-500 ${
+      className={`fixed bottom-0 left-0 right-0 z-50 shadow-[0_-4px_20px_rgba(255,255,255,0.2)] rounded-tl-lg rounded-tr-lg bg-black transition-all ease-out duration-500 flex flex-col justify-between ${
         isDrawerOpen ? `h-screen-minus-nav pb-8` : 'h-16'
       }`}
     >
@@ -35,8 +35,8 @@ const BottomNavbar: React.FC = () => {
           toggleDrawer={toggleDrawer}
         />
       )}
-      <div className="flex items-center justify-center h-16 text-white">
-        <div className="grid grid-cols-5 w-full max-w-[500px] mx-auto gap-2">
+      <div className="flex items-center justify-center h-16 text-white mt-auto">
+        <div className="grid grid-cols-5 w-full max-w-[500px] mx-auto gap-2 ">
           <Link
             href="/"
             className="flex flex-col items-center justify-center h-16"
