@@ -8,7 +8,7 @@ import {
   SelectValue,
 } from '@vestido-ecommerce/shadcn-ui/select';
 import { BaseReportFilter } from '@vestido-ecommerce/widgets';
-import { useAverageOrderValue } from '@vestido-ecommerce/widgets/client';
+import { useRefundRate } from '@vestido-ecommerce/widgets/client';
 
 import {
   dataFormatter,
@@ -19,27 +19,24 @@ import {
 import { ValidRangeComponent } from './valid-range-component';
 import { InjectedWidgetProps, WidgetWrapper } from './widget-wrapper';
 
-type AverageValueWidgetProps = InjectedWidgetProps<{
+type RefundRateWidgetProps = InjectedWidgetProps<{
   groupBy: GroupBy;
 }>;
 
-const AverageOrderValueWidget: React.FC = () => {
+const RefundRateWidget: React.FC = () => {
   const defaultFilters = {
     groupBy: 'daily',
   };
 
   return (
-    <WidgetWrapper
-      widgetId="average_order_value"
-      defaultFilters={defaultFilters}
-    >
+    <WidgetWrapper widgetId="refund_rate" defaultFilters={defaultFilters}>
       {/* @ts-expect-error Props are filled by the WidgetWrapper */}
-      <AverageOrderValueDisplay />
+      <RefundRateDisplay />
     </WidgetWrapper>
   );
 };
 
-const AverageOrderValueDisplay: React.FC<AverageValueWidgetProps> = ({
+const RefundRateDisplay: React.FC<RefundRateWidgetProps> = ({
   fromDate,
   toDate,
   widgetFilters: { groupBy: rawGroupBy = 'daily' } = { groupBy: 'daily' },
@@ -53,7 +50,7 @@ const AverageOrderValueDisplay: React.FC<AverageValueWidgetProps> = ({
     groupBy,
   };
 
-  const { data: average_order_value } = useAverageOrderValue(filter);
+  const { data: refund_rate } = useRefundRate(filter);
   const groupByOptions = ['daily', 'weekly', 'monthly', 'yearly'] as const;
 
   return (
@@ -61,7 +58,7 @@ const AverageOrderValueDisplay: React.FC<AverageValueWidgetProps> = ({
       <div className="flex justify-between items-center">
         {' '}
         <h3 className="text-lg font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
-          Average Order Value
+          Refund Rate
         </h3>
         <Select
           value={groupBy}
@@ -90,17 +87,17 @@ const AverageOrderValueDisplay: React.FC<AverageValueWidgetProps> = ({
         <BarChart
           className="mt-6 h-80"
           data={
-            average_order_value?.success
-              ? average_order_value.data.map(
-                  (value: { period: string; aov: string }) => ({
+            refund_rate?.success
+              ? refund_rate.data.map(
+                  (value: { period: string; refundRate: string }) => ({
                     period: formatPeriod(value.period, groupBy),
-                    aov: value.aov,
+                    arefundRate: value.refundRate,
                   }),
                 )
               : []
           }
           index="period"
-          categories={['AOV']}
+          categories={['Refund Rate']}
           colors={['blue']}
           valueFormatter={dataFormatter}
           yAxisWidth={48}
@@ -110,4 +107,4 @@ const AverageOrderValueDisplay: React.FC<AverageValueWidgetProps> = ({
   );
 };
 
-export default AverageOrderValueWidget;
+export default RefundRateWidget;

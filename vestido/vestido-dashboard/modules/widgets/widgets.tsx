@@ -1,5 +1,6 @@
 import AverageOrderValueWidget from './widgets/average-order-value';
 import OrderTrendWidget from './widgets/order-count-trend';
+import RefundRateWidget from './widgets/refund-rate';
 import RevenueByCategory from './widgets/revenue-by-category';
 import RevenueWidget from './widgets/revenue-widget';
 import WidgetsDateRange from './widgets-date-range';
@@ -28,6 +29,7 @@ const Widgets: React.FC = () => {
           <RevenueWidget />
           <AverageOrderValueWidget />
           <RevenueByCategory />
+          <RefundRateWidget />
         </div>
       </WidgetsProvider>
     </div>
