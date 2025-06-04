@@ -1,4 +1,4 @@
 export type RevenueByCategoryResult = Array<{
-  category: string;
-  revenue: string;
+  categoryName: string;
+  totalRevenue: string;
 }>;
