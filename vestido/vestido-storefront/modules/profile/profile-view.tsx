@@ -59,14 +59,14 @@ const ProfileView: React.FC = () => {
 
   const profileTabs = [
     { value: 'profile', label: 'PROFILE' },
-    { value: 'orders', label: 'ORDERS & RETURNS' },
+    { value: 'orders', label: 'ORDERS' },
     { value: 'addresses', label: 'ADDRESSES' },
     { value: 't&c', label: 'TERMS OF USE' },
     { value: 'privacy', label: 'PRIVACY POLICY' },
-    { value: 'faq', label: 'FAQs' },
     { value: 'shipping', label: 'SHIPPING POLICY' },
-    { value: 'return', label: 'RETURN & EXCHANGE' },
+    { value: 'return', label: 'RETURN POLICY' },
     { value: 'help_center', label: 'HELP CENTER' },
+    { value: 'faq', label: 'FAQs' },
     { value: 'delete', label: 'DELETE ACCOUNT' },
   ];
   const TabContent = ({
@@ -115,8 +115,8 @@ const ProfileView: React.FC = () => {
 
   return (
     <div className="2xl:px-72 my-20 text-white  relative">
-      <div className={`${IsTabSelected ? 'hidden md:block' : ''} `}>
-        <div className="relative -top-16 w-full h-48">
+         <div className={`${IsTabSelected ? 'hidden md:block' : ''} `}>
+        <div className=" relative -top-16  md:top-0 w-full h-48">
           <Image
             src="/assets/b-n-w.jpg"
             alt=""
@@ -139,13 +139,13 @@ const ProfileView: React.FC = () => {
       >
         {!isSmallScreen || !selectedNav ? (
           <div className="h-full w-full md:w-64 md:basis-1/4 p-2 md:p-4">
-            <TabsList className="h-full flex flex-col bg-transparent justify-start items-start text-slate-300 text-sm md:text-base relative -top-10">
+            <TabsList className="h-full flex flex-col bg-transparent justify-start items-start text-slate-300 text-sm md:text-base relative -top-16 md:top-0">
               {profileTabs.map(({ value, label }) => (
                 <Link key={value} href={`/profile/${value}`} passHref>
                   <TabsTrigger
                     key={value}
                     value={value}
-                    className="tracking-wide text-white bg-transparent border-none data-[state=active]:border-none data-[state=active]:underline underline-offset-800 data-[state=active]:bg-transparent data-[state=active]:text-white text-lg md:text-lg mb-1 px-0"
+                    className="tracking-wide text-white bg-transparent border-none data-[state=active]:border-none data-[state=active]:underline underline-offset-800 data-[state=active]:bg-transparent data-[state=active]:text-white text-lg/10  mb-1 px-0"
                   >
                     {label}
                   </TabsTrigger>
