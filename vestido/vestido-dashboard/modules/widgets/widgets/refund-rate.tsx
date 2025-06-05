@@ -97,7 +97,7 @@ const RefundRateDisplay: React.FC<RefundRateWidgetProps> = ({
               : []
           }
           index="period"
-          categories={['Refund Rate']}
+          categories={['refund_rate']}
           colors={['blue']}
           valueFormatter={dataFormatter}
           yAxisWidth={48}

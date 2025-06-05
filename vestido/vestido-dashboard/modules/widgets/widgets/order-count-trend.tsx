@@ -96,7 +96,7 @@ const OrderTrendWidgetDisplay: React.FC<OrderTrendWidgetProps> = ({
               : []
           }
           index="period"
-          categories={['Total Orders']}
+          categories={['total_orders']}
           colors={['blue']}
           valueFormatter={dataFormatter}
           yAxisWidth={48}

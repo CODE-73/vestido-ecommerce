@@ -100,7 +100,7 @@ const AverageOrderValueDisplay: React.FC<AverageValueWidgetProps> = ({
               : []
           }
           index="period"
-          categories={['AOV']}
+          categories={['aov']}
           colors={['blue']}
           valueFormatter={dataFormatter}
           yAxisWidth={48}

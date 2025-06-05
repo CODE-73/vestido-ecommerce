@@ -93,7 +93,7 @@ const RevenueWidgetDisplay: React.FC<RevenueWidgetProps> = ({
               : []
           }
           index="period"
-          categories={['Total Revenue']}
+          categories={['total_revenue']}
           colors={['blue']}
           valueFormatter={dataFormatter}
           yAxisWidth={48}
