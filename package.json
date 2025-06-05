@@ -45,7 +45,7 @@
     "@remixicon/react": "^4.6.0",
     "@sentry/nextjs": "^8.26.0",
     "@tailwindcss/typography": "^0.5.13",
-    "@tremor/react": "^2.11.0",
+    "@tremor/react": "^3.18.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "cmdk": "^0.2.1",
