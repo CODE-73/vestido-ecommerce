@@ -7,7 +7,7 @@ export async function getRevenueTrend(
   args: BaseReportFilter,
   headers?: Record<string, string>,
 ): Promise<RevenueOverTimeResponse> {
-  const baseUrl = 'http://localhost:4201/api/widgets/revenue-over-time';
+  const path = '/api/widgets/revenue-over-time';
 
   const query = new URLSearchParams({
     fromDate: args.fromDate,
@@ -15,7 +15,7 @@ export async function getRevenueTrend(
     groupBy: args.groupBy,
   });
 
-  const fullUrl = `${baseUrl}?${query.toString()}`;
+  const fullUrl = `${path}?${query.toString()}`;
 
   const r = await fetch(fullUrl, {
     headers: {

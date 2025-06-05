@@ -7,7 +7,7 @@ export async function getRefundRate(
   args: BaseReportFilter,
   headers?: Record<string, string>,
 ): Promise<RefundRateResponse> {
-  const baseUrl = 'http://localhost:4201/api/widgets/refund-rate';
+  const path = '/api/widgets/refund-rate';
 
   const query = new URLSearchParams({
     fromDate: args.fromDate,
@@ -15,7 +15,7 @@ export async function getRefundRate(
     groupBy: args.groupBy,
   });
 
-  const fullUrl = `${baseUrl}?${query.toString()}`;
+  const fullUrl = `${path}?${query.toString()}`;
 
   const r = await fetch(fullUrl, {
     headers: {

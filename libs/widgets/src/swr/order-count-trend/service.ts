@@ -7,7 +7,7 @@ export async function getOrderCountTrend(
   args: BaseReportFilter,
   headers?: Record<string, string>,
 ): Promise<OrderCountTrendResponse> {
-  const baseUrl = 'http://localhost:4201/api/widgets/order-count-trend';
+  const path = '/api/widgets/order-count-trend';
 
   const query = new URLSearchParams({
     fromDate: args.fromDate,
@@ -15,7 +15,7 @@ export async function getOrderCountTrend(
     groupBy: args.groupBy,
   });
 
-  const fullUrl = `${baseUrl}?${query.toString()}`;
+  const fullUrl = `${path}?${query.toString()}`;
 
   const r = await fetch(fullUrl, {
     headers: {

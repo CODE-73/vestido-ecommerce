@@ -7,7 +7,7 @@ export async function getAverageOrderValue(
   args: BaseReportFilter,
   headers?: Record<string, string>,
 ): Promise<AverageOrderValueResponse> {
-  const baseUrl = 'http://localhost:4201/api/widgets/average-order-value';
+  const path = '/api/widgets/average-order-value';
 
   const query = new URLSearchParams({
     fromDate: args.fromDate,
@@ -15,7 +15,7 @@ export async function getAverageOrderValue(
     groupBy: args.groupBy,
   });
 
-  const fullUrl = `${baseUrl}?${query.toString()}`;
+  const fullUrl = `${path}?${query.toString()}`;
 
   const r = await fetch(fullUrl, {
     headers: {
