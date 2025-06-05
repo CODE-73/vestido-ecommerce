@@ -11,27 +11,13 @@ type ShareButtonProps = {
   item: Item;
 };
 
-const shortenUrl = async (longUrl: string): Promise<string> => {
-  try {
-    const response = await fetch(
-      `https://tinyurl.com/api-create.php?url=${encodeURIComponent(longUrl)}`,
-    );
-    const shortUrl = await response.text();
-    return shortUrl;
-  } catch (err) {
-    console.error('URL shortening failed:', err);
-    return longUrl; // fallback to long URL
-  }
-};
-
 const ShareButton: React.FC<ShareButtonProps> = ({ itemId, item }) => {
   const { toast } = useToast();
   const [isSharing, setIsSharing] = useState(false);
   const handleShare = async () => {
     setIsSharing(true);
 
-    const fullUrl = `${window.location.origin}/item/${itemId}`;
-    const shortUrl = await shortenUrl(fullUrl);
+    const shareUrl = `${window.location.origin}/item/${itemId}`;
     const imageUrl =
       (item.images as ImageSchemaType[])?.find((img) => img?.default)?.url ??
       (item.images as ImageSchemaType[])?.[0]?.url;
@@ -39,7 +25,7 @@ const ShareButton: React.FC<ShareButtonProps> = ({ itemId, item }) => {
     const shareData: ShareData = {
       title: item?.title || 'Check out this item!',
       text: 'I found this awesome item on Vestido Nation! 😍',
-      url: shortUrl,
+      url: shareUrl,
     };
 
     try {
@@ -62,7 +48,7 @@ const ShareButton: React.FC<ShareButtonProps> = ({ itemId, item }) => {
       if (navigator.share) {
         await navigator.share(shareData);
       } else {
-        await navigator.clipboard.writeText(shortUrl);
+        await navigator.clipboard.writeText(shareUrl);
         toast({
           title: 'Success',
           description: 'Link copied to clipboard!',
