@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { LuHeart, LuSearch } from 'react-icons/lu';
 
 import { SearchCombobox } from './search-combobox';
+import SubHeader from './SubHeader';
 
 interface HeaderProps {
   wishlist_count: number;
@@ -103,6 +104,7 @@ const MobileHeader: React.FC<HeaderProps> = ({ wishlist_count }) => {
           )}
         </div>
       </header>
+      <SubHeader />
     </div>
   );
 };

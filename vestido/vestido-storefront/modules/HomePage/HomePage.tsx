@@ -6,7 +6,6 @@ import { LuChevronUp } from 'react-icons/lu';
 import { ListItemResponse } from '@vestido-ecommerce/items/client';
 
 import useIsMobile from '../../hooks/useIsMobile';
-import SubHeader from '../../layouts/headers/SubHeader';
 import { CircleLinks } from './CircleLinks/CircleLinks';
 import { HorizontalScrollCards } from './HorizontalScroll/HorizontalScrollCards';
 import { PopularCollection } from './Popular/PopularCollection';
@@ -54,10 +53,7 @@ const HomePage: React.FC<HomePageProps> = ({ items }) => {
 
   return (
     <div className="flex flex-col justify-center bg-black sm:pt-5 lg:pb-10">
-      <div className="sm:hidden">
-        <SubHeader />
-      </div>
-      <div className="flex flex-col lg:flex-col-reverse justify-center lg:mx-4">
+      <div className="flex flex-col lg:flex-col-reverse justify-center lg:mx-4 mt-10 md:mt-2">
         <CircleLinks /> <PrimaryCarousel />
       </div>
       <TopProducts
