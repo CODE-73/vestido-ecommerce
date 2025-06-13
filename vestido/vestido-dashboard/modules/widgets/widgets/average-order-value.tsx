@@ -1,5 +1,6 @@
-import { BarChart, Card } from '@tremor/react';
+import { BarChart } from '@tremor/react';
 
+import { Card, CardContent } from '@vestido-ecommerce/shadcn-ui/card';
 import {
   Select,
   SelectContent,
@@ -58,11 +59,9 @@ const AverageOrderValueDisplay: React.FC<AverageValueWidgetProps> = ({
 
   return (
     <Card>
-      <div className="flex justify-between items-center">
-        {' '}
-        <h3 className="text-lg font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
-          Average Order Value
-        </h3>
+      {' '}
+      <div className="flex justify-between items-center px-5 pt-5 text-lg font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
+        <h3>Average Order Value</h3>
         <Select
           value={groupBy}
           onValueChange={(value) =>
@@ -81,31 +80,33 @@ const AverageOrderValueDisplay: React.FC<AverageValueWidgetProps> = ({
           </SelectContent>
         </Select>
       </div>
-
-      <ValidRangeComponent
-        fromDate={fromDate}
-        toDate={toDate}
-        groupBy={groupBy}
-      >
-        <BarChart
-          className="mt-6 h-80"
-          data={
-            average_order_value?.success
-              ? average_order_value.data.map(
-                  (value: { period: string; aov: string }) => ({
-                    period: formatPeriod(value.period, groupBy),
-                    aov: value.aov,
-                  }),
-                )
-              : []
-          }
-          index="period"
-          categories={['aov']}
-          colors={['blue']}
-          valueFormatter={dataFormatter}
-          yAxisWidth={48}
-        />
-      </ValidRangeComponent>
+      <CardContent className="text-[10px]">
+        {' '}
+        <ValidRangeComponent
+          fromDate={fromDate}
+          toDate={toDate}
+          groupBy={groupBy}
+        >
+          <BarChart
+            className="mt-6 h-80"
+            data={
+              average_order_value?.success
+                ? average_order_value.data.map(
+                    (value: { period: string; aov: string }) => ({
+                      period: formatPeriod(value.period, groupBy),
+                      aov: value.aov,
+                    }),
+                  )
+                : []
+            }
+            index="period"
+            categories={['aov']}
+            colors={['blue']}
+            valueFormatter={dataFormatter}
+            yAxisWidth={48}
+          />
+        </ValidRangeComponent>
+      </CardContent>
     </Card>
   );
 };

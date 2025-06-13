@@ -1,5 +1,6 @@
-import { Card, DonutChart } from '@tremor/react';
+import { DonutChart } from '@tremor/react';
 
+import { Card, CardContent } from '@vestido-ecommerce/shadcn-ui/card';
 import {
   Select,
   SelectContent,
@@ -53,11 +54,9 @@ const RevenueByCategoryDisplay: React.FC<RevenueByCategoryProps> = ({
   // const [datas, setDatas] = useState<TooltipProps | null>(null);
 
   return (
-    <Card>
-      <div className="flex justify-between items-center">
-        <h3 className="text-lg font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
-          Revenue By Category
-        </h3>
+    <Card className="flex flex-col">
+      <div className="flex justify-between items-center px-5 pt-5 text-lg font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
+        <h3> Revenue By Category</h3>
         <Select
           value={groupBy}
           onValueChange={(value) =>
@@ -76,12 +75,13 @@ const RevenueByCategoryDisplay: React.FC<RevenueByCategoryProps> = ({
           </SelectContent>
         </Select>
       </div>
-      <ValidRangeComponent
-        fromDate={fromDate}
-        toDate={toDate}
-        groupBy={groupBy}
-      >
-        <div className="h-80 w-full">
+      <CardContent className="flex-1 flex items-center justify-center pt-0 text-[10px]">
+        {' '}
+        <ValidRangeComponent
+          fromDate={fromDate}
+          toDate={toDate}
+          groupBy={groupBy}
+        >
           <DonutChart
             data={
               revenue_by_category?.success
@@ -105,8 +105,8 @@ const RevenueByCategoryDisplay: React.FC<RevenueByCategoryProps> = ({
               `$${Intl.NumberFormat('en-US').format(number)}`
             }
           />
-        </div>
-      </ValidRangeComponent>
+        </ValidRangeComponent>
+      </CardContent>
     </Card>
   );
 };
