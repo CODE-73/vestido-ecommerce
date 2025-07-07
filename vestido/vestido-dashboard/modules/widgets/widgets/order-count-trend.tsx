@@ -56,7 +56,6 @@ const OrderTrendWidgetDisplay: React.FC<OrderTrendWidgetProps> = ({
 
   return (
     <Card>
-      {' '}
       <div className="flex justify-between items-center px-5 pt-5 text-lg font-medium text-tremor-content-strong dark:text-dark-tremor-content-strong">
         <h3> Order Count</h3>
         <Select
