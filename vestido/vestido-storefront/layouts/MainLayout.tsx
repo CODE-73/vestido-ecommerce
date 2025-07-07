@@ -1,4 +1,5 @@
 import React from 'react';
+import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/router';
 
 import { ComponentWithChildrenProps } from '../types';
@@ -13,13 +14,17 @@ type LayoutProps = ComponentWithChildrenProps;
 const MainLayout: React.FC<LayoutProps> = ({ children }) => {
   const router = useRouter();
   const hideFooter = ['/checkout/Checkout'].includes(router.pathname);
+  const pathname = usePathname();
+  const isHome = pathname === '/';
 
   return (
     <div className="relative bg-black items-center flex flex-col scroll-smooth min-h-screen w-full">
       {/*bg-background */}
-      <div className="w-full">
-        <SubHeader />
-      </div>
+      {isHome && (
+        <div className="w-full">
+          <SubHeader />
+        </div>
+      )}
       <div className="w-full sticky top-0 z-10">
         <Header />
       </div>
