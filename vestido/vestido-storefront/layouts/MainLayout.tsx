@@ -1,25 +1,21 @@
 import React from 'react';
-import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/router';
 
 import { ComponentWithChildrenProps } from '../types';
 import Header from './headers/Header';
 import SubHeader from './headers/SubHeader';
 import BottomNavbar from './bottom-navbar';
-// import Footer from './Footer';
 import Footer from './Footer';
 
 type LayoutProps = ComponentWithChildrenProps;
 
 const MainLayout: React.FC<LayoutProps> = ({ children }) => {
   const router = useRouter();
+  const isHome = router.pathname === '/';
   const hideFooter = ['/checkout/Checkout'].includes(router.pathname);
-  const pathname = usePathname();
-  const isHome = pathname === '/';
 
   return (
     <div className="relative bg-black items-center flex flex-col scroll-smooth min-h-screen w-full">
-      {/*bg-background */}
       {isHome && (
         <div className="w-full">
           <SubHeader />

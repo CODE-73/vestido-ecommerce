@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import { LuHeart, LuSearch } from 'react-icons/lu';
 
@@ -15,9 +16,10 @@ interface SearchItem {
   value: string;
 }
 const MobileHeader: React.FC<HeaderProps> = ({ wishlist_count }) => {
+  const router = useRouter();
   const [searchOpen, setSearchOpen] = useState(false);
   const navbarRef = useRef(null);
-
+  const isHome = router.pathname === '/';
   const [selectedItem, setSelectedItem] = useState<SearchItem | null>(null);
 
   const handleSelect = (item: SearchItem) => {
@@ -104,7 +106,7 @@ const MobileHeader: React.FC<HeaderProps> = ({ wishlist_count }) => {
           )}
         </div>
       </header>
-      <SubHeader />
+      {isHome && <SubHeader />}
     </div>
   );
 };
