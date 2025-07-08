@@ -1,3 +1,5 @@
+import Head from 'next/head';
+
 import { NextPage } from 'next';
 import { SWRConfig, unstable_serialize } from 'swr';
 
@@ -11,20 +13,53 @@ import {
   ItemDetailsSWRKeys,
   ListItemSWRKeys,
 } from '@vestido-ecommerce/items/client';
-import { ensureSerializable } from '@vestido-ecommerce/utils';
+import { ensureSerializable, ImageSchemaType } from '@vestido-ecommerce/utils';
 
 import ProductView from '../../../modules/products/product-view';
 
 type ItemDetailsPageProps = {
   fallback: Record<string, unknown>;
   itemId: string;
+  item: Awaited<ReturnType<typeof getItemDetails>>;
 };
 
-const ItemDetails: NextPage<ItemDetailsPageProps> = ({ itemId, fallback }) => {
+const ItemDetails: NextPage<ItemDetailsPageProps> = ({
+  itemId,
+  item,
+  fallback,
+}) => {
+  const imageUrl =
+    ((item.images as ImageSchemaType[]) ?? []).find((img) => img.default)
+      ?.url ||
+    (item.images as ImageSchemaType[])?.[0]?.url ||
+    `beta.vestidonation.com/fallback-image.png`;
+
+  const itemUrl = `beta.vestidonation.com/item/${item.id}`;
+
   return (
-    <SWRConfig value={{ fallback }}>
-      <ProductView itemId={itemId} />
-    </SWRConfig>
+    <>
+      <Head>
+        <title>{item.title} | Vestido Nation</title>
+        <meta property="og:title" content={item.title} />
+        <meta
+          property="og:description"
+          content="Discover premium fashion from Vestido Nation."
+        />
+        <meta property="og:image" content={imageUrl} />
+        <meta property="og:url" content={itemUrl} />
+        <meta property="og:type" content="product" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={item.title} />
+        <meta
+          name="twitter:description"
+          content="Discover premium fashion from Vestido Nation."
+        />
+        <meta name="twitter:image" content={imageUrl} />
+      </Head>
+      <SWRConfig value={{ fallback }}>
+        <ProductView itemId={itemId} />
+      </SWRConfig>
+    </>
   );
 };
 
@@ -63,6 +98,7 @@ export async function getStaticProps({
   return {
     props: {
       itemId,
+      item,
       fallback: {
         // useItem()
         [unstable_serialize([
