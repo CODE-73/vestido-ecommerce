@@ -17,7 +17,7 @@ const ShareButton: React.FC<ShareButtonProps> = ({ itemId, item }) => {
   const handleShare = async () => {
     setIsSharing(true);
 
-    const shareUrl = `${window.location.origin}/item/${itemId}`;
+    const shareUrl = `${window.location.origin}/products/${itemId}`;
     const imageUrl =
       (item.images as ImageSchemaType[])?.find((img) => img?.default)?.url ??
       (item.images as ImageSchemaType[])?.[0]?.url;
