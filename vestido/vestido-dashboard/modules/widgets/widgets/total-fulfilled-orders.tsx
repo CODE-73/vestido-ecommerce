@@ -33,7 +33,6 @@ const FulfilledOrdersDisplay: React.FC<FulfilledWidgetProps> = ({
   };
 
   const { data: orders } = useFulfilledOrders(filter);
-  console.log('fulfilled', orders);
   const fulfilled_orders =
     orders?.data?.reduce((sum, item) => {
       return sum + Number(item.fulfilled_orders);
