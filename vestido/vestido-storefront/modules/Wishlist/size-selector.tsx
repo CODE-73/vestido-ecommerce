@@ -21,11 +21,13 @@ type SizeSelectorDialogProps = {
   itemId: string;
   onSizeSelect: (variantId: string | null) => void;
   children: ReactNode;
+  disabledTrigger?: boolean;
 };
 export const SizeSelectorDialog: React.FC<SizeSelectorDialogProps> = ({
   itemId,
   onSizeSelect,
   children,
+  disabledTrigger,
 }) => {
   const { data } = useItem(itemId);
 
@@ -135,7 +137,11 @@ export const SizeSelectorDialog: React.FC<SizeSelectorDialogProps> = ({
   return (
     <>
       <AlertDialog>
-        <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
+        {disabledTrigger ? (
+          children
+        ) : (
+          <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
+        )}
         {isDialogOpen && (
           <AlertDialogContent className="w-[98%] flex justify-center mx-auto rounded-lg sm:max-w-[425px]">
             <motion.div
