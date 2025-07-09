@@ -115,7 +115,7 @@ const ProfileView: React.FC = () => {
 
   return (
     <div className="2xl:px-72 my-20 text-white  relative">
-         <div className={`${IsTabSelected ? 'hidden md:block' : ''} `}>
+      <div className={`${IsTabSelected ? 'hidden md:block' : ''} `}>
         <div className=" relative -top-16  md:top-0 w-full h-48">
           <Image
             src="/assets/b-n-w.jpg"
