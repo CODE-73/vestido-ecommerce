@@ -8,7 +8,6 @@ import { AuthProvider } from '@vestido-ecommerce/auth/client';
 import { PostHogProvider } from '@vestido-ecommerce/posthog/client';
 import { Toaster } from '@vestido-ecommerce/shadcn-ui/toaster';
 
-import BlockingSpinner from '../components/BlockingSpinner';
 import MainLayout from '../layouts/MainLayout';
 import { NextPageWithLayout } from '../types';
 import StorefrontFonts from './fonts';
@@ -31,11 +30,7 @@ function App({ Component, pageProps }: AppPropsWithLayout) {
         <Head>
           <title>Vestido Storefront</title>
         </Head>
-        <AuthProvider
-          loginRoute="/login"
-          autoLoginRedirect={false}
-          fallback={<BlockingSpinner />}
-        >
+        <AuthProvider loginRoute="/login" autoLoginRedirect={false}>
           {getLayout(
             <AnimatePresence mode="wait">
               <motion.div
