@@ -33,7 +33,7 @@ interface ProductViewProps {
 }
 
 const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
-  const { isAuthenticated, routeToLogin } = useAuth();
+  const { isAuthenticated, routeToLogin, authLoaded } = useAuth();
   const router = useRouter();
   const { toast } = useToast();
 
@@ -59,7 +59,6 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
       routeToLogin();
       return;
     }
-
     if (item) {
       cartTrigger({
         itemId: item.id,
@@ -178,7 +177,10 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
                 handleAddToCart(variantId);
               }}
             >
-              <Button className="text-sm md:text-xl font-semibold bg-transparent hover:bg-transparent h-10 sm:h-auto flex gap-1 border border-white  flex-1">
+              <Button
+                disabled={!authLoaded}
+                className="text-sm md:text-xl font-semibold bg-transparent hover:bg-transparent h-10 sm:h-auto flex gap-1 border border-white  flex-1"
+              >
                 <LuShoppingBag className="h-4 w-4 md:h-8 md:w-8" />
                 <div>ADD TO CART</div>
               </Button>
@@ -197,7 +199,10 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
                 handleBuyNow(variantId);
               }}
             >
-              <Button className="text-sm md:text-xl text-black bg-[#f8f8f8] font-semibold h-10 sm:h-auto flex-1 hover:bg-white">
+              <Button
+                disabled={!authLoaded}
+                className="text-sm md:text-xl text-black bg-[#f8f8f8] font-semibold h-10 sm:h-auto flex-1 hover:bg-white"
+              >
                 BUY NOW
               </Button>
             </SizeSelectorDialog>
