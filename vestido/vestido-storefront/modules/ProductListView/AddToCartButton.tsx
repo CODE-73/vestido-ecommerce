@@ -23,8 +23,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   offerPrice,
   item,
 }) => {
-  const { isAuthenticated, routeToLogin } = useAuth();
-  const authLoaded = false;
+  const { isAuthenticated, routeToLogin, authLoaded } = useAuth();
   const isDisabled = !authLoaded;
   const { toast } = useToast();
   const [qty] = useState(1);
