@@ -64,7 +64,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
       onSizeSelect={(selectedVariantId) => {
         handleAddToCart(selectedVariantId);
       }}
-      disabledTrigger={isDisabled}
+      isDisabled={isDisabled}
     >
       <div
         className={`relative w-full h-full ${isDisabled ? '' : 'hover:bg-white transition-all duration-700 '} rounded-lg`}
