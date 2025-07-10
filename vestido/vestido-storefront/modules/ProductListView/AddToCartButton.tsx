@@ -24,11 +24,14 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   item,
 }) => {
   const { isAuthenticated, routeToLogin } = useAuth();
+  const authLoaded = false;
+  const isDisabled = !authLoaded;
   const { toast } = useToast();
   const [qty] = useState(1);
   const { trigger } = useAddToCart();
 
   const handleAddToCart = async (selectedVariantId: string | null) => {
+    if (!authLoaded) return;
     if (!isAuthenticated) {
       routeToLogin();
       return;
@@ -63,8 +66,13 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
         handleAddToCart(selectedVariantId);
       }}
     >
-      <div className=" relative w-full h-full hover:bg-white transition-all duration-700 rounded-lg">
-        <Button className="group/button relative bg-white w-12 hover:w-full hover:bg-white transition-all duration-700 flex justify-start">
+      <div
+        className={`relative w-full h-full ${isDisabled ? 'pointer-events-none cursor-not-allowed' : 'hover:bg-white transition-all duration-700 '} rounded-lg`}
+      >
+        <Button
+          disabled={isDisabled}
+          className={`group/button relative bg-white ${isDisabled ? '' : 'hover:w-full hover:bg-white transition-all duration-700'} w-12  flex justify-start`}
+        >
           <LuShoppingBag className="absolute left-3 text-black" size={20} />
 
           <span className="hidden group-hover/button:block ml-8 text-black font-semibold transition-opacity duration-700 opacity-0 group-hover/button:opacity-100">

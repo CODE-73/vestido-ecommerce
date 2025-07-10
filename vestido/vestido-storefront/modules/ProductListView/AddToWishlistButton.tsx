@@ -25,10 +25,12 @@ const AddToWishListButton: React.FC<WishlistbuttonProps> = ({
   size,
   color,
 }) => {
-  const { isAuthenticated, routeToLogin } = useAuth();
+  const { isAuthenticated, routeToLogin, authLoaded } = useAuth();
 
   // SWR Queries & Mutations
   const { data: wishlist, isLoading: isWishlistLoading } = useWishlist();
+
+  const isDisabled = !authLoaded;
   const { trigger: wishlistTrigger, isMutating: isWishlisting } =
     useAddToWishlist();
   const { trigger: removeWishlistTrigger, isMutating: isRemoving } =
@@ -90,11 +92,17 @@ const AddToWishListButton: React.FC<WishlistbuttonProps> = ({
   const isLoading = isWishlisting || isRemoving;
 
   return (
-    <div onClick={onClick} className={className}>
+    <div
+      onClick={isDisabled ? undefined : onClick}
+      className={`${className} ${isDisabled ? 'cursor-not-allowed opacity-50' : ''}`}
+      aria-disabled={isDisabled}
+      role="button"
+      tabIndex={isDisabled ? -1 : 0}
+    >
       <LuHeart
         strokeWidth={1.3}
         size={size ?? 24}
-        className={`${isWishlistLoading ? 'invisible' : `text-${color || 'white'} ${isLoading ? 'animate-pulse' : ''}`}`}
+        className={`${isWishlistLoading ? 'invisible' : `text-${color || 'white'} ${!isDisabled && isLoading ? 'animate-pulse' : ''} ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}`}
         style={{
           fill: wishlisted ? 'red' : 'none',
           color: wishlisted ? 'red' : '',

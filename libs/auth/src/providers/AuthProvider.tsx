@@ -15,6 +15,7 @@ import { useLocalStorageState } from '@vestido-ecommerce/utils';
 
 type AuthContextValue = {
   isAuthenticated: boolean;
+  authLoaded: boolean;
   loginRoute: string;
   token: string | null;
   profile: Profile | null;
@@ -38,7 +39,6 @@ export const AuthProvider = ({
   children,
   autoLoginRedirect = true,
   loginRoute: loginRoute = '/auth/login',
-  fallback,
 }: AuthProviderProps) => {
   const router = useRouter();
   const posthog = usePostHog();
@@ -81,15 +81,11 @@ export const AuthProvider = ({
       posthog.reset();
     }
   }, [profile]);
-
-  if (!authLoaded) {
-    return fallback;
-  }
-
   return (
     <AuthContext.Provider
       value={{
         isAuthenticated: !!token,
+        authLoaded,
         loginRoute,
         token,
         profile,

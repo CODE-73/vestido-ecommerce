@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 
 const prismaClientSingleton = () => {
   return new PrismaClient();
@@ -31,6 +31,9 @@ type IgnorePrismaBuiltins<S extends string> = string extends S
 // https://github.com/prisma/prisma/issues/11940#issuecomment-2093185294
 export type PrismaModelName = IgnorePrismaBuiltins<keyof PrismaClient & string>;
 
-export type PrismaTransactionalClient = Parameters<
-  Parameters<PrismaClient['$transaction']>[0]
->[0];
+// https://stackoverflow.com/a/78539139
+// export type PrismaTransactionalClient = Parameters<
+//   Parameters<PrismaClient['$transaction']>[0]
+// >[0];
+
+export type PrismaTransactionalClient = Prisma.TransactionClient;

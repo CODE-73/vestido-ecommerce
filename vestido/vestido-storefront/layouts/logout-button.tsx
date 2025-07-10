@@ -25,7 +25,7 @@ type LogoutButtonProps = {
 };
 
 const LogoutButton: FC<LogoutButtonProps> = ({ className, icon }) => {
-  const { logout } = useAuth();
+  const { logout, authLoaded } = useAuth();
   const router = useRouter();
 
   const handleLogout = () => {
@@ -63,7 +63,11 @@ const LogoutButton: FC<LogoutButtonProps> = ({ className, icon }) => {
               Cancel
             </AlertDialogCancel>
 
-            <AlertDialogAction onClick={handleLogout} className="bg-black">
+            <AlertDialogAction
+              disabled={!authLoaded}
+              onClick={handleLogout}
+              className="bg-black"
+            >
               Logout
             </AlertDialogAction>
           </AlertDialogFooter>

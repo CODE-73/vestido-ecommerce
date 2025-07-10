@@ -136,6 +136,7 @@ export const SizeSelectorDialog: React.FC<SizeSelectorDialogProps> = ({
     <>
       <AlertDialog>
         <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
+
         {isDialogOpen && (
           <AlertDialogContent className="w-[98%] flex justify-center mx-auto rounded-lg sm:max-w-[425px]">
             <motion.div

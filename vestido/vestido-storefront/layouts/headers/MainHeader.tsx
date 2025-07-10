@@ -22,7 +22,7 @@ interface SearchItem {
 }
 
 const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, authLoaded } = useAuth();
   const [searchOpen, setSearchOpen] = useState(false);
 
   const [selectedItem, setSelectedItem] = React.useState<SearchItem | null>(
@@ -100,8 +100,7 @@ const MainHeader: React.FC<HeaderProps> = ({ cart_count, wishlist_count }) => {
             )}
           </Link>
 
-          {/* <HeaderDropdown /> */}
-          {isAuthenticated ? (
+          {authLoaded && isAuthenticated ? (
             <LogoutButton
               icon
               className="text-white hover:text-gray-400 hover:bg-transparent"
