@@ -23,7 +23,8 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   offerPrice,
   item,
 }) => {
-  const { isAuthenticated, routeToLogin, authLoaded } = useAuth();
+  const { isAuthenticated, routeToLogin } = useAuth();
+  const authLoaded = false;
   const isDisabled = !authLoaded;
   const { toast } = useToast();
   const [qty] = useState(1);
@@ -64,10 +65,9 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
       onSizeSelect={(selectedVariantId) => {
         handleAddToCart(selectedVariantId);
       }}
-      isDisabled={isDisabled}
     >
       <div
-        className={`relative w-full h-full ${isDisabled ? '' : 'hover:bg-white transition-all duration-700 '} rounded-lg`}
+        className={`relative w-full h-full ${isDisabled ? 'pointer-events-none cursor-not-allowed' : 'hover:bg-white transition-all duration-700 '} rounded-lg`}
       >
         <Button
           disabled={isDisabled}
