@@ -94,7 +94,11 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
         </CardContent>
 
         <CardFooter className="flex flex-col gap-2 md:flex-row md:justify-between">
-          <Link href="/profile" className="w-full md:w-auto" prefetch={false}>
+          <Link
+            href="/profile/orders"
+            className="w-full md:w-auto"
+            prefetch={false}
+          >
             <Button className="w-full">Back</Button>
           </Link>
         </CardFooter>
