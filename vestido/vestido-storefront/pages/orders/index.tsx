@@ -3,11 +3,7 @@ import { SWRConfig } from 'swr';
 
 import OrderListView from '../../modules/orders/order-list/order-list';
 
-type AllOrdersPageProps = {
-  fallback: Record<string, unknown>;
-};
-
-const AllOrdersPage: NextPage<AllOrdersPageProps> = () => {
+const AllOrdersPage: NextPage = () => {
   return (
     <SWRConfig>
       <OrderListView />;
