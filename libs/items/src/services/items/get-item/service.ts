@@ -1,3 +1,5 @@
+import { validate as isUUID } from 'uuid';
+
 import { populateImageURLs } from '@vestido-ecommerce/caching';
 import {
   getPrismaClient,
@@ -6,15 +8,13 @@ import {
 import { ImageSchemaType, VestidoError } from '@vestido-ecommerce/utils';
 
 export async function getItemDetails(
-  itemId: string,
+  idOrSlug: string,
   _prisma?: PrismaTransactionalClient,
 ) {
   const prisma = _prisma ?? getPrismaClient();
 
   const item = await prisma.item.findUnique({
-    where: {
-      id: itemId,
-    },
+    where: isUUID(idOrSlug) ? { id: idOrSlug } : { slug: idOrSlug },
     include: {
       variants: {
         include: {
@@ -36,10 +36,10 @@ export async function getItemDetails(
   if (!item) {
     throw new VestidoError({
       name: 'ItemNotFound',
-      message: `Item ${itemId} not found`,
+      message: `Item ${idOrSlug} not found`,
       httpStatus: 404,
       context: {
-        itemId,
+        identifier: idOrSlug,
       },
     });
   }

@@ -150,7 +150,7 @@ const ProductViewImages: FC<ProductViewImagesProps> = ({
                         className="text-xs h-full self-center p-1"
                         color="gray-600"
                       />
-                      <ShareButton itemId={item?.id || ''} item={item} />
+                      <ShareButton itemSlug={item?.slug || ''} item={item} />
                     </div>
                   </div>
                 </CarouselItem>

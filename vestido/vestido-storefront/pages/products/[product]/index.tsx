@@ -34,7 +34,7 @@ const ItemDetails: NextPage<ItemDetailsPageProps> = ({
     (item.images as ImageSchemaType[])?.[0]?.url ||
     `https://beta.vestidonation.com/fallback-image.png`;
 
-  const itemUrl = `https://beta.vestidonation.com/products/${item.id}`;
+  const itemUrl = `https://beta.vestidonation.com/products/${item.slug}`;
 
   return (
     <>

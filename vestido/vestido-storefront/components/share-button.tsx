@@ -7,17 +7,17 @@ import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 import { ImageSchemaType } from '@vestido-ecommerce/utils';
 
 type ShareButtonProps = {
-  itemId: string;
+  itemSlug: string;
   item: Item;
 };
 
-const ShareButton: React.FC<ShareButtonProps> = ({ itemId, item }) => {
+const ShareButton: React.FC<ShareButtonProps> = ({ itemSlug, item }) => {
   const { toast } = useToast();
   const [isSharing, setIsSharing] = useState(false);
   const handleShare = async () => {
     setIsSharing(true);
 
-    const shareUrl = `${window.location.origin}/products/${itemId}`;
+    const shareUrl = `${window.location.origin}/products/${itemSlug}`;
     const imageUrl =
       (item.images as ImageSchemaType[])?.find((img) => img?.default)?.url ??
       (item.images as ImageSchemaType[])?.[0]?.url;
