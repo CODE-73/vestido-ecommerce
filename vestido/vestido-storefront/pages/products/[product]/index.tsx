@@ -32,9 +32,9 @@ const ItemDetails: NextPage<ItemDetailsPageProps> = ({
     ((item.images as ImageSchemaType[]) ?? []).find((img) => img.default)
       ?.url ||
     (item.images as ImageSchemaType[])?.[0]?.url ||
-    `https://beta.vestidonation.com/fallback-image.png`;
+    `/fallback-image.png`;
 
-  const itemUrl = `https://beta.vestidonation.com/products/${item.id}`;
+  const itemUrl = `/products/${item.slug}`;
 
   return (
     <>

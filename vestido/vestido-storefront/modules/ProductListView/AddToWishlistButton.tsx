@@ -89,7 +89,7 @@ const AddToWishListButton: React.FC<WishlistbuttonProps> = ({
     }
   };
 
-  const isLoading = isWishlisting || isRemoving;
+  const isLoading = !authLoaded || isWishlisting || isRemoving;
 
   return (
     <div
@@ -105,7 +105,7 @@ const AddToWishListButton: React.FC<WishlistbuttonProps> = ({
         className={`${isWishlistLoading ? 'invisible' : `text-${color || 'white'} ${!isDisabled && isLoading ? 'animate-pulse' : ''} ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}`}
         style={{
           fill: wishlisted ? 'red' : 'none',
-          color: wishlisted ? 'red' : '',
+          color: wishlisted ? 'red' : 'auto',
         }}
       />
     </div>

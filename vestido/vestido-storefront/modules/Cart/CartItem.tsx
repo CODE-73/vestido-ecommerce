@@ -157,7 +157,7 @@ const CartItemCard: React.FC<props> = ({ cartItem, removeItem }) => {
           </AlertDialog>
         </div>
         <Link
-          href={`/products/${cartItem.itemId}`}
+          href={`/products/${cartItem.item.slug}`}
           className="block basis-1/5 md:basis-1/4"
         >
           <ItemImage

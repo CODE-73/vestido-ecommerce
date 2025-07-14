@@ -14,8 +14,8 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ data: item }) => {
   const router = useRouter();
-  const handleProductClick = (itemId: string) => {
-    router.push(`/products/${encodeURIComponent(itemId)}`);
+  const handleProductClick = (slug: string) => {
+    router.push(`/products/${encodeURIComponent(slug)}`);
   };
 
   return (
@@ -29,7 +29,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ data: item }) => {
       )}
 
       <div
-        onClick={() => handleProductClick(item.id)}
+        onClick={() => handleProductClick(item.slug)}
         className="group w-full relative"
       >
         <div className="relative w-full pb-[130%]">

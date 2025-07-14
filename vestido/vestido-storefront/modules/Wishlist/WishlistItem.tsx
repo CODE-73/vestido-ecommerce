@@ -96,8 +96,8 @@ const WishlistItemCard: React.FC<props> = ({ wishlistItem, removeItem }) => {
     }
   };
 
-  const handleProductClick = (itemId: string) => {
-    router.push(`/products/${encodeURIComponent(itemId)}`);
+  const handleProductClick = (slug: string) => {
+    router.push(`/products/${encodeURIComponent(slug)}`);
   };
   return (
     <div className="relative flex flex-col items-center group  mb-10 cursor-pointer ">
@@ -147,7 +147,7 @@ const WishlistItemCard: React.FC<props> = ({ wishlistItem, removeItem }) => {
       </div>
 
       <div
-        onClick={() => handleProductClick(wishlistItem.itemId)}
+        onClick={() => handleProductClick(wishlistItem.item.slug)}
         className="group w-full relative"
       >
         <div className="relative w-full pb-[130%]">
