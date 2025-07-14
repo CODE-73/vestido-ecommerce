@@ -194,7 +194,7 @@ const CategoriesDrawer: React.FC<CategoriesDrawerProps> = ({
                             onClick={toggleDrawer}
                           >
                             <CategoryNavItem
-                              href={`/${subcategory.id}`}
+                              href={`/${subcategory.slug}`}
                               title={subcategory.name}
                             />
                           </div>

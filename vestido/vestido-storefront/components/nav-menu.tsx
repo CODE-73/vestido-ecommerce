@@ -188,14 +188,14 @@ const CategoryNavContent: React.FC<CategorySectionProps> = ({
       {filteredCategories?.map((category, index) => (
         <div key={index}>
           <div className=" capitalize cursor-pointer">
-            <Link href={`/${category.id}`}>{category.name}</Link>
+            <Link href={`/${category.slug}`}>{category.name}</Link>
           </div>
           <ul className="capitalize py-3 md:w-[200px]">
             {getSubcategories(category.id, genders)?.map(
               (subcategory, subIndex) => (
                 <div key={subIndex}>
                   <CategoryNavItem
-                    href={`/${subcategory.id}`}
+                    href={`/${subcategory.slug}`}
                     title={subcategory.name}
                   />
                 </div>

@@ -38,7 +38,7 @@ const ProductViewBreadcrumb: FC<ProductViewBreadcrumbProps> = ({
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          <BreadcrumbLink href={`/${category.id}`}>
+          <BreadcrumbLink href={`/${category.slug}`}>
             {category.name}
           </BreadcrumbLink>
         </BreadcrumbItem>

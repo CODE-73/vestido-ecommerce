@@ -1,26 +1,24 @@
 import { Category } from '@prisma/client';
-import { validate as uuidValidate } from 'uuid';
+import { validate as isUUID } from 'uuid';
 
 import { getPrismaClient } from '@vestido-ecommerce/models';
 import { slugify } from '@vestido-ecommerce/utils';
 
-export async function categoryDetails(categoryId: string) {
+export async function categoryDetails(idOrSlug: string) {
   const prisma = getPrismaClient();
-  if (uuidValidate(categoryId)) {
+  if (isUUID(idOrSlug)) {
     const category = await prisma.category.findUnique({
-      where: {
-        id: categoryId,
-      },
+      where: { id: idOrSlug },
     });
 
     return category;
   } else {
-    categoryId = slugify(categoryId);
+    idOrSlug = slugify(idOrSlug);
 
     const categories = (await prisma.$queryRaw`
       SELECT * FROM "Category"
-      WHERE "slug" = ${categoryId}
-      OR ${categoryId} IN (SELECT UNNEST(slugify_array("searchTerms")))
+      WHERE "slug" = ${idOrSlug}
+      OR ${idOrSlug} IN (SELECT UNNEST(slugify_array("searchTerms")))
       LIMIT 1
     `) as unknown as Category[] | null;
 
