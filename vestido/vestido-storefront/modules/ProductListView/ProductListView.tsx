@@ -3,7 +3,10 @@ import Image from 'next/image';
 
 import { Item } from '@prisma/client';
 
-import { useCategory, useItems } from '@vestido-ecommerce/items/client';
+import {
+  useCategory,
+  usePaginatedItemsInfinite,
+} from '@vestido-ecommerce/items/client';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -27,9 +30,36 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
   suggestedList,
 }) => {
   const { data: { data: category } = { data: null } } = useCategory(categoryId);
-  const { data: items } = useItems({ categoryId });
+  // const { data: items } = useItems({ categoryId });
+  const { items, loadMore, hasMore, isLoadingMore, isLoadingInitialData } =
+    usePaginatedItemsInfinite({ categoryId });
 
-  const handleShowMoreClick = () => {};
+  const bottomRef = React.useRef<HTMLDivElement | null>(null);
+
+  // ⬇️ Use IntersectionObserver to auto-load more
+  React.useEffect(() => {
+    const el = bottomRef.current;
+    if (!el || !hasMore) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !isLoadingMore) {
+          loadMore();
+        }
+      },
+      {
+        rootMargin: '100px',
+        threshold: 0.1,
+      },
+    );
+
+    observer.observe(el);
+
+    return () => {
+      observer.unobserve(el);
+      observer.disconnect();
+    };
+  }, [loadMore, hasMore, isLoadingMore]);
 
   return (
     <div className="md:px-16">
@@ -74,8 +104,13 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
             <ProductFilter />
           </div>
         )} */}
+        {}
 
-        {items && items.length > 0 ? (
+        {isLoadingInitialData ? (
+          <div className="text-white text-center py-10">
+            Loading products...
+          </div>
+        ) : items.length > 0 ? (
           <>
             <div
               className={`grid grid-cols-2 gap-2 px-5 md:grid-cols-3 lg:grid-cols-4  md:gap-5 xl:gap-10 md:px-0 ${suggestedList ? 'xl:px-32 xl:grid-cols-6' : ' w-full xl:grid-cols-5'} `}
@@ -86,14 +121,21 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
                 </MountAnimator>
               ))}
             </div>
-            <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 flex justify-center mt-8">
+            {/* <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 flex justify-center mt-8">
               <button
                 className="border border-gray-200 text-xs text-white font-medium py-2 px-5  my-5 hover:border-black duration-100"
                 onClick={handleShowMoreClick}
               >
                 Show More
               </button>
-            </div>
+            </div> */}
+            {/* Sentinel element that triggers loadMore */}
+            {hasMore && <div ref={bottomRef} className="h-10 w-full" />}
+
+            {/* Optional loading indicator */}
+            {isLoadingMore && (
+              <div className="text-white text-sm mt-5">Loading more...</div>
+            )}
           </>
         ) : (
           <div className="absolute left-[50%] transform -translate-x-1/2 flex flex-col items-center text-white">

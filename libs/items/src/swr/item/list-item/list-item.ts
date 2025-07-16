@@ -12,7 +12,15 @@ export function useItems(args?: ListItemRequest) {
   const key = [
     ListItemSWRKeys.ITEM,
     ListItemSWRKeys.LIST,
-    JSON.stringify(args ?? {}),
+    JSON.stringify({
+      q: args?.q ?? '',
+      categoryId: args?.categoryId ?? '',
+      gender: args?.gender ?? '',
+      limit: args?.limit ?? 50,
+      offset: args?.offset ?? 0,
+      enabled:
+        args?.enabled === true ? true : args?.enabled === false ? false : '',
+    }),
   ];
 
   return useSWRImmutable<ListItemResponse, Error>(key, () =>
