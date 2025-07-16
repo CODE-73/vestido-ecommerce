@@ -17,6 +17,8 @@ export async function getItemList(
     if (args.categoryId) {
       query.append('categoryId', args.categoryId);
     }
+    if (args.limit != null) query.append('limit', String(args.limit));
+    if (args.offset != null) query.append('offset', String(args.offset));
     if (query.toString()) {
       url += `?${query.toString()}`;
     }
