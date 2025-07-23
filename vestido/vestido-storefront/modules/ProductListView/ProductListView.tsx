@@ -133,9 +133,11 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
             {hasMore && <div ref={bottomRef} className="h-10 w-full" />}
 
             {/* Optional loading indicator */}
-            {isLoadingMore && (
-              <div className="text-white text-sm mt-5">Loading more...</div>
-            )}
+            {/* {isLoadingMore && (
+              <div className="text-white text-sm mt-5 ">
+                Loading more...
+              </div>
+            )} */}
           </>
         ) : (
           <div className="absolute left-[50%] transform -translate-x-1/2 flex flex-col items-center text-white">
