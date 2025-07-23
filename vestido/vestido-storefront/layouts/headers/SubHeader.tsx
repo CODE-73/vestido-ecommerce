@@ -39,7 +39,14 @@ const SubHeader = () => {
                   className={`${message.href ? 'cursor-pointer' : 'pointer-events-none'}`}
                 >
                   <div className="flex justify-center">
-                    <div>{message.text_content}</div>
+                    <div
+                      className={`
+    ${message.text_content?.length && message.text_content?.length > 50 ? 'text-[10px]' : message.text_content?.length && message.text_content?.length > 40 ? 'text-xs' : 'text-sm'} 
+    md:text-sm
+  `}
+                    >
+                      {message.text_content}
+                    </div>
                   </div>
                 </Link>
               </CarouselItem>
