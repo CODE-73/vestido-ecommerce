@@ -20,6 +20,7 @@ module.exports = {
       height: {
         ...(tailwindConfig.theme?.extend?.height ?? {}),
         'screen-minus-nav': 'calc(100vh - var(--navbar-height))',
+        'dynamic-height': 'calc(100vh - var(--navbar-height) - 6rem)',
       },
       margin: {
         ...(tailwindConfig.theme?.extend?.margin ?? {}),

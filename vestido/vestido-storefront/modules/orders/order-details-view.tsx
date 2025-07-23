@@ -35,12 +35,12 @@ const OrderDetailsView: FC<OrderDetailsProps> = ({ orderId }) => {
     return null;
   }
 
-  const cardHeight = '700px';
+  // const cardHeight = '700px';
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center mt-top-margin-nav">
       <Card
-        style={{ height: cardHeight, minHeight: cardHeight }}
-        className={`w-full max-w-4xl p-3 md:p-6 overflow-y-scroll ${
+        // style={{ height: cardHeight, minHeight: cardHeight }}
+        className={`w-full max-w-4xl p-3 md:p-6 h-dynamic-height  sm:height-auto overflow-y-scroll ${
           isCancelledOrder ? 'md:justify-self-center' : 'md:justify-self-end'
         }`}
       >
