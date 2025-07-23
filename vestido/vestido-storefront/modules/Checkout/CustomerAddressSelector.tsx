@@ -44,17 +44,20 @@ const CustomerAddressSelector: React.FC<CustomerAddressSelectorProps> = ({
     (a, b) => (b.default ? 1 : 0) - (a.default ? 1 : 0),
   );
   const [userHasInteracted, setUserHasInteracted] = useState(false);
+  const [selectedValue, setSelectedValue] = useState<string | undefined>(value);
 
   // Automatically select the default address if the user hasn't interacted
   useEffect(() => {
     if (!userHasInteracted && sortedAddresses.length > 0) {
       onChange?.(sortedAddresses[0].id);
+      setSelectedValue(sortedAddresses[0].id);
     }
   }, [sortedAddresses, userHasInteracted, onChange]);
 
   // Handle manual selection by the user
   const handleSelectionChange = (selectedId: string) => {
     setUserHasInteracted(true); // Mark as user-interacted
+    setSelectedValue(selectedId);
     onChange?.(selectedId);
   };
 
@@ -71,7 +74,7 @@ const CustomerAddressSelector: React.FC<CustomerAddressSelectorProps> = ({
     }
   };
   return (
-    <RadioGroup value={value} onValueChange={handleSelectionChange}>
+    <RadioGroup value={selectedValue} onValueChange={handleSelectionChange}>
       {sortedAddresses
         .filter((address) => address.archived == false)
         .map((address, index) => (
