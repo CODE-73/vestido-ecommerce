@@ -43,6 +43,8 @@ export async function listItem(_args: ListItemRequest) {
         },
       },
     },
+    skip: args?.offset ?? 0,
+    take: args?.limit ?? 50,
   });
 
   await populateImageURLs(
