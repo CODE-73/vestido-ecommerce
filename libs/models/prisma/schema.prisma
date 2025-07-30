@@ -113,6 +113,12 @@ enum ProfileGender {
     FEMALE
 }
 
+enum AuthLogType {
+    AUTHENTICATED
+    PROFILE_CREATED
+    OTP_VERIFICATION_FAILED
+}
+
 model CustomerAddress {
     id              String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
     customer        Profile     @relation(fields: [customerId], references: [id])
@@ -148,6 +154,7 @@ model Profile {
     orders          Order[]
     CustomerAddress CustomerAddress[]
     bankDetails     BankDetails[]
+    authLog         AuthLog[]
 }
 
 model Item {
@@ -523,6 +530,14 @@ model SMSLog {
     logType   String
     response  Json
     createdAt DateTime @default(now()) @db.Timestamptz(3)
+}
+
+model AuthLog {
+    id        String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    createdAt DateTime    @default(now()) @db.Timestamptz(3)
+    profileId String      @db.Uuid
+    profile   Profile     @relation(fields: [profileId], references: [id])
+    logType   AuthLogType
 }
 
 model ContactUs {
