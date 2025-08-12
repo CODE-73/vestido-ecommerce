@@ -9,6 +9,7 @@ export * from './cart/get-cart';
 export * from './cart/remove-from-cart';
 export * from './categories';
 export * from './items';
+export * from './stocks/reconcileInventory';
 export * from './variants';
 export * from './wishlist/add-to-wishlist';
 export * from './wishlist/get-wishlist';
