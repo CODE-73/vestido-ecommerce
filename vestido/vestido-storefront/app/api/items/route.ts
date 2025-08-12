@@ -6,6 +6,8 @@ export const GET = apiRouteHandler(async ({ request }) => {
   const items = await listItem({
     ...args,
     enabled: true,
+    limit: args.limit ? parseInt(args.limit) : undefined,
+    offset: args.offset ? parseInt(args.offset) : undefined,
   });
 
   for (const item of items) {

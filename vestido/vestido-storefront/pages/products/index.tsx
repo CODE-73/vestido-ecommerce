@@ -21,7 +21,8 @@ const AllProductsPage: FC<AllProductsPageProps> = ({ fallback }) => {
 };
 
 export async function getStaticProps() {
-  const items = ensureSerializable(await listItem({}));
+  const defaultQuery = { limit: 50, offset: 0 };
+  const items = ensureSerializable(await listItem(defaultQuery));
 
   return {
     props: {
@@ -30,7 +31,7 @@ export async function getStaticProps() {
         [unstable_serialize([
           ListItemSWRKeys.ITEM,
           ListItemSWRKeys.LIST,
-          JSON.stringify({}),
+          JSON.stringify(defaultQuery),
         ])]: items,
       },
     },
