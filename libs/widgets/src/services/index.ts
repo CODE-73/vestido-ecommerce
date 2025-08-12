@@ -1,3 +1,4 @@
+export * from './auth-analytics';
 export * from './average-order-value';
 export * from './fulfilled-orders-count';
 export * from './order-count-trend';

@@ -1,4 +1,5 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
+import { createAuthLog } from '@vestido-ecommerce/utils';
 
 import { SignUpSchema, SignUpSchemaType } from './zod';
 
@@ -15,6 +16,8 @@ export async function signUp(data: SignUpSchemaType) {
       gender: validatedData.gender,
     },
   });
+
+  await createAuthLog(user.id, 'PROFILE_CREATED');
 
   return user;
 }
