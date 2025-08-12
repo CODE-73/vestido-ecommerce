@@ -36,7 +36,6 @@ const ActiveUsersWidgetDisplay: React.FC<ActiveUsersWidgetProps> = ({
   const active_count = active_users_data?.data?.reduce((sum, item) => {
     return sum + Number(item.active_users);
   }, 0);
-  console.log('activeuserscount', active_count);
 
   return (
     <Card className="w-full h-full pt-2">

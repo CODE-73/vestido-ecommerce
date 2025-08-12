@@ -36,7 +36,6 @@ const LoginsWidgetDisplay: React.FC<LoginsWidgetProps> = ({
   const login_count = login_data?.data?.reduce((sum, item) => {
     return sum + Number(item.login_count);
   }, 0);
-  console.log('logincount', login_data);
 
   return (
     <Card className="w-full h-full pt-2">

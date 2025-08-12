@@ -36,7 +36,6 @@ const SignupsWidgetDisplay: React.FC<SignupsWidgetProps> = ({
   const signup_count = signup_data?.data?.reduce((sum, item) => {
     return sum + Number(item.signup_count);
   }, 0);
-  console.log('signupcount', signup_count);
 
   return (
     <Card className="w-full h-full pt-2">

@@ -77,11 +77,6 @@ export async function getAuthAnalytics(_body: BaseReportFilter) {
     groupBy,
   );
 
-  console.log({
-    fromDate: new Date(fromDate).toISOString(),
-    toDate: new Date(toDate).toISOString(),
-  });
-
   const loginMap = new Map(
     logins.map(({ period, login_count }) => [period, login_count]),
   );
