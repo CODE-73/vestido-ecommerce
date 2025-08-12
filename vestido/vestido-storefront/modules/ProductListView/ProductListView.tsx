@@ -30,7 +30,6 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
   suggestedList,
 }) => {
   const { data: { data: category } = { data: null } } = useCategory(categoryId);
-  // const { data: items } = useItems({ categoryId });
   const { items, loadMore, hasMore, isLoadingMore, isLoadingInitialData } =
     usePaginatedItemsInfinite({ categoryId });
 
@@ -99,13 +98,6 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
         {!suggestedList && (category?.name ?? 'All')}
       </div>
       <div className="flex relative justify-center">
-        {/* {!suggestedList && (
-          <div className="basis-1/5 hidden invisible lg:block">
-            <ProductFilter />
-          </div>
-        )} */}
-        {}
-
         {isLoadingInitialData ? (
           <div className="text-white text-center py-10">
             Loading products...
@@ -121,23 +113,8 @@ const ProductlistView: React.FC<ProductListViewProps> = ({
                 </MountAnimator>
               ))}
             </div>
-            {/* <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 flex justify-center mt-8">
-              <button
-                className="border border-gray-200 text-xs text-white font-medium py-2 px-5  my-5 hover:border-black duration-100"
-                onClick={handleShowMoreClick}
-              >
-                Show More
-              </button>
-            </div> */}
             {/* Sentinel element that triggers loadMore */}
             {hasMore && <div ref={bottomRef} className="h-10 w-full" />}
-
-            {/* Optional loading indicator */}
-            {/* {isLoadingMore && (
-              <div className="text-white text-sm mt-5 ">
-                Loading more...
-              </div>
-            )} */}
           </>
         ) : (
           <div className="absolute left-[50%] transform -translate-x-1/2 flex flex-col items-center text-white">
