@@ -10,6 +10,7 @@ export * from './cart/remove-from-cart';
 export * from './categories';
 export * from './items';
 export * from './stocks/reconcileInventory';
+export * from './stocks/reserveInventory';
 export * from './variants';
 export * from './wishlist/add-to-wishlist';
 export * from './wishlist/get-wishlist';
