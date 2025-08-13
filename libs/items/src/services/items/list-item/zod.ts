@@ -5,6 +5,8 @@ export const ListItemRequestSchema = z
     q: z.string().nullish(),
     categoryId: z.string().nullish(),
     gender: z.string().nullish(),
+    limit: z.number().int().min(1).max(100).nullish(),
+    offset: z.number().int().min(0).nullish(),
     enabled: z.union([
       z.boolean().nullish(),
       z
