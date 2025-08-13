@@ -1,3 +1,5 @@
+import type { Payment } from '@prisma/client';
+
 import { sendSMS, SMSSenderID, SMSTemplate } from '@vestido-ecommerce/fast2sms';
 import { clearCartOnOrderCreation } from '@vestido-ecommerce/items';
 import { getPrismaClient } from '@vestido-ecommerce/models';
@@ -15,9 +17,7 @@ export async function createOrder(_data: CreateOrderSchemaType) {
     CreateOrderSchema.parse(_data);
 
   const shippingdetails = await prisma.customerAddress.findUnique({
-    where: {
-      id: addressId,
-    },
+    where: { id: addressId },
   });
 
   const {
@@ -28,73 +28,80 @@ export async function createOrder(_data: CreateOrderSchemaType) {
     grandTotal,
     itemsWithTax,
   } = await calculateTotal({
-    addressId: addressId,
+    addressId,
     orderItems: _data.orderItems,
     paymentType,
     couponCode,
   });
 
-  const newOrder = await prisma.order.create({
-    data: {
-      ...data,
-      createdAt: new Date(),
-      /**
-       * For Cash on Delivery, the order status is set to CONFIRMED immediately.
-       * We are anticipating an error from the payment gateway, hence setting the order status to PENDING.
-       */
-      orderStatus: paymentType == 'CASH_ON_DELIVERY' ? 'CONFIRMED' : 'PENDING',
-      totalPrice: itemsPrice - totalTax,
-      totalTax: totalTax,
-      totalCharges: shippingCharges,
-      totalDiscount: couponDiscount,
-      grandTotal: grandTotal,
-      couponCode: couponCode,
-      customer: {
-        connect: {
-          id: customerId,
-        },
-      },
-      shippingAddress: {
-        connect: {
-          id: addressId,
-        },
-      },
-      orderItems: {
-        createMany: {
-          data: itemsWithTax.map((item) => ({
-            itemId: item.itemId,
-            price: item.price,
-            qty: item.qty,
-            variantId: item.variantId,
-            taxTitle: item.taxTitle,
-            taxRate: item.taxRate,
-            taxInclusive: item.taxInclusive,
-            taxAmount: item.taxAmount, // Added taxAmount here
-            status: paymentType == 'CASH_ON_DELIVERY' ? 'CONFIRMED' : 'PENDING',
-          })),
-        },
-      },
-    },
-  });
-
-  let newPayment = null;
-  if (paymentType == 'CASH_ON_DELIVERY') {
-    newPayment = await prisma.payment.create({
+  // Transaction: returns the created order + payment
+  const { newOrder, newPayment } = await prisma.$transaction(async (tx) => {
+    const newOrder = await tx.order.create({
       data: {
-        order: {
-          connect: {
-            id: newOrder.id,
+        ...data,
+        createdAt: new Date(),
+        orderStatus:
+          paymentType === 'CASH_ON_DELIVERY' ? 'CONFIRMED' : 'PENDING',
+        totalPrice: itemsPrice - totalTax,
+        totalTax,
+        totalCharges: shippingCharges,
+        totalDiscount: couponDiscount,
+        grandTotal,
+        couponCode,
+        customer: { connect: { id: customerId } },
+        shippingAddress: { connect: { id: addressId } },
+        orderItems: {
+          createMany: {
+            data: itemsWithTax.map((item) => ({
+              itemId: item.itemId,
+              price: item.price,
+              qty: item.qty,
+              variantId: item.variantId,
+              taxTitle: item.taxTitle,
+              taxRate: item.taxRate,
+              taxInclusive: item.taxInclusive,
+              taxAmount: item.taxAmount,
+              status:
+                paymentType === 'CASH_ON_DELIVERY' ? 'CONFIRMED' : 'PENDING',
+            })),
           },
         },
-        paymentGateway: 'CASH_ON_DELIVERY',
-        paymentGatewayRef: 'Null',
-        moreDetails: 'Null',
-        currency: 'INR',
-        amount: grandTotal,
-        status: 'PENDING',
       },
     });
 
+    let newPayment: Payment | null = null;
+
+    if (paymentType === 'CASH_ON_DELIVERY') {
+      newPayment = await tx.payment.create({
+        data: {
+          order: { connect: { id: newOrder.id } },
+          paymentGateway: 'CASH_ON_DELIVERY',
+          paymentGatewayRef: 'Null',
+          moreDetails: 'Null',
+          currency: 'INR',
+          amount: grandTotal,
+          status: 'PENDING',
+        },
+      });
+    } else if (paymentType === 'REPLACEMENT_ORDER') {
+      newPayment = await tx.payment.create({
+        data: {
+          order: { connect: { id: newOrder.id } },
+          paymentGateway: 'REPLACEMENT_ORDER',
+          paymentGatewayRef: 'Null',
+          moreDetails: 'Null',
+          currency: 'INR',
+          amount: 0,
+          status: 'CAPTURED',
+        },
+      });
+    }
+
+    return { newOrder, newPayment };
+  });
+
+  // ==== Side effects (outside transaction) ====
+  if (paymentType === 'CASH_ON_DELIVERY') {
     const totalItems = itemsWithTax
       .reduce((sum, item) => sum + item.qty, 0)
       .toString();
@@ -115,45 +122,13 @@ export async function createOrder(_data: CreateOrderSchemaType) {
           name: 'SendOTPFailed',
           message: 'Failed to send ORDER_PLACED_SMS',
           httpStatus: 500,
-          context: {
-            newOrder,
-            error: e,
-          },
+          context: { newOrder, error: e },
         });
       }
     }
 
-    // Clear Cart on Confirmation
     await clearCartOnOrderCreation(newOrder.id);
-  } else if (paymentType == 'REPLACEMENT_ORDER') {
-    newPayment = await prisma.payment.create({
-      data: {
-        order: {
-          connect: {
-            id: newOrder.id,
-          },
-        },
-        paymentGateway: 'REPLACEMENT_ORDER',
-        paymentGatewayRef: 'Null',
-        moreDetails: 'Null',
-        currency: 'INR',
-        amount: 0,
-        status: 'CAPTURED',
-      },
-    });
   }
 
-  return {
-    order: newOrder,
-    payment: newPayment,
-  };
-  /**
-   * return {
-   *  order: newOrder,
-   *  paymentGateway: "",
-   *  paymentGatewayArgs: {
-   *     ...
-   *  }
-   * }
-   */
+  return { order: newOrder, payment: newPayment };
 }
