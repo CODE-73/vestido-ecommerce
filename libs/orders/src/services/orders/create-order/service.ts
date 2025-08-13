@@ -2,6 +2,7 @@ import type { Payment } from '@prisma/client';
 
 import { sendSMS, SMSSenderID, SMSTemplate } from '@vestido-ecommerce/fast2sms';
 import { clearCartOnOrderCreation } from '@vestido-ecommerce/items';
+import { reserveInventory } from '@vestido-ecommerce/items';
 import { getPrismaClient } from '@vestido-ecommerce/models';
 import { VestidoError } from '@vestido-ecommerce/utils';
 
@@ -34,9 +35,8 @@ export async function createOrder(_data: CreateOrderSchemaType) {
     couponCode,
   });
 
-  // Transaction: returns the created order + payment
-  const { newOrder, newPayment } = await prisma.$transaction(async (tx) => {
-    const newOrder = await tx.order.create({
+  const { newOrder, newPayment } = await prisma.$transaction(async (prisma) => {
+    const newOrder = await prisma.order.create({
       data: {
         ...data,
         createdAt: new Date(),
@@ -72,7 +72,7 @@ export async function createOrder(_data: CreateOrderSchemaType) {
     let newPayment: Payment | null = null;
 
     if (paymentType === 'CASH_ON_DELIVERY') {
-      newPayment = await tx.payment.create({
+      newPayment = await prisma.payment.create({
         data: {
           order: { connect: { id: newOrder.id } },
           paymentGateway: 'CASH_ON_DELIVERY',
@@ -84,7 +84,7 @@ export async function createOrder(_data: CreateOrderSchemaType) {
         },
       });
     } else if (paymentType === 'REPLACEMENT_ORDER') {
-      newPayment = await tx.payment.create({
+      newPayment = await prisma.payment.create({
         data: {
           order: { connect: { id: newOrder.id } },
           paymentGateway: 'REPLACEMENT_ORDER',
@@ -97,10 +97,19 @@ export async function createOrder(_data: CreateOrderSchemaType) {
       });
     }
 
+    await reserveInventory(prisma, {
+      refId: newOrder.id,
+      remarks: 'Order Reservation',
+      items: itemsWithTax.map((item) => ({
+        itemId: item.itemId,
+        itemVariantId: item.variantId ?? null,
+        qty: item.qty,
+      })),
+    });
+
     return { newOrder, newPayment };
   });
 
-  // ==== Side effects (outside transaction) ====
   if (paymentType === 'CASH_ON_DELIVERY') {
     const totalItems = itemsWithTax
       .reduce((sum, item) => sum + item.qty, 0)
