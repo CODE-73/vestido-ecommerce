@@ -2,7 +2,7 @@ import type { Payment } from '@prisma/client';
 
 import { sendSMS, SMSSenderID, SMSTemplate } from '@vestido-ecommerce/fast2sms';
 import { clearCartOnOrderCreation } from '@vestido-ecommerce/items';
-import { reserveInventory } from '@vestido-ecommerce/items';
+import { getStockBalances, reserveInventory } from '@vestido-ecommerce/items';
 import { getPrismaClient } from '@vestido-ecommerce/models';
 import { VestidoError } from '@vestido-ecommerce/utils';
 
@@ -36,7 +36,7 @@ export async function createOrder(_data: CreateOrderSchemaType) {
   });
 
   const { newOrder, newPayment } = await prisma.$transaction(async (prisma) => {
-    const newOrder = await prisma.order.create({
+    const createdOrder = await prisma.order.create({
       data: {
         ...data,
         createdAt: new Date(),
@@ -74,7 +74,7 @@ export async function createOrder(_data: CreateOrderSchemaType) {
     if (paymentType === 'CASH_ON_DELIVERY') {
       newPayment = await prisma.payment.create({
         data: {
-          order: { connect: { id: newOrder.id } },
+          order: { connect: { id: createdOrder.id } },
           paymentGateway: 'CASH_ON_DELIVERY',
           paymentGatewayRef: 'Null',
           moreDetails: 'Null',
@@ -86,7 +86,7 @@ export async function createOrder(_data: CreateOrderSchemaType) {
     } else if (paymentType === 'REPLACEMENT_ORDER') {
       newPayment = await prisma.payment.create({
         data: {
-          order: { connect: { id: newOrder.id } },
+          order: { connect: { id: createdOrder.id } },
           paymentGateway: 'REPLACEMENT_ORDER',
           paymentGatewayRef: 'Null',
           moreDetails: 'Null',
@@ -96,18 +96,31 @@ export async function createOrder(_data: CreateOrderSchemaType) {
         },
       });
     }
+    const balances = (
+      await getStockBalances(
+        prisma,
+        itemsWithTax.map((item) => ({
+          itemId: item.itemId,
+          itemVariantId: item.variantId ?? undefined,
+        })),
+      )
+    ).map((row) => row.latestStockBalanceDetails);
 
-    await reserveInventory(prisma, {
-      refId: newOrder.id,
-      remarks: 'Order Reservation',
-      items: itemsWithTax.map((item) => ({
-        itemId: item.itemId,
-        itemVariantId: item.variantId ?? null,
-        qty: item.qty,
-      })),
-    });
+    await reserveInventory(
+      prisma,
+      {
+        refId: createdOrder.id,
+        remarks: 'Order Reservation',
+        items: itemsWithTax.map((item) => ({
+          itemId: item.itemId,
+          itemVariantId: item.variantId ?? null,
+          qty: item.qty,
+        })),
+      },
+      balances,
+    );
 
-    return { newOrder, newPayment };
+    return { newOrder: createdOrder, newPayment };
   });
 
   if (paymentType === 'CASH_ON_DELIVERY') {
