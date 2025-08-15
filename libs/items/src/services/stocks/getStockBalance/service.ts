@@ -1,29 +1,49 @@
-import { getPrismaClient } from '@vestido-ecommerce/models';
+import type { PrismaTransactionalClient } from '@vestido-ecommerce/models';
 
-import { getStockBalanceSchema, getStockBalanceSchemaType } from './zod';
+import { StockBalanceRow } from './types';
+import { getStockBalanceSchemaType } from './zod';
 
-export async function getStockBalance(data: getStockBalanceSchemaType) {
-  const prisma = getPrismaClient();
+export async function getStockBalances(
+  prisma: PrismaTransactionalClient,
+  items: getStockBalanceSchemaType[],
+) {
+  const itemIdsOnly = items
+    .filter((i) => i.itemVariantId === null)
+    .map((i) => i.itemId);
+  const variantIdsOnly = items
+    .filter((i) => i.itemVariantId !== null)
+    .map((i) => i.itemVariantId!);
 
-  const validatedData = getStockBalanceSchema.parse(data);
+  const rows: StockBalanceRow[] = await prisma.$queryRawUnsafe(
+    `
+    (
+      SELECT "id" AS "itemId",
+             NULL AS "itemVariantId",
+             "stockBalance" AS balance
+      FROM "Item"
+      WHERE "id" = ANY($1::uuid[])
+    )
+    UNION ALL
+    (
+      SELECT "itemId",
+             "id" AS "itemVariantId",
+             "stockBalance" AS balance
+      FROM "ItemVariant"
+      WHERE "id" = ANY($2::uuid[])
+    )
+    FOR UPDATE
+  `,
+    itemIdsOnly,
+    variantIdsOnly,
+  );
 
-  let latestStockBalanceDetails;
-
-  if (validatedData.itemVariantId === null) {
-    latestStockBalanceDetails = await prisma.stockLedger.findFirst({
-      where: { itemId: validatedData.itemId },
-      orderBy: { createdAt: 'desc' },
-      select: { itemId: true, itemVariantId: true, balance: true },
-    });
-  } else {
-    latestStockBalanceDetails = await prisma.stockLedger.findFirst({
-      where: {
-        itemId: validatedData.itemId,
-        itemVariantId: validatedData.itemVariantId,
-      },
-      orderBy: { createdAt: 'desc' },
-      select: { itemId: true, itemVariantId: true, balance: true },
-    });
-  }
-  return latestStockBalanceDetails;
+  return rows.map((row) => ({
+    latestStockBalanceDetails: row,
+    stockStatus:
+      row.balance <= 0
+        ? 'OUT_OF_STOCK'
+        : row.balance < 20
+          ? 'LIMITED_STOCK'
+          : 'AVAILABLE',
+  }));
 }

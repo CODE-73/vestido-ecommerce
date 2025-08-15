@@ -1,6 +1,6 @@
 import { VestidoResponse } from '@vestido-ecommerce/utils';
 
-import { getStockBalance } from './service';
+import { getStockBalances } from './service';
 import { getStockBalanceSchemaType } from './zod';
 
 export type getStockBalanceRequest = {
@@ -8,8 +8,14 @@ export type getStockBalanceRequest = {
 };
 
 export type getStockBalanceResponse = {
-  data: Awaited<ReturnType<typeof getStockBalance>>;
+  data: Awaited<ReturnType<typeof getStockBalances>>;
 };
 
 export type getStockBalanceSWRResponse =
   VestidoResponse<getStockBalanceResponse>;
+
+export type StockBalanceRow = {
+  itemId: string;
+  itemVariantId: string | null;
+  balance: number;
+};
