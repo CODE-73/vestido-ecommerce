@@ -168,9 +168,10 @@ model Item {
     discountedPrice Float?
     slug            String  @unique
 
-    stockStatus StockStatus @default(AVAILABLE)
-    gender      Gender[]    @default([MEN, WOMEN])
-    hasVariants Boolean     @default(false)
+    stockStatus  StockStatus @default(AVAILABLE)
+    stockBalance Int         @default(0)
+    gender       Gender[]    @default([MEN, WOMEN])
+    hasVariants  Boolean     @default(false)
 
     images        Json           @default("[]")
     wishlistItems WishlistItem[]
@@ -187,8 +188,9 @@ model Item {
 
     sizeChart String?
 
-    createdAt DateTime @default(now()) @db.Timestamptz(3)
-    updatedAt DateTime @default(now()) @db.Timestamptz(3)
+    createdAt   DateTime      @default(now()) @db.Timestamptz(3)
+    updatedAt   DateTime      @default(now()) @db.Timestamptz(3)
+    StockLedger StockLedger[]
 }
 
 model ItemVariant {
@@ -196,6 +198,7 @@ model ItemVariant {
     item            Item        @relation(fields: [itemId], references: [id])
     itemId          String      @db.Uuid
     stockStatus     StockStatus @default(AVAILABLE)
+    stockBalance    Int         @default(0)
     sku             String?
     enabled         Boolean     @default(true)
     title           String
@@ -211,6 +214,7 @@ model ItemVariant {
     CartItem        CartItem[]
     WishlistItem    WishlistItem[]
     OrderItem       OrderItem[]
+    StockLedger     StockLedger[]
 }
 
 model VariantAttributeValue {
@@ -522,6 +526,19 @@ model Tax {
     enabled     Boolean  @default(true)
     createdAt   DateTime @default(now()) @db.Timestamptz(3)
     updatedAt   DateTime @default(now()) @db.Timestamptz(3)
+}
+
+model StockLedger {
+    id            String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    createdAt     DateTime    @default(now()) @db.Timestamptz(3)
+    qty           Int
+    balance       Int
+    item          Item        @relation(fields: [itemId], references: [id])
+    itemId        String      @db.Uuid
+    itemVariant   ItemVariant @relation(fields: [itemVariantId], references: [id])
+    itemVariantId String      @db.Uuid
+    remarks       String?
+    refId         String?
 }
 
 model SMSLog {
