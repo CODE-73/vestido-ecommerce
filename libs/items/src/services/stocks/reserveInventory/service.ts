@@ -1,77 +1,66 @@
 import type { PrismaTransactionalClient } from '@vestido-ecommerce/models';
 import { VestidoError } from '@vestido-ecommerce/utils';
 
+import { StockBalanceRow } from '../getStockBalance/types';
 import { reserveInventorySchema, reserveInventorySchemaType } from './zod';
-
-type StockRow = { stockBalance: number };
 
 export async function reserveInventory(
   prisma: PrismaTransactionalClient,
   data: reserveInventorySchemaType,
+  stockBalances: StockBalanceRow[],
 ) {
   const validatedData = reserveInventorySchema.parse(data);
 
-  for (const item of validatedData.items) {
-    let currentStock: StockRow | undefined;
+  for (const inventoryItem of validatedData.items) {
+    const stockRow = stockBalances.find(
+      (s) =>
+        s.itemId === inventoryItem.itemId &&
+        s.itemVariantId === inventoryItem.itemVariantId,
+    );
 
-    if (item.itemVariantId === null) {
-      [currentStock] = await prisma.$queryRaw<StockRow[]>`
-        SELECT "stockBalance"
-        FROM "Item"
-        WHERE "id" = ${item.itemId}
-        FOR UPDATE;
-      `;
-    } else {
-      [currentStock] = await prisma.$queryRaw<StockRow[]>`
-        SELECT "stockBalance"
-        FROM "ItemVariant"
-        WHERE "id" = ${item.itemVariantId}
-        FOR UPDATE;
-      `;
-    }
-
-    if (!currentStock) {
+    if (!stockRow) {
       throw new VestidoError({
         name: 'Item Not Found',
-        message: `Item ${item.itemId} not found`,
+        message: `Item ${inventoryItem.itemId} not found`,
         httpStatus: 400,
       });
     }
 
-    if (currentStock.stockBalance < item.qty) {
+    if (stockRow.balance < inventoryItem.qty) {
       throw new VestidoError({
         name: 'Not Enough Stock',
-        message: `Not enough stock to reserve for item ${item.itemId}`,
+        message: `Not enough stock to reserve for item ${inventoryItem.itemId}`,
         httpStatus: 400,
       });
     }
+    const newBalance = stockRow.balance - inventoryItem.qty;
 
-    if (item.itemVariantId === null) {
+    if (inventoryItem.itemVariantId === null) {
       await prisma.item.update({
         where: {
-          id: item.itemId,
+          id: inventoryItem.itemId,
         },
         data: {
-          stockBalance: currentStock.stockBalance - item.qty,
+          stockBalance: newBalance,
         },
       });
     } else {
       await prisma.itemVariant.update({
         where: {
-          id: item.itemVariantId,
+          id: inventoryItem.itemVariantId,
         },
         data: {
-          stockBalance: currentStock.stockBalance - item.qty,
+          stockBalance: newBalance,
         },
       });
     }
 
     await prisma.stockLedger.create({
       data: {
-        qty: item.qty,
-        balance: currentStock.stockBalance - item.qty,
-        itemId: item.itemId,
-        itemVariantId: item.itemVariantId ?? '',
+        qty: inventoryItem.qty,
+        balance: newBalance,
+        itemId: inventoryItem.itemId,
+        itemVariantId: inventoryItem.itemVariantId ?? '',
         remarks: validatedData.remarks,
         refId: validatedData.refId,
       },
