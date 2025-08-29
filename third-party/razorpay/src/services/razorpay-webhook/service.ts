@@ -1,3 +1,4 @@
+import { getStockBalances, releaseInventory } from '@vestido-ecommerce/items';
 import { getPrismaClient } from '@vestido-ecommerce/models';
 import { VestidoError } from '@vestido-ecommerce/utils';
 
@@ -123,6 +124,22 @@ export async function handleRazorpayWebhook(data: RazorpayWebhookSchemaType) {
           });
         }
 
+        const order = await transaction.order.findUnique({
+          where: { id: pRow.orderId },
+          include: {
+            orderItems: true,
+          },
+        });
+
+        if (!order) {
+          throw new VestidoError({
+            name: 'NotFoundError',
+            message: 'Order not found for releasing inventory',
+            httpStatus: 404,
+            context: { orderId: pRow.orderId },
+          });
+        }
+
         // Update all related payment entries to 'FAILED'
         await transaction.payment.updateMany({
           where: {
@@ -131,6 +148,31 @@ export async function handleRazorpayWebhook(data: RazorpayWebhookSchemaType) {
           data: { status: 'FAILED' },
         });
         console.log('Payments updated to FAILED.');
+
+        //release the stock
+        const balances = (
+          await getStockBalances(
+            transaction,
+            order.orderItems.map((item) => ({
+              itemId: item.itemId,
+              itemVariantId: item.variantId ?? undefined,
+            })),
+          )
+        ).map((row) => row.latestStockBalanceDetails);
+
+        await releaseInventory(
+          transaction,
+          {
+            refId: order.id,
+            remarks: 'Stock Release on Order Cancellation',
+            items: order.orderItems.map((item) => ({
+              itemId: item.itemId,
+              itemVariantId: item.variantId ?? null,
+              qty: item.qty,
+            })),
+          },
+          balances,
+        );
 
         // Update each related order to 'CANCELLED'
         await transaction.order.updateMany({
