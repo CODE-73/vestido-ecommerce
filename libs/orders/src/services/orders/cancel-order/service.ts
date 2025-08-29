@@ -1,7 +1,9 @@
+import { getStockBalances, releaseInventory } from '@vestido-ecommerce/items';
 import { getPrismaClient } from '@vestido-ecommerce/models';
 import { refundRazorpay } from '@vestido-ecommerce/razorpay';
 import { VestidoError } from '@vestido-ecommerce/utils';
 
+import { getOrder } from '../get-order';
 import { CancelOrderSchema, CancelOrderSchemaType } from './zod';
 
 export async function cancelOrder(
@@ -11,15 +13,7 @@ export async function cancelOrder(
   const { orderId, reason, remarks } = CancelOrderSchema.parse(data);
 
   try {
-    const order = await prisma.order.findFirst({
-      where: {
-        id: orderId,
-      },
-      include: {
-        payments: true,
-      },
-    });
-
+    const order = await getOrder(orderId);
     if (!order) {
       throw new VestidoError({
         name: 'OrderNotFoundError',
@@ -131,7 +125,30 @@ export async function cancelOrder(
           },
         });
       }
+      //release the stock
+      const balances = (
+        await getStockBalances(
+          prismaTransaction,
+          order.orderItems.map((item) => ({
+            itemId: item.itemId,
+            itemVariantId: item.variantId ?? undefined,
+          })),
+        )
+      ).map((row) => row.latestStockBalanceDetails);
 
+      await releaseInventory(
+        prismaTransaction,
+        {
+          refId: order.id,
+          remarks: 'Stock Release on Order Cancellation',
+          items: order.orderItems.map((item) => ({
+            itemId: item.itemId,
+            itemVariantId: item.variantId ?? null,
+            qty: item.qty,
+          })),
+        },
+        balances,
+      );
       // Update the order status
       await prismaTransaction.order.update({
         where: { id: orderId },
