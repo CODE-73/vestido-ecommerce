@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const stockUpdateSchema = z.object({
+export const ReconcileStockSchema = z.object({
   refId: z.string().optional(),
   itemId: z.string(),
   itemVariantId: z.string().optional(),
@@ -8,4 +8,4 @@ export const stockUpdateSchema = z.object({
   remarks: z.string().nullish(),
 });
 
-export type stockUpdateSchemaType = z.infer<typeof stockUpdateSchema>;
+export type ReconcileStockSchemaType = z.infer<typeof ReconcileStockSchema>;

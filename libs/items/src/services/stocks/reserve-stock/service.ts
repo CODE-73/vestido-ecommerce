@@ -1,15 +1,16 @@
 import type { PrismaTransactionalClient } from '@vestido-ecommerce/models';
 import { VestidoError } from '@vestido-ecommerce/utils';
 
-import { StockBalanceRow } from '../getStockBalance/types';
-import { reserveInventorySchema, reserveInventorySchemaType } from './zod';
+import { StockBalanceRow } from '../get-stock-balance/types';
+import { getStockStatus } from '../get-stock-status';
+import { ReserveStockSchema, ReserveStockSchemaType } from './zod';
 
-export async function reserveInventory(
+export async function reserveStock(
   prisma: PrismaTransactionalClient,
-  data: reserveInventorySchemaType,
+  data: ReserveStockSchemaType,
   stockBalances: StockBalanceRow[],
 ) {
-  const validatedData = reserveInventorySchema.parse(data);
+  const validatedData = ReserveStockSchema.parse(data);
 
   for (const inventoryItem of validatedData.items) {
     const stockRow = stockBalances.find(
@@ -42,6 +43,7 @@ export async function reserveInventory(
         },
         data: {
           stockBalance: newBalance,
+          stockStatus: getStockStatus(newBalance),
         },
       });
     } else {
@@ -51,6 +53,7 @@ export async function reserveInventory(
         },
         data: {
           stockBalance: newBalance,
+          stockStatus: getStockStatus(newBalance),
         },
       });
     }

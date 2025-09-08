@@ -1,15 +1,16 @@
 import type { PrismaTransactionalClient } from '@vestido-ecommerce/models';
 import { VestidoError } from '@vestido-ecommerce/utils';
 
-import { StockBalanceRow } from '../getStockBalance';
-import { releaseInventorySchema, releaseInventorySchemaType } from './zod';
+import { StockBalanceRow } from '../get-stock-balance';
+import { getStockStatus } from '../get-stock-status';
+import { ReleaseStockSchema, ReleaseStockSchemaType } from './zod';
 
-export async function releaseInventory(
+export async function releaseStock(
   prisma: PrismaTransactionalClient,
-  data: releaseInventorySchemaType,
+  data: ReleaseStockSchemaType,
   stockBalances: StockBalanceRow[],
 ) {
-  const validatedData = releaseInventorySchema.parse(data);
+  const validatedData = ReleaseStockSchema.parse(data);
 
   for (const inventoryItem of validatedData.items) {
     const stockRow = stockBalances.find(
@@ -34,6 +35,7 @@ export async function releaseInventory(
         },
         data: {
           stockBalance: newBalance,
+          stockStatus: getStockStatus(newBalance),
         },
       });
     } else {
@@ -43,6 +45,7 @@ export async function releaseInventory(
         },
         data: {
           stockBalance: newBalance,
+          stockStatus: getStockStatus(newBalance),
         },
       });
     }

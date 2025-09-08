@@ -1,18 +1,18 @@
 import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
 
 import {
-  stockUpdateRequest,
-  stockUpdateResponse,
+  ReconcileStockRequest,
+  ReconcileStockResponse,
 } from 'libs/items/src/services/stocks';
 
-export async function reconcileInventory(
-  args: stockUpdateRequest,
+export async function reconcileStock(
+  args: ReconcileStockRequest,
   headers?: Record<string, string>,
-): Promise<stockUpdateResponse> {
-  const url = `/api/stocks/update`;
+): Promise<ReconcileStockResponse> {
+  const url = `/api/items/${args.itemId}/stock`;
 
   const r = await fetch(url, {
-    method: 'POST',  
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       ...(headers ?? {}),
@@ -25,5 +25,5 @@ export async function reconcileInventory(
   }
 
   const data = await r.json();
-  return data as stockUpdateResponse;
+  return data as ReconcileStockResponse;
 }

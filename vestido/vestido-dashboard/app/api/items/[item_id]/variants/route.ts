@@ -3,7 +3,7 @@ import {
   createVariant,
   getStockBalances,
   listVariants,
-  reconcileInventory,
+  reconcileStock,
 } from '@vestido-ecommerce/items';
 import { getPrismaClient } from '@vestido-ecommerce/models';
 import { apiRouteHandler } from '@vestido-ecommerce/utils';
@@ -38,7 +38,7 @@ export const PUT = apiRouteHandler(
   roleMiddleware('ADMIN'),
   async ({ request, params }) => {
     const body = await request.json();
-    return await reconcileInventory({
+    return await reconcileStock({
       ...body,
       itemId: params.item_id,
       itemVariantId: params.variant_id,

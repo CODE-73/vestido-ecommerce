@@ -529,14 +529,14 @@ model Tax {
 }
 
 model StockLedger {
-    id            String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-    createdAt     DateTime    @default(now()) @db.Timestamptz(3)
+    id            String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+    createdAt     DateTime     @default(now()) @db.Timestamptz(3)
     qty           Int
     balance       Int
-    item          Item        @relation(fields: [itemId], references: [id])
-    itemId        String      @db.Uuid
-    itemVariant   ItemVariant @relation(fields: [itemVariantId], references: [id])
-    itemVariantId String      @db.Uuid
+    item          Item         @relation(fields: [itemId], references: [id])
+    itemId        String       @db.Uuid
+    itemVariant   ItemVariant? @relation(fields: [itemVariantId], references: [id])
+    itemVariantId String?      @db.Uuid
     remarks       String?
     refId         String?
 }

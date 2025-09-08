@@ -2,7 +2,7 @@ import type { Payment } from '@prisma/client';
 
 import { sendSMS, SMSSenderID, SMSTemplate } from '@vestido-ecommerce/fast2sms';
 import { clearCartOnOrderCreation } from '@vestido-ecommerce/items';
-import { getStockBalances, reserveInventory } from '@vestido-ecommerce/items';
+import { getStockBalances, reserveStock } from '@vestido-ecommerce/items';
 import { getPrismaClient } from '@vestido-ecommerce/models';
 import { VestidoError } from '@vestido-ecommerce/utils';
 
@@ -96,17 +96,17 @@ export async function createOrder(_data: CreateOrderSchemaType) {
         },
       });
     }
-    const balances = (
+    const balances = Object.values(
       await getStockBalances(
         prisma,
         itemsWithTax.map((item) => ({
           itemId: item.itemId,
           itemVariantId: item.variantId ?? undefined,
         })),
-      )
-    ).map((row) => row.latestStockBalanceDetails);
+      ),
+    ).map((row) => row._stockBalanceRow);
 
-    await reserveInventory(
+    await reserveStock(
       prisma,
       {
         refId: createdOrder.id,

@@ -1,4 +1,4 @@
-import { getStockBalances, releaseInventory } from '@vestido-ecommerce/items';
+import { getStockBalances, releaseStock } from '@vestido-ecommerce/items';
 import { getPrismaClient } from '@vestido-ecommerce/models';
 import { VestidoError } from '@vestido-ecommerce/utils';
 
@@ -150,17 +150,17 @@ export async function handleRazorpayWebhook(data: RazorpayWebhookSchemaType) {
         console.log('Payments updated to FAILED.');
 
         //release the stock
-        const balances = (
+        const balances = Object.values(
           await getStockBalances(
             transaction,
             order.orderItems.map((item) => ({
               itemId: item.itemId,
               itemVariantId: item.variantId ?? undefined,
             })),
-          )
-        ).map((row) => row.latestStockBalanceDetails);
+          ),
+        ).map((row) => row._stockBalanceRow);
 
-        await releaseInventory(
+        await releaseStock(
           transaction,
           {
             refId: order.id,

@@ -1,4 +1,4 @@
 'use client';
 
 export * from './getStockBalance';
-export * from './reconcileInventory';
+export * from './reconcileStock';

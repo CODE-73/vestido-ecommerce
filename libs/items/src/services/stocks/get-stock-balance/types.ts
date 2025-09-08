@@ -1,10 +1,10 @@
 import { VestidoResponse } from '@vestido-ecommerce/utils';
 
 import { getStockBalances } from './service';
-import { getStockBalanceSchemaType } from './zod';
+import { GetStockBalanceInputSchemaType } from './zod';
 
 export type getStockBalanceRequest = {
-  data: getStockBalanceSchemaType;
+  data: GetStockBalanceInputSchemaType;
 };
 
 export type getStockBalanceResponse = {

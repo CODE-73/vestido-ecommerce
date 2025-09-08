@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const reserveInventorySchema = z.object({
+export const ReleaseStockSchema = z.object({
   refId: z.string().optional(),
   items: z.array(
     z.object({
@@ -12,4 +12,4 @@ export const reserveInventorySchema = z.object({
   remarks: z.string(),
 });
 
-export type reserveInventorySchemaType = z.infer<typeof reserveInventorySchema>;
+export type ReleaseStockSchemaType = z.infer<typeof ReleaseStockSchema>;

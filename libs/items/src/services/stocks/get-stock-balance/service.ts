@@ -1,17 +1,21 @@
 import type { PrismaTransactionalClient } from '@vestido-ecommerce/models';
 import { PrismaClient } from '@vestido-ecommerce/models';
 
+import { getStockStatus } from '../get-stock-status';
 import { StockBalanceRow } from './types';
-import { getStockBalanceSchemaType } from './zod';
+import { GetStockBalanceInputSchemaType } from './zod';
 
 type StockBalanceResult = {
-  latestStockBalanceDetails: StockBalanceRow;
+  itemId: string;
+  itemVariantId: string | null;
+  stockBalance: number;
   stockStatus: 'OUT_OF_STOCK' | 'LIMITED_STOCK' | 'AVAILABLE';
+  _stockBalanceRow: StockBalanceRow;
 };
 
 export async function getStockBalances(
   prisma: PrismaClient | PrismaTransactionalClient,
-  items: getStockBalanceSchemaType[],
+  items: GetStockBalanceInputSchemaType[],
 ): Promise<Record<string, StockBalanceResult>> {
   const itemIdsOnly = items
     .filter((i) => !i.itemVariantId)
@@ -19,11 +23,6 @@ export async function getStockBalances(
   const variantIdsOnly = items
     .filter((i) => !!i.itemVariantId)
     .map((i) => i.itemVariantId!);
-
-  console.info({
-    itemIdsOnly,
-    variantIdsOnly,
-  });
 
   const rows: StockBalanceRow[] = [];
   if (itemIdsOnly.length > 0) {
@@ -64,13 +63,11 @@ export async function getStockBalances(
   for (const row of rows) {
     const key = row.itemVariantId ?? row.itemId;
     result[key] = {
-      latestStockBalanceDetails: row,
-      stockStatus:
-        row.balance <= 0
-          ? 'OUT_OF_STOCK'
-          : row.balance < 20
-            ? 'LIMITED_STOCK'
-            : 'AVAILABLE',
+      itemId: row.itemId,
+      itemVariantId: row.itemVariantId,
+      stockBalance: row.balance,
+      stockStatus: getStockStatus(row.balance),
+      _stockBalanceRow: row,
     };
   }
 
