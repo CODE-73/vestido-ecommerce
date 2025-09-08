@@ -1,5 +1,6 @@
 import type { PrismaTransactionalClient } from '@vestido-ecommerce/models';
 import { PrismaClient } from '@vestido-ecommerce/models';
+import { VestidoError } from '@vestido-ecommerce/utils';
 
 import { getStockStatus } from '../get-stock-status';
 import { StockBalanceRow } from './types';
@@ -31,8 +32,9 @@ export async function getStockBalances(
         `
       SELECT
         "id" AS "itemId",
-             NULL AS "itemVariantId",
-             "stockBalance" AS balance
+        NULL AS "itemVariantId",
+        "stockBalance" AS balance,
+        "hasVariants"
       FROM "Item"
       WHERE "id" = ANY($1::uuid[])
       FOR UPDATE
@@ -40,6 +42,18 @@ export async function getStockBalances(
         itemIdsOnly,
       )) as StockBalanceRow[]),
     );
+
+    const templateRows = rows.filter((r) => r.hasVariants);
+    if (templateRows.length > 0) {
+      throw new VestidoError({
+        message: `Some items have variants. Please specify itemVariantId instead of itemId.`,
+        name: 'TemplateItemCannotHaveStockBalance',
+        httpStatus: 400,
+        context: {
+          itemIds: templateRows.map((r) => r.itemId),
+        },
+      });
+    }
   }
 
   if (variantIdsOnly.length > 0) {

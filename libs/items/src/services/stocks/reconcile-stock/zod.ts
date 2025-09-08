@@ -4,7 +4,7 @@ export const ReconcileStockSchema = z.object({
   refId: z.string().optional(),
   itemId: z.string(),
   itemVariantId: z.string().optional(),
-  qty: z.coerce.number(),
+  qty: z.coerce.number().min(0, 'Quantity must be at least 0'),
   remarks: z.string().nullish(),
 });
 

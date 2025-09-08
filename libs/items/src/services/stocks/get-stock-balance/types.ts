@@ -18,4 +18,5 @@ export type StockBalanceRow = {
   itemId: string;
   itemVariantId: string | null;
   balance: number;
+  hasVariants?: boolean;
 };

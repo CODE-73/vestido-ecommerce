@@ -6,7 +6,7 @@ export const ReleaseStockSchema = z.object({
     z.object({
       itemId: z.string(),
       itemVariantId: z.string().nullish(),
-      qty: z.coerce.number(),
+      qty: z.coerce.number().min(1, { message: 'Quantity must be at least 1' }),
     }),
   ),
   remarks: z.string(),
