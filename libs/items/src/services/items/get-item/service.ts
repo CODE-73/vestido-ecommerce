@@ -46,5 +46,6 @@ export async function getItemDetails(
 
   await populateImageURLs(item?.images as ImageSchemaType[]);
 
+  // TODO: Insert Stock Balance at the root / individual variants
   return item;
 }

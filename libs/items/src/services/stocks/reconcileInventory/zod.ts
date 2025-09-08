@@ -5,7 +5,7 @@ export const stockUpdateSchema = z.object({
   itemId: z.string(),
   itemVariantId: z.string().optional(),
   qty: z.coerce.number(),
-  remarks: z.string(),
+  remarks: z.string().nullish(),
 });
 
 export type stockUpdateSchemaType = z.infer<typeof stockUpdateSchema>;
