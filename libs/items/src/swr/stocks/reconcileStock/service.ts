@@ -12,7 +12,7 @@ export async function reconcileStock(
   const url = `/api/items/${args.itemId}${args.itemVariantId ? '/variants/' + args.itemVariantId : ''}/stock`;
 
   const r = await fetch(url, {
-    method: 'POST',
+    method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
       ...(headers ?? {}),

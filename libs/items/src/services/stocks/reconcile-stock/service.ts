@@ -23,6 +23,9 @@ export async function reconcileStock(data: ReconcileStockSchemaType) {
       balances[validatedData.itemVariantId ?? validatedData.itemId]
         .stockBalance;
 
+    console.log(
+      `Updating Stock for ${validatedData.itemVariantId} with ${validatedData.qty} with status: ${getStockStatus(validatedData.qty)}`,
+    );
     if (!validatedData.itemVariantId) {
       await prisma.item.update({
         where: {
@@ -50,9 +53,7 @@ export async function reconcileStock(data: ReconcileStockSchemaType) {
         qty: validatedData.qty - currentBalance,
         balance: validatedData.qty,
         itemId: validatedData.itemId,
-        itemVariantId: validatedData.itemVariantId
-          ? validatedData.itemVariantId
-          : null,
+        itemVariantId: validatedData.itemVariantId ?? '',
         remarks: validatedData.remarks,
         refId: validatedData.refId,
       },

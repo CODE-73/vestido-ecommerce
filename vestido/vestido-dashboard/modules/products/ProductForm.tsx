@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 
 import { LuChevronLeft } from 'react-icons/lu';
@@ -26,6 +26,8 @@ import { SwitchElement } from '../../forms/switch-element';
 import { TextAreaElement } from '../../forms/textarea-element';
 import ProductFormTaxItem from './product-form-tax-item';
 import ProductSizeForm from './ProductSizeForm';
+import { BulkUpdateStockDialog } from './update-bulk-stock-dialog';
+import { UpdateStockDialog } from './update-stock-dialog';
 import { useProductForm } from './use-product-form';
 
 type ProductFormProps = {
@@ -39,11 +41,15 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
   const { data: { data: item } = { data: null }, isLoading } = useItem(
     isNew ? null : itemId,
   );
+  const variants = item?.variants;
+
+  console.log('vaaariants', variants);
 
   const sizeCharts = useVestidoSizeChart();
   const sizeChartIds = sizeCharts ? Object.keys(sizeCharts) : [];
 
   const { form, handleSubmit } = useProductForm(isNew, itemId, item);
+  const [stock, setStock] = useState(item?.stockBalance ?? 0);
 
   const hasVariants = form.watch('hasVariants');
   const { isSubmitting } = form.formState;
@@ -89,6 +95,29 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
               <InputElement name="sku" placeholder="SKU" label="SKU" />
             )}
           </div>
+
+          {!hasVariants && (
+            <div className="items-end grid grid-cols-5 gap-5 lg:px-10 mb-10">
+              {' '}
+              <InputElement
+                readOnly
+                name="StockBalance"
+                placeholder={item?.stockBalance.toString() ?? '0'}
+                label="Stock"
+              />
+              {item && (
+                <UpdateStockDialog
+                  itemId={item.id}
+                  itemVariantId={null}
+                  currentStock={stock}
+                  onUpdated={setStock}
+                >
+                  <Button type="button">Update Stock</Button>
+                </UpdateStockDialog>
+              )}
+            </div>
+          )}
+
           <div className="grid grid-cols-1 lg:px-10 mt-2">
             <CategoryElement
               name="categoryId"
@@ -212,7 +241,27 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
         {hasVariants && (
           <>
             <hr className="border-t-1 border-slate-400 my-4 w-full" />
-            <div className="text-lg font-semibold">Size Availability</div>
+            <div className="flex justify-between items-center">
+              <div className="text-lg font-semibold">Size Availability</div>
+              {item && (
+                <BulkUpdateStockDialog
+                  itemId={item.id}
+                  variants={item.variants.map((v) => ({
+                    itemVariantId: v.id,
+                    name:
+                      v.attributeValues.find((x) => x.attribute.name === 'Size')
+                        ?.attributeValue.value ?? '',
+                    currentStock: v.stockBalance,
+                  }))}
+                  onUpdated={(newValues) => {
+                    console.log('Updated stock values:', newValues);
+                    // Optionally refresh product data here
+                  }}
+                >
+                  <Button type="button">Update Stock</Button>
+                </BulkUpdateStockDialog>
+              )}
+            </div>
             <ProductSizeForm />
           </>
         )}

@@ -8,7 +8,6 @@ import { Card } from '@vestido-ecommerce/shadcn-ui/card';
 import { Label } from '@vestido-ecommerce/shadcn-ui/label';
 
 import { InputElement } from '../../forms/input-element';
-import { SelectElement } from '../../forms/select-element';
 import { SwitchElement } from '../../forms/switch-element';
 import { CreateProductForm, ItemVariantWithSize } from './zod';
 
@@ -54,7 +53,7 @@ const ProductSizeForm: FC<{ className?: string }> = ({ className }) => {
           itemAttributeValueId: size.id,
           enabled: false,
           sku: null,
-          stockStatus: 'AVAILABLE',
+          stockStatus: 'OUT_OF_STOCK',
         } satisfies ItemVariantWithSize;
       })
       .sort(
@@ -94,21 +93,16 @@ const ProductSizeForm: FC<{ className?: string }> = ({ className }) => {
 
           <div className="flex flex-col gap-2 mt-4">
             <Label>Stock</Label>
-            <SelectElement
-              name={`variants.${index}.stockStatus`}
-              options={[
-                { title: 'Available', id: 'AVAILABLE' },
-                {
-                  title: 'Limited Stock',
-                  id: 'LIMITED_STOCK',
-                },
-                {
-                  title: 'Out of Stock',
-                  id: 'OUT_OF_STOCK',
-                },
-              ]}
-              placeholder="Select Stock Status"
-            />
+            <div className="text-sm ">
+              {' '}
+              {/* {form.watch(`variants.${index}.stockStatus`)}
+               */}
+              {size.stockStatus === 'OUT_OF_STOCK'
+                ? 'Out of Stock'
+                : size.stockStatus === 'AVAILABLE'
+                  ? 'Available'
+                  : 'Limited Stock'}
+            </div>
             <InputElement
               name={`variants.${index}.sku`}
               placeholder="SKU"
