@@ -5,7 +5,6 @@ import { useFieldArray, useFormContext } from 'react-hook-form';
 
 import { useAttributes } from '@vestido-ecommerce/items/client';
 import { Card } from '@vestido-ecommerce/shadcn-ui/card';
-import { Label } from '@vestido-ecommerce/shadcn-ui/label';
 
 import { InputElement } from '../../forms/input-element';
 import { SwitchElement } from '../../forms/switch-element';
@@ -92,16 +91,23 @@ const ProductSizeForm: FC<{ className?: string }> = ({ className }) => {
           </div>
 
           <div className="flex flex-col gap-2 mt-4">
-            <Label>Stock</Label>
-            <div className="text-sm ">
-              {' '}
-              {/* {form.watch(`variants.${index}.stockStatus`)}
-               */}
-              {size.stockStatus === 'OUT_OF_STOCK'
-                ? 'Out of Stock'
-                : size.stockStatus === 'AVAILABLE'
-                  ? 'Available'
-                  : 'Limited Stock'}
+            <div
+              className={`text-sm font-medium ${
+                {
+                  OUT_OF_STOCK: 'text-red-600',
+                  AVAILABLE: 'text-green-600',
+                  LIMITED_STOCK: 'text-orange-500',
+                }[size.stockStatus] || 'text-gray-400'
+              }`}
+            >
+              {{
+                OUT_OF_STOCK: 'Out of Stock',
+                AVAILABLE: 'Available',
+                LIMITED_STOCK: 'Limited Stock',
+              }[size.stockStatus] || size.stockStatus}{' '}
+            </div>
+            <div className="font-medium">
+              {size.stockBalance ?? 0} <span className="text-sm">nos.</span>
             </div>
             <InputElement
               name={`variants.${index}.sku`}

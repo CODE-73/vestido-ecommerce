@@ -124,7 +124,7 @@ export function BulkUpdateStockDialog({
       <DialogTrigger>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-2xl">
         <DialogHeader>
-          <DialogTitle>Update Stock for Variants</DialogTitle>
+          <DialogTitle>Update Stock</DialogTitle>
         </DialogHeader>
 
         <Form {...form}>
@@ -142,22 +142,21 @@ export function BulkUpdateStockDialog({
                   <div className="font-medium">{field.name}</div>
 
                   {/* Current Stock */}
-                  <input
-                    value={field.currentStock}
-                    readOnly
-                    type="number"
-                    className="w-full rounded-md border border-gray-300 bg-gray-100 px-3 py-2 text-sm"
-                  />
-
-                  {/* New Stock */}
+                  <div className="flex flex-col gap-3">
+                    <div className="text-sm">Current Stock</div>
+                    <input
+                      value={field.currentStock}
+                      readOnly
+                      type="number"
+                      className="w-full rounded-md border border-gray-300 bg-gray-100 px-3 py-2 text-sm"
+                    />
+                  </div>
                   <InputElement
                     name={`variants.${index}.qty`}
                     label="New Balance"
                     type="number"
                     placeholder="Enter stock"
                   />
-
-                  {/* Remarks */}
                   <Textarea
                     {...form.register(`variants.${index}.remarks`)}
                     placeholder="Optional notes..."
@@ -168,7 +167,11 @@ export function BulkUpdateStockDialog({
             </div>
 
             <DialogFooter>
-              <Button type="submit" className="w-full" disabled={isMutating}>
+              <Button
+                type="button"
+                className="w-full"
+                onClick={form.handleSubmit(handleBulkSubmit)}
+              >
                 {isMutating ? 'Saving...' : 'Save All Changes'}
               </Button>
             </DialogFooter>
