@@ -15,10 +15,10 @@ import {
   DialogTrigger,
 } from '@vestido-ecommerce/shadcn-ui/dialog';
 import { Form } from '@vestido-ecommerce/shadcn-ui/form';
-import { Textarea } from '@vestido-ecommerce/shadcn-ui/textarea';
 import { useToast } from '@vestido-ecommerce/shadcn-ui/use-toast';
 
 import { InputElement } from '../../forms/input-element';
+import { TextAreaElement } from '../../forms/textarea-element';
 
 // ✅ Schema for multiple variants
 const BulkUpdateStockSchema = z.object({
@@ -157,8 +157,8 @@ export function BulkUpdateStockDialog({
                     type="number"
                     placeholder="Enter stock"
                   />
-                  <Textarea
-                    {...form.register(`variants.${index}.remarks`)}
+                  <TextAreaElement
+                    name={`variants.${index}.remarks`}
                     placeholder="Optional notes..."
                     className="mt-1"
                   />

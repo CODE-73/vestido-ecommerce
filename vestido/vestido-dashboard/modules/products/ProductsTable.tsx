@@ -77,7 +77,6 @@ const ProductsTable: React.FC<ProductTableProps> = ({ data, categoryId }) => {
               <TableHead>Description</TableHead>
               <TableHead>Has Variants</TableHead>
               <TableHead>Variants Count</TableHead>
-              <TableHead>Stock</TableHead>
 
               <TableHead className="text-right">Delete</TableHead>
             </TableRow>
@@ -107,7 +106,7 @@ const ProductsTable: React.FC<ProductTableProps> = ({ data, categoryId }) => {
                 >
                   {item.hasVariants ? `${item.variants.length}` : 'No variant'}
                 </TableCell>
-                <TableCell>{item.stockBalance}</TableCell>
+
                 <TableCell onClick={(e) => e.stopPropagation()}>
                   <AlertDialog>
                     <AlertDialogTrigger asChild>
