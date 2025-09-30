@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -58,12 +58,7 @@ export function UpdateStockDialog({
     },
   });
 
-  useEffect(() => {
-    console.log('Current values:', form.getValues());
-  }, [form]);
-
   const handleSubmit = async (data: UpdateStockForm) => {
-    console.log('Submitting data:', data);
     try {
       await trigger({
         itemId: data.itemId,

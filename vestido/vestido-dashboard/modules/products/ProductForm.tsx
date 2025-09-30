@@ -41,9 +41,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ itemId, isNew }) => {
   const { data: { data: item } = { data: null }, isLoading } = useItem(
     isNew ? null : itemId,
   );
-  const variants = item?.variants;
-
-  console.log('vaaariants', variants);
 
   const sizeCharts = useVestidoSizeChart();
   const sizeChartIds = sizeCharts ? Object.keys(sizeCharts) : [];

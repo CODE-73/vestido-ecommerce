@@ -50,8 +50,6 @@ export function BulkUpdateStockDialog({
   const [open, setOpen] = useState(false);
   const { trigger, isMutating } = useReconcileStock();
 
-  console.log('variants in bulk dialog', variants);
-
   const form = useForm<BulkUpdateStockForm>({
     resolver: zodResolver(BulkUpdateStockSchema),
     defaultValues: {
