@@ -1,12 +1,12 @@
 import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
 
 import {
-  ReconcileStockRequest,
-  ReconcileStockResponse,
+  ReconcileStockArgs,
+  ReconcileStockResponse
 } from 'libs/items/src/services/stocks';
 
 export async function reconcileStock(
-  args: ReconcileStockRequest,
+  args: ReconcileStockArgs,
   headers?: Record<string, string>,
 ): Promise<ReconcileStockResponse> {
   const url = `/api/items/${args.itemId}${args.itemVariantId ? '/variants/' + args.itemVariantId : ''}/stock`;

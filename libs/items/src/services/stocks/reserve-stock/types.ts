@@ -2,9 +2,5 @@ import { Item } from '@prisma/client';
 
 import { ReserveStockSchemaType } from './zod';
 
-export type ReserveInventoryRequest = {
-  data: ReserveStockSchemaType;
-};
-export type ReserveInventoryResponse = {
-  data: Item;
-};
+export type ReserveInventoryArgs = ReserveStockSchemaType;
+export type ReserveInventoryResult = Item;

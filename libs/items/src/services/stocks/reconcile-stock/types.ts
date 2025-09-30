@@ -4,10 +4,7 @@ import { VestidoResponse } from '@vestido-ecommerce/utils';
 
 import { ReconcileStockSchemaType } from './zod';
 
-export type ReconcileStockRequest = ReconcileStockSchemaType;
+export type ReconcileStockArgs = ReconcileStockSchemaType;
 
-export type ReconcileStockResponse = {
-  data: Item;
-};
-
-export type ReconcileStockSWRResponse = VestidoResponse<ReconcileStockResponse>;
+export type ReconcileStockResult = Item;
+export type ReconcileStockResponse = VestidoResponse<ReconcileStockResult>;
