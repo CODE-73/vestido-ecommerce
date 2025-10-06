@@ -1,5 +1,4 @@
 export {
-  type ItemDetailsResponse,
   type ItemVariantWithAttributes,
   type ItemVariantWithSize,
 } from './services';

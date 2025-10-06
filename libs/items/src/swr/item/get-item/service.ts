@@ -1,6 +1,6 @@
 import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
 
-import { ItemDetailsResponse } from '../../../services/items/get-item/types';
+import { ItemDetailsResponse } from './types';
 
 export async function getItemDetails(
   itemId: string,
