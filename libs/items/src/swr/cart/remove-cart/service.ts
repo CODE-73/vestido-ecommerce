@@ -1,10 +1,9 @@
 import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
 
-import { RemoveFromCartResponse } from '../../../services/cart/remove-from-cart/types';
-import { RemoveFromCartSWRRequest } from './types';
+import { RemoveFromCartRequest, RemoveFromCartResponse } from './types';
 
 export async function removeCartItem(
-  args: RemoveFromCartSWRRequest,
+  args: RemoveFromCartRequest,
   authHeaders: Record<string, string>,
 ): Promise<RemoveFromCartResponse> {
   const params = new URLSearchParams();

@@ -1,11 +1,11 @@
 import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
 
-import { AddCartRequest, AddCartResponse } from './types';
+import { AddToCartRequest, AddToCartResponse } from './types';
 
 export async function addCartItem(
-  args: AddCartRequest,
+  args: AddToCartRequest,
   authHeaders: Record<string, string>,
-): Promise<AddCartResponse> {
+): Promise<AddToCartResponse> {
   const r = await fetch('/api/cart', {
     method: 'POST',
     headers: {
@@ -20,5 +20,5 @@ export async function addCartItem(
   }
 
   const data = await r.json();
-  return data as AddCartResponse;
+  return data as AddToCartResponse;
 }

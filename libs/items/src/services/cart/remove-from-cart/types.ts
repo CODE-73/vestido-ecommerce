@@ -2,8 +2,6 @@ import { CartItem } from '@prisma/client';
 
 import { RemoveFromCartSchemaType } from './zod';
 
-export type RemoveFromCartRequest = RemoveFromCartSchemaType;
+export type RemoveFromCartArgs = RemoveFromCartSchemaType;
 
-export type RemoveFromCartResponse = {
-  data: CartItem;
-};
+export type RemoveFromCartResult = CartItem;

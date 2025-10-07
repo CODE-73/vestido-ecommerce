@@ -1,9 +1,7 @@
 import { CartItem, Item } from '@prisma/client';
 
-export type CartItemResponse = {
-  data: Array<
-    CartItem & {
-      item: Item;
-    }
-  >;
-};
+export type GetCartResult = Array<
+  CartItem & {
+    item: Item;
+  }
+>;

@@ -1,8 +1,9 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
 
+import { RemoveFromCartArgs } from './types';
 import { RemoveFromCartSchema } from './zod';
 
-export async function removeFromCart(body: unknown) {
+export async function removeFromCart(body: RemoveFromCartArgs) {
   const prisma = getPrismaClient();
   const validatedData = RemoveFromCartSchema.parse(body);
 

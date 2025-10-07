@@ -5,17 +5,17 @@ import { useClearCacheOnSuccess } from '@vestido-ecommerce/utils';
 
 import { CartSWRKeys } from '../keys';
 import { addCartItem } from './service';
-import { AddCartRequest, AddCartResponse } from './types';
+import { AddToCartRequest, AddToCartResponse } from './types';
 
 export const useAddToCart = () => {
   const { isAuthenticated, authHeaders } = useAuth();
   const key = isAuthenticated ? [CartSWRKeys.CART] : null;
 
   return useSWRMutation<
-    AddCartResponse,
+    AddToCartResponse,
     Error,
     string[] | null,
-    AddCartRequest
+    AddToCartRequest
   >(key, (_, { arg }) => addCartItem({ ...arg }, authHeaders), {
     ...useClearCacheOnSuccess(CartSWRKeys.CART, false),
   });

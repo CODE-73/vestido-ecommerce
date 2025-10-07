@@ -1,10 +1,11 @@
-import { CartItem } from '@prisma/client';
+import { VestidoResponse } from '@vestido-ecommerce/utils';
 
-export type AddCartRequest = Omit<
-  CartItem,
-  'id' | 'customerId' | 'createdAt' | 'updatedAt'
->;
+import { AddToCartArgs, AddToCartResult } from '../../../services';
 
-export type AddCartResponse = {
-  data: CartItem;
-};
+// export type AddCartRequest = Omit<
+//   CartItem,
+//   'id' | 'customerId' | 'createdAt' | 'updatedAt'
+// >;
+
+export type AddToCartRequest = AddToCartArgs;
+export type AddToCartResponse = VestidoResponse<AddToCartResult>;
