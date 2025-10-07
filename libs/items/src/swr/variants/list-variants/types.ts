@@ -1,16 +1,12 @@
-import { ItemVariant, VariantAttributeValue } from '@prisma/client';
+import { VestidoResponse } from '@vestido-ecommerce/utils';
+
+import { VariantListResult } from '../../../services';
 
 export type VariantListRequest = {
   filters?: VariantListFilterParams;
 };
 
-export type VariantListResponse = {
-  data: Array<
-    ItemVariant & {
-      attributeValues: VariantAttributeValue[];
-    }
-  >;
-};
+export type VariantListResponse = VestidoResponse<VariantListResult>;
 
 type VariantListFilterParams = {
   // name?: string;

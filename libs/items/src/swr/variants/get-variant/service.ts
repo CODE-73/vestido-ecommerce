@@ -1,12 +1,12 @@
 import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
 
-import { variantDetailsResponse } from './types';
+import { VariantDetailsResponse } from './types';
 
 export async function getVariantDetails(
   variantId: string,
   itemId: string,
   headers?: Record<string, string>,
-): Promise<variantDetailsResponse> {
+): Promise<VariantDetailsResponse> {
   const url = `/api/items/${itemId}/variants/${encodeURIComponent(variantId)}`;
   const r = await fetch(url, {
     headers: {
@@ -18,5 +18,5 @@ export async function getVariantDetails(
   }
   const data = await r.json();
 
-  return data as variantDetailsResponse;
+  return data as VariantDetailsResponse;
 }

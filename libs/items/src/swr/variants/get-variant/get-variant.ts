@@ -2,9 +2,9 @@ import useSWRImmutable from 'swr/immutable';
 
 import { useAuth } from '@vestido-ecommerce/auth/client';
 
-import { VariantDetailsResponse } from '../../../services/variants/get-variant/types';
 import { VariantDetailsSWRKeys } from '../keys';
 import { getVariantDetails } from './service';
+import { VariantDetailsResponse } from './types';
 
 export function useVariant(itemId: string, variantId?: string | null) {
   const { authHeaders } = useAuth();

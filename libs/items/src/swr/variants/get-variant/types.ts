@@ -1,7 +1,5 @@
-import { ItemVariant, VariantAttributeValue } from '@prisma/client';
+import { VestidoResponse } from '@vestido-ecommerce/utils';
 
-export type variantDetailsResponse = {
-  data: ItemVariant & {
-    attributeValues: VariantAttributeValue[];
-  };
-};
+import { VariantDetailsResult } from '../../../services';
+
+export type VariantDetailsResponse = VestidoResponse<VariantDetailsResult>;

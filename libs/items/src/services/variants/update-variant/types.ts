@@ -1,11 +1,6 @@
-import { ItemVariant, VariantAttributeValue } from '@prisma/client';
-
+import { updateVariant } from './service';
 import { UpdateVariantSchemaType } from './zod';
 
-export type UpdateVariantRequest = UpdateVariantSchemaType;
+export type UpdateVariantArgs = UpdateVariantSchemaType;
 
-export type UpdateVariantResponse = {
-  data: ItemVariant & {
-    attributeValues: VariantAttributeValue[];
-  };
-};
+export type UpdateVariantResult = Awaited<ReturnType<typeof updateVariant>>;

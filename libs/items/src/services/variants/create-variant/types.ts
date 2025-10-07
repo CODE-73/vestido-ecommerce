@@ -1,9 +1,6 @@
-import { ItemVariantWithAttributes } from '../types';
+import { createVariant } from './service';
 import { CreateVariantSchemaType } from './zod';
 
-export type CreateVariantRequest = {
-  data: CreateVariantSchemaType;
-};
-export type CreateVariantResponse = {
-  data: ItemVariantWithAttributes;
-};
+export type CreateVariantArgs = CreateVariantSchemaType;
+// export type CreateVariantResponse = ItemVariantWithAttributes;
+export type CreateVariantResult = Awaited<ReturnType<typeof createVariant>>;
