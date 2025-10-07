@@ -1,7 +1,6 @@
-import { Category } from '@prisma/client';
-
+import { createCategory } from './service';
 import { CreateCategorySchemaType } from './zod';
 
 export type CreateCategoryArgs = CreateCategorySchemaType;
 
-export type CreateCategoryResult = Category;
+export type CreateCategoryResult = Awaited<ReturnType<typeof createCategory>>;

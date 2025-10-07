@@ -1,7 +1,6 @@
-import { CartItem } from '@prisma/client';
-
+import { removeFromCart } from './services';
 import { RemoveFromCartSchemaType } from './zod';
 
 export type RemoveFromCartArgs = RemoveFromCartSchemaType;
 
-export type RemoveFromCartResult = CartItem;
+export type RemoveFromCartResult = Awaited<ReturnType<typeof removeFromCart>>;

@@ -1,7 +1,6 @@
-import { Item } from '@prisma/client';
-
 import { ItemUpsertSchemaType } from '../zod';
+import { createItem } from './service';
 
 export type CreateItemArgs = ItemUpsertSchemaType;
 
-export type CreateItemResult = Item;
+export type CreateItemResult = Awaited<ReturnType<typeof createItem>>;
