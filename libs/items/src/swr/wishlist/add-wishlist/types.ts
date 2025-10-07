@@ -1,6 +1,7 @@
 import { VestidoResponse } from '@vestido-ecommerce/utils';
-import { AddToWishlistArgs, AddToWishlistResult } from 'libs/items/src/services';
+
+import { AddToWishlistArgs, AddToWishlistResult } from '../../../services';
 
 export type AddToWishListRequest = AddToWishlistArgs;
 
-export type AddToWishListResponse = VestidoResponse<AddToWishlistResult>
+export type AddToWishListResponse = VestidoResponse<AddToWishlistResult>;

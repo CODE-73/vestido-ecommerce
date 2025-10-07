@@ -1,4 +1,5 @@
-import { VestidoResponse } from "@vestido-ecommerce/utils";
-import { CategoryDetailsResult } from "libs/items/src/services";
+import { VestidoResponse } from '@vestido-ecommerce/utils';
 
-export type CategoryDetailsResponse = VestidoResponse<CategoryDetailsResult>
+import { CategoryDetailsResult } from '../../../services';
+
+export type CategoryDetailsResponse = VestidoResponse<CategoryDetailsResult>;

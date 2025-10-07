@@ -1,14 +1,11 @@
 import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
 
-import {
-  getStockBalanceResponse,
-  getStockBalanceRequest,
-} from 'libs/items/src/services/stocks';
+import { GetStockBalanceRequest, GetStockBalanceResponse } from './types';
 
 export async function getStockBalance(
-  args: getStockBalanceRequest,
+  args: GetStockBalanceRequest,
   headers?: Record<string, string>,
-): Promise<getStockBalanceResponse> {
+): Promise<GetStockBalanceResponse> {
   const url = `/api/stocks/`;
   const r = await fetch(url, {
     headers: {
@@ -20,5 +17,5 @@ export async function getStockBalance(
   }
   const data = await r.json();
 
-  return data as getStockBalanceResponse;
+  return data as GetStockBalanceResponse;
 }

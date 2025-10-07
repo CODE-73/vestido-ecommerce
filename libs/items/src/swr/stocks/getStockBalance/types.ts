@@ -1,5 +1,6 @@
-import { VestidoResponse } from "@vestido-ecommerce/utils";
-import { GetStockBalanceArgs, GetStockBalanceResult } from "libs/items/src/services";
+import { VestidoResponse } from '@vestido-ecommerce/utils';
 
-export type GetStockBalanceResponse = VestidoResponse<GetStockBalanceResult>;
+import { GetStockBalanceArgs, GetStockBalanceResult } from '../../../services';
+
 export type GetStockBalanceRequest = GetStockBalanceArgs;
+export type GetStockBalanceResponse = VestidoResponse<GetStockBalanceResult>;

@@ -1,6 +1,6 @@
-import { VestidoResponse } from "@vestido-ecommerce/utils";
-import { ReconcileStockArgs, ReconcileStockResult } from "libs/items/src/services";
+import { VestidoResponse } from '@vestido-ecommerce/utils';
 
-export type  ReconcileStockRequest = ReconcileStockArgs;
+import { ReconcileStockArgs, ReconcileStockResult } from '../../../services';
+
+export type ReconcileStockRequest = ReconcileStockArgs;
 export type ReconcileStockResponse = VestidoResponse<ReconcileStockResult>;
-
