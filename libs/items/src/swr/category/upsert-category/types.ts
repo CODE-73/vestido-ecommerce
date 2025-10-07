@@ -4,6 +4,7 @@ import {
   CreateCategoryArgs,
   CreateCategoryResult,
   UpdateCategoryArgs,
+  UpdateCategoryResult,
 } from '../../../services';
 
 export type CategoryUpsertRequest = (
@@ -11,4 +12,6 @@ export type CategoryUpsertRequest = (
   | UpdateCategoryArgs
 ) & { id?: string };
 
-export type CategoryUpsertResponse = VestidoResponse<CreateCategoryResult>;
+export type CategoryUpsertResponse = VestidoResponse<
+  CreateCategoryResult | UpdateCategoryResult
+>;

@@ -1,11 +1,11 @@
 import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
 
-import { attributeUpsertRequest, attributeUpsertResponse } from './types';
+import { UpsertAttributeRequest, UpsertAttributeResponse } from './types';
 
 export async function upsertAttribute(
-  args: attributeUpsertRequest,
+  args: UpsertAttributeRequest,
   headers?: Record<string, string>,
-): Promise<attributeUpsertResponse> {
+): Promise<UpsertAttributeResponse> {
   let url = '/api/attributes';
   let method = 'POST';
   const attributeId = args.id;
@@ -29,5 +29,5 @@ export async function upsertAttribute(
   }
 
   const data = await r.json();
-  return data as attributeUpsertResponse;
+  return data as UpsertAttributeResponse;
 }

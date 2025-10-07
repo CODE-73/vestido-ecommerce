@@ -1,12 +1,11 @@
 import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
 
-import { ListAttributesRequest } from '../../../services/attributes/list-attributes/types';
-import { AttributeListResponse } from './types';
+import { ListAttributeRequest, ListAttributeResponse } from './types';
 
 export async function getAttributesList(
-  args: ListAttributesRequest,
+  args: ListAttributeRequest,
   headers?: Record<string, string>,
-): Promise<AttributeListResponse> {
+): Promise<ListAttributeResponse> {
   let url = '/api/attributes';
   if (args.q) {
     const encodedQuery = encodeURIComponent(args.q);
@@ -22,5 +21,5 @@ export async function getAttributesList(
   }
 
   const data = await r.json();
-  return data as AttributeListResponse;
+  return data as ListAttributeResponse;
 }
