@@ -1,9 +1,6 @@
-import { WishlistItem } from '@prisma/client';
-
+import { addToWishlist } from './service';
 import { AddToWishlistSchemaType } from './zod';
 
-export type AddToWishlistRequest = AddToWishlistSchemaType;
+export type AddToWishlistArgs = AddToWishlistSchemaType;
 
-export type AddToWishlistResponse = {
-  data: WishlistItem;
-};
+export type AddToWishlistResult = Awaited<ReturnType<typeof addToWishlist>>;

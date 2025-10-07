@@ -1,9 +1,8 @@
-import { WishlistItem } from '@prisma/client';
-
+import { removeFromWishlist } from './service';
 import { RemoveFromWishlistSchemaType } from './zod';
 
-export type RemoveFromWishlistRequest = RemoveFromWishlistSchemaType;
+export type RemoveFromWishlistArgs = RemoveFromWishlistSchemaType;
 
-export type RemoveFromWishlistResponse = {
-  data: WishlistItem;
-};
+export type RemoveFromWishlistResult = Awaited<
+  ReturnType<typeof removeFromWishlist>
+>;

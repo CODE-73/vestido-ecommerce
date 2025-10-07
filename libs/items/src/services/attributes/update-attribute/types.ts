@@ -1,9 +1,6 @@
-import { ItemAttribute, ItemAttributeValue } from '@prisma/client';
-
+import { updateAttribute } from './services';
 import { UpdateAttributeSchemaType } from './zod';
 
 export type UpdateAttributeArgs = UpdateAttributeSchemaType;
 
-export type UpdateAttributeResult = ItemAttribute & {
-  values: ItemAttributeValue[];
-};
+export type UpdateAttributeResult = Awaited<ReturnType<typeof updateAttribute>>;

@@ -1,6 +1,6 @@
 import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
 
-import { WishlistItemResponse } from '../../../services/wishlist/get-wishlist/types';
+import { WishlistItemResponse } from './types';
 
 export async function getWishlist(
   authHeaders: Record<string, string>,

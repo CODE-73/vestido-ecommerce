@@ -1,10 +1,9 @@
 import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
 
-import { RemoveFromWishlistResponse } from '../../../services/wishlist/remove-from-wishlist';
-import { RemoveFromWishListSwrRequest } from './types';
+import { RemoveFromWishlistRequest, RemoveFromWishlistResponse } from './types';
 
 export async function removeFromWishList(
-  args: RemoveFromWishListSwrRequest,
+  args: RemoveFromWishlistRequest,
   authHeaders: Record<string, string>,
 ): Promise<RemoveFromWishlistResponse> {
   const r = await fetch(`/api/wishlist?itemId=${args.itemId}`, {

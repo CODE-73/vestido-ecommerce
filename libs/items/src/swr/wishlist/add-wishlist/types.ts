@@ -1,10 +1,6 @@
-import { WishlistItem } from '@prisma/client';
+import { VestidoResponse } from '@vestido-ecommerce/utils';
+import { AddToWishlistArgs, AddToWishlistResult } from 'libs/items/src/services';
 
-export type AddToWishListRequest = Omit<
-  WishlistItem,
-  'id' | 'customerId' | 'variantId' | 'createdAt' | 'updatedAt'
->;
+export type AddToWishListRequest = AddToWishlistArgs;
 
-export type AddToWishListResponse = {
-  data: WishlistItem;
-};
+export type AddToWishListResponse = VestidoResponse<AddToWishlistResult>
