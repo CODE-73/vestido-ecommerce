@@ -123,11 +123,11 @@ const ProductView: React.FC<ProductViewProps> = ({ itemId }) => {
 
             <div className="text-sm mt-4">
               <h1
-                className={`font-semibold sm:mb-2 ${item?.stockStatus == 'LIMITED_STOCK' ? 'text-red-400' : item?.stockStatus === 'OUT_OF_STOCK' ? 'text-white' : 'text-[#48CAB2]'}`}
+                className={`font-semibold sm:mb-2 ${selectedVariant?.stockStatus == 'LIMITED_STOCK' ? 'text-red-400' : selectedVariant?.stockStatus === 'OUT_OF_STOCK' ? 'text-white' : 'text-[#48CAB2]'}`}
               >
-                {item?.stockStatus === 'LIMITED_STOCK'
+                {selectedVariant?.stockStatus === 'LIMITED_STOCK'
                   ? 'Limited Stock'
-                  : item?.stockStatus === 'OUT_OF_STOCK'
+                  : selectedVariant?.stockStatus === 'OUT_OF_STOCK'
                     ? 'Out of Stock'
                     : 'Available'}
               </h1>

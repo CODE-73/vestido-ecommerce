@@ -11,6 +11,7 @@ export const ItemVariantWithSizeSchema = z.object({
   stockStatus: z
     .nativeEnum(StockStatus)
     .default('AVAILABLE' satisfies StockStatus),
+  stockBalance: z.number().nullish(),
 });
 
 export type ItemVariantWithSize = z.infer<typeof ItemVariantWithSizeSchema>;

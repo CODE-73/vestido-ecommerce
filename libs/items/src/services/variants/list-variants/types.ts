@@ -1,5 +1,3 @@
-import { ItemVariantWithAttributes } from '../types';
+import { listVariants } from './service';
 
-export type ListVariantsResponse = {
-  data: Array<ItemVariantWithAttributes>;
-};
+export type VariantListResult = Awaited<ReturnType<typeof listVariants>>;

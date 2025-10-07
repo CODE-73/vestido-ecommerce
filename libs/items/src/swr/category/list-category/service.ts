@@ -1,7 +1,6 @@
 import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
 
-import { ListCategoryRequest } from '../../../services/categories/list-category/types';
-import { ListCategoryResponse } from './types';
+import { ListCategoryRequest, ListCategoryResponse } from './types';
 
 export async function getCategoriesList(
   args: ListCategoryRequest,

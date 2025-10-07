@@ -1,9 +1,9 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
 
-import { ListCategoryRequest } from './types';
+import { ListCategoryArgs } from './types';
 import { ListCategoryRequestSchema } from './zod';
 
-export async function listCategories(_args: ListCategoryRequest) {
+export async function listCategories(_args: ListCategoryArgs) {
   const prisma = getPrismaClient();
   const args = ListCategoryRequestSchema.parse(_args);
 

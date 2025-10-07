@@ -77,6 +77,7 @@ const ProductsTable: React.FC<ProductTableProps> = ({ data, categoryId }) => {
               <TableHead>Description</TableHead>
               <TableHead>Has Variants</TableHead>
               <TableHead>Variants Count</TableHead>
+
               <TableHead className="text-right">Delete</TableHead>
             </TableRow>
           </TableHeader>
@@ -105,6 +106,7 @@ const ProductsTable: React.FC<ProductTableProps> = ({ data, categoryId }) => {
                 >
                   {item.hasVariants ? `${item.variants.length}` : 'No variant'}
                 </TableCell>
+
                 <TableCell onClick={(e) => e.stopPropagation()}>
                   <AlertDialog>
                     <AlertDialogTrigger asChild>

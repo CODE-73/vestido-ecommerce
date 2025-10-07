@@ -4,12 +4,12 @@ import { getPrismaClient } from '@vestido-ecommerce/models';
 import { VestidoError } from '@vestido-ecommerce/utils';
 
 import { validateSlug } from '../../slug';
-import { UpdateCategoryRequest } from './types';
+import { UpdateCategoryArgs } from './types';
 import { UpdateCategorySchema } from './zod';
 
 export async function updateCategory(
   categoryId: string,
-  data: UpdateCategoryRequest,
+  data: UpdateCategoryArgs,
 ) {
   const prisma = getPrismaClient();
 

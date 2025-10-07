@@ -1,9 +1,3 @@
-import { CartItem, Item } from '@prisma/client';
+import { listCartItems } from './service';
 
-export type CartItemResponse = {
-  data: Array<
-    CartItem & {
-      item: Item;
-    }
-  >;
-};
+export type CartItemResult = Awaited<ReturnType<typeof listCartItems>>;

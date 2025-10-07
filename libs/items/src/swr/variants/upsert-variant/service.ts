@@ -1,11 +1,11 @@
 import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
 
-import { variantUpsertRequest, variantUpsertResponse } from './types';
+import { VariantUpsertRequest, VariantUpsertResponse } from './types';
 
 export async function upsertVariant(
-  args: variantUpsertRequest,
+  args: VariantUpsertRequest,
   itemId: string,
-): Promise<variantUpsertResponse> {
+): Promise<VariantUpsertResponse> {
   let url = `/api/items/${itemId}/variants`;
   let method = 'POST';
   const variantId = args.id;
@@ -28,5 +28,5 @@ export async function upsertVariant(
   }
 
   const data = await r.json();
-  return data as variantUpsertResponse;
+  return data as VariantUpsertResponse;
 }

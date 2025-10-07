@@ -4,9 +4,10 @@ import { getPrismaClient } from '@vestido-ecommerce/models';
 import { VestidoError } from '@vestido-ecommerce/utils';
 
 import { validateSlug } from '../../slug';
-import { CreateCategorySchema, CreateCategorySchemaType } from './zod';
+import { CreateCategoryArgs } from './types';
+import { CreateCategorySchema } from './zod';
 
-export async function createCategory(body: CreateCategorySchemaType) {
+export async function createCategory(body: CreateCategoryArgs) {
   const prisma = getPrismaClient();
 
   const validatedData = CreateCategorySchema.parse(body);

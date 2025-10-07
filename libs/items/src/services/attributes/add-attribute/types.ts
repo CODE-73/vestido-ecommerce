@@ -1,11 +1,10 @@
-import { ItemAttribute, ItemAttributeValue } from '@prisma/client';
-
+import { createAttribute } from './services';
 import { CreateAttributeSchemaType } from './zod';
 
-export type CreateAttributeRequest = CreateAttributeSchemaType;
+export type CreateAttributeArgs = CreateAttributeSchemaType;
 
-export type CreateAttributeResponse = {
-  data: ItemAttribute & {
-    values: ItemAttributeValue[];
-  };
-};
+export type CreateAttributeResult = Awaited<ReturnType<typeof createAttribute>>;
+
+// export type CreateAttributeResult = ItemAttribute & {
+//   values: ItemAttributeValue[];
+// };

@@ -1,9 +1,16 @@
-import { ItemVariant, VariantAttributeValue } from '@prisma/client';
+import { VestidoResponse } from '@vestido-ecommerce/utils';
 
-export type variantUpsertRequest = Partial<ItemVariant>;
+import {
+  CreateVariantArgs,
+  CreateVariantResult,
+  UpdateVariantArgs,
+  UpdateVariantResult,
+} from '../../../services';
 
-export type variantUpsertResponse = {
-  data: ItemVariant & {
-    attributeValues: VariantAttributeValue[];
-  };
+export type VariantUpsertRequest = (CreateVariantArgs | UpdateVariantArgs) & {
+  id?: string;
 };
+
+export type VariantUpsertResponse = VestidoResponse<
+  CreateVariantResult | UpdateVariantResult
+>;

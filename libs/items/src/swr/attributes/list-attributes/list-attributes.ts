@@ -2,12 +2,11 @@ import useSWRImmutable from 'swr/immutable';
 
 import { useAuth } from '@vestido-ecommerce/auth/client';
 
-import { ListAttributesRequest } from '../../../services/attributes/list-attributes/types';
 import { AttributeListSWRKeys } from '../keys';
 import { getAttributesList } from './service';
-import { AttributeListResponse } from './types';
+import { ListAttributeRequest, ListAttributeResponse } from './types';
 
-export function useAttributes(args?: ListAttributesRequest) {
+export function useAttributes(args?: ListAttributeRequest) {
   const { authHeaders } = useAuth();
   const key = [
     AttributeListSWRKeys.ATTRIBUTE,
@@ -15,7 +14,7 @@ export function useAttributes(args?: ListAttributesRequest) {
     JSON.stringify(args ?? {}),
   ];
 
-  return useSWRImmutable<AttributeListResponse, Error>(
+  return useSWRImmutable<ListAttributeResponse, Error>(
     key,
     () =>
       getAttributesList(

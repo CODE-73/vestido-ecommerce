@@ -1,5 +1,5 @@
 import { type listCategories } from './service';
 import { ListCategoryRequestSchemaType } from './zod';
 
-export type ListCategoryRequest = ListCategoryRequestSchemaType;
-export type ListCategoriesResponse = Awaited<ReturnType<typeof listCategories>>;
+export type ListCategoryArgs = ListCategoryRequestSchemaType;
+export type ListCategoryResult = Awaited<ReturnType<typeof listCategories>>;

@@ -1,8 +1,9 @@
 import { getPrismaClient } from '@vestido-ecommerce/models';
 
-import { AddToWishlistSchema, AddToWishlistSchemaType } from './zod';
+import { AddToWishlistArgs } from './types';
+import { AddToWishlistSchema } from './zod';
 
-export async function addToWishlist(data: AddToWishlistSchemaType) {
+export async function addToWishlist(data: AddToWishlistArgs) {
   const prisma = getPrismaClient();
 
   const validatedData = AddToWishlistSchema.parse(data);

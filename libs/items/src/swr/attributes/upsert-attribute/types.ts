@@ -1,9 +1,17 @@
-import { ItemAttribute, ItemAttributeValue } from '@prisma/client';
+import { VestidoResponse } from '@vestido-ecommerce/utils';
 
-export type attributeUpsertRequest = Partial<ItemAttribute>;
+import {
+  CreateAttributeArgs,
+  CreateAttributeResult,
+  UpdateAttributeArgs,
+  UpdateAttributeResult,
+} from '../../../services';
 
-export type attributeUpsertResponse = {
-  data: ItemAttribute & {
-    values: ItemAttributeValue[];
-  };
-};
+export type UpsertAttributeRequest = (
+  | CreateAttributeArgs
+  | UpdateAttributeArgs
+) & { id?: string };
+
+export type UpsertAttributeResponse = VestidoResponse<
+  CreateAttributeResult | UpdateAttributeResult
+>;

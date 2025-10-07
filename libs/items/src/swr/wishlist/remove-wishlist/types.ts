@@ -1,6 +1,13 @@
-import { RemoveFromWishlistRequest } from '../../../services/wishlist/remove-from-wishlist/types';
+import { VestidoResponse } from '@vestido-ecommerce/utils';
 
-export type RemoveFromWishListSwrRequest = Omit<
-  RemoveFromWishlistRequest,
+import {
+  RemoveFromWishlistArgs,
+  RemoveFromWishlistResult,
+} from '../../../services';
+
+export type RemoveFromWishlistRequest = Omit<
+  RemoveFromWishlistArgs,
   'customerId'
 >;
+export type RemoveFromWishlistResponse =
+  VestidoResponse<RemoveFromWishlistResult>;

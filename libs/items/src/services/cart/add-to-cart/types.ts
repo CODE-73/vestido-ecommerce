@@ -1,9 +1,6 @@
-import { CartItem } from '@prisma/client';
-
+import { addToCart } from './services';
 import { AddToCartSchemaType } from './zod';
 
-export type AddToCartRequest = AddToCartSchemaType;
+export type AddToCartArgs = AddToCartSchemaType;
 
-export type AddToCartResponse = {
-  data: CartItem;
-};
+export type AddToCartResult = Awaited<ReturnType<typeof addToCart>>;

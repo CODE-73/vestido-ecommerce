@@ -5,9 +5,10 @@ import { validateSlug } from '../../slug';
 import { generateVariantTitle } from '../generate_variant_title';
 import { variantDetails } from '../get-variant';
 import { validateAttributes } from '../validate_attributes';
-import { CreateVariantSchema, CreateVariantSchemaType } from './zod';
+import { CreateVariantArgs } from './types';
+import { CreateVariantSchema } from './zod';
 
-export async function createVariant(data: CreateVariantSchemaType) {
+export async function createVariant(data: CreateVariantArgs) {
   const prisma = getPrismaClient();
 
   // validate zod here

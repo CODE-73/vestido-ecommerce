@@ -5,7 +5,7 @@ import { useClearCacheOnSuccess } from '@vestido-ecommerce/utils';
 
 import { CategorySWRKeys } from '../keys';
 import { upsertCategory } from './service';
-import { categoryUpsertRequest, categoryUpsertResponse } from './types';
+import { CategoryUpsertRequest, categoryUpsertResponse } from './types';
 
 export const useCategoryUpsert = () => {
   const { authHeaders } = useAuth();
@@ -15,7 +15,7 @@ export const useCategoryUpsert = () => {
     categoryUpsertResponse,
     Error,
     string[] | null,
-    categoryUpsertRequest
+    CategoryUpsertRequest
   >(key, (_, { arg }) => upsertCategory({ ...arg }, authHeaders), {
     ...useClearCacheOnSuccess(CategorySWRKeys.CATEGORY),
   });

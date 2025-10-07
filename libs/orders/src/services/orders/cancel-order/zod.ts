@@ -9,7 +9,7 @@ export const CancelOrderSchema = z.object({
     'NEED_TO_CHANGE_PAYMENT_METHOD',
     'OTHER',
   ]),
-  remarks: z.string(),
+  remarks: z.string().nullable(),
 });
 
 export type CancelOrderSchemaType = z.infer<typeof CancelOrderSchema>;

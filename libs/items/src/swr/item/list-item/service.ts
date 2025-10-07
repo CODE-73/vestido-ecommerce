@@ -1,7 +1,6 @@
 import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
 
-import { ListItemRequest } from '../../../services/items/list-item/types';
-import { ListItemResponse } from './types';
+import { ListItemRequest, ListItemResponse } from './types';
 
 export async function getItemList(
   args?: ListItemRequest,

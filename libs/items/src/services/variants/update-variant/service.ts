@@ -5,11 +5,12 @@ import { validateSlug } from '../../slug';
 import { generateVariantTitle } from '../generate_variant_title';
 import { variantDetails } from '../get-variant';
 import { validateAttributes } from '../validate_attributes';
-import { UpdateVariantSchema, UpdateVariantSchemaType } from './zod';
+import { UpdateVariantArgs } from './types';
+import { UpdateVariantSchema } from './zod';
 
 export async function updateVariant(
   variantId: string,
-  data: UpdateVariantSchemaType,
+  data: UpdateVariantArgs,
 ) {
   const prisma = getPrismaClient();
 

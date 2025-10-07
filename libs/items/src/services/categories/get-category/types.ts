@@ -1,5 +1,3 @@
-import { Category } from '@prisma/client';
+import { categoryDetails } from './service';
 
-export type CategoryDetailsResponse = {
-  data: Category;
-};
+export type CategoryDetailsResult = Awaited<ReturnType<typeof categoryDetails>>;

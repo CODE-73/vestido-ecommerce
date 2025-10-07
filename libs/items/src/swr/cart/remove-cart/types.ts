@@ -1,6 +1,10 @@
-import { RemoveFromCartRequest } from '../../../services/cart/remove-from-cart/types';
+import { VestidoResponse } from '@vestido-ecommerce/utils';
 
-export type RemoveFromCartSWRRequest = Omit<
-  RemoveFromCartRequest,
-  'customerId'
->;
+import {
+  RemoveFromCartArgs,
+  RemoveFromCartResult,
+} from '../../../services/cart/remove-from-cart/types';
+
+export type RemoveFromCartRequest = Omit<RemoveFromCartArgs, 'customerId'>;
+
+export type RemoveFromCartResponse = VestidoResponse<RemoveFromCartResult>;
