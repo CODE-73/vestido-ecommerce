@@ -1,7 +1,14 @@
-import { Category } from '@prisma/client';
+import { VestidoResponse } from '@vestido-ecommerce/utils';
 
-export type categoryUpsertRequest = Partial<Category>;
+import {
+  CreateCategoryArgs,
+  CreateCategoryResult,
+  UpdateCategoryArgs,
+} from '../../../services';
 
-export type categoryUpsertResponse = {
-  data: Category;
-};
+export type CategoryUpsertRequest = (
+  | CreateCategoryArgs
+  | UpdateCategoryArgs
+) & { id?: string };
+
+export type CategoryUpsertResponse = VestidoResponse<CreateCategoryResult>;

@@ -1,5 +1,3 @@
 import { Category } from '@prisma/client';
 
-export type CategoryDetailsResponse = {
-  data: Category;
-};
+export type CategoryDetailsResult = Category;

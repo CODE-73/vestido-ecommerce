@@ -1,11 +1,11 @@
 import { handleVestidoErrorResponse } from '@vestido-ecommerce/utils';
 
-import { categoryUpsertRequest, categoryUpsertResponse } from './types';
+import { CategoryUpsertRequest, CategoryUpsertResponse } from './types';
 
 export async function upsertCategory(
-  args: categoryUpsertRequest,
+  args: CategoryUpsertRequest,
   headers?: Record<string, string>,
-): Promise<categoryUpsertResponse> {
+): Promise<CategoryUpsertResponse> {
   let url = '/api/categories';
   let method = 'POST';
   const categoryId = args.id;
@@ -29,5 +29,5 @@ export async function upsertCategory(
   }
 
   const data = await r.json();
-  return data as categoryUpsertResponse;
+  return data as CategoryUpsertResponse;
 }
